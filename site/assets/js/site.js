@@ -5,22 +5,6 @@
     "(prefers-reduced-motion: reduce)"
   );
 
-  function buildWhatsAppUrl(message) {
-    const config = window.TBT_CONTENT.whatsapp;
-    const params = new URLSearchParams({ text: message });
-    return `https://wa.me/${config.number}?${params.toString()}`;
-  }
-
-  function initWhatsAppLinks(root = document) {
-    root.querySelectorAll("[data-whatsapp-message]").forEach((link) => {
-      const messageKey = link.dataset.whatsappMessage;
-      const message = window.TBT_CONTENT.whatsapp[messageKey];
-      if (message) {
-        link.href = buildWhatsAppUrl(message);
-      }
-    });
-  }
-
   function initCarousels(root = document) {
     root.querySelectorAll(".media-carousel").forEach((carousel) => {
       if (carousel.dataset.carouselReady === "true") return;
@@ -131,19 +115,32 @@
   }
 
   function formatCounter(counter, value) {
-    const decimals = Number.isInteger(counter.value) ? 0 : 1;
-    const formatted = Number(value).toFixed(decimals);
+    const formatted = Number(value).toFixed(counter.decimals);
     return `${counter.prefix || ""}${formatted}${counter.suffix || ""}`;
   }
 
+  function parseCounter(element) {
+    const finalText = element.textContent.trim();
+    const match = finalText.match(/^(.*?)(-?\d+(?:\.\d+)?)([^\d]*)$/);
+    if (!match) return null;
+    const decimalPart = match[2].split(".")[1] || "";
+    return {
+      value: Number(match[2]),
+      prefix: match[1],
+      suffix: match[3],
+      decimals: decimalPart.length,
+      finalText,
+    };
+  }
+
   function initCounters(root = document) {
-    const configuredCounters = new Map(
-      window.TBT_CONTENT.counters.map((counter) => [counter.key, counter])
-    );
     const elements = Array.from(root.querySelectorAll("[data-counter-key]"));
+    const configuredCounters = new Map(
+      elements.map((element) => [element, parseCounter(element)])
+    );
     const showFinal = (element) => {
-      const counter = configuredCounters.get(element.dataset.counterKey);
-      if (counter) element.textContent = formatCounter(counter, counter.value);
+      const counter = configuredCounters.get(element);
+      if (counter) element.textContent = counter.finalText;
     };
 
     if (
@@ -160,7 +157,7 @@
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           const element = entry.target;
-          const counter = configuredCounters.get(element.dataset.counterKey);
+          const counter = configuredCounters.get(element);
           observer.unobserve(element);
           if (!counter || element.dataset.counterAnimated === "true") {
             showFinal(element);
@@ -233,7 +230,6 @@
   }
 
   function init(root = document) {
-    initWhatsAppLinks(root);
     initCarousels(root);
     initCounters(root);
     initFaqs(root);
@@ -245,7 +241,6 @@
     initCarousels,
     initCounters,
     initFaqs,
-    buildWhatsAppUrl,
   });
 
   if (document.readyState === "loading") {

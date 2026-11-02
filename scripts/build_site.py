@@ -13,7 +13,7 @@ import tempfile
 from dataclasses import dataclass
 from html.parser import HTMLParser
 from pathlib import Path, PurePosixPath
-from typing import Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
+from typing import Dict, FrozenSet, Iterable, List, Mapping, Optional, Sequence, Tuple
 from urllib.parse import quote, urlencode, urlsplit
 
 
@@ -52,11 +52,20 @@ class _ReferenceParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.references: List[Tuple[str, str]] = []
+        self.image_references: List[str] = []
 
     def handle_starttag(self, tag: str, attrs: List[Tuple[str, Optional[str]]]) -> None:
         for name, value in attrs:
             if name in {"href", "src"} and value is not None:
                 self.references.append((name, value))
+            if tag == "img" and name == "src" and value is not None:
+                self.image_references.append(value)
+            if tag == "img" and name == "srcset" and value is not None:
+                self.image_references.extend(
+                    candidate.strip().split()[0]
+                    for candidate in value.split(",")
+                    if candidate.strip()
+                )
 
     def handle_startendtag(
         self, tag: str, attrs: List[Tuple[str, Optional[str]]]
@@ -392,7 +401,9 @@ def _render_alias(site_url: str, alias: str, page: PageSpec) -> str:
 """
 
 
-def _validate_assets(site_dir: Path, pages: Sequence[PageSpec], site: Mapping[str, object]) -> None:
+def _validate_assets(
+    site_dir: Path, pages: Sequence[PageSpec], site: Mapping[str, object]
+) -> FrozenSet[str]:
     assets = site_dir / "assets"
     if not assets.is_dir():
         raise BuildError("missing site/assets directory")
@@ -403,6 +414,25 @@ def _validate_assets(site_dir: Path, pages: Sequence[PageSpec], site: Mapping[st
                 raise BuildError(
                     f"local raster images must use WebP: {path.relative_to(site_dir)}"
                 )
+    manifest = _read_json(images / "asset-manifest.json", "image asset manifest")
+    if not isinstance(manifest, dict):
+        raise BuildError("image asset manifest must contain an object")
+    manifest_files = set()
+    for group, entries in manifest.items():
+        if not isinstance(entries, list):
+            raise BuildError(f"image asset manifest group {group!r} must be a list")
+        for index, entry in enumerate(entries):
+            if not isinstance(entry, dict) or not isinstance(entry.get("file"), str):
+                raise BuildError(
+                    f"image asset manifest {group}[{index}] must have a file path"
+                )
+            image = str(entry["file"])
+            path = _safe_site_path(site_dir, image, "manifest image")
+            if path.suffix.lower() != ".webp":
+                raise BuildError(f"manifest image must use WebP: {image!r}")
+            if not path.is_file():
+                raise BuildError(f"manifest image does not exist: {image!r}")
+            manifest_files.add(PurePosixPath(image).as_posix())
     referenced_images = [str(site["logo"]), str(site["favicon"])] + [
         page.og_image for page in pages
     ]
@@ -412,13 +442,45 @@ def _validate_assets(site_dir: Path, pages: Sequence[PageSpec], site: Mapping[st
             raise BuildError(f"configured image does not exist: {image!r}")
         if path.suffix.lower() != ".webp":
             raise BuildError(f"configured raster image must use WebP: {image!r}")
+        if PurePosixPath(image).as_posix() not in manifest_files:
+            raise BuildError(f"configured image is missing from manifest: {image!r}")
+    return frozenset(manifest_files)
 
 
-def _validate_local_references(stage: Path) -> None:
+def _validate_local_references(
+    stage: Path, manifest_images: FrozenSet[str]
+) -> None:
     stage = stage.resolve()
     for html_path in sorted(stage.rglob("*.html")):
         parser = _ReferenceParser()
         parser.feed(html_path.read_text(encoding="utf-8"))
+        for reference in parser.image_references:
+            parsed = urlsplit(reference)
+            if (
+                not reference
+                or reference.startswith("//")
+                or parsed.scheme
+                or parsed.netloc
+                or not parsed.path
+                or Path(parsed.path).suffix.lower() != ".webp"
+            ):
+                raise BuildError(
+                    f"{html_path.relative_to(stage)}: image sources must be local WebP files: {reference!r}"
+                )
+            target = (
+                stage / parsed.path.lstrip("/")
+                if parsed.path.startswith("/")
+                else html_path.parent / parsed.path
+            ).resolve()
+            if not _is_within(target, stage):
+                raise BuildError(
+                    f"{html_path.relative_to(stage)}: image source escapes output: {reference!r}"
+                )
+            manifest_path = target.relative_to(stage).as_posix()
+            if manifest_path not in manifest_images:
+                raise BuildError(
+                    f"{html_path.relative_to(stage)}: image is missing from manifest: {reference!r}"
+                )
         for attribute, reference in parser.references:
             if not reference or reference.startswith(("#", "//")):
                 continue
@@ -479,10 +541,28 @@ def _safe_output(project_root: Path, output_dir: Path) -> Path:
     output = output_dir.resolve()
     if output == project_root or not _is_within(output, project_root):
         raise BuildError("output directory must be a child of the project root")
-    site_dir = project_root / "site"
-    archive_dir = project_root / "mirror"
-    if _is_within(output, site_dir) or _is_within(output, archive_dir):
-        raise BuildError("output directory cannot overwrite site/ or mirror/")
+    protected_names = {
+        ".git",
+        ".github",
+        "docs",
+        "mirror",
+        "scripts",
+        "site",
+        "tests",
+    }
+    for name in protected_names:
+        protected = project_root / name
+        if output == protected or _is_within(output, protected):
+            raise BuildError(f"output directory cannot overwrite {name}/")
+    if output.exists() or output.is_symlink():
+        if not output.is_dir() or output.is_symlink():
+            raise BuildError("output directory must not be an existing file or symlink")
+        known_generated = output.name in {"build", ".preview-site"}
+        has_manifest = (output / "build-manifest.json").is_file()
+        if not known_generated and not has_manifest:
+            raise BuildError(
+                "existing output directory is not recognised as generated output"
+            )
     return output
 
 
@@ -494,7 +574,7 @@ def render_site(project_root: Path, output_dir: Path) -> BuildReport:
     output = _safe_output(project_root, Path(output_dir))
     site = _load_site(site_dir)
     pages = _load_pages(site_dir, site)
-    _validate_assets(site_dir, pages, site)
+    manifest_images = _validate_assets(site_dir, pages, site)
     try:
         base_source = (site_dir / "templates/base.html").read_text(encoding="utf-8")
     except FileNotFoundError as error:
@@ -550,7 +630,7 @@ def render_site(project_root: Path, output_dir: Path) -> BuildReport:
         (stage / "build-manifest.json").write_text(
             json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )
-        _validate_local_references(stage)
+        _validate_local_references(stage, manifest_images)
         _replace_output(stage, output)
         return BuildReport(tuple(routes), tuple(aliases), tuple(files))
     except BuildError:

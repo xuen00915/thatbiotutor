@@ -125,6 +125,21 @@ class SiteBuilderTests(unittest.TestCase):
             path = self.site_dir / "assets/images" / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(b"RIFFfixtureWEBP")
+        self._write_json(
+            "site/assets/images/asset-manifest.json",
+            {
+                "fixture": [
+                    {
+                        "source": f"fixture/{name}",
+                        "file": f"assets/images/{name}",
+                        "alt": f"Fixture {name}",
+                        "width": 1,
+                        "height": 1,
+                    }
+                    for name in ("logo.webp", "favicon.webp", "hero.webp")
+                ]
+            },
+        )
 
     def test_relative_root_supports_root_and_nested_routes(self):
         self.assertEqual(relative_root(""), "")
@@ -206,8 +221,54 @@ class SiteBuilderTests(unittest.TestCase):
             "site/pages/about.html",
             '<main><h1>About</h1><img src="{{ root }}assets/images/missing.webp" alt="Missing"></main>',
         )
-        with self.assertRaisesRegex(BuildError, "broken local reference"):
+        with self.assertRaisesRegex(BuildError, "image is missing from manifest"):
             render_site(self.project_root, self.output_dir)
+
+    def test_build_rejects_protected_or_unrecognised_existing_output(self):
+        for name in (".git", "scripts", "docs"):
+            with self.subTest(name=name):
+                sentinel = self.project_root / name / "keep.txt"
+                sentinel.parent.mkdir(parents=True, exist_ok=True)
+                sentinel.write_text("preserve", encoding="utf-8")
+                with self.assertRaisesRegex(BuildError, "output directory"):
+                    render_site(self.project_root, sentinel.parent)
+                self.assertEqual(sentinel.read_text(encoding="utf-8"), "preserve")
+
+        unrelated = self.project_root / "client-files"
+        unrelated.mkdir()
+        sentinel = unrelated / "keep.txt"
+        sentinel.write_text("preserve", encoding="utf-8")
+        with self.assertRaisesRegex(BuildError, "generated output"):
+            render_site(self.project_root, unrelated)
+        self.assertEqual(sentinel.read_text(encoding="utf-8"), "preserve")
+
+    def test_build_rejects_remote_non_webp_and_unmanifested_page_images(self):
+        cases = (
+            ('<img src="https://static.wixstatic.com/photo.jpg" alt="Remote">', None),
+            ('<img src="assets/images/photo.png" alt="PNG">', "photo.png"),
+            ('<img src="assets/images/unlisted.webp" alt="Unlisted">', "unlisted.webp"),
+            ('<img srcset="https://static.wixstatic.com/photo.webp 2x" src="assets/images/hero.webp" alt="Remote set">', None),
+        )
+        for markup, local_file in cases:
+            with self.subTest(markup=markup):
+                self._write(
+                    "site/pages/home.html",
+                    f"<main><h1>Biology support</h1>{markup}</main>",
+                )
+                if local_file:
+                    (self.site_dir / "assets/images" / local_file).write_bytes(b"fixture")
+                with self.assertRaisesRegex(BuildError, "image"):
+                    render_site(self.project_root, self.output_dir)
+                if local_file:
+                    (self.site_dir / "assets/images" / local_file).unlink()
+
+    def test_site_configuration_can_change_without_javascript_edits(self):
+        config = self._site_config()
+        config["whatsappNumber"] = "6599998888"
+        self._write_json("site/site.json", config)
+        render_site(self.project_root, self.output_dir)
+        generated = (self.output_dir / "index.html").read_text(encoding="utf-8")
+        self.assertIn("https://wa.me/6599998888", generated)
 
 
 class PreviewAndWorkflowTests(unittest.TestCase):
@@ -290,6 +351,7 @@ class PreviewAndWorkflowTests(unittest.TestCase):
                 self.assertIn(required_text, workflow)
 
         self.assertNotIn("path: mirror", workflow)
+        self.assertIn("group: pages-${{ github.ref }}", workflow)
         self.assertGreaterEqual(
             workflow.count("github.ref == 'refs/heads/main'"), 3
         )

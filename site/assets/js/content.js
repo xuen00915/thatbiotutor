@@ -11,22 +11,9 @@
       height,
     });
 
-  // CLIENT EDIT: Update WhatsApp messages, counter values, or image order here.
+  // CLIENT EDIT: Update image order here. Business details live in site/site.json.
   window.TBT_CONTENT = Object.freeze({
     assetBase,
-    whatsapp: Object.freeze({
-      number: "6587597182",
-      homeMessage: "Hi ThatBioTutor, I'd like to book a $95 trial lesson.",
-      intensiveFixMessage:
-        "Hi ThatBioTutor, I'd like to fix my Sec 3 Biology foundation with IntensiveFix.",
-    }),
-    counters: Object.freeze([
-      Object.freeze({ key: "students", value: 912, suffix: "+" }),
-      Object.freeze({ key: "results", value: 91, suffix: "%" }),
-      Object.freeze({ key: "gradeJump", value: 2.3, suffix: "" }),
-      Object.freeze({ key: "homeDistinction", value: 2, prefix: "1 in " }),
-      Object.freeze({ key: "intensiveLessons", value: 8, suffix: "" }),
-    ]),
     assets: Object.freeze({
       // CLIENT EDIT: Homepage hero image order.
       homeHero: Object.freeze([

@@ -13,6 +13,11 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 MIRROR = REPO_ROOT / "mirror"
 SITE_DIR = REPO_ROOT / "site"
 MANIFEST_PATH = SITE_DIR / "assets/images/asset-manifest.json"
+SITE_CONFIG = json.loads((SITE_DIR / "site.json").read_text(encoding="utf-8"))
+PAGE_CONFIG = {
+    page["key"]: page
+    for page in json.loads((SITE_DIR / "pages.json").read_text(encoding="utf-8"))
+}
 _BUILD_TEMP = None
 _BUILD_ROOT = None
 
@@ -140,11 +145,10 @@ class StaticSiteFoundationTests(unittest.TestCase):
         self.assertTrue(path.is_file(), f"Missing {path}")
         return path.read_text(encoding="utf-8")
 
-    def test_content_config_has_whatsapp_and_ordered_assets(self):
+    def test_content_config_has_ordered_assets_without_business_data(self):
         source = self.read_asset("assets/js/content.js")
-        self.assertIn("6587597182", source)
-        self.assertIn("homeMessage", source)
-        self.assertIn("intensiveFixMessage", source)
+        self.assertNotIn("whatsapp:", source)
+        self.assertNotIn("counters:", source)
         self.assertIn('new URL("../images/", document.currentScript.src)', source)
         for group_name in (
             "homeHero",
@@ -181,6 +185,7 @@ class StaticSiteFoundationTests(unittest.TestCase):
             components,
             r"\.media-carousel\.is-enhanced\s+\.media-carousel__track\s*\{[^}]*height:\s*100%",
         )
+        self.assertIn("@media (max-width: 63.99rem)", components)
 
     def test_site_script_defines_progressive_enhancements(self):
         source = self.read_asset("assets/js/site.js")
@@ -188,12 +193,12 @@ class StaticSiteFoundationTests(unittest.TestCase):
             "initCarousels",
             "initCounters",
             "initFaqs",
-            "buildWhatsAppUrl",
+            "parseCounter",
         ):
             self.assertIn(function_name, source)
         self.assertIn("prefers-reduced-motion", source)
         self.assertIn("IntersectionObserver", source)
-        self.assertIn("URLSearchParams", source)
+        self.assertNotIn("TBT_CONTENT.counters", source)
         self.assertIn("window.TBT_UI", source)
 
 
@@ -287,7 +292,12 @@ class HomePageTests(unittest.TestCase):
                 button["attrs"],
             )
 
-        for final_value in ("912+", "91%", "2.3", "1 in 2"):
+        for final_value in (
+            "912+",
+            "91%",
+            "2.3",
+            PAGE_CONFIG["home"]["context"]["track_fourth_value"],
+        ):
             self.assertIn(final_value, self.source)
         self.assertTrue(self.parser.elements_in("faq"))
         self.assertTrue(
@@ -450,7 +460,12 @@ class IntensiveFixPageTests(unittest.TestCase):
             self.assertIn(exact_copy, closing)
 
     def test_intensivefix_progressive_accessibility_and_links(self):
-        for final_value in ("912+", "91%", "2.3", "8"):
+        for final_value in (
+            "912+",
+            "91%",
+            "2.3",
+            PAGE_CONFIG["s3-intensivefix"]["context"]["track_fourth_value"],
+        ):
             self.assertIn(final_value, self.parser.section_text("results"))
         controls = [
             element
@@ -470,7 +485,7 @@ class IntensiveFixPageTests(unittest.TestCase):
                 self.assertTrue(
                     (self.build_root / value.removeprefix("../")).is_file(), value
                 )
-        self.assertIn("6587597182", self.source)
+        self.assertIn(str(SITE_CONFIG["whatsappNumber"]), self.source)
         home_links = [
             element["attrs"].get("href")
             for element in self.parser.elements
@@ -506,7 +521,9 @@ class SharedTemplateTests(unittest.TestCase):
             self.assertIn("<header", generated)
             self.assertIn("<footer", generated)
             self.assertIn("floating-whatsapp", generated)
-            self.assertIn("https://wa.me/6587597182", generated)
+            self.assertIn(
+                f"https://wa.me/{SITE_CONFIG['whatsappNumber']}", generated
+            )
 
     def test_root_and_nested_assets_work_under_repository_subpath(self):
         home = (self.build_root / "index.html").read_text(encoding="utf-8")
@@ -626,7 +643,12 @@ class InstitutionalPageTests(unittest.TestCase):
             element["attrs"].get("href", "")
             for element in parser.elements_in("final-cta", "a")
         ]
-        self.assertTrue(any(link.startswith("https://wa.me/6587597182") for link in whatsapp_links))
+        self.assertTrue(
+            any(
+                link.startswith(f"https://wa.me/{SITE_CONFIG['whatsappNumber']}")
+                for link in whatsapp_links
+            )
+        )
         fragment = (SITE_DIR / "pages/contact.html").read_text(encoding="utf-8")
         self.assertNotIn("175 Bencoolen", fragment)
         self.assertNotIn("11am", fragment)
@@ -852,6 +874,20 @@ class ResourcePageTests(unittest.TestCase):
                     self.assertFalse(
                         image["attrs"].get("src", "").startswith(("http://", "https://"))
                     )
+
+    def test_testimonial_summaries_are_not_presented_as_direct_quotes(self):
+        sources = [
+            (SITE_DIR / "pages/testimonials.html").read_text(encoding="utf-8"),
+            (SITE_DIR / "partials/sections/testimonial-cards.html").read_text(
+                encoding="utf-8"
+            ),
+        ]
+        combined = "\n".join(sources)
+        self.assertIn("A2 for N Level Combined Bio", combined)
+        self.assertIn("A1 for Pure Bio", combined)
+        self.assertIn("Summary of student feedback", combined)
+        self.assertNotIn("<blockquote", combined)
+        self.assertNotIn("“", combined)
 
 
 class ProjectHandoffTests(unittest.TestCase):
