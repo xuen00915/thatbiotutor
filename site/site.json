@@ -22,6 +22,16 @@
       "route": "classes/"
     },
     {
+      "key": "results",
+      "label": "Results",
+      "route": "testimonials/"
+    },
+    {
+      "key": "notes",
+      "label": "Free Notes",
+      "route": "notes/"
+    },
+    {
       "key": "about",
       "label": "About",
       "route": "about/"
@@ -57,6 +67,21 @@
       "key": "sec4",
       "label": "Sec 4 Pure/G3 Biology",
       "route": "sec-4-pure-g3-biology-tuition/"
+    },
+    {
+      "key": "results",
+      "label": "Results & Testimonials",
+      "route": "testimonials/"
+    },
+    {
+      "key": "notes",
+      "label": "Free Biology Notes",
+      "route": "notes/"
+    },
+    {
+      "key": "celldivision",
+      "label": "Cell Division Archive",
+      "route": "celldivision/"
     },
     {
       "key": "about",

@@ -157,5 +157,48 @@
       "level_label": "Sec 4"
     },
     "aliases": []
+  },
+  {
+    "key": "notes",
+    "route": "notes/",
+    "source": "pages/notes.html",
+    "title": "Free O Level Biology Notes Singapore | ThatBioTutor",
+    "description": "Concise Pure/G3 Biology notes with memory shortcuts, commonly asked questions, and exam-focused explanations.",
+    "bodyClass": "page-notes",
+    "navKey": "notes",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like help accessing the free O Level Biology notes.",
+    "ogImage": "assets/images/notes/notes-preview-01.webp",
+    "context": {},
+    "aliases": []
+  },
+  {
+    "key": "celldivision",
+    "route": "celldivision/",
+    "source": "pages/celldivision.html",
+    "title": "2023 Cell Division Crash Course Archive | ThatBioTutor",
+    "description": "Archived 2023 information about ThatBioTutor's Cell Division crash course for Sec 4 Pure Biology students.",
+    "bodyClass": "page-celldivision",
+    "navKey": "notes",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to ask whether any current Cell Division resources are available.",
+    "ogImage": "assets/images/celldivision/replayable-video.webp",
+    "context": {},
+    "aliases": []
+  },
+  {
+    "key": "testimonials",
+    "route": "testimonials/",
+    "source": "pages/testimonials.html",
+    "title": "Results & Testimonials | ThatBioTutor",
+    "description": "Read ThatBioTutor student stories, Biology grade improvements, and class testimonials.",
+    "bodyClass": "page-testimonials",
+    "navKey": "results",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to experience a Biology trial lesson.",
+    "ogImage": "assets/images/testimonials/results-2025-01.webp",
+    "context": {
+      "results_title": "Results & Testimonials",
+      "results_intro": "Students join from many starting points and learn how to understand, remember, and answer Biology with confidence.",
+      "level_label": "O Level Biology"
+    },
+    "aliases": []
   }
 ]

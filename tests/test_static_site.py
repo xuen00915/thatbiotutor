@@ -689,7 +689,7 @@ class ClassesPageTests(unittest.TestCase):
         return source, parser
 
     def test_registry_contains_nine_canonical_pages_and_sec3_alias(self):
-        self.assertEqual(len(self.registry), 9)
+        self.assertGreaterEqual(len(self.registry), 9)
         pages = {page["key"]: page for page in self.registry}
         for key, route in self.ROUTES.items():
             self.assertEqual(pages[key]["route"], route)
@@ -739,6 +739,119 @@ class ClassesPageTests(unittest.TestCase):
         self.assertIn('href="../../sec-3-pure-g3-biology-tuition/"', source)
         sitemap = (self.build_root / "sitemap.xml").read_text(encoding="utf-8")
         self.assertNotIn("/classes/sec-3-pure-g3-biology-tuition/", sitemap)
+
+
+class ResourcePageTests(unittest.TestCase):
+    ROUTES = {
+        "notes": "notes/",
+        "celldivision": "celldivision/",
+        "testimonials": "testimonials/",
+    }
+    REQUIRED_SECTIONS = {
+        "notes": {"hero", "student-feedback", "why-free", "download", "faq", "final-cta"},
+        "celldivision": {
+            "hero",
+            "dated-notice",
+            "important",
+            "access",
+            "student-feedback",
+            "final-cta",
+        },
+        "testimonials": {
+            "hero",
+            "results",
+            "reviews",
+            "student-stories",
+            "class-2022",
+            "class-2021",
+            "final-cta",
+        },
+    }
+
+    @classmethod
+    def setUpClass(cls):
+        cls.build_root = build_test_site()
+        cls.registry = json.loads((SITE_DIR / "pages.json").read_text(encoding="utf-8"))
+
+    def read_page(self, key):
+        source = (
+            self.build_root / self.ROUTES[key] / "index.html"
+        ).read_text(encoding="utf-8")
+        parser = PageParser()
+        parser.feed(source)
+        return source, parser
+
+    def test_registry_and_manifest_contain_twelve_pages_plus_one_alias(self):
+        self.assertEqual(len(self.registry), 12)
+        routes = {page["key"]: page["route"] for page in self.registry}
+        for key, route in self.ROUTES.items():
+            self.assertEqual(routes.get(key), route)
+        manifest = json.loads(
+            (self.build_root / "build-manifest.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(len(manifest["pages"]), 12)
+        self.assertEqual(
+            manifest["aliases"], ["classes/sec-3-pure-g3-biology-tuition/"]
+        )
+
+    def test_pages_have_one_h1_shared_landmarks_and_required_sections(self):
+        for key, required in self.REQUIRED_SECTIONS.items():
+            with self.subTest(page=key):
+                source, parser = self.read_page(key)
+                self.assertEqual(
+                    len([element for element in parser.elements if element["tag"] == "h1"]),
+                    1,
+                )
+                ids = {
+                    element["attrs"].get("id")
+                    for element in parser.elements
+                    if element["attrs"].get("id")
+                }
+                self.assertTrue(required.issubset(ids), required - ids)
+                self.assertIn('<header class="site-header">', source)
+                self.assertIn('<footer class="site-footer">', source)
+
+    def test_archive_headings_and_dated_offer_are_preserved_honestly(self):
+        notes, _ = self.read_page("notes")
+        cell_division, parser = self.read_page("celldivision")
+        testimonials, _ = self.read_page("testimonials")
+        self.assertIn("Free O Level Biology Notes Singapore", notes)
+        self.assertIn("Only For 2023 Sec 4 Pure Bio Students!", cell_division)
+        self.assertIn("Results &amp; Testimonials", testimonials)
+        dated_notice = parser.section_text("dated-notice")
+        self.assertIn("2023", dated_notice)
+        self.assertIn("archived", dated_notice.lower())
+        self.assertNotIn("currently available", dated_notice.lower())
+
+    def test_access_links_are_clear_and_external(self):
+        notes, notes_parser = self.read_page("notes")
+        cell, cell_parser = self.read_page("celldivision")
+        testimonials, testimonials_parser = self.read_page("testimonials")
+        self.assertIn("mailto:keefe@thatbiotutor.com", notes)
+        self.assertIn("mailto:keefe@thatbiotutor.com", cell)
+        review_links = testimonials_parser.elements_in("reviews", "a")
+        self.assertTrue(
+            any(
+                link["attrs"].get("href", "").startswith("https://www.google.com/maps/")
+                for link in review_links
+            )
+        )
+        self.assertTrue(notes_parser.elements_in("download", "a"))
+        self.assertTrue(cell_parser.elements_in("access", "a"))
+
+    def test_migrated_pages_have_no_wix_forms_tracking_or_remote_images(self):
+        for key in self.ROUTES:
+            source, parser = self.read_page(key)
+            with self.subTest(page=key):
+                lowered = source.lower()
+                self.assertNotIn("<form", lowered)
+                self.assertNotIn("wixstatic", lowered)
+                self.assertNotIn("google-analytics", lowered)
+                self.assertNotIn("facebook.com/tr", lowered)
+                for image in [e for e in parser.elements if e["tag"] == "img"]:
+                    self.assertFalse(
+                        image["attrs"].get("src", "").startswith(("http://", "https://"))
+                    )
 
 
 class ProjectHandoffTests(unittest.TestCase):
