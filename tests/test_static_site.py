@@ -310,5 +310,151 @@ class HomePageTests(unittest.TestCase):
         self.assertIn("s3-intensivefix/", intensive_links)
 
 
+class IntensiveFixPageTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.path = MIRROR / "s3-intensivefix/index.html"
+        cls.source = cls.path.read_text(encoding="utf-8") if cls.path.is_file() else ""
+        cls.parser = PageParser()
+        cls.parser.feed(cls.source)
+        cls.manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+
+    def test_intensivefix_has_one_h1_and_required_sections(self):
+        headings = [
+            element for element in self.parser.elements if element["tag"] == "h1"
+        ]
+        self.assertEqual(len(headings), 1)
+        ids = {
+            element["attrs"].get("id")
+            for element in self.parser.elements
+            if element["attrs"].get("id")
+        }
+        required = {
+            "hero",
+            "program-carousel",
+            "reviews",
+            "results",
+            "analysis-video",
+            "fasttrack",
+            "suitability",
+            "final-cta",
+        }
+        self.assertTrue(required.issubset(ids), required - ids)
+
+    def test_hero_and_navigation_use_approved_copy(self):
+        exact_subtitle = (
+            "Limited time: Only during last two weeks of Nov/first two weeks of Dec."
+        )
+        self.assertIn(exact_subtitle, self.parser.section_text("hero"))
+        self.assertIn("Fix My Sec 3 Foundation", self.parser.section_text("hero"))
+        header = next(
+            element
+            for element in self.parser.elements
+            if element["tag"] == "header"
+        )
+        self.assertIn("Contact Us", " ".join(header["text"]))
+        self.assertNotIn("Start with a $110 trial lesson", self.source)
+        self.assertNotIn("Limited intake", self.source)
+
+    def test_program_and_review_graphics_use_supplied_order(self):
+        expected_program = [
+            "../" + entry["file"]
+            for entry in self.manifest["intensiveFixCarousel"]
+        ]
+        actual_program = [
+            element["attrs"]["src"]
+            for element in self.parser.elements_in("program-carousel", "img")
+            if element["attrs"].get("data-supplied-group")
+            == "intensiveFixCarousel"
+        ]
+        self.assertEqual(actual_program, expected_program)
+        expected_review = [
+            "../" + entry["file"] for entry in self.manifest["intensiveFixReview"]
+        ]
+        actual_review = [
+            element["attrs"]["src"]
+            for element in self.parser.elements_in("reviews", "img")
+            if element["attrs"].get("data-supplied-group") == "intensiveFixReview"
+        ]
+        self.assertEqual(actual_review, expected_review)
+
+    def test_unapproved_sections_and_testimonials_are_absent(self):
+        for testimonial_name in ("Yong Zheng", "Gwen", "Aryan"):
+            self.assertNotIn(testimonial_name, self.source)
+        self.assertNotIn("<form", self.source.lower())
+        ids = {
+            element["attrs"].get("id")
+            for element in self.parser.elements
+            if element["attrs"].get("id")
+        }
+        self.assertFalse(
+            {
+                "social-proof",
+                "tutors",
+                "quality-control",
+                "practical",
+                "founder",
+                "faq",
+                "classroom",
+            }
+            & ids
+        )
+        self.assertLess(
+            self.source.index('id="fasttrack"'),
+            self.source.index('id="suitability"'),
+        )
+
+    def test_intensivefix_retains_current_analysis_video(self):
+        frames = self.parser.elements_in("analysis-video", "iframe")
+        self.assertEqual(len(frames), 1)
+        self.assertIn("q_IPfEdODqI", frames[0]["attrs"].get("src", ""))
+        self.assertGreater(len(frames[0]["attrs"].get("title", "")), 12)
+
+    def test_intensivefix_has_approved_fasttrack_and_closing_copy(self):
+        self.assertIn(
+            "All IntensiveFix students will receive ThatBioTutor’s FastTrack System",
+            self.source,
+        )
+        closing = self.parser.section_text("final-cta")
+        self.assertIn(
+            "Your EOY Bio Grade doesn’t have to define your O Levels.",
+            self.source,
+        )
+        for exact_copy in (
+            "It can be demoralising to have scored poorer than expected for the Sec 3 end of year bio exam. But there is still time to turn things around.",
+            "We’ve had students come in during this period at F9, going all the way to an A1 in O levels.",
+            "What you need is a thorough content overhaul, fixing that weak sec 3 foundation, to supercharge and give you confidence heading into sec 4, to score the O level grade you’re truly capable of.",
+            "Ready to see what that feels like?",
+        ):
+            self.assertIn(exact_copy, closing)
+
+    def test_intensivefix_progressive_accessibility_and_links(self):
+        for final_value in ("912+", "91%", "2.3", "8"):
+            self.assertIn(final_value, self.parser.section_text("results"))
+        controls = [
+            element
+            for element in self.parser.elements
+            if element["tag"] == "button"
+            and any(key.startswith("data-carousel-") for key in element["attrs"])
+        ]
+        self.assertTrue(controls)
+        for control in controls:
+            self.assertTrue(control["attrs"].get("aria-label") or control["text"])
+        for element in self.parser.elements:
+            if element["tag"] not in {"img", "script", "link"}:
+                continue
+            attribute = "href" if element["tag"] == "link" else "src"
+            value = element["attrs"].get(attribute, "")
+            if value.startswith("../assets/"):
+                self.assertTrue((MIRROR / value.removeprefix("../")).is_file(), value)
+        self.assertIn("6587597182", self.source)
+        home_links = [
+            element["attrs"].get("href")
+            for element in self.parser.elements
+            if element["tag"] == "a"
+        ]
+        self.assertIn("../", home_links)
+
+
 if __name__ == "__main__":
     unittest.main()
