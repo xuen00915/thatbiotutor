@@ -1,0 +1,204 @@
+[
+  {
+    "key": "home",
+    "route": "",
+    "source": "pages/home.html",
+    "title": "ThatBioTutor | O Level Pure & G3 Biology Tuition",
+    "description": "ThatBioTutor helps Singapore O Level Pure and G3 Biology students improve with the FastTrack system, practical sessions, and specialist tutors.",
+    "bodyClass": "page-home",
+    "navKey": "home",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to book a $95 trial lesson.",
+    "ogImage": "assets/images/home/hero-03.webp",
+    "context": {
+      "track_section_class": "section section--soft home-track-record",
+      "track_eyebrow": "Proven across Singapore",
+      "track_fourth_key": "homeDistinction",
+      "track_fourth_value": "1 in 2",
+      "track_fourth_label": "Score an A distinction",
+      "fasttrack_section_class": "section section--white",
+      "fasttrack_eyebrow": "O Level G3 / Pure Biology",
+      "fasttrack_title": "ThatBioTutor’s FastTrack System Helps Students Score A1/A2 Without the Endless Revision Grind",
+      "fasttrack_content_label": "01 · Content & understanding",
+      "fasttrack_memory_label": "02 · Memory",
+      "fasttrack_answering_label": "03 · Answering skills (OEQ)",
+      "fasttrack_practical_label": "04 · Practical sessions (20% of grade)",
+      "fasttrack_support_label": "05 · Support"
+    },
+    "aliases": []
+  },
+  {
+    "key": "s3-intensivefix",
+    "route": "s3-intensivefix/",
+    "source": "pages/s3-intensivefix.html",
+    "title": "Sec 3 IntensiveFix | ThatBioTutor",
+    "description": "Rebuild your Sec 3 Pure or G3 Biology foundation in ThatBioTutor's focused IntensiveFix holiday programme.",
+    "bodyClass": "page-intensivefix",
+    "navKey": "intensivefix",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to fix my Sec 3 Biology foundation with IntensiveFix.",
+    "ogImage": "assets/images/intensivefix/program-01.webp",
+    "context": {
+      "track_section_class": "section section--white intensive-track-record",
+      "track_eyebrow": "A proven system",
+      "track_fourth_key": "intensiveLessons",
+      "track_fourth_value": "8",
+      "track_fourth_label": "Lessons to rebuild your entire Sec 3 foundation",
+      "fasttrack_section_class": "section section--white intensive-fasttrack",
+      "fasttrack_eyebrow": "Included with the full programme",
+      "fasttrack_title": "All IntensiveFix students will receive ThatBioTutor’s FastTrack System",
+      "fasttrack_content_label": "Content & understanding",
+      "fasttrack_memory_label": "Memory",
+      "fasttrack_answering_label": "Answering skills (OEQ)",
+      "fasttrack_practical_label": "Practical Sessions (20% of Grade)",
+      "fasttrack_support_label": "Support"
+    },
+    "aliases": []
+  },
+  {
+    "key": "about",
+    "route": "about/",
+    "source": "pages/about.html",
+    "title": "About ThatBioTutor | Pure Biology Specialists",
+    "description": "Meet ThatBioTutor's specialist Biology teaching team and learn how we help students improve.",
+    "bodyClass": "page-about",
+    "navKey": "about",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to learn more about your Biology classes.",
+    "ogImage": "assets/images/about/tutor-keefe.webp",
+    "context": {},
+    "aliases": []
+  },
+  {
+    "key": "contact",
+    "route": "contact/",
+    "source": "pages/contact.html",
+    "title": "Contact ThatBioTutor | Biology Tuition Enquiries",
+    "description": "Read the FAQs or contact ThatBioTutor on WhatsApp about O Level Pure and G3 Biology lessons.",
+    "bodyClass": "page-contact",
+    "navKey": "contact",
+    "whatsappMessage": "Hi ThatBioTutor, I'm a student/parent and I'd like to enquire about Biology lessons.",
+    "ogImage": "assets/images/home/hero-03.webp",
+    "context": {},
+    "aliases": []
+  },
+  {
+    "key": "trees",
+    "route": "trees/",
+    "source": "pages/trees.html",
+    "title": "Causes We Support | ThatBioTutor",
+    "description": "See ThatBioTutor's tree-planting record and support for Singapore environmental causes.",
+    "bodyClass": "page-trees",
+    "navKey": "home",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to learn more about your Biology classes and causes.",
+    "ogImage": "assets/images/causes/team-trees.webp",
+    "context": {},
+    "aliases": []
+  },
+  {
+    "key": "tuitionrecs",
+    "route": "tuitionrecs/",
+    "source": "pages/tuitionrecs.html",
+    "title": "Tuition Recommendations | ThatBioTutor",
+    "description": "Independent secondary school and JC tuition recommendations compiled by ThatBioTutor.",
+    "bodyClass": "page-tuitionrecs",
+    "navKey": "home",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to enquire about O Level Biology tuition.",
+    "ogImage": "assets/images/home/hero-03.webp",
+    "context": {},
+    "aliases": []
+  },
+  {
+    "key": "classes",
+    "route": "classes/",
+    "source": "pages/classes.html",
+    "title": "O Level Pure/G3 Biology Tuition Classes | ThatBioTutor",
+    "description": "Compare ThatBioTutor's Sec 3 and Sec 4 O Level Pure/G3 Biology tuition programmes.",
+    "bodyClass": "page-classes",
+    "navKey": "classes",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like help choosing a Pure/G3 Biology class.",
+    "ogImage": "assets/images/classes/pure-vs-combined.webp",
+    "context": {
+      "results_title": "Results That Speak for Themselves",
+      "results_intro": "The average TBT student makes a 2.3 grade jump, roughly from C5 to A2.",
+      "level_label": "O Level Pure/G3 Biology"
+    },
+    "aliases": []
+  },
+  {
+    "key": "sec-3-pure-g3-biology-tuition",
+    "route": "sec-3-pure-g3-biology-tuition/",
+    "source": "pages/sec-3-pure-g3-biology-tuition.html",
+    "title": "Sec 3 Pure/G3 Biology Tuition Singapore | ThatBioTutor",
+    "description": "Build the right Sec 3 Pure/G3 Biology foundation through face-to-face or online specialist classes.",
+    "bodyClass": "page-sec3",
+    "navKey": "classes",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to enquire about Sec 3 Pure/G3 Biology classes.",
+    "ogImage": "assets/images/classes/fasttrack-study-prep.webp",
+    "context": {
+      "results_title": "Real Sec 3 Student Results",
+      "results_intro": "Students can build a strong foundation early and still make major grade jumps.",
+      "level_label": "Sec 3"
+    },
+    "aliases": [
+      "classes/sec-3-pure-g3-biology-tuition/"
+    ]
+  },
+  {
+    "key": "sec-4-pure-g3-biology-tuition",
+    "route": "sec-4-pure-g3-biology-tuition/",
+    "source": "pages/sec-4-pure-g3-biology-tuition.html",
+    "title": "Sec 4 Pure/G3 Biology Tuition Singapore | ThatBioTutor",
+    "description": "Prepare for O Levels with focused Sec 4 Pure/G3 Biology content, exam skills, and specialist support.",
+    "bodyClass": "page-sec4",
+    "navKey": "classes",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to enquire about Sec 4 Pure/G3 Biology classes.",
+    "ogImage": "assets/images/classes/fasttrack-study-prep.webp",
+    "context": {
+      "results_title": "Real Sec 4 O Level Results",
+      "results_intro": "A strong O Level result is still possible with the right method, accuracy, and support.",
+      "level_label": "Sec 4"
+    },
+    "aliases": []
+  },
+  {
+    "key": "notes",
+    "route": "notes/",
+    "source": "pages/notes.html",
+    "title": "Free O Level Biology Notes Singapore | ThatBioTutor",
+    "description": "Concise Pure/G3 Biology notes with memory shortcuts, commonly asked questions, and exam-focused explanations.",
+    "bodyClass": "page-notes",
+    "navKey": "notes",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like help accessing the free O Level Biology notes.",
+    "ogImage": "assets/images/notes/notes-preview-01.webp",
+    "context": {},
+    "aliases": []
+  },
+  {
+    "key": "celldivision",
+    "route": "celldivision/",
+    "source": "pages/celldivision.html",
+    "title": "2023 Cell Division Crash Course Archive | ThatBioTutor",
+    "description": "Archived 2023 information about ThatBioTutor's Cell Division crash course for Sec 4 Pure Biology students.",
+    "bodyClass": "page-celldivision",
+    "navKey": "notes",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to ask whether any current Cell Division resources are available.",
+    "ogImage": "assets/images/celldivision/replayable-video.webp",
+    "context": {},
+    "aliases": []
+  },
+  {
+    "key": "testimonials",
+    "route": "testimonials/",
+    "source": "pages/testimonials.html",
+    "title": "Results & Testimonials | ThatBioTutor",
+    "description": "Read ThatBioTutor student stories, Biology grade improvements, and class testimonials.",
+    "bodyClass": "page-testimonials",
+    "navKey": "results",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to experience a Biology trial lesson.",
+    "ogImage": "assets/images/testimonials/results-2025-01.webp",
+    "context": {
+      "results_title": "Results & Testimonials",
+      "results_intro": "Students join from many starting points and learn how to understand, remember, and answer Biology with confidence.",
+      "level_label": "O Level Biology"
+    },
+    "aliases": []
+  }
+]

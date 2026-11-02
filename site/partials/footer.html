@@ -1,0 +1,22 @@
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div>
+      <a class="site-brand" href="{{ home_url }}">
+        <img src="{{ root }}{{ logo }}" width="192" height="192" loading="lazy" alt="ThatBioTutor leaf logo">
+        <span>{{ site_name }}</span>
+      </a>
+      <p>Singapore's only O Level Pure/G3 Biology specialist.</p>
+    </div>
+    <div>
+      <h2 class="lead">Visit</h2>
+      <p>{{ address }}</p>
+      <p><a href="{{ whatsapp_url }}">WhatsApp us</a></p>
+    </div>
+    <div>
+      <h2 class="lead">Hours</h2>
+      <p>{{ hours }}</p>
+      <nav class="footer-nav" aria-label="Footer navigation">{{ footer_nav_html }}</nav>
+    </div>
+  </div>
+  <div class="container site-footer__legal">{{ copyright }}</div>
+</footer>
