@@ -1,0 +1,212 @@
+import json
+import tempfile
+import unittest
+from pathlib import Path
+
+from scripts.build_site import BuildError, relative_root, render_site
+
+
+class SiteBuilderTests(unittest.TestCase):
+    def setUp(self):
+        self.temporary_directory = tempfile.TemporaryDirectory()
+        self.project_root = Path(self.temporary_directory.name)
+        self.site_dir = self.project_root / "site"
+        self.output_dir = self.project_root / "build"
+        self._write_fixture()
+
+    def tearDown(self):
+        self.temporary_directory.cleanup()
+
+    def _write(self, relative_path, text):
+        path = self.project_root / relative_path
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+
+    def _write_json(self, relative_path, value):
+        self._write(relative_path, json.dumps(value, indent=2))
+
+    def _site_config(self):
+        return {
+            "siteName": "ThatBioTutor",
+            "siteUrl": "https://www.thatbiotutor.com",
+            "logo": "assets/images/logo.webp",
+            "favicon": "assets/images/favicon.webp",
+            "whatsappNumber": "6587597182",
+            "defaultWhatsappMessage": "Hello & welcome",
+            "address": "1 Biology Way",
+            "hours": "Mon–Fri, 9am–6pm",
+            "copyright": "© ThatBioTutor",
+            "navigation": [
+                {"key": "home", "label": "Home", "route": ""},
+                {"key": "about", "label": "About", "route": "about/"},
+            ],
+        }
+
+    def _pages(self):
+        return [
+            {
+                "key": "home",
+                "route": "",
+                "source": "pages/home.html",
+                "title": "Biology <Tuition> & Support",
+                "description": "Clear concepts & kind coaching",
+                "bodyClass": "page-home",
+                "navKey": "home",
+                "whatsappMessage": "I'd like the $95 plan & details.",
+                "ogImage": "assets/images/hero.webp",
+                "context": {"offer": "$95 — it’s {simple} & useful"},
+                "aliases": [],
+            },
+            {
+                "key": "about",
+                "route": "about/",
+                "source": "pages/about.html",
+                "title": "About",
+                "description": "About our tutors",
+                "bodyClass": "page-about",
+                "navKey": "about",
+                "whatsappMessage": "Tell me about classes",
+                "ogImage": "assets/images/hero.webp",
+                "context": {},
+                "aliases": ["classes/sec-3/"],
+            },
+        ]
+
+    def _write_fixture(self):
+        self._write_json("site/site.json", self._site_config())
+        self._write_json("site/pages.json", self._pages())
+        self._write(
+            "site/templates/base.html",
+            """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:image" content="{{ og_image_url }}">
+  <link rel="icon" href="{{ root }}{{ favicon }}">
+</head>
+<body class="{{ body_class }}">
+<!-- INCLUDE: partials/header.html -->
+{{ main_html }}
+<!-- INCLUDE: partials/footer.html -->
+<!-- INCLUDE: partials/floating-whatsapp.html -->
+<script src="{{ root }}assets/js/site.js"></script>
+</body>
+</html>
+""",
+        )
+        self._write(
+            "site/partials/header.html",
+            '<header><a href="{{ home_url }}"><img src="{{ root }}{{ logo }}" alt="{{ site_name }}"></a><nav>{{ nav_html }}</nav></header>',
+        )
+        self._write(
+            "site/partials/footer.html",
+            '<footer><p>{{ address }}</p><p>{{ hours }}</p>{{ footer_nav_html }}<small>{{ copyright }}</small></footer>',
+        )
+        self._write(
+            "site/partials/floating-whatsapp.html",
+            '<a class="floating-whatsapp" href="{{ whatsapp_url }}">WhatsApp us</a>',
+        )
+        self._write(
+            "site/pages/home.html",
+            '<main><h1>Biology support</h1><p>{{ offer }}</p><img src="{{ root }}assets/images/hero.webp" alt="Biology lesson"></main>',
+        )
+        self._write(
+            "site/pages/about.html",
+            '<main><h1>About</h1><a href="{{ root }}">Home</a></main>',
+        )
+        self._write("site/assets/js/site.js", "document.documentElement.classList.add('js');\n")
+        for name in ("logo.webp", "favicon.webp", "hero.webp"):
+            path = self.site_dir / "assets/images" / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(b"RIFFfixtureWEBP")
+
+    def test_relative_root_supports_root_and_nested_routes(self):
+        self.assertEqual(relative_root(""), "")
+        self.assertEqual(relative_root("about/"), "../")
+        self.assertEqual(relative_root("classes/sec-3/"), "../../")
+
+    def test_renderer_preserves_page_copy_and_escapes_metadata(self):
+        render_site(self.project_root, self.output_dir)
+
+        html = (self.output_dir / "index.html").read_text(encoding="utf-8")
+        self.assertIn("$95 — it’s {simple} &amp; useful", html)
+        self.assertIn("<title>Biology &lt;Tuition&gt; &amp; Support</title>", html)
+        self.assertIn('content="Clear concepts &amp; kind coaching"', html)
+        self.assertNotIn("&amp;lt;Tuition&amp;gt;", html)
+
+    def test_build_rejects_duplicate_absolute_and_traversal_routes(self):
+        invalid_routes = (
+            ("about", "about/"),
+            ("about", "/about"),
+            ("about", "../outside"),
+        )
+        for label, route in invalid_routes:
+            with self.subTest(label=label, route=route):
+                pages = self._pages()
+                pages[0]["route"] = route
+                self._write_json("site/pages.json", pages)
+                with self.assertRaises(BuildError):
+                    render_site(self.project_root, self.output_dir)
+
+    def test_failed_staged_build_preserves_previous_output(self):
+        self.output_dir.mkdir()
+        previous = self.output_dir / "index.html"
+        previous.write_text("previous good build", encoding="utf-8")
+        (self.site_dir / "partials/header.html").unlink()
+
+        with self.assertRaises(BuildError):
+            render_site(self.project_root, self.output_dir)
+
+        self.assertEqual(previous.read_text(encoding="utf-8"), "previous good build")
+
+    def test_build_generates_canonical_sitemap_alias_and_manifest(self):
+        report = render_site(self.project_root, self.output_dir)
+
+        about = (self.output_dir / "about/index.html").read_text(encoding="utf-8")
+        alias = (self.output_dir / "classes/sec-3/index.html").read_text(
+            encoding="utf-8"
+        )
+        sitemap = (self.output_dir / "sitemap.xml").read_text(encoding="utf-8")
+        robots = (self.output_dir / "robots.txt").read_text(encoding="utf-8")
+        manifest = json.loads(
+            (self.output_dir / "build-manifest.json").read_text(encoding="utf-8")
+        )
+
+        self.assertIn(
+            '<link rel="canonical" href="https://www.thatbiotutor.com/about/">',
+            about,
+        )
+        self.assertIn("https://www.thatbiotutor.com/about/", alias)
+        self.assertIn('../../about/">Continue to About</a>', alias)
+        self.assertIn("https://www.thatbiotutor.com/about/", sitemap)
+        self.assertNotIn("https://www.thatbiotutor.com/classes/sec-3/", sitemap)
+        self.assertIn(
+            "Sitemap: https://www.thatbiotutor.com/sitemap.xml", robots
+        )
+        self.assertEqual(report.pages, ("", "about/"))
+        self.assertEqual(report.aliases, ("classes/sec-3/",))
+        self.assertEqual(manifest["pages"], ["", "about/"])
+        self.assertEqual(manifest["aliases"], ["classes/sec-3/"])
+        self.assertIn("about/index.html", manifest["files"])
+        self.assertIn("assets/images/hero.webp", report.files)
+
+    def test_build_rejects_non_webp_images_and_broken_local_links(self):
+        png = self.site_dir / "assets/images/not-allowed.png"
+        png.write_bytes(b"png")
+        with self.assertRaisesRegex(BuildError, "WebP"):
+            render_site(self.project_root, self.output_dir)
+        png.unlink()
+        self._write(
+            "site/pages/about.html",
+            '<main><h1>About</h1><img src="{{ root }}assets/images/missing.webp" alt="Missing"></main>',
+        )
+        with self.assertRaisesRegex(BuildError, "broken local reference"):
+            render_site(self.project_root, self.output_dir)
+
+
+if __name__ == "__main__":
+    unittest.main()
