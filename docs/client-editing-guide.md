@@ -1,135 +1,153 @@
-# ThatBioTutor website editing guide
+# ThatBioTutor client editing and Elementor guide
 
-This guide covers the two new static pages and how to move them into WordPress Elementor later. The working pages are:
+All 12 public pages are editable as plain text files. Shared site-wide items are defined once, so a phone number, menu item, header, footer, or floating WhatsApp change does not need to be repeated on every page.
 
-- Homepage: `mirror/index.html`
-- Sec 3 IntensiveFix: `mirror/s3-intensivefix/index.html`
+## Preview before editing
 
-The older Wix archive remains separate at `mirror/www.thatbiotutor.com/`. Do not edit that folder when updating the new pages.
-
-## Preview the website locally
-
-Open Terminal in the repository folder and run:
+Open Terminal in the project folder and run:
 
 ```sh
-python3 -m http.server 8765 --directory mirror
+python3 scripts/preview_site.py
 ```
 
-Then visit:
+Visit `http://127.0.0.1:8765/`. The command first rebuilds `.preview-site/`, serves it only on your computer, and stops with `Control-C`. To use another port, run `python3 scripts/preview_site.py --port 8000`.
 
-- Homepage: `http://localhost:8765/`
-- IntensiveFix: `http://localhost:8765/s3-intensivefix/`
+Never edit `build/` or `.preview-site/`. They are disposable generated output. Make changes under `site/`, preview, and let the generator recreate the output.
 
-Stop the preview with `Control-C`. If port 8765 is already occupied, replace it in both the command and address with another port, such as 8000.
+## Where to edit
 
-## Where to make common edits
-
-Look for `CLIENT EDIT` comments in the files. They mark the safest editing points.
-
-| What to change | File | How |
+| What you want to change | Source file | Safe approach |
 | --- | --- | --- |
-| Homepage headings, paragraphs, button labels, FAQ answers | `mirror/index.html` | Edit only the text between the relevant HTML tags. Keep the tags and section IDs intact. |
-| IntensiveFix headings, paragraphs, and button labels | `mirror/s3-intensivefix/index.html` | Edit only the visible text. Keep the tags and section IDs intact. |
-| WhatsApp number and pre-filled messages | `mirror/assets/js/content.js` | Change the values in `whatsapp`. Also update any existing `wa.me` links in both HTML files so the no-JavaScript fallback matches. |
-| Final counter values | `mirror/assets/js/content.js` and both HTML files | Update the matching counter entry and the visible value inside every element with the same `data-counter-key`. The HTML value is the no-JavaScript fallback. |
-| Brand colours, fonts, spacing, corner radius, shadows, content widths | `mirror/assets/css/base.css` | Edit the named variables under `:root`; avoid changing component selectors unless a developer is reviewing the change. |
-| Image files, source history, dimensions, and alt text | `mirror/assets/images/asset-manifest.json` | Update the matching entry after replacing an image. |
-| Carousel image order | `mirror/assets/images/asset-manifest.json`, `mirror/assets/js/content.js`, and the relevant HTML file | Reorder the same images in all three places. Keep the slide buttons/dots in the same order and quantity. |
+| Business name, address, hours, WhatsApp number, default message, copyright | `site/site.json` | Change only the value after the colon; preserve quotes and commas. |
+| Main and footer menu items | `site/site.json` | Edit the ordered `navigation` or `footerNavigation` list once. |
+| Page title, search description, route, page class, WhatsApp message | `site/pages.json` | Find the page by its `key`; do not duplicate a route. |
+| Visible page headings, paragraphs, links, and buttons | `site/pages/` | Open the matching `.html` fragment and edit visible text between tags. Keep section IDs and template placeholders intact. |
+| Site-wide header | `site/partials/header.html` | Edit once; the generator adds it to every page. |
+| Site-wide footer | `site/partials/footer.html` | Edit once; the generator adds it to every page. |
+| Floating WhatsApp button | `site/partials/floating-whatsapp.html` | Edit once; keep `{{ whatsapp_url }}` as the link. |
+| Repeated content sections | `site/partials/sections/` | Edit the shared section instead of every page that includes it. |
+| Colours, type, spacing, radius, shadows, widths | `site/assets/css/base.css` | Prefer the named values under `:root`. |
+| Page-specific layout | `site/assets/css/pages.css` | Change only the relevant class and check mobile plus desktop. |
+| Image provenance, alt text, width, and height | `site/assets/images/asset-manifest.json` | Keep the manifest entry aligned with the file and its HTML attributes. |
 
-### Change a CTA
+`CLIENT EDIT` comments mark content that needs occasional human review. The Cell Division offer still names **2023** and is intentionally presented as an archived item, not a current enrolment offer. Review all dates, prices, schedules, statistics, external links, and availability before publishing.
 
-Button wording is written directly in each HTML file. A WhatsApp button should keep a link beginning with `https://wa.me/6587597182?text=`. The text after `text=` must be URL encoded. The shared enhancement reads the page-specific message from `mirror/assets/js/content.js`, but the HTML link must also remain correct for visitors who disable JavaScript.
+## Editing a page safely
 
-After changing a CTA, click it in the local preview and confirm WhatsApp opens with the intended phone number and message.
+1. Find the page in `site/pages.json` and note its `source` file.
+2. Open that file under `site/pages/`.
+3. Edit visible wording only. Keep tags such as `<section>`, `<h1>`, `<a>`, and their closing tags.
+4. Keep exactly one `<h1>` and preserve stable section IDs such as `id="hero"` and `id="final-cta"`.
+5. Preserve placeholders including `{{ root }}` and `{{ whatsapp_url }}`. The generator replaces them correctly for root and nested routes.
+6. Run `python3 scripts/preview_site.py` and inspect the changed page on a narrow and wide window.
 
-### Change a counter
+For a new page, copy the structure of the most similar fragment, add one complete record to `site/pages.json`, and add navigation only if the page belongs in a site-wide menu. Routes must be relative, unique, and normally end in `/`.
 
-Each animated number has a key such as `students`, `results`, `gradeJump`, `homeDistinction`, or `intensiveLessons`. Update its number, prefix, or suffix in `mirror/assets/js/content.js`. Then search both HTML files for the matching `data-counter-key` and update the visible number there too.
+## Replacing an image
 
-Keeping the final number in the HTML makes the result visible before JavaScript loads and to visitors using reduced-motion settings.
+1. Export the replacement in **WebP** format. PNG, JPEG, AVIF, and remote image URLs are rejected by the build.
+2. Give it a short descriptive filename and place it in the relevant folder under `site/assets/images/`.
+3. Prefer a similar aspect ratio so faces, diagrams, and words do not crop unexpectedly.
+4. Update the image path, `width`, `height`, and useful `alt text` in the page or partial that displays it.
+5. Add or update its entry in `site/assets/images/asset-manifest.json`, including the original source note.
+6. Preview at mobile and desktop sizes. For graphics containing words, verify every word remains readable.
 
-### Replace an image
+## Updating WhatsApp and other links
 
-1. Export the replacement as WebP. All website images must remain in WebP format.
-2. Use the existing descriptive filename and place it in the same folder under `mirror/assets/images/`. Reusing the filename avoids changing the HTML.
-3. Keep roughly the same aspect ratio and dimensions so the layout does not crop important text or faces.
-4. Check the actual pixel width and height, then update `width` and `height` in `mirror/assets/images/asset-manifest.json`.
-5. Update the manifest `source` note and write useful alt text that describes the image's purpose. If the image appears directly in HTML, update its `alt`, `width`, and `height` attributes there too.
-6. Preview the page on desktop and mobile. Check that text inside supplied graphics remains readable.
+The main number and default message are in `site/site.json`. Each page can override the message in `site/pages.json`. Page buttons should retain `href="{{ whatsapp_url }}"`; the generator creates the encoded `wa.me` URL.
 
-The supplied carousel sequences are intentional. If carousel order changes, update the manifest, `mirror/assets/js/content.js`, and slide order in HTML together. Do not rename files only to imply a new order.
+External resources should use a full `https://` address. Email links begin with `mailto:`. Open each changed link in the preview before publishing.
 
-## Before publishing a static-site update
+## Edit through the GitHub website
 
-Run the project checks from the repository root:
+For a small copy change without local tools:
+
+1. Open the source file on GitHub and choose the pencil **Edit** button.
+2. Change only the intended value or visible words.
+3. Choose **Create a new branch** and open a pull request; do not edit generated `build/` files.
+4. Wait for the GitHub checks. They rebuild all routes, run tests, check JavaScript, and reject broken local links or non-WebP images.
+5. Review the file diff. Merge only after the checks pass and the previewed result is approved.
+
+Deployment runs only from `main`. Pull requests validate without publishing.
+
+## Routes and source fragments
+
+| Route | Fragment |
+| --- | --- |
+| `/` | `site/pages/home.html` |
+| `/s3-intensivefix/` | `site/pages/s3-intensivefix.html` |
+| `/about/` | `site/pages/about.html` |
+| `/contact/` | `site/pages/contact.html` |
+| `/trees/` | `site/pages/trees.html` |
+| `/tuitionrecs/` | `site/pages/tuitionrecs.html` |
+| `/classes/` | `site/pages/classes.html` |
+| `/sec-3-pure-g3-biology-tuition/` | `site/pages/sec-3-pure-g3-biology-tuition.html` |
+| `/sec-4-pure-g3-biology-tuition/` | `site/pages/sec-4-pure-g3-biology-tuition.html` |
+| `/notes/` | `site/pages/notes.html` |
+| `/celldivision/` | `site/pages/celldivision.html` |
+| `/testimonials/` | `site/pages/testimonials.html` |
+
+## Before publishing
+
+Run:
 
 ```sh
-python3 -m unittest tests.test_static_site -v
-node --check mirror/assets/js/content.js
-node --check mirror/assets/js/site.js
+python3 scripts/build_site.py --output build
+python3 -m unittest tests.test_site_builder tests.test_static_site -v
+python3 -m py_compile scripts/build_site.py scripts/preview_site.py
+node --check site/assets/js/content.js
+node --check site/assets/js/site.js
+git diff --check
 ```
 
-Then preview both pages at a narrow mobile width and a desktop width. Check the menu, every carousel arrow and dot, FAQ disclosure, video, internal navigation, and every WhatsApp CTA. Use the Tab key to confirm focus is visible.
+Then check navigation, active menu state, shared header/footer/floating control, every changed image, WhatsApp message, external resource, keyboard focus, mobile overflow, and dated wording. Also check content with JavaScript disabled and reduced motion enabled.
 
 ## WordPress Elementor migration map
 
-The static site is organised to map cleanly into Elementor. Migrate one section at a time rather than importing the HTML as one large widget.
+The source is deliberately divided into the same layers you should use in Elementor. Rebuild semantically rather than pasting each whole HTML file into an HTML widget.
 
-### Site settings and shared parts
+### Global styles and shared templates
 
-- In **Elementor Site Settings → Global Colors**, recreate the `--color-*` values from `mirror/assets/css/base.css`.
-- In **Elementor Site Settings → Global Fonts**, recreate the heading, body, and accent families represented by the `--font-*` values.
-- Recreate the spacing, radius, shadow, and maximum-width variables as consistent container settings and reusable styles.
-- Build the `.site-header` and `.site-footer` as WordPress Theme Builder Header and Footer templates. Use the Site Logo, Nav Menu, and Button widgets.
-- Upload every used WebP file from `mirror/assets/images/` to the WordPress Media Library. Replace relative image paths with Media Library selections; do not hotlink the static files.
-- Set meaningful WordPress alt text while uploading. Decorative images should use empty alt text; informative images should retain the descriptions from the HTML or manifest.
+- Recreate the `--color-*` and `--font-*` values from `site/assets/css/base.css` in **Elementor Site Settings** using **Global Colors** and **Global Fonts**.
+- Recreate spacing, maximum widths, radius, and shadows as consistent Container and widget styles.
+- Turn `site/partials/header.html` into an Elementor **Theme Builder** Header template.
+- Turn `site/partials/footer.html` into a Theme Builder Footer template.
+- Turn `site/partials/floating-whatsapp.html` and useful files under `site/partials/sections/` into a **Global Widget** or saved global Container where the installed Elementor version supports it.
+- Upload every WebP from `site/assets/images/` to the WordPress **Media Library** and preserve informative alt text. Do not hotlink the static site.
 
-### Homepage containers
+### Page fragments and sections
 
-| Stable section ID | Elementor structure |
+Each `<section id="…">` in `site/pages/` maps to one top-level **Elementor Container**. Nested `.container`, `.hero__grid`, `.card-grid`, and `.feature-row` elements map to nested Containers. Use Heading, Text Editor, Image, Button, Icon List, Counter, Gallery, Video, Accordion, and Image Carousel widgets as appropriate.
+
+Important reusable mappings include:
+
+| Stable section | Elementor structure |
 | --- | --- |
-| `#hero` | Two-column Container with Heading, Text Editor, Buttons, and an Image Carousel. |
-| `#results` | Heading plus four Counter widgets and a nested image gallery. Enter the final values as visible fallback text where possible. |
-| `#fasttrack` | Heading followed by alternating two-column Containers using Image, Heading, and Text Editor widgets. |
-| `#tutors` | Heading and a responsive grid of image-and-text tutor cards. Use nested Containers rather than fixed-position columns. |
-| `#trial-guarantee` | Call-to-action Container with the exact guarantee copy and a WhatsApp Button; no form is required. |
-| `#suitability` | Two-column comparison Container with Icon List widgets for the positive and caution lists. |
-| `#founder` | Split Container with Image, Heading, Text Editor, and supporting statistics. |
-| `#faq` | Accordion widget. Preserve the question order and make the headings keyboard accessible. |
-| `#classroom` | Heading plus Gallery widget using the three supplied classroom images in order. |
-| `#final-cta` | Full-width CTA Container with Heading, Text Editor, and WhatsApp Button. |
+| `#hero` | Responsive Container with one H1, supporting text, CTA Button, and optional Image/Carousel. |
+| `#results` | Heading, Counter widgets, proof images, or result cards. |
+| `#fasttrack` | Repeating nested Containers using Image, Heading, and Text Editor widgets. |
+| `#trial-guarantee` | CTA Container and WhatsApp Button; no form. |
+| `#suitability` | Two-column Container with Icon Lists. |
+| `#founder` and `#tutors` | Image-and-text cards in responsive Containers. |
+| `#faq` | Accessible Accordion with the existing question order. |
+| `#classroom` | Gallery or Image Carousel using the supplied order. |
+| `#analysis-video` | Video widget with a descriptive title beside its text. |
+| `#program-carousel` | Image Carousel using contain sizing so words are not cropped. |
+| `#reviews` and `#student-stories` | Testimonial cards plus review artwork where present. |
+| `#final-cta` | Full-width CTA Container and WhatsApp Button. |
 
-### IntensiveFix containers
+For the remaining institutional, class, notes, Cell Division, and testimonial sections, keep each existing section ID as one named Container. This makes future comparison and maintenance straightforward.
 
-| Stable section ID | Elementor structure |
-| --- | --- |
-| `#hero` | Two-column Container with Heading, limited-time Text Editor, CTA Buttons, and the programme cover Image. |
-| `#program-carousel` | Image Carousel using the ten IntensiveFix WebP graphics in their numbered order. Use contain rather than cover so words are not cropped. |
-| `#reviews` | Heading and the one approved supplied review Image. |
-| `#results` | Four Counter widgets followed by the shared results Image Gallery. |
-| `#analysis-video` | Two-column Container with Heading/Text Editor and a Video widget using the retained YouTube URL. |
-| `#fasttrack` | Heading followed by the four alternating feature Containers used on the homepage. |
-| `#suitability` | Two-column comparison Container with Icon List widgets. |
-| `#final-cta` | Full-width CTA Container containing the approved EOY copy and WhatsApp Button. |
+### Elementor accessibility and behaviour
 
-### Interactive behaviour in Elementor
+- Keep one H1 per page and a logical heading order.
+- Use Elementor carousel controls with keyboard support and touch swipe.
+- Ensure Accordion controls report their expanded state.
+- Keep controls at least 44 by 44 CSS pixels with visible keyboard focus.
+- Use Counter widgets only when the final value is also understandable without animation.
+- Avoid essential entrance animation and ensure optional movement respects `prefers-reduced-motion`.
+- Test desktop, tablet, and a 320-pixel-wide screen; ensure images containing text use contain sizing where needed.
 
-- Use Elementor's Image Carousel or Slides widget for carousels. Enable keyboard controls, provide an accessible label, and keep touch swipe enabled.
-- Use Counter widgets only if their final value remains understandable when animation is disabled.
-- Use the Accordion widget for FAQ content and check its `aria-expanded` behaviour with a keyboard.
-- Use Elementor's Video widget for the YouTube section and supply a descriptive title.
-- Configure all buttons with a minimum 44 by 44 CSS-pixel target and a visible focus style.
-- Avoid entrance animations for essential content. Any optional animation must respect `prefers-reduced-motion`.
+## Preservation boundary
 
-## Post-migration checklist
-
-- Check desktop, tablet, and mobile breakpoints, including a 320-pixel-wide screen.
-- Confirm there is exactly one page H1 and that headings follow a logical order.
-- Confirm all local assets were replaced with Media Library URLs and every displayed image is WebP.
-- Check important faces and text are not cropped.
-- Confirm every image has suitable alt text.
-- Test the menu, carousel, Accordion, video, internal links, and all WhatsApp links with mouse, touch, and keyboard.
-- Confirm focus indicators are visible and controls are at least 44 by 44 CSS pixels.
-- Test with reduced motion enabled and with JavaScript blocked where the WordPress setup permits it.
-- Check the browser console and network panel for broken requests or unexpected legacy WordPress plugin assets.
-
+Do not edit `mirror/www.thatbiotutor.com/`; it is the untouched Wix reference archive. Do not edit `/Users/dmsyx/Documents/Projects/thatbiotutor-original`; it is the separate original snapshot. The editable website source is `site/`, and generated output belongs only in ignored `build/` or `.preview-site/` directories.

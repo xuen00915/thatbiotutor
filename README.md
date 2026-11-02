@@ -1,49 +1,61 @@
-# ThatBioTutor static website
+# ThatBioTutor editable static website
 
-This repository contains the client-editable ThatBioTutor homepage and Sec 3 IntensiveFix page, plus an untouched archive of the earlier Wix site.
+This repository contains a plain, client-editable source for all 12 ThatBioTutor public pages. A small dependency-free Python generator adds the shared header, footer, navigation, and floating WhatsApp button, then writes the publishable website to `build/`.
 
-## New site entry points
+## Preview in one command
 
-- Homepage: `mirror/index.html`
-- Sec 3 IntensiveFix: `mirror/s3-intensivefix/index.html`
-
-All runtime images are local WebP files. Shared styles and dependency-free JavaScript live under `mirror/assets/`. The pages use relative links so they work at a domain root or GitHub Pages repository subpath.
-
-## View locally
-
-From the repository root:
+From the repository root, run:
 
 ```sh
-python3 -m http.server 8765 --directory mirror
+python3 scripts/preview_site.py
 ```
 
-Then open:
+Open `http://127.0.0.1:8765/` and press `Control-C` when finished. Use `--port 8000` if another port is needed. The command always rebuilds `.preview-site/` first, so the preview reflects the editable source.
 
-```text
-http://localhost:8765/
-http://localhost:8765/s3-intensivefix/
-```
+## Generated routes
 
-## Documentation
+| Page | Route | Editable source |
+| --- | --- | --- |
+| Home | `/` | `site/pages/home.html` |
+| Sec 3 IntensiveFix | `/s3-intensivefix/` | `site/pages/s3-intensivefix.html` |
+| About | `/about/` | `site/pages/about.html` |
+| Contact | `/contact/` | `site/pages/contact.html` |
+| Causes | `/trees/` | `site/pages/trees.html` |
+| Tuition recommendations | `/tuitionrecs/` | `site/pages/tuitionrecs.html` |
+| Classes | `/classes/` | `site/pages/classes.html` |
+| Sec 3 Pure/G3 Biology | `/sec-3-pure-g3-biology-tuition/` | `site/pages/sec-3-pure-g3-biology-tuition.html` |
+| Sec 4 Pure/G3 Biology | `/sec-4-pure-g3-biology-tuition/` | `site/pages/sec-4-pure-g3-biology-tuition.html` |
+| Free Biology notes | `/notes/` | `site/pages/notes.html` |
+| Cell Division archive | `/celldivision/` | `site/pages/celldivision.html` |
+| Results and testimonials | `/testimonials/` | `site/pages/testimonials.html` |
 
-- [Client editing and Elementor migration guide](docs/client-editing-guide.md)
-- [Approved design specification](docs/superpowers/specs/2026-11-02-inquire-static-pages-design.md)
-- [Implementation plan](docs/superpowers/plans/2026-11-02-inquire-static-pages.md)
+The older `/classes/sec-3-pure-g3-biology-tuition/` path is generated as an accessible alias to the current Sec 3 page.
 
-Run the automated checks with:
+## Source and generated files
+
+- Edit `site/`, `README.md`, or `docs/`.
+- Do not edit `build/` or `.preview-site/`; both are generated and ignored by Git.
+- Shared business details and navigation live in `site/site.json`.
+- Page route and metadata records live in `site/pages.json`.
+- Shared site-wide templates live in `site/partials/`.
+- Page content lives in `site/pages/`.
+- Every local image is WebP under `site/assets/images/` and documented in its asset manifest.
+
+See the [client editing and Elementor migration guide](docs/client-editing-guide.md) for safe edits and the GitHub web-editor workflow.
+
+## Build and verify
 
 ```sh
-python3 -m unittest tests.test_static_site -v
-node --check mirror/assets/js/content.js
-node --check mirror/assets/js/site.js
+python3 scripts/build_site.py --output build
+python3 -m unittest tests.test_site_builder tests.test_static_site -v
+python3 -m py_compile scripts/build_site.py scripts/preview_site.py
+node --check site/assets/js/content.js
+node --check site/assets/js/site.js
+git diff --check
 ```
 
-## Archived Wix mirror
+Pull requests run the same build and validation. Pushes to `main` additionally publish only the generated `build/` directory to GitHub Pages.
 
-The earlier static Wix capture remains under `mirror/www.thatbiotutor.com/`. It includes the publicly accessible pages, images, fonts, JavaScript, CSS, feeds, robots file, and sitemaps captured on 29 October 2026 (Asia/Singapore). It is retained for reference and is not the new site entry point.
+## Preservation boundary
 
-## Backup boundary
-
-The archive contains only material that was available to an ordinary web browser. Wix server-side source code, private databases, CMS/admin content, form submissions, analytics data, and third-party services were not exposed by the public site and therefore are not included. Links to services such as WhatsApp, Google Forms, and Giving.sg remain external.
-
-The separate original snapshot at `/Users/dmsyx/Documents/Projects/thatbiotutor-original` is the preservation copy and should remain unchanged. Website changes belong in this repository, outside `mirror/www.thatbiotutor.com/` unless an archive repair is explicitly requested.
+The captured Wix reference remains untouched in `mirror/www.thatbiotutor.com/`. The separate original snapshot at `/Users/dmsyx/Documents/Projects/thatbiotutor-original` is also preservation-only. Public-site changes belong in `site/`; neither preserved copy should be edited unless an archive repair is explicitly requested.

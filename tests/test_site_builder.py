@@ -1,7 +1,9 @@
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from scripts.build_site import BuildError, relative_root, render_site
 
@@ -206,6 +208,91 @@ class SiteBuilderTests(unittest.TestCase):
         )
         with self.assertRaisesRegex(BuildError, "broken local reference"):
             render_site(self.project_root, self.output_dir)
+
+
+class PreviewAndWorkflowTests(unittest.TestCase):
+    def test_documented_preview_command_is_directly_executable(self):
+        result = subprocess.run(
+            ["python3", "scripts/preview_site.py", "--help"],
+            cwd=Path(__file__).parents[1],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("--port", result.stdout)
+
+    def test_preview_builds_before_serving(self):
+        try:
+            from scripts import preview_site
+        except ImportError as error:
+            self.fail(f"Preview helper is not importable: {error}")
+
+        events = []
+
+        class FakeServer:
+            def __init__(self, address, handler):
+                events.append(("server", address, handler))
+
+            def serve_forever(self):
+                events.append(("serve",))
+                raise KeyboardInterrupt
+
+            def server_close(self):
+                events.append(("close",))
+
+        with (
+            mock.patch.object(
+                preview_site,
+                "render_site",
+                side_effect=lambda root, output: (
+                    events.append(("build", root, output))
+                    or mock.Mock(pages=("",), aliases=())
+                ),
+            ),
+            mock.patch.object(preview_site, "ThreadingHTTPServer", FakeServer),
+        ):
+            result = preview_site.main(["--port", "8766"])
+
+        self.assertEqual(result, 0)
+        self.assertEqual(events[0][0], "build")
+        self.assertEqual(events[1][0], "server")
+        self.assertEqual(events[1][1], ("127.0.0.1", 8766))
+        self.assertEqual(events[-1], ("close",))
+
+    def test_preview_rejects_invalid_ports(self):
+        try:
+            from scripts import preview_site
+        except ImportError as error:
+            self.fail(f"Preview helper is not importable: {error}")
+
+        for port in ("0", "65536"):
+            with self.subTest(port=port), self.assertRaises(SystemExit):
+                preview_site.main(["--port", port])
+
+    def test_workflow_builds_from_site_source_and_deploys_only_main(self):
+        workflow = (
+            Path(__file__).parents[1] / ".github/workflows/pages.yml"
+        ).read_text(encoding="utf-8")
+
+        for required_text in (
+            "pull_request:",
+            "push:",
+            "python3 scripts/build_site.py --output build",
+            "python3 -m unittest tests.test_site_builder tests.test_static_site -v",
+            "node --check site/assets/js/content.js",
+            "node --check site/assets/js/site.js",
+            "git diff --check",
+            "path: build",
+            "github.ref == 'refs/heads/main'",
+        ):
+            with self.subTest(required_text=required_text):
+                self.assertIn(required_text, workflow)
+
+        self.assertNotIn("path: mirror", workflow)
+        self.assertGreaterEqual(
+            workflow.count("github.ref == 'refs/heads/main'"), 3
+        )
 
 
 if __name__ == "__main__":

@@ -855,23 +855,27 @@ class ResourcePageTests(unittest.TestCase):
 
 
 class ProjectHandoffTests(unittest.TestCase):
-    def test_editing_guide_covers_common_client_tasks(self):
+    def test_client_guide_covers_global_and_page_edits(self):
         guide_path = REPO_ROOT / "docs/client-editing-guide.md"
         self.assertTrue(guide_path.is_file(), f"Missing {guide_path}")
         guide = guide_path.read_text(encoding="utf-8")
         for required_text in (
-            "mirror/assets/js/content.js",
-            "mirror/assets/images/asset-manifest.json",
-            "mirror/index.html",
-            "mirror/s3-intensivefix/index.html",
-            "mirror/assets/css/base.css",
+            "site/site.json",
+            "site/pages.json",
+            "site/pages/",
+            "site/partials/header.html",
+            "site/partials/footer.html",
+            "site/partials/floating-whatsapp.html",
+            "site/assets/images/asset-manifest.json",
+            "site/assets/css/base.css",
             "CLIENT EDIT",
             "WebP",
             "alt text",
-            "carousel order",
             "WhatsApp",
-            "counter",
-            "python3 -m http.server",
+            "python3 scripts/preview_site.py",
+            "GitHub",
+            "build/",
+            "2023",
         ):
             with self.subTest(required_text=required_text):
                 self.assertIn(required_text, guide)
@@ -885,6 +889,9 @@ class ProjectHandoffTests(unittest.TestCase):
             "Global Colors",
             "Global Fonts",
             "Media Library",
+            "Theme Builder",
+            "Global Widget",
+            "Elementor Container",
             "prefers-reduced-motion",
             "#hero",
             "#results",
@@ -905,7 +912,13 @@ class ProjectHandoffTests(unittest.TestCase):
 
     def test_pages_have_no_broken_local_references(self):
         build_root = build_test_site()
-        for page_path in (build_root / "index.html", build_root / "s3-intensivefix/index.html"):
+        registry = json.loads((SITE_DIR / "pages.json").read_text(encoding="utf-8"))
+        page_paths = [
+            build_root / page["route"] / "index.html" if page["route"]
+            else build_root / "index.html"
+            for page in registry
+        ]
+        for page_path in page_paths:
             parser = PageParser()
             parser.feed(page_path.read_text(encoding="utf-8"))
             for element in parser.elements:
