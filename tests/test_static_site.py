@@ -65,5 +65,60 @@ class StaticSiteAssetTests(unittest.TestCase):
                     self.assertEqual(Path(entry["file"]).suffix.lower(), ".webp")
 
 
+class StaticSiteFoundationTests(unittest.TestCase):
+    def read_asset(self, relative_path):
+        path = MIRROR / relative_path
+        self.assertTrue(path.is_file(), f"Missing {path}")
+        return path.read_text(encoding="utf-8")
+
+    def test_content_config_has_whatsapp_and_ordered_assets(self):
+        source = self.read_asset("assets/js/content.js")
+        self.assertIn("6587597182", source)
+        self.assertIn("homeMessage", source)
+        self.assertIn("intensiveFixMessage", source)
+        self.assertIn('new URL("../images/", document.currentScript.src)', source)
+        for group_name in (
+            "homeHero",
+            "trackRecord",
+            "homeClassroom",
+            "intensiveFixCarousel",
+            "intensiveFixReview",
+        ):
+            self.assertIn(group_name, source)
+
+    def test_css_defines_elementor_ready_tokens_and_accessibility_states(self):
+        base = self.read_asset("assets/css/base.css")
+        components = self.read_asset("assets/css/components.css")
+        pages = self.read_asset("assets/css/pages.css")
+
+        for token_family in (
+            "--color-",
+            "--font-",
+            "--space-",
+            "--radius-",
+            "--shadow-",
+            "--container-",
+        ):
+            self.assertIn(token_family, base)
+        self.assertIn(":focus-visible", components)
+        self.assertRegex(components, r"min-(?:height|width):\s*44px")
+        self.assertRegex(pages, r"@media\s*\([^)]*max-width")
+        self.assertRegex(pages, r"@media\s*\([^)]*min-width")
+
+    def test_site_script_defines_progressive_enhancements(self):
+        source = self.read_asset("assets/js/site.js")
+        for function_name in (
+            "initCarousels",
+            "initCounters",
+            "initFaqs",
+            "buildWhatsAppUrl",
+        ):
+            self.assertIn(function_name, source)
+        self.assertIn("prefers-reduced-motion", source)
+        self.assertIn("IntersectionObserver", source)
+        self.assertIn("URLSearchParams", source)
+        self.assertIn("window.TBT_UI", source)
+
+
 if __name__ == "__main__":
     unittest.main()
