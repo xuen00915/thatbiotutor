@@ -194,6 +194,7 @@
 
 .media-carousel {
   position: relative;
+  width: 100%;
   container-type: inline-size;
 }
 
@@ -229,11 +230,13 @@
 
 .media-carousel.is-enhanced .media-carousel__track {
   display: grid;
+  height: 100%;
   overflow: visible;
 }
 
 .media-carousel.is-enhanced .media-carousel__slide {
   display: none;
+  height: 100%;
   grid-area: 1 / 1;
 }
 

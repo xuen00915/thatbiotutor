@@ -3,6 +3,7 @@
 }
 
 .page-home .hero__media {
+  width: 100%;
   max-width: 34rem;
   justify-self: center;
 }

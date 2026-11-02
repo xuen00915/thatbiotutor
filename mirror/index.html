@@ -3,13 +3,368 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="0; url=./www.thatbiotutor.com/">
-    <title>ThatBioTutor</title>
-    <script>
-      window.location.replace('./www.thatbiotutor.com/' + window.location.search + window.location.hash);
-    </script>
+    <meta name="description" content="ThatBioTutor helps Singapore O Level Pure and G3 Biology students improve with the FastTrack system, practical sessions, and specialist tutors.">
+    <meta name="theme-color" content="#063e2f">
+    <meta property="og:title" content="ThatBioTutor | O Level Pure &amp; G3 Biology Tuition">
+    <meta property="og:description" content="The one missing key to go from fail to A1 while cutting Biology study time by 90%.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/images/home/hero-03.webp">
+    <title>ThatBioTutor | O Level Pure &amp; G3 Biology Tuition</title>
+    <link rel="icon" type="image/webp" href="assets/images/shared/favicon.webp">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <script defer src="assets/js/content.js"></script>
+    <script defer src="assets/js/site.js"></script>
   </head>
-  <body>
-    <p><a href="./www.thatbiotutor.com/">Open the ThatBioTutor website backup</a></p>
+  <body class="page-home">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="site-brand" href="./" aria-label="ThatBioTutor home">
+          <img src="assets/images/shared/tbt-logo.webp" width="192" height="192" alt="ThatBioTutor leaf logo">
+          <span>ThatBioTutor</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle aria-label="Open navigation menu">☰</button>
+          <div class="site-nav__links" id="site-menu" data-site-menu>
+            <a href="#results">Results</a>
+            <a href="#fasttrack">FastTrack</a>
+            <a href="#faq">FAQ</a>
+            <a href="s3-intensivefix/">IntensiveFix</a>
+          </div>
+          <!-- CLIENT EDIT: Header CTA label and fallback WhatsApp link. -->
+          <a class="button button--header" href="https://wa.me/6587597182?text=Hi%20ThatBioTutor%2C%20I%27d%20like%20to%20book%20a%20%2495%20trial%20lesson." data-whatsapp-message="homeMessage">Book My Trial Lesson</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ELEMENTOR CONTAINER: Homepage hero -->
+      <section class="hero" id="hero">
+        <div class="container container--wide hero__grid">
+          <div class="hero__copy">
+            <p class="eyebrow">Singapore's only O Level Pure/G3 Bio specialist</p>
+            <!-- CLIENT EDIT: Homepage headline and supporting copy. -->
+            <h1>The One Missing Key to Go from Fail to A1 <span class="accent">While Cutting Study Time by 90%</span></h1>
+            <p class="lead">The average TBT student makes a <strong>2.3 grade jump</strong>, roughly from C5 to A2.</p>
+            <div class="cluster hero__actions">
+              <a class="button button--large" href="https://wa.me/6587597182?text=Hi%20ThatBioTutor%2C%20I%27d%20like%20to%20book%20a%20%2495%20trial%20lesson." data-whatsapp-message="homeMessage">Book My Trial Lesson</a>
+              <a class="button button--outline button--large" href="#fasttrack">See How It Works</a>
+            </div>
+            <p class="hero__note">
+              <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4.5 5v5.6c0 4.7 3.2 9.1 7.5 10.4 4.3-1.3 7.5-5.7 7.5-10.4V5L12 2Zm3.4 7.3-4.2 4.5-2.5-2.5 1.2-1.2 1.2 1.2 3-3.2 1.3 1.2Z" fill="currentColor"/></svg>
+              <span>If a student doesn't absolutely love the $95 trial lesson, they get a full refund.</span>
+            </p>
+          </div>
+
+          <!-- CLIENT EDIT: Supplied hero images must remain in this order. -->
+          <div class="hero__media">
+            <div class="media-carousel home-hero" aria-label="Life at ThatBioTutor">
+              <div class="media-carousel__viewport">
+                <div class="media-carousel__track" data-carousel-track>
+                  <figure class="media-carousel__slide is-active" data-carousel-slide>
+                    <img src="assets/images/home/hero-01.webp" data-supplied-group="homeHero" width="3024" height="4032" alt="Students conducting a hands-on biology practical in the classroom">
+                  </figure>
+                  <figure class="media-carousel__slide" data-carousel-slide>
+                    <img src="assets/images/home/hero-02.webp" data-supplied-group="homeHero" width="3024" height="2619" alt="Mr Keefe teaching a biology graph lesson to a full classroom">
+                  </figure>
+                  <figure class="media-carousel__slide" data-carousel-slide>
+                    <img src="assets/images/home/hero-03.webp" data-supplied-group="homeHero" width="2048" height="1536" alt="ThatBioTutor students gathered together after class">
+                  </figure>
+                  <figure class="media-carousel__slide" data-carousel-slide>
+                    <img src="assets/images/home/hero-04.webp" data-supplied-group="homeHero" width="3024" height="4032" alt="Students working through a biology lesson in the classroom">
+                  </figure>
+                  <figure class="media-carousel__slide" data-carousel-slide>
+                    <img src="assets/images/home/hero-05.webp" data-supplied-group="homeHero" width="1279" height="1843" alt="Biology worksheets, stationery, and classroom snacks on a desk">
+                  </figure>
+                </div>
+              </div>
+              <div class="media-carousel__controls">
+                <button class="media-carousel__button" type="button" data-carousel-prev aria-label="Show previous image">←</button>
+                <div class="media-carousel__dots" aria-label="Choose an image">
+                  <button class="media-carousel__dot is-active" type="button" data-carousel-dot aria-label="Show image 1" aria-current="true"></button>
+                  <button class="media-carousel__dot" type="button" data-carousel-dot aria-label="Show image 2"></button>
+                  <button class="media-carousel__dot" type="button" data-carousel-dot aria-label="Show image 3"></button>
+                  <button class="media-carousel__dot" type="button" data-carousel-dot aria-label="Show image 4"></button>
+                  <button class="media-carousel__dot" type="button" data-carousel-dot aria-label="Show image 5"></button>
+                </div>
+                <button class="media-carousel__button" type="button" data-carousel-next aria-label="Show next image">→</button>
+              </div>
+              <p class="media-carousel__status" data-carousel-status aria-live="polite">Image 1 of 5</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: Student pain points and testimonials -->
+      <section class="section section--white" aria-labelledby="student-stories-title">
+        <div class="container">
+          <div class="section-heading section-heading--center">
+            <p class="eyebrow">The struggle is real</p>
+            <h2 id="student-stories-title">Does Biology Feel Like This?</h2>
+          </div>
+          <div class="card-grid">
+            <article class="card"><div class="card__icon" aria-hidden="true">01</div><p>“There's WAY too much to memorise… so many confusing terms.”</p></article>
+            <article class="card"><div class="card__icon" aria-hidden="true">02</div><p>“I already wrote down a very detailed answer… how come I didn't get the points?”</p></article>
+            <article class="card"><div class="card__icon" aria-hidden="true">03</div><p>“School Bio skims through the content too fast. I don't understand concepts deeply enough.”</p></article>
+          </div>
+          <div class="section-heading section-heading--center section section--compact">
+            <p class="lead">Sound familiar? Many TBT students started exactly here.</p>
+            <h2>By the End of the Year, They’re Telling Us:</h2>
+          </div>
+          <div class="card-grid">
+            <blockquote class="testimonial">
+              <p class="testimonial__quote">“Unlike school teachers who merely read off the slides, these tutors made such a content-heavy subject engaging.”</p>
+              <footer class="testimonial__person"><img src="assets/images/shared/testimonial-yongzheng.webp" width="63" height="62" alt="Portrait of ThatBioTutor student Yong Zheng"><span><strong>Yong Zheng</strong><br>Sec 4 · E8 → A1 in 3 months</span></footer>
+            </blockquote>
+            <blockquote class="testimonial">
+              <p class="testimonial__quote">“After using TBT's notes and memorising all the shortcuts, I managed to get the model template answer and memorise it easily.”</p>
+              <footer class="testimonial__person"><img src="assets/images/shared/testimonial-gwen.webp" width="2560" height="2164" alt="Portrait of ThatBioTutor student Gwen"><span><strong>Gwen</strong><br>Sec 4 · F9 → A1</span></footer>
+            </blockquote>
+            <blockquote class="testimonial">
+              <p class="testimonial__quote">“Very knowledgeable, with his own personal touch, and genuinely cares for the students.”</p>
+              <footer class="testimonial__person"><img src="assets/images/shared/testimonial-aryan.webp" width="58" height="62" alt="Portrait of ThatBioTutor student Aryan"><span><strong>Aryan</strong><br>Sec 4 · C6 → A2</span></footer>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: Track record -->
+      <section class="section section--soft home-track-record" id="results" aria-labelledby="results-title">
+        <div class="container container--wide">
+          <div class="section-heading"><p class="eyebrow">Proven across Singapore</p><h2 id="results-title">Here’s the Track Record</h2></div>
+          <!-- CLIENT EDIT: Final counter values are also centralised in content.js. -->
+          <div class="stats" aria-label="ThatBioTutor student results">
+            <article class="stat"><strong class="stat__value" data-counter-key="students">912+</strong><p class="stat__label">Students taught across 98 Singapore schools</p></article>
+            <article class="stat"><strong class="stat__value" data-counter-key="results">91%</strong><p class="stat__label">Score A1, A2, or B3, despite 69% starting at B4 or lower</p></article>
+            <article class="stat"><strong class="stat__value" data-counter-key="gradeJump">2.3</strong><p class="stat__label">Average grade jump, roughly C5 to A2</p></article>
+            <article class="stat"><strong class="stat__value" data-counter-key="homeDistinction">1 in 2</strong><p class="stat__label">Score an A distinction</p></article>
+          </div>
+          <!-- CLIENT EDIT: Supplied track-record images must remain in this order. -->
+          <div class="media-grid section section--compact">
+            <figure class="media-grid__item"><img src="assets/images/shared/track-record-01.webp" data-supplied-group="trackRecord" width="2048" height="1536" loading="lazy" alt="A group of ThatBioTutor students smiling in class"></figure>
+            <figure class="media-grid__item"><img src="assets/images/shared/track-record-02.webp" data-supplied-group="trackRecord" width="3024" height="4032" loading="lazy" alt="Mr Keefe giving focused guidance to students at their desks"></figure>
+            <figure class="media-grid__item"><img src="assets/images/shared/track-record-03.webp" data-supplied-group="trackRecord" width="1536" height="2048" loading="lazy" alt="Mr Keefe celebrating with three biology students"></figure>
+            <figure class="media-grid__item"><img src="assets/images/shared/track-record-04.webp" data-supplied-group="trackRecord" width="1600" height="974" loading="lazy" alt="Mr Keefe leading an online biology class over Zoom"></figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: FastTrack system -->
+      <section class="section section--white" id="fasttrack" aria-labelledby="fasttrack-title">
+        <div class="container">
+          <div class="section-heading section-heading--center">
+            <p class="eyebrow">O Level G3 / Pure Biology</p>
+            <h2 id="fasttrack-title">ThatBioTutor’s FastTrack System Helps Students Score A1/A2 Without the Endless Revision Grind</h2>
+            <p class="lead">Why should students write their own notes, make their own flashcards, and hunt for exam keywords alone, when it’s already done for them?</p>
+          </div>
+          <div class="feature-row"><div class="feature-row__media"><img src="assets/images/shared/fasttrack-content.webp" width="1170" height="747" loading="lazy" alt="Biology lesson notes in the FastTrack content system"></div><div><p class="eyebrow">01 · Content &amp; understanding</p><h3>Find What Matters Instantly</h3><p><strong>Other Bio students:</strong> dig through school notes and the textbook, figure out what's important, and rewrite everything from scratch.</p><p><strong>TBT students:</strong> Ctrl+F through detailed visual notes or watch crash-course clips—think Netflix, but for Bio.</p></div></div>
+          <div class="feature-row"><div class="feature-row__media"><img src="assets/images/shared/fasttrack-memory.webp" width="736" height="1104" loading="lazy" alt="Brain icon representing FastTrack memory techniques"></div><div><p class="eyebrow">02 · Memory</p><h3>Shortcuts That Actually Stick</h3><p>Confusing terms turn into memorable shortcuts, backed by ready-made flashcards for long-term retention. The logic clicks, so the material sticks long after exams.</p></div></div>
+          <div class="feature-row"><div class="feature-row__media"><img src="assets/images/shared/fasttrack-answering.webp" width="736" height="1104" loading="lazy" alt="One hundred score icon representing answering techniques"></div><div><p class="eyebrow">03 · Answering skills</p><h3>Know the Exact Keywords That Score</h3><p>The TBT Commonly Asked Questions database covers every question type, with the exact keywords and phrasing that score full marks—no guessing.</p></div></div>
+          <div class="feature-row"><div class="feature-row__media"><img src="assets/images/shared/fasttrack-practical.webp" width="736" height="1104" loading="lazy" alt="Test tube icon representing biology practical skills"></div><div><p class="eyebrow">04 · Practical sessions</p><h3>Protect the Full 20% for Paper 3</h3><p>Optional hands-on sessions cover the most commonly tested experiments, building the hand-eye coordination and confidence students need.</p></div></div>
+          <div class="feature-row"><div class="feature-row__media"><img src="assets/images/shared/fasttrack-support.webp" width="736" height="1104" loading="lazy" alt="Speech bubble icon representing same-day tutor support"></div><div><p class="eyebrow">05 · Support</p><h3>Get Help the Same Day</h3><p>Message your tutor anytime for detailed, syllabus-accurate explanations instead of saving questions and waiting seven days.</p></div></div>
+          <p class="lead"><strong>This is the FastTrack System: the one missing key. Everything students would normally have to build themselves, already built for them.</strong></p>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: Wider proof -->
+      <section class="section section--soft" aria-labelledby="proof-title">
+        <div class="container">
+          <div class="section-heading section-heading--center"><p class="eyebrow">Don't just take our word for it</p><h2 id="proof-title">Trusted by Students from 98 Schools Across Singapore</h2></div>
+          <div class="logo-cloud" aria-label="School communities represented at ThatBioTutor">
+            <img src="assets/images/shared/school-crest-01.webp" width="150" height="150" loading="lazy" alt="School crest 1 from the ThatBioTutor student community">
+            <img src="assets/images/shared/school-crest-02.webp" width="150" height="150" loading="lazy" alt="School crest 2 from the ThatBioTutor student community">
+            <img src="assets/images/shared/school-crest-03.webp" width="150" height="150" loading="lazy" alt="School crest 3 from the ThatBioTutor student community">
+            <img src="assets/images/shared/school-crest-04.webp" width="150" height="150" loading="lazy" alt="School crest 4 from the ThatBioTutor student community">
+            <img src="assets/images/shared/school-crest-05.webp" width="150" height="150" loading="lazy" alt="School crest 5 from the ThatBioTutor student community">
+            <img src="assets/images/shared/school-crest-06.webp" width="150" height="150" loading="lazy" alt="School crest 6 from the ThatBioTutor student community">
+            <img src="assets/images/shared/school-crest-07.webp" width="150" height="150" loading="lazy" alt="School crest 7 from the ThatBioTutor student community">
+            <img src="assets/images/shared/school-crest-08.webp" width="150" height="150" loading="lazy" alt="School crest 8 from the ThatBioTutor student community">
+            <img src="assets/images/shared/school-crest-09.webp" width="150" height="150" loading="lazy" alt="School crest 9 from the ThatBioTutor student community">
+            <img src="assets/images/shared/school-crest-10.webp" width="150" height="150" loading="lazy" alt="School crest 10 from the ThatBioTutor student community">
+            <img src="assets/images/shared/school-crest-11.webp" width="150" height="150" loading="lazy" alt="School crest 11 from the ThatBioTutor student community">
+            <img src="assets/images/shared/school-crest-12.webp" width="150" height="150" loading="lazy" alt="School crest 12 from the ThatBioTutor student community">
+          </div>
+          <div class="split-section section section--compact">
+            <div class="split-section__media"><img class="surface" src="assets/images/shared/hall-of-fame.webp" width="940" height="791" loading="lazy" alt="ThatBioTutor student results hall of fame"></div>
+            <div class="split-section__copy">
+              <h3>Some of Our Biggest Grade Jumps</h3>
+              <p class="lead">There are many more. Students come in feeling lost, then leave knowing exactly what to learn, remember, and write.</p>
+              <blockquote class="testimonial"><p class="testimonial__quote">“The notes are incredibly concise. They helped me clear the syllabus faster and memorise content more efficiently.”</p><footer class="testimonial__person"><strong>Verified student review</strong></footer></blockquote>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: Tutor team -->
+      <section class="section section--white" id="tutors" aria-labelledby="tutors-title">
+        <div class="container">
+          <div class="section-heading section-heading--center"><p class="eyebrow">Specialist guidance</p><h2 id="tutors-title">Meet Your Tutors</h2></div>
+          <div class="tutor-grid">
+            <article class="tutor-card"><img src="assets/images/shared/tutor-keefe.webp" width="230" height="230" loading="lazy" alt="Portrait of biology tutor Mr Keefe"><h3>Mr Keefe</h3><p>Founder</p></article>
+            <article class="tutor-card"><img src="assets/images/shared/tutor-chelsea.webp" width="230" height="230" loading="lazy" alt="Portrait of biology tutor Ms Chelsea"><h3>Ms Chelsea</h3><p>Pure Biology specialist</p></article>
+            <article class="tutor-card"><img src="assets/images/shared/tutor-jamie.webp" width="230" height="230" loading="lazy" alt="Portrait of biology tutor Ms Jamie"><h3>Ms Jamie</h3><p>Pure Biology specialist</p></article>
+            <article class="tutor-card"><img src="assets/images/shared/tutor-ng.webp" width="230" height="230" loading="lazy" alt="Portrait of biology academic adviser Ms Ng"><h3>Ms Ng</h3><p>Ex-MOE academic adviser</p></article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: Quality control -->
+      <section class="section section--dark" aria-labelledby="quality-title">
+        <div class="container">
+          <div class="section-heading"><p class="eyebrow">Consistent lesson quality</p><h2 id="quality-title">How TBT Ensures Every Class Is Excellent</h2></div>
+          <div class="card-grid">
+            <article class="card"><div class="card__icon" aria-hidden="true">✓</div><h3>Rigorous Screening</h3><p>All tutors pass screening that can take more than a month before their first class.</p></article>
+            <article class="card"><div class="card__icon" aria-hidden="true">✓</div><h3>Weekly Coaching</h3><p>Every tutor is mentored by Mr Keefe each week.</p></article>
+            <article class="card"><div class="card__icon" aria-hidden="true">✓</div><h3>Standardised Methods</h3><p>Every class follows the same content and methods, with weekly student feedback reviewed and acted on.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: Practical sessions -->
+      <section class="section section--white" aria-labelledby="practical-title">
+        <div class="container">
+          <div class="section-heading"><p class="eyebrow">Paper 3 confidence</p><h2 id="practical-title">Real Practical Sessions. Real Practice.</h2><p class="lead">Paper 3 makes up 20% of the grade, and most students walk in undertrained. TBT students can opt into hands-on sessions covering the exact experiment types most commonly tested.</p></div>
+          <div class="gallery">
+            <figure class="gallery__item"><img src="assets/images/shared/practical-01.webp" width="1183" height="2560" loading="lazy" alt="Mr Keefe guiding a hands-on biology practical"></figure>
+            <figure class="gallery__item"><img src="assets/images/shared/practical-02.webp" width="1920" height="2560" loading="lazy" alt="Two students conducting a test tube practical"></figure>
+            <figure class="gallery__item"><img src="assets/images/shared/practical-03.webp" width="1933" height="1178" loading="lazy" alt="Student carrying out a test tube biology practical"></figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: Trial guarantee; replaces the old embedded form -->
+      <section class="section section--soft" id="trial-guarantee" aria-labelledby="guarantee-title">
+        <div class="container">
+          <div class="guarantee">
+            <div class="guarantee__icon" role="img" aria-label="Money-back guarantee shield">
+              <svg width="104" height="104" viewBox="0 0 120 120" aria-hidden="true"><path d="M60 8 20 24v31c0 27 17 49 40 57 23-8 40-30 40-57V24L60 8Z" fill="none" stroke="currentColor" stroke-width="8"/><path d="m40 60 13 13 28-31" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <!-- CLIENT EDIT: Guarantee heading and approved refund copy. -->
+              <p class="eyebrow">Try it without the risk</p>
+              <h2 id="guarantee-title">Join a Trial Lesson. If You Didn’t Absolutely Love It, Get a Full Refund.</h2>
+              <p class="lead">A trial lesson is $95. We’re so confident of our lesson quality that if you didn’t absolutely love it, simply ask for a refund and you’ll get your money back, no questions asked.</p>
+              <a class="button button--large" href="https://wa.me/6587597182?text=Hi%20ThatBioTutor%2C%20I%27d%20like%20to%20book%20a%20%2495%20trial%20lesson." data-whatsapp-message="homeMessage">Book My Trial Lesson</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: Suitability -->
+      <section class="section section--white" id="suitability" aria-labelledby="suitability-title">
+        <div class="container">
+          <div class="section-heading section-heading--center"><p class="eyebrow">A good match matters</p><h2 id="suitability-title">Is ThatBioTutor Right for You?</h2></div>
+          <div class="comparison">
+            <article class="comparison__column comparison__column--yes">
+              <h3>This is for:</h3>
+              <ul class="check-list">
+                <li>Students taking O Level Pure/G3 Biology in Sec 3 or Sec 4.</li>
+                <li>Students who feel lost in the content, or need a few concepts strengthened.</li>
+                <li>Students who know the content but blank out on OEQs and lose marks anyway.</li>
+                <li>Students who genuinely want to improve in Biology.</li>
+                <li>Students based in Singapore who can attend physical or online classes.</li>
+              </ul>
+            </article>
+            <article class="comparison__column comparison__column--no">
+              <h3>This isn’t for:</h3>
+              <ul class="cross-list">
+                <li>Students taking Combined Science Biology rather than Pure/G3.</li>
+                <li>Students based outside Singapore.</li>
+                <li>Students only joining because someone else is forcing them.</li>
+                <li>Students who aren’t committed to the work required to ace the subject.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: Founder -->
+      <section class="section section--soft" id="founder" aria-labelledby="founder-title">
+        <div class="container split-section split-section--reverse">
+          <div class="split-section__media"><img class="surface" src="assets/images/home/founder-about.webp" width="832" height="929" loading="lazy" alt="ThatBioTutor founder Mr Keefe teaching biology"></div>
+          <div class="split-section__copy">
+            <p class="eyebrow">Why TBT exists</p>
+            <h2 id="founder-title">About the Founder</h2>
+            <!-- CLIENT EDIT: Founder story. -->
+            <p>I was a GEP student, went through Raffles Institution, and was offered a scholarship by NUS to study Life Sciences. On paper, that probably sounds like someone who never struggled in school.</p>
+            <p>In JC, my grades started slipping and I finally took Econs tuition. That’s when I understood what a genuinely good tutor could do: teach smarter memorisation and the exact answering methods that score.</p>
+            <p>That inspired me to build ThatBioTutor. The feeling of trying hard and still not getting anywhere is exactly why I built the FastTrack System.</p>
+            <p><strong>— Mr Keefe, founder of ThatBioTutor</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: Frequently asked questions -->
+      <section class="section section--white" id="faq" aria-labelledby="faq-title">
+        <div class="container container--reading">
+          <div class="section-heading section-heading--center"><p class="eyebrow">Straight answers</p><h2 id="faq-title">Frequently Asked Questions</h2></div>
+          <div class="faq-list">
+            <article class="faq"><h3><button class="faq__button" type="button" aria-expanded="true" aria-controls="faq-1" data-faq-button>Do you teach physical or online lessons?</button></h3><div class="faq__panel" id="faq-1" data-faq-panel><p>Yes. Students can choose between attending online or physically.</p></div></article>
+            <article class="faq"><h3><button class="faq__button" type="button" aria-expanded="false" aria-controls="faq-2" data-faq-button>What other perks are included?</button></h3><div class="faq__panel" id="faq-2" data-faq-panel><p>Notes, flashcards, lesson clips, extra practice papers, WhatsApp help, and snacks for physical lessons. All are included for students.</p></div></article>
+            <article class="faq"><h3><button class="faq__button" type="button" aria-expanded="false" aria-controls="faq-3" data-faq-button>Do online students need to turn on their mic or camera?</button></h3><div class="faq__panel" id="faq-3" data-faq-panel><p>It isn’t compulsory, though students are encouraged to respond through the Zoom chat.</p></div></article>
+            <article class="faq"><h3><button class="faq__button" type="button" aria-expanded="false" aria-controls="faq-4" data-faq-button>Is there a lot of homework?</button></h3><div class="faq__panel" id="faq-4" data-faq-panel><p>A handful of manageable questions each week. We don’t believe in overloading students.</p></div></article>
+            <article class="faq"><h3><button class="faq__button" type="button" aria-expanded="false" aria-controls="faq-5" data-faq-button>How many students are in a class?</button></h3><div class="faq__panel" id="faq-5" data-faq-panel><p>Physical classes are capped at around 20–25 students. A trial lesson is the best way to experience how the class works.</p></div></article>
+            <article class="faq"><h3><button class="faq__button" type="button" aria-expanded="false" aria-controls="faq-6" data-faq-button>What levels do you teach?</button></h3><div class="faq__panel" id="faq-6" data-faq-panel><p>We specialise exclusively in O Level Pure/G3 Biology—not Combined Biology.</p></div></article>
+            <article class="faq"><h3><button class="faq__button" type="button" aria-expanded="false" aria-controls="faq-7" data-faq-button>Do you teach one-to-one tuition?</button></h3><div class="faq__panel" id="faq-7" data-faq-panel><p>No. Group teaching lets us build syllabus-specific notes, CAQs, and memory shortcuts, while students still receive one-to-one help through WhatsApp.</p></div></article>
+            <article class="faq"><h3><button class="faq__button" type="button" aria-expanded="false" aria-controls="faq-8" data-faq-button>Are all classes taught by Mr Keefe?</button></h3><div class="faq__panel" id="faq-8" data-faq-panel><p>No. TBT has a team of specialist tutors, with content and teaching methods standardised across the team.</p></div></article>
+            <article class="faq"><h3><button class="faq__button" type="button" aria-expanded="false" aria-controls="faq-9" data-faq-button>How do I check fees and timeslots?</button></h3><div class="faq__panel" id="faq-9" data-faq-panel><p>The trial class is $95. Message us on WhatsApp for current timeslots and updated class pricing.</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: Classroom gallery -->
+      <section class="section section--soft home-classroom" id="classroom" aria-labelledby="classroom-title">
+        <div class="container container--wide">
+          <div class="section-heading section-heading--center"><p class="eyebrow">Learn, laugh, refuel</p><h2 id="classroom-title">Life Inside a TBT Classroom</h2></div>
+          <!-- CLIENT EDIT: Supplied classroom images must remain in this order. -->
+          <div class="gallery">
+            <figure class="gallery__item"><img src="assets/images/home/classroom-01.webp" data-supplied-group="homeClassroom" width="3024" height="4032" loading="lazy" alt="Mr Keefe making a biology lesson memorable for students"></figure>
+            <figure class="gallery__item"><img src="assets/images/home/classroom-02.webp" data-supplied-group="homeClassroom" width="3024" height="4032" loading="lazy" alt="Students learning together in the ThatBioTutor classroom"></figure>
+            <figure class="gallery__item"><img src="assets/images/home/classroom-03.webp" data-supplied-group="homeClassroom" width="3024" height="4032" loading="lazy" alt="The classroom snack station with drinks and refreshments"></figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTOR CONTAINER: Final homepage CTA -->
+      <section class="section section--deep section--white home-closing" id="final-cta" aria-labelledby="final-cta-title">
+        <div class="container">
+          <div class="cta-panel">
+            <!-- CLIENT EDIT: Closing CTA copy. -->
+            <p class="eyebrow">There’s room for Biology and a life</p>
+            <h2 id="final-cta-title">Bio Doesn’t Have to Eat Up Every Other Part of a Student’s Life.</h2>
+            <p class="lead">Students shouldn’t have to give up their CCA, friends, or other subjects just to keep their Biology grade afloat. The notes, shortcuts, and support are already built. Ready to see what that feels like?</p>
+            <a class="button button--large" href="https://wa.me/6587597182?text=Hi%20ThatBioTutor%2C%20I%27d%20like%20to%20book%20a%20%2495%20trial%20lesson." data-whatsapp-message="homeMessage">Book My Trial Lesson</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__grid">
+        <div>
+          <a class="site-brand" href="./">
+            <img src="assets/images/shared/tbt-logo.webp" width="192" height="192" loading="lazy" alt="ThatBioTutor leaf logo">
+            <span>ThatBioTutor</span>
+          </a>
+          <p>Singapore's only O Level Pure/G3 Biology specialist.</p>
+        </div>
+        <div>
+          <h2 class="lead">Visit</h2>
+          <p>175 Bencoolen St<br>#01-45<br>Singapore 189649</p>
+          <p><a href="https://wa.me/6587597182">WhatsApp 8759 7182</a></p>
+        </div>
+        <div>
+          <h2 class="lead">Hours</h2>
+          <p>Friday – Thursday<br>11am – 9:30pm<br>Open all 7 days</p>
+          <p><a href="s3-intensivefix/">Explore Sec 3 IntensiveFix</a></p>
+        </div>
+      </div>
+      <div class="container site-footer__legal">© 2026 ThatBioTutor. All rights reserved.</div>
+    </footer>
+
+    <a class="floating-whatsapp" href="https://wa.me/6587597182?text=Hi%20ThatBioTutor%2C%20I%27d%20like%20to%20book%20a%20%2495%20trial%20lesson." data-whatsapp-message="homeMessage" aria-label="Book a trial lesson on WhatsApp">WA</a>
   </body>
 </html>
