@@ -17,6 +17,11 @@
       "route": ""
     },
     {
+      "key": "classes",
+      "label": "Classes",
+      "route": "classes/"
+    },
+    {
       "key": "about",
       "label": "About",
       "route": "about/"
@@ -37,6 +42,21 @@
       "key": "home",
       "label": "Homepage",
       "route": ""
+    },
+    {
+      "key": "classes",
+      "label": "All Biology Classes",
+      "route": "classes/"
+    },
+    {
+      "key": "sec3",
+      "label": "Sec 3 Pure/G3 Biology",
+      "route": "sec-3-pure-g3-biology-tuition/"
+    },
+    {
+      "key": "sec4",
+      "label": "Sec 4 Pure/G3 Biology",
+      "route": "sec-4-pure-g3-biology-tuition/"
     },
     {
       "key": "about",

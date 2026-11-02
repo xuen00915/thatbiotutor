@@ -576,7 +576,7 @@ class InstitutionalPageTests(unittest.TestCase):
         return source, parser
 
     def test_registry_contains_six_pages_and_institutional_routes(self):
-        self.assertEqual(len(self.registry), 6)
+        self.assertGreaterEqual(len(self.registry), 6)
         routes = {page["key"]: page["route"] for page in self.registry}
         for key, route in self.ROUTES.items():
             self.assertEqual(routes.get(key), route)
@@ -640,6 +640,105 @@ class InstitutionalPageTests(unittest.TestCase):
         )
         self.assertIn("independent", parser.section_text("independence-disclosure").lower())
         self.assertIn("docs.google.com/document/d/1Wwn8kzMaT59326gpnidbuGwRWMB6etmh7-Ff6eJiKLw", source)
+
+
+class ClassesPageTests(unittest.TestCase):
+    ROUTES = {
+        "classes": "classes/",
+        "sec-3-pure-g3-biology-tuition": "sec-3-pure-g3-biology-tuition/",
+        "sec-4-pure-g3-biology-tuition": "sec-4-pure-g3-biology-tuition/",
+    }
+    CLASS_SECTIONS = {
+        "hero",
+        "pure-biology",
+        "problems",
+        "solutions",
+        "differences",
+        "practical",
+        "results",
+        "levels",
+        "faq",
+        "final-cta",
+    }
+    LEVEL_SECTIONS = {
+        "hero",
+        "learning-options",
+        "curriculum",
+        "topics",
+        "exam-techniques",
+        "results",
+        "testimonials",
+        "lesson-experience",
+        "resources",
+        "tutors",
+        "suitability",
+        "faq",
+        "final-cta",
+    }
+
+    @classmethod
+    def setUpClass(cls):
+        cls.build_root = build_test_site()
+        cls.registry = json.loads((SITE_DIR / "pages.json").read_text(encoding="utf-8"))
+
+    def read_page(self, key):
+        path = self.build_root / self.ROUTES[key] / "index.html"
+        source = path.read_text(encoding="utf-8")
+        parser = PageParser()
+        parser.feed(source)
+        return source, parser
+
+    def test_registry_contains_nine_canonical_pages_and_sec3_alias(self):
+        self.assertEqual(len(self.registry), 9)
+        pages = {page["key"]: page for page in self.registry}
+        for key, route in self.ROUTES.items():
+            self.assertEqual(pages[key]["route"], route)
+        self.assertEqual(
+            pages["sec-3-pure-g3-biology-tuition"]["aliases"],
+            ["classes/sec-3-pure-g3-biology-tuition/"],
+        )
+
+    def test_class_pages_have_one_h1_and_required_sections(self):
+        for key in self.ROUTES:
+            with self.subTest(page=key):
+                _, parser = self.read_page(key)
+                self.assertEqual(
+                    len([element for element in parser.elements if element["tag"] == "h1"]),
+                    1,
+                )
+                ids = {
+                    element["attrs"].get("id")
+                    for element in parser.elements
+                    if element["attrs"].get("id")
+                }
+                required = self.CLASS_SECTIONS if key == "classes" else self.LEVEL_SECTIONS
+                self.assertTrue(required.issubset(ids), required - ids)
+
+    def test_curriculum_exam_method_and_results_copy_match_sources(self):
+        classes, _ = self.read_page("classes")
+        sec3, _ = self.read_page("sec-3-pure-g3-biology-tuition")
+        sec4, _ = self.read_page("sec-4-pure-g3-biology-tuition")
+        self.assertIn("Phase 1 — Teaching the Syllabus (Mar – Aug)", sec3)
+        self.assertIn("Phase 3 — O Levels Intensives (Aug – Nov)", sec4)
+        for source in (classes, sec3, sec4):
+            self.assertIn("FIRED method", source)
+            for value in ("98", "912+", "91%", "69.21%", "2.3", "1 in 2"):
+                with self.subTest(value=value):
+                    self.assertIn(value, source)
+
+    def test_sec3_alias_is_accessible_relative_and_canonical(self):
+        alias_path = (
+            self.build_root
+            / "classes/sec-3-pure-g3-biology-tuition/index.html"
+        )
+        source = alias_path.read_text(encoding="utf-8")
+        self.assertIn(
+            'href="https://www.thatbiotutor.com/sec-3-pure-g3-biology-tuition/"',
+            source,
+        )
+        self.assertIn('href="../../sec-3-pure-g3-biology-tuition/"', source)
+        sitemap = (self.build_root / "sitemap.xml").read_text(encoding="utf-8")
+        self.assertNotIn("/classes/sec-3-pure-g3-biology-tuition/", sitemap)
 
 
 class ProjectHandoffTests(unittest.TestCase):

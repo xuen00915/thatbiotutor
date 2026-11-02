@@ -213,3 +213,30 @@
     aspect-ratio: 5 / 6;
   }
 }
+
+.topic-list {
+  margin: 0;
+  padding-inline-start: 1.4rem;
+}
+
+.topic-list li {
+  break-inside: avoid;
+  margin-block: var(--space-2);
+}
+
+@media (min-width: 48rem) {
+  .stats--six {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .topic-list {
+    columns: 2;
+    column-gap: var(--space-8);
+  }
+}
+
+@media (min-width: 64rem) {
+  .card-grid--four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

@@ -456,5 +456,21 @@
       "height": 1012
     }
   ],
-  "recommendations": []
+  "recommendations": [],
+  "classes": [
+    {
+      "source": "mirror/static.wixstatic.com/media/88989e_c9c877d85947450195f5150faed62bc9~mv2.jpeg/.../Pure vs Combine 2 poster_png.jpeg",
+      "file": "assets/images/classes/pure-vs-combined.webp",
+      "alt": "Comparison of Pure Biology and Combined Biology",
+      "width": 922,
+      "height": 1326
+    },
+    {
+      "source": "mirror/static.wixstatic.com/media/88989e_a7bd14e2e5d54f2883a00c2d548d3038~mv2.jpeg/.../Study Prep Fast track.jpeg",
+      "file": "assets/images/classes/fasttrack-study-prep.webp",
+      "alt": "FastTrack study preparation system covering content, memorisation, and answering skills",
+      "width": 960,
+      "height": 1278
+    }
+  ]
 }

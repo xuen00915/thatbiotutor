@@ -853,3 +853,22 @@
     grid-template-columns: 1.3fr repeat(2, 1fr);
   }
 }
+
+.resource-grid,
+.phase-grid,
+.level-grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (min-width: 48rem) {
+  .resource-grid,
+  .phase-grid--three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .phase-grid,
+  .level-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

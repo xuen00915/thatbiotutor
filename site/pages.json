@@ -104,5 +104,58 @@
     "ogImage": "assets/images/home/hero-03.webp",
     "context": {},
     "aliases": []
+  },
+  {
+    "key": "classes",
+    "route": "classes/",
+    "source": "pages/classes.html",
+    "title": "O Level Pure/G3 Biology Tuition Classes | ThatBioTutor",
+    "description": "Compare ThatBioTutor's Sec 3 and Sec 4 O Level Pure/G3 Biology tuition programmes.",
+    "bodyClass": "page-classes",
+    "navKey": "classes",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like help choosing a Pure/G3 Biology class.",
+    "ogImage": "assets/images/classes/pure-vs-combined.webp",
+    "context": {
+      "results_title": "Results That Speak for Themselves",
+      "results_intro": "The average TBT student makes a 2.3 grade jump, roughly from C5 to A2.",
+      "level_label": "O Level Pure/G3 Biology"
+    },
+    "aliases": []
+  },
+  {
+    "key": "sec-3-pure-g3-biology-tuition",
+    "route": "sec-3-pure-g3-biology-tuition/",
+    "source": "pages/sec-3-pure-g3-biology-tuition.html",
+    "title": "Sec 3 Pure/G3 Biology Tuition Singapore | ThatBioTutor",
+    "description": "Build the right Sec 3 Pure/G3 Biology foundation through face-to-face or online specialist classes.",
+    "bodyClass": "page-sec3",
+    "navKey": "classes",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to enquire about Sec 3 Pure/G3 Biology classes.",
+    "ogImage": "assets/images/classes/fasttrack-study-prep.webp",
+    "context": {
+      "results_title": "Real Sec 3 Student Results",
+      "results_intro": "Students can build a strong foundation early and still make major grade jumps.",
+      "level_label": "Sec 3"
+    },
+    "aliases": [
+      "classes/sec-3-pure-g3-biology-tuition/"
+    ]
+  },
+  {
+    "key": "sec-4-pure-g3-biology-tuition",
+    "route": "sec-4-pure-g3-biology-tuition/",
+    "source": "pages/sec-4-pure-g3-biology-tuition.html",
+    "title": "Sec 4 Pure/G3 Biology Tuition Singapore | ThatBioTutor",
+    "description": "Prepare for O Levels with focused Sec 4 Pure/G3 Biology content, exam skills, and specialist support.",
+    "bodyClass": "page-sec4",
+    "navKey": "classes",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to enquire about Sec 4 Pure/G3 Biology classes.",
+    "ogImage": "assets/images/classes/fasttrack-study-prep.webp",
+    "context": {
+      "results_title": "Real Sec 4 O Level Results",
+      "results_intro": "A strong O Level result is still possible with the right method, accuracy, and support.",
+      "level_label": "Sec 4"
+    },
+    "aliases": []
   }
 ]
