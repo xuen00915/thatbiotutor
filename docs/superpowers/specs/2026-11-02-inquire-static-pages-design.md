@@ -43,6 +43,18 @@ The pages serve Singapore students and parents evaluating Pure or G3 Biology tui
 - The supplied image order is authoritative.
 - Motion must honour `prefers-reduced-motion`.
 
+## Authoritative source inputs
+
+- Change specification and reference screenshots: `/Users/dmsyx/Downloads/drive-download-20261102T021322Z-1-001/Inquire pages to copy over (&what not to).docx`.
+- Homepage hero assets: `/Users/dmsyx/Downloads/drive-download-20261102T021322Z-1-001/1A. Homepage top slider images/`.
+- Shared track-record assets: `/Users/dmsyx/Downloads/drive-download-20261102T021322Z-1-001/1B. Images under numbers/`.
+- Homepage classroom assets: `/Users/dmsyx/Downloads/drive-download-20261102T021322Z-1-001/1C. Life inside classroom/`.
+- IntensiveFix carousel assets: `/Users/dmsyx/Downloads/drive-download-20261102T021322Z-1-001/2A. intensivefix graphics/`.
+- IntensiveFix review asset: `/Users/dmsyx/Downloads/drive-download-20261102T021322Z-1-001/2B. Intensivefix reviews/`.
+- Homepage design and content reference: `https://inquire.thatbiotutor.com/`.
+- Sec 3 IntensiveFix design and content reference: `https://inquire.thatbiotutor.com/s3-intensivefix/`.
+- The Word document's embedded screenshots and `https://app.markup.io/invite/accept/Cm7dk4ON` annotations clarify which IntensiveFix sections are retained, changed, or removed. The Word document remains authoritative if the external Markup link is unavailable.
+
 ## Approaches considered
 
 ### Clean static recreation selected
