@@ -456,5 +456,71 @@ class IntensiveFixPageTests(unittest.TestCase):
         self.assertIn("../", home_links)
 
 
+class ProjectHandoffTests(unittest.TestCase):
+    def test_editing_guide_covers_common_client_tasks(self):
+        guide_path = REPO_ROOT / "docs/client-editing-guide.md"
+        self.assertTrue(guide_path.is_file(), f"Missing {guide_path}")
+        guide = guide_path.read_text(encoding="utf-8")
+        for required_text in (
+            "mirror/assets/js/content.js",
+            "mirror/assets/images/asset-manifest.json",
+            "mirror/index.html",
+            "mirror/s3-intensivefix/index.html",
+            "mirror/assets/css/base.css",
+            "CLIENT EDIT",
+            "WebP",
+            "alt text",
+            "carousel order",
+            "WhatsApp",
+            "counter",
+            "python3 -m http.server",
+        ):
+            with self.subTest(required_text=required_text):
+                self.assertIn(required_text, guide)
+
+    def test_editing_guide_has_elementor_migration_map(self):
+        guide_path = REPO_ROOT / "docs/client-editing-guide.md"
+        self.assertTrue(guide_path.is_file(), f"Missing {guide_path}")
+        guide = guide_path.read_text(encoding="utf-8")
+        for required_text in (
+            "Elementor Site Settings",
+            "Global Colors",
+            "Global Fonts",
+            "Media Library",
+            "prefers-reduced-motion",
+            "#hero",
+            "#results",
+            "#fasttrack",
+            "#trial-guarantee",
+            "#suitability",
+            "#founder",
+            "#faq",
+            "#classroom",
+            "#analysis-video",
+            "#final-cta",
+        ):
+            with self.subTest(required_text=required_text):
+                self.assertIn(required_text, guide)
+
+    def test_legacy_wix_mirror_still_exists(self):
+        self.assertTrue((MIRROR / "www.thatbiotutor.com/index.html").exists())
+
+    def test_pages_have_no_broken_local_references(self):
+        for page_path in (MIRROR / "index.html", MIRROR / "s3-intensivefix/index.html"):
+            parser = PageParser()
+            parser.feed(page_path.read_text(encoding="utf-8"))
+            for element in parser.elements:
+                for attribute in ("src", "href"):
+                    value = element["attrs"].get(attribute, "")
+                    if (
+                        not value
+                        or value.startswith(("#", "http://", "https://", "mailto:", "tel:"))
+                    ):
+                        continue
+                    target = (page_path.parent / value.split("#", 1)[0]).resolve()
+                    with self.subTest(page=page_path.name, reference=value):
+                        self.assertTrue(target.exists(), f"Broken local reference: {value}")
+
+
 if __name__ == "__main__":
     unittest.main()
