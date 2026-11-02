@@ -395,5 +395,66 @@
       "width": 1080,
       "height": 1350
     }
-  ]
+  ],
+  "about": [
+    {
+      "source": "mirror/static.wixstatic.com/media/061220_889a706acde74bc084026a0c005fc02b~mv2.png/.../after lesson feedback form.png",
+      "file": "assets/images/about/lesson-feedback.webp",
+      "alt": "ThatBioTutor's constructive after-lesson feedback form",
+      "width": 1200,
+      "height": 970
+    },
+    {
+      "source": "mirror/static.wixstatic.com/media/061220_6ce0d52195474f288a3f491d8d0c58d3~mv2.png/.../Tutors' circle PFP - Website About Page.png",
+      "file": "assets/images/about/tutor-chelsea.webp",
+      "alt": "Portrait of Biology tutor Ms Chelsea",
+      "width": 460,
+      "height": 460
+    },
+    {
+      "source": "mirror/static.wixstatic.com/media/061220_358c842e43354669bd48b8b487b89508~mv2.png/.../Tutors' circle PFP - Website About Page.png",
+      "file": "assets/images/about/tutor-jamie.webp",
+      "alt": "Portrait of Biology tutor Ms Jamie",
+      "width": 460,
+      "height": 460
+    },
+    {
+      "source": "mirror/static.wixstatic.com/media/061220_eb3498aa19fa48438861187f4d0f8cfd~mv2.png/.../061220_eb3498aa19fa48438861187f4d0f8cfd~mv2.png",
+      "file": "assets/images/about/tutor-keefe.webp",
+      "alt": "Portrait of ThatBioTutor founder Mr Keefe",
+      "width": 460,
+      "height": 460
+    },
+    {
+      "source": "mirror/static.wixstatic.com/media/061220_ee2d26f586db4fc7a71596d403d93161~mv2.png/.../Tutors' circle PFP - Website About Page.png",
+      "file": "assets/images/about/tutor-ng.webp",
+      "alt": "Portrait of former MOE Biology teacher Ms Ng",
+      "width": 460,
+      "height": 460
+    }
+  ],
+  "causes": [
+    {
+      "source": "mirror/static.wixstatic.com/media/061220_62b210c3d529407c8a4cec9707888f69~mv2.jpeg/.../Teamtrees front pic big cover.jpeg",
+      "file": "assets/images/causes/team-trees.webp",
+      "alt": "Team Trees illustration representing global reforestation",
+      "width": 1100,
+      "height": 1100
+    },
+    {
+      "source": "mirror/static.wixstatic.com/media/061220_1d0a6384d68f470bb3e84d7ab0dbdbdf~mv2.png/.../total past teamtrees.png",
+      "file": "assets/images/causes/trees-planted.webp",
+      "alt": "Team Trees donor search showing 1,982 trees planted by ThatBioTutor",
+      "width": 1308,
+      "height": 1004
+    },
+    {
+      "source": "mirror/static.wixstatic.com/media/061220_57109130873146a3b8f7973cc29e6424~mv2.png/.../061220_57109130873146a3b8f7973cc29e6424~mv2.png",
+      "file": "assets/images/causes/giving-sg.webp",
+      "alt": "Giving.sg listings for Singapore environmental causes",
+      "width": 1236,
+      "height": 1012
+    }
+  ],
+  "recommendations": []
 }

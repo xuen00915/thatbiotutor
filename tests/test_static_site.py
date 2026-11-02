@@ -486,8 +486,10 @@ class SharedTemplateTests(unittest.TestCase):
         cls.registry = json.loads((SITE_DIR / "pages.json").read_text(encoding="utf-8"))
 
     def test_approved_pages_are_registered_and_generated(self):
-        self.assertEqual(
-            {page["key"] for page in self.registry}, {"home", "s3-intensivefix"}
+        self.assertTrue(
+            {"home", "s3-intensivefix"}.issubset(
+                {page["key"] for page in self.registry}
+            )
         )
         self.assertTrue((self.build_root / "index.html").is_file())
         self.assertTrue((self.build_root / "s3-intensivefix/index.html").is_file())
@@ -531,6 +533,113 @@ class SharedTemplateTests(unittest.TestCase):
                         continue
                     target = (page_path.parent / reference.split("#", 1)[0]).resolve()
                     self.assertTrue(target.is_file(), reference)
+
+
+class InstitutionalPageTests(unittest.TestCase):
+    ROUTES = {
+        "about": "about/",
+        "contact": "contact/",
+        "trees": "trees/",
+        "tuitionrecs": "tuitionrecs/",
+    }
+    REQUIRED_SECTIONS = {
+        "about": {
+            "hero",
+            "mission",
+            "quality",
+            "tutors",
+            "founder-message",
+            "beliefs",
+            "vision-mission-values",
+            "final-cta",
+        },
+        "contact": {"hero", "faq-pointer", "contact-details", "final-cta"},
+        "trees": {"hero", "tree-planting", "local-causes", "final-cta"},
+        "tuitionrecs": {
+            "hero",
+            "recommendations",
+            "independence-disclosure",
+            "final-cta",
+        },
+    }
+
+    @classmethod
+    def setUpClass(cls):
+        cls.build_root = build_test_site()
+        cls.registry = json.loads((SITE_DIR / "pages.json").read_text(encoding="utf-8"))
+
+    def read_page(self, key):
+        route = self.ROUTES[key]
+        source = (self.build_root / route / "index.html").read_text(encoding="utf-8")
+        parser = PageParser()
+        parser.feed(source)
+        return source, parser
+
+    def test_registry_contains_six_pages_and_institutional_routes(self):
+        self.assertEqual(len(self.registry), 6)
+        routes = {page["key"]: page["route"] for page in self.registry}
+        for key, route in self.ROUTES.items():
+            self.assertEqual(routes.get(key), route)
+
+    def test_pages_have_one_h1_shared_landmarks_and_stable_sections(self):
+        for key, required_ids in self.REQUIRED_SECTIONS.items():
+            with self.subTest(page=key):
+                source, parser = self.read_page(key)
+                self.assertEqual(
+                    len([element for element in parser.elements if element["tag"] == "h1"]),
+                    1,
+                )
+                ids = {
+                    element["attrs"].get("id")
+                    for element in parser.elements
+                    if element["attrs"].get("id")
+                }
+                self.assertTrue(required_ids.issubset(ids), required_ids - ids)
+                self.assertIn('<header class="site-header">', source)
+                self.assertIn('<footer class="site-footer">', source)
+                self.assertIn('class="floating-whatsapp"', source)
+
+    def test_archive_headings_and_meaning_are_preserved(self):
+        expectations = {
+            "about": (
+                "About ThatBiotutor",
+                "Our Mission",
+                "Quality Teaching Only",
+                "Our Tutors",
+                "A Message From The Founder",
+                "What We Believe In",
+            ),
+            "contact": ("Contact.", "Dear parent/student", "FAQs"),
+            "trees": ("1. Planting Trees!", "2. SG Environmental Causes", "1982"),
+            "tuitionrecs": ("Tuition Recommendations", "trial lesson"),
+        }
+        for key, text_values in expectations.items():
+            source, _ = self.read_page(key)
+            for text_value in text_values:
+                with self.subTest(page=key, text=text_value):
+                    self.assertIn(text_value, source)
+
+    def test_contact_uses_whatsapp_without_a_form_or_duplicated_details(self):
+        source, parser = self.read_page("contact")
+        self.assertNotIn("<form", source.lower())
+        whatsapp_links = [
+            element["attrs"].get("href", "")
+            for element in parser.elements_in("final-cta", "a")
+        ]
+        self.assertTrue(any(link.startswith("https://wa.me/6587597182") for link in whatsapp_links))
+        fragment = (SITE_DIR / "pages/contact.html").read_text(encoding="utf-8")
+        self.assertNotIn("175 Bencoolen", fragment)
+        self.assertNotIn("11am", fragment)
+
+    def test_recommendation_links_are_external_and_disclosed_as_independent(self):
+        source, parser = self.read_page("tuitionrecs")
+        links = parser.elements_in("recommendations", "a")
+        self.assertTrue(links)
+        self.assertTrue(
+            all(link["attrs"].get("href", "").startswith("https://") for link in links)
+        )
+        self.assertIn("independent", parser.section_text("independence-disclosure").lower())
+        self.assertIn("docs.google.com/document/d/1Wwn8kzMaT59326gpnidbuGwRWMB6etmh7-Ff6eJiKLw", source)
 
 
 class ProjectHandoffTests(unittest.TestCase):

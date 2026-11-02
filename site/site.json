@@ -17,9 +17,19 @@
       "route": ""
     },
     {
+      "key": "about",
+      "label": "About",
+      "route": "about/"
+    },
+    {
       "key": "intensivefix",
       "label": "IntensiveFix",
       "route": "s3-intensivefix/"
+    },
+    {
+      "key": "contact",
+      "label": "Contact",
+      "route": "contact/"
     }
   ],
   "footerNavigation": [
@@ -29,9 +39,29 @@
       "route": ""
     },
     {
+      "key": "about",
+      "label": "About ThatBioTutor",
+      "route": "about/"
+    },
+    {
       "key": "intensivefix",
       "label": "Sec 3 IntensiveFix",
       "route": "s3-intensivefix/"
+    },
+    {
+      "key": "trees",
+      "label": "Causes We Support",
+      "route": "trees/"
+    },
+    {
+      "key": "tuitionrecs",
+      "label": "Tuition Recommendations",
+      "route": "tuitionrecs/"
+    },
+    {
+      "key": "contact",
+      "label": "Contact",
+      "route": "contact/"
     }
   ]
 }

@@ -52,5 +52,57 @@
       "fasttrack_support_label": "Support"
     },
     "aliases": []
+  },
+  {
+    "key": "about",
+    "route": "about/",
+    "source": "pages/about.html",
+    "title": "About ThatBioTutor | Pure Biology Specialists",
+    "description": "Meet ThatBioTutor's specialist Biology teaching team and learn how we help students improve.",
+    "bodyClass": "page-about",
+    "navKey": "about",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to learn more about your Biology classes.",
+    "ogImage": "assets/images/about/tutor-keefe.webp",
+    "context": {},
+    "aliases": []
+  },
+  {
+    "key": "contact",
+    "route": "contact/",
+    "source": "pages/contact.html",
+    "title": "Contact ThatBioTutor | Biology Tuition Enquiries",
+    "description": "Read the FAQs or contact ThatBioTutor on WhatsApp about O Level Pure and G3 Biology lessons.",
+    "bodyClass": "page-contact",
+    "navKey": "contact",
+    "whatsappMessage": "Hi ThatBioTutor, I'm a student/parent and I'd like to enquire about Biology lessons.",
+    "ogImage": "assets/images/home/hero-03.webp",
+    "context": {},
+    "aliases": []
+  },
+  {
+    "key": "trees",
+    "route": "trees/",
+    "source": "pages/trees.html",
+    "title": "Causes We Support | ThatBioTutor",
+    "description": "See ThatBioTutor's tree-planting record and support for Singapore environmental causes.",
+    "bodyClass": "page-trees",
+    "navKey": "home",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to learn more about your Biology classes and causes.",
+    "ogImage": "assets/images/causes/team-trees.webp",
+    "context": {},
+    "aliases": []
+  },
+  {
+    "key": "tuitionrecs",
+    "route": "tuitionrecs/",
+    "source": "pages/tuitionrecs.html",
+    "title": "Tuition Recommendations | ThatBioTutor",
+    "description": "Independent secondary school and JC tuition recommendations compiled by ThatBioTutor.",
+    "bodyClass": "page-tuitionrecs",
+    "navKey": "home",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to enquire about O Level Biology tuition.",
+    "ogImage": "assets/images/home/hero-03.webp",
+    "context": {},
+    "aliases": []
   }
 ]
