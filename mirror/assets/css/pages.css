@@ -25,6 +25,7 @@
 }
 
 .home-hero .media-carousel__slide:nth-child(3) img {
+  object-fit: contain;
   object-position: 50% 50%;
 }
 

@@ -522,5 +522,86 @@ class ProjectHandoffTests(unittest.TestCase):
                         self.assertTrue(target.exists(), f"Broken local reference: {value}")
 
 
+class FinalReviewRegressionTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.base_css = (MIRROR / "assets/css/base.css").read_text(encoding="utf-8")
+        cls.components_css = (MIRROR / "assets/css/components.css").read_text(
+            encoding="utf-8"
+        )
+        cls.pages_css = (MIRROR / "assets/css/pages.css").read_text(encoding="utf-8")
+        cls.site_js = (MIRROR / "assets/js/site.js").read_text(encoding="utf-8")
+        cls.home = (MIRROR / "index.html").read_text(encoding="utf-8")
+        cls.intensive = (MIRROR / "s3-intensivefix/index.html").read_text(
+            encoding="utf-8"
+        )
+
+    def test_light_cards_reset_dark_section_text_colour(self):
+        self.assertRegex(
+            self.components_css,
+            r"\.card\s*\{[^}]*color:\s*var\(--color-ink\)",
+        )
+
+    def test_body_typography_is_not_overridden_by_form_control_reset(self):
+        self.assertNotRegex(self.base_css, r"body,\s*\nbutton,\s*\ninput")
+        self.assertIn("font-family: var(--font-sans)", self.base_css)
+        self.assertIn("line-height: var(--line-body)", self.base_css)
+
+    def test_carousels_preserve_keyboard_focus_and_real_touch_swipe(self):
+        self.assertIn("carousel.tabIndex = 0", self.site_js)
+        self.assertIn("pointerStartY", self.site_js)
+        self.assertIn("Math.abs(distanceY)", self.site_js)
+        self.assertRegex(
+            self.components_css,
+            r"\.media-carousel\.is-enhanced\s+\.media-carousel__viewport\s*\{[^}]*touch-action:\s*pan-y",
+        )
+
+    def test_mobile_navigation_remains_available_without_javascript(self):
+        self.assertIn("document.documentElement.classList.add(\"menu-enhanced\")", self.site_js)
+        self.assertRegex(
+            self.components_css,
+            r"\.menu-enhanced\s+\.site-nav__links\s*\{[^}]*display:\s*none",
+        )
+
+    def test_retained_copy_and_explicit_ctas_match_sources(self):
+        for exact_home_copy in (
+            ">Contact Us</a>",
+            "completing it earns Homework Points for rewards",
+            "Sec 3 classes open in March each year",
+            "Read, reread, blurt out, copy out again and again",
+            "out of their own drive, not because someone else is forcing them",
+        ):
+            self.assertIn(exact_home_copy, self.home)
+        for exact_intensive_copy in (
+            "Practical Sessions (20% of Grade)",
+            "Students taking O Level Pure/G3 Biology in Sec 3 or Sec 4",
+            "Students who genuinely want to improve in Bio, out of their own drive",
+            ">Fix My Sec 3 Foundation Now</a>",
+        ):
+            self.assertIn(exact_intensive_copy, self.intensive)
+
+    def test_carousel_figures_and_group_photo_are_not_overcropped(self):
+        self.assertRegex(self.base_css, r"figure\s*\{[^}]*margin:\s*0")
+        self.assertRegex(
+            self.pages_css,
+            r"\.home-hero\s+\.media-carousel__slide:nth-child\(3\)\s+img\s*\{[^}]*object-fit:\s*contain",
+        )
+
+    def test_programme_graphics_have_accessible_html_details(self):
+        parser = PageParser()
+        parser.feed(self.intensive)
+        details = parser.section_text("program-details")
+        for required_detail in (
+            "$110 per 2-hour lesson",
+            "$90 per 2-hour lesson",
+            "$5 off per lesson",
+            "16 November 2026",
+            "30 November 2026",
+            "1pm–6pm",
+            "Cells, movement of substances, and biological molecules",
+        ):
+            self.assertIn(required_detail, details)
+
+
 if __name__ == "__main__":
     unittest.main()

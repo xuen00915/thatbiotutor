@@ -41,6 +41,11 @@
         slides.findIndex((slide) => slide.classList.contains("is-active"))
       );
       let pointerStartX = null;
+      let pointerStartY = null;
+
+      carousel.tabIndex = 0;
+      carousel.setAttribute("role", "region");
+      carousel.setAttribute("aria-roledescription", "carousel");
 
       function showSlide(nextIndex, announce = true) {
         activeIndex = (nextIndex + slides.length) % slides.length;
@@ -48,7 +53,7 @@
           const active = index === activeIndex;
           slide.classList.toggle("is-active", active);
           slide.setAttribute("aria-hidden", String(!active));
-          slide.tabIndex = active ? 0 : -1;
+          slide.tabIndex = -1;
         });
         dots.forEach((dot, index) => {
           const active = index === activeIndex;
@@ -92,16 +97,31 @@
       carousel.addEventListener("pointerdown", (event) => {
         if (!event.isPrimary) return;
         pointerStartX = event.clientX;
+        pointerStartY = event.clientY;
       });
       carousel.addEventListener("pointerup", (event) => {
-        if (pointerStartX === null || !event.isPrimary) return;
+        if (
+          pointerStartX === null ||
+          pointerStartY === null ||
+          !event.isPrimary
+        ) {
+          return;
+        }
         const distance = event.clientX - pointerStartX;
+        const distanceY = event.clientY - pointerStartY;
         pointerStartX = null;
-        if (Math.abs(distance) < 48) return;
+        pointerStartY = null;
+        if (
+          Math.abs(distance) < 48 ||
+          Math.abs(distance) <= Math.abs(distanceY) * 1.15
+        ) {
+          return;
+        }
         showSlide(activeIndex + (distance < 0 ? 1 : -1));
       });
       carousel.addEventListener("pointercancel", () => {
         pointerStartX = null;
+        pointerStartY = null;
       });
 
       carousel.classList.add("is-enhanced");
@@ -197,6 +217,8 @@
     const toggle = root.querySelector("[data-menu-toggle]");
     const menu = root.querySelector("[data-site-menu]");
     if (!toggle || !menu) return;
+
+    document.documentElement.classList.add("menu-enhanced");
 
     const setOpen = (open) => {
       toggle.setAttribute("aria-expanded", String(open));

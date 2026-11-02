@@ -76,7 +76,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-body,
 button,
 input,
 textarea,
@@ -123,6 +122,10 @@ ol,
 blockquote,
 figure {
   margin-block-start: 0;
+}
+
+figure {
+  margin: 0;
 }
 
 h1,
