@@ -1,13 +1,32 @@
+import atexit
 import json
 import re
+import tempfile
 import unittest
 from html.parser import HTMLParser
 from pathlib import Path
 
+from scripts.build_site import render_site
+
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MIRROR = REPO_ROOT / "mirror"
-MANIFEST_PATH = MIRROR / "assets/images/asset-manifest.json"
+SITE_DIR = REPO_ROOT / "site"
+MANIFEST_PATH = SITE_DIR / "assets/images/asset-manifest.json"
+_BUILD_TEMP = None
+_BUILD_ROOT = None
+
+
+def build_test_site():
+    global _BUILD_TEMP, _BUILD_ROOT
+    if _BUILD_ROOT is None:
+        scratch = REPO_ROOT / ".superpowers"
+        scratch.mkdir(exist_ok=True)
+        _BUILD_TEMP = tempfile.TemporaryDirectory(prefix="test-build-", dir=scratch)
+        atexit.register(_BUILD_TEMP.cleanup)
+        _BUILD_ROOT = Path(_BUILD_TEMP.name) / "site"
+        render_site(REPO_ROOT, _BUILD_ROOT)
+    return _BUILD_ROOT
 
 
 class PageParser(HTMLParser):
@@ -84,7 +103,7 @@ class StaticSiteAssetTests(unittest.TestCase):
                     file_path = Path(entry["file"])
                     self.assertFalse(file_path.is_absolute())
                     self.assertEqual(file_path.parts[:2], ("assets", "images"))
-                    self.assertTrue((MIRROR / file_path).is_file())
+                    self.assertTrue((SITE_DIR / file_path).is_file())
                     self.assertGreater(entry["width"], 0)
                     self.assertGreater(entry["height"], 0)
                     self.assertGreater(len(entry["alt"].strip()), 8)
@@ -117,7 +136,7 @@ class StaticSiteAssetTests(unittest.TestCase):
 
 class StaticSiteFoundationTests(unittest.TestCase):
     def read_asset(self, relative_path):
-        path = MIRROR / relative_path
+        path = SITE_DIR / relative_path
         self.assertTrue(path.is_file(), f"Missing {path}")
         return path.read_text(encoding="utf-8")
 
@@ -181,7 +200,8 @@ class StaticSiteFoundationTests(unittest.TestCase):
 class HomePageTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.path = MIRROR / "index.html"
+        cls.build_root = build_test_site()
+        cls.path = cls.build_root / "index.html"
         cls.source = cls.path.read_text(encoding="utf-8")
         cls.parser = PageParser()
         cls.parser.feed(cls.source)
@@ -299,7 +319,7 @@ class HomePageTests(unittest.TestCase):
         self.assertTrue(local_asset_urls)
         for url in local_asset_urls:
             with self.subTest(url=url):
-                self.assertTrue((MIRROR / url).is_file())
+                self.assertTrue((self.build_root / url).is_file())
 
         intensive_links = [
             element["attrs"].get("href")
@@ -313,7 +333,8 @@ class HomePageTests(unittest.TestCase):
 class IntensiveFixPageTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.path = MIRROR / "s3-intensivefix/index.html"
+        cls.build_root = build_test_site()
+        cls.path = cls.build_root / "s3-intensivefix/index.html"
         cls.source = cls.path.read_text(encoding="utf-8") if cls.path.is_file() else ""
         cls.parser = PageParser()
         cls.parser.feed(cls.source)
@@ -446,7 +467,9 @@ class IntensiveFixPageTests(unittest.TestCase):
             attribute = "href" if element["tag"] == "link" else "src"
             value = element["attrs"].get(attribute, "")
             if value.startswith("../assets/"):
-                self.assertTrue((MIRROR / value.removeprefix("../")).is_file(), value)
+                self.assertTrue(
+                    (self.build_root / value.removeprefix("../")).is_file(), value
+                )
         self.assertIn("6587597182", self.source)
         home_links = [
             element["attrs"].get("href")
@@ -454,6 +477,60 @@ class IntensiveFixPageTests(unittest.TestCase):
             if element["tag"] == "a"
         ]
         self.assertIn("../", home_links)
+
+
+class SharedTemplateTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.build_root = build_test_site()
+        cls.registry = json.loads((SITE_DIR / "pages.json").read_text(encoding="utf-8"))
+
+    def test_approved_pages_are_registered_and_generated(self):
+        self.assertEqual(
+            {page["key"] for page in self.registry}, {"home", "s3-intensivefix"}
+        )
+        self.assertTrue((self.build_root / "index.html").is_file())
+        self.assertTrue((self.build_root / "s3-intensivefix/index.html").is_file())
+
+    def test_header_footer_and_floating_action_come_from_shared_partials(self):
+        for source_name in ("home.html", "s3-intensivefix.html"):
+            source = (SITE_DIR / "pages" / source_name).read_text(encoding="utf-8")
+            self.assertNotIn("<header", source)
+            self.assertNotIn('<footer class="site-footer"', source)
+            self.assertNotIn("floating-whatsapp", source)
+
+        for relative_path in ("index.html", "s3-intensivefix/index.html"):
+            generated = (self.build_root / relative_path).read_text(encoding="utf-8")
+            self.assertIn("<header", generated)
+            self.assertIn("<footer", generated)
+            self.assertIn("floating-whatsapp", generated)
+            self.assertIn("https://wa.me/6587597182", generated)
+
+    def test_root_and_nested_assets_work_under_repository_subpath(self):
+        home = (self.build_root / "index.html").read_text(encoding="utf-8")
+        intensive = (self.build_root / "s3-intensivefix/index.html").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('href="assets/css/base.css"', home)
+        self.assertIn('src="assets/js/site.js"', home)
+        self.assertIn('href="../assets/css/base.css"', intensive)
+        self.assertIn('src="../assets/js/site.js"', intensive)
+
+        for page_path in (
+            self.build_root / "index.html",
+            self.build_root / "s3-intensivefix/index.html",
+        ):
+            parser = PageParser()
+            parser.feed(page_path.read_text(encoding="utf-8"))
+            for element in parser.elements:
+                for attribute in ("src", "href"):
+                    reference = element["attrs"].get(attribute, "")
+                    if not reference or not reference.split("#", 1)[0].endswith(
+                        (".css", ".js", ".webp")
+                    ):
+                        continue
+                    target = (page_path.parent / reference.split("#", 1)[0]).resolve()
+                    self.assertTrue(target.is_file(), reference)
 
 
 class ProjectHandoffTests(unittest.TestCase):
@@ -506,7 +583,8 @@ class ProjectHandoffTests(unittest.TestCase):
         self.assertTrue((MIRROR / "www.thatbiotutor.com/index.html").exists())
 
     def test_pages_have_no_broken_local_references(self):
-        for page_path in (MIRROR / "index.html", MIRROR / "s3-intensivefix/index.html"):
+        build_root = build_test_site()
+        for page_path in (build_root / "index.html", build_root / "s3-intensivefix/index.html"):
             parser = PageParser()
             parser.feed(page_path.read_text(encoding="utf-8"))
             for element in parser.elements:
@@ -525,14 +603,15 @@ class ProjectHandoffTests(unittest.TestCase):
 class FinalReviewRegressionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.base_css = (MIRROR / "assets/css/base.css").read_text(encoding="utf-8")
-        cls.components_css = (MIRROR / "assets/css/components.css").read_text(
+        build_root = build_test_site()
+        cls.base_css = (SITE_DIR / "assets/css/base.css").read_text(encoding="utf-8")
+        cls.components_css = (SITE_DIR / "assets/css/components.css").read_text(
             encoding="utf-8"
         )
-        cls.pages_css = (MIRROR / "assets/css/pages.css").read_text(encoding="utf-8")
-        cls.site_js = (MIRROR / "assets/js/site.js").read_text(encoding="utf-8")
-        cls.home = (MIRROR / "index.html").read_text(encoding="utf-8")
-        cls.intensive = (MIRROR / "s3-intensivefix/index.html").read_text(
+        cls.pages_css = (SITE_DIR / "assets/css/pages.css").read_text(encoding="utf-8")
+        cls.site_js = (SITE_DIR / "assets/js/site.js").read_text(encoding="utf-8")
+        cls.home = (build_root / "index.html").read_text(encoding="utf-8")
+        cls.intensive = (build_root / "s3-intensivefix/index.html").read_text(
             encoding="utf-8"
         )
 

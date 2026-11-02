@@ -1,0 +1,56 @@
+[
+  {
+    "key": "home",
+    "route": "",
+    "source": "pages/home.html",
+    "title": "ThatBioTutor | O Level Pure & G3 Biology Tuition",
+    "description": "ThatBioTutor helps Singapore O Level Pure and G3 Biology students improve with the FastTrack system, practical sessions, and specialist tutors.",
+    "bodyClass": "page-home",
+    "navKey": "home",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to book a $95 trial lesson.",
+    "ogImage": "assets/images/home/hero-03.webp",
+    "context": {
+      "track_section_class": "section section--soft home-track-record",
+      "track_eyebrow": "Proven across Singapore",
+      "track_fourth_key": "homeDistinction",
+      "track_fourth_value": "1 in 2",
+      "track_fourth_label": "Score an A distinction",
+      "fasttrack_section_class": "section section--white",
+      "fasttrack_eyebrow": "O Level G3 / Pure Biology",
+      "fasttrack_title": "ThatBioTutor’s FastTrack System Helps Students Score A1/A2 Without the Endless Revision Grind",
+      "fasttrack_content_label": "01 · Content & understanding",
+      "fasttrack_memory_label": "02 · Memory",
+      "fasttrack_answering_label": "03 · Answering skills (OEQ)",
+      "fasttrack_practical_label": "04 · Practical sessions (20% of grade)",
+      "fasttrack_support_label": "05 · Support"
+    },
+    "aliases": []
+  },
+  {
+    "key": "s3-intensivefix",
+    "route": "s3-intensivefix/",
+    "source": "pages/s3-intensivefix.html",
+    "title": "Sec 3 IntensiveFix | ThatBioTutor",
+    "description": "Rebuild your Sec 3 Pure or G3 Biology foundation in ThatBioTutor's focused IntensiveFix holiday programme.",
+    "bodyClass": "page-intensivefix",
+    "navKey": "intensivefix",
+    "whatsappMessage": "Hi ThatBioTutor, I'd like to fix my Sec 3 Biology foundation with IntensiveFix.",
+    "ogImage": "assets/images/intensivefix/program-01.webp",
+    "context": {
+      "track_section_class": "section section--white intensive-track-record",
+      "track_eyebrow": "A proven system",
+      "track_fourth_key": "intensiveLessons",
+      "track_fourth_value": "8",
+      "track_fourth_label": "Lessons to rebuild your entire Sec 3 foundation",
+      "fasttrack_section_class": "section section--white intensive-fasttrack",
+      "fasttrack_eyebrow": "Included with the full programme",
+      "fasttrack_title": "All IntensiveFix students will receive ThatBioTutor’s FastTrack System",
+      "fasttrack_content_label": "Content & understanding",
+      "fasttrack_memory_label": "Memory",
+      "fasttrack_answering_label": "Answering skills (OEQ)",
+      "fasttrack_practical_label": "Practical Sessions (20% of Grade)",
+      "fasttrack_support_label": "Support"
+    },
+    "aliases": []
+  }
+]

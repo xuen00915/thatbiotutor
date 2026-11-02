@@ -1,0 +1,37 @@
+{
+  "siteName": "ThatBioTutor",
+  "siteDescription": "Singapore's only O Level Pure/G3 Biology specialist.",
+  "siteUrl": "https://www.thatbiotutor.com",
+  "logo": "assets/images/shared/tbt-logo.webp",
+  "favicon": "assets/images/shared/favicon.webp",
+  "defaultOgImage": "assets/images/home/hero-03.webp",
+  "whatsappNumber": "6587597182",
+  "defaultWhatsappMessage": "Hi ThatBioTutor, I'd like to learn more about your Biology classes.",
+  "address": "175 Bencoolen St, #01-45, Singapore 189649",
+  "hours": "Friday–Thursday, 11am–9:30pm; open all 7 days",
+  "copyright": "© 2026 ThatBioTutor. All rights reserved.",
+  "navigation": [
+    {
+      "key": "home",
+      "label": "Home",
+      "route": ""
+    },
+    {
+      "key": "intensivefix",
+      "label": "IntensiveFix",
+      "route": "s3-intensivefix/"
+    }
+  ],
+  "footerNavigation": [
+    {
+      "key": "home",
+      "label": "Homepage",
+      "route": ""
+    },
+    {
+      "key": "intensivefix",
+      "label": "Sec 3 IntensiveFix",
+      "route": "s3-intensivefix/"
+    }
+  ]
+}

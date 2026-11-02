@@ -1,45 +1,3 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="ThatBioTutor helps Singapore O Level Pure and G3 Biology students improve with the FastTrack system, practical sessions, and specialist tutors.">
-    <meta name="theme-color" content="#063e2f">
-    <meta property="og:title" content="ThatBioTutor | O Level Pure &amp; G3 Biology Tuition">
-    <meta property="og:description" content="The one missing key to go from fail to A1 while cutting Biology study time by 90%.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="assets/images/home/hero-03.webp">
-    <title>ThatBioTutor | O Level Pure &amp; G3 Biology Tuition</title>
-    <link rel="icon" type="image/webp" href="assets/images/shared/favicon.webp">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/pages.css">
-    <script defer src="assets/js/content.js"></script>
-    <script defer src="assets/js/site.js"></script>
-  </head>
-  <body class="page-home">
-    <a class="skip-link" href="#main">Skip to main content</a>
-
-    <header class="site-header">
-      <div class="container site-header__inner">
-        <a class="site-brand" href="./" aria-label="ThatBioTutor home">
-          <img src="assets/images/shared/tbt-logo.webp" width="192" height="192" alt="ThatBioTutor leaf logo">
-          <span>ThatBioTutor</span>
-        </a>
-        <nav class="site-nav" aria-label="Primary navigation">
-          <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle aria-label="Open navigation menu">☰</button>
-          <div class="site-nav__links" id="site-menu" data-site-menu>
-            <a href="#results">Results</a>
-            <a href="#fasttrack">FastTrack</a>
-            <a href="#faq">FAQ</a>
-            <a href="s3-intensivefix/">IntensiveFix</a>
-          </div>
-          <!-- CLIENT EDIT: Header CTA label and fallback WhatsApp link. -->
-          <a class="button button--header" href="https://wa.me/6587597182?text=Hi%20ThatBioTutor%2C%20I%27d%20like%20to%20book%20a%20%2495%20trial%20lesson." data-whatsapp-message="homeMessage">Contact Us</a>
-        </nav>
-      </div>
-    </header>
-
     <main id="main">
       <!-- ELEMENTOR CONTAINER: Homepage hero -->
       <section class="hero" id="hero">
@@ -50,7 +8,7 @@
             <h1>The One Missing Key to Go from Fail to A1 <span class="accent">While Cutting Study Time by 90%</span></h1>
             <p class="lead">The average TBT student makes a <strong>2.3 grade jump</strong>, roughly from C5 to A2.</p>
             <div class="cluster hero__actions">
-              <a class="button button--large" href="https://wa.me/6587597182?text=Hi%20ThatBioTutor%2C%20I%27d%20like%20to%20book%20a%20%2495%20trial%20lesson." data-whatsapp-message="homeMessage">Book My Trial Lesson</a>
+              <a class="button button--large" href="{{ whatsapp_url }}">Book My Trial Lesson</a>
               <a class="button button--outline button--large" href="#fasttrack">See How It Works</a>
             </div>
             <p class="hero__note">
@@ -65,19 +23,19 @@
               <div class="media-carousel__viewport">
                 <div class="media-carousel__track" data-carousel-track>
                   <figure class="media-carousel__slide is-active" data-carousel-slide>
-                    <img src="assets/images/home/hero-01.webp" data-supplied-group="homeHero" width="3024" height="4032" alt="Students conducting a hands-on biology practical in the classroom">
+                    <img src="{{ root }}assets/images/home/hero-01.webp" data-supplied-group="homeHero" width="3024" height="4032" alt="Students conducting a hands-on biology practical in the classroom">
                   </figure>
                   <figure class="media-carousel__slide" data-carousel-slide>
-                    <img src="assets/images/home/hero-02.webp" data-supplied-group="homeHero" width="3024" height="2619" alt="Mr Keefe teaching a biology graph lesson to a full classroom">
+                    <img src="{{ root }}assets/images/home/hero-02.webp" data-supplied-group="homeHero" width="3024" height="2619" alt="Mr Keefe teaching a biology graph lesson to a full classroom">
                   </figure>
                   <figure class="media-carousel__slide" data-carousel-slide>
-                    <img src="assets/images/home/hero-03.webp" data-supplied-group="homeHero" width="2048" height="1536" alt="ThatBioTutor students gathered together after class">
+                    <img src="{{ root }}assets/images/home/hero-03.webp" data-supplied-group="homeHero" width="2048" height="1536" alt="ThatBioTutor students gathered together after class">
                   </figure>
                   <figure class="media-carousel__slide" data-carousel-slide>
-                    <img src="assets/images/home/hero-04.webp" data-supplied-group="homeHero" width="3024" height="4032" alt="Students working through a biology lesson in the classroom">
+                    <img src="{{ root }}assets/images/home/hero-04.webp" data-supplied-group="homeHero" width="3024" height="4032" alt="Students working through a biology lesson in the classroom">
                   </figure>
                   <figure class="media-carousel__slide" data-carousel-slide>
-                    <img src="assets/images/home/hero-05.webp" data-supplied-group="homeHero" width="1279" height="1843" alt="Biology worksheets, stationery, and classroom snacks on a desk">
+                    <img src="{{ root }}assets/images/home/hero-05.webp" data-supplied-group="homeHero" width="1279" height="1843" alt="Biology worksheets, stationery, and classroom snacks on a desk">
                   </figure>
                 </div>
               </div>
@@ -117,78 +75,42 @@
           <div class="card-grid">
             <blockquote class="testimonial">
               <p class="testimonial__quote">“Unlike school teachers who just merely read off the slides, these tutors had somehow made such a content heavy subject into something engaging.”</p>
-              <footer class="testimonial__person"><img src="assets/images/shared/testimonial-yongzheng.webp" width="63" height="62" alt="Portrait of ThatBioTutor student Yong Zheng"><span><strong>Yong Zheng</strong><br>Sec 4 · E8 → A1 in 3 months</span></footer>
+              <footer class="testimonial__person"><img src="{{ root }}assets/images/shared/testimonial-yongzheng.webp" width="63" height="62" alt="Portrait of ThatBioTutor student Yong Zheng"><span><strong>Yong Zheng</strong><br>Sec 4 · E8 → A1 in 3 months</span></footer>
             </blockquote>
             <blockquote class="testimonial">
               <p class="testimonial__quote">“After using TBT's notes and memorising all the shortcuts I managed to get the model template answer and memorise it easily.”</p>
-              <footer class="testimonial__person"><img src="assets/images/shared/testimonial-gwen.webp" width="2560" height="2164" alt="Portrait of ThatBioTutor student Gwen"><span><strong>Gwen</strong><br>Sec 4 · F9 → A1</span></footer>
+              <footer class="testimonial__person"><img src="{{ root }}assets/images/shared/testimonial-gwen.webp" width="2560" height="2164" alt="Portrait of ThatBioTutor student Gwen"><span><strong>Gwen</strong><br>Sec 4 · F9 → A1</span></footer>
             </blockquote>
             <blockquote class="testimonial">
               <p class="testimonial__quote">“Very knowledgeable and has his own personal touch to everything he does and genuinely cares for the students.”</p>
-              <footer class="testimonial__person"><img src="assets/images/shared/testimonial-aryan.webp" width="58" height="62" alt="Portrait of ThatBioTutor student Aryan"><span><strong>Aryan</strong><br>Sec 4 · C6 → A2</span></footer>
+              <footer class="testimonial__person"><img src="{{ root }}assets/images/shared/testimonial-aryan.webp" width="58" height="62" alt="Portrait of ThatBioTutor student Aryan"><span><strong>Aryan</strong><br>Sec 4 · C6 → A2</span></footer>
             </blockquote>
           </div>
         </div>
       </section>
+      <!-- INCLUDE: partials/sections/track-record.html -->
+      <!-- INCLUDE: partials/sections/fasttrack.html -->
 
-      <!-- ELEMENTOR CONTAINER: Track record -->
-      <section class="section section--soft home-track-record" id="results" aria-labelledby="results-title">
-        <div class="container container--wide">
-          <div class="section-heading"><p class="eyebrow">Proven across Singapore</p><h2 id="results-title">Here’s the Track Record</h2></div>
-          <!-- CLIENT EDIT: Final counter values are also centralised in content.js. -->
-          <div class="stats" aria-label="ThatBioTutor student results">
-            <article class="stat"><strong class="stat__value" data-counter-key="students">912+</strong><p class="stat__label">Students taught across 98 Singapore schools</p></article>
-            <article class="stat"><strong class="stat__value" data-counter-key="results">91%</strong><p class="stat__label">Score A1, A2, or B3, despite 69% starting at B4 or lower</p></article>
-            <article class="stat"><strong class="stat__value" data-counter-key="gradeJump">2.3</strong><p class="stat__label">Average grade jump, roughly C5 to A2</p></article>
-            <article class="stat"><strong class="stat__value" data-counter-key="homeDistinction">1 in 2</strong><p class="stat__label">Score an A distinction</p></article>
-          </div>
-          <!-- CLIENT EDIT: Supplied track-record images must remain in this order. -->
-          <div class="media-grid section section--compact">
-            <figure class="media-grid__item"><img src="assets/images/shared/track-record-01.webp" data-supplied-group="trackRecord" width="2048" height="1536" loading="lazy" alt="A group of ThatBioTutor students smiling in class"></figure>
-            <figure class="media-grid__item"><img src="assets/images/shared/track-record-02.webp" data-supplied-group="trackRecord" width="3024" height="4032" loading="lazy" alt="Mr Keefe giving focused guidance to students at their desks"></figure>
-            <figure class="media-grid__item"><img src="assets/images/shared/track-record-03.webp" data-supplied-group="trackRecord" width="1536" height="2048" loading="lazy" alt="Mr Keefe celebrating with three biology students"></figure>
-            <figure class="media-grid__item"><img src="assets/images/shared/track-record-04.webp" data-supplied-group="trackRecord" width="1600" height="974" loading="lazy" alt="Mr Keefe leading an online biology class over Zoom"></figure>
-          </div>
-        </div>
-      </section>
-
-      <!-- ELEMENTOR CONTAINER: FastTrack system -->
-      <section class="section section--white" id="fasttrack" aria-labelledby="fasttrack-title">
-        <div class="container">
-          <div class="section-heading section-heading--center">
-            <p class="eyebrow">O Level G3 / Pure Biology</p>
-            <h2 id="fasttrack-title">ThatBioTutor’s FastTrack System Helps Students Score A1/A2 Without the Endless Revision Grind</h2>
-            <p class="lead">Why should students write their own notes, make their own flashcards, and hunt for exam keywords alone, when it’s already done for them?</p>
-          </div>
-          <div class="feature-row"><div class="feature-row__media"><img src="assets/images/shared/fasttrack-content.webp" width="1170" height="747" loading="lazy" alt="Biology lesson notes in the FastTrack content system"></div><div><p class="eyebrow">01 · Content &amp; understanding</p><h3>Find What Matters Instantly</h3><p><strong>Other Bio students:</strong> Dig through school notes and the textbook, figure out what's actually important, and rewrite it all from scratch.</p><p><strong>TBT students + FastTrack:</strong> Struggling to recall a topic? Just Ctrl+F through our detailed visual notes, or watch crash course clips (think: Netflix, but for Bio.)</p></div></div>
-          <div class="feature-row"><div class="feature-row__media"><img src="assets/images/shared/fasttrack-memory.webp" width="736" height="1104" loading="lazy" alt="Brain icon representing FastTrack memory techniques"></div><div><p class="eyebrow">02 · Memory</p><h3>Shortcuts That Actually Stick</h3><p><strong>Other Bio students:</strong> Read, reread, blurt out, copy out again and again and hope it sticks by exam day.</p><p><strong>TBT students + FastTrack:</strong> Students never have to worry about forgetting. Confusing terms turn into memory shortcuts that stick, like “Don't Have Bag” for liver functions, backed by ready-made flashcards for long-term retention. The logic just clicks, so the material still sticks long after exams are over.</p></div></div>
-          <div class="feature-row"><div class="feature-row__media"><img src="assets/images/shared/fasttrack-answering.webp" width="736" height="1104" loading="lazy" alt="One hundred score icon representing answering techniques"></div><div><p class="eyebrow">03 · Answering skills (OEQ)</p><h3>Know the Exact Keywords That Score</h3><p><strong>Other Bio students:</strong> Vomit out everything they know and hope it hits the right keywords.</p><p><strong>TBT students + FastTrack:</strong> TBT Commonly Asked Questions database contains every question type, with exact keywords and phrasing that score full marks. No guessing, and time to spare in the exam.</p></div></div>
-          <div class="feature-row"><div class="feature-row__media"><img src="assets/images/shared/fasttrack-practical.webp" width="736" height="1104" loading="lazy" alt="Test tube icon representing biology practical skills"></div><div><p class="eyebrow">04 · Practical sessions (20% of grade)</p><h3>Protect the Full 20% for Paper 3</h3><p><strong>Other Bio students:</strong> Severely lack practice in school and hope the exam tests an experiment they've actually done before.</p><p><strong>TBT students + FastTrack:</strong> Optional hands-on practical sessions covering the most commonly tested experiments, so students walk into Paper 3 with the hand-eye coordination and confidence to protect the full 20%.</p></div></div>
-          <div class="feature-row"><div class="feature-row__media"><img src="assets/images/shared/fasttrack-support.webp" width="736" height="1104" loading="lazy" alt="Speech bubble icon representing same-day tutor support"></div><div><p class="eyebrow">05 · Support</p><h3>Get Help the Same Day</h3><p><strong>Other Bio students:</strong> Save up questions and wait for the next lesson.</p><p><strong>TBT students + FastTrack:</strong> Message your tutor anytime. Get help same day instead of waiting 7 days. Students get detailed, easy-to-understand explanations, truly solving their doubts knowing the answers are accurate to O level syllabus.</p></div></div>
-          <p class="lead"><strong>This is the FastTrack System: the one missing key. Everything students would normally have to build themselves, already built for them.</strong></p>
-        </div>
-      </section>
-
-      <!-- ELEMENTOR CONTAINER: Wider proof -->
+<!-- ELEMENTOR CONTAINER: Wider proof -->
       <section class="section section--soft" aria-labelledby="proof-title">
         <div class="container">
           <div class="section-heading section-heading--center"><p class="eyebrow">Don't just take our word for it</p><h2 id="proof-title">Trusted by Students from 98 Schools Across Singapore</h2></div>
           <div class="logo-cloud" aria-label="School communities represented at ThatBioTutor">
-            <img src="assets/images/shared/school-crest-01.webp" width="150" height="150" loading="lazy" alt="School crest 1 from the ThatBioTutor student community">
-            <img src="assets/images/shared/school-crest-02.webp" width="150" height="150" loading="lazy" alt="School crest 2 from the ThatBioTutor student community">
-            <img src="assets/images/shared/school-crest-03.webp" width="150" height="150" loading="lazy" alt="School crest 3 from the ThatBioTutor student community">
-            <img src="assets/images/shared/school-crest-04.webp" width="150" height="150" loading="lazy" alt="School crest 4 from the ThatBioTutor student community">
-            <img src="assets/images/shared/school-crest-05.webp" width="150" height="150" loading="lazy" alt="School crest 5 from the ThatBioTutor student community">
-            <img src="assets/images/shared/school-crest-06.webp" width="150" height="150" loading="lazy" alt="School crest 6 from the ThatBioTutor student community">
-            <img src="assets/images/shared/school-crest-07.webp" width="150" height="150" loading="lazy" alt="School crest 7 from the ThatBioTutor student community">
-            <img src="assets/images/shared/school-crest-08.webp" width="150" height="150" loading="lazy" alt="School crest 8 from the ThatBioTutor student community">
-            <img src="assets/images/shared/school-crest-09.webp" width="150" height="150" loading="lazy" alt="School crest 9 from the ThatBioTutor student community">
-            <img src="assets/images/shared/school-crest-10.webp" width="150" height="150" loading="lazy" alt="School crest 10 from the ThatBioTutor student community">
-            <img src="assets/images/shared/school-crest-11.webp" width="150" height="150" loading="lazy" alt="School crest 11 from the ThatBioTutor student community">
-            <img src="assets/images/shared/school-crest-12.webp" width="150" height="150" loading="lazy" alt="School crest 12 from the ThatBioTutor student community">
+            <img src="{{ root }}assets/images/shared/school-crest-01.webp" width="150" height="150" loading="lazy" alt="School crest 1 from the ThatBioTutor student community">
+            <img src="{{ root }}assets/images/shared/school-crest-02.webp" width="150" height="150" loading="lazy" alt="School crest 2 from the ThatBioTutor student community">
+            <img src="{{ root }}assets/images/shared/school-crest-03.webp" width="150" height="150" loading="lazy" alt="School crest 3 from the ThatBioTutor student community">
+            <img src="{{ root }}assets/images/shared/school-crest-04.webp" width="150" height="150" loading="lazy" alt="School crest 4 from the ThatBioTutor student community">
+            <img src="{{ root }}assets/images/shared/school-crest-05.webp" width="150" height="150" loading="lazy" alt="School crest 5 from the ThatBioTutor student community">
+            <img src="{{ root }}assets/images/shared/school-crest-06.webp" width="150" height="150" loading="lazy" alt="School crest 6 from the ThatBioTutor student community">
+            <img src="{{ root }}assets/images/shared/school-crest-07.webp" width="150" height="150" loading="lazy" alt="School crest 7 from the ThatBioTutor student community">
+            <img src="{{ root }}assets/images/shared/school-crest-08.webp" width="150" height="150" loading="lazy" alt="School crest 8 from the ThatBioTutor student community">
+            <img src="{{ root }}assets/images/shared/school-crest-09.webp" width="150" height="150" loading="lazy" alt="School crest 9 from the ThatBioTutor student community">
+            <img src="{{ root }}assets/images/shared/school-crest-10.webp" width="150" height="150" loading="lazy" alt="School crest 10 from the ThatBioTutor student community">
+            <img src="{{ root }}assets/images/shared/school-crest-11.webp" width="150" height="150" loading="lazy" alt="School crest 11 from the ThatBioTutor student community">
+            <img src="{{ root }}assets/images/shared/school-crest-12.webp" width="150" height="150" loading="lazy" alt="School crest 12 from the ThatBioTutor student community">
           </div>
           <div class="split-section section section--compact">
-            <div class="split-section__media"><img class="surface" src="assets/images/shared/hall-of-fame.webp" width="940" height="791" loading="lazy" alt="ThatBioTutor student results hall of fame"></div>
+            <div class="split-section__media"><img class="surface" src="{{ root }}assets/images/shared/hall-of-fame.webp" width="940" height="791" loading="lazy" alt="ThatBioTutor student results hall of fame"></div>
             <div class="split-section__copy">
               <h3>Some of Our Biggest Grade Jumps</h3>
               <p class="lead">There are many more. Students come in feeling lost, then leave knowing exactly what to learn, remember, and write.</p>
@@ -203,10 +125,10 @@
         <div class="container">
           <div class="section-heading section-heading--center"><p class="eyebrow">Specialist guidance</p><h2 id="tutors-title">Meet Your Tutors</h2></div>
           <div class="tutor-grid">
-            <article class="tutor-card"><img src="assets/images/shared/tutor-keefe.webp" width="230" height="230" loading="lazy" alt="Portrait of biology tutor Mr Keefe"><h3>Mr Keefe</h3><p>Founder</p></article>
-            <article class="tutor-card"><img src="assets/images/shared/tutor-chelsea.webp" width="230" height="230" loading="lazy" alt="Portrait of biology tutor Ms Chelsea"><h3>Ms Chelsea</h3><p>Pure Biology specialist</p></article>
-            <article class="tutor-card"><img src="assets/images/shared/tutor-jamie.webp" width="230" height="230" loading="lazy" alt="Portrait of biology tutor Ms Jamie"><h3>Ms Jamie</h3><p>Pure Biology specialist</p></article>
-            <article class="tutor-card"><img src="assets/images/shared/tutor-ng.webp" width="230" height="230" loading="lazy" alt="Portrait of biology academic adviser Ms Ng"><h3>Ms Ng</h3><p>Ex-MOE academic adviser</p></article>
+            <article class="tutor-card"><img src="{{ root }}assets/images/shared/tutor-keefe.webp" width="230" height="230" loading="lazy" alt="Portrait of biology tutor Mr Keefe"><h3>Mr Keefe</h3><p>Founder</p></article>
+            <article class="tutor-card"><img src="{{ root }}assets/images/shared/tutor-chelsea.webp" width="230" height="230" loading="lazy" alt="Portrait of biology tutor Ms Chelsea"><h3>Ms Chelsea</h3><p>Pure Biology specialist</p></article>
+            <article class="tutor-card"><img src="{{ root }}assets/images/shared/tutor-jamie.webp" width="230" height="230" loading="lazy" alt="Portrait of biology tutor Ms Jamie"><h3>Ms Jamie</h3><p>Pure Biology specialist</p></article>
+            <article class="tutor-card"><img src="{{ root }}assets/images/shared/tutor-ng.webp" width="230" height="230" loading="lazy" alt="Portrait of biology academic adviser Ms Ng"><h3>Ms Ng</h3><p>Ex-MOE academic adviser</p></article>
           </div>
         </div>
       </section>
@@ -228,9 +150,9 @@
         <div class="container">
           <div class="section-heading"><p class="eyebrow">Paper 3 confidence</p><h2 id="practical-title">Real Practical Sessions. Real Practice.</h2><p class="lead">Paper 3 makes up 20% of the grade, and most students walk in undertrained. TBT students can opt in to additional hands-on sessions, training on the exact experiment types most commonly tested in Paper 3, well before exam day.</p></div>
           <div class="gallery">
-            <figure class="gallery__item"><img src="assets/images/shared/practical-01.webp" width="1183" height="2560" loading="lazy" alt="Mr Keefe guiding a hands-on biology practical"></figure>
-            <figure class="gallery__item"><img src="assets/images/shared/practical-02.webp" width="1920" height="2560" loading="lazy" alt="Two students conducting a test tube practical"></figure>
-            <figure class="gallery__item"><img src="assets/images/shared/practical-03.webp" width="1933" height="1178" loading="lazy" alt="Student carrying out a test tube biology practical"></figure>
+            <figure class="gallery__item"><img src="{{ root }}assets/images/shared/practical-01.webp" width="1183" height="2560" loading="lazy" alt="Mr Keefe guiding a hands-on biology practical"></figure>
+            <figure class="gallery__item"><img src="{{ root }}assets/images/shared/practical-02.webp" width="1920" height="2560" loading="lazy" alt="Two students conducting a test tube practical"></figure>
+            <figure class="gallery__item"><img src="{{ root }}assets/images/shared/practical-03.webp" width="1933" height="1178" loading="lazy" alt="Student carrying out a test tube biology practical"></figure>
           </div>
         </div>
       </section>
@@ -247,7 +169,7 @@
               <p class="eyebrow">Try it without the risk</p>
               <h2 id="guarantee-title">Join a Trial Lesson. If You Didn’t Absolutely Love It, Get a Full Refund.</h2>
               <p class="lead">A trial lesson is $95. We’re so confident of our lesson quality that if you didn’t absolutely love it, simply ask for a refund and you’ll get your money back, no questions asked.</p>
-              <a class="button button--large" href="https://wa.me/6587597182?text=Hi%20ThatBioTutor%2C%20I%27d%20like%20to%20book%20a%20%2495%20trial%20lesson." data-whatsapp-message="homeMessage">Book My Trial Lesson</a>
+              <a class="button button--large" href="{{ whatsapp_url }}">Book My Trial Lesson</a>
             </div>
           </div>
         </div>
@@ -284,7 +206,7 @@
       <!-- ELEMENTOR CONTAINER: Founder -->
       <section class="section section--soft" id="founder" aria-labelledby="founder-title">
         <div class="container split-section split-section--reverse">
-          <div class="split-section__media"><img class="surface" src="assets/images/home/founder-about.webp" width="832" height="929" loading="lazy" alt="ThatBioTutor founder Mr Keefe teaching biology"></div>
+          <div class="split-section__media"><img class="surface" src="{{ root }}assets/images/home/founder-about.webp" width="832" height="929" loading="lazy" alt="ThatBioTutor founder Mr Keefe teaching biology"></div>
           <div class="split-section__copy">
             <p class="eyebrow">Why TBT exists</p>
             <h2 id="founder-title">About the Founder</h2>
@@ -321,9 +243,9 @@
           <div class="section-heading section-heading--center"><p class="eyebrow">Learn, laugh, refuel</p><h2 id="classroom-title">Life Inside a TBT Classroom</h2></div>
           <!-- CLIENT EDIT: Supplied classroom images must remain in this order. -->
           <div class="gallery">
-            <figure class="gallery__item"><img src="assets/images/home/classroom-01.webp" data-supplied-group="homeClassroom" width="3024" height="4032" loading="lazy" alt="Mr Keefe making a biology lesson memorable for students"></figure>
-            <figure class="gallery__item"><img src="assets/images/home/classroom-02.webp" data-supplied-group="homeClassroom" width="3024" height="4032" loading="lazy" alt="Students learning together in the ThatBioTutor classroom"></figure>
-            <figure class="gallery__item"><img src="assets/images/home/classroom-03.webp" data-supplied-group="homeClassroom" width="3024" height="4032" loading="lazy" alt="The classroom snack station with drinks and refreshments"></figure>
+            <figure class="gallery__item"><img src="{{ root }}assets/images/home/classroom-01.webp" data-supplied-group="homeClassroom" width="3024" height="4032" loading="lazy" alt="Mr Keefe making a biology lesson memorable for students"></figure>
+            <figure class="gallery__item"><img src="{{ root }}assets/images/home/classroom-02.webp" data-supplied-group="homeClassroom" width="3024" height="4032" loading="lazy" alt="Students learning together in the ThatBioTutor classroom"></figure>
+            <figure class="gallery__item"><img src="{{ root }}assets/images/home/classroom-03.webp" data-supplied-group="homeClassroom" width="3024" height="4032" loading="lazy" alt="The classroom snack station with drinks and refreshments"></figure>
           </div>
         </div>
       </section>
@@ -339,35 +261,8 @@
             <p>That’s exactly why I built the FastTrack System. The notes, the shortcuts, and the support are already done for them. Studying smart takes a fraction of the time it used to.</p>
             <p>Students still get to have a life outside textbooks. And score the grade they know they’re capable of.</p>
             <p class="lead"><strong>Ready to see what that actually feels like?</strong></p>
-            <a class="button button--large" href="https://wa.me/6587597182?text=Hi%20ThatBioTutor%2C%20I%27d%20like%20to%20book%20a%20%2495%20trial%20lesson." data-whatsapp-message="homeMessage">Book My Trial Lesson</a>
+            <a class="button button--large" href="{{ whatsapp_url }}">Book My Trial Lesson</a>
           </div>
         </div>
       </section>
     </main>
-
-    <footer class="site-footer">
-      <div class="container site-footer__grid">
-        <div>
-          <a class="site-brand" href="./">
-            <img src="assets/images/shared/tbt-logo.webp" width="192" height="192" loading="lazy" alt="ThatBioTutor leaf logo">
-            <span>ThatBioTutor</span>
-          </a>
-          <p>Singapore's only O Level Pure/G3 Biology specialist.</p>
-        </div>
-        <div>
-          <h2 class="lead">Visit</h2>
-          <p>175 Bencoolen St<br>#01-45<br>Singapore 189649</p>
-          <p><a href="https://wa.me/6587597182">WhatsApp 8759 7182</a></p>
-        </div>
-        <div>
-          <h2 class="lead">Hours</h2>
-          <p>Friday – Thursday<br>11am – 9:30pm<br>Open all 7 days</p>
-          <p><a href="s3-intensivefix/">Explore Sec 3 IntensiveFix</a></p>
-        </div>
-      </div>
-      <div class="container site-footer__legal">© 2026 ThatBioTutor. All rights reserved.</div>
-    </footer>
-
-    <a class="floating-whatsapp" href="https://wa.me/6587597182?text=Hi%20ThatBioTutor%2C%20I%27d%20like%20to%20book%20a%20%2495%20trial%20lesson." data-whatsapp-message="homeMessage" aria-label="Book a trial lesson on WhatsApp">WA</a>
-  </body>
-</html>
