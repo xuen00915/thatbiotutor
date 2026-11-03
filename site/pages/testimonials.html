@@ -1,5 +1,5 @@
 <main id="main">
-  <section class="hero" id="hero">
+  <section class="hero original-hero" id="hero" data-layout-slot="hero">
     <div class="container hero__grid">
       <div class="hero__copy"><p class="eyebrow">★★★★★ student experiences</p><h1>Results &amp; Testimonials</h1><p class="lead">Students arrive with different starting points. They leave with clearer concepts, better answering skills, and evidence that Biology can improve.</p><a class="button button--large" href="{{ whatsapp_url }}">Experience a Trial Lesson</a></div>
       <div class="hero__media"><img class="surface" src="{{ root }}assets/images/testimonials/results-2025-01.webp" width="896" height="1122" alt="2025 ThatBioTutor O Level results showing nearly nine in ten students scored B3 or above"></div>
@@ -9,7 +9,7 @@
   <!-- INCLUDE: partials/sections/class-results.html -->
   <!-- INCLUDE: partials/sections/testimonial-cards.html -->
 
-  <section class="section section--soft" id="student-stories" aria-labelledby="stories-title">
+  <section class="section section--soft" id="student-stories" data-layout-slot="student-stories" aria-labelledby="stories-title">
     <div class="container">
       <div class="section-heading section-heading--center"><p class="eyebrow">Recent student stories</p><h2 id="stories-title">From Confusion to Confident Answers</h2><p>Summary of student feedback; wording has been condensed from longer source testimonials.</p></div>
       <div class="card-grid">
@@ -21,7 +21,7 @@
     </div>
   </section>
 
-  <section class="section section--white" id="class-2022" aria-labelledby="class-2022-title">
+  <section class="section section--white" id="class-2022" data-layout-slot="class-2022" aria-labelledby="class-2022-title">
     <div class="container">
       <div class="section-heading"><p class="eyebrow">Class of 2022</p><h2 id="class-2022-title">Students Valued Teaching, Resources, and Support</h2></div>
       <div class="card-grid">
@@ -32,7 +32,7 @@
     </div>
   </section>
 
-  <section class="section section--soft" id="class-2021" aria-labelledby="class-2021-title">
+  <section class="section section--soft" id="class-2021" data-layout-slot="class-2021" aria-labelledby="class-2021-title">
     <div class="container">
       <div class="section-heading"><p class="eyebrow">Class of 2021</p><h2 id="class-2021-title">100% Improved Their Grade in Six Months or Less</h2></div>
       <div class="card-grid">
@@ -42,6 +42,4 @@
       </div>
     </div>
   </section>
-
-  <section class="section section--deep section--white" id="final-cta" aria-labelledby="testimonials-cta-title"><div class="container"><div class="cta-panel"><h2 id="testimonials-cta-title">Ready to write your own Biology success story?</h2><p>Try a lesson and see how the system feels before deciding.</p><a class="button button--large" href="{{ whatsapp_url }}">Book a Trial Lesson</a></div></div></section>
 </main>

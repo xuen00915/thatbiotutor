@@ -1,9 +1,10 @@
 <!-- ELEMENTOR CONTAINER: Shared FastTrack system; CLIENT EDIT headings in pages.json. -->
-<section class="{{ fasttrack_section_class }}" id="fasttrack" aria-labelledby="fasttrack-title">
+<section class="{{ fasttrack_section_class }} section--barred" id="fasttrack" data-layout-slot="{{ fasttrack_layout_slot }}" aria-labelledby="fasttrack-title">
+  <div class="section-bar"><h2 id="fasttrack-title">The TBT FastTrack System</h2></div>
   <div class="container">
     <div class="section-heading section-heading--center">
       <p class="eyebrow">{{ fasttrack_eyebrow }}</p>
-      <h2 id="fasttrack-title">{{ fasttrack_title }}</h2>
+      <h3>{{ fasttrack_title }}</h3>
       <p class="lead">Why should students write their own notes, make their own flashcards, and hunt for exam keywords alone, when it’s already done for them?</p>
     </div>
     <div class="feature-row"><div class="feature-row__media"><img src="{{ root }}assets/images/shared/fasttrack-content.webp" width="1170" height="747" loading="lazy" alt="Biology lesson notes in the FastTrack content system"></div><div><p class="eyebrow">{{ fasttrack_content_label }}</p><h3>Find What Matters Instantly</h3><p><strong>Other Bio students:</strong> Dig through school notes and the textbook, figure out what's actually important, and rewrite it all from scratch.</p><p><strong>TBT students + FastTrack:</strong> Struggling to recall a topic? Just Ctrl+F through our detailed visual notes, or watch crash course clips (think: Netflix, but for Bio.)</p></div></div>

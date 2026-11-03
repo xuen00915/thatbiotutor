@@ -17,7 +17,7 @@ Open `http://127.0.0.1:8765/` and press `Control-C` when finished. Use `--port 8
 | Page | Route | Editable source |
 | --- | --- | --- |
 | Home | `/` | `site/pages/home.html` |
-| Sec 3 IntensiveFix | `/s3-intensivefix/` | `site/pages/s3-intensivefix.html` |
+| Sec 3 IntensiveFix | `/intensivefix/` | `site/pages/intensivefix.html` |
 | About | `/about/` | `site/pages/about.html` |
 | Contact | `/contact/` | `site/pages/contact.html` |
 | Causes | `/trees/` | `site/pages/trees.html` |
@@ -29,7 +29,7 @@ Open `http://127.0.0.1:8765/` and press `Control-C` when finished. Use `--port 8
 | Cell Division archive | `/celldivision/` | `site/pages/celldivision.html` |
 | Results and testimonials | `/testimonials/` | `site/pages/testimonials.html` |
 
-The older `/classes/sec-3-pure-g3-biology-tuition/` path is generated as an accessible alias to the current Sec 3 page.
+The older `/s3-intensivefix/` route is generated as a legacy alias to `/intensivefix/`. The older `/classes/sec-3-pure-g3-biology-tuition/` path is also generated as an accessible legacy alias to the current Sec 3 page.
 
 ## Source and generated files
 
@@ -41,7 +41,7 @@ The older `/classes/sec-3-pure-g3-biology-tuition/` path is generated as an acce
 - Page content lives in `site/pages/`.
 - Every local image is WebP under `site/assets/images/` and documented in its asset manifest.
 
-See the [client editing and Elementor migration guide](docs/client-editing-guide.md) for safe edits and the GitHub web-editor workflow.
+See the [client editing guide](docs/client-editing-guide.md) for safe edits and the GitHub web-editor workflow. The separate [Elementor migration map](docs/elementor-migration-map.md) maps the native source to WordPress Theme Builder templates and widgets.
 
 ## Build and verify
 

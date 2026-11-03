@@ -2,16 +2,6 @@
   max-width: 42rem;
 }
 
-.page-home .hero__media {
-  width: 100%;
-  max-width: 34rem;
-  justify-self: center;
-}
-
-.home-hero .media-carousel__viewport {
-  aspect-ratio: 4 / 5;
-}
-
 .home-hero .media-carousel__slide img {
   min-height: 100%;
 }
@@ -25,7 +15,6 @@
 }
 
 .home-hero .media-carousel__slide:nth-child(3) img {
-  object-fit: contain;
   object-position: 50% 50%;
 }
 
@@ -61,12 +50,6 @@
   padding-top: clamp(6rem, 11vw, 10rem);
 }
 
-.page-intensivefix .hero {
-  background:
-    radial-gradient(circle at 85% 15%, rgb(169 232 63 / 34%), transparent 28rem),
-    linear-gradient(145deg, #f8f9e9, #fffaf0 55%, #eaf7df);
-}
-
 .page-intensivefix .hero__copy {
   max-width: 46rem;
 }
@@ -83,6 +66,35 @@
 
 .limited-time strong {
   color: var(--color-brand);
+}
+
+.full-photo-hero .limited-time {
+  color: #fff;
+}
+
+.full-photo-hero .limited-time strong {
+  color: var(--color-brand-bright);
+}
+
+.plain-feature-grid {
+  display: grid;
+  gap: var(--space-7);
+  text-align: center;
+}
+
+.plain-feature-grid article {
+  min-width: 0;
+}
+
+.plain-feature__mark {
+  display: block;
+  margin-bottom: var(--space-3);
+  color: var(--color-brand);
+  font-size: var(--font-size-xl);
+}
+
+.section--dark .plain-feature__mark {
+  color: var(--color-brand-bright);
 }
 
 .intensive-carousel {
@@ -127,10 +139,6 @@
 }
 
 @media (max-width: 29.99rem) {
-  .home-hero .media-carousel__viewport {
-    aspect-ratio: 3 / 4;
-  }
-
   .media-grid {
     grid-template-columns: 1fr;
   }
@@ -145,16 +153,12 @@
     padding-top: var(--space-7);
   }
 
-  .hero__copy {
+  .hero:not(.full-photo-hero) .hero__copy {
     text-align: left;
   }
 
   .home-track-record .media-grid__item:nth-child(4) {
     grid-column: 1 / -1;
-  }
-
-  .page-intensivefix .hero__media {
-    order: -1;
   }
 
   .intensive-review {
@@ -163,12 +167,8 @@
 }
 
 @media (min-width: 48rem) {
-  .page-home .hero__grid {
-    grid-template-columns: minmax(0, 1.12fr) minmax(20rem, 0.88fr);
-  }
-
-  .home-hero .media-carousel__viewport {
-    aspect-ratio: 4 / 5;
+  .plain-feature-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .home-track-record .media-grid {
@@ -191,9 +191,6 @@
     min-height: 28rem;
   }
 
-  .page-intensivefix .hero__grid {
-    grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.75fr);
-  }
 }
 
 @media (min-width: 72rem) {
@@ -209,9 +206,6 @@
     padding-block: var(--space-9);
   }
 
-  .home-hero .media-carousel__viewport {
-    aspect-ratio: 5 / 6;
-  }
 }
 
 .topic-list {
@@ -235,6 +229,72 @@
   gap: var(--space-5);
 }
 
+.original-list-grid,
+.level-choice-grid {
+  display: grid;
+  gap: 1px;
+  background: var(--color-line);
+  border: 1px solid var(--color-line);
+}
+
+.original-list-grid article,
+.level-choice-grid article {
+  background: var(--color-surface);
+  padding: var(--space-6);
+}
+
+.original-list-grid article > strong,
+.solution-rows article > span {
+  color: var(--color-brand);
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+}
+
+.solution-rows {
+  border-top: 1px solid var(--color-line);
+}
+
+.solution-rows article {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: var(--space-4);
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.class-practical {
+  margin-top: var(--space-7);
+}
+
+.class-results-strip .stats {
+  gap: 1px;
+  border: 1px solid var(--color-line);
+  background: var(--color-line);
+}
+
+.class-results-strip .stat {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.faq-cta {
+  margin-top: var(--space-6);
+  text-align: center;
+}
+
+.mode-grid {
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--color-line);
+  background: var(--color-line);
+}
+
+.mode-grid > article {
+  background: var(--color-surface);
+  padding: var(--space-6);
+}
+
 @media (min-width: 48rem) {
   .stats--six {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -246,6 +306,12 @@
   }
 
   .result-art-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .original-list-grid,
+  .level-choice-grid,
+  .mode-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

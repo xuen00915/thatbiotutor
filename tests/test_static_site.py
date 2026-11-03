@@ -83,6 +83,91 @@ class PageParser(HTMLParser):
         return " ".join(" ".join(self.text_by_section.get(section, [])).split())
 
 
+class RouteContractTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.build_root = build_test_site()
+
+    def test_intensivefix_is_canonical_and_sec3_stays_distinct(self):
+        self.assertIn("intensivefix", PAGE_CONFIG)
+        intensivefix = PAGE_CONFIG["intensivefix"]
+        sec3 = PAGE_CONFIG["sec-3-pure-g3-biology-tuition"]
+
+        self.assertEqual(intensivefix["route"], "intensivefix/")
+        self.assertIn("s3-intensivefix/", intensivefix["aliases"])
+        self.assertEqual(sec3["route"], "sec-3-pure-g3-biology-tuition/")
+        self.assertNotEqual(intensivefix["source"], sec3["source"])
+
+    def test_legacy_intensivefix_alias_points_to_canonical_page(self):
+        alias = (self.build_root / "s3-intensivefix/index.html").read_text(
+            encoding="utf-8"
+        )
+        sitemap = (self.build_root / "sitemap.xml").read_text(encoding="utf-8")
+
+        self.assertIn(
+            'href="https://www.thatbiotutor.com/intensivefix/"', alias
+        )
+        self.assertIn('href="../intensivefix/"', alias)
+        self.assertIn("https://www.thatbiotutor.com/intensivefix/", sitemap)
+        self.assertNotIn("https://www.thatbiotutor.com/s3-intensivefix/", sitemap)
+
+
+class OriginalShellTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.build_root = build_test_site()
+        cls.registry = json.loads((SITE_DIR / "pages.json").read_text(encoding="utf-8"))
+
+    def test_every_canonical_page_uses_one_original_shared_shell(self):
+        for page in self.registry:
+            path = self.build_root / page["route"] / "index.html"
+            source = path.read_text(encoding="utf-8")
+            with self.subTest(route=page["route"]):
+                self.assertEqual(
+                    source.count('<header class="site-header original-header">'), 1
+                )
+                self.assertEqual(
+                    source.count('<footer class="site-footer original-footer">'), 1
+                )
+                self.assertEqual(source.count('<a class="floating-whatsapp"'), 1)
+
+    def test_header_keeps_intensivefix_discoverable_and_contact_us_last(self):
+        source = (self.build_root / "index.html").read_text(encoding="utf-8")
+        header = source.split("</header>", 1)[0]
+
+        self.assertIn(">IntensiveFix</a>", header)
+        self.assertIn('class="compact-cta site-header__contact"', header)
+        self.assertIn(">Contact Us</a>", header)
+        self.assertGreater(header.rfind(">Contact Us</a>"), header.rfind(">IntensiveFix</a>"))
+
+    def test_original_layout_primitives_replace_inquire_shell_styling(self):
+        base = (SITE_DIR / "assets/css/base.css").read_text(encoding="utf-8")
+        components = (SITE_DIR / "assets/css/components.css").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("--color-section-bar", base)
+        self.assertIn("--container-content: 62rem", base)
+        self.assertIn(".section-bar", components)
+        self.assertIn(".original-hero", components)
+        self.assertIn(".compact-cta", components)
+        self.assertIn(".original-footer", components)
+        self.assertNotIn("backdrop-filter", components)
+
+    def test_navigation_is_progressively_enhanced(self):
+        source = (SITE_DIR / "assets/js/site.js").read_text(encoding="utf-8")
+
+        for function_name in (
+            "initNavigation",
+            "initCarousels",
+            "initCounters",
+            "initFaqs",
+        ):
+            self.assertIn(function_name, source)
+        self.assertIn("prefers-reduced-motion", source)
+        self.assertIn("initNavigation,", source)
+
+
 class StaticSiteAssetTests(unittest.TestCase):
     def load_manifest(self):
         self.assertTrue(MANIFEST_PATH.exists(), f"Missing {MANIFEST_PATH}")
@@ -103,7 +188,16 @@ class StaticSiteAssetTests(unittest.TestCase):
             for entry in entries:
                 with self.subTest(group=group_name, file=entry.get("file")):
                     self.assertEqual(
-                        set(entry), {"source", "file", "alt", "width", "height"}
+                        set(entry),
+                        {
+                            "source",
+                            "file",
+                            "alt",
+                            "width",
+                            "height",
+                            "fit",
+                            "objectPosition",
+                        },
                     )
                     file_path = Path(entry["file"])
                     self.assertFalse(file_path.is_absolute())
@@ -113,6 +207,8 @@ class StaticSiteAssetTests(unittest.TestCase):
                     self.assertGreater(entry["height"], 0)
                     self.assertGreater(len(entry["alt"].strip()), 8)
                     self.assertNotIn(entry["alt"].strip().lower(), {"image", "photo"})
+                    self.assertIn(entry["fit"], {"cover", "contain"})
+                    self.assertTrue(entry["objectPosition"].strip())
 
     def test_supplied_groups_preserve_numeric_source_order(self):
         manifest = self.load_manifest()
@@ -137,6 +233,17 @@ class StaticSiteAssetTests(unittest.TestCase):
             for entry in entries:
                 with self.subTest(group=group_name, file=entry["file"]):
                     self.assertEqual(Path(entry["file"]).suffix.lower(), ".webp")
+
+    def test_every_local_webp_is_manifested(self):
+        manifest = self.load_manifest()
+        manifested = {
+            entry["file"] for entries in manifest.values() for entry in entries
+        }
+        local = {
+            path.relative_to(SITE_DIR).as_posix()
+            for path in (SITE_DIR / "assets/images").rglob("*.webp")
+        }
+        self.assertEqual(local, manifested)
 
 
 class StaticSiteFoundationTests(unittest.TestCase):
@@ -178,8 +285,8 @@ class StaticSiteFoundationTests(unittest.TestCase):
         self.assertRegex(pages, r"@media\s*\([^)]*max-width")
         self.assertRegex(pages, r"@media\s*\([^)]*min-width")
         self.assertRegex(
-            pages,
-            r"\.page-home\s+\.hero__media\s*\{[^}]*width:\s*100%",
+            components,
+            r"\.full-photo-hero\s+\.hero__media\s*\{[^}]*width:\s*100%",
         )
         self.assertRegex(
             components,
@@ -224,23 +331,53 @@ class HomePageTests(unittest.TestCase):
         }
         required = {
             "hero",
-            "results",
+            "missing-key",
             "fasttrack",
+            "track-record",
+            "hall-of-fame",
+            "student-voices",
+            "schools",
+            "advantage",
+            "student-benefits",
+            "experience",
+            "causes",
             "tutors",
-            "trial-guarantee",
-            "suitability",
-            "founder",
             "faq",
-            "classroom",
-            "final-cta",
+            "closing-cta",
         }
         self.assertTrue(required.issubset(ids), required - ids)
+
+    def test_home_uses_original_layout_slot_order(self):
+        expected = [
+            "hero",
+            "missing-key",
+            "fasttrack",
+            "track-record",
+            "hall-of-fame",
+            "student-voices",
+            "schools",
+            "advantage",
+            "student-benefits",
+            "experience",
+            "causes",
+            "tutors",
+            "faq",
+            "closing-cta",
+        ]
+        actual = [
+            element["attrs"]["data-layout-slot"]
+            for element in self.parser.elements
+            if element["tag"] == "section"
+            and "data-layout-slot" in element["attrs"]
+        ]
+        self.assertEqual(actual, expected)
+        self.assertTrue({"suitability", "founder", "classroom"}.isdisjoint(actual))
 
     def test_home_uses_supplied_images_in_manifest_order(self):
         expectations = {
             "hero": ("homeHero", 5),
-            "results": ("trackRecord", 4),
-            "classroom": ("homeClassroom", 3),
+            "track-record": ("trackRecord", 4),
+            "experience": ("homeClassroom", 3),
         }
         for section, (group, count) in expectations.items():
             expected = [entry["file"] for entry in self.manifest[group]]
@@ -258,12 +395,12 @@ class HomePageTests(unittest.TestCase):
             "if you didn’t absolutely love it, simply ask for a refund and you’ll "
             "get your money back, no questions asked."
         )
-        trial_text = self.parser.section_text("trial-guarantee")
+        trial_text = self.parser.section_text("closing-cta")
         self.assertIn(exact_copy, trial_text)
         self.assertIn("Book My Trial Lesson", trial_text)
-        self.assertFalse(self.parser.elements_in("trial-guarantee", "form"))
-        self.assertFalse(self.parser.elements_in("trial-guarantee", "iframe"))
-        links = self.parser.elements_in("trial-guarantee", "a")
+        self.assertFalse(self.parser.elements_in("closing-cta", "form"))
+        self.assertFalse(self.parser.elements_in("closing-cta", "iframe"))
+        links = self.parser.elements_in("closing-cta", "a")
         self.assertTrue(
             any(link["attrs"].get("href", "").startswith("https://wa.me/") for link in links)
         )
@@ -335,16 +472,16 @@ class HomePageTests(unittest.TestCase):
             element["attrs"].get("href")
             for element in self.parser.elements
             if element["tag"] == "a"
-            and "s3-intensivefix" in element["attrs"].get("href", "")
+            and "intensivefix" in element["attrs"].get("href", "")
         ]
-        self.assertIn("s3-intensivefix/", intensive_links)
+        self.assertIn("intensivefix/", intensive_links)
 
 
 class IntensiveFixPageTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.build_root = build_test_site()
-        cls.path = cls.build_root / "s3-intensivefix/index.html"
+        cls.path = cls.build_root / "intensivefix/index.html"
         cls.source = cls.path.read_text(encoding="utf-8") if cls.path.is_file() else ""
         cls.parser = PageParser()
         cls.parser.feed(cls.source)
@@ -362,15 +499,36 @@ class IntensiveFixPageTests(unittest.TestCase):
         }
         required = {
             "hero",
-            "program-carousel",
-            "reviews",
-            "results",
+            "programme-media",
+            "student-proof",
+            "track-record",
             "analysis-video",
             "fasttrack",
             "suitability",
-            "final-cta",
+            "closing-cta",
         }
         self.assertTrue(required.issubset(ids), required - ids)
+
+    def test_intensivefix_uses_original_style_slot_order(self):
+        slots = [
+            element["attrs"]["data-layout-slot"]
+            for element in self.parser.elements
+            if element["tag"] == "section"
+            and "data-layout-slot" in element["attrs"]
+        ]
+        self.assertEqual(
+            slots,
+            [
+                "hero",
+                "programme-media",
+                "student-proof",
+                "track-record",
+                "analysis-video",
+                "fasttrack",
+                "suitability",
+                "closing-cta",
+            ],
+        )
 
     def test_hero_and_navigation_use_approved_copy(self):
         exact_subtitle = (
@@ -394,7 +552,7 @@ class IntensiveFixPageTests(unittest.TestCase):
         ]
         actual_program = [
             element["attrs"]["src"]
-            for element in self.parser.elements_in("program-carousel", "img")
+            for element in self.parser.elements_in("programme-media", "img")
             if element["attrs"].get("data-supplied-group")
             == "intensiveFixCarousel"
         ]
@@ -404,7 +562,7 @@ class IntensiveFixPageTests(unittest.TestCase):
         ]
         actual_review = [
             element["attrs"]["src"]
-            for element in self.parser.elements_in("reviews", "img")
+            for element in self.parser.elements_in("student-proof", "img")
             if element["attrs"].get("data-supplied-group") == "intensiveFixReview"
         ]
         self.assertEqual(actual_review, expected_review)
@@ -446,7 +604,7 @@ class IntensiveFixPageTests(unittest.TestCase):
             "All IntensiveFix students will receive ThatBioTutor’s FastTrack System",
             self.source,
         )
-        closing = self.parser.section_text("final-cta")
+        closing = self.parser.section_text("closing-cta")
         self.assertIn(
             "Your EOY Bio Grade doesn’t have to define your O Levels.",
             self.source,
@@ -464,9 +622,9 @@ class IntensiveFixPageTests(unittest.TestCase):
             "912+",
             "91%",
             "2.3",
-            PAGE_CONFIG["s3-intensivefix"]["context"]["track_fourth_value"],
+            PAGE_CONFIG["intensivefix"]["context"]["track_fourth_value"],
         ):
-            self.assertIn(final_value, self.parser.section_text("results"))
+            self.assertIn(final_value, self.parser.section_text("track-record"))
         controls = [
             element
             for element in self.parser.elements
@@ -493,6 +651,18 @@ class IntensiveFixPageTests(unittest.TestCase):
         ]
         self.assertIn("../", home_links)
 
+    def test_programme_graphics_remain_readable_and_copy_is_exact(self):
+        pages_css = (SITE_DIR / "assets/css/pages.css").read_text(encoding="utf-8")
+        self.assertRegex(
+            pages_css,
+            r"\.intensive-carousel\s+\.media-carousel__slide\s+img\s*\{[^}]*object-fit:\s*contain",
+        )
+        self.assertIn("Sound familiar?", self.source)
+        self.assertIn(
+            "All IntensiveFix students will receive ThatBioTutor’s FastTrack System",
+            self.source,
+        )
+
 
 class SharedTemplateTests(unittest.TestCase):
     @classmethod
@@ -502,21 +672,21 @@ class SharedTemplateTests(unittest.TestCase):
 
     def test_approved_pages_are_registered_and_generated(self):
         self.assertTrue(
-            {"home", "s3-intensivefix"}.issubset(
+            {"home", "intensivefix"}.issubset(
                 {page["key"] for page in self.registry}
             )
         )
         self.assertTrue((self.build_root / "index.html").is_file())
-        self.assertTrue((self.build_root / "s3-intensivefix/index.html").is_file())
+        self.assertTrue((self.build_root / "intensivefix/index.html").is_file())
 
     def test_header_footer_and_floating_action_come_from_shared_partials(self):
-        for source_name in ("home.html", "s3-intensivefix.html"):
+        for source_name in ("home.html", "intensivefix.html"):
             source = (SITE_DIR / "pages" / source_name).read_text(encoding="utf-8")
             self.assertNotIn("<header", source)
             self.assertNotIn('<footer class="site-footer"', source)
             self.assertNotIn("floating-whatsapp", source)
 
-        for relative_path in ("index.html", "s3-intensivefix/index.html"):
+        for relative_path in ("index.html", "intensivefix/index.html"):
             generated = (self.build_root / relative_path).read_text(encoding="utf-8")
             self.assertIn("<header", generated)
             self.assertIn("<footer", generated)
@@ -527,7 +697,7 @@ class SharedTemplateTests(unittest.TestCase):
 
     def test_root_and_nested_assets_work_under_repository_subpath(self):
         home = (self.build_root / "index.html").read_text(encoding="utf-8")
-        intensive = (self.build_root / "s3-intensivefix/index.html").read_text(
+        intensive = (self.build_root / "intensivefix/index.html").read_text(
             encoding="utf-8"
         )
         self.assertIn('href="assets/css/base.css"', home)
@@ -537,7 +707,7 @@ class SharedTemplateTests(unittest.TestCase):
 
         for page_path in (
             self.build_root / "index.html",
-            self.build_root / "s3-intensivefix/index.html",
+            self.build_root / "intensivefix/index.html",
         ):
             parser = PageParser()
             parser.feed(page_path.read_text(encoding="utf-8"))
@@ -567,16 +737,13 @@ class InstitutionalPageTests(unittest.TestCase):
             "tutors",
             "founder-message",
             "beliefs",
-            "vision-mission-values",
-            "final-cta",
         },
-        "contact": {"hero", "faq-pointer", "contact-details", "final-cta"},
-        "trees": {"hero", "tree-planting", "local-causes", "final-cta"},
+        "contact": {"hero", "faq-pointer", "final-cta"},
+        "trees": {"hero", "tree-planting", "local-causes"},
         "tuitionrecs": {
             "hero",
             "recommendations",
             "independence-disclosure",
-            "final-cta",
         },
     }
 
@@ -612,8 +779,8 @@ class InstitutionalPageTests(unittest.TestCase):
                     if element["attrs"].get("id")
                 }
                 self.assertTrue(required_ids.issubset(ids), required_ids - ids)
-                self.assertIn('<header class="site-header">', source)
-                self.assertIn('<footer class="site-footer">', source)
+                self.assertIn('<header class="site-header original-header">', source)
+                self.assertIn('<footer class="site-footer original-footer">', source)
                 self.assertIn('class="floating-whatsapp"', source)
 
     def test_archive_headings_and_meaning_are_preserved(self):
@@ -663,6 +830,52 @@ class InstitutionalPageTests(unittest.TestCase):
         self.assertIn("independent", parser.section_text("independence-disclosure").lower())
         self.assertIn("docs.google.com/document/d/1Wwn8kzMaT59326gpnidbuGwRWMB6etmh7-Ff6eJiKLw", source)
 
+    def test_about_uses_original_six_part_order(self):
+        _, parser = self.read_page("about")
+        slots = [
+            element["attrs"]["data-layout-slot"]
+            for element in parser.elements
+            if element["tag"] == "section"
+            and "data-layout-slot" in element["attrs"]
+        ]
+        self.assertEqual(
+            slots,
+            ["hero", "mission", "quality", "tutors", "founder-message", "beliefs"],
+        )
+
+    def test_contact_is_faq_first_and_uses_shared_whatsapp(self):
+        source, parser = self.read_page("contact")
+        self.assertIn("Contact.", parser.section_text("hero"))
+        self.assertIn("Please read our", parser.section_text("faq-pointer"))
+        self.assertLess(source.index('id="faq-pointer"'), source.index('id="final-cta"'))
+        whatsapp_links = [
+            element["attrs"].get("href", "")
+            for element in parser.elements
+            if element["tag"] == "a"
+            and element["attrs"].get("href", "").startswith("https://wa.me/")
+        ]
+        self.assertTrue(whatsapp_links)
+        self.assertTrue(
+            all(
+                link.startswith(f"https://wa.me/{SITE_CONFIG['whatsappNumber']}")
+                for link in whatsapp_links
+            )
+        )
+        self.assertEqual(source.count('<header class="site-header original-header">'), 1)
+        self.assertEqual(source.count('<footer class="site-footer original-footer">'), 1)
+
+    def test_trees_and_recommendations_keep_original_simple_structure(self):
+        trees, trees_parser = self.read_page("trees")
+        recommendations, recommendation_parser = self.read_page("tuitionrecs")
+        self.assertIn("1. Planting Trees!", trees)
+        self.assertIn("2. SG Environmental Causes", trees)
+        self.assertIn("Tuition Recommendations", recommendations)
+        lists = recommendation_parser.elements_in("recommendations", "ul")
+        self.assertEqual(len(lists), 1)
+        self.assertGreaterEqual(
+            len(recommendation_parser.elements_in("recommendations", "li")), 3
+        )
+
 
 class ClassesPageTests(unittest.TestCase):
     ROUTES = {
@@ -673,29 +886,24 @@ class ClassesPageTests(unittest.TestCase):
     CLASS_SECTIONS = {
         "hero",
         "pure-biology",
-        "problems",
+        "struggles",
         "solutions",
-        "differences",
-        "practical",
+        "class-difference",
         "results",
-        "levels",
+        "level-choice",
         "faq",
-        "final-cta",
     }
     LEVEL_SECTIONS = {
         "hero",
-        "learning-options",
+        "learning-modes",
         "curriculum",
-        "topics",
-        "exam-techniques",
         "results",
-        "testimonials",
-        "lesson-experience",
+        "track-record",
+        "student-voices",
+        "lesson",
         "resources",
-        "tutors",
-        "suitability",
+        "team",
         "faq",
-        "final-cta",
     }
 
     @classmethod
@@ -748,6 +956,37 @@ class ClassesPageTests(unittest.TestCase):
                 with self.subTest(value=value):
                     self.assertIn(value, source)
 
+    def test_classes_restores_original_layout_and_level_choice(self):
+        source, parser = self.read_page("classes")
+        slots = [
+            element["attrs"]["data-layout-slot"]
+            for element in parser.elements
+            if element["tag"] == "section"
+            and "data-layout-slot" in element["attrs"]
+        ]
+        self.assertEqual(
+            slots,
+            [
+                "hero",
+                "pure-biology",
+                "struggles",
+                "solutions",
+                "class-difference",
+                "results",
+                "level-choice",
+                "faq",
+            ],
+        )
+        self.assertIn(
+            "The AVERAGE TBT Student Makes a 2.3 Grade Jump (~C5 to A2)",
+            source,
+        )
+        self.assertIn('href="../sec-3-pure-g3-biology-tuition/"', source)
+        self.assertIn('href="../sec-4-pure-g3-biology-tuition/"', source)
+        for value in ("912+", "91%", "69.21%", "2.3", "1 in 2"):
+            self.assertIn(value, parser.section_text("results"))
+        self.assertNotIn("inquire-card-shell", source)
+
     def test_sec3_alias_is_accessible_relative_and_canonical(self):
         alias_path = (
             self.build_root
@@ -763,6 +1002,89 @@ class ClassesPageTests(unittest.TestCase):
         self.assertNotIn("/classes/sec-3-pure-g3-biology-tuition/", sitemap)
 
 
+class TuitionPageTests(unittest.TestCase):
+    ROUTES = {
+        "sec3": "sec-3-pure-g3-biology-tuition/",
+        "sec4": "sec-4-pure-g3-biology-tuition/",
+    }
+    EXPECTED_SLOTS = [
+        "hero",
+        "learning-modes",
+        "curriculum",
+        "results",
+        "track-record",
+        "student-voices",
+        "lesson",
+        "resources",
+        "team",
+        "faq",
+    ]
+
+    @classmethod
+    def setUpClass(cls):
+        cls.build_root = build_test_site()
+
+    def read_page(self, key):
+        source = (self.build_root / self.ROUTES[key] / "index.html").read_text(
+            encoding="utf-8"
+        )
+        parser = PageParser()
+        parser.feed(source)
+        return source, parser
+
+    def test_level_pages_follow_the_same_original_composition(self):
+        for key in self.ROUTES:
+            with self.subTest(page=key):
+                source, parser = self.read_page(key)
+                slots = [
+                    element["attrs"]["data-layout-slot"]
+                    for element in parser.elements
+                    if element["tag"] == "section"
+                    and "data-layout-slot" in element["attrs"]
+                ]
+                self.assertEqual(slots, self.EXPECTED_SLOTS)
+                self.assertEqual(
+                    len(
+                        [
+                            element
+                            for element in parser.elements
+                            if element["tag"] == "h1"
+                        ]
+                    ),
+                    1,
+                )
+                for value in ("912+", "91%", "69.21%", "2.3", "1 in 2"):
+                    self.assertIn(value, parser.section_text("results"))
+                for resource in (
+                    "TBT Notes &amp; Flashcards",
+                    "Lesson Recordings",
+                    "Commonly Asked Questions",
+                ):
+                    self.assertIn(resource, source)
+                for tutor in ("Ms Chelsea", "Ms Jamie", "Mr Keefe", "Ms Ng"):
+                    self.assertIn(tutor, parser.section_text("team"))
+
+    def test_each_level_keeps_its_original_heading_and_curriculum(self):
+        sec3, _ = self.read_page("sec3")
+        sec4, _ = self.read_page("sec4")
+        self.assertIn(
+            "The Best Time to Start Pure/G3 Biology Tuition Is at the Start of Sec 3. The Second Best Time Is Now.",
+            sec3,
+        )
+        self.assertIn("Phase 1 — Teaching the Syllabus (Mar – Aug)", sec3)
+        self.assertIn("Phase 2 — EOY Intensives (Sep – Oct)", sec3)
+        self.assertIn(
+            "From B4 or Worse to A1/A2/B3 in O Levels Is Still Possible.", sec4
+        )
+        self.assertIn("Phase 1 — Teaching the Syllabus (Dec – May)", sec4)
+        self.assertIn("Phase 3 — O Levels Intensives (Aug – Nov)", sec4)
+        self.assertNotEqual(sec3, sec4)
+        sec3_main = sec3.split("<main", 1)[1].split("</main>", 1)[0]
+        self.assertNotIn("IntensiveFix", sec3_main)
+        self.assertNotIn("Fix My Sec 3 Foundation", sec3_main)
+        self.assertNotIn("holiday programme", sec3_main.lower())
+
+
 class ResourcePageTests(unittest.TestCase):
     ROUTES = {
         "notes": "notes/",
@@ -770,14 +1092,13 @@ class ResourcePageTests(unittest.TestCase):
         "testimonials": "testimonials/",
     }
     REQUIRED_SECTIONS = {
-        "notes": {"hero", "student-feedback", "why-free", "download", "faq", "final-cta"},
+        "notes": {"hero", "student-feedback", "why-free", "catch", "download"},
         "celldivision": {
             "hero",
             "dated-notice",
             "important",
             "access",
             "student-feedback",
-            "final-cta",
         },
         "testimonials": {
             "hero",
@@ -786,7 +1107,6 @@ class ResourcePageTests(unittest.TestCase):
             "student-stories",
             "class-2022",
             "class-2021",
-            "final-cta",
         },
     }
 
@@ -813,7 +1133,8 @@ class ResourcePageTests(unittest.TestCase):
         )
         self.assertEqual(len(manifest["pages"]), 12)
         self.assertEqual(
-            manifest["aliases"], ["classes/sec-3-pure-g3-biology-tuition/"]
+            manifest["aliases"],
+            ["s3-intensivefix/", "classes/sec-3-pure-g3-biology-tuition/"],
         )
 
     def test_pages_have_one_h1_shared_landmarks_and_required_sections(self):
@@ -830,8 +1151,8 @@ class ResourcePageTests(unittest.TestCase):
                     if element["attrs"].get("id")
                 }
                 self.assertTrue(required.issubset(ids), required - ids)
-                self.assertIn('<header class="site-header">', source)
-                self.assertIn('<footer class="site-footer">', source)
+                self.assertIn('<header class="site-header original-header">', source)
+                self.assertIn('<footer class="site-footer original-footer">', source)
 
     def test_archive_headings_and_dated_offer_are_preserved_honestly(self):
         notes, _ = self.read_page("notes")
@@ -889,6 +1210,99 @@ class ResourcePageTests(unittest.TestCase):
         self.assertNotIn("<blockquote", combined)
         self.assertNotIn("“", combined)
 
+    def test_resource_pages_restore_original_section_order(self):
+        expected = {
+            "testimonials": [
+                "hero",
+                "results",
+                "reviews",
+                "student-stories",
+                "class-2022",
+                "class-2021",
+            ],
+            "notes": ["hero", "student-feedback", "why-free", "catch", "download"],
+            "celldivision": [
+                "hero",
+                "dated-notice",
+                "important",
+                "access",
+                "student-feedback",
+            ],
+        }
+        for key, expected_slots in expected.items():
+            with self.subTest(page=key):
+                _, parser = self.read_page(key)
+                slots = [
+                    element["attrs"]["data-layout-slot"]
+                    for element in parser.elements
+                    if element["tag"] == "section"
+                    and "data-layout-slot" in element["attrs"]
+                ]
+                self.assertEqual(slots, expected_slots)
+
+    def test_original_resource_copy_is_retained(self):
+        testimonials, _ = self.read_page("testimonials")
+        notes, _ = self.read_page("notes")
+        celldivision, _ = self.read_page("celldivision")
+        self.assertIn("Results &amp; Testimonials", testimonials)
+        self.assertIn("★★★★★", testimonials)
+        self.assertLess(
+            testimonials.index("Class of 2022"), testimonials.index("Class of 2021")
+        )
+        self.assertIn("Free O Level Biology Notes Singapore", notes)
+        self.assertIn("Why Are You Giving Your Notes for Free?", notes)
+        self.assertIn("What's the catch?", notes)
+        self.assertIn("How Do I Download the Notes?", notes)
+        self.assertIn("Only For 2023 Sec 4 Pure Bio Students!", celldivision)
+        self.assertIn("IMPORTANT:", celldivision)
+        self.assertIn("archived", celldivision.lower())
+
+
+class ClientDocumentationTests(unittest.TestCase):
+    def test_client_guide_covers_every_common_edit(self):
+        guide_path = REPO_ROOT / "docs/client-editing-guide.md"
+        self.assertTrue(guide_path.is_file(), f"Missing {guide_path}")
+        guide = guide_path.read_text(encoding="utf-8")
+        for required_text in (
+            "shared contact details",
+            "navigation",
+            "page copy",
+            "FAQs",
+            "statistics",
+            "carousel order",
+            "video URLs",
+            "image focal positions",
+            "python3 scripts/build_site.py --output build",
+            "python3 scripts/preview_site.py",
+        ):
+            with self.subTest(required_text=required_text):
+                self.assertIn(required_text, guide)
+
+    def test_elementor_map_covers_shared_templates_and_widgets(self):
+        map_path = REPO_ROOT / "docs/elementor-migration-map.md"
+        self.assertTrue(map_path.is_file(), f"Missing {map_path}")
+        migration_map = map_path.read_text(encoding="utf-8")
+        for required_text in (
+            "Theme Builder",
+            "Header",
+            "Footer",
+            "floating WhatsApp",
+            "section bar",
+            "Counter",
+            "Image Carousel",
+            "Accordion",
+            "Elementor Container",
+        ):
+            with self.subTest(required_text=required_text):
+                self.assertIn(required_text, migration_map)
+
+    def test_readme_documents_canonical_and_legacy_intensivefix_routes(self):
+        readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("/intensivefix/", readme)
+        self.assertIn("site/pages/intensivefix.html", readme)
+        self.assertIn("/s3-intensivefix/", readme)
+        self.assertIn("legacy alias", readme.lower())
+
 
 class ProjectHandoffTests(unittest.TestCase):
     def test_client_guide_covers_global_and_page_edits(self):
@@ -917,7 +1331,7 @@ class ProjectHandoffTests(unittest.TestCase):
                 self.assertIn(required_text, guide)
 
     def test_editing_guide_has_elementor_migration_map(self):
-        guide_path = REPO_ROOT / "docs/client-editing-guide.md"
+        guide_path = REPO_ROOT / "docs/elementor-migration-map.md"
         self.assertTrue(guide_path.is_file(), f"Missing {guide_path}")
         guide = guide_path.read_text(encoding="utf-8")
         for required_text in (
@@ -929,16 +1343,13 @@ class ProjectHandoffTests(unittest.TestCase):
             "Global Widget",
             "Elementor Container",
             "prefers-reduced-motion",
-            "#hero",
-            "#results",
-            "#fasttrack",
-            "#trial-guarantee",
-            "#suitability",
-            "#founder",
-            "#faq",
-            "#classroom",
-            "#analysis-video",
-            "#final-cta",
+            "hero",
+            "results",
+            "fasttrack",
+            "suitability",
+            "faq",
+            "analysis-video",
+            "closing-cta",
         ):
             with self.subTest(required_text=required_text):
                 self.assertIn(required_text, guide)
@@ -974,6 +1385,7 @@ class FinalReviewRegressionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         build_root = build_test_site()
+        cls.build_root = build_root
         cls.base_css = (SITE_DIR / "assets/css/base.css").read_text(encoding="utf-8")
         cls.components_css = (SITE_DIR / "assets/css/components.css").read_text(
             encoding="utf-8"
@@ -981,9 +1393,130 @@ class FinalReviewRegressionTests(unittest.TestCase):
         cls.pages_css = (SITE_DIR / "assets/css/pages.css").read_text(encoding="utf-8")
         cls.site_js = (SITE_DIR / "assets/js/site.js").read_text(encoding="utf-8")
         cls.home = (build_root / "index.html").read_text(encoding="utf-8")
-        cls.intensive = (build_root / "s3-intensivefix/index.html").read_text(
+        cls.intensive = (build_root / "intensivefix/index.html").read_text(
             encoding="utf-8"
         )
+
+    def test_original_full_width_photo_heroes_use_overlay_geometry(self):
+        for route in ("", "classes/", "intensivefix/"):
+            source = (self.build_root / route / "index.html").read_text(
+                encoding="utf-8"
+            )
+            with self.subTest(route=route or "/"):
+                self.assertIn('class="hero original-hero full-photo-hero"', source)
+
+        self.assertRegex(
+            self.components_css,
+            r"\.full-photo-hero\s+\.hero__media\s*\{[^}]*position:\s*absolute;[^}]*inset:\s*0",
+        )
+        self.assertRegex(
+            self.components_css,
+            r"\.full-photo-hero\s+\.hero__copy\s*\{[^}]*z-index:\s*2;[^}]*text-align:\s*center",
+        )
+        self.assertRegex(
+            self.components_css,
+            r"\.full-photo-hero\s+\.hero__media\s+img\s*\{[^}]*object-fit:\s*cover",
+        )
+        self.assertRegex(
+            self.components_css,
+            r"\.full-photo-hero\s+\.hero__grid\s*\{[^}]*padding-bottom:\s*clamp\(",
+        )
+        self.assertRegex(
+            self.components_css,
+            r"\.full-photo-hero::after\s*\{[^}]*pointer-events:\s*none",
+        )
+
+    def test_original_section_bars_are_used_in_rendered_homepage(self):
+        self.assertGreaterEqual(self.home.count('class="section-bar"'), 8)
+        self.assertIn("Here’s the Track Record", self.home)
+        self.assertIn("The TBT FastTrack System", self.home)
+
+    def test_original_plain_sections_do_not_use_inquire_card_panels_or_gradients(self):
+        for section_id in ("missing-key", "advantage", "student-benefits"):
+            section = self.home.split(f'id="{section_id}"', 1)[1].split(
+                "</section>", 1
+            )[0]
+            with self.subTest(section=section_id):
+                self.assertNotIn('class="card"', section)
+
+        about = (self.build_root / "about/index.html").read_text(encoding="utf-8")
+        quality = about.split('id="quality"', 1)[1].split("</section>", 1)[0]
+        self.assertNotIn('class="card"', quality)
+        self.assertIn('class="section-bar"', quality)
+        self.assertNotRegex(
+            self.components_css,
+            r"\.guarantee\s*\{[^}]*radial-gradient",
+        )
+        self.assertNotRegex(
+            self.components_css,
+            r"\.cta-panel\s*\{[^}]*radial-gradient",
+        )
+
+    def test_intensivefix_limited_time_copy_uses_light_overlay_colours(self):
+        self.assertRegex(
+            self.pages_css,
+            r"\.full-photo-hero\s+\.limited-time\s*\{[^}]*color:\s*#fff",
+        )
+        self.assertRegex(
+            self.pages_css,
+            r"\.full-photo-hero\s+\.limited-time\s+strong\s*\{[^}]*color:\s*var\(--color-brand-bright\)",
+        )
+        self.assertRegex(
+            self.components_css,
+            r"\.guarantee\s+\.eyebrow\s*\{[^}]*color:\s*var\(--color-brand-bright\)",
+        )
+
+    def test_brand_text_and_photo_hero_outline_meet_contrast_requirements(self):
+        match = re.search(r"--color-brand:\s*(#[0-9a-fA-F]{6})", self.base_css)
+        self.assertIsNotNone(match)
+
+        def channel(value):
+            value /= 255
+            return value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4
+
+        color = match.group(1)
+        red, green, blue = (int(color[index : index + 2], 16) for index in (1, 3, 5))
+        luminance = 0.2126 * channel(red) + 0.7152 * channel(green) + 0.0722 * channel(blue)
+        white_contrast = 1.05 / (luminance + 0.05)
+        self.assertGreaterEqual(white_contrast, 4.5)
+        self.assertRegex(
+            self.components_css,
+            r"\.full-photo-hero\s+\.button--outline\s*\{[^}]*color:\s*#fff",
+        )
+
+    def test_original_long_form_copy_is_not_reduced(self):
+        about = (self.build_root / "about/index.html").read_text(encoding="utf-8")
+        sec3 = (
+            self.build_root / "sec-3-pure-g3-biology-tuition/index.html"
+        ).read_text(encoding="utf-8")
+        sec4 = (
+            self.build_root / "sec-4-pure-g3-biology-tuition/index.html"
+        ).read_text(encoding="utf-8")
+
+        self.assertEqual(self.home.count('class="faq"'), 13)
+        self.assertEqual(sec3.count('class="faq"'), 13)
+        self.assertEqual(sec4.count('class="faq"'), 12)
+        for question in (
+            "Why did you start ThatBioTutor?",
+            "Why is it important that students who really want to do well can do so?",
+            "Why is it that students having high self-confidence important to you?",
+        ):
+            self.assertIn(question, about)
+        for technique in (
+            "FIRED method for full marks in OEQs",
+            "how to interpret graphs and tables",
+            "linking topics to unseen scenarios",
+            "technique, table drawing, graph plotting",
+            "which questions to prioritize and when to move on",
+            "topic by topic throughout the year",
+        ):
+            with self.subTest(technique=technique):
+                self.assertIn(technique, sec3)
+                self.assertIn(technique, sec4)
+        for page in (sec3, sec4):
+            self.assertIn("Real Practical Sessions. Real Practice.", page)
+            self.assertIn("Paper 3 makes up 20% of the grade", page)
+            self.assertIn("additional hands-on sessions", page)
 
     def test_light_cards_reset_dark_section_text_colour(self):
         self.assertRegex(
@@ -1029,11 +1562,11 @@ class FinalReviewRegressionTests(unittest.TestCase):
         ):
             self.assertIn(exact_intensive_copy, self.intensive)
 
-    def test_carousel_figures_and_group_photo_are_not_overcropped(self):
+    def test_carousel_figures_reset_margin_and_keep_group_photo_centred(self):
         self.assertRegex(self.base_css, r"figure\s*\{[^}]*margin:\s*0")
         self.assertRegex(
             self.pages_css,
-            r"\.home-hero\s+\.media-carousel__slide:nth-child\(3\)\s+img\s*\{[^}]*object-fit:\s*contain",
+            r"\.home-hero\s+\.media-carousel__slide:nth-child\(3\)\s+img\s*\{[^}]*object-position:\s*50% 50%",
         )
 
     def test_programme_graphics_have_accessible_html_details(self):
