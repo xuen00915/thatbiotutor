@@ -52,7 +52,11 @@
 .tbt-stat strong { color: #8de15e; font-size: clamp(2rem, 3.4vw, 3.5rem); line-height: 1; }
 .tbt-stat span { color: #fff; font-size: .95rem; font-weight: 700; }
 
-.tbt-hall__image { display: block; width: min(100%, 940px); margin: 0 auto 28px; object-fit: contain; }
+.tbt-hall__gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-bottom: 34px; }
+.tbt-hall__image { display: block; width: 100%; margin: 0; object-fit: contain; }
+.tbt-hall .tbt-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin: 0 auto 34px; }
+.tbt-hall .tbt-result { padding: 22px; border: 1px solid #dce8d8; background: #fff; text-align: center; }
+.tbt-hall .tbt-result h3, .tbt-hall .tbt-result p { margin: 0 0 8px; }
 .tbt-home-testimonials { background: #fff; }
 .tbt-home-testimonials h2 { margin: 0 0 30px; font-size: clamp(1.8rem, 3vw, 2.5rem); }
 .tbt-home .tbt-testimonials { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-bottom: 30px; text-align: left; }
@@ -95,10 +99,11 @@
 
 @media (min-width: 1440px) {
   .tbt-home-hero { min-height: 725px; }
-  .tbt-home-section { padding-bottom: 72px; }
+  .tbt-home-section { padding-bottom: 762px; }
 }
 
 @media (max-width: 768px) {
+  .tbt-hall__gallery { grid-template-columns: 1fr; }
   .tbt-home-container { width: min(calc(100% - 32px), 680px); }
   .tbt-home-hero { min-height: 560px; }
   .tbt-home-hero__overlay { width: min(calc(100% - 44px), 680px); padding-top: 55px; }

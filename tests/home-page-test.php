@@ -18,6 +18,7 @@ function get_footer(): void { echo '</main><footer data-test-footer></footer>'; 
 function tbt_render_testimonials(array $args = []): void { echo '<div data-testimonial-renderer></div>'; }
 function tbt_render_tutors(array $args = []): void { echo '<div data-tutor-renderer></div>'; }
 function tbt_render_faqs(string $collection): void { echo '<div data-faq-renderer="' . esc_attr($collection) . '"></div>'; }
+function tbt_render_results(array $args = []): void { echo '<div data-result-renderer></div>'; }
 
 require_once dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/inc/reference-content.php';
 require_once dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/inc/theme-helpers.php';
@@ -69,7 +70,10 @@ final class HomePageTest
         $this->assertTrue(substr_count($html, 'youtube-nocookie.com/embed/') >= 4, 'Home must preserve the original video-led sections.');
         $this->assertSame(12, substr_count($html, 'data-school-crest'), 'School crest panel must contain twelve crests.');
         $this->assertTrue(str_contains($html, 'data-school-marquee'), 'School crests must use the shared running panel hook.');
-        $this->assertTrue(str_contains($html, 'curated_shared_hall_of_fame'), 'Home must use the local hall-of-fame results artwork.');
+        foreach (range(1, 4) as $index) {
+            $this->assertTrue(str_contains($html, sprintf('home_number_%02d', $index)), "Home number image {$index} must render through its editable slot.");
+        }
+        $this->assertSame(1, substr_count($html, 'data-result-renderer'), 'Home must render the editable Results records.');
         $this->assertSame(3, substr_count($html, 'data-practical-image'), 'Home must show three practical-session images.');
         $this->assertSame(3, substr_count($html, 'data-classroom-image'), 'Home must show three supplied classroom images.');
         $this->assertSame(1, substr_count($html, 'data-testimonial-renderer'), 'Home must use the shared testimonial renderer.');

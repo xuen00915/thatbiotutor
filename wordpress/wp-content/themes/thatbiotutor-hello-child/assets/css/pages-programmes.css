@@ -126,6 +126,9 @@
 
 @media (min-width: 1440px) {
   .tbt-programme-section { padding-block: 82px; }
+  .tbt-classes-page .tbt-programme-section { padding-block: 271px; }
+  .tbt-sec3-page .tbt-programme-section { padding-block: 447px; }
+  .tbt-sec4-page .tbt-programme-section { padding-block: 453px; }
   .tbt-programme-hero--classes { min-height: 575px; }
   .tbt-programme-hero--sec { min-height: 710px; }
   .tbt-sec3-page .tbt-programme-hero--sec { min-height: 730px; }

@@ -106,7 +106,11 @@ $tbt_whatsapp = tbt_whatsapp_url('Hi ThatBioTutor, I would like to know more abo
 
     <section class="tbt-home-section tbt-hall" data-section="hall-of-fame">
         <header class="tbt-home-band"><h2>TBT Hall of Fame</h2><p>Some of our biggest grade jumps (there are many more!)</p></header>
-        <div class="tbt-home-container"><?php $tbt_media_image('curated_shared_hall_of_fame', 'tbt-hall__image'); ?><a class="tbt-button" href="<?php echo esc_url(home_url('/testimonials/')); ?>">More Results</a></div>
+        <div class="tbt-home-container">
+            <div class="tbt-hall__gallery"><?php foreach (range(1, 4) as $tbt_index) { tbt_render_page_image(sprintf('home_number_image_%02d', $tbt_index), sprintf('home_number_%02d', $tbt_index), 'tbt-hall__image', ['loading' => 'lazy']); } ?></div>
+            <?php tbt_render_results(['posts_per_page' => -1]); ?>
+            <a class="tbt-button" href="<?php echo esc_url(home_url('/testimonials/')); ?>">More Results</a>
+        </div>
     </section>
 
     <section class="tbt-home-section tbt-home-testimonials" data-section="testimonials">

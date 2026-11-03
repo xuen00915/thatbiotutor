@@ -42,6 +42,11 @@ function get_post_meta(int $postId, string $key, bool $single = false): mixed
     return $single ? '' : [];
 }
 
+function metadata_exists(string $type, int $postId, string $key): bool
+{
+    return $type === 'post' && array_key_exists($key, $GLOBALS['tbt_helper_fields'][$postId] ?? []);
+}
+
 final class ThemeHelpersTest
 {
     private int $assertions = 0;
@@ -85,7 +90,7 @@ final class ThemeHelpersTest
         ];
         $GLOBALS['tbt_helper_fields'][99] = ['shared_label' => 'Home-owned shared value'];
 
-        $this->assertSame('Fallback', tbt_page_field('empty', 'Fallback', 7), 'Empty string must use fallback.');
+        $this->assertSame('', tbt_page_field('empty', 'Fallback', 7), 'An intentionally empty stored field must remain empty.');
         $this->assertSame('Fallback', tbt_page_field('null', 'Fallback', 7), 'Null must use fallback.');
         $this->assertSame(0, tbt_page_field('zero_int', 18, 7), 'Integer zero must remain a valid client value.');
         $this->assertSame('0', tbt_page_field('zero_string', 18, 7), 'String zero must remain a valid client value.');
@@ -115,6 +120,9 @@ final class ThemeHelpersTest
         $this->assertSame($fallback, $missing['url'], 'Missing image field must return the approved local fallback.');
         $this->assertSame(0, $missing['width'], 'String fallback has no invented width.');
         $this->assertSame(0, $missing['height'], 'String fallback has no invented height.');
+
+        $blank = tbt_page_image('empty', $fallback, 7);
+        $this->assertSame('', $blank['url'], 'An intentionally cleared image must not restore the fallback image.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} theme-helper assertions\n");
     }
