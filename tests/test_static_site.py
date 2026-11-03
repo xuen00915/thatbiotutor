@@ -188,7 +188,16 @@ class StaticSiteAssetTests(unittest.TestCase):
             for entry in entries:
                 with self.subTest(group=group_name, file=entry.get("file")):
                     self.assertEqual(
-                        set(entry), {"source", "file", "alt", "width", "height"}
+                        set(entry),
+                        {
+                            "source",
+                            "file",
+                            "alt",
+                            "width",
+                            "height",
+                            "fit",
+                            "objectPosition",
+                        },
                     )
                     file_path = Path(entry["file"])
                     self.assertFalse(file_path.is_absolute())
@@ -198,6 +207,8 @@ class StaticSiteAssetTests(unittest.TestCase):
                     self.assertGreater(entry["height"], 0)
                     self.assertGreater(len(entry["alt"].strip()), 8)
                     self.assertNotIn(entry["alt"].strip().lower(), {"image", "photo"})
+                    self.assertIn(entry["fit"], {"cover", "contain"})
+                    self.assertTrue(entry["objectPosition"].strip())
 
     def test_supplied_groups_preserve_numeric_source_order(self):
         manifest = self.load_manifest()
@@ -222,6 +233,17 @@ class StaticSiteAssetTests(unittest.TestCase):
             for entry in entries:
                 with self.subTest(group=group_name, file=entry["file"]):
                     self.assertEqual(Path(entry["file"]).suffix.lower(), ".webp")
+
+    def test_every_local_webp_is_manifested(self):
+        manifest = self.load_manifest()
+        manifested = {
+            entry["file"] for entries in manifest.values() for entry in entries
+        }
+        local = {
+            path.relative_to(SITE_DIR).as_posix()
+            for path in (SITE_DIR / "assets/images").rglob("*.webp")
+        }
+        self.assertEqual(local, manifested)
 
 
 class StaticSiteFoundationTests(unittest.TestCase):
@@ -1236,6 +1258,52 @@ class ResourcePageTests(unittest.TestCase):
         self.assertIn("archived", celldivision.lower())
 
 
+class ClientDocumentationTests(unittest.TestCase):
+    def test_client_guide_covers_every_common_edit(self):
+        guide_path = REPO_ROOT / "docs/client-editing-guide.md"
+        self.assertTrue(guide_path.is_file(), f"Missing {guide_path}")
+        guide = guide_path.read_text(encoding="utf-8")
+        for required_text in (
+            "shared contact details",
+            "navigation",
+            "page copy",
+            "FAQs",
+            "statistics",
+            "carousel order",
+            "video URLs",
+            "image focal positions",
+            "python3 scripts/build_site.py --output build",
+            "python3 scripts/preview_site.py",
+        ):
+            with self.subTest(required_text=required_text):
+                self.assertIn(required_text, guide)
+
+    def test_elementor_map_covers_shared_templates_and_widgets(self):
+        map_path = REPO_ROOT / "docs/elementor-migration-map.md"
+        self.assertTrue(map_path.is_file(), f"Missing {map_path}")
+        migration_map = map_path.read_text(encoding="utf-8")
+        for required_text in (
+            "Theme Builder",
+            "Header",
+            "Footer",
+            "floating WhatsApp",
+            "section bar",
+            "Counter",
+            "Image Carousel",
+            "Accordion",
+            "Elementor Container",
+        ):
+            with self.subTest(required_text=required_text):
+                self.assertIn(required_text, migration_map)
+
+    def test_readme_documents_canonical_and_legacy_intensivefix_routes(self):
+        readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("/intensivefix/", readme)
+        self.assertIn("site/pages/intensivefix.html", readme)
+        self.assertIn("/s3-intensivefix/", readme)
+        self.assertIn("legacy alias", readme.lower())
+
+
 class ProjectHandoffTests(unittest.TestCase):
     def test_client_guide_covers_global_and_page_edits(self):
         guide_path = REPO_ROOT / "docs/client-editing-guide.md"
@@ -1263,7 +1331,7 @@ class ProjectHandoffTests(unittest.TestCase):
                 self.assertIn(required_text, guide)
 
     def test_editing_guide_has_elementor_migration_map(self):
-        guide_path = REPO_ROOT / "docs/client-editing-guide.md"
+        guide_path = REPO_ROOT / "docs/elementor-migration-map.md"
         self.assertTrue(guide_path.is_file(), f"Missing {guide_path}")
         guide = guide_path.read_text(encoding="utf-8")
         for required_text in (
@@ -1275,16 +1343,13 @@ class ProjectHandoffTests(unittest.TestCase):
             "Global Widget",
             "Elementor Container",
             "prefers-reduced-motion",
-            "#hero",
-            "#results",
-            "#fasttrack",
-            "#trial-guarantee",
-            "#suitability",
-            "#founder",
-            "#faq",
-            "#classroom",
-            "#analysis-video",
-            "#final-cta",
+            "hero",
+            "results",
+            "fasttrack",
+            "suitability",
+            "faq",
+            "analysis-video",
+            "closing-cta",
         ):
             with self.subTest(required_text=required_text):
                 self.assertIn(required_text, guide)
