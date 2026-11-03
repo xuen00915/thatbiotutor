@@ -131,7 +131,7 @@ class OriginalShellTests(unittest.TestCase):
                 )
                 self.assertEqual(source.count('<a class="floating-whatsapp"'), 1)
 
-    def test_header_keeps_original_six_links_plus_required_contact_action(self):
+    def test_header_matches_original_six_item_navigation(self):
         source = (self.build_root / "index.html").read_text(encoding="utf-8")
         header = source.split("</header>", 1)[0]
 
@@ -145,9 +145,10 @@ class OriginalShellTests(unittest.TestCase):
         ):
             self.assertIn(f">{label}</a>", header)
         self.assertNotIn(">IntensiveFix</a>", header)
-        self.assertIn('class="site-header__contact"', header)
-        self.assertIn('href="contact/">Contact Us</a>', header)
+        self.assertNotIn('class="site-header__contact"', header)
+        self.assertNotIn(">Contact Us</a>", header)
         self.assertIn("IntensiveFix", source.split("<footer", 1)[1])
+        self.assertIn(">Contact</a>", source.split("<footer", 1)[1])
 
     def test_original_layout_primitives_replace_inquire_shell_styling(self):
         base = (SITE_DIR / "assets/css/base.css").read_text(encoding="utf-8")
