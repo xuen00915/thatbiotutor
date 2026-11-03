@@ -309,23 +309,53 @@ class HomePageTests(unittest.TestCase):
         }
         required = {
             "hero",
-            "results",
+            "missing-key",
             "fasttrack",
+            "track-record",
+            "hall-of-fame",
+            "student-voices",
+            "schools",
+            "advantage",
+            "student-benefits",
+            "experience",
+            "causes",
             "tutors",
-            "trial-guarantee",
-            "suitability",
-            "founder",
             "faq",
-            "classroom",
-            "final-cta",
+            "closing-cta",
         }
         self.assertTrue(required.issubset(ids), required - ids)
+
+    def test_home_uses_original_layout_slot_order(self):
+        expected = [
+            "hero",
+            "missing-key",
+            "fasttrack",
+            "track-record",
+            "hall-of-fame",
+            "student-voices",
+            "schools",
+            "advantage",
+            "student-benefits",
+            "experience",
+            "causes",
+            "tutors",
+            "faq",
+            "closing-cta",
+        ]
+        actual = [
+            element["attrs"]["data-layout-slot"]
+            for element in self.parser.elements
+            if element["tag"] == "section"
+            and "data-layout-slot" in element["attrs"]
+        ]
+        self.assertEqual(actual, expected)
+        self.assertTrue({"suitability", "founder", "classroom"}.isdisjoint(actual))
 
     def test_home_uses_supplied_images_in_manifest_order(self):
         expectations = {
             "hero": ("homeHero", 5),
-            "results": ("trackRecord", 4),
-            "classroom": ("homeClassroom", 3),
+            "track-record": ("trackRecord", 4),
+            "experience": ("homeClassroom", 3),
         }
         for section, (group, count) in expectations.items():
             expected = [entry["file"] for entry in self.manifest[group]]
@@ -343,12 +373,12 @@ class HomePageTests(unittest.TestCase):
             "if you didn’t absolutely love it, simply ask for a refund and you’ll "
             "get your money back, no questions asked."
         )
-        trial_text = self.parser.section_text("trial-guarantee")
+        trial_text = self.parser.section_text("closing-cta")
         self.assertIn(exact_copy, trial_text)
         self.assertIn("Book My Trial Lesson", trial_text)
-        self.assertFalse(self.parser.elements_in("trial-guarantee", "form"))
-        self.assertFalse(self.parser.elements_in("trial-guarantee", "iframe"))
-        links = self.parser.elements_in("trial-guarantee", "a")
+        self.assertFalse(self.parser.elements_in("closing-cta", "form"))
+        self.assertFalse(self.parser.elements_in("closing-cta", "iframe"))
+        links = self.parser.elements_in("closing-cta", "a")
         self.assertTrue(
             any(link["attrs"].get("href", "").startswith("https://wa.me/") for link in links)
         )
