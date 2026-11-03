@@ -335,7 +335,7 @@ def _navigation_html(
                 '<button class="site-submenu-toggle" type="button" '
                 'aria-expanded="false" aria-controls="classes-submenu" '
                 'aria-label="Show Classes submenu" data-submenu-toggle>'
-                '<span aria-hidden="true">⌄</span></button>'
+                '<span aria-hidden="true"></span></button>'
                 '<div class="site-submenu" id="classes-submenu" data-submenu hidden>'
                 f'<a href="{classes_href}">Classes</a>'
                 f'<a href="{sec3_href}">Sec 3</a>'
