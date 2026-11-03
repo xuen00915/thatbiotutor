@@ -341,37 +341,41 @@ class HomePageTests(unittest.TestCase):
         }
         required = {
             "hero",
-            "missing-key",
-            "fasttrack",
+            "pain-points",
+            "student-results",
             "track-record",
-            "hall-of-fame",
-            "student-voices",
-            "schools",
-            "advantage",
-            "student-benefits",
-            "experience",
-            "causes",
+            "video-transition",
+            "fasttrack",
+            "social-proof",
             "tutors",
+            "quality-control",
+            "practical-sessions",
+            "trial-guarantee",
+            "suitability",
+            "founder",
             "faq",
+            "classroom-life",
             "closing-cta",
         }
         self.assertTrue(required.issubset(ids), required - ids)
 
-    def test_home_uses_original_layout_slot_order(self):
+    def test_home_uses_inquire_layout_slot_order(self):
         expected = [
             "hero",
-            "missing-key",
-            "fasttrack",
+            "pain-points",
+            "student-results",
             "track-record",
-            "hall-of-fame",
-            "student-voices",
-            "schools",
-            "advantage",
-            "student-benefits",
-            "experience",
-            "causes",
+            "video-transition",
+            "fasttrack",
+            "social-proof",
             "tutors",
+            "quality-control",
+            "practical-sessions",
+            "trial-guarantee",
+            "suitability",
+            "founder",
             "faq",
+            "classroom-life",
             "closing-cta",
         ]
         actual = [
@@ -381,13 +385,57 @@ class HomePageTests(unittest.TestCase):
             and "data-layout-slot" in element["attrs"]
         ]
         self.assertEqual(actual, expected)
-        self.assertTrue({"suitability", "founder", "classroom"}.isdisjoint(actual))
+
+    def test_home_retains_inquire_copy_and_removes_original_only_sections(self):
+        visible_text = " ".join(
+            " ".join(
+                " ".join(element["text"]).split()
+            )
+            for section in (
+                "hero",
+                "pain-points",
+                "student-results",
+                "fasttrack",
+                "quality-control",
+                "practical-sessions",
+                "founder",
+                "closing-cta",
+            )
+            for element in self.parser.elements
+            if element["tag"] == "section"
+            and element["attrs"].get("id") == section
+        )
+        required_copy = (
+            "The One Missing Key to go from Fail to A1 while cutting study time by 90%",
+            "The Average TBT Student Makes a 2.3 Grade Jump (~C5 to A2)",
+            "There’s WAY too much to memorise",
+            "Sound familiar? Many TBT students started exactly here.",
+            "ThatBioTutor's FastTrack System Helps Students Score A1/A2 Without the Endless Revision Grind",
+            "Quality Control: How TBT Ensures Every Class Is Excellent",
+            "Real Practical Sessions. Real Practice.",
+            "About The Founder",
+            "Bio doesn’t have to eat up every other part of a student’s life.",
+        )
+        for copy in required_copy:
+            with self.subTest(copy=copy):
+                self.assertIn(copy, visible_text)
+        for removed_id in (
+            "missing-key",
+            "hall-of-fame",
+            "student-voices",
+            "schools",
+            "advantage",
+            "student-benefits",
+            "experience",
+            "causes",
+        ):
+            self.assertNotIn(f'id="{removed_id}"', self.source)
 
     def test_home_uses_supplied_images_in_manifest_order(self):
         expectations = {
             "hero": ("homeHero", 5),
             "track-record": ("trackRecord", 4),
-            "experience": ("homeClassroom", 3),
+            "classroom-life": ("homeClassroom", 3),
         }
         for section, (group, count) in expectations.items():
             expected = [entry["file"] for entry in self.manifest[group]]
@@ -405,15 +453,47 @@ class HomePageTests(unittest.TestCase):
             "if you didn’t absolutely love it, simply ask for a refund and you’ll "
             "get your money back, no questions asked."
         )
-        trial_text = self.parser.section_text("closing-cta")
+        trial_text = self.parser.section_text("trial-guarantee")
         self.assertIn(exact_copy, trial_text)
         self.assertIn("Book My Trial Lesson", trial_text)
-        self.assertFalse(self.parser.elements_in("closing-cta", "form"))
-        self.assertFalse(self.parser.elements_in("closing-cta", "iframe"))
-        links = self.parser.elements_in("closing-cta", "a")
+        self.assertFalse(self.parser.elements_in("trial-guarantee", "form"))
+        self.assertFalse(self.parser.elements_in("trial-guarantee", "iframe"))
+        icons = self.parser.elements_in("trial-guarantee", "svg")
+        self.assertEqual(len(icons), 1)
+        self.assertIn("shield", icons[0]["attrs"].get("aria-label", "").lower())
+        links = self.parser.elements_in("trial-guarantee", "a")
         self.assertTrue(
             any(link["attrs"].get("href", "").startswith("https://wa.me/") for link in links)
         )
+
+    def test_home_social_proof_uses_the_inquire_hall_of_fame_and_review_cards(self):
+        proof_images = [
+            element["attrs"].get("src", "")
+            for element in self.parser.elements_in("social-proof", "img")
+        ]
+        self.assertTrue(
+            any(src.endswith("assets/images/shared/hall-of-fame.webp") for src in proof_images)
+        )
+        self.assertFalse(any("results-2025-" in src for src in proof_images))
+        reviews = [
+            element
+            for element in self.parser.elements_in("social-proof", "article")
+            if "inquire-review" in element["attrs"].get("class", "").split()
+        ]
+        self.assertEqual(len(reviews), 3)
+
+    def test_home_keeps_full_inquire_review_quality_and_faq_wording(self):
+        for exact_copy in (
+            "VERY GOOD TEACHING LOVE IT 😀 Ms Chelsea and Mr Keefe are rlly nice and patient plus the notes are excellent 😁",
+            "TBT exposed me to how bio can actl be fun, with their fun, interactive classes and concise notes, I’ve developed a love for Bio, even looking forward to my bio lessons both in schl and at TBT. Furthermore, I’ve improved from a 65% to 85% in Bio just after attending TBT for 2 months 🤯",
+            "The notes are incredibly concise and they helped me clear syllabus way faster and memorised content more efficiently.",
+            "All tutors pass rigorous screening. Can take 1+ month before teaching their first class.",
+            "All tutors follow the same standardised content and teaching methods. Every class ends with a student feedback form, reviewed and acted on weekly.",
+            "Notes, flashcards, lesson clips, extra practice papers, WhatsApp help (message your tutor anytime, get help same day instead of waiting 7 days), and snacks for physical lessons. All free for students.",
+            "No. And that’s actually a good thing. Good tutors transition to group teaching eventually because of demand, and it lets us build resources, notes, CAQs, memory shortcuts, specifically for this syllabus, which a 1-1 tutor never could.",
+        ):
+            with self.subTest(copy=exact_copy[:50]):
+                self.assertIn(exact_copy, self.source)
 
     def test_home_is_progressively_accessible(self):
         meaningful_images = [
@@ -1297,6 +1377,45 @@ class ResourcePageTests(unittest.TestCase):
 
 
 class ClientDocumentationTests(unittest.TestCase):
+    def test_guides_cover_the_rebuilt_homepage_editing_and_elementor_map(self):
+        guide = (REPO_ROOT / "docs/client-editing-guide.md").read_text(
+            encoding="utf-8"
+        )
+        migration_map = (REPO_ROOT / "docs/elementor-migration-map.md").read_text(
+            encoding="utf-8"
+        )
+        for required_text in (
+            "pain-points",
+            "student-results",
+            "social-proof",
+            "quality-control",
+            "practical-sessions",
+            "trial-guarantee",
+            "classroom-life",
+            "homeHero",
+            "trackRecord",
+            "homeClassroom",
+            "50% 68%",
+            "shared header",
+            "shared footer",
+        ):
+            with self.subTest(document="client guide", required_text=required_text):
+                self.assertIn(required_text, guide)
+        for required_text in (
+            "pain-points",
+            "student-results",
+            "social-proof",
+            "quality-control",
+            "practical-sessions",
+            "trial-guarantee",
+            "classroom-life",
+            "Image Carousel",
+            "Counter",
+            "Accordion",
+        ):
+            with self.subTest(document="Elementor map", required_text=required_text):
+                self.assertIn(required_text, migration_map)
+
     def test_client_guide_covers_every_common_edit(self):
         guide_path = REPO_ROOT / "docs/client-editing-guide.md"
         self.assertTrue(guide_path.is_file(), f"Missing {guide_path}")
@@ -1436,12 +1555,13 @@ class FinalReviewRegressionTests(unittest.TestCase):
         )
 
     def test_original_full_width_photo_heroes_use_overlay_geometry(self):
-        for route in ("", "classes/", "intensivefix/"):
+        for route in ("classes/", "intensivefix/"):
             source = (self.build_root / route / "index.html").read_text(
                 encoding="utf-8"
             )
-            with self.subTest(route=route or "/"):
+            with self.subTest(route=route):
                 self.assertIn('class="hero original-hero full-photo-hero"', source)
+        self.assertIn('class="inquire-hero"', self.home)
 
         self.assertRegex(
             self.components_css,
@@ -1464,13 +1584,13 @@ class FinalReviewRegressionTests(unittest.TestCase):
             r"\.full-photo-hero::after\s*\{[^}]*pointer-events:\s*none",
         )
 
-    def test_original_section_bars_are_used_in_rendered_homepage(self):
-        self.assertGreaterEqual(self.home.count('class="section-bar"'), 8)
+    def test_shared_section_bars_remain_on_reused_homepage_sections(self):
+        self.assertEqual(self.home.count('class="section-bar"'), 2)
         self.assertIn("Here’s the Track Record", self.home)
         self.assertIn("The TBT FastTrack System", self.home)
 
-    def test_original_plain_sections_do_not_use_inquire_card_panels_or_gradients(self):
-        for section_id in ("missing-key", "advantage", "student-benefits"):
+    def test_homepage_sections_avoid_the_unscoped_generic_card_pattern(self):
+        for section_id in ("pain-points", "quality-control", "suitability"):
             section = self.home.split(f'id="{section_id}"', 1)[1].split(
                 "</section>", 1
             )[0]
@@ -1531,7 +1651,7 @@ class FinalReviewRegressionTests(unittest.TestCase):
             self.build_root / "sec-4-pure-g3-biology-tuition/index.html"
         ).read_text(encoding="utf-8")
 
-        self.assertEqual(self.home.count('class="faq"'), 13)
+        self.assertEqual(self.home.count('class="faq"'), 9)
         self.assertEqual(sec3.count('class="faq"'), 13)
         self.assertEqual(sec4.count('class="faq"'), 12)
         for question in (

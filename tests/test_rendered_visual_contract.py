@@ -305,6 +305,169 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertEqual(faq_button.get_attribute("aria-expanded"), "true")
         self.assertTrue(faq_panel.is_visible())
 
+    def test_rebuilt_home_carousel_counters_and_faq_are_fully_interactive(self) -> None:
+        page = self.open_page("/")
+        carousel = page.locator(".home-hero")
+        status = carousel.locator("[data-carousel-status]")
+        carousel.focus()
+        carousel.press("End")
+        self.assertEqual(status.inner_text(), "Image 5 of 5")
+        carousel.press("ArrowRight")
+        self.assertEqual(status.inner_text(), "Image 1 of 5")
+        carousel.press("ArrowLeft")
+        self.assertEqual(status.inner_text(), "Image 5 of 5")
+
+        stats = page.locator("#track-record .stats")
+        stats.scroll_into_view_if_needed()
+        page.wait_for_timeout(1100)
+        self.assertEqual(
+            page.locator("#track-record [data-counter-key]").all_text_contents(),
+            ["912+", "91%", "2.3", "1 in 2"],
+        )
+
+        first_faq = page.locator("#faq .faq").first
+        faq_button = first_faq.locator("[data-faq-button]")
+        faq_panel = first_faq.locator("[data-faq-panel]")
+        self.assertEqual(faq_button.get_attribute("aria-expanded"), "false")
+        self.assertTrue(faq_panel.is_hidden())
+        faq_button.click()
+        self.assertEqual(faq_button.get_attribute("aria-expanded"), "true")
+        self.assertTrue(faq_panel.is_visible())
+
+    def test_home_reduced_motion_shows_final_counter_values_immediately(self) -> None:
+        page = self.browser.new_page(viewport={"width": 1440, "height": 1000})
+        self.addCleanup(page.close)
+        page.emulate_media(reduced_motion="reduce")
+        page.goto(f"{BASE_URL}/", wait_until="networkidle")
+        self.assertEqual(
+            page.locator("#track-record [data-counter-key]").all_text_contents(),
+            ["912+", "91%", "2.3", "1 in 2"],
+        )
+
+    def test_home_remains_complete_and_readable_without_javascript(self) -> None:
+        context = self.browser.new_context(
+            viewport={"width": 390, "height": 844}, java_script_enabled=False
+        )
+        self.addCleanup(context.close)
+        page = context.new_page()
+        page.goto(f"{BASE_URL}/", wait_until="networkidle")
+
+        self.assertEqual(page.locator(".home-hero [data-carousel-slide]").count(), 5)
+        self.assertTrue(
+            page.locator(".home-hero [data-carousel-slide]").first.is_visible()
+        )
+        self.assertEqual(
+            page.locator("#track-record [data-counter-key]").all_text_contents(),
+            ["912+", "91%", "2.3", "1 in 2"],
+        )
+        self.assertEqual(page.locator("#faq [data-faq-panel]:visible").count(), 9)
+        self.assertGreaterEqual(
+            page.locator('main a[href^="https://wa.me/"]:visible').count(), 2
+        )
+        self.assertEqual(
+            page.evaluate(
+                "document.documentElement.scrollWidth - document.documentElement.clientWidth"
+            ),
+            0,
+        )
+
+    def test_home_hero_first_image_uses_its_lower_focal_point_on_desktop(self) -> None:
+        page = self.open_page("/", width=1440, height=900)
+        hero_media = page.locator(".home-hero .media-carousel__viewport").bounding_box()
+        first_image = page.locator(
+            ".home-hero .media-carousel__slide:nth-child(1) img"
+        )
+        first_image_box = first_image.bounding_box()
+        object_position = first_image.evaluate(
+            "element => getComputedStyle(element).objectPosition"
+        )
+
+        self.assertIsNotNone(hero_media)
+        self.assertIsNotNone(first_image_box)
+        self.assertGreaterEqual(hero_media["height"], 360)
+        self.assertLessEqual(hero_media["height"], 520)
+        self.assertGreaterEqual(hero_media["width"] / hero_media["height"], 2.6)
+        self.assertAlmostEqual(first_image_box["width"], hero_media["width"], delta=1)
+        self.assertAlmostEqual(first_image_box["height"], hero_media["height"], delta=1)
+        self.assertEqual(object_position, "50% 68%")
+
+    def test_home_matches_inquire_desktop_section_system(self) -> None:
+        page = self.open_page("/", width=1440, height=1000)
+        hero_intro = page.locator(".inquire-hero__intro").bounding_box()
+        hero_heading = page.locator("#home-title").bounding_box()
+        colors = page.evaluate(
+            """() => Object.fromEntries([
+                ['hero', '.inquire-hero'],
+                ['fasttrack', '#fasttrack'],
+                ['tutors', '#tutors'],
+                ['trial', '#trial-guarantee'],
+                ['closing', '#closing-cta'],
+                ['footer', '.site-footer'],
+            ].map(([key, selector]) => [
+                key,
+                getComputedStyle(document.querySelector(selector)).backgroundColor,
+            ]))"""
+        )
+        stats_columns = page.locator("#track-record .stats").evaluate(
+            "element => getComputedStyle(element).gridTemplateColumns.split(' ').length"
+        )
+        suitability_columns = page.locator(".inquire-suitability__grid").evaluate(
+            "element => getComputedStyle(element).gridTemplateColumns.split(' ').length"
+        )
+
+        self.assertIsNotNone(hero_intro)
+        self.assertIsNotNone(hero_heading)
+        self.assertLessEqual(hero_intro["width"], 980)
+        self.assertAlmostEqual(
+            hero_intro["x"] + hero_intro["width"] / 2, 720, delta=2
+        )
+        self.assertAlmostEqual(
+            hero_heading["x"] + hero_heading["width"] / 2, 720, delta=2
+        )
+        self.assertEqual(colors["hero"], "rgb(255, 255, 255)")
+        self.assertNotEqual(colors["fasttrack"], colors["hero"])
+        self.assertNotEqual(colors["tutors"], colors["hero"])
+        self.assertEqual(colors["trial"], colors["closing"])
+        self.assertEqual(colors["footer"], colors["closing"])
+        self.assertEqual(stats_columns, 4)
+        self.assertEqual(suitability_columns, 2)
+        self.assertEqual(page.locator("#fasttrack .feature-row").count(), 5)
+        self.assertEqual(page.locator("#tutors .tutor-card").count(), 4)
+        self.assertEqual(page.locator("#practical-sessions .gallery__item").count(), 3)
+        self.assertEqual(page.locator("#classroom-life .gallery__item").count(), 3)
+
+        closing_prompt = page.locator("#closing-cta p").last.bounding_box()
+        closing_button = page.locator("#closing-cta .button").bounding_box()
+        self.assertIsNotNone(closing_prompt)
+        self.assertIsNotNone(closing_button)
+        self.assertGreaterEqual(
+            closing_button["y"] - (closing_prompt["y"] + closing_prompt["height"]),
+            24,
+        )
+
+    def test_home_inquire_sections_stack_without_overflow_on_tablet_and_mobile(self) -> None:
+        for width in (390, 768):
+            with self.subTest(width=width):
+                page = self.open_page("/", width=width, height=900)
+                page.locator("#closing-cta").scroll_into_view_if_needed()
+                layout = page.evaluate(
+                    """() => ({
+                        overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+                        stats: getComputedStyle(document.querySelector('#track-record .stats')).gridTemplateColumns.split(' ').length,
+                        feature: getComputedStyle(document.querySelector('#fasttrack .feature-row')).gridTemplateColumns.split(' ').length,
+                        suitability: getComputedStyle(document.querySelector('.inquire-suitability__grid')).gridTemplateColumns.split(' ').length,
+                        classroom: getComputedStyle(document.querySelector('#classroom-life .gallery')).gridTemplateColumns.split(' ').length,
+                    })"""
+                )
+                self.assertEqual(layout["overflow"], 0)
+                self.assertLessEqual(layout["stats"], 2)
+                self.assertEqual(layout["feature"], 1)
+                self.assertEqual(layout["suitability"], 1)
+                self.assertEqual(layout["classroom"], 1)
+                self.assertTrue(
+                    page.locator("#closing-cta .button").is_visible()
+                )
+
     def test_mobile_navigation_links_remain_visible_without_javascript(self) -> None:
         context = self.browser.new_context(
             viewport={"width": 390, "height": 844}, java_script_enabled=False
