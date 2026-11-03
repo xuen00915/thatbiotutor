@@ -305,6 +305,26 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertEqual(faq_button.get_attribute("aria-expanded"), "true")
         self.assertTrue(faq_panel.is_visible())
 
+    def test_home_hero_first_image_uses_its_lower_focal_point_on_desktop(self) -> None:
+        page = self.open_page("/", width=1440, height=900)
+        hero_media = page.locator(".home-hero .media-carousel__viewport").bounding_box()
+        first_image = page.locator(
+            ".home-hero .media-carousel__slide:nth-child(1) img"
+        )
+        first_image_box = first_image.bounding_box()
+        object_position = first_image.evaluate(
+            "element => getComputedStyle(element).objectPosition"
+        )
+
+        self.assertIsNotNone(hero_media)
+        self.assertIsNotNone(first_image_box)
+        self.assertGreaterEqual(hero_media["height"], 360)
+        self.assertLessEqual(hero_media["height"], 520)
+        self.assertGreaterEqual(hero_media["width"] / hero_media["height"], 2.6)
+        self.assertAlmostEqual(first_image_box["width"], hero_media["width"], delta=1)
+        self.assertAlmostEqual(first_image_box["height"], hero_media["height"], delta=1)
+        self.assertEqual(object_position, "50% 68%")
+
     def test_mobile_navigation_links_remain_visible_without_javascript(self) -> None:
         context = self.browser.new_context(
             viewport={"width": 390, "height": 844}, java_script_enabled=False
