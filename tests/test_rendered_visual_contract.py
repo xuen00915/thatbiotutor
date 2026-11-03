@@ -392,6 +392,46 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertAlmostEqual(first_image_box["height"], hero_media["height"], delta=1)
         self.assertEqual(object_position, "50% 56%")
 
+    def test_home_carousel_controls_match_inquire_geometry(self) -> None:
+        for width, height in ((1440, 1000), (390, 844)):
+            with self.subTest(width=width):
+                page = self.open_page("/", width=width, height=height)
+                hero = page.locator(".home-hero").bounding_box()
+                previous = page.locator(".home-hero [data-carousel-prev]")
+                next_button = page.locator(".home-hero [data-carousel-next]")
+                previous_box = previous.bounding_box()
+                next_box = next_button.bounding_box()
+                dots = page.locator(".home-hero [data-carousel-dot]")
+                active_dot = dots.first.evaluate(
+                    """element => {
+                        const style = getComputedStyle(element, '::before');
+                        return {
+                            width: parseFloat(style.width),
+                            height: parseFloat(style.height),
+                            background: style.backgroundColor,
+                        };
+                    }"""
+                )
+                inactive_dot = dots.nth(1).evaluate(
+                    "element => getComputedStyle(element, '::before').backgroundColor"
+                )
+
+                self.assertIsNotNone(hero)
+                self.assertIsNotNone(previous_box)
+                self.assertIsNotNone(next_box)
+                self.assertAlmostEqual(previous_box["width"], 30, delta=1)
+                self.assertAlmostEqual(previous_box["height"], 30, delta=1)
+                self.assertAlmostEqual(previous_box["x"] - hero["x"], 10, delta=1)
+                self.assertAlmostEqual(hero["x"] + hero["width"] - next_box["x"] - next_box["width"], 10, delta=1)
+                self.assertEqual(previous.locator("svg").count(), 1)
+                self.assertEqual(next_button.locator("svg").count(), 1)
+                self.assertEqual(dots.count(), 5)
+                self.assertTrue(dots.first.is_visible())
+                self.assertEqual(active_dot["width"], 6)
+                self.assertEqual(active_dot["height"], 6)
+                self.assertEqual(active_dot["background"], "rgb(47, 138, 39)")
+                self.assertEqual(inactive_dot, "rgb(255, 255, 255)")
+
     def test_home_matches_inquire_desktop_section_system(self) -> None:
         page = self.open_page("/", width=1440, height=1000)
         hero_intro = page.locator(".inquire-hero__intro").bounding_box()
@@ -484,6 +524,45 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertEqual(mobile_sizes["section"], 24)
         self.assertEqual(mobile_sizes["subsection"], 20)
         self.assertEqual(mobile_sizes["proof"], 18)
+
+    def test_home_eyebrow_and_floating_whatsapp_match_original_alignment(self) -> None:
+        for width, height in ((1440, 1000), (768, 900), (390, 844)):
+            with self.subTest(width=width):
+                page = self.open_page("/", width=width, height=height)
+                eyebrow = page.locator(".inquire-hero .eyebrow")
+                eyebrow_box = eyebrow.bounding_box()
+                eyebrow_style = eyebrow.evaluate(
+                    "element => getComputedStyle(element).textAlign"
+                )
+                whatsapp = page.locator(".floating-whatsapp")
+                whatsapp_box = whatsapp.bounding_box()
+                whatsapp_style = whatsapp.evaluate(
+                    """element => {
+                        const style = getComputedStyle(element);
+                        return {
+                            background: style.backgroundColor,
+                            radius: style.borderRadius,
+                            zIndex: parseInt(style.zIndex, 10),
+                        };
+                    }"""
+                )
+
+                self.assertIsNotNone(eyebrow_box)
+                self.assertEqual(eyebrow_style, "center")
+                self.assertAlmostEqual(
+                    eyebrow_box["x"] + eyebrow_box["width"] / 2,
+                    width / 2,
+                    delta=2,
+                )
+                self.assertIsNotNone(whatsapp_box)
+                self.assertAlmostEqual(whatsapp_box["width"], 60, delta=1)
+                self.assertAlmostEqual(whatsapp_box["height"], 60, delta=1)
+                self.assertAlmostEqual(width - whatsapp_box["x"] - whatsapp_box["width"], 25, delta=1)
+                self.assertAlmostEqual(height - whatsapp_box["y"] - whatsapp_box["height"], 25, delta=1)
+                self.assertEqual(whatsapp_style["background"], "rgb(48, 191, 57)")
+                self.assertEqual(whatsapp_style["radius"], "50%")
+                self.assertGreaterEqual(whatsapp_style["zIndex"], 100000)
+                self.assertEqual(whatsapp.locator("svg").count(), 1)
 
     def test_home_inquire_sections_stack_without_overflow_on_tablet_and_mobile(self) -> None:
         for width in (390, 768):
