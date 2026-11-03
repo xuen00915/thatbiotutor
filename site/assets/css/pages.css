@@ -1012,6 +1012,242 @@
   }
 }
 
+/* Original Notes review stream: one unboxed column in the source order. */
+.page-notes #student-feedback {
+  min-height: 0;
+  background: #fff;
+  padding-block: 5rem;
+}
+
+.page-notes #student-feedback .section-heading {
+  margin-bottom: 3.5rem;
+}
+
+.page-notes #student-feedback .section-heading .eyebrow,
+.page-notes #student-feedback .section-heading > p:last-child {
+  display: none;
+}
+
+.page-notes #student-feedback .section-heading h2 {
+  color: #000;
+  font-size: 1.875rem;
+  line-height: 1.4;
+}
+
+.page-notes #student-feedback .notes-review-wall {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: min(100%, 61.25rem);
+  max-width: none;
+  margin-inline: auto;
+  gap: 4.75rem;
+  border: 0;
+  background: transparent;
+}
+
+.page-notes #student-feedback .notes-review {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+.page-notes #student-feedback .notes-review strong {
+  display: block;
+  color: rgb(43 178 35);
+  font-size: 1.375rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.page-notes #student-feedback .notes-review strong span {
+  color: #f7bd33;
+}
+
+.page-notes #student-feedback .notes-review p {
+  margin: 0.25rem 0 0;
+  color: #000;
+  font-size: 1.375rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Original Testimonials page: full video-and-transcript story archive. */
+.page-testimonials .testimonial-intro {
+  min-height: 0;
+  padding-block: 3.8rem 4.5rem;
+}
+
+.testimonial-story-era,
+.testimonial-written-archive {
+  background: #fff;
+  padding-block: 4rem 5rem;
+}
+
+.testimonial-story-era > .container,
+.testimonial-written-archive > .container {
+  width: min(calc(100% - 2rem), 61.25rem);
+  max-width: 61.25rem;
+}
+
+.testimonial-stories-title,
+.testimonial-era-heading,
+.testimonial-written-archive > .container > h2 {
+  margin: 0 auto;
+  color: #000;
+  font-size: 2.625rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.testimonial-stories-title span {
+  color: #4d963b;
+}
+
+.testimonial-era-heading {
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+}
+
+.testimonial-stories-note {
+  margin: 0.8rem auto 3.5rem;
+  color: #000;
+  font-size: 1.375rem;
+  text-align: center;
+}
+
+.testimonial-story-list {
+  display: grid;
+  width: 100%;
+  margin-top: 3.5rem;
+  gap: 6rem;
+}
+
+.testimonial-story-list .testimonial-story {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+.testimonial-story__video {
+  width: 43.375rem;
+  max-width: 100%;
+  margin: 0 auto 2.5rem;
+}
+
+.testimonial-story__video iframe {
+  display: block;
+  width: 43.375rem;
+  max-width: 100%;
+  height: 24.375rem;
+  border: 0;
+}
+
+.testimonial-story .testimonial-story__quote {
+  margin: 0 auto;
+  color: #000;
+  font-size: 1.375rem;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.testimonial-story .testimonial__person {
+  justify-content: center;
+  margin-top: 1rem;
+  color: #4d963b;
+  font-size: 1.125rem;
+  text-align: center;
+}
+
+.testimonial-written-archive > .container > h2 {
+  margin-bottom: 3.5rem;
+}
+
+.testimonial-written-archive .testimonial-archive {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  gap: 5rem;
+}
+
+.testimonial-written-archive .testimonial--archive {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+.testimonial-written-archive .testimonial__quote {
+  font-size: 1.375rem;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.testimonial-written-archive .testimonial__person {
+  justify-content: center;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.testimonial-google-reviews {
+  background: #fff;
+  padding-block: 5rem;
+  text-align: center;
+}
+
+.testimonial-google-reviews h2 {
+  margin-inline: auto;
+  font-size: 2.5rem;
+}
+
+.testimonial-google-reviews img {
+  width: min(100%, 47rem);
+  margin: 2rem auto;
+}
+
+.testimonial-google-reviews .button {
+  margin-inline: auto;
+}
+
+@media (max-width: 47.99rem) {
+  .testimonial-story-list,
+  .testimonial-story-list .testimonial-story,
+  .testimonial-story__video {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .page-notes #student-feedback .notes-review-wall {
+    gap: 3rem;
+  }
+
+  .page-notes #student-feedback .notes-review strong,
+  .page-notes #student-feedback .notes-review p,
+  .testimonial-story .testimonial-story__quote,
+  .testimonial-written-archive .testimonial__quote {
+    font-size: 1.125rem;
+  }
+
+  .testimonial-stories-title,
+  .testimonial-era-heading,
+  .testimonial-written-archive > .container > h2 {
+    font-size: 2rem;
+  }
+
+  .testimonial-story__video iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 694 / 390;
+  }
+}
+
 @media (min-width: 48rem) and (max-width: 71.99rem) {
   .page-home .home-track-record .stats,
   .page-home .home-track-record .media-grid,
@@ -2581,4 +2817,30 @@
     flex-basis: auto;
     min-height: 4.4rem;
   }
+}
+
+/* Final cascade corrections for the source-faithful Notes and Testimonials pages. */
+.page-notes #student-feedback {
+  min-height: 0;
+}
+
+.page-notes #student-feedback .notes-review-wall {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.page-notes #student-feedback .notes-review {
+  padding: 0;
+}
+
+.page-notes #student-feedback .notes-review p {
+  font-size: 1.375rem;
+}
+
+.page-notes #student-feedback .notes-review strong {
+  color: rgb(43 178 35);
+}
+
+.page-testimonials .testimonial-intro {
+  min-height: 0;
+  padding-block: 3.8rem 4.5rem;
 }

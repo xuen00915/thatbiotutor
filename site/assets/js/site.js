@@ -224,9 +224,165 @@
     toggle.addEventListener("click", () => {
       setOpen(toggle.getAttribute("aria-expanded") !== "true");
     });
+
+    menu.querySelectorAll("[data-submenu-toggle]").forEach((submenuToggle) => {
+      const submenuId = submenuToggle.getAttribute("aria-controls");
+      const submenu = submenuId ? root.getElementById(submenuId) : null;
+      if (!submenu) return;
+
+      const setSubmenuOpen = (open) => {
+        submenuToggle.setAttribute("aria-expanded", String(open));
+        submenuToggle.setAttribute(
+          "aria-label",
+          `${open ? "Hide" : "Show"} Classes submenu`
+        );
+        submenu.hidden = !open;
+      };
+
+      setSubmenuOpen(false);
+      submenuToggle.addEventListener("click", () => {
+        setSubmenuOpen(submenuToggle.getAttribute("aria-expanded") !== "true");
+      });
+      submenu.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        setSubmenuOpen(false);
+        submenuToggle.focus();
+      });
+    });
+
     menu.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => setOpen(false));
     });
+  }
+
+  function initTestimonialStories(root = document) {
+    const source = root.querySelector("[data-testimonial-source]");
+    if (!source || source.dataset.storiesReady === "true") return;
+
+    const testimonials = Array.from(
+      source.querySelectorAll(".testimonial--archive")
+    );
+    const storyFrames = [];
+    const groups = [
+      {
+        year: "2025",
+        start: 0,
+        ids: [
+          "RJxR3ONbylQ", "EfS7RQit79U", "STE5tyEo10w", "UE2K7-92pkM",
+          "nCfeU3UthgA", "MY7T5Hqf8l4", "cDz1UQe4wOI",
+        ],
+      },
+      {
+        year: "2024",
+        start: 16,
+        ids: [
+          "V4dj5XYEcow", "shZaStH4nGI", "xG8PcBOOhCA", "XuuBFtldw_A",
+          "xT8OzWLZ4w8", "uewzV0bhqoc", "YNEW5TFVyMs", "H8YSD2u4tjc",
+          "QzfoV5yH1Tc", "jH3ve35ECXE", "bTQfAjTy0_E", "Ycvn6yK_F0o",
+          "-YGN_dQE3qM", "Fxa8-Hi2dfQ", "BZeEXmU8oQQ", "hqZtkbQNxxc",
+        ],
+      },
+      {
+        year: "2023",
+        start: 81,
+        ids: [
+          "3V8xUj2mKyI", "kEb-tGNNixE", "nmng0-6Li5A", "thLdbLZx0so",
+          "mzWs-4agDjY", "QldLg8X7qAE", "zioHbIDys0w", "ADnbKkV9Isc",
+          "nYeFv7a5L78", "WL8_ziqlq7s", "dKZxiqBVXTc", "wXiYDwwdDgM",
+          "W1WnUFygLhA", "Cej5PUA-ICE", "f3dfLcZ7XqY", "PmAzr0ycX38",
+        ],
+      },
+      {
+        year: "2022",
+        start: 107,
+        ids: [
+          "2qbdprvxXh0", "E7-rp_p1CVg", "SWHGmES4VNI", "ay7w4ZZy3ec",
+          "IXXuN2_fkTw", "jfE_9MYrfgw", "_YGWDe-MLTs", "AQwdcGSjsOI",
+          "83pqomh2rwE", "zq7KbeHpKYc", "R1WUxV4M9gs", "dXqkbuFYkLU",
+          "Z9benoNGU-E", "O0-c-82JCes", "bzAEu4MzPoU", "oVZTlaOjyRI",
+          "nc_LW_e8tA0", "qv8sd3ciVGc", "lU1ZIckiN20",
+        ],
+      },
+      {
+        year: "2021",
+        start: 129,
+        ids: ["2guZtb86pN0", "rcnCudMPW8I", "JD-q5xPFmXY"],
+      },
+    ];
+
+    groups.forEach((group) => {
+      const list = root.querySelector(`[data-story-list="${group.year}"]`);
+      if (!list) return;
+      group.ids.forEach((videoId, offset) => {
+        const story = testimonials[group.start + offset];
+        if (!story) return;
+        const quote = story.querySelector(".testimonial__quote");
+        const person = story.querySelector(".testimonial__person strong");
+        const video = document.createElement("div");
+        const iframe = document.createElement("iframe");
+
+        story.classList.add("testimonial-story");
+        quote?.classList.add("testimonial-story__quote");
+        video.className = "testimonial-story__video";
+        iframe.src = `https://www.youtube.com/embed/${videoId}?rel=0`;
+        iframe.width = "694";
+        iframe.height = "390";
+        iframe.loading = "lazy";
+        iframe.title = `${person?.textContent.trim() || "Student"} story`;
+        iframe.srcdoc =
+          `<a href="https://www.youtube.com/embed/${videoId}?rel=0" ` +
+          'style="display:flex;width:100%;height:100%;align-items:center;' +
+          'justify-content:center;gap:14px;background:#111;color:#fff;' +
+          'font:700 20px Arial,sans-serif;text-decoration:none">' +
+          '<span style="display:grid;width:72px;height:50px;place-items:center;' +
+          'border-radius:14px;background:#f00;font-size:28px">▶</span>' +
+          '<span>Watch student story</span></a>';
+        iframe.dataset.videoId = videoId;
+        iframe.referrerPolicy = "strict-origin-when-cross-origin";
+        iframe.allow =
+          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen = true;
+        video.append(iframe);
+        storyFrames.push(iframe);
+        story.prepend(video);
+        list.append(story);
+      });
+    });
+
+    const loadPoster = (iframe) => {
+      const videoId = iframe.dataset.videoId;
+      if (!videoId || iframe.dataset.posterReady === "true") return;
+      iframe.srcdoc =
+        `<a href="https://www.youtube.com/embed/${videoId}?rel=0" ` +
+        'style="position:relative;display:block;width:100%;height:100%;' +
+        'overflow:hidden;background:#111;color:#fff;text-decoration:none">' +
+        `<img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" ` +
+        'alt="" style="width:100%;height:100%;object-fit:cover">' +
+        '<span style="position:absolute;inset:0;display:grid;place-items:center">' +
+        '<span style="display:grid;width:72px;height:50px;place-items:center;' +
+        'border-radius:14px;background:#f00;color:#fff;font:700 28px Arial">▶' +
+        '</span></span></a>';
+      iframe.dataset.posterReady = "true";
+    };
+
+    if ("IntersectionObserver" in window) {
+      const posterObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            loadPoster(entry.target);
+            posterObserver.unobserve(entry.target);
+          });
+        },
+        { rootMargin: "600px 0px" }
+      );
+      storyFrames.forEach((iframe) => posterObserver.observe(iframe));
+    } else {
+      storyFrames.forEach(loadPoster);
+    }
+
+    source.hidden = false;
+    source.dataset.storiesReady = "true";
   }
 
   function init(root = document) {
@@ -234,6 +390,7 @@
     initCounters(root);
     initFaqs(root);
     initNavigation(root);
+    initTestimonialStories(root);
   }
 
   window.TBT_UI = Object.freeze({
@@ -242,6 +399,7 @@
     initCounters,
     initFaqs,
     initNavigation,
+    initTestimonialStories,
   });
 
   if (document.readyState === "loading") {

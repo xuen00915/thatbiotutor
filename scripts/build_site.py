@@ -319,6 +319,30 @@ def _navigation_html(
     for entry in entries:
         key = str(entry.get("key", ""))
         current = ' aria-current="page"' if key == active_key else ""
+        if css_class == "site-nav__link" and key == "classes":
+            classes_href = html.escape(
+                _route_href(root, str(entry["route"])), quote=True
+            )
+            sec3_href = html.escape(
+                _route_href(root, "sec-3-pure-g3-biology-tuition/"), quote=True
+            )
+            sec4_href = html.escape(
+                _route_href(root, "sec-4-pure-g3-biology-tuition/"), quote=True
+            )
+            links.append(
+                '<div class="site-nav__item site-nav__item--classes">'
+                f'<a class="{css_class}" href="{classes_href}"{current}>Classes</a>'
+                '<button class="site-submenu-toggle" type="button" '
+                'aria-expanded="false" aria-controls="classes-submenu" '
+                'aria-label="Show Classes submenu" data-submenu-toggle>'
+                '<span aria-hidden="true">⌄</span></button>'
+                '<div class="site-submenu" id="classes-submenu" data-submenu hidden>'
+                f'<a href="{classes_href}">Classes</a>'
+                f'<a href="{sec3_href}">Sec 3</a>'
+                f'<a href="{sec4_href}">Sec 4</a>'
+                '</div></div>'
+            )
+            continue
         links.append(
             f'<a class="{css_class}" href="{html.escape(_route_href(root, str(entry["route"])), quote=True)}"{current}>'
             f'{html.escape(str(entry["label"]))}</a>'

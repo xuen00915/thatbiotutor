@@ -1194,11 +1194,13 @@ class ResourcePageTests(unittest.TestCase):
         },
         "testimonials": {
             "hero",
-            "results",
             "reviews",
-            "student-stories",
-            "class-2022",
-            "class-2021",
+            "testimonial-intro",
+            "student-stories-2025",
+            "student-stories-2024",
+            "student-stories-2023",
+            "student-stories-2022",
+            "student-stories-2021",
         },
     }
 
@@ -1288,26 +1290,27 @@ class ResourcePageTests(unittest.TestCase):
                         image["attrs"].get("src", "").startswith(("http://", "https://"))
                     )
 
-    def test_testimonial_summaries_are_not_presented_as_direct_quotes(self):
+    def test_testimonial_page_uses_original_direct_transcripts(self):
         sources = [
             (SITE_DIR / "pages/testimonials.html").read_text(encoding="utf-8"),
-            (SITE_DIR / "partials/sections/testimonial-cards.html").read_text(
+            (SITE_DIR / "partials/sections/original-testimonial-archive.html").read_text(
                 encoding="utf-8"
             ),
         ]
         combined = "\n".join(sources)
         self.assertIn("A2 for N Level Combined Bio", combined)
         self.assertIn("A1 for Pure Bio", combined)
-        self.assertIn("Summary of student feedback", combined)
-        self.assertNotIn("<blockquote", combined)
-        self.assertNotIn("“", combined)
+        self.assertIn("Alicia · C6 → A1", combined)
+        self.assertNotIn("Summary of student feedback", sources[0])
+        self.assertIn("<blockquote", combined)
+        self.assertIn("“", combined)
 
     def test_original_review_archives_are_not_reduced_to_token_examples(self):
         _, notes = self.read_page("notes")
         _, cell = self.read_page("celldivision")
         _, testimonials = self.read_page("testimonials")
         self.assertGreaterEqual(
-            len(notes.elements_in("student-feedback", "article")), 24
+            len(notes.elements_in("student-feedback", "article")), 16
         )
         self.assertGreaterEqual(len(notes.elements_in("download", "article")), 220)
         self.assertGreaterEqual(
@@ -1318,21 +1321,26 @@ class ResourcePageTests(unittest.TestCase):
             29,
         )
         self.assertGreaterEqual(
-            len(testimonials.elements_in("student-stories", "article")), 18
-        )
-        self.assertGreaterEqual(
-            len(testimonials.elements_in("student-stories", "blockquote")), 130
+            len(
+                [
+                    element
+                    for element in testimonials.elements
+                    if element["tag"] == "blockquote"
+                ]
+            ),
+            130,
         )
 
     def test_resource_pages_restore_original_section_order(self):
         expected = {
             "testimonials": [
                 "hero",
-                "results",
+                "student-stories-2025",
+                "student-stories-2024",
+                "student-stories-2023",
+                "student-stories-2022",
+                "student-stories-2021",
                 "reviews",
-                "student-stories",
-                "class-2022",
-                "class-2021",
             ],
             "notes": ["hero", "student-feedback", "why-free", "catch", "download"],
             "celldivision": [
