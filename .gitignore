@@ -1,4 +1,5 @@
 /.wp-env/
+/.artifacts/
 /node_modules/
 /wordpress/wp-admin/
 /wordpress/wp-includes/

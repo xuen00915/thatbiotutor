@@ -1,0 +1,22 @@
+{
+  "capturedOn": "2026-11-03",
+  "routes": {
+    "home": { "path": "/" },
+    "classes": { "path": "/classes/" },
+    "sec3": { "path": "/sec-3-pure-g3-biology-tuition/" },
+    "sec4": { "path": "/sec-4-pure-g3-biology-tuition/" },
+    "testimonials": { "path": "/testimonials/" },
+    "notes": { "path": "/notes/" },
+    "celldivision": { "path": "/celldivision/" },
+    "about": { "path": "/about/" },
+    "contact": { "path": "/contact/" },
+    "trees": { "path": "/trees/" },
+    "tuitionrecs": { "path": "/tuitionrecs/" }
+  },
+  "viewports": [
+    { "width": 1440, "height": 1000 },
+    { "width": 768, "height": 1024 },
+    { "width": 390, "height": 844 },
+    { "width": 320, "height": 700 }
+  ]
+}
