@@ -3,7 +3,7 @@
 }
 
 .home-hero .media-carousel__viewport {
-  aspect-ratio: 16 / 5;
+  aspect-ratio: 8 / 3;
   border-radius: 0;
   box-shadow: none;
 }
@@ -22,7 +22,7 @@
 }
 
 .home-hero .media-carousel__slide:nth-child(1) img {
-  object-position: 50% 68%;
+  object-position: 50% 56%;
 }
 
 .home-hero .media-carousel__slide:nth-child(2) img {

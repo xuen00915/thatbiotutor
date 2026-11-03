@@ -384,12 +384,13 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
 
         self.assertIsNotNone(hero_media)
         self.assertIsNotNone(first_image_box)
-        self.assertGreaterEqual(hero_media["height"], 360)
-        self.assertLessEqual(hero_media["height"], 520)
-        self.assertGreaterEqual(hero_media["width"] / hero_media["height"], 2.6)
+        self.assertGreaterEqual(hero_media["height"], 500)
+        self.assertLessEqual(hero_media["height"], 560)
+        self.assertGreaterEqual(hero_media["width"] / hero_media["height"], 2.55)
+        self.assertLessEqual(hero_media["width"] / hero_media["height"], 2.75)
         self.assertAlmostEqual(first_image_box["width"], hero_media["width"], delta=1)
         self.assertAlmostEqual(first_image_box["height"], hero_media["height"], delta=1)
-        self.assertEqual(object_position, "50% 68%")
+        self.assertEqual(object_position, "50% 56%")
 
     def test_home_matches_inquire_desktop_section_system(self) -> None:
         page = self.open_page("/", width=1440, height=1000)

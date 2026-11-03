@@ -60,7 +60,7 @@ The homepage body follows the Inquire page, while the shared header and shared f
 | `classroom-life` | The three supplied classroom images. |
 | `closing-cta` | Closing image, copy, and WhatsApp CTA. |
 
-The supplied homepage asset groups in `site/assets/images/asset-manifest.json` are `homeHero` (folder 1A, five images), `trackRecord` (folder 1B, four images), and `homeClassroom` (folder 1C, three images). Keep each group in numeric order. The first hero image deliberately uses `object-position: 50% 68%` in `site/assets/css/pages.css` so the lower practical activity remains the focus. Preview that crop at 1440, 768, and 390 pixels whenever the image or frame changes.
+The supplied homepage asset groups in `site/assets/images/asset-manifest.json` are `homeHero` (folder 1A, five images), `trackRecord` (folder 1B, four images), and `homeClassroom` (folder 1C, three images). Keep each group in numeric order. The first hero image deliberately uses `object-position: 50% 56%` in `site/assets/css/pages.css` so the students and lower practical activity remain visible together. Preview that crop at 1440, 768, and 390 pixels whenever the image or frame changes.
 
 Counters keep their final text in the HTML, and FAQ content remains readable without JavaScript. When changing a Counter value, keep its `data-counter-key`; when changing an FAQ, keep the paired `aria-controls`, panel ID, and `data-faq-*` attributes.
 
