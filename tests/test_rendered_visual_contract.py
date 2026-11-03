@@ -214,6 +214,36 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertLessEqual(logo["width"], 66)
         self.assertTrue(page.locator(".site-menu-toggle").is_visible())
 
+    def test_mobile_and_tablet_navigation_panels_use_the_available_width(self) -> None:
+        for width in (390, 768, 1024):
+            with self.subTest(width=width):
+                page = self.open_page("/", width=width, height=844)
+                toggle = page.locator(".site-menu-toggle")
+                menu = page.locator(".site-nav__links")
+                toggle.click()
+
+                menu_box = menu.bounding_box()
+                first_link_box = menu.locator("a").first.bounding_box()
+                contact_box = menu.locator(".site-header__contact").bounding_box()
+                self.assertIsNotNone(menu_box)
+                self.assertIsNotNone(first_link_box)
+                self.assertIsNotNone(contact_box)
+                self.assertAlmostEqual(menu_box["x"] + menu_box["width"], width, delta=2)
+                self.assertAlmostEqual(first_link_box["x"], menu_box["x"], delta=2)
+                self.assertAlmostEqual(first_link_box["width"], menu_box["width"], delta=2)
+                self.assertAlmostEqual(contact_box["width"], menu_box["width"], delta=2)
+                if width < 768:
+                    self.assertAlmostEqual(menu_box["width"], width, delta=2)
+                else:
+                    self.assertGreaterEqual(menu_box["width"], 320)
+                    self.assertLessEqual(menu_box["width"], 384)
+                self.assertEqual(
+                    page.evaluate(
+                        "document.documentElement.scrollWidth - document.documentElement.clientWidth"
+                    ),
+                    0,
+                )
+
     def test_shared_navigation_carousel_and_faq_behaviors_work_in_browser(self) -> None:
         mobile = self.open_page("/", width=390, height=844)
         toggle = mobile.locator(".site-menu-toggle")
