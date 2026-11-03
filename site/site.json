@@ -23,28 +23,23 @@
     },
     {
       "key": "results",
-      "label": "Results",
+      "label": "Results & Testimonials",
       "route": "testimonials/"
     },
     {
       "key": "notes",
-      "label": "Free Notes",
+      "label": "Free Bio Notes",
       "route": "notes/"
     },
     {
       "key": "about",
-      "label": "About",
+      "label": "About Us",
       "route": "about/"
     },
     {
-      "key": "intensivefix",
-      "label": "IntensiveFix",
-      "route": "intensivefix/"
-    },
-    {
-      "key": "contact",
-      "label": "Contact",
-      "route": "contact/"
+      "key": "trees",
+      "label": "Our Causes",
+      "route": "trees/"
     }
   ],
   "footerNavigation": [

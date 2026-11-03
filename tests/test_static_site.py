@@ -131,14 +131,22 @@ class OriginalShellTests(unittest.TestCase):
                 )
                 self.assertEqual(source.count('<a class="floating-whatsapp"'), 1)
 
-    def test_header_keeps_intensivefix_discoverable_and_contact_us_last(self):
+    def test_header_matches_original_six_item_navigation(self):
         source = (self.build_root / "index.html").read_text(encoding="utf-8")
         header = source.split("</header>", 1)[0]
 
-        self.assertIn(">IntensiveFix</a>", header)
-        self.assertIn('class="compact-cta site-header__contact"', header)
-        self.assertIn(">Contact Us</a>", header)
-        self.assertGreater(header.rfind(">Contact Us</a>"), header.rfind(">IntensiveFix</a>"))
+        for label in (
+            "Home",
+            "Classes",
+            "Results &amp; Testimonials",
+            "Free Bio Notes",
+            "About Us",
+            "Our Causes",
+        ):
+            self.assertIn(f">{label}</a>", header)
+        self.assertNotIn(">IntensiveFix</a>", header)
+        self.assertNotIn('class="compact-cta site-header__contact"', header)
+        self.assertIn("IntensiveFix", source.split("<footer", 1)[1])
 
     def test_original_layout_primitives_replace_inquire_shell_styling(self):
         base = (SITE_DIR / "assets/css/base.css").read_text(encoding="utf-8")
@@ -147,7 +155,7 @@ class OriginalShellTests(unittest.TestCase):
         )
 
         self.assertIn("--color-section-bar", base)
-        self.assertIn("--container-content: 62rem", base)
+        self.assertIn("--container-content: 61.25rem", base)
         self.assertIn(".section-bar", components)
         self.assertIn(".original-hero", components)
         self.assertIn(".compact-cta", components)
@@ -292,7 +300,7 @@ class StaticSiteFoundationTests(unittest.TestCase):
             components,
             r"\.media-carousel\.is-enhanced\s+\.media-carousel__track\s*\{[^}]*height:\s*100%",
         )
-        self.assertIn("@media (max-width: 63.99rem)", components)
+        self.assertIn("@media (max-width: 71.99rem)", components)
 
     def test_site_script_defines_progressive_enhancements(self):
         source = self.read_asset("assets/js/site.js")
@@ -541,7 +549,7 @@ class IntensiveFixPageTests(unittest.TestCase):
             for element in self.parser.elements
             if element["tag"] == "header"
         )
-        self.assertIn("Contact Us", " ".join(header["text"]))
+        self.assertIn("Our Causes", " ".join(header["text"]))
         self.assertNotIn("Start with a $110 trial lesson", self.source)
         self.assertNotIn("Limited intake", self.source)
 
@@ -1547,7 +1555,6 @@ class FinalReviewRegressionTests(unittest.TestCase):
 
     def test_retained_copy_and_explicit_ctas_match_sources(self):
         for exact_home_copy in (
-            ">Contact Us</a>",
             "completing it earns Homework Points for rewards",
             "Sec 3 classes open in March each year",
             "Read, reread, blurt out, copy out again and again",

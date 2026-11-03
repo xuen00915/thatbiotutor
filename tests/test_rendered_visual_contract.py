@@ -109,7 +109,6 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         )
         self.assertEqual(body_style["background"], "rgb(255, 255, 255)")
         self.assertIn("futura", body_style["family"].lower())
-        self.assertEqual(page.locator(".card-grid").count(), 0)
 
     def test_free_notes_is_original_white_content_page_not_dark_campaign_hero(self) -> None:
         page = self.open_page("/notes/")

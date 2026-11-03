@@ -1,29 +1,45 @@
+@font-face {
+  font-family: "Futura TBT";
+  src: url("../fonts/futura-light.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Avenir TBT";
+  src: url("../fonts/avenir-heavy.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+}
+
 :root {
   /* Elementor global colours */
   --color-ink: #222222;
   --color-muted: #686868;
-  --color-brand-deep: #194326;
-  --color-brand: #267a21;
-  --color-brand-bright: #78e45b;
-  --color-brand-soft: #eff9ed;
+  --color-brand-deep: #263629;
+  --color-brand: #39762b;
+  --color-brand-bright: #9be467;
+  --color-brand-soft: #f5faf2;
   --color-warm: #ffffff;
   --color-surface: #ffffff;
-  --color-line: #dddddd;
+  --color-line: #d7d7d7;
   --color-section-bar: #303030;
   --color-footer: #2b2b2b;
   --color-warning: #ffcf5a;
   --color-danger: #b93d3d;
 
   /* Elementor global typography */
-  --font-sans: Arial, Helvetica, ui-sans-serif, sans-serif;
-  --font-display: Arial, Helvetica, ui-sans-serif, sans-serif;
+  --font-sans: "Futura TBT", Futura, "Trebuchet MS", Arial, sans-serif;
+  --font-display: "Avenir TBT", Avenir, "Arial Black", sans-serif;
   --font-size-xs: 0.72rem;
   --font-size-sm: 0.84rem;
-  --font-size-base: 0.96rem;
+  --font-size-base: 1rem;
   --font-size-lg: clamp(1.02rem, 1.4vw, 1.15rem);
   --font-size-h3: clamp(1.2rem, 2vw, 1.55rem);
-  --font-size-h2: clamp(1.6rem, 3.8vw, 2.65rem);
-  --font-size-h1: clamp(2rem, 5.4vw, 4rem);
+  --font-size-h2: clamp(1.55rem, 3vw, 2.35rem);
+  --font-size-h1: clamp(2rem, 4.4vw, 3.5rem);
   --line-tight: 1.08;
   --line-heading: 1.16;
   --line-body: 1.55;
@@ -39,17 +55,17 @@
   --space-8: 3.75rem;
   --space-9: 5.5rem;
 
-  --radius-sm: 0.18rem;
-  --radius-md: 0.32rem;
-  --radius-lg: 0.48rem;
+  --radius-sm: 0;
+  --radius-md: 0.12rem;
+  --radius-lg: 0.2rem;
   --radius-pill: 999px;
-  --shadow-sm: 0 0.2rem 0.7rem rgb(0 0 0 / 9%);
-  --shadow-md: 0 0.65rem 1.8rem rgb(0 0 0 / 13%);
+  --shadow-sm: 0 0.1rem 0.3rem rgb(0 0 0 / 8%);
+  --shadow-md: 0 0.35rem 1rem rgb(0 0 0 / 12%);
   --shadow-focus: 0 0 0 0.2rem rgb(38 122 33 / 35%);
-  --container-reading: 44rem;
-  --container-content: 62rem;
-  --container-wide: 74rem;
-  --header-height: 3.75rem;
+  --container-reading: 38rem;
+  --container-content: 61.25rem;
+  --container-wide: 73.75rem;
+  --header-height: 7.875rem;
   color-scheme: light;
 }
 
@@ -135,7 +151,7 @@ h3 {
   color: var(--color-ink);
   font-family: var(--font-display);
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   line-height: var(--line-heading);
 }
 
