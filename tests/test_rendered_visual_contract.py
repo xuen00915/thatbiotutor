@@ -111,7 +111,7 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertAlmostEqual(brand["x"], 278, delta=1)
         self.assertAlmostEqual(brand["width"], 65, delta=1)
         self.assertAlmostEqual(nav["x"], 366, delta=1)
-        self.assertAlmostEqual(nav["width"], 705, delta=2)
+        self.assertAlmostEqual(nav["width"], 729, delta=2)
         self.assertAlmostEqual(nav["y"], 15, delta=1)
         self.assertAlmostEqual(nav["height"], 50, delta=1)
         self.assertEqual(brand_text_display, "none")
@@ -138,7 +138,7 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertIsNotNone(last_link)
         self.assertAlmostEqual(first_link["x"], 366, delta=1)
         self.assertAlmostEqual(first_link["width"], 77, delta=1)
-        self.assertAlmostEqual(last_link["x"] + last_link["width"], 1071, delta=2)
+        self.assertAlmostEqual(last_link["x"] + last_link["width"], 1095, delta=2)
         self.assertEqual(
             links.first.evaluate("element => getComputedStyle(element).borderLeftWidth"),
             "0px",
@@ -330,6 +330,39 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertEqual(toggle.get_attribute("aria-expanded"), "true")
         self.assertTrue(submenu.is_visible())
 
+    def test_classes_dropdown_uses_a_spaced_css_chevron(self) -> None:
+        page = self.open_page("/", width=1440, height=1000)
+        classes_item = page.locator(".site-nav__item--classes")
+        link = classes_item.locator(".site-nav__link")
+        toggle = classes_item.locator("[data-submenu-toggle]")
+        chevron = toggle.locator("span")
+        geometry = page.evaluate(
+            """() => {
+                const link = document.querySelector('.site-nav__item--classes > .site-nav__link');
+                const toggle = document.querySelector('[data-submenu-toggle]');
+                const chevron = toggle.querySelector('span');
+                const range = document.createRange();
+                range.selectNodeContents(link);
+                const text = range.getBoundingClientRect();
+                const button = toggle.getBoundingClientRect();
+                const style = getComputedStyle(chevron);
+                return {
+                    textRight: text.right,
+                    buttonLeft: button.left,
+                    width: parseFloat(style.width),
+                    height: parseFloat(style.height),
+                    borderRight: parseFloat(style.borderRightWidth),
+                    borderBottom: parseFloat(style.borderBottomWidth),
+                };
+            }"""
+        )
+        self.assertEqual(toggle.inner_text(), "")
+        self.assertLessEqual(geometry["textRight"], geometry["buttonLeft"] - 4)
+        self.assertGreaterEqual(geometry["width"], 7)
+        self.assertGreaterEqual(geometry["height"], 7)
+        self.assertGreaterEqual(geometry["borderRight"], 1)
+        self.assertGreaterEqual(geometry["borderBottom"], 1)
+
     def test_notes_reviews_match_original_single_column_archive(self) -> None:
         page = self.open_page("/notes/", width=1920, height=1000)
         section = page.locator("#student-feedback")
@@ -393,6 +426,30 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
             page.locator(".testimonial-era-heading").all_text_contents(),
             ["Class of 2022", "Class of 2021"],
         )
+
+    def test_testimonial_video_placeholder_cannot_scroll_inside_its_frame(self) -> None:
+        page = self.open_page("/testimonials/", width=1920, height=1000)
+        frame = page.locator(".testimonial-story iframe").first
+        frame.scroll_into_view_if_needed()
+        page.wait_for_timeout(700)
+        metrics = frame.evaluate(
+            """iframe => {
+                const doc = iframe.contentDocument;
+                return {
+                    htmlScrollWidth: doc.documentElement.scrollWidth,
+                    htmlClientWidth: doc.documentElement.clientWidth,
+                    htmlScrollHeight: doc.documentElement.scrollHeight,
+                    htmlClientHeight: doc.documentElement.clientHeight,
+                    bodyMargin: getComputedStyle(doc.body).margin,
+                    bodyOverflow: getComputedStyle(doc.body).overflow,
+                };
+            }"""
+        )
+        self.assertEqual(frame.get_attribute("scrolling"), "no")
+        self.assertEqual(metrics["htmlScrollWidth"], metrics["htmlClientWidth"])
+        self.assertEqual(metrics["htmlScrollHeight"], metrics["htmlClientHeight"])
+        self.assertEqual(metrics["bodyMargin"], "0px")
+        self.assertEqual(metrics["bodyOverflow"], "hidden")
 
     def test_rebuilt_home_carousel_counters_and_faq_are_fully_interactive(self) -> None:
         page = self.open_page("/")

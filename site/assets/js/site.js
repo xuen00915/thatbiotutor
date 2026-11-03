@@ -263,6 +263,9 @@
       source.querySelectorAll(".testimonial--archive")
     );
     const storyFrames = [];
+    const frameReset =
+      "<style>html,body{width:100%;height:100%;margin:0;overflow:hidden}" +
+      "body{background:#111}a{box-sizing:border-box}img{display:block}</style>";
     const groups = [
       {
         year: "2025",
@@ -328,8 +331,10 @@
         iframe.width = "694";
         iframe.height = "390";
         iframe.loading = "lazy";
+        iframe.scrolling = "no";
         iframe.title = `${person?.textContent.trim() || "Student"} story`;
         iframe.srcdoc =
+          frameReset +
           `<a href="https://www.youtube.com/embed/${videoId}?rel=0" ` +
           'style="display:flex;width:100%;height:100%;align-items:center;' +
           'justify-content:center;gap:14px;background:#111;color:#fff;' +
@@ -353,6 +358,7 @@
       const videoId = iframe.dataset.videoId;
       if (!videoId || iframe.dataset.posterReady === "true") return;
       iframe.srcdoc =
+        frameReset +
         `<a href="https://www.youtube.com/embed/${videoId}?rel=0" ` +
         'style="position:relative;display:block;width:100%;height:100%;' +
         'overflow:hidden;background:#111;color:#fff;text-decoration:none">' +
