@@ -1037,14 +1037,13 @@ class ResourcePageTests(unittest.TestCase):
         "testimonials": "testimonials/",
     }
     REQUIRED_SECTIONS = {
-        "notes": {"hero", "student-feedback", "why-free", "download", "faq", "final-cta"},
+        "notes": {"hero", "student-feedback", "why-free", "catch", "download"},
         "celldivision": {
             "hero",
             "dated-notice",
             "important",
             "access",
             "student-feedback",
-            "final-cta",
         },
         "testimonials": {
             "hero",
@@ -1053,7 +1052,6 @@ class ResourcePageTests(unittest.TestCase):
             "student-stories",
             "class-2022",
             "class-2021",
-            "final-cta",
         },
     }
 
@@ -1156,6 +1154,53 @@ class ResourcePageTests(unittest.TestCase):
         self.assertIn("Summary of student feedback", combined)
         self.assertNotIn("<blockquote", combined)
         self.assertNotIn("“", combined)
+
+    def test_resource_pages_restore_original_section_order(self):
+        expected = {
+            "testimonials": [
+                "hero",
+                "results",
+                "reviews",
+                "student-stories",
+                "class-2022",
+                "class-2021",
+            ],
+            "notes": ["hero", "student-feedback", "why-free", "catch", "download"],
+            "celldivision": [
+                "hero",
+                "dated-notice",
+                "important",
+                "access",
+                "student-feedback",
+            ],
+        }
+        for key, expected_slots in expected.items():
+            with self.subTest(page=key):
+                _, parser = self.read_page(key)
+                slots = [
+                    element["attrs"]["data-layout-slot"]
+                    for element in parser.elements
+                    if element["tag"] == "section"
+                    and "data-layout-slot" in element["attrs"]
+                ]
+                self.assertEqual(slots, expected_slots)
+
+    def test_original_resource_copy_is_retained(self):
+        testimonials, _ = self.read_page("testimonials")
+        notes, _ = self.read_page("notes")
+        celldivision, _ = self.read_page("celldivision")
+        self.assertIn("Results &amp; Testimonials", testimonials)
+        self.assertIn("★★★★★", testimonials)
+        self.assertLess(
+            testimonials.index("Class of 2022"), testimonials.index("Class of 2021")
+        )
+        self.assertIn("Free O Level Biology Notes Singapore", notes)
+        self.assertIn("Why Are You Giving Your Notes for Free?", notes)
+        self.assertIn("What's the catch?", notes)
+        self.assertIn("How Do I Download the Notes?", notes)
+        self.assertIn("Only For 2023 Sec 4 Pure Bio Students!", celldivision)
+        self.assertIn("IMPORTANT:", celldivision)
+        self.assertIn("archived", celldivision.lower())
 
 
 class ProjectHandoffTests(unittest.TestCase):
