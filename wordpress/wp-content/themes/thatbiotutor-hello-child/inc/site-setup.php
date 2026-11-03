@@ -47,13 +47,6 @@ function tbt_seed_value_hash(mixed $value): string
     return hash('sha256', $encoded === false ? serialize($value) : $encoded);
 }
 
-/** Return the ACF-compatible key assigned to a page fallback field. */
-function tbt_reference_field_key(string $pageKey, string $fieldName): string
-{
-    $normalized = strtolower((string) preg_replace('/[^a-z0-9_]+/i', '_', $pageKey . '_' . $fieldName));
-    return 'field_tbt_' . trim($normalized, '_');
-}
-
 /**
  * Update a seed-owned field while preserving values changed by a client.
  */
