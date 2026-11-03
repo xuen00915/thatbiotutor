@@ -341,37 +341,41 @@ class HomePageTests(unittest.TestCase):
         }
         required = {
             "hero",
-            "missing-key",
-            "fasttrack",
+            "pain-points",
+            "student-results",
             "track-record",
-            "hall-of-fame",
-            "student-voices",
-            "schools",
-            "advantage",
-            "student-benefits",
-            "experience",
-            "causes",
+            "video-transition",
+            "fasttrack",
+            "social-proof",
             "tutors",
+            "quality-control",
+            "practical-sessions",
+            "trial-guarantee",
+            "suitability",
+            "founder",
             "faq",
+            "classroom-life",
             "closing-cta",
         }
         self.assertTrue(required.issubset(ids), required - ids)
 
-    def test_home_uses_original_layout_slot_order(self):
+    def test_home_uses_inquire_layout_slot_order(self):
         expected = [
             "hero",
-            "missing-key",
-            "fasttrack",
+            "pain-points",
+            "student-results",
             "track-record",
-            "hall-of-fame",
-            "student-voices",
-            "schools",
-            "advantage",
-            "student-benefits",
-            "experience",
-            "causes",
+            "video-transition",
+            "fasttrack",
+            "social-proof",
             "tutors",
+            "quality-control",
+            "practical-sessions",
+            "trial-guarantee",
+            "suitability",
+            "founder",
             "faq",
+            "classroom-life",
             "closing-cta",
         ]
         actual = [
@@ -381,13 +385,57 @@ class HomePageTests(unittest.TestCase):
             and "data-layout-slot" in element["attrs"]
         ]
         self.assertEqual(actual, expected)
-        self.assertTrue({"suitability", "founder", "classroom"}.isdisjoint(actual))
+
+    def test_home_retains_inquire_copy_and_removes_original_only_sections(self):
+        visible_text = " ".join(
+            " ".join(
+                " ".join(element["text"]).split()
+            )
+            for section in (
+                "hero",
+                "pain-points",
+                "student-results",
+                "fasttrack",
+                "quality-control",
+                "practical-sessions",
+                "founder",
+                "closing-cta",
+            )
+            for element in self.parser.elements
+            if element["tag"] == "section"
+            and element["attrs"].get("id") == section
+        )
+        required_copy = (
+            "The One Missing Key to go from Fail to A1 while cutting study time by 90%",
+            "The Average TBT Student Makes a 2.3 Grade Jump (~C5 to A2)",
+            "There’s WAY too much to memorise",
+            "Sound familiar? Many TBT students started exactly here.",
+            "ThatBioTutor's FastTrack System Helps Students Score A1/A2 Without the Endless Revision Grind",
+            "Quality Control: How TBT Ensures Every Class Is Excellent",
+            "Real Practical Sessions. Real Practice.",
+            "About The Founder",
+            "Bio doesn’t have to eat up every other part of a student’s life.",
+        )
+        for copy in required_copy:
+            with self.subTest(copy=copy):
+                self.assertIn(copy, visible_text)
+        for removed_id in (
+            "missing-key",
+            "hall-of-fame",
+            "student-voices",
+            "schools",
+            "advantage",
+            "student-benefits",
+            "experience",
+            "causes",
+        ):
+            self.assertNotIn(f'id="{removed_id}"', self.source)
 
     def test_home_uses_supplied_images_in_manifest_order(self):
         expectations = {
             "hero": ("homeHero", 5),
             "track-record": ("trackRecord", 4),
-            "experience": ("homeClassroom", 3),
+            "classroom-life": ("homeClassroom", 3),
         }
         for section, (group, count) in expectations.items():
             expected = [entry["file"] for entry in self.manifest[group]]
@@ -405,12 +453,15 @@ class HomePageTests(unittest.TestCase):
             "if you didn’t absolutely love it, simply ask for a refund and you’ll "
             "get your money back, no questions asked."
         )
-        trial_text = self.parser.section_text("closing-cta")
+        trial_text = self.parser.section_text("trial-guarantee")
         self.assertIn(exact_copy, trial_text)
         self.assertIn("Book My Trial Lesson", trial_text)
-        self.assertFalse(self.parser.elements_in("closing-cta", "form"))
-        self.assertFalse(self.parser.elements_in("closing-cta", "iframe"))
-        links = self.parser.elements_in("closing-cta", "a")
+        self.assertFalse(self.parser.elements_in("trial-guarantee", "form"))
+        self.assertFalse(self.parser.elements_in("trial-guarantee", "iframe"))
+        icons = self.parser.elements_in("trial-guarantee", "svg")
+        self.assertEqual(len(icons), 1)
+        self.assertIn("shield", icons[0]["attrs"].get("aria-label", "").lower())
+        links = self.parser.elements_in("trial-guarantee", "a")
         self.assertTrue(
             any(link["attrs"].get("href", "").startswith("https://wa.me/") for link in links)
         )
