@@ -172,6 +172,27 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertIn("montserrat", body_style["headingFamily"].lower())
         self.assertEqual(body_style["headingWeight"], 700)
 
+    def test_classes_struggle_rows_keep_white_copy_visible_on_dark_background(self) -> None:
+        page = self.open_page("/classes/", width=2048, height=1228)
+        section = page.locator("#struggles")
+        rows = section.locator(".original-list-grid article")
+        first_row = rows.first
+        styles = first_row.evaluate(
+            """element => ({
+                sectionBackground: getComputedStyle(element.closest('#struggles')).backgroundColor,
+                rowBackground: getComputedStyle(element).backgroundColor,
+                headingColor: getComputedStyle(element.querySelector('h3')).color,
+                bodyColor: getComputedStyle(element.querySelector('p')).color,
+            })"""
+        )
+
+        self.assertEqual(rows.count(), 4)
+        self.assertEqual(styles["sectionBackground"], "rgb(0, 0, 0)")
+        self.assertEqual(styles["rowBackground"], "rgba(0, 0, 0, 0)")
+        self.assertEqual(styles["headingColor"], "rgb(255, 255, 255)")
+        self.assertEqual(styles["bodyColor"], "rgb(255, 255, 255)")
+        self.assertIn("Too Much Content", first_row.inner_text())
+
     def test_classes_and_tuition_pages_use_full_width_original_photo_heroes(self) -> None:
         expected_heights = {
             "/classes/": (560, 600),
