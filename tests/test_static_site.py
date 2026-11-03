@@ -1542,12 +1542,13 @@ class FinalReviewRegressionTests(unittest.TestCase):
         )
 
     def test_original_full_width_photo_heroes_use_overlay_geometry(self):
-        for route in ("", "classes/", "intensivefix/"):
+        for route in ("classes/", "intensivefix/"):
             source = (self.build_root / route / "index.html").read_text(
                 encoding="utf-8"
             )
-            with self.subTest(route=route or "/"):
+            with self.subTest(route=route):
                 self.assertIn('class="hero original-hero full-photo-hero"', source)
+        self.assertIn('class="inquire-hero"', self.home)
 
         self.assertRegex(
             self.components_css,
@@ -1570,13 +1571,13 @@ class FinalReviewRegressionTests(unittest.TestCase):
             r"\.full-photo-hero::after\s*\{[^}]*pointer-events:\s*none",
         )
 
-    def test_original_section_bars_are_used_in_rendered_homepage(self):
-        self.assertGreaterEqual(self.home.count('class="section-bar"'), 8)
+    def test_shared_section_bars_remain_on_reused_homepage_sections(self):
+        self.assertEqual(self.home.count('class="section-bar"'), 2)
         self.assertIn("Here’s the Track Record", self.home)
         self.assertIn("The TBT FastTrack System", self.home)
 
-    def test_original_plain_sections_do_not_use_inquire_card_panels_or_gradients(self):
-        for section_id in ("missing-key", "advantage", "student-benefits"):
+    def test_homepage_sections_avoid_the_unscoped_generic_card_pattern(self):
+        for section_id in ("pain-points", "quality-control", "suitability"):
             section = self.home.split(f'id="{section_id}"', 1)[1].split(
                 "</section>", 1
             )[0]
@@ -1637,7 +1638,7 @@ class FinalReviewRegressionTests(unittest.TestCase):
             self.build_root / "sec-4-pure-g3-biology-tuition/index.html"
         ).read_text(encoding="utf-8")
 
-        self.assertEqual(self.home.count('class="faq"'), 13)
+        self.assertEqual(self.home.count('class="faq"'), 9)
         self.assertEqual(sec3.count('class="faq"'), 13)
         self.assertEqual(sec4.count('class="faq"'), 12)
         for question in (
