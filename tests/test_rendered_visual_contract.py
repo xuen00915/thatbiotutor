@@ -305,6 +305,72 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertEqual(faq_button.get_attribute("aria-expanded"), "true")
         self.assertTrue(faq_panel.is_visible())
 
+    def test_rebuilt_home_carousel_counters_and_faq_are_fully_interactive(self) -> None:
+        page = self.open_page("/")
+        carousel = page.locator(".home-hero")
+        status = carousel.locator("[data-carousel-status]")
+        carousel.focus()
+        carousel.press("End")
+        self.assertEqual(status.inner_text(), "Image 5 of 5")
+        carousel.press("ArrowRight")
+        self.assertEqual(status.inner_text(), "Image 1 of 5")
+        carousel.press("ArrowLeft")
+        self.assertEqual(status.inner_text(), "Image 5 of 5")
+
+        stats = page.locator("#track-record .stats")
+        stats.scroll_into_view_if_needed()
+        page.wait_for_timeout(1100)
+        self.assertEqual(
+            page.locator("#track-record [data-counter-key]").all_text_contents(),
+            ["912+", "91%", "2.3", "1 in 2"],
+        )
+
+        first_faq = page.locator("#faq .faq").first
+        faq_button = first_faq.locator("[data-faq-button]")
+        faq_panel = first_faq.locator("[data-faq-panel]")
+        self.assertEqual(faq_button.get_attribute("aria-expanded"), "false")
+        self.assertTrue(faq_panel.is_hidden())
+        faq_button.click()
+        self.assertEqual(faq_button.get_attribute("aria-expanded"), "true")
+        self.assertTrue(faq_panel.is_visible())
+
+    def test_home_reduced_motion_shows_final_counter_values_immediately(self) -> None:
+        page = self.browser.new_page(viewport={"width": 1440, "height": 1000})
+        self.addCleanup(page.close)
+        page.emulate_media(reduced_motion="reduce")
+        page.goto(f"{BASE_URL}/", wait_until="networkidle")
+        self.assertEqual(
+            page.locator("#track-record [data-counter-key]").all_text_contents(),
+            ["912+", "91%", "2.3", "1 in 2"],
+        )
+
+    def test_home_remains_complete_and_readable_without_javascript(self) -> None:
+        context = self.browser.new_context(
+            viewport={"width": 390, "height": 844}, java_script_enabled=False
+        )
+        self.addCleanup(context.close)
+        page = context.new_page()
+        page.goto(f"{BASE_URL}/", wait_until="networkidle")
+
+        self.assertEqual(page.locator(".home-hero [data-carousel-slide]").count(), 5)
+        self.assertTrue(
+            page.locator(".home-hero [data-carousel-slide]").first.is_visible()
+        )
+        self.assertEqual(
+            page.locator("#track-record [data-counter-key]").all_text_contents(),
+            ["912+", "91%", "2.3", "1 in 2"],
+        )
+        self.assertEqual(page.locator("#faq [data-faq-panel]:visible").count(), 9)
+        self.assertGreaterEqual(
+            page.locator('main a[href^="https://wa.me/"]:visible').count(), 2
+        )
+        self.assertEqual(
+            page.evaluate(
+                "document.documentElement.scrollWidth - document.documentElement.clientWidth"
+            ),
+            0,
+        )
+
     def test_home_hero_first_image_uses_its_lower_focal_point_on_desktop(self) -> None:
         page = self.open_page("/", width=1440, height=900)
         hero_media = page.locator(".home-hero .media-carousel__viewport").bounding_box()

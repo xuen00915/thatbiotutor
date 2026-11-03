@@ -8,6 +8,11 @@
   box-shadow: none;
 }
 
+.home-hero .media-carousel__track,
+.home-hero .media-carousel__slide {
+  height: 100%;
+}
+
 .home-hero .media-carousel__slide img {
   position: absolute;
   inset: 0;
