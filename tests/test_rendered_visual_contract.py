@@ -81,7 +81,9 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         brand_text_display = page.locator(".site-header .site-brand span").evaluate(
             "element => getComputedStyle(element).display"
         )
-        labels = page.locator(".site-nav__links > .site-nav__link").all_text_contents()
+        labels = page.locator(
+            ".site-nav__links > .site-nav__link, .site-nav__item > .site-nav__link"
+        ).all_text_contents()
         nav_style = page.locator(".site-nav__links > .site-nav__link").first.evaluate(
             """element => {
                 const style = getComputedStyle(element);
@@ -304,6 +306,93 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         faq_button.click()
         self.assertEqual(faq_button.get_attribute("aria-expanded"), "true")
         self.assertTrue(faq_panel.is_visible())
+
+    def test_shared_classes_navigation_exposes_level_dropdown(self) -> None:
+        page = self.open_page("/", width=390, height=844)
+        page.locator(".site-menu-toggle").click()
+        classes_item = page.locator(".site-nav__item--classes")
+        self.assertEqual(classes_item.count(), 1)
+        submenu = classes_item.locator(".site-submenu")
+        toggle = classes_item.locator("[data-submenu-toggle]")
+        self.assertEqual(
+            submenu.locator("a").evaluate_all(
+                "links => links.map(link => new URL(link.href).pathname)"
+            ),
+            [
+                "/classes/",
+                "/sec-3-pure-g3-biology-tuition/",
+                "/sec-4-pure-g3-biology-tuition/",
+            ],
+        )
+        self.assertEqual(toggle.get_attribute("aria-expanded"), "false")
+        self.assertTrue(submenu.is_hidden())
+        toggle.click()
+        self.assertEqual(toggle.get_attribute("aria-expanded"), "true")
+        self.assertTrue(submenu.is_visible())
+
+    def test_notes_reviews_match_original_single_column_archive(self) -> None:
+        page = self.open_page("/notes/", width=1920, height=1000)
+        section = page.locator("#student-feedback")
+        heading = section.locator("h2")
+        reviews = section.locator(".notes-review")
+        first = reviews.first
+        first_box = first.bounding_box()
+        styles = page.evaluate(
+            """() => {
+                const css = selector => getComputedStyle(document.querySelector(selector));
+                return {
+                    headingSize: parseFloat(css('#student-feedback h2').fontSize),
+                    eyebrowDisplay: css('#student-feedback .eyebrow').display,
+                    introDisplay: css('#student-feedback .section-heading > p:last-child').display,
+                    columns: css('#student-feedback .notes-review-wall').gridTemplateColumns.split(' ').length,
+                    borderWidth: parseFloat(css('#student-feedback .notes-review').borderTopWidth),
+                    bodySize: parseFloat(css('#student-feedback .notes-review p').fontSize),
+                    bodyStyle: css('#student-feedback .notes-review p').fontStyle,
+                    nameSize: parseFloat(css('#student-feedback .notes-review strong').fontSize),
+                    nameColor: css('#student-feedback .notes-review strong').color,
+                };
+            }"""
+        )
+        self.assertGreaterEqual(reviews.count(), 16)
+        self.assertIn("Jezelle | ⭐⭐⭐⭐⭐", first.inner_text())
+        self.assertIn("lifesaver", first.inner_text())
+        self.assertIsNotNone(first_box)
+        self.assertAlmostEqual(first_box["width"], 980, delta=2)
+        self.assertEqual(styles["headingSize"], 30)
+        self.assertEqual(styles["eyebrowDisplay"], "none")
+        self.assertEqual(styles["introDisplay"], "none")
+        self.assertEqual(styles["columns"], 1)
+        self.assertEqual(styles["borderWidth"], 0)
+        self.assertEqual(styles["bodySize"], 22)
+        self.assertEqual(styles["bodyStyle"], "italic")
+        self.assertEqual(styles["nameSize"], 22)
+        self.assertEqual(styles["nameColor"], "rgb(43, 178, 35)")
+
+    def test_testimonials_restores_original_video_story_archive(self) -> None:
+        page = self.open_page("/testimonials/", width=1920, height=1000)
+        stories = page.locator(".testimonial-story")
+        self.assertEqual(page.locator("#results").count(), 0)
+        self.assertEqual(stories.count(), 61)
+        first = stories.first
+        video_box = first.locator("iframe").bounding_box()
+        quote_style = first.locator(".testimonial-story__quote").evaluate(
+            """element => ({
+                size: parseFloat(getComputedStyle(element).fontSize),
+                style: getComputedStyle(element).fontStyle,
+                align: getComputedStyle(element).textAlign,
+            })"""
+        )
+        self.assertIn("RJxR3ONbylQ", first.locator("iframe").get_attribute("src"))
+        self.assertIn("Alicia", first.inner_text())
+        self.assertIsNotNone(video_box)
+        self.assertAlmostEqual(video_box["width"], 694, delta=2)
+        self.assertAlmostEqual(video_box["height"], 390, delta=2)
+        self.assertEqual(quote_style, {"size": 22, "style": "italic", "align": "center"})
+        self.assertEqual(page.locator(".testimonial-stories-title").count(), 5)
+        self.assertEqual(
+            page.locator(".testimonial-era-heading").all_text_contents(),
+            ["Class of 2022", "Class of 2021"],
+        )
 
     def test_rebuilt_home_carousel_counters_and_faq_are_fully_interactive(self) -> None:
         page = self.open_page("/")
