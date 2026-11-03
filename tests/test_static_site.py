@@ -788,14 +788,12 @@ class ClassesPageTests(unittest.TestCase):
     CLASS_SECTIONS = {
         "hero",
         "pure-biology",
-        "problems",
+        "struggles",
         "solutions",
-        "differences",
-        "practical",
+        "class-difference",
         "results",
-        "levels",
+        "level-choice",
         "faq",
-        "final-cta",
     }
     LEVEL_SECTIONS = {
         "hero",
@@ -862,6 +860,37 @@ class ClassesPageTests(unittest.TestCase):
             for value in ("98", "912+", "91%", "69.21%", "2.3", "1 in 2"):
                 with self.subTest(value=value):
                     self.assertIn(value, source)
+
+    def test_classes_restores_original_layout_and_level_choice(self):
+        source, parser = self.read_page("classes")
+        slots = [
+            element["attrs"]["data-layout-slot"]
+            for element in parser.elements
+            if element["tag"] == "section"
+            and "data-layout-slot" in element["attrs"]
+        ]
+        self.assertEqual(
+            slots,
+            [
+                "hero",
+                "pure-biology",
+                "struggles",
+                "solutions",
+                "class-difference",
+                "results",
+                "level-choice",
+                "faq",
+            ],
+        )
+        self.assertIn(
+            "The AVERAGE TBT Student Makes a 2.3 Grade Jump (~C5 to A2)",
+            source,
+        )
+        self.assertIn('href="../sec-3-pure-g3-biology-tuition/"', source)
+        self.assertIn('href="../sec-4-pure-g3-biology-tuition/"', source)
+        for value in ("912+", "91%", "69.21%", "2.3", "1 in 2"):
+            self.assertIn(value, parser.section_text("results"))
+        self.assertNotIn("inquire-card-shell", source)
 
     def test_sec3_alias_is_accessible_relative_and_canonical(self):
         alias_path = (
