@@ -112,6 +112,62 @@ class RouteContractTests(unittest.TestCase):
         self.assertNotIn("https://www.thatbiotutor.com/s3-intensivefix/", sitemap)
 
 
+class OriginalShellTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.build_root = build_test_site()
+        cls.registry = json.loads((SITE_DIR / "pages.json").read_text(encoding="utf-8"))
+
+    def test_every_canonical_page_uses_one_original_shared_shell(self):
+        for page in self.registry:
+            path = self.build_root / page["route"] / "index.html"
+            source = path.read_text(encoding="utf-8")
+            with self.subTest(route=page["route"]):
+                self.assertEqual(
+                    source.count('<header class="site-header original-header">'), 1
+                )
+                self.assertEqual(
+                    source.count('<footer class="site-footer original-footer">'), 1
+                )
+                self.assertEqual(source.count('<a class="floating-whatsapp"'), 1)
+
+    def test_header_keeps_intensivefix_discoverable_and_contact_us_last(self):
+        source = (self.build_root / "index.html").read_text(encoding="utf-8")
+        header = source.split("</header>", 1)[0]
+
+        self.assertIn(">IntensiveFix</a>", header)
+        self.assertIn('class="compact-cta site-header__contact"', header)
+        self.assertIn(">Contact Us</a>", header)
+        self.assertGreater(header.rfind(">Contact Us</a>"), header.rfind(">IntensiveFix</a>"))
+
+    def test_original_layout_primitives_replace_inquire_shell_styling(self):
+        base = (SITE_DIR / "assets/css/base.css").read_text(encoding="utf-8")
+        components = (SITE_DIR / "assets/css/components.css").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("--color-section-bar", base)
+        self.assertIn("--container-content: 62rem", base)
+        self.assertIn(".section-bar", components)
+        self.assertIn(".original-hero", components)
+        self.assertIn(".compact-cta", components)
+        self.assertIn(".original-footer", components)
+        self.assertNotIn("backdrop-filter", components)
+
+    def test_navigation_is_progressively_enhanced(self):
+        source = (SITE_DIR / "assets/js/site.js").read_text(encoding="utf-8")
+
+        for function_name in (
+            "initNavigation",
+            "initCarousels",
+            "initCounters",
+            "initFaqs",
+        ):
+            self.assertIn(function_name, source)
+        self.assertIn("prefers-reduced-motion", source)
+        self.assertIn("initNavigation,", source)
+
+
 class StaticSiteAssetTests(unittest.TestCase):
     def load_manifest(self):
         self.assertTrue(MANIFEST_PATH.exists(), f"Missing {MANIFEST_PATH}")
@@ -641,8 +697,8 @@ class InstitutionalPageTests(unittest.TestCase):
                     if element["attrs"].get("id")
                 }
                 self.assertTrue(required_ids.issubset(ids), required_ids - ids)
-                self.assertIn('<header class="site-header">', source)
-                self.assertIn('<footer class="site-footer">', source)
+                self.assertIn('<header class="site-header original-header">', source)
+                self.assertIn('<footer class="site-footer original-footer">', source)
                 self.assertIn('class="floating-whatsapp"', source)
 
     def test_archive_headings_and_meaning_are_preserved(self):
@@ -860,8 +916,8 @@ class ResourcePageTests(unittest.TestCase):
                     if element["attrs"].get("id")
                 }
                 self.assertTrue(required.issubset(ids), required - ids)
-                self.assertIn('<header class="site-header">', source)
-                self.assertIn('<footer class="site-footer">', source)
+                self.assertIn('<header class="site-header original-header">', source)
+                self.assertIn('<footer class="site-footer original-footer">', source)
 
     def test_archive_headings_and_dated_offer_are_preserved_honestly(self):
         notes, _ = self.read_page("notes")

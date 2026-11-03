@@ -210,7 +210,7 @@
     });
   }
 
-  function initMenu(root = document) {
+  function initNavigation(root = document) {
     const toggle = root.querySelector("[data-menu-toggle]");
     const menu = root.querySelector("[data-site-menu]");
     if (!toggle || !menu) return;
@@ -233,7 +233,7 @@
     initCarousels(root);
     initCounters(root);
     initFaqs(root);
-    initMenu(root);
+    initNavigation(root);
   }
 
   window.TBT_UI = Object.freeze({
@@ -241,6 +241,7 @@
     initCarousels,
     initCounters,
     initFaqs,
+    initNavigation,
   });
 
   if (document.readyState === "loading") {
