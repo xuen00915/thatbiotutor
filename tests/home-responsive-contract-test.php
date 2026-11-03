@@ -5,7 +5,7 @@ declare(strict_types=1);
 $root = dirname(__DIR__);
 $theme = $root . '/wordpress/wp-content/themes/thatbiotutor-hello-child';
 $template = $theme . '/front-page.php';
-$pages = $theme . '/assets/css/pages.css';
+$pages = $theme . '/assets/css/pages-home.css';
 $base = $theme . '/assets/css/base.css';
 
 foreach ([$template, $pages, $base] as $file) {
@@ -19,7 +19,11 @@ $contracts = [
     ['source' => $pageCss, 'needle' => 'scroll-margin-top', 'label' => 'sticky-header clearance'],
     ['source' => $pageCss, 'needle' => 'overflow-wrap:', 'label' => 'long-heading wrapping'],
     ['source' => $pageCss, 'needle' => 'overflow-x:', 'label' => 'horizontal-overflow protection'],
-    ['source' => $pageCss, 'needle' => 'object-position: 50% 75%', 'label' => 'first-slide lower focal point'],
+    ['source' => $pageCss, 'needle' => 'object-position: 50% 54%', 'label' => 'first-slide lower focal point'],
+    ['source' => $pageCss, 'needle' => 'min-height: clamp(560px, 50.35vw, 725px)', 'label' => 'reference desktop hero height'],
+    ['source' => $pageCss, 'needle' => 'background: rgba(0,0,0,.48)', 'label' => 'hero image overlay'],
+    ['source' => $pageCss, 'needle' => 'aspect-ratio: 16 / 9', 'label' => 'video aspect ratio'],
+    ['source' => $pageCss, 'needle' => 'tbt-school-marquee', 'label' => 'running school panel'],
     ['source' => $templateSource, 'needle' => 'data-carousel-prev', 'label' => 'carousel previous control'],
     ['source' => $templateSource, 'needle' => 'data-carousel-next', 'label' => 'carousel next control'],
     ['source' => $templateSource, 'needle' => 'data-carousel-status', 'label' => 'carousel status'],

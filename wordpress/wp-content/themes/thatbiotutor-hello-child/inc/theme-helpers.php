@@ -292,6 +292,9 @@ function tbt_render_page_image(string $fieldName, string $fallbackKey, string $c
 function tbt_enqueue_assets(): void
 {
     $styles = ['base', 'components', 'pages'];
+    if (function_exists('is_front_page') && is_front_page()) {
+        $styles[] = 'pages-home';
+    }
     foreach ($styles as $name) {
         $path = TBT_THEME_DIR . '/assets/css/' . $name . '.css';
         wp_enqueue_style('tbt-' . $name, TBT_THEME_URI . '/assets/css/' . $name . '.css', [], is_file($path) ? (string) filemtime($path) : TBT_THEME_VERSION);

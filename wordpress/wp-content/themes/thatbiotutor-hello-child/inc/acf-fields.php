@@ -96,7 +96,7 @@ function tbt_acf_page_groups(): array
             foreach (range(1, 5) as $index) {
                 $name = sprintf('home_hero_image_%02d', $index);
                 $fields[] = tbt_acf_image('field_tbt_' . $name, 'Hero image ' . $index, $name, [
-                    'instructions' => $index === 1 ? 'Landscape WebP. Keep the visual focus lower in the frame.' : 'Landscape WebP in the approved carousel order.',
+                    'instructions' => $index === 1 ? 'Current public group photograph. Use a landscape WebP and keep the approved lower focal point.' : 'Landscape WebP in the approved carousel order.',
                 ]);
             }
             foreach (range(1, 4) as $index) {

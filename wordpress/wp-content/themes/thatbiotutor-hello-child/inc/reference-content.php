@@ -266,6 +266,7 @@ function tbt_reference_content(): array
                 'source' => $crawlSource('/'),
                 'fields' => [
                     'home_heading' => "The AVERAGE TBT Student Makes A 2.3 Grade Jump (~C5 to A2)",
+                    'home_specialist_line' => "ThatBioTutor | Singapore's ONLY 'O' Level Pure/G3 Bio Specialist",
                     'home_primary_cta_label' => 'Find Out More',
                     'home_missing_key_heading' => 'The 1 MISSING KEY To Go From FAIL to A1, While Cutting Down Study Time By 90%',
                     'home_fasttrack_heading' => 'Our FastTrack System 🚀',
@@ -380,6 +381,8 @@ function tbt_reference_content(): array
                 ['value' => '912+', 'label' => 'students'],
                 ['value' => '2.3', 'label' => 'average grade jump'],
                 ['value' => '91%', 'label' => 'A1/A2/B3'],
+                ['value' => '69.21%', 'label' => 'started at B4 or lower'],
+                ['value' => '1 in 2', 'label' => 'score distinction'],
             ],
         ],
         'external_links' => [

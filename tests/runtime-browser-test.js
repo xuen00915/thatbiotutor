@@ -34,6 +34,18 @@ const sizes = [
 
     await page.goto(base, { waitUntil: 'networkidle' });
     if (!(await page.title()).includes('ThatBioTutor')) throw new Error(`Bad Home title at ${viewport.width}`);
+    const firstSection = page.locator('main [data-section]').first();
+    if (await firstSection.getAttribute('data-section') !== 'hero') throw new Error(`Home hero is not the first section at ${viewport.width}`);
+    const heroBox = await firstSection.boundingBox();
+    const minimumHeroHeight = viewport.width >= 1000 ? 560 : 420;
+    if (!heroBox || heroBox.height < minimumHeroHeight) throw new Error(`Home hero is too short at ${viewport.width}`);
+    if (await firstSection.locator('.tbt-home-hero__overlay').count() !== 1) throw new Error(`Home hero overlay missing at ${viewport.width}`);
+    const firstHeroImage = firstSection.locator('[data-carousel-slide]').first().locator('img');
+    if ((await firstHeroImage.evaluate((image) => getComputedStyle(image).objectPosition)) !== '50% 54%') throw new Error(`Home hero focal point is wrong at ${viewport.width}`);
+    const videoBox = await page.locator('[data-section="missing-key"] .tbt-video').boundingBox();
+    if (!videoBox || Math.abs((videoBox.width / videoBox.height) - (16 / 9)) > 0.04) throw new Error(`Home video ratio is wrong at ${viewport.width}`);
+    const schoolTrack = page.locator('[data-school-marquee] .tbt-school-marquee__track');
+    if (await schoolTrack.evaluate((element) => getComputedStyle(element).animationName) !== 'none') throw new Error(`Reduced motion did not stop school marquee at ${viewport.width}`);
     if (viewport.width <= 768) {
       const toggle = page.locator('[data-menu-toggle]');
       await toggle.click();

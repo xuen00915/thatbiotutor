@@ -3705,6 +3705,84 @@
         "intensivefix"
       ],
       "licenseStatus": "site-owned"
+    },
+    {
+      "key": "curated_home_reference_hero",
+      "source": "provenance://a6a30270be1e_061220_60af5d6789d54cd88118c6c52aa1d7b7~mv2.jpg",
+      "file": "files/73ed2a8641fa097cfcb7c7a58bd950ad.webp",
+      "sha256": "ef38a02831d1158e54f6613f1c405e1019865e884017d2aa6df235c76f2f231b",
+      "alt": "ThatBioTutor students with founder Mr Keefe",
+      "width": 3000,
+      "height": 1718,
+      "fit": "cover",
+      "objectPosition": "50% 54%",
+      "pages": ["home"],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "curated_home_fasttrack_system",
+      "source": "provenance://bcfeb74116c6_e560d2_f30600f5353b45fe829057dfd8f982e7~mv2.png",
+      "file": "files/5c7eb12cc993a80c627c969f7857305e.webp",
+      "sha256": "d29ebd53649bc887f43a83f5fb9c15199082798f8e283da98ad06d49e50841b3",
+      "alt": "ThatBioTutor FastTrack System",
+      "width": 1080,
+      "height": 1440,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": ["home"],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "curated_home_trial_information",
+      "source": "provenance://68181bd30400_061220_759e26385f9f4f63b8df2f9019b5bc1f~mv2.png",
+      "file": "files/b36f148878fe3ccf1048da58e85081bb.webp",
+      "sha256": "2ce79da64bade98c4fe0c4243f3e34c61165b8029e0e534a7c1fd1fcc36fdd82",
+      "alt": "ThatBioTutor lesson package overview",
+      "width": 1920,
+      "height": 1080,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": ["home"],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "curated_home_classroom_reference",
+      "source": "provenance://29f2869fdf64_061220_2a13cb9372ea449c8faf0df0fea04c04~mv2.jpg",
+      "file": "files/cc332876b85131dcf2160bbab4a27c04.webp",
+      "sha256": "0f23c5cda814062ee72a3b2b529a0cc4579dc103b325e3107b338396e090feb1",
+      "alt": "ThatBioTutor class at Dhoby Ghaut",
+      "width": 3000,
+      "height": 1669,
+      "fit": "cover",
+      "objectPosition": "50% 50%",
+      "pages": ["home"],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "curated_home_student_benefits",
+      "source": "provenance://e68cacb8e9cd_061220_1dcc7fcb57674209a4c75319389c00ee~mv2.png",
+      "file": "files/f7b93efd89d70f169b7841f2d2fcfea9.webp",
+      "sha256": "2ad6df1fde28b1505ac823b4c1685dce3d617cdfe1cd66c4a031e49a6cd8ff02",
+      "alt": "Benefits ThatBioTutor students receive",
+      "width": 1080,
+      "height": 1350,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": ["home"],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "curated_home_cause_graphic",
+      "source": "provenance://3418fa006003_061220_57109130873146a3b8f7973cc29e6424~mv2.png",
+      "file": "files/b917986f914e2f26b1224a123614dc2f.webp",
+      "sha256": "fb96793f7ee2e2ec231df3a2ae05ac20dea32c479e610a90a2b2fa0aaae8e57d",
+      "alt": "ThatBioTutor environmental giving",
+      "width": 1236,
+      "height": 1012,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": ["home"],
+      "licenseStatus": "public-site-capture"
     }
   ]
 }
