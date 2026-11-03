@@ -230,6 +230,50 @@ function tbt_reference_content(): array
             'whatsapp' => '',
             'map' => '',
         ],
+        'records' => [
+            'tutors' => [
+                [
+                    'seed_key' => 'tutor-ms-chelsea',
+                    'title' => 'Ms Chelsea',
+                    'menu_order' => 10,
+                    'source' => $crawlSource('/about'),
+                    'fields' => [
+                        'tbt_tutor_role' => 'Biology Tutor',
+                        'tbt_tutor_short_bio' => 'Patient, encouraging, and focused on helping students understand Biology clearly.',
+                    ],
+                ],
+                [
+                    'seed_key' => 'tutor-ms-jamie',
+                    'title' => 'Ms Jamie',
+                    'menu_order' => 20,
+                    'source' => $crawlSource('/about'),
+                    'fields' => [
+                        'tbt_tutor_role' => 'Biology Tutor',
+                        'tbt_tutor_short_bio' => 'Builds student confidence through clear explanations and guided practice.',
+                    ],
+                ],
+                [
+                    'seed_key' => 'tutor-mr-keefe',
+                    'title' => 'Mr Keefe',
+                    'menu_order' => 30,
+                    'source' => $crawlSource('/about'),
+                    'fields' => [
+                        'tbt_tutor_role' => 'Founder',
+                        'tbt_tutor_short_bio' => 'Founder of ThatBioTutor and specialist in making content-heavy Biology easier to understand and remember.',
+                    ],
+                ],
+                [
+                    'seed_key' => 'tutor-ms-ng',
+                    'title' => 'Ms Ng',
+                    'menu_order' => 40,
+                    'source' => $crawlSource('/about'),
+                    'fields' => [
+                        'tbt_tutor_role' => 'Ex-MOE Teacher & Syllabus Reviewer',
+                        'tbt_tutor_short_bio' => 'Provides experienced syllabus and teaching perspective for ThatBioTutor resources.',
+                    ],
+                ],
+            ],
+        ],
     ];
 }
 

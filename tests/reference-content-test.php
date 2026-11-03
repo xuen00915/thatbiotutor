@@ -72,6 +72,12 @@ final class ReferenceContentTest
         $this->assertSame(['Home', 'Classes', 'Results & Testimonials', 'Free Bio Notes', 'About Us', 'Our Causes'], array_column($navigation, 'label'), 'Protected navigation labels must match the original.');
         $this->assertSame(['Sec 3', 'Sec 4'], array_column($navigation[1]['children'] ?? [], 'label'), 'Classes submenu must contain only Sec 3 and Sec 4.');
 
+        $records = $content['records']['tutors'] ?? [];
+        $this->assertSame(4, count($records), 'Reference content must seed the four original tutors.');
+        foreach ($records as $record) {
+            $this->assertTrue(isset($record['seed_key'], $record['title'], $record['source']), 'Every seeded tutor must have stable identity and provenance.');
+        }
+
         $decoded = json_decode((string) file_get_contents($manifest), true, 512, JSON_THROW_ON_ERROR);
         $this->assertSame('2026-11-03', $decoded['authoritativeCrawl']['date'] ?? null, 'Manifest must record the authoritative crawl date.');
         $this->assertTrue(is_dir($decoded['authoritativeCrawl']['path'] ?? ''), 'Manifest crawl path must resolve locally.');

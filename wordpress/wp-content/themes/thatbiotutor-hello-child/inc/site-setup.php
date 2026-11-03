@@ -78,10 +78,87 @@ function tbt_update_seeded_field(
     return true;
 }
 
+/** Create or update one seed-owned repeated-content record. */
+function tbt_upsert_seed_record(string $postType, array $record, bool $refreshApproved = false): int|WP_Error
+{
+    $seedKey = (string) ($record['seed_key'] ?? '');
+    $matches = get_posts([
+        'post_type' => $postType,
+        'post_status' => 'any',
+        'posts_per_page' => 2,
+        'meta_query' => [[
+            'key' => '_tbt_seed_key',
+            'value' => $seedKey,
+            'compare' => '=',
+        ]],
+        'no_found_rows' => true,
+    ]);
+
+    if (count($matches) > 1) {
+        return new WP_Error('tbt_seed_collision', sprintf('Multiple %s records use seed key %s.', $postType, $seedKey));
+    }
+
+    if ($matches !== []) {
+        $postId = (int) $matches[0]->ID;
+    } else {
+        $created = wp_insert_post([
+            'post_title' => (string) ($record['title'] ?? $seedKey),
+            'post_name' => sanitize_title((string) ($record['title'] ?? $seedKey)),
+            'post_type' => $postType,
+            'post_status' => 'publish',
+            'menu_order' => (int) ($record['menu_order'] ?? 0),
+        ], true);
+        if (is_wp_error($created)) {
+            return $created;
+        }
+        $postId = (int) $created;
+        update_post_meta($postId, '_tbt_seed_key', $seedKey);
+        update_post_meta($postId, '_tbt_reference_record', '1');
+    }
+
+    foreach (($record['fields'] ?? []) as $fieldName => $value) {
+        tbt_update_seeded_field(
+            $postId,
+            'field_' . (string) $fieldName,
+            (string) $fieldName,
+            $value,
+            $refreshApproved
+        );
+    }
+
+    return $postId;
+}
+
+/** Seed all approved repeated-content records without deleting client records. */
+function tbt_seed_reference_records(bool $refreshApproved = false): array|WP_Error
+{
+    $reference = tbt_reference_content();
+    $collections = [
+        'tutors' => 'tbt_tutor',
+        'testimonials' => 'tbt_testimonial',
+        'faqs' => 'tbt_faq',
+        'results' => 'tbt_result',
+    ];
+    $ids = [];
+
+    foreach ($collections as $collection => $postType) {
+        $ids[$collection] = [];
+        foreach (($reference['records'][$collection] ?? []) as $record) {
+            $postId = tbt_upsert_seed_record($postType, $record, $refreshApproved);
+            if (is_wp_error($postId)) {
+                return $postId;
+            }
+            $ids[$collection][] = $postId;
+        }
+    }
+
+    return $ids;
+}
+
 /**
  * Create the protected pages and seed only owned or missing values.
  *
- * @return array{pages:array<string,int>,seeded:int,preserved:int}|WP_Error
+ * @return array{pages:array<string,int>,records:array<string,list<int>>,seeded:int,preserved:int}|WP_Error
  */
 function tbt_setup_site(bool $refreshApproved = false): array|WP_Error
 {
@@ -113,8 +190,14 @@ function tbt_setup_site(bool $refreshApproved = false): array|WP_Error
     update_option('show_on_front', 'page');
     update_option('page_on_front', $pageIds['home']);
 
+    $records = tbt_seed_reference_records($refreshApproved);
+    if (is_wp_error($records)) {
+        return $records;
+    }
+
     return [
         'pages' => $pageIds,
+        'records' => $records,
         'seeded' => $seeded,
         'preserved' => $preserved,
     ];

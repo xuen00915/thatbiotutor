@@ -176,6 +176,12 @@ function tbt_register_acf_fields(): void
     foreach (tbt_acf_page_groups() as $group) {
         acf_add_local_field_group($group);
     }
+
+    if (function_exists('tbt_acf_content_groups')) {
+        foreach (tbt_acf_content_groups() as $group) {
+            acf_add_local_field_group($group);
+        }
+    }
 }
 
 add_action('acf/init', 'tbt_register_acf_fields');

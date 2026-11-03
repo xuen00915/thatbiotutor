@@ -49,6 +49,31 @@ function get_page_by_path(string $path, string $output = OBJECT, string $postTyp
     return null;
 }
 
+function get_posts(array $args = []): array
+{
+    $matches = [];
+    foreach ($GLOBALS['tbt_db']['posts'] as $post) {
+        if (isset($args['post_type']) && $post['post_type'] !== $args['post_type']) {
+            continue;
+        }
+        if (isset($args['post_status']) && $args['post_status'] !== 'any' && $post['post_status'] !== $args['post_status']) {
+            continue;
+        }
+        $valid = true;
+        foreach (($args['meta_query'] ?? []) as $condition) {
+            $actual = $GLOBALS['tbt_db']['meta'][$post['ID']][$condition['key']] ?? '';
+            if ($actual !== ($condition['value'] ?? null)) {
+                $valid = false;
+                break;
+            }
+        }
+        if ($valid) {
+            $matches[] = (object) $post;
+        }
+    }
+    return $matches;
+}
+
 function wp_insert_post(array $post, bool $returnError = false): int|WP_Error
 {
     $id = $GLOBALS['tbt_db']['nextId']++;
@@ -156,7 +181,8 @@ final class SiteSetupTest
         $first = tbt_setup_site(false);
         $this->assertTrue(is_array($first), 'First setup run must return its owned page IDs.');
         $this->assertSame(12, count($first['pages'] ?? []), 'First run must create every canonical page.');
-        $this->assertSame(13, count($GLOBALS['tbt_db']['posts']), 'Only the twelve approved pages may be added.');
+        $this->assertSame(17, count($GLOBALS['tbt_db']['posts']), 'Only the twelve approved pages and four approved tutor seeds may be added.');
+        $this->assertSame(4, count($first['records']['tutors'] ?? []), 'Setup must seed the four original tutors.');
         $this->assertSame('page', $GLOBALS['tbt_db']['options']['show_on_front'] ?? null, 'Setup must select a static front page.');
         $homeId = $first['pages']['home'];
         $this->assertSame($homeId, $GLOBALS['tbt_db']['options']['page_on_front'] ?? null, 'Home must be assigned as the static front page.');
@@ -170,9 +196,15 @@ final class SiteSetupTest
         $second = tbt_setup_site(false);
         $this->assertTrue(is_array($second), 'Second setup run must succeed.');
         $this->assertSame($first['pages'], $second['pages'], 'Second run must reuse the same page IDs.');
-        $this->assertSame(13, count($GLOBALS['tbt_db']['posts']), 'Second run must not duplicate pages.');
+        $this->assertSame(17, count($GLOBALS['tbt_db']['posts']), 'Second run must not duplicate pages or structured records.');
         $this->assertTrue(isset($GLOBALS['tbt_db']['posts'][$unrelatedId]), 'Unrelated pages must survive setup.');
         $this->assertSame(['keep' => true], get_option('unrelated_option'), 'Unrelated options must survive setup.');
+
+        $firstTutor = $first['records']['tutors'][0];
+        update_post_meta($firstTutor, 'tbt_tutor_role', 'Client-updated role');
+        $third = tbt_setup_site(false);
+        $this->assertTrue(is_array($third), 'Setup after structured-content edit must succeed.');
+        $this->assertSame('Client-updated role', get_post_meta($firstTutor, 'tbt_tutor_role', true), 'Structured client edits must survive setup reruns.');
     }
 
     private function testSeedOwnership(): void
