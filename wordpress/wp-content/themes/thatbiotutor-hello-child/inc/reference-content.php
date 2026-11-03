@@ -166,18 +166,26 @@ function tbt_reference_content(): array
                 'fields' => [
                     'classes_heading' => 'The AVERAGE TBT Student Makes a 2.3 Grade Jump (~C5 to A2)',
                     'classes_level_heading' => 'Ready to find out more? Choose your level below.',
+                    'classes_intro_heading' => 'What exactly is O Level Pure/G3 Biology?',
+                    'classes_struggle_heading' => 'Why do so many students struggle with Pure/ G3 Biology?',
+                    'classes_solution_heading' => 'How TBT solves each one:',
+                    'classes_difference_heading' => 'What makes our classes unlike any other',
                 ],
             ],
             'sec-3-pure-g3-biology-tuition' => [
                 'source' => $crawlSource('/sec-3-pure-g3-biology-tuition'),
                 'fields' => [
                     'sec3_heading' => 'The Best Time to Start Pure / G3 Biology Tuition is at the Start of Sec 3. The Second Best Time is Now!',
+                    'sec3_cover_heading' => 'What TBT Sec 3 classes cover',
+                    'sec3_topics_heading' => 'Sec 3 Topics:',
                 ],
             ],
             'sec-4-pure-g3-biology-tuition' => [
                 'source' => $crawlSource('/sec-4-pure-g3-biology-tuition'),
                 'fields' => [
                     'sec4_heading' => "From B4 or worse to A in O Levels is still possible. Here's the proof.",
+                    'sec4_cover_heading' => 'What TBT Sec 4 classes cover',
+                    'sec4_topics_heading' => 'Sec 4 Topics:',
                 ],
             ],
             'testimonials' => [
@@ -235,6 +243,9 @@ function tbt_reference_content(): array
                 'fields' => [
                     'intensivefix_heading' => 'Fix Your Entire Sec 3 Biology Foundation in 4 Days',
                     'intensivefix_cta_label' => 'Enquire About IntensiveFix',
+                    'intensivefix_program_heading' => 'Everything You Need to Know About IntensiveFix',
+                    'intensivefix_analysis_heading' => 'Turn Your EOY Result into a Sec 4 Recovery Plan',
+                    'intensivefix_suitability_heading' => 'Is IntensiveFix Right for You?',
                 ],
             ],
         ],

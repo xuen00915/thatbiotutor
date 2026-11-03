@@ -15,4 +15,6 @@
 - Added one sticky responsive header, protected Classes submenu, shared footer, and floating WhatsApp control.
 - Added dependency-free accessible mobile navigation, carousel, swipe, FAQ, focus-return, and reduced-motion behavior.
 - Rebuilt the original Home section sequence with the supplied five-image hero, lower first-slide focal point, FastTrack, trust metrics, results, crest marquee, videos, experience media, tutors, FAQs, and CTAs.
+- Added distinct original-style Classes, Sec 3, and Sec 4 templates with phase, topic, results, team, and FAQ content.
+- Added IntensiveFix as a separate four-day recovery programme with ten ordered supplied graphics, review artwork, analysis video, FastTrack, suitability, and WhatsApp enquiry flow.
 

@@ -75,3 +75,45 @@
   .tbt-stat strong { font-size: 2rem; }
 }
 
+.tbt-programme-page { overflow-x: clip; }
+.tbt-programme-hero { width: 100%; min-height: clamp(520px, 68vh, 820px); display: grid; align-content: center; justify-items: center; gap: 26px; text-align: center; background: #fff; }
+.tbt-programme-hero .tbt-heading { max-width: 1180px; }
+.tbt-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, .8fr); align-items: center; gap: 52px; }
+.tbt-contain-artwork { width: 100%; max-height: 620px; object-fit: contain; }
+.tbt-cover-photo { width: 100%; height: 390px; object-fit: cover; border-radius: 16px; }
+.tbt-problem-grid, .tbt-feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 22px; }
+.tbt-problem-grid article, .tbt-feature-grid article, .tbt-choice-grid article, .tbt-phase-grid article { padding: 28px; border: 1px solid var(--tbt-line); border-radius: 18px; background: #fff; color: var(--tbt-ink); }
+.tbt-problem-grid strong { color: var(--tbt-green); font-size: 3rem; }
+.tbt-solution-list { display: grid; gap: 20px; }
+.tbt-level-choice { text-align: center; }
+.tbt-level-choice__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; margin-top: 34px; }
+.tbt-level-choice__grid a { display: grid; gap: 12px; min-height: 220px; place-content: center; padding: 32px; border: 2px solid var(--tbt-green); border-radius: 18px; background: #fff; text-decoration: none; }
+.tbt-choice-grid, .tbt-phase-grid, .tbt-suitability { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.tbt-phase-grid--three { grid-template-columns: repeat(3, 1fr); }
+.tbt-topic-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 30px; overflow-wrap: anywhere; }
+.tbt-track-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.tbt-intensivefix-page .tbt-programme-hero span { color: var(--tbt-green); }
+.tbt-intensivefix-carousel { position: relative; width: min(100%, 820px); margin: 36px auto 0; overflow: hidden; }
+.tbt-intensivefix-carousel figure { margin: 0; }
+.tbt-intensivefix-carousel figure[hidden] { display: none; }
+.tbt-intensivefix__graphic, .tbt-intensivefix__reviews { width: 100%; max-height: 78vh; object-fit: contain; }
+.tbt-intensivefix__reviews { margin-inline: auto; }
+
+@media (max-width: 768px) {
+  .tbt-programme-hero { min-height: 620px; }
+  .tbt-split, .tbt-level-choice__grid, .tbt-choice-grid, .tbt-phase-grid, .tbt-phase-grid--three, .tbt-suitability { grid-template-columns: 1fr; }
+  .tbt-topic-list { grid-template-columns: 1fr; }
+  .tbt-track-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 390px) {
+  .tbt-programme-hero { min-height: 540px; }
+  .tbt-track-grid { grid-template-columns: 1fr; }
+  .tbt-cover-photo { height: 360px; }
+}
+
+@media (max-width: 320px) {
+  .tbt-programme-hero { min-height: 500px; }
+  .tbt-programme-page h1, .tbt-programme-page h2, .tbt-programme-page h3 { overflow-wrap: anywhere; }
+}
+

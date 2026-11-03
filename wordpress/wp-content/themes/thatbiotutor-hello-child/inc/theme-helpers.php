@@ -225,6 +225,25 @@ function tbt_media(string $key): array
     return $item;
 }
 
+/** Render one manifest-backed local image with optional safe data attributes. */
+function tbt_render_media_image(string $key, string $class = '', array $attributes = []): void
+{
+    $media = tbt_media($key);
+    if (($media['url'] ?? '') === '') {
+        return;
+    }
+    echo '<img data-media-key="' . esc_attr($key) . '"';
+    if ($class !== '') {
+        echo ' class="' . esc_attr($class) . '"';
+    }
+    foreach ($attributes as $name => $value) {
+        if (preg_match('/^(?:data-[a-z0-9-]+|aria-[a-z0-9-]+|loading)$/', (string) $name) === 1) {
+            echo ' ' . esc_attr((string) $name) . '="' . esc_attr((string) $value) . '"';
+        }
+    }
+    echo ' src="' . esc_url((string) $media['url']) . '" alt="' . esc_attr((string) ($media['alt'] ?? '')) . '" width="' . esc_attr((string) ($media['width'] ?? 0)) . '" height="' . esc_attr((string) ($media['height'] ?? 0)) . '">';
+}
+
 /** Enqueue the protected local design system and progressive interactions. */
 function tbt_enqueue_assets(): void
 {
