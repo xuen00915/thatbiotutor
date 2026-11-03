@@ -75,6 +75,20 @@ const sizes = [
       if (!box || Math.abs((box.width / box.height) - (16 / 9)) > 0.04) throw new Error(`Testimonials video ratio is wrong at ${viewport.width}`);
       if (await wrapper.evaluate((element) => getComputedStyle(element).overflow) !== 'hidden') throw new Error(`Testimonials video wrapper can scroll at ${viewport.width}`);
     }
+
+    await page.goto(`${base}/notes/`, { waitUntil: 'load' });
+    const notesCarousel = page.locator('[data-section="hero"] [data-carousel]');
+    if (await notesCarousel.count() !== 1) throw new Error(`Notes carousel missing at ${viewport.width}`);
+    const notesStatus = notesCarousel.locator('[data-carousel-status]');
+    if ((await notesStatus.textContent()).trim() !== '1 of 3') throw new Error(`Notes carousel status is wrong at ${viewport.width}`);
+    await notesCarousel.locator('[data-carousel-next]').click();
+    if ((await notesStatus.textContent()).trim() !== '2 of 3') throw new Error(`Notes carousel did not advance at ${viewport.width}`);
+
+    await page.goto(`${base}/celldivision/`, { waitUntil: 'load' });
+    const cellCarousel = page.locator('[data-section="hero"] [data-carousel]');
+    if (await cellCarousel.count() !== 1) throw new Error(`Cell Division carousel missing at ${viewport.width}`);
+    const cellStatus = cellCarousel.locator('[data-carousel-status]');
+    if ((await cellStatus.textContent()).trim() !== '1 of 5') throw new Error(`Cell Division carousel status is wrong at ${viewport.width}`);
     await page.close();
   }
 

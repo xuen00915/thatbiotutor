@@ -128,6 +128,14 @@ function tbt_acf_page_groups(): array
             }
         }
 
+        if ($pageKey === 'celldivision') {
+            $fields[] = tbt_acf_tab('field_tbt_celldivision_tab_slider', 'Crash-course slider');
+            foreach (range(1, 5) as $index) {
+                $name = sprintf('celldivision_slider_image_%02d', $index);
+                $fields[] = tbt_acf_image('field_tbt_' . $name, 'Crash-course slide ' . $index, $name);
+            }
+        }
+
         if ($pageKey === 'intensivefix') {
             $fields[] = tbt_acf_tab('field_tbt_intensivefix_tab_programme_media', 'Programme media');
             foreach (range(1, 10) as $index) {

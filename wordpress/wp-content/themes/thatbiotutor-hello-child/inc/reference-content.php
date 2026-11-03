@@ -135,7 +135,7 @@ function tbt_reference_content(): array
         ['notes-review-jezelle', 'Jezelle', 'Thank you so much for this! This is my lifesaver and my day-to-day grind for O-Level A1 in Pure Bio.', 'notes-reviews'],
         ['notes-review-j', 'J', 'The notes were very informative and good.', 'notes-reviews'],
         ['notes-review-anisatusyifa', 'Anisatusyifa', 'Very useful. During O-Level Bio Paper 2 I barely left any blanks because I could remember most of the points.', 'notes-reviews'],
-        ['notes-review-l', 'L', 'Concise, visual, and much easier to revise from.', 'notes-reviews'],
+        ['notes-review-l', 'L', 'I like how concise everything was. There were many tables and drawings that allowed me to understand just the important stuff.', 'notes-reviews'],
     ];
     foreach ($textTestimonials as $index => [$seedKey, $name, $quote, $group]) {
         $testimonialRecords[] = [
@@ -151,11 +151,14 @@ function tbt_reference_content(): array
         ['notes-review-chloe', 'Chloe', 'Great and helpful notes for last-minute revision, and easy to understand.', 'notes-reviews'],
         ['notes-review-angelina', 'Angelina', 'The notes helped me consolidate topics effectively and understand the keywords required in answers.', 'notes-reviews'],
         ['notes-review-lohitha', 'Lohitha', 'I love that such good-quality notes are free and save students hours of making their own revision notes.', 'notes-reviews'],
+        ['notes-review-farah-haque', 'Farah Haque', 'It is helpful for last-minute revision and the notes are concise and easy to read, unlike the textbook.', 'notes-reviews'],
         ['notes-review-marcus', 'Marcus', 'The concise notes, memory shortcuts, and clear organisation made studying Biology much easier.', 'notes-reviews'],
         ['notes-review-kelly', 'Kelly', 'The notes are concise, thorough, well-organised, and easy to understand.', 'notes-reviews'],
+        ['notes-review-c', 'C', 'The Bio notes reinforced my concepts and helped me recall them better with the memory hacks and acronyms. I feel much more confident for Biology.', 'notes-reviews'],
         ['notes-review-megan', 'Megan', 'It was helpful and thorough, with clear visuals and a useful how-it-works page.', 'notes-reviews'],
         ['notes-review-lee-yang', 'Lee Yang', 'Very concise and accurate Biology notes for revision and learning.', 'notes-reviews'],
         ['notes-review-andrea', 'Andrea', 'It is super clear and easy to understand because everything is compiled so neatly.', 'notes-reviews'],
+        ['notes-review-xin-yi', 'Xin Yi', 'The notes are concise, highlight the most important parts of every topic, and explain specific details from a new perspective.', 'notes-reviews'],
         ['notes-review-aaron', 'Aaron', 'The notes are straight to the point and also teach memorable ways to retain the content.', 'notes-reviews'],
         ['cell-review-anita', 'Anita', 'Detailed, with analogies that helped me visualise the information and understand it much better.', 'celldivision-reviews'],
         ['cell-review-jeeva', 'Jeeva', 'The in-depth explanations clarified ideas school moved through quickly, and replayable videos were especially useful.', 'celldivision-reviews'],

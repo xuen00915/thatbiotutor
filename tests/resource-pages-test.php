@@ -21,8 +21,10 @@ final class ResourcePagesTest
         foreach (['Results & Testimonials', 'What Students Are Saying About ThatBioTutor', 'Student Stories', 'Class of 2025', 'Class of 2022', 'Class of 2021'] as $marker) $this->assertTrue(str_contains($testimonials, $marker), "Testimonials must contain {$marker}.");
         $this->assertTrue(str_contains($testimonials, 'data-archive-group'), 'Long testimonial archive must expose grouping anchors.');
 
+        preg_match_all('/data-section="([^"]+)"/', $notes, $noteSections);
+        $this->assertSame(['hero', 'reviews-top', 'access-intro', 'fit', 'benefits', 'why-free', 'catch', 'download', 'reviews-bottom'], $noteSections[1], 'Notes sections must follow the public page order.');
         $last = -1;
-        foreach (['For Pure / G3 Biology', 'Free O Level Biology Notes Singapore', 'What Students Are Saying...', 'Why are you giving your notes for FREE?', "This sounds too good to be true. What's the catch?", 'How do I download it?'] as $marker) {
+        foreach (['Free O Level Biology Notes Singapore', 'For Pure / G3 Biology', 'What Students Are Saying...', 'Hey Pure Bio Student, is this you?', "ThatBioTutor's Notes", 'Why are you giving your notes for FREE?', "This sounds too good to be true. What's the catch?", 'How do I download it?'] as $marker) {
             $position = strpos($notes, $marker, $last + 1); $this->assertTrue($position !== false, "Notes must contain {$marker}."); $this->assertTrue($position > $last, "Notes section {$marker} must stay in original order."); $last = $position;
         }
         $this->assertSame(3, substr_count($notes, 'data-carousel-slide'), 'Notes hero must include three slides.');
@@ -31,8 +33,15 @@ final class ResourcePagesTest
         $this->assertTrue(str_contains($notes, '7,000+ downloads'), 'Notes must preserve its download-count proof.');
         $this->assertTrue(str_contains($notes, 'id="notes-download"'), 'Download CTA must resolve to the disclosed access section.');
         $this->assertTrue(str_contains($notes, 'data-testimonial-renderer'), 'Notes must render its complete editable review collection.');
+        foreach (range(1, 3) as $index) $this->assertTrue(str_contains($notes, sprintf('curated_notes_notes_slide_%02d', $index)), "Notes slide {$index} must use approved local media.");
+        $this->assertTrue(!str_contains($notes, '<form'), 'Resource page must not invent a replacement data-collection form.');
 
         foreach (['Only For 2023 Sec 4 Pure Bio Students!', 'IMPORTANT:', 'How do I access it?', 'What Students Are Saying About The Crash Course:'] as $marker) $this->assertTrue(str_contains($cell, $marker), "Cell Division must contain {$marker}.");
+        preg_match_all('/data-section="([^"]+)"/', $cell, $cellSections);
+        $this->assertSame(['hero', 'problems', 'features', 'important', 'access', 'reviews'], $cellSections[1], 'Cell Division sections must follow the public resource order.');
+        $this->assertSame(5, substr_count($cell, 'data-carousel-slide'), 'Cell Division hero must preserve all five public slides.');
+        foreach (range(1, 5) as $index) $this->assertTrue(str_contains($cell, sprintf('curated_celldivision_slide_%02d', $index)), "Cell Division slide {$index} must use approved local media.");
+        foreach (['curated_celldivision_replayable_video', 'curated_celldivision_analogy', 'curated_celldivision_memory_shortcuts'] as $mediaKey) $this->assertTrue(str_contains($cell, $mediaKey), "Cell Division must retain {$mediaKey}.");
         $this->assertTrue(str_contains($cell, '/contact/') && str_contains($cell, 'historical 2023'), 'Cell Division access must clearly disclose its dated external/contact boundary.');
         foreach ([$notes, $cell] as $html) $this->assertTrue(!str_contains($html, 'static.wixstatic.com'), 'Resource page must use local media.');
 
