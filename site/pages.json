@@ -96,7 +96,7 @@
     "title": "Causes We Support | ThatBioTutor",
     "description": "See ThatBioTutor's tree-planting record and support for Singapore environmental causes.",
     "bodyClass": "page-trees",
-    "navKey": "home",
+    "navKey": "trees",
     "whatsappMessage": "Hi ThatBioTutor, I'd like to learn more about your Biology classes and causes.",
     "ogImage": "assets/images/causes/team-trees.webp",
     "context": {},

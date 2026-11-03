@@ -289,6 +289,53 @@
       "objectPosition": "50% 50%"
     }
   ],
+  "heroes": [
+    {
+      "source": "https://static.wixstatic.com/media/88989e_810b4fd9060840dd8de8788286ef4c92~mv2.jpg",
+      "file": "assets/images/heroes/classes-original.webp",
+      "alt": "Mr Keefe teaching Pure Biology to a classroom of students",
+      "width": 1600,
+      "height": 640,
+      "fit": "cover",
+      "objectPosition": "50% 0%"
+    },
+    {
+      "source": "https://static.wixstatic.com/media/88989e_c759a24ff56f4687b5969baeb2182400~mv2.jpg",
+      "file": "assets/images/heroes/sec3-original.webp",
+      "alt": "Sec 3 Biology students learning together in class",
+      "width": 1600,
+      "height": 811,
+      "fit": "cover",
+      "objectPosition": "50% 50%"
+    },
+    {
+      "source": "https://static.wixstatic.com/media/88989e_810b4fd9060840dd8de8788286ef4c92~mv2.jpg",
+      "file": "assets/images/heroes/sec4-original.webp",
+      "alt": "Mr Keefe teaching an O Level Biology graph lesson",
+      "width": 1440,
+      "height": 710,
+      "fit": "cover",
+      "objectPosition": "50% 50%"
+    },
+    {
+      "source": "https://static.wixstatic.com/media/061220_c955b4b899fd4460bc96cb0bf66625bf~mv2.jpg",
+      "file": "assets/images/heroes/about-original.webp",
+      "alt": "ThatBioTutor students gathered together in the classroom",
+      "width": 1600,
+      "height": 357,
+      "fit": "cover",
+      "objectPosition": "50% 50%"
+    },
+    {
+      "source": "https://static.wixstatic.com/media/061220_0dc8cc23264b40569d8785d53d8c7d33~mv2.jpg",
+      "file": "assets/images/heroes/testimonials-original.webp",
+      "alt": "Plant beside the ThatBioTutor results and testimonials title",
+      "width": 1600,
+      "height": 499,
+      "fit": "cover",
+      "objectPosition": "50% 50%"
+    }
+  ],
   "homeHero": [
     {
       "source": "/Users/dmsyx/Downloads/drive-download-20261102T021322Z-1-001/1A. Homepage top slider images/1.jpg",
@@ -604,6 +651,15 @@
     }
   ],
   "notes": [
+    {
+      "source": "https://static.wixstatic.com/media/061220_375c00e6999f41ae89c85a8f75036f9d~mv2.png",
+      "file": "assets/images/notes/notes-device-preview.webp",
+      "alt": "ThatBioTutor Biology notes preview showing the structure and function of the heart",
+      "width": 1200,
+      "height": 840,
+      "fit": "contain",
+      "objectPosition": "50% 50%"
+    },
     {
       "source": "mirror/static.wixstatic.com/media/061220_3091ab2444314838b63491728ee1ada0~mv2.png/.../4.png",
       "file": "assets/images/notes/notes-preview-01.webp",

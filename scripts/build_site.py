@@ -351,6 +351,8 @@ def _page_context(site: Mapping[str, object], page: PageSpec) -> Dict[str, str]:
             "hours": _escaped(site["hours"]),
             "copyright": _escaped(site["copyright"]),
             "home_url": _escaped(root or "./"),
+            "contact_url": _escaped(_route_href(root, "contact/")),
+            "intensivefix_url": _escaped(_route_href(root, "intensivefix/")),
             "whatsapp_url": _escaped(
                 "https://wa.me/{}?{}".format(
                     quote(str(site["whatsappNumber"]), safe=""),

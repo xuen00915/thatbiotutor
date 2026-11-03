@@ -314,10 +314,368 @@
   .mode-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .level-choice-grid__intensive {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (min-width: 64rem) {
   .card-grid--four {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Original Wix route vocabulary. These route-level rules intentionally keep the
+   source site's flat, image-led composition instead of reusing campaign cards. */
+.page-classes .full-photo-hero {
+  height: clamp(35rem, 40vw, 36rem);
+  min-height: 0;
+}
+
+.level-photo-hero {
+  height: clamp(40rem, 51vw, 45.625rem);
+  min-height: 0;
+}
+
+.level-photo-hero .hero__copy {
+  width: min(100%, 58rem);
+}
+
+.level-photo-hero .hero__copy h1 {
+  max-width: 18ch;
+  font-size: clamp(2.4rem, 4vw, 4rem);
+}
+
+.about-photo-hero {
+  height: 20.1rem;
+  min-height: 0;
+}
+
+.about-photo-hero .hero__grid {
+  padding-block: 3rem;
+  padding-bottom: 3rem;
+}
+
+.about-photo-hero .hero__copy {
+  width: min(100%, 42rem);
+}
+
+.testimonial-photo-hero {
+  height: 28rem;
+  min-height: 0;
+}
+
+.testimonial-photo-hero .hero__grid {
+  place-items: center end;
+  padding-block: 3rem;
+  padding-bottom: 3rem;
+}
+
+.testimonial-photo-hero .hero__copy {
+  width: min(48%, 34rem);
+  margin: 0;
+}
+
+.testimonial-photo-hero .hero__copy h1 {
+  max-width: none;
+  font-size: clamp(3rem, 5vw, 5rem);
+}
+
+.testimonial-stars {
+  color: #ffd34d !important;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  letter-spacing: 0.18em;
+}
+
+.notes-original-hero {
+  display: grid;
+  min-height: 43rem;
+  align-items: center;
+  background: #303030;
+  color: #fff;
+  padding-block: clamp(3rem, 7vw, 5.5rem);
+}
+
+.notes-original-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  text-align: center;
+}
+
+.notes-original-hero h1,
+.notes-original-hero p {
+  max-width: 48rem;
+  color: #fff;
+}
+
+.notes-original-hero h1 {
+  margin-inline: auto;
+  font-size: clamp(2.5rem, 4vw, 3.8rem);
+}
+
+.notes-original-hero .eyebrow {
+  color: #fff;
+}
+
+.notes-original-hero__lead {
+  font-size: clamp(1.1rem, 1.9vw, 1.5rem);
+}
+
+.notes-device-preview {
+  width: clamp(26.25rem, 38vw, 35rem);
+  margin: 0.75rem auto 1rem;
+}
+
+.notes-download-button {
+  min-width: 11rem;
+  border: 1px solid #fff;
+  background: #9be467;
+  box-shadow: none;
+}
+
+.notes-social-proof .section-heading {
+  margin-bottom: var(--space-7);
+}
+
+.notes-review-wall {
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--color-line);
+  background: var(--color-line);
+}
+
+.notes-review {
+  background: #fff;
+  padding: var(--space-5);
+}
+
+.notes-review p {
+  margin-bottom: var(--space-3);
+}
+
+.notes-review strong {
+  color: var(--color-brand);
+}
+
+.page-testimonials #student-stories .card-grid,
+.cell-review-list {
+  display: grid;
+  width: min(100%, 52rem);
+  margin-inline: auto;
+  gap: 1px;
+  border-block: 1px solid var(--color-line);
+  background: var(--color-line);
+}
+
+.page-testimonials #student-stories .testimonial,
+.cell-review-list .testimonial {
+  border-radius: 0;
+  background: #fff;
+  padding: var(--space-6);
+}
+
+.testimonial-archive-heading {
+  margin-top: var(--space-9);
+}
+
+.testimonial-archive {
+  display: grid;
+  width: min(100%, 52rem);
+  margin-inline: auto;
+  gap: 1px;
+  border-block: 1px solid var(--color-line);
+  background: var(--color-line);
+}
+
+.testimonial-archive .testimonial--archive {
+  border-radius: 0;
+  background: #fff;
+  padding: var(--space-6);
+}
+
+.testimonial-archive .testimonial__person {
+  justify-content: space-between;
+  color: var(--color-brand);
+}
+
+.cell-source-archive {
+  display: grid;
+  width: min(100%, 52rem);
+  margin-inline: auto;
+  gap: 1px;
+  border-block: 1px solid var(--color-line);
+  background: var(--color-line);
+}
+
+.cell-source-archive .testimonial--archive {
+  border-radius: 0;
+  background: #fff;
+  padding: var(--space-6);
+}
+
+.notes-fit-grid {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.notes-benefits {
+  border-left: 0.35rem solid var(--color-brand-bright);
+  background: #fff;
+  padding: var(--space-6);
+}
+
+.notes-explanation {
+  width: min(100%, 46rem);
+  margin: var(--space-8) auto 0;
+  text-align: center;
+}
+
+.notes-explanation h2,
+.notes-explanation p,
+.notes-catch h2,
+.notes-catch p,
+.notes-download h2,
+.notes-download p {
+  margin-inline: auto;
+}
+
+.notes-catch,
+.notes-download {
+  text-align: center;
+}
+
+.notes-download__actions {
+  justify-content: center;
+}
+
+.notes-review-archive-heading {
+  margin-top: var(--space-9);
+}
+
+.notes-review-archive {
+  display: grid;
+  width: min(100%, 52rem);
+  margin-inline: auto;
+  gap: 1px;
+  border-block: 1px solid var(--color-line);
+  background: var(--color-line);
+  text-align: left;
+}
+
+.notes-review-archive .notes-review--archive {
+  background: #fff;
+  padding: var(--space-6);
+}
+
+.resource-intro {
+  background: #fff;
+  padding-block: clamp(3rem, 6vw, 5rem);
+  text-align: center;
+}
+
+.resource-intro h1,
+.resource-intro p {
+  max-width: none;
+  margin-inline: auto;
+}
+
+.resource-intro h1 {
+  font-size: clamp(2.6rem, 4.2vw, 4.2rem);
+  font-weight: 300;
+}
+
+.resource-intro .highlight {
+  color: var(--color-brand);
+}
+
+.resource-video-placeholder {
+  display: grid;
+  width: min(100%, 61.25rem);
+  min-height: clamp(24rem, 43vw, 38rem);
+  place-items: center;
+  margin: var(--space-7) auto var(--space-6);
+  background: #050505;
+}
+
+.resource-video-placeholder img {
+  width: min(34vw, 13rem);
+  filter: grayscale(1) brightness(1.35);
+}
+
+.utility-title-bar {
+  display: grid;
+  min-height: 5.25rem;
+  place-items: center;
+  background: #303030;
+  color: #fff;
+  text-align: center;
+}
+
+.utility-title-bar h1 {
+  max-width: none;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 300;
+}
+
+.utility-page {
+  background: #fff;
+  padding-block: clamp(4rem, 8vw, 7rem) var(--space-6);
+}
+
+.utility-page h1 {
+  font-size: clamp(3.4rem, 6vw, 5rem);
+  font-weight: 300;
+}
+
+.page-trees #tree-planting,
+.page-tuitionrecs #recommendations,
+.page-contact #faq-pointer {
+  padding-top: var(--space-7);
+}
+
+@media (min-width: 48rem) {
+  .notes-review-wall {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .notes-fit-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .page-classes .full-photo-hero,
+  .level-photo-hero,
+  .about-photo-hero,
+  .testimonial-photo-hero {
+    height: auto;
+    min-height: 34rem;
+  }
+
+  .full-photo-hero .hero__grid,
+  .about-photo-hero .hero__grid,
+  .testimonial-photo-hero .hero__grid {
+    padding: 4rem 0 5rem;
+  }
+
+  .testimonial-photo-hero .hero__copy {
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .notes-original-hero {
+    min-height: auto;
+  }
+
+  .notes-device-preview {
+    width: min(100%, 30rem);
+  }
+
+  .resource-video-placeholder {
+    min-height: 19rem;
   }
 }

@@ -131,14 +131,23 @@ class OriginalShellTests(unittest.TestCase):
                 )
                 self.assertEqual(source.count('<a class="floating-whatsapp"'), 1)
 
-    def test_header_keeps_intensivefix_discoverable_and_contact_us_last(self):
+    def test_header_keeps_original_six_links_plus_required_contact_action(self):
         source = (self.build_root / "index.html").read_text(encoding="utf-8")
         header = source.split("</header>", 1)[0]
 
-        self.assertIn(">IntensiveFix</a>", header)
-        self.assertIn('class="compact-cta site-header__contact"', header)
-        self.assertIn(">Contact Us</a>", header)
-        self.assertGreater(header.rfind(">Contact Us</a>"), header.rfind(">IntensiveFix</a>"))
+        for label in (
+            "Home",
+            "Classes",
+            "Results &amp; Testimonials",
+            "Free Bio Notes",
+            "About Us",
+            "Our Causes",
+        ):
+            self.assertIn(f">{label}</a>", header)
+        self.assertNotIn(">IntensiveFix</a>", header)
+        self.assertIn('class="site-header__contact"', header)
+        self.assertIn('href="contact/">Contact Us</a>', header)
+        self.assertIn("IntensiveFix", source.split("<footer", 1)[1])
 
     def test_original_layout_primitives_replace_inquire_shell_styling(self):
         base = (SITE_DIR / "assets/css/base.css").read_text(encoding="utf-8")
@@ -147,7 +156,7 @@ class OriginalShellTests(unittest.TestCase):
         )
 
         self.assertIn("--color-section-bar", base)
-        self.assertIn("--container-content: 62rem", base)
+        self.assertIn("--container-content: 61.25rem", base)
         self.assertIn(".section-bar", components)
         self.assertIn(".original-hero", components)
         self.assertIn(".compact-cta", components)
@@ -292,7 +301,7 @@ class StaticSiteFoundationTests(unittest.TestCase):
             components,
             r"\.media-carousel\.is-enhanced\s+\.media-carousel__track\s*\{[^}]*height:\s*100%",
         )
-        self.assertIn("@media (max-width: 63.99rem)", components)
+        self.assertIn("@media (max-width: 71.99rem)", components)
 
     def test_site_script_defines_progressive_enhancements(self):
         source = self.read_asset("assets/js/site.js")
@@ -541,7 +550,7 @@ class IntensiveFixPageTests(unittest.TestCase):
             for element in self.parser.elements
             if element["tag"] == "header"
         )
-        self.assertIn("Contact Us", " ".join(header["text"]))
+        self.assertIn("Our Causes", " ".join(header["text"]))
         self.assertNotIn("Start with a $110 trial lesson", self.source)
         self.assertNotIn("Limited intake", self.source)
 
@@ -983,6 +992,8 @@ class ClassesPageTests(unittest.TestCase):
         )
         self.assertIn('href="../sec-3-pure-g3-biology-tuition/"', source)
         self.assertIn('href="../sec-4-pure-g3-biology-tuition/"', source)
+        self.assertIn('href="../intensivefix/"', source)
+        self.assertIn("Sec 3 IntensiveFix", parser.section_text("level-choice"))
         for value in ("912+", "91%", "69.21%", "2.3", "1 in 2"):
             self.assertIn(value, parser.section_text("results"))
         self.assertNotIn("inquire-card-shell", source)
@@ -1210,6 +1221,28 @@ class ResourcePageTests(unittest.TestCase):
         self.assertNotIn("<blockquote", combined)
         self.assertNotIn("“", combined)
 
+    def test_original_review_archives_are_not_reduced_to_token_examples(self):
+        _, notes = self.read_page("notes")
+        _, cell = self.read_page("celldivision")
+        _, testimonials = self.read_page("testimonials")
+        self.assertGreaterEqual(
+            len(notes.elements_in("student-feedback", "article")), 24
+        )
+        self.assertGreaterEqual(len(notes.elements_in("download", "article")), 220)
+        self.assertGreaterEqual(
+            len(cell.elements_in("student-feedback", "blockquote")), 14
+        )
+        self.assertGreaterEqual(
+            len([element for element in cell.elements if element["tag"] == "blockquote"]),
+            29,
+        )
+        self.assertGreaterEqual(
+            len(testimonials.elements_in("student-stories", "article")), 18
+        )
+        self.assertGreaterEqual(
+            len(testimonials.elements_in("student-stories", "blockquote")), 130
+        )
+
     def test_resource_pages_restore_original_section_order(self):
         expected = {
             "testimonials": [
@@ -1246,13 +1279,17 @@ class ResourcePageTests(unittest.TestCase):
         celldivision, _ = self.read_page("celldivision")
         self.assertIn("Results &amp; Testimonials", testimonials)
         self.assertIn("★★★★★", testimonials)
+        self.assertIn("Gwen · F9 → A1", testimonials)
+        self.assertIn("Aryan · C6 → A2", testimonials)
+        self.assertNotIn("Gwen · Improved to A2", testimonials)
+        self.assertNotIn("Aryan · Improved two grades", testimonials)
         self.assertLess(
             testimonials.index("Class of 2022"), testimonials.index("Class of 2021")
         )
         self.assertIn("Free O Level Biology Notes Singapore", notes)
         self.assertIn("Why Are You Giving Your Notes for Free?", notes)
-        self.assertIn("What's the catch?", notes)
-        self.assertIn("How Do I Download the Notes?", notes)
+        self.assertIn("What's The Catch?", notes)
+        self.assertIn("How do I download it?", notes)
         self.assertIn("Only For 2023 Sec 4 Pure Bio Students!", celldivision)
         self.assertIn("IMPORTANT:", celldivision)
         self.assertIn("archived", celldivision.lower())
@@ -1542,12 +1579,21 @@ class FinalReviewRegressionTests(unittest.TestCase):
         self.assertIn("document.documentElement.classList.add(\"menu-enhanced\")", self.site_js)
         self.assertRegex(
             self.components_css,
+            r"@media \(max-width: 71\.99rem\)[\s\S]*?\.site-nav__links\s*\{[^}]*display:\s*grid",
+        )
+        self.assertRegex(
+            self.components_css,
             r"\.menu-enhanced\s+\.site-nav__links\s*\{[^}]*display:\s*none",
+        )
+
+    def test_default_accent_colour_remains_readable_on_white(self):
+        self.assertRegex(
+            self.base_css,
+            r"\.accent\s*\{[^}]*color:\s*var\(--color-brand\)",
         )
 
     def test_retained_copy_and_explicit_ctas_match_sources(self):
         for exact_home_copy in (
-            ">Contact Us</a>",
             "completing it earns Homework Points for rewards",
             "Sec 3 classes open in March each year",
             "Read, reread, blurt out, copy out again and again",
