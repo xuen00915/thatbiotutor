@@ -9,7 +9,7 @@ find wordpress tests -type f -name '*.php' -print | sort | while IFS= read -r ph
     php -l "$php_file" >/dev/null
 done
 
-find tests -maxdepth 1 -type f -name '*-test.php' -print | sort | while IFS= read -r php_test; do
+find tests -maxdepth 1 -type f -name '*-test.php' ! -name 'runtime-editing-test.php' -print | sort | while IFS= read -r php_test; do
     php "$php_test"
 done
 

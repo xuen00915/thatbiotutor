@@ -1,0 +1,21 @@
+{
+  "core": "https://wordpress.org/wordpress-7.1.4.zip",
+  "phpVersion": "8.3",
+  "port": 8888,
+  "testsPort": 8889,
+  "themes": [
+    "https://downloads.wordpress.org/theme/hello-elementor.3.5.1.zip",
+    "./wordpress/wp-content/themes/thatbiotutor-hello-child"
+  ],
+  "plugins": [
+    "https://downloads.wordpress.org/plugin/advanced-custom-fields.6.8.11.zip"
+  ],
+  "mappings": {
+    "tests": "./tests"
+  },
+  "config": {
+    "WP_DEBUG": true,
+    "WP_DEBUG_DISPLAY": false,
+    "WP_ENVIRONMENT_TYPE": "local"
+  }
+}

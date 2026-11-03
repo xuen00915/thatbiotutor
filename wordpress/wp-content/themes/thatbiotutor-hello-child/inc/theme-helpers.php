@@ -257,6 +257,7 @@ function tbt_enqueue_assets(): void
 }
 
 if (function_exists('add_action')) {
-    add_action('wp_enqueue_scripts', 'tbt_enqueue_assets');
+    // Load after the parent reset/theme sheets so protected child-theme rules win.
+    add_action('wp_enqueue_scripts', 'tbt_enqueue_assets', 99);
 }
 

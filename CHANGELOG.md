@@ -23,4 +23,13 @@
 - Added native About, Contact, Our Causes, and Tuition Recommendations templates with authoritative copy, safe external links, shared tutors, and responsive institutional layouts.
 - Added portable per-page metadata, same-site legacy redirects, conservative security headers, disabled comments/pingbacks, and clear fallback templates.
 - Added client editing, collaborator onboarding, guarded deployment, staging migration, rollback, and launch-approval documentation.
+- Added a pinned clean WordPress runtime, idempotency/route/editing/browser checks, and a read-only staging verifier.
+
+### Verified local release environment
+
+- WordPress 7.1.4, PHP 8.3, Hello Elementor 3.5.1, ACF Free 6.8.11.
+- Node.js 22.23.4, `@wordpress/env` 12.0.0, Playwright 1.64.1, Docker 29.8.2.
+- Static/unit verification passed; clean setup remained idempotent and preserved client/unrelated data.
+- All 12 canonical routes returned 200, both aliases returned a single 301, and browser checks passed at 1440, 768, 390, and 320 pixels.
+- Local preview: `http://localhost:8888` (while `npm run wp-env:start` is running).
 
