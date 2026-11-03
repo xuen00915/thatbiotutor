@@ -31,13 +31,24 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         $normalized = tbt_get_testimonials();
         $this->assertSame(count($records), count($normalized), 'Every seeded testimonial must normalize once.');
         $html = $this->capture(static fn() => tbt_render_testimonials());
-        $this->assertSame(count($records), substr_count($html, '<article class="tbt-testimonial">'), 'Every record must render once.');
+        $this->assertSame(count($records), substr_count($html, '<article class="tbt-testimonial'), 'Every record must render once.');
         $this->assertSame(24, substr_count($html, '<iframe'), 'Only the 24 video records may render iframes.');
         $this->assertSame(24, substr_count($html, 'loading="lazy"'), 'Every video must lazy-load.');
         $this->assertSame(24, substr_count($html, 'allowfullscreen'), 'Every video must allow fullscreen.');
+        $this->assertSame(24, substr_count($html, 'scrolling="no"'), 'Every video must explicitly disable iframe scrolling.');
         $this->assertTrue(!str_contains($html, 'src=""'), 'Text-only records must not render empty media.');
-        $this->assertTrue(!str_contains($html, 'scrolling=') && !str_contains($html, 'overflow:'), 'Archive must not create nested iframe scrolling.');
+        $this->assertTrue(!str_contains($html, 'overflow:'), 'Archive renderer must not create nested content scrolling.');
         $this->assertTrue(str_contains($html, 'Anisatusyifa') && str_contains($html, 'Jezelle'), 'Unicode-safe Notes review names must survive output.');
+
+        $template = (string) file_get_contents(dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/page-testimonials.php');
+        preg_match_all('/data-section="([^"]+)"/', $template, $sections);
+        $this->assertSame(['hero', 'featured', '2025', '2024', '2023', '2022', '2021'], $sections[1], 'Archive must follow the current public year-group order.');
+        $this->assertTrue(!str_contains($template, 'tbt-archive-jump'), 'Archive must not add locally invented year navigation.');
+        foreach (['curated_heroes_testimonials_original', 'curated_testimonials_results_2025_01', 'curated_testimonials_results_2025_02', 'curated_testimonials_results_2024_reviews', 'curated_testimonials_results_2024_stats', 'curated_testimonials_results_2024_01', 'curated_testimonials_results_2024_02', 'curated_testimonials_results_2023_01', 'curated_testimonials_results_2023_02', 'curated_testimonials_results_2023_03', 'curated_testimonials_results_2022_01'] as $mediaKey) {
+            $this->assertTrue(str_contains($template, $mediaKey), "Archive must render public media {$mediaKey}.");
+        }
+        $this->assertTrue(str_contains($template, 'ThatBioTutor Exposed: What Students Are Saying'), 'Archive must retain the public featured video title.');
+        $this->assertTrue(str_contains($template, 'scrolling="no"'), 'Featured archive video must explicitly disable iframe scrolling.');
         fwrite(STDOUT, "PASS: {$this->assertions} testimonial-archive assertions\n");
     }
 }

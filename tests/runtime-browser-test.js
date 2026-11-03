@@ -64,6 +64,17 @@ const sizes = [
       if (image.decode) await image.decode();
     });
     await page.screenshot({ path: `/tmp/thatbiotutor-${viewport.width}.png`, fullPage: false });
+
+    await page.goto(`${base}/testimonials/`, { waitUntil: 'load' });
+    const testimonialFrames = page.locator('.tbt-testimonials-page iframe');
+    if (await testimonialFrames.count() < 1) throw new Error(`Testimonials video missing at ${viewport.width}`);
+    for (const frame of await testimonialFrames.all()) {
+      if (await frame.getAttribute('scrolling') !== 'no') throw new Error(`Testimonials iframe scrolling is enabled at ${viewport.width}`);
+      const wrapper = frame.locator('..');
+      const box = await wrapper.boundingBox();
+      if (!box || Math.abs((box.width / box.height) - (16 / 9)) > 0.04) throw new Error(`Testimonials video ratio is wrong at ${viewport.width}`);
+      if (await wrapper.evaluate((element) => getComputedStyle(element).overflow) !== 'hidden') throw new Error(`Testimonials video wrapper can scroll at ${viewport.width}`);
+    }
     await page.close();
   }
 

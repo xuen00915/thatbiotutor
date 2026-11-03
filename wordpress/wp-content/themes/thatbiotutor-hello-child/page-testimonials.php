@@ -4,16 +4,45 @@ declare(strict_types=1);
 if (!defined('ABSPATH')) { exit; }
 get_header();
 $tbt_defaults = tbt_reference_content()['pages']['testimonials']['fields'];
+$tbt_field = static fn (string $name): string => (string) tbt_page_field($name, $tbt_defaults[$name] ?? '');
+$tbt_whatsapp = tbt_whatsapp_url('Hi ThatBioTutor, I would like to enquire about a trial lesson.');
+$tbt_group_args = static fn (string $year): array => [
+    'posts_per_page' => -1,
+    'meta_query' => [['key' => 'tbt_display_group', 'value' => $year, 'compare' => '=']],
+];
 ?>
-<article class="tbt-resource-page tbt-testimonials-page">
-    <header class="tbt-programme-hero tbt-section"><p class="tbt-eyebrow">Real student journeys</p><h1 class="tbt-heading"><?php echo esc_html((string) tbt_page_field('testimonials_heading', $tbt_defaults['testimonials_heading'])); ?></h1><p>⭐⭐⭐⭐⭐</p></header>
-    <section class="tbt-section"><h2><?php echo esc_html((string) tbt_page_field('testimonials_reviews_heading', $tbt_defaults['testimonials_reviews_heading'])); ?></h2><div class="tbt-results-artwork"><?php tbt_render_media_image('curated_testimonials_results_2025_01', 'tbt-contain-artwork', ['loading'=>'lazy']); tbt_render_media_image('curated_testimonials_results_2025_02', 'tbt-contain-artwork', ['loading'=>'lazy']); ?></div><?php tbt_render_results(); ?></section>
-    <section class="tbt-section tbt-section--soft"><h2>Student Stories</h2><p>(Watch to the End for Their Advice to Future O Level Batches!)</p><nav class="tbt-archive-jump" aria-label="Testimonial years"><?php foreach (['2025','2024','2023','2022','2021'] as $tbt_year) : ?><a href="#class-of-<?php echo esc_attr($tbt_year); ?>">Class of <?php echo esc_html($tbt_year); ?></a><?php endforeach; ?></nav></section>
-    <div class="tbt-review-archive">
-        <?php foreach (['2025','2024','2023','2022','2021'] as $tbt_year) : ?>
-            <section class="tbt-section" id="class-of-<?php echo esc_attr($tbt_year); ?>" data-archive-group><h2>Class of <?php echo esc_html($tbt_year); ?></h2><?php tbt_render_testimonials(['posts_per_page'=>-1,'meta_query'=>[['key'=>'tbt_display_group','value'=>$tbt_year,'compare'=>'=']]]); ?></section>
-        <?php endforeach; ?>
-    </div>
+<article class="tbt-testimonials-page">
+    <header class="tbt-testimonials-hero" data-section="hero">
+        <div class="tbt-testimonials-hero__background"><?php tbt_render_media_image('curated_heroes_testimonials_original', '', ['loading' => 'eager']); ?></div>
+        <div class="tbt-testimonials-hero__content"><h1><?php echo esc_html($tbt_field('testimonials_heading')); ?></h1><p aria-label="Five out of five stars">⭐⭐⭐⭐⭐</p></div>
+    </header>
+
+    <section class="tbt-testimonials-featured" data-section="featured">
+        <div class="tbt-testimonials-container">
+            <h2 aria-label="What Students Are Saying About ThatBioTutor:">What <span>Students Are Saying</span> About ThatBioTutor:</h2>
+            <div class="tbt-video tbt-video--testimonial"><iframe src="https://www.youtube-nocookie.com/embed/Vkzlr16AGvo" title="ThatBioTutor Exposed: What Students Are Saying" loading="lazy" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+            <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-testimonials-button" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">WhatsApp Us</a><?php endif; ?>
+        </div>
+    </section>
+
+    <section class="tbt-testimonials-year" id="class-of-2025" data-section="2025" data-archive-group>
+        <div class="tbt-testimonials-container"><h2>Class of 2025</h2><div class="tbt-testimonials-artwork tbt-testimonials-artwork--portrait"><?php tbt_render_media_image('curated_testimonials_results_2025_01', '', ['loading' => 'lazy']); ?><?php tbt_render_media_image('curated_testimonials_results_2025_02', '', ['loading' => 'lazy']); ?></div><div class="tbt-story-heading"><h3>Student Stories!</h3><p>(Watch to the End for Their Advice to Future O Level Batches!)</p></div><?php tbt_render_testimonials($tbt_group_args('2025')); ?></div>
+    </section>
+
+    <section class="tbt-testimonials-year tbt-testimonials-year--soft" id="class-of-2024" data-section="2024" data-archive-group>
+        <div class="tbt-testimonials-container"><h2>Class of 2024</h2><div class="tbt-testimonials-artwork tbt-testimonials-artwork--portrait"><?php tbt_render_media_image('curated_testimonials_results_2024_reviews', '', ['loading' => 'lazy']); ?><?php tbt_render_media_image('curated_testimonials_results_2024_stats', '', ['loading' => 'lazy']); ?></div><div class="tbt-testimonials-artwork tbt-testimonials-artwork--landscape"><?php tbt_render_media_image('curated_testimonials_results_2024_01', '', ['loading' => 'lazy']); ?><?php tbt_render_media_image('curated_testimonials_results_2024_02', '', ['loading' => 'lazy']); ?></div><div class="tbt-story-heading"><h3>Student Stories!</h3><p>(Watch to the End for Their Advice to Future O Level Batches!)</p></div><?php tbt_render_testimonials($tbt_group_args('2024')); ?></div>
+    </section>
+
+    <section class="tbt-testimonials-year" id="class-of-2023" data-section="2023" data-archive-group>
+        <div class="tbt-testimonials-container"><h2>Class of 2023</h2><div class="tbt-testimonials-artwork tbt-testimonials-artwork--portrait"><?php tbt_render_media_image('curated_testimonials_results_2023_01', '', ['loading' => 'lazy']); ?><?php tbt_render_media_image('curated_testimonials_results_2023_02', '', ['loading' => 'lazy']); ?></div><div class="tbt-testimonials-artwork tbt-testimonials-artwork--landscape"><?php tbt_render_media_image('curated_testimonials_results_2023_03', '', ['loading' => 'lazy']); ?></div><div class="tbt-story-heading"><h3>Student Stories!</h3><p>(Watch to the End for Their Advice to Future O Level Batches!)</p></div><?php tbt_render_testimonials($tbt_group_args('2023')); ?></div>
+    </section>
+
+    <section class="tbt-testimonials-year tbt-testimonials-year--soft" id="class-of-2022" data-section="2022" data-archive-group>
+        <div class="tbt-testimonials-container"><h2>Class of 2022</h2><div class="tbt-testimonials-artwork tbt-testimonials-artwork--landscape"><?php tbt_render_media_image('curated_testimonials_results_2022_01', '', ['loading' => 'lazy']); ?></div><div class="tbt-story-heading"><h3>Student Stories!</h3><p>(Watch to the End for Their Advice to Future O Level Batches!)</p></div><?php tbt_render_testimonials($tbt_group_args('2022')); ?></div>
+    </section>
+
+    <section class="tbt-testimonials-year" id="class-of-2021" data-section="2021" data-archive-group>
+        <div class="tbt-testimonials-container"><h2>Class of 2021</h2><div class="tbt-story-heading"><h3>Student Stories!</h3><p>(Watch to the End for Their Advice to Future O Level Batches!)</p></div><?php tbt_render_testimonials($tbt_group_args('2021')); ?></div>
+    </section>
 </article>
 <?php get_footer(); ?>
-

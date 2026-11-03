@@ -69,10 +69,11 @@ final class TestimonialsTest extends TbtContentTestCase
         $this->assertTrue(str_contains($html, 'title="Jérôme “Jay” video testimonial"'), 'Video iframe must have a useful title.');
         $this->assertTrue(str_contains($html, 'loading="lazy"'), 'Video iframe must lazy-load.');
         $this->assertTrue(str_contains($html, 'allowfullscreen'), 'Video iframe must allow fullscreen playback.');
+        $this->assertTrue(str_contains($html, 'scrolling="no"'), 'Video iframe must explicitly disable its internal scroll region.');
+        $this->assertTrue(str_contains($html, 'tbt-video--testimonial'), 'Video iframe must use the fixed-aspect testimonial wrapper.');
         $this->assertSame(1, substr_count($html, '<iframe'), 'Only video testimonials may render an iframe.');
         $this->assertTrue(!str_contains($html, 'Draft must not render'), 'Draft testimonial must remain hidden.');
         $this->assertTrue(!str_contains($html, 'overflow:'), 'Renderer must not create a nested scrolling container.');
-        $this->assertTrue(!str_contains($html, 'scrolling='), 'Iframe must not request an internal scroll region.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} testimonial assertions\n");
     }
