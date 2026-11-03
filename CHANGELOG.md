@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Completed the full public-site visual fidelity pass with focused page-family stylesheets, four-width browser acceptance, local WebP-only media checks, and reusable reference-versus-local capture reports.
+
 - Scaffolded the portable ThatBioTutor Hello Elementor child-theme repository.
 - Defined protected-code and ACF Free content-ownership boundaries.
 - Added the authoritative route/reference registry and source provenance manifest.

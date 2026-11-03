@@ -16,10 +16,13 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         $videos = array_values(array_filter($records, static fn(array $r): bool => ($r['fields']['tbt_video_url'] ?? '') !== ''));
         $texts = array_values(array_filter($records, static fn(array $r): bool => ($r['fields']['tbt_video_url'] ?? '') === ''));
         $this->assertSame(24, count($videos), 'Seeded video count must match the 24 unique embeds in the authoritative crawl.');
-        $this->assertTrue(count($texts) >= 7, 'Text-only Home and Notes reviews must remain editable structured records.');
+        $this->assertTrue(count($texts) >= 350, 'The complete public text-review archive must remain editable structured records.');
         $this->assertTrue(count(array_unique(array_column($records, 'seed_key'))) === count($records), 'Every seeded testimonial must have a unique identity.');
         $groups = array_unique(array_map(static fn(array $r): string => (string)($r['fields']['tbt_display_group'] ?? ''), $records));
         foreach (['2025', '2024', '2023', '2022', '2021', 'notes-reviews'] as $group) $this->assertTrue(in_array($group, $groups, true), "Archive group {$group} must be seeded.");
+        $groupCounts = array_count_values(array_map(static fn(array $r): string => (string)($r['fields']['tbt_display_group'] ?? ''), $records));
+        $this->assertTrue(($groupCounts['2024'] ?? 0) >= 60, 'The long 2024 Results archive must not be truncated.');
+        $this->assertTrue(($groupCounts['notes-reviews-bottom'] ?? 0) >= 200, 'The long Free Notes review archive must not be truncated.');
 
         $GLOBALS['tbt_content_posts'] = [];
         $GLOBALS['tbt_content_meta'] = [];

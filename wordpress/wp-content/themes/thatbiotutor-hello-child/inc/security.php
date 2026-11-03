@@ -26,5 +26,14 @@ if (function_exists('add_filter')) {
     add_filter('xmlrpc_methods', 'tbt_disable_pingback_method');
     add_filter('the_generator', 'tbt_empty_generator');
 }
-if (function_exists('remove_action')) { remove_action('wp_head', 'wp_generator'); }
+if (function_exists('remove_action')) {
+    remove_action('wp_head', 'wp_generator');
+    remove_action('wp_head', 'print_emoji_detection_script', 7);
+    remove_action('wp_print_styles', 'print_emoji_styles');
+}
+if (function_exists('remove_filter')) {
+    remove_filter('the_content_feed', 'wp_staticize_emoji');
+    remove_filter('comment_text_rss', 'wp_staticize_emoji');
+    remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
+}
 if (function_exists('add_action')) { add_action('send_headers', 'tbt_send_security_headers'); }

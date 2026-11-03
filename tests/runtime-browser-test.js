@@ -28,6 +28,13 @@ const sizes = [
       const response = await page.goto(`${base}${route}`, { waitUntil: 'load' });
       if (!response || response.status() !== 200) throw new Error(`${route} failed at ${viewport.width}`);
       if ((await page.locator('main').innerText()).trim().length < 20) throw new Error(`${route} is blank at ${viewport.width}`);
+      for (const selector of ['.site-header', 'main', '.site-footer']) {
+        if (await page.locator(selector).count() !== 1) throw new Error(`${route} is missing ${selector} at ${viewport.width}`);
+        const box = await page.locator(selector).boundingBox();
+        if (!box || box.width < 1 || box.height < 1) throw new Error(`${route} hides ${selector} at ${viewport.width}`);
+      }
+      const invalidImages = await page.locator('main img').evaluateAll((images) => images.map((image) => image.currentSrc || image.src).filter((src) => !src || src.includes('static.wixstatic.com') || !src.includes('/wp-content/themes/thatbiotutor-hello-child/assets/images/files/') || !src.endsWith('.webp')));
+      if (invalidImages.length) throw new Error(`${route} has invalid public image sources at ${viewport.width}: ${invalidImages.join(', ')}`);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       if (overflow > 1) throw new Error(`${route} overflows ${overflow}px at ${viewport.width}`);
     }
@@ -89,6 +96,19 @@ const sizes = [
     if (await cellCarousel.count() !== 1) throw new Error(`Cell Division carousel missing at ${viewport.width}`);
     const cellStatus = cellCarousel.locator('[data-carousel-status]');
     if ((await cellStatus.textContent()).trim() !== '1 of 5') throw new Error(`Cell Division carousel status is wrong at ${viewport.width}`);
+
+    if (viewport.width === 320) {
+      await page.goto(base, { waitUntil: 'load' });
+      await page.locator('main h1').first().evaluate((heading) => { heading.textContent = 'ExtremelyLongClientEditedBiologyHeadingWithoutNaturalBreaks0123456789'; });
+      const quote = page.locator('.tbt-testimonial blockquote').first();
+      if (await quote.count()) await quote.evaluate((element) => { element.textContent = 'LongClientEditedTestimonialWithoutNaturalBreaks0123456789'.repeat(5); });
+      const editedOverflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      if (editedOverflow > 1) throw new Error(`Client-edited long content overflows ${editedOverflow}px at 320`);
+      await page.goto(`${base}/about/`, { waitUntil: 'load' });
+      await page.locator('.tbt-tutor img').first().evaluate((image) => image.remove());
+      const missingMediaOverflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      if (missingMediaOverflow > 1) throw new Error(`Missing optional tutor media overflows ${missingMediaOverflow}px at 320`);
+    }
     await page.close();
   }
 
@@ -102,7 +122,7 @@ const sizes = [
 
   await browser.close();
   if (errors.length) throw new Error(`Console errors:\n${errors.join('\n')}`);
-  console.log(`PASS: ${routes.length} routes at ${sizes.map((size) => size.width).join('/')}px, navigation, carousel, console, screenshots`);
+  console.log(`PASS: ${routes.length} routes at ${sizes.map((size) => size.width).join('/')}px, shell, local WebP media, long edits, navigation, carousel, console, screenshots`);
 })().catch((error) => {
   console.error(error);
   process.exit(1);

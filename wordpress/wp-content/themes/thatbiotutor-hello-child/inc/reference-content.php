@@ -179,6 +179,36 @@ function tbt_reference_content(): array
         $testimonialRecords[] = ['seed_key' => $seedKey, 'title' => $name, 'menu_order' => 200 + $index, 'source' => $crawlSource($group === 'notes-reviews' ? '/notes' : '/celldivision'), 'fields' => ['tbt_student_name' => $name, 'tbt_quote' => $quote, 'tbt_rating' => 5, 'tbt_video_url' => '', 'tbt_display_group' => $group]];
     }
 
+    $publicArchivePath = dirname(__DIR__) . '/assets/content/public-review-archive.json';
+    $publicArchive = is_file($publicArchivePath) ? json_decode((string) file_get_contents($publicArchivePath), true) : null;
+    $publicReviewSeedKeys = [];
+    foreach (($publicArchive['reviews'] ?? []) as $index => $review) {
+        $name = trim((string) ($review['name'] ?? ''));
+        $quote = trim((string) ($review['quote'] ?? ''));
+        $group = trim((string) ($review['group'] ?? ''));
+        if ($name === '' || $quote === '' || !in_array($group, ['2025', '2024', '2023', '2022', '2021', 'notes-reviews-bottom'], true)) {
+            continue;
+        }
+        $seedKey = 'public-review-' . sha1($group . "\0" . $name . "\0" . $quote);
+        if (isset($publicReviewSeedKeys[$seedKey])) {
+            continue;
+        }
+        $publicReviewSeedKeys[$seedKey] = true;
+        $testimonialRecords[] = [
+            'seed_key' => $seedKey,
+            'title' => $name,
+            'menu_order' => 500 + (int) $index,
+            'source' => $crawlSource($group === 'notes-reviews-bottom' ? '/notes' : '/testimonials'),
+            'fields' => [
+                'tbt_student_name' => $name,
+                'tbt_quote' => $quote,
+                'tbt_rating' => 5,
+                'tbt_video_url' => '',
+                'tbt_display_group' => $group,
+            ],
+        ];
+    }
+
     $sharedClassFaqs = [
         ['Can my child try a lesson before committing?', 'Yes. WhatsApp us to arrange a trial lesson. If your child did not love it, ask about the stated refund policy.'],
         ['Face-to-face or online—which should my child choose?', 'Both formats cover the same content and methods. Students may switch formats when places are available.'],

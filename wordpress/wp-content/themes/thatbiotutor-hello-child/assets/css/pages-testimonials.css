@@ -28,12 +28,12 @@
 .tbt-story-heading h3 { margin: 0; color: #111; font-size: clamp(2rem, 3.5vw, 2.8rem); }
 .tbt-story-heading p { margin: 8px 0 0; color: #2bb82f; font-size: 1.05rem; font-weight: 700; }
 
-.tbt-testimonials-year .tbt-testimonials { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
-.tbt-testimonials-year .tbt-testimonial { min-width: 0; padding: 26px; border: 1px solid #dbe5d7; background: #fff; text-align: left; box-shadow: 0 6px 22px rgba(16,55,24,.07); }
+.tbt-testimonials-year .tbt-testimonials { display: grid; grid-template-columns: 1fr; width: 100%; gap: 560px; margin-inline: auto; }
+.tbt-testimonials-year .tbt-testimonial { min-width: 0; padding: 0; border: 0; background: transparent; text-align: left; box-shadow: none; }
 .tbt-testimonials-year .tbt-testimonial--video { padding: 0; border: 0; background: #000; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
 .tbt-testimonials-year .tbt-testimonial__stars { color: #f6b829; font-size: 1.35rem; letter-spacing: 2px; }
-.tbt-testimonials-year blockquote { margin: 18px 0; font-size: 1rem; line-height: 1.7; }
-.tbt-testimonials-year .tbt-testimonial__name { margin: 0; font-size: 1.05rem; }
+.tbt-testimonials-year blockquote { margin: 18px 0; font-size: 1.375rem; line-height: 1.4; }
+.tbt-testimonials-year .tbt-testimonial__name { margin: 0; font-size: 1.375rem; line-height: 1.4; }
 .tbt-testimonials-year .tbt-testimonial__portrait { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
 .tbt-testimonials-year .tbt-testimonial--video .tbt-video--testimonial { margin: 0; }
 
@@ -48,7 +48,7 @@
   .tbt-testimonials-hero h1 { font-size: clamp(2.7rem, 8vw, 4rem); }
   .tbt-testimonials-hero p { margin-top: 34px; font-size: 2.5rem; }
   .tbt-testimonials-year { padding: 58px 0 70px; }
-  .tbt-testimonials-year .tbt-testimonials { grid-template-columns: 1fr; }
+  .tbt-testimonials-year .tbt-testimonials { gap: 160px; }
 }
 
 @media (max-width: 390px) {

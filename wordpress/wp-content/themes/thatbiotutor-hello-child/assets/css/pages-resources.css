@@ -220,6 +220,15 @@
   font-size: 1.25rem;
 }
 
+.tbt-resource-reviews[data-section="reviews-bottom"] .tbt-testimonial {
+  padding: 18px 0 26px;
+}
+
+.tbt-resource-reviews[data-section="reviews-bottom"] blockquote {
+  font-size: 1.12rem;
+  line-height: 1.45;
+}
+
 .tbt-notes-access-intro,
 .tbt-notes-fit,
 .tbt-notes-download { text-align: center; }

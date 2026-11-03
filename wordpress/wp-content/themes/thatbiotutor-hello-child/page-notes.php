@@ -113,7 +113,7 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
     <section class="tbt-resource-section tbt-resource-reviews" data-section="reviews-bottom">
         <div class="tbt-resource-shell">
             <h2>What Students Are Saying...</h2>
-            <div data-testimonial-renderer><?php tbt_render_testimonials(['posts_per_page' => -1, 'offset' => 5, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'notes-reviews', 'compare' => '=']]]); ?></div>
+            <div data-testimonial-renderer><?php tbt_render_testimonials(['posts_per_page' => -1, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'notes-reviews-bottom', 'compare' => '=']]]); ?></div>
         </div>
     </section>
 </article>
