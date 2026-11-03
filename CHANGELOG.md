@@ -21,4 +21,5 @@
 - Rebuilt Free Bio Notes with its slider, four benefits, proof, original Q&A sequence, editable reviews, and explicit access-form boundary.
 - Preserved Cell Division as a clearly dated historical 2023 resource without inventing current access claims.
 - Added native About, Contact, Our Causes, and Tuition Recommendations templates with authoritative copy, safe external links, shared tutors, and responsive institutional layouts.
+- Added portable per-page metadata, same-site legacy redirects, conservative security headers, disabled comments/pingbacks, and clear fallback templates.
 
