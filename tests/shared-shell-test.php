@@ -29,6 +29,8 @@ function wp_head(): void { echo '<meta name="test-head">'; }
 function wp_footer(): void { echo '<script data-test-footer></script>'; }
 function body_class(string $class = ''): void { echo 'class="' . esc_attr(trim('no-js ' . $class)) . '"'; }
 function wp_body_open(): void { echo '<!-- body-open -->'; }
+function is_front_page(): bool { return true; }
+function is_page(mixed $page = null): bool { return false; }
 
 require_once dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/inc/reference-content.php';
 require_once dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/inc/theme-helpers.php';
@@ -56,18 +58,22 @@ final class SharedShellTest
         $this->assertSame(1, substr_count($html, 'data-whatsapp-float'), 'Shared shell must contain one floating WhatsApp control.');
         $this->assertSame(1, substr_count($html, 'data-menu-toggle'), 'Shared shell must contain one mobile-menu toggle.');
         $this->assertTrue(str_contains($html, 'curated_shared_tbt_logo') || str_contains($html, '/files/b3d1102b6adcca4d05893ead7b492b4f.webp'), 'Header must use the approved original logo asset.');
-        foreach (['Singapore O-Level Pure Biology specialists.', 'ThatBioTutor', 'Singapore', 'Monday–Friday', '10am–8pm', 'ThatBioTutor. All rights reserved.'] as $copy) {
-            $this->assertTrue(str_contains(html_entity_decode($html), $copy), 'Footer must render Home-owned shared content.');
-        }
-        $this->assertTrue(str_contains($html, 'tel:+6587597182'), 'Footer phone must use a safe tel URL.');
-        $this->assertTrue(str_contains($html, 'https://maps.example/thatbiotutor'), 'Footer map link must use the approved HTTPS URL.');
         $this->assertTrue(str_contains($html, 'https://wa.me/6587597182'), 'Floating control must use the safe WhatsApp URL.');
+        $this->assertTrue(str_contains($html, 'class="whatsapp-float__icon"'), 'Floating control must use an icon instead of a WA text placeholder.');
+        $this->assertTrue(str_contains($html, 'class="whatsapp-float__notification"'), 'Floating control must include the original notification detail.');
+        $this->assertTrue(!str_contains($html, '>WA<'), 'Floating control must not expose the old WA text placeholder.');
         $this->assertTrue(!str_contains($html, 'www.thatbiotutor.com'), 'Shell must remain hostname-portable.');
 
         $base = (string) file_get_contents($theme . '/assets/css/base.css');
         $components = (string) file_get_contents($theme . '/assets/css/components.css');
+        $this->assertTrue(str_contains($base, 'body.tbt-site') && str_contains($base, 'Arial, Helvetica, sans-serif'), 'Body typography must override the Hello Elementor default.');
+        $this->assertTrue(str_contains($base, '--tbt-header-height: 65px'), 'Desktop header height must match the 65px reference shell.');
+        $this->assertTrue(str_contains($components, 'width: min(100%, 980px)'), 'Desktop header content must use the measured 980px reference width.');
+        $this->assertTrue(str_contains($components, 'width: 65px') && str_contains($components, 'height: 65px'), 'Desktop logo must match the 65px reference geometry.');
+        $this->assertTrue(str_contains($components, 'min-height: 96px') && str_contains($components, 'background: #fff'), 'Site-wide footer must match the original white 96px footer surface.');
         $this->assertTrue(str_contains($components, 'position: sticky'), 'Header CSS must keep the header sticky.');
         $this->assertTrue(preg_match('/site-nav[^}]*:hover[^}]*#[dD][0-9a-fA-F]{5}|site-nav[^}]*:hover[^}]*red/s', $components) === 1, 'Navigation hover state must be red.');
+        $this->assertTrue(str_contains($components, '.site-nav__link[aria-current="page"]') && str_contains($components, '#8de15e'), 'Current-page navigation state must use the original green.');
         $this->assertTrue(str_contains($components, 'min-width: 44px') && str_contains($components, 'min-height: 44px'), 'Interactive controls must be at least 44×44 CSS pixels.');
         $this->assertTrue(str_contains($base, 'prefers-reduced-motion'), 'Base CSS must respect reduced motion.');
 

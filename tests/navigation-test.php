@@ -26,6 +26,8 @@ function home_url(string $path = '/'): string { return 'https://local.test/' . l
 function esc_url(string $value): string { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
 function esc_html(string $value): string { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
 function esc_attr(string $value): string { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
+function is_front_page(): bool { return true; }
+function is_page(mixed $page = null): bool { return false; }
 
 require_once dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/inc/reference-content.php';
 require_once dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/inc/theme-helpers.php';
@@ -49,6 +51,8 @@ final class NavigationTest
         $this->assertSame(1, substr_count($html, 'Results &amp; Testimonials'), 'Results & Testimonials must render once.');
         $this->assertSame(1, substr_count($html, 'data-submenu-toggle'), 'Only Classes may own a submenu control.');
         $this->assertSame(2, substr_count($html, 'site-nav__submenu-link'), 'Only Sec 3 and Sec 4 may appear in the Classes submenu.');
+        $this->assertSame(1, substr_count($html, 'aria-current="page"'), 'Only the current top-level page must expose aria-current.');
+        $this->assertTrue(str_contains($html, 'site-nav__link is-active'), 'Current navigation link must receive the shared active class.');
         $this->assertTrue(str_contains($html, 'https://local.test/classes/'), 'Navigation routes must derive from home_url.');
         $this->assertTrue(!str_contains($html, 'thatbiotutor.com'), 'Rendered navigation must not hardcode a production hostname.');
 

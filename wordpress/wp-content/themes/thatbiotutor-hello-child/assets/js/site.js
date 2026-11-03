@@ -59,15 +59,26 @@
     return Boolean(matchMedia('(prefers-reduced-motion: reduce)').matches);
   }
 
+  function syncNavigationViewport(menu, toggle, submenuPairs, mobile) {
+    menu.hidden = mobile;
+    toggle.setAttribute('aria-expanded', 'false');
+    submenuPairs.forEach((pair) => {
+      pair.menu.hidden = true;
+      pair.toggle.setAttribute('aria-expanded', 'false');
+    });
+  }
+
   function initNavigation(document, windowObject) {
     const toggle = document.querySelector('[data-menu-toggle]');
     const menu = document.querySelector('[data-menu]');
     if (!toggle || !menu) return;
-    const media = windowObject.matchMedia && windowObject.matchMedia('(max-width: 1100px)');
+    const submenuPairs = Array.from(document.querySelectorAll('[data-submenu-toggle]')).map((button) => ({
+      toggle: button,
+      menu: document.getElementById(button.getAttribute('aria-controls')),
+    })).filter((pair) => pair.menu);
+    const media = windowObject.matchMedia && windowObject.matchMedia('(max-width: 980px)');
     const syncViewport = (event) => {
-      const mobile = Boolean(event.matches);
-      menu.hidden = mobile;
-      toggle.setAttribute('aria-expanded', 'false');
+      syncNavigationViewport(menu, toggle, submenuPairs, Boolean(event.matches));
     };
     syncViewport(media || { matches: false });
     if (media && typeof media.addEventListener === 'function') media.addEventListener('change', syncViewport);
@@ -80,9 +91,7 @@
     document.addEventListener('click', (event) => {
       if (toggle.getAttribute('aria-expanded') === 'true' && !menu.contains(event.target) && !toggle.contains(event.target)) closeMenu(menu, toggle, false);
     });
-    document.querySelectorAll('[data-submenu-toggle]').forEach((button) => {
-      const submenu = document.getElementById(button.getAttribute('aria-controls'));
-      if (!submenu) return;
+    submenuPairs.forEach(({ toggle: button, menu: submenu }) => {
       submenu.hidden = true;
       button.addEventListener('click', () => toggleSubmenu(submenu, button));
       button.addEventListener('keydown', (event) => {
@@ -145,6 +154,6 @@
     initFaqs(document);
   }
 
-  return { openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, init };
+  return { openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, syncNavigationViewport, init };
 });
 

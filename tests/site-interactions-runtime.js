@@ -49,5 +49,20 @@ if (faqPanel.hidden || faqButton.getAttribute('aria-expanded') !== 'true') throw
 if (!api.prefersReducedMotion(() => ({ matches: true }))) throw new Error('Reduced-motion detection failed');
 if (api.prefersReducedMotion(() => ({ matches: false }))) throw new Error('Normal-motion detection failed');
 
+if (typeof api.syncNavigationViewport !== 'function') throw new Error('syncNavigationViewport must be exported');
+const resizeMenu = new MockElement();
+const resizeToggle = new MockElement();
+const resizeSubmenu = new MockElement();
+const resizeSubmenuToggle = new MockElement();
+resizeMenu.hidden = false;
+resizeToggle.setAttribute('aria-expanded', 'true');
+resizeSubmenu.hidden = false;
+resizeSubmenuToggle.setAttribute('aria-expanded', 'true');
+api.syncNavigationViewport(resizeMenu, resizeToggle, [{ menu: resizeSubmenu, toggle: resizeSubmenuToggle }], true);
+if (!resizeMenu.hidden || resizeToggle.getAttribute('aria-expanded') !== 'false') throw new Error('mobile resize must reset the main menu');
+if (!resizeSubmenu.hidden || resizeSubmenuToggle.getAttribute('aria-expanded') !== 'false') throw new Error('mobile resize must reset open submenus');
+api.syncNavigationViewport(resizeMenu, resizeToggle, [{ menu: resizeSubmenu, toggle: resizeSubmenuToggle }], false);
+if (resizeMenu.hidden || resizeToggle.getAttribute('aria-expanded') !== 'false') throw new Error('desktop resize must show the main menu without reporting it expanded');
+
 process.stdout.write('PASS: interaction runtime\n');
 

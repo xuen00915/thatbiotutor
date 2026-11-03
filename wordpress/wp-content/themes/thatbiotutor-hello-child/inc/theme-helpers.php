@@ -131,6 +131,26 @@ function tbt_navigation_items(): array
     return $reference['navigation'] ?? [];
 }
 
+/** Return whether a protected navigation item represents the current route. */
+function tbt_navigation_item_is_active(array $item): bool
+{
+    $path = (string) ($item['path'] ?? '');
+    if ($path === '/') {
+        return function_exists('is_front_page') && is_front_page();
+    }
+    $slug = trim($path, '/');
+    if ($slug !== '' && function_exists('is_page') && is_page($slug)) {
+        return true;
+    }
+    foreach (($item['children'] ?? []) as $child) {
+        $childSlug = trim((string) ($child['path'] ?? ''), '/');
+        if ($childSlug !== '' && function_exists('is_page') && is_page($childSlug)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /** Render the protected main navigation using portable WordPress URLs. */
 function tbt_render_navigation(string $class = 'site-nav__list'): void
 {
@@ -138,8 +158,13 @@ function tbt_render_navigation(string $class = 'site-nav__list'): void
     foreach (tbt_navigation_items() as $index => $item) {
         $children = $item['children'] ?? [];
         $hasChildren = is_array($children) && $children !== [];
+        $isActive = tbt_navigation_item_is_active($item);
+        $path = (string) $item['path'];
+        $isCurrent = $path === '/'
+            ? (function_exists('is_front_page') && is_front_page())
+            : (function_exists('is_page') && is_page(trim($path, '/')));
         echo '<li class="site-nav__item' . ($hasChildren ? ' site-nav__item--has-children' : '') . '">';
-        echo '<a class="site-nav__link" href="' . esc_url(home_url((string) $item['path'])) . '">' . esc_html((string) $item['label']) . '</a>';
+        echo '<a class="site-nav__link' . ($isActive ? ' is-active' : '') . '" href="' . esc_url(home_url($path)) . '"' . ($isCurrent ? ' aria-current="page"' : '') . '>' . esc_html((string) $item['label']) . '</a>';
         if ($hasChildren) {
             $submenuId = 'site-nav-submenu-' . $index;
             echo '<button class="site-nav__submenu-toggle" type="button" data-submenu-toggle aria-expanded="false" aria-controls="' . esc_attr($submenuId) . '"><span class="screen-reader-text">' . esc_html('Open ' . $item['label'] . ' submenu') . '</span><span aria-hidden="true">⌄</span></button>';
