@@ -71,6 +71,7 @@ final class ThemeHelpersTest
             'zero_int' => 0,
             'zero_string' => '0',
             'false_value' => false,
+            'cleared_image' => false,
             'multiline' => "First line\n第二行 — Biology",
             'scalar' => 'Client copy',
             'local_image' => [
@@ -123,6 +124,8 @@ final class ThemeHelpersTest
 
         $blank = tbt_page_image('empty', $fallback, 7);
         $this->assertSame('', $blank['url'], 'An intentionally cleared image must not restore the fallback image.');
+        $cleared = tbt_page_image('cleared_image', $fallback, 7);
+        $this->assertSame('', $cleared['url'], 'An ACF image cleared to false must not restore the fallback image.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} theme-helper assertions\n");
     }

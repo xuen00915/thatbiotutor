@@ -116,7 +116,7 @@ function tbt_normalize_image(mixed $value): ?array
 function tbt_page_image(string $name, string $fallback, int $post_id = 0): array
 {
     $value = tbt_page_field($name, null, $post_id);
-    if ($value === '') {
+    if ($value === '' || $value === false) {
         return ['url' => '', 'alt' => '', 'width' => 0, 'height' => 0];
     }
     $normalized = tbt_normalize_image($value);
