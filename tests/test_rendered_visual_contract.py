@@ -211,8 +211,8 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertEqual(hero_style["color"], "rgb(255, 255, 255)")
         self.assertNotIn(" ", hero_style["columns"].strip())
         self.assertIsNotNone(image)
-        self.assertGreaterEqual(image["width"], 420)
-        self.assertLessEqual(image["width"], 560)
+        self.assertGreaterEqual(image["width"], 1000)
+        self.assertLessEqual(image["width"], 1080)
         self.assertIn("How do I download it?", main_text)
         self.assertIn("Hey Pure Bio Student, is this you?", main_text)
         self.assertIn("What's The Catch?", main_text)
@@ -563,6 +563,84 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
                 self.assertEqual(whatsapp_style["radius"], "50%")
                 self.assertGreaterEqual(whatsapp_style["zIndex"], 100000)
                 self.assertEqual(whatsapp.locator("svg").count(), 1)
+
+    def test_home_transition_video_fasttrack_and_proof_match_inquire_fidelity(self) -> None:
+        page = self.open_page("/", width=1440, height=1000)
+        fidelity = page.evaluate(
+            """() => {
+                const style = selector => getComputedStyle(document.querySelector(selector));
+                const rect = selector => document.querySelector(selector).getBoundingClientRect();
+                return {
+                    quoteBackground: style('.inquire-pain__list p').backgroundColor,
+                    quoteColor: style('.inquire-pain__list p').color,
+                    quoteSize: parseFloat(style('.inquire-pain__list p').fontSize),
+                    quoteStyle: style('.inquire-pain__list p').fontStyle,
+                    quoteRadius: parseFloat(style('.inquire-pain__list p').borderRadius),
+                    resultHeadingSize: parseFloat(style('#student-results-title').fontSize),
+                    resultHeadingColor: style('#student-results-title').color,
+                    resultCopySize: parseFloat(style('.inquire-results .section-heading p').fontSize),
+                    videoBackground: style('#video-transition').backgroundColor,
+                    videoTitleSize: parseFloat(style('#video-transition-title').fontSize),
+                    videoWidth: rect('#video-transition .video-embed').width,
+                    fasttrackBackground: style('#fasttrack').backgroundColor,
+                    featureRadius: parseFloat(style('#fasttrack .feature-row').borderRadius),
+                    featureTitleBackground: style('#fasttrack .feature-row__title').backgroundColor,
+                    featureTitleColor: style('#fasttrack .feature-row__title').color,
+                    featureColumns: style('#fasttrack .feature-row__comparison').gridTemplateColumns.split(' ').length,
+                    featureRightBackground: style('#fasttrack .feature-row__fasttrack').backgroundColor,
+                    schoolHeadingSize: parseFloat(style('.inquire-proof__schools-title').fontSize),
+                    gradeHeadingSize: parseFloat(style('.inquire-proof__grade-title').fontSize),
+                    marqueeAnimation: style('.logo-cloud').animationName,
+                    crestWidth: rect('.logo-cloud img').width,
+                    reviewColumns: style('.inquire-reviews').gridTemplateColumns.split(' ').length,
+                    reviewSize: parseFloat(style('.inquire-review').fontSize),
+                    googleWidth: rect('.inquire-google-review img').width,
+                };
+            }"""
+        )
+
+        self.assertEqual(fidelity["quoteBackground"], "rgb(239, 243, 238)")
+        self.assertEqual(fidelity["quoteColor"], "rgb(97, 108, 99)")
+        self.assertEqual(fidelity["quoteSize"], 18)
+        self.assertEqual(fidelity["quoteStyle"], "italic")
+        self.assertEqual(fidelity["quoteRadius"], 18)
+        self.assertEqual(fidelity["resultHeadingSize"], 36)
+        self.assertEqual(fidelity["resultHeadingColor"], "rgb(25, 34, 26)")
+        self.assertEqual(fidelity["resultCopySize"], 18)
+        self.assertEqual(fidelity["videoBackground"], "rgb(255, 255, 255)")
+        self.assertEqual(fidelity["videoTitleSize"], 60)
+        self.assertGreaterEqual(fidelity["videoWidth"], 1100)
+        self.assertNotEqual(fidelity["fasttrackBackground"], "rgb(255, 255, 255)")
+        self.assertEqual(fidelity["featureRadius"], 18)
+        self.assertEqual(fidelity["featureTitleBackground"], "rgb(67, 180, 58)")
+        self.assertEqual(fidelity["featureTitleColor"], "rgb(255, 255, 255)")
+        self.assertEqual(fidelity["featureColumns"], 2)
+        self.assertEqual(fidelity["featureRightBackground"], "rgba(240, 248, 238, 0.6)")
+        self.assertEqual(fidelity["schoolHeadingSize"], 24)
+        self.assertEqual(fidelity["gradeHeadingSize"], 24)
+        self.assertEqual(fidelity["marqueeAnimation"], "school-logo-marquee")
+        self.assertGreaterEqual(fidelity["crestWidth"], 90)
+        self.assertEqual(page.locator(".logo-cloud img").count(), 24)
+        self.assertEqual(fidelity["reviewColumns"], 3)
+        self.assertEqual(fidelity["reviewSize"], 18)
+        self.assertGreaterEqual(fidelity["googleWidth"], 500)
+
+    def test_home_new_inquire_sections_remain_readable_on_mobile(self) -> None:
+        page = self.open_page("/", width=390, height=844)
+        mobile = page.evaluate(
+            """() => ({
+                overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+                videoTitleSize: parseFloat(getComputedStyle(document.querySelector('#video-transition-title')).fontSize),
+                featureColumns: getComputedStyle(document.querySelector('#fasttrack .feature-row__comparison')).gridTemplateColumns.split(' ').length,
+                reviewColumns: getComputedStyle(document.querySelector('.inquire-reviews')).gridTemplateColumns.split(' ').length,
+                googleWidth: document.querySelector('.inquire-google-review img').getBoundingClientRect().width,
+            })"""
+        )
+        self.assertEqual(mobile["overflow"], 0)
+        self.assertEqual(mobile["videoTitleSize"], 36)
+        self.assertEqual(mobile["featureColumns"], 1)
+        self.assertEqual(mobile["reviewColumns"], 1)
+        self.assertLessEqual(mobile["googleWidth"], 358)
 
     def test_home_inquire_sections_stack_without_overflow_on_tablet_and_mobile(self) -> None:
         for width in (390, 768):

@@ -238,33 +238,56 @@
 }
 
 .inquire-pain {
-  background: var(--inquire-mist);
+  background: #fff;
+  padding-bottom: 1.25rem !important;
 }
 
 .inquire-pain__list {
   display: grid;
-  gap: 1rem;
+  width: min(100%, 46rem);
+  margin-inline: auto;
+  gap: 1.25rem;
 }
 
 .inquire-pain__list p {
-  width: min(100%, 46rem);
-  margin: 0 auto;
-  border: 1px solid #e4ebe2;
-  border-radius: 0.45rem;
-  background: #fff;
-  padding: 1.05rem 1.4rem;
-  box-shadow: 0 0.25rem 0.8rem rgb(28 63 39 / 6%);
-  color: #3f4641;
-  font-size: 0.92rem;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border: 0;
+  border-radius: 1.125rem;
+  background: #eff3ee;
+  padding: 1rem 1.5rem;
+  box-shadow: none;
+  color: #616c63;
+  font-size: 1.125rem;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.55;
   text-align: center;
 }
 
 .inquire-results {
   background: #fff;
+  padding-top: 1.25rem !important;
 }
 
 .inquire-results .section-heading {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.page-home .inquire-results .section-heading h2 {
+  max-width: none;
+  color: #19221a;
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.inquire-results .section-heading p {
+  margin-top: 0.5rem;
+  color: #616c63;
+  font-size: 1.125rem;
+  line-height: 1.55;
 }
 
 .inquire-testimonials {
@@ -275,23 +298,28 @@
 }
 
 .inquire-testimonial {
-  border: 1px solid var(--inquire-border);
-  border-radius: 0.45rem;
+  border: 0;
+  border-radius: 1.125rem;
   background: #fff;
-  padding: 1.35rem 1.5rem;
-  box-shadow: 0 0.3rem 1.1rem rgb(17 69 39 / 7%);
+  padding: 1.5rem;
+  box-shadow: 0 8px 30px -12px rgb(20 70 40 / 25%);
 }
 
 .inquire-testimonial > p {
   max-width: none;
   margin-bottom: 1rem;
+  color: #19221a;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.625;
 }
 
 .inquire-testimonial footer {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  font-size: 0.8rem;
+  color: #19221a;
+  font-size: 0.875rem;
 }
 
 .inquire-testimonial footer img {
@@ -370,19 +398,29 @@
 
 .page-home .inquire-video {
   background: #fff;
-  padding-block: 2rem 4rem;
+  padding-block: 5rem;
 }
 
 .inquire-video .eyebrow {
-  margin-bottom: 1.6rem;
+  margin-bottom: 2rem;
   color: var(--color-ink);
-  font-size: 1.05rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-align: center;
   text-transform: none;
 }
 
 .inquire-video .container {
-  width: min(100% - 2rem, 46rem);
+  width: min(100% - 2rem, 75rem);
+}
+
+.page-home .inquire-video h2 {
+  max-width: none;
+  margin: 0 0 2.5rem;
+  color: #222;
+  font-size: clamp(2.5rem, 4.2vw, 3.75rem);
+  line-height: 1.25;
 }
 
 .video-embed {
@@ -403,6 +441,10 @@
   background: var(--inquire-green-deep);
   color: #fff;
   padding-block: clamp(4.5rem, 6vw, 5.5rem);
+}
+
+.page-home #fasttrack > .container {
+  width: min(100% - 2rem, 75rem);
 }
 
 .page-home #fasttrack > .section-bar {
@@ -432,37 +474,82 @@
 }
 
 .page-home #fasttrack .feature-row {
-  grid-template-columns: minmax(0, 0.35fr) minmax(0, 2.15fr);
-  width: min(100%, 52rem);
-  margin: 0 auto 1rem;
+  display: block;
+  width: 100%;
+  margin: 0 auto 1.5rem;
   border: 0;
-  border-radius: 0.45rem;
+  border-radius: 1.125rem;
   background: #fff;
-  color: #26342b;
-  padding: 1rem 1.25rem;
-  box-shadow: 0 0.35rem 1rem rgb(0 0 0 / 12%);
-  font-size: var(--home-type-small);
-  line-height: 1.45;
+  padding: 0;
+  box-shadow: 0 8px 30px -12px rgb(0 0 0 / 35%);
 }
 
-.page-home #fasttrack .feature-row h3 {
-  font-size: 1.25rem;
+.page-home #fasttrack .feature-row__title {
+  margin: 0;
+  background: #43b43a;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.55;
 }
 
-.page-home #fasttrack .feature-row h3,
-.page-home #fasttrack .feature-row p {
-  color: #26342b;
+.page-home #fasttrack .feature-row__comparison {
+  display: grid;
+  grid-template-columns: minmax(0, 0.4fr) minmax(0, 0.6fr);
+}
+
+.page-home #fasttrack .feature-row__other,
+.page-home #fasttrack .feature-row__fasttrack {
+  padding: 1.5rem;
+}
+
+.page-home #fasttrack .feature-row__other {
+  background: #fff;
+}
+
+.page-home #fasttrack .feature-row__fasttrack {
+  background: rgb(240 248 238 / 60%);
+}
+
+.page-home #fasttrack .feature-row__kicker {
+  margin-bottom: 1rem;
+  color: #616c63;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.page-home #fasttrack .feature-row__fasttrack .feature-row__kicker {
+  color: #2f8a27;
+  font-weight: 700;
+}
+
+.page-home #fasttrack .feature-row__other > p:last-child {
+  color: #616c63;
+  font-size: 0.875rem;
+  line-height: 1.625;
+}
+
+.page-home #fasttrack .feature-row__solution {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.page-home #fasttrack .feature-row__solution > p {
+  max-width: none;
+  color: #19221a;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.625;
 }
 
 .page-home #fasttrack .feature-row__media img {
+  width: 100%;
   height: 6rem;
   object-fit: contain;
-}
-
-@media (min-width: 72rem) {
-  .page-home #fasttrack .feature-row:nth-child(even) {
-    grid-template-columns: minmax(0, 2.15fr) minmax(0, 0.35fr);
-  }
 }
 
 .page-home #fasttrack > .container > .lead:last-child {
@@ -475,6 +562,10 @@
   background: #fff;
 }
 
+.page-home .inquire-proof > .container {
+  width: min(100% - 2rem, 75rem);
+}
+
 .inquire-proof__videos,
 .inquire-proof__results {
   display: grid;
@@ -485,9 +576,53 @@
 
 .inquire-proof__schools-title,
 .inquire-proof__grade-title {
-  margin: 3.5rem auto 1.5rem;
+  max-width: none;
+  margin: 4rem auto 1.5rem;
+  color: #19221a;
+  font-size: 1.5rem;
   font-weight: 700;
+  line-height: 1.35;
   text-align: center;
+}
+
+.logo-marquee {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  overflow: hidden;
+  padding-block: 1.5rem;
+}
+
+.logo-cloud {
+  display: flex;
+  width: max-content;
+  animation: school-logo-marquee 28s linear infinite;
+  will-change: transform;
+}
+
+.logo-cloud__group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 2rem;
+  padding-right: 2rem;
+}
+
+.logo-cloud img {
+  width: clamp(4.75rem, 6.7vw, 6rem);
+  height: clamp(4.75rem, 6.7vw, 6rem);
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.logo-marquee:hover .logo-cloud,
+.logo-marquee:focus-within .logo-cloud {
+  animation-play-state: paused;
+}
+
+@keyframes school-logo-marquee {
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .inquire-proof__results img {
@@ -505,29 +640,40 @@
 .inquire-reviews {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 2rem;
+  align-items: stretch;
+  gap: 1.5rem;
+  margin-top: 3rem;
 }
 
 .inquire-review {
   border: 1px solid var(--inquire-border);
-  border-radius: 0.4rem;
+  border-radius: 0.75rem;
   background: #fff;
-  padding: 1.25rem;
-  box-shadow: 0 0.25rem 0.8rem rgb(20 70 40 / 6%);
-  font-size: 0.84rem;
+  padding: 2rem;
+  box-shadow: 0 8px 30px -12px rgb(20 70 40 / 12%);
+  color: #2d302e;
+  font-size: 1.125rem;
+  line-height: 1.55;
 }
 
 .inquire-review__stars {
-  margin-bottom: 0.55rem;
-  color: #f6b900;
+  margin-bottom: 1rem;
+  color: #f7b82f;
+  font-size: 1.5rem;
   letter-spacing: 0.08em;
+}
+
+.inquire-review strong {
+  display: block;
+  margin-top: 1.25rem;
+  color: #222;
+  font-size: 1rem;
 }
 
 .inquire-google-review {
   display: grid;
-  width: min(100%, 32rem);
-  margin: 2rem auto 0;
+  width: min(100%, 46rem);
+  margin: 4rem auto 0;
   gap: 0.75rem;
   color: var(--color-ink);
   font-weight: 700;
@@ -536,7 +682,7 @@
 }
 
 .inquire-google-review img {
-  width: min(100%, 23rem);
+  width: min(100%, 32rem);
   margin-inline: auto;
   border-radius: 0.35rem;
 }
@@ -822,16 +968,33 @@
   }
 
   .page-home #fasttrack .feature-row {
+    padding: 0;
+  }
+
+  .page-home #fasttrack .feature-row__comparison {
     grid-template-columns: 1fr;
-    padding: 1.25rem;
   }
 
   .page-home #fasttrack .feature-row__media {
     order: 0;
   }
 
+  .page-home #fasttrack .feature-row__solution {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: 1rem;
+  }
+
   .page-home #fasttrack .feature-row__media img {
-    height: 8rem;
+    height: 4.5rem;
+  }
+
+  .page-home .inquire-video h2 {
+    font-size: 2.25rem;
+  }
+
+  .logo-cloud__group {
+    gap: 1.5rem;
+    padding-right: 1.5rem;
   }
 
   .inquire-tutors .tutor-grid {
@@ -872,6 +1035,20 @@
   .inquire-practical .gallery,
   .inquire-classroom .gallery {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee {
+    overflow-x: auto;
+  }
+
+  .logo-cloud {
+    animation: none;
+  }
+
+  .logo-cloud__group[aria-hidden="true"] {
+    display: none;
   }
 }
 
@@ -1494,5 +1671,914 @@
 
   .resource-video-placeholder {
     min-height: 19rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Original thatbiotutor.com page fidelity
+   These route-scoped rules preserve the native, editable markup while
+   matching the original Wix pages' desktop composition and proportions.
+   -------------------------------------------------------------------------- */
+
+.page-classes #hero .hero__grid,
+.page-sec3 #hero .hero__grid,
+.page-sec4 #hero .hero__grid {
+  align-items: start;
+  padding-block: 2.2rem;
+}
+
+.page-classes #hero::after,
+.page-sec3 #hero::after,
+.page-sec4 #hero::after {
+  background: linear-gradient(rgb(0 0 0 / 45%), rgb(0 0 0 / 45%));
+}
+
+.page-sec4 .level-photo-hero {
+  height: 44.375rem;
+}
+
+.page-classes #hero .hero__copy,
+.page-sec3 #hero .hero__copy,
+.page-sec4 #hero .hero__copy {
+  width: min(100%, 61.25rem);
+}
+
+.page-classes #hero h1,
+.page-sec3 #hero h1,
+.page-sec4 #hero h1 {
+  max-width: none;
+  font-size: 3.75rem;
+  line-height: 1.3;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 55%);
+}
+
+.page-classes #hero h1 > span {
+  display: block;
+}
+
+.page-classes #hero .eyebrow,
+.page-sec3 #hero .eyebrow,
+.page-sec4 #hero .eyebrow {
+  margin-bottom: 1.8rem;
+  color: #fff;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.page-sec3 #hero .eyebrow,
+.page-sec4 #hero .eyebrow {
+  font-style: italic;
+}
+
+.page-classes #hero .lead,
+.page-sec3 #hero .lead,
+.page-sec4 #hero .lead {
+  max-width: none;
+  margin-top: 1.55rem;
+  font-size: 1.25rem;
+  line-height: 1.8;
+}
+
+.page-classes #hero .cluster {
+  gap: 1.7rem;
+  margin-top: 2.4rem;
+}
+
+.page-classes #hero .button {
+  width: 26.7rem;
+  min-height: 4.3rem;
+  font-size: 1.5rem;
+}
+
+.page-classes #hero .button,
+.page-sec3 #hero .button,
+.page-sec4 #hero .button {
+  border-radius: .65rem;
+  color: #fff;
+}
+
+.page-sec3 #hero .button,
+.page-sec4 #hero .button {
+  width: 21rem;
+  min-height: 4.3rem;
+  margin-top: 1.8rem;
+  font-size: 1.625rem;
+}
+
+.page-classes #pure-biology {
+  min-height: 106.1rem;
+  padding-block: 5.6rem;
+}
+
+.classes-pure {
+  position: relative;
+  text-align: center;
+}
+
+.classes-pure > .eyebrow {
+  position: absolute;
+  top: -2rem;
+  display: block;
+  width: 100%;
+  color: #087057;
+  font-style: italic;
+  text-align: center;
+}
+
+.classes-pure > h2 {
+  margin-inline: auto;
+  font-size: 3rem;
+  line-height: 1.3;
+}
+
+.classes-pure__graphic {
+  width: 28.75rem;
+  margin: 3.25rem auto;
+}
+
+.classes-pure__copy {
+  max-width: 61.25rem;
+  margin-inline: auto;
+  font-size: 1.375rem;
+  line-height: 1.75;
+  text-align: left;
+}
+
+.classes-topic-columns {
+  gap: 3rem;
+  margin-top: 4rem;
+}
+
+.page-classes #struggles {
+  min-height: 60.2rem;
+  padding-block: 4.8rem;
+  background: #000;
+  color: #fff;
+}
+
+.page-classes #struggles .eyebrow {
+  display: none;
+}
+
+.page-classes #struggles h2 {
+  max-width: 61.25rem;
+  color: #fff;
+  font-size: 3rem;
+}
+
+.page-classes #struggles .original-list-grid {
+  grid-template-columns: 1fr;
+  max-width: 61.25rem;
+  margin: 3.5rem auto 0;
+}
+
+.page-classes #struggles .original-list-grid article {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: .1rem 1.5rem;
+  padding-block: 1.4rem;
+  border-bottom: 1px solid rgb(255 255 255 / 25%);
+}
+
+.page-classes #struggles .original-list-grid article > strong {
+  grid-row: 1 / 3;
+  color: #65b84f;
+  font-size: 2rem;
+}
+
+.page-classes #struggles .original-list-grid h3,
+.page-classes #struggles .original-list-grid p {
+  color: #fff;
+}
+
+.page-classes #solutions {
+  min-height: 75.6rem;
+  padding-block: 5.5rem;
+  background: #153c20;
+  color: #fff;
+}
+
+.page-classes #solutions .eyebrow {
+  display: none;
+}
+
+.page-classes #solutions h2 {
+  color: #fff;
+  font-size: 3rem;
+}
+
+.page-classes #solutions .solution-rows {
+  display: grid;
+  gap: 1.5rem;
+  width: min(100%, 52.2rem);
+  margin: 3.5rem auto 0;
+}
+
+.page-classes #solutions .solution-rows article {
+  padding: 2rem 2.4rem;
+  border: 0;
+  border-radius: 1.4rem;
+  background: #f3f7ef;
+  color: #162016;
+}
+
+.page-classes #solutions .solution-rows h3,
+.page-classes #solutions .solution-rows p {
+  color: #162016;
+}
+
+.page-classes #class-difference {
+  min-height: 134.3rem;
+  padding-block: 5.5rem;
+  background: #fff;
+  color: #181c18;
+}
+
+.page-classes #class-difference .eyebrow {
+  display: none;
+}
+
+.page-classes #class-difference h2,
+.page-classes #class-difference h3,
+.page-classes #class-difference p {
+  color: #181c18;
+}
+
+.page-classes #class-difference h2 {
+  max-width: 61.25rem;
+  font-size: 3rem;
+}
+
+.page-classes #class-difference h2 span {
+  color: #4d963b;
+}
+
+.classes-fasttrack-graphic {
+  display: block;
+  width: 33.75rem;
+  margin: 4rem auto;
+}
+
+.page-classes #class-difference .card-grid {
+  grid-template-columns: 1fr;
+  width: min(100%, 52.2rem);
+  margin-inline: auto;
+}
+
+.page-classes #class-difference .card {
+  border-color: #d8e6d3;
+  background: #f6f9f4;
+}
+
+.page-classes #class-difference .gallery {
+  display: none;
+}
+
+.page-classes #results {
+  min-height: 28.5rem;
+  padding-block: 4rem;
+  background: #153c20;
+}
+
+.page-classes #results .section-heading {
+  display: none;
+}
+
+.page-classes #results .stats {
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  min-height: 20rem;
+}
+
+.page-classes #results .stat {
+  background: transparent;
+  box-shadow: none;
+}
+
+.page-classes #results .stat:nth-child(3),
+.page-classes #results .stat:nth-child(4) {
+  display: none;
+}
+
+.page-classes #results .stat__value,
+.page-classes #results .stat__label {
+  color: #fff;
+}
+
+.page-classes #level-choice {
+  min-height: 48.2rem;
+  padding-block: 5rem;
+  background: #edf5e9;
+}
+
+.page-classes #level-choice .level-choice-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.page-classes #level-choice .level-choice-grid__intensive {
+  display: none;
+}
+
+.page-classes #faq {
+  min-height: 32.8rem;
+  padding-block: 1.5rem;
+  background: #fff;
+}
+
+.page-classes #faq .faq h3,
+.page-sec3 #faq .faq h3,
+.page-sec4 #faq .faq h3 {
+  margin: 0;
+}
+
+/* Sec 3 and Sec 4 original long-form programme pages. */
+.page-sec3 #learning-modes { min-height: 81.75rem; }
+.page-sec4 #learning-modes { min-height: 85.3rem; }
+.page-sec3 #curriculum { min-height: 110.1rem; }
+.page-sec4 #curriculum { min-height: 131.9rem; }
+.page-sec3 #track-record { min-height: 91.6rem; }
+.page-sec4 #track-record { min-height: 84.75rem; }
+.page-sec3 #results { min-height: 39.4rem; }
+.page-sec4 #results { min-height: 33.9rem; }
+.page-sec3 #student-voices { min-height: 65.75rem; }
+.page-sec4 #student-voices { min-height: 60rem; }
+.page-sec3 #lesson { min-height: 124rem; }
+.page-sec4 #lesson { min-height: 123.7rem; }
+.page-sec3 #resources { min-height: 101.9rem; }
+.page-sec4 #resources { min-height: 110.6rem; }
+.page-sec3 #team { min-height: 128.5rem; }
+.page-sec4 #team { min-height: 141.3rem; }
+.page-sec3 #faq { min-height: 84.4rem; }
+.page-sec4 #faq { min-height: 72rem; }
+
+.page-sec3 #learning-modes,
+.page-sec4 #learning-modes,
+.page-sec3 #curriculum,
+.page-sec4 #curriculum,
+.page-sec3 #track-record,
+.page-sec4 #track-record,
+.page-sec3 #student-voices,
+.page-sec4 #student-voices,
+.page-sec3 #lesson,
+.page-sec4 #lesson,
+.page-sec3 #resources,
+.page-sec4 #resources,
+.page-sec3 #team,
+.page-sec4 #team,
+.page-sec3 #faq,
+.page-sec4 #faq {
+  padding-block: 5rem;
+}
+
+.page-sec3 main > section:not(#hero) .container,
+.page-sec4 main > section:not(#hero) .container {
+  max-width: 61.25rem;
+}
+
+.page-sec3 main > section:not(#hero) p,
+.page-sec3 main > section:not(#hero) li,
+.page-sec4 main > section:not(#hero) p,
+.page-sec4 main > section:not(#hero) li {
+  font-size: 1.25rem;
+  line-height: 1.75;
+}
+
+.page-sec3 main > section:not(#hero) h2,
+.page-sec4 main > section:not(#hero) h2 {
+  font-size: 3rem;
+  line-height: 1.3;
+}
+
+.page-sec3 #results .stats,
+.page-sec4 #results .stats {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.page-sec3 #results,
+.page-sec4 #results {
+  box-sizing: border-box;
+  padding-block: 3rem;
+  overflow: hidden;
+}
+
+.page-sec3 #results {
+  height: 39.4rem;
+}
+
+.page-sec4 #results {
+  height: 33.9rem;
+}
+
+.page-sec3 #faq .faq-list,
+.page-sec4 #faq .faq-list {
+  gap: .65rem;
+}
+
+.page-sec3 #faq .faq__button,
+.page-sec4 #faq .faq__button {
+  min-height: 3.25rem;
+  padding: .8rem 1.25rem;
+  font-size: 1rem;
+}
+
+.page-sec3 #faq,
+.page-sec4 #faq {
+  padding-block: 3rem;
+}
+
+.page-sec3 #track-record .split-section,
+.page-sec4 #track-record .split-section {
+  grid-template-columns: 1fr;
+  text-align: center;
+}
+
+.page-sec3 #track-record .split-section__media,
+.page-sec4 #track-record .split-section__media {
+  order: 2;
+}
+
+.page-sec3 #track-record .split-section__media img,
+.page-sec4 #track-record .split-section__media img {
+  width: min(100%, 58.75rem);
+  margin: 2.5rem auto 0;
+}
+
+/* Testimonials. */
+.page-testimonials #hero .hero__copy {
+  width: 33.4rem;
+  margin-inline: auto 0;
+  text-align: right;
+}
+
+.page-testimonials #hero::after,
+.page-about #hero::after {
+  background: linear-gradient(rgb(0 0 0 / 22%), rgb(0 0 0 / 22%));
+}
+
+.page-testimonials #hero h1 {
+  max-width: none;
+  font-size: 5rem;
+  line-height: 1.15;
+  text-align: right;
+}
+
+.testimonial-stars {
+  margin-top: 1.2rem;
+  font-size: 3rem;
+  letter-spacing: .2rem;
+  text-align: right !important;
+}
+
+.testimonial-intro {
+  min-height: 112rem;
+  padding-block: 3.8rem;
+  text-align: center;
+}
+
+.testimonial-intro > .container {
+  max-width: 61.25rem;
+}
+
+.testimonial-intro h2 {
+  margin-inline: auto;
+  font-size: 2.25rem;
+}
+
+.testimonial-intro h2 span {
+  color: #4d963b;
+}
+
+.testimonial-intro .video-embed {
+  width: 43.75rem;
+  max-width: 100%;
+  margin: 2.5rem auto 1.4rem;
+}
+
+.testimonial-intro .video-embed iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+.testimonial-result-art {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: min(100%, 56rem);
+  margin: 4.5rem auto 3rem;
+  overflow: hidden;
+}
+
+.testimonial-result-art img {
+  width: 100%;
+}
+
+/* Free notes. */
+.notes-original-hero {
+  min-height: 63.3rem;
+  align-items: start;
+  padding-top: 2.7rem;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.notes-original-hero__inner {
+  display: block;
+  max-width: 61.25rem;
+  text-align: center;
+}
+
+.notes-original-hero h1 {
+  max-width: none;
+  margin: 0;
+  font-size: 2.8125rem;
+  line-height: 1.4;
+}
+
+.notes-original-hero__lead {
+  margin: 0;
+  font-size: 1.625rem;
+  line-height: 1.4;
+}
+
+.notes-original-hero__lead span {
+  color: #4d963b;
+}
+
+.notes-original-hero .notes-device-preview {
+  width: 66.25rem;
+  max-width: none;
+  margin: -4.2rem 0 0 -2.5rem;
+}
+
+.notes-original-hero .button {
+  display: none;
+}
+
+.page-notes #student-feedback {
+  min-height: 172.9rem;
+  padding-block: 5rem;
+}
+
+.page-notes #student-feedback .notes-review-wall {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 61.25rem;
+}
+
+.page-notes #student-feedback .notes-review {
+  padding: .75rem 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.page-notes #student-feedback .notes-review p {
+  font-size: 1.25rem;
+  font-style: italic;
+}
+
+.page-notes #student-feedback .notes-review strong {
+  color: #4d963b;
+}
+
+.page-notes #why-free {
+  min-height: 226.9rem;
+}
+
+.page-notes #catch {
+  min-height: 49.9rem;
+}
+
+/* About. */
+.page-about #hero .hero__copy {
+  width: 37.2rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.page-about #hero h1 {
+  font-size: 4.0625rem;
+  line-height: 1.4;
+}
+
+.page-about #hero h1 span,
+.page-about #hero h1 strong {
+  display: block;
+}
+
+.page-about .section-bar,
+.page-about #tutors .section-heading,
+.page-about #founder-message h2,
+.page-about #beliefs h2 {
+  display: grid;
+  min-height: 4.4rem;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  place-items: center;
+  background: #303030;
+  color: #fff;
+  text-align: center;
+}
+
+.page-about .section-bar h2,
+.page-about #tutors .section-heading h2,
+.page-about #founder-message h2,
+.page-about #beliefs h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.page-about #mission,
+.page-about #quality,
+.page-about #tutors,
+.page-about #founder-message,
+.page-about #beliefs {
+  padding: 0;
+}
+
+.page-about #mission .container {
+  min-height: 52.55rem;
+  padding-block: 4rem;
+}
+
+.page-about #mission h3 {
+  font-size: 2.25rem;
+  text-align: center;
+}
+
+.page-about mark {
+  background: #5be26f;
+  color: #172018;
+}
+
+.page-about .about-copy,
+.page-about #quality .container,
+.page-about #founder-message .container,
+.page-about #beliefs .container {
+  font-size: 1.35rem;
+  line-height: 1.75;
+}
+
+.page-about #quality .container {
+  min-height: 65.25rem;
+  padding-block: 4rem;
+}
+
+.page-about #quality .section-bar {
+  margin-bottom: 0;
+}
+
+.about-quality__image {
+  display: block;
+  width: 37.5rem;
+  margin: 3rem auto 0;
+}
+
+.page-about #tutors .section-heading {
+  margin-bottom: 0;
+}
+
+.page-about #tutors .section-heading .eyebrow {
+  display: none;
+}
+
+.page-about #tutors .tutor-grid {
+  display: block;
+  max-width: 61.25rem;
+  margin-inline: auto;
+}
+
+.page-about #tutors .tutor-card {
+  min-height: 62.89rem;
+  padding: 5rem 0;
+  border: 0;
+  background: #fff;
+  box-shadow: none;
+  text-align: center;
+}
+
+.page-about #tutors .tutor-card > img {
+  width: 14.4rem;
+  height: 14.4rem;
+  margin-inline: auto;
+  border-radius: 50%;
+}
+
+.page-about #tutors .tutor-card h3 {
+  margin-top: 1.6rem;
+  font-size: 1.9rem;
+}
+
+.page-about #tutors .tutor-card ul {
+  max-width: 61.25rem;
+  margin: 2rem auto;
+  font-size: 1.35rem;
+  line-height: 1.75;
+  text-align: left;
+}
+
+.page-about #founder-message .container {
+  display: flex;
+  min-height: 134.94rem;
+  max-width: 61.25rem;
+  flex-direction: column;
+  padding-bottom: 5rem;
+}
+
+.page-about #founder-message .eyebrow {
+  display: none;
+}
+
+.page-about #founder-message h2 {
+  order: -2;
+  flex: 0 0 4.4rem;
+}
+
+.about-founder-class {
+  order: -1;
+  width: 61.25rem;
+  max-width: 100%;
+  margin: 0 auto 4rem;
+}
+
+.page-about #beliefs .container {
+  min-height: 73.8rem;
+  max-width: 61.25rem;
+  text-align: center;
+}
+
+.page-about #beliefs .eyebrow {
+  display: none;
+}
+
+.page-about #beliefs h3 {
+  margin-top: 4rem;
+  color: #4d963b;
+  font-size: 2rem;
+}
+
+/* Our causes. */
+.page-trees .utility-title-bar {
+  min-height: 4.4rem;
+}
+
+.page-trees .utility-subtitle-bar {
+  display: grid;
+  min-height: 4.4rem;
+  place-items: center;
+  background: #303030;
+  color: #fff;
+  text-align: center;
+}
+
+.page-trees .utility-title-bar h1,
+.page-trees .utility-title-bar h2,
+.page-trees .utility-subtitle-bar h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.85rem;
+  font-weight: 700;
+}
+
+.page-trees #tree-planting {
+  min-height: 87.7rem;
+  padding-block: 0;
+}
+
+.page-trees .causes-panel > .container {
+  max-width: 61.25rem;
+  padding-block: 0 4.5rem;
+  text-align: center;
+}
+
+.causes-panel__hero {
+  width: 34.4rem;
+  margin-inline: auto;
+}
+
+.page-trees .causes-panel h2 {
+  max-width: none;
+  margin: 3.5rem auto 2.5rem;
+  font-size: 2rem;
+}
+
+.page-trees .causes-panel p {
+  font-size: 1.35rem;
+  line-height: 1.75;
+  text-align: center;
+}
+
+.causes-panel__record {
+  width: 34.75rem;
+  margin: 3rem auto 0;
+}
+
+.page-trees #local-causes {
+  min-height: 56.4rem;
+  padding: 0;
+}
+
+.causes-panel__giving {
+  width: 38rem;
+  margin-inline: auto;
+}
+
+@media (max-width: 47.99rem) {
+  .page-home .inquire-results .section-heading h2 {
+    font-size: 1.5rem;
+  }
+
+  .page-classes #hero h1,
+  .page-sec3 #hero h1,
+  .page-sec4 #hero h1,
+  .page-testimonials #hero h1,
+  .page-about #hero h1 {
+    font-size: clamp(2.3rem, 10vw, 3.2rem);
+    line-height: 1.18;
+  }
+
+  .page-classes #hero .hero__copy,
+  .page-sec3 #hero .hero__copy,
+  .page-sec4 #hero .hero__copy,
+  .page-testimonials #hero .hero__copy,
+  .page-about #hero .hero__copy {
+    width: 100%;
+    text-align: center;
+  }
+
+  .page-classes #hero .button,
+  .page-sec3 #hero .button,
+  .page-sec4 #hero .button {
+    width: 100%;
+  }
+
+  .page-classes #pure-biology,
+  .page-classes #struggles,
+  .page-classes #solutions,
+  .page-classes #class-difference,
+  .page-classes #results,
+  .page-classes #level-choice,
+  .page-classes #faq,
+  .page-sec3 main > section,
+  .page-sec4 main > section,
+  .page-testimonials .testimonial-intro,
+  .page-notes #reviews,
+  .page-notes #why-free,
+  .page-notes #catch,
+  .page-about #mission .container,
+  .page-about #quality .container,
+  .page-about #tutors .tutor-card,
+  .page-about #founder-message .container,
+  .page-about #beliefs .container,
+  .page-trees #tree-planting,
+  .page-trees #local-causes {
+    min-height: 0;
+  }
+
+  .page-classes #level-choice .level-choice-grid,
+  .page-classes #results .stats,
+  .page-sec3 #results .stats,
+  .page-sec4 #results .stats,
+  .testimonial-result-art {
+    grid-template-columns: 1fr;
+  }
+
+  .page-sec3 #results,
+  .page-sec4 #results {
+    height: auto;
+    overflow: visible;
+  }
+
+  .page-sec4 .level-photo-hero {
+    height: auto;
+  }
+
+  .notes-original-hero {
+    min-height: 43rem;
+  }
+
+  .notes-original-hero h1 {
+    font-size: 2.1rem;
+  }
+
+  .notes-original-hero .notes-device-preview {
+    width: 44rem;
+    margin: -1rem 0 0 calc(50% - 22rem);
+  }
+
+  .page-about .section-bar,
+  .page-about #tutors .section-heading,
+  .page-about #founder-message h2,
+  .page-about #beliefs h2 {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .page-about #founder-message h2 {
+    flex-basis: auto;
+    min-height: 4.4rem;
   }
 }
