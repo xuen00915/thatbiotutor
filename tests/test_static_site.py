@@ -482,6 +482,19 @@ class HomePageTests(unittest.TestCase):
         ]
         self.assertEqual(len(reviews), 3)
 
+    def test_home_keeps_full_inquire_review_quality_and_faq_wording(self):
+        for exact_copy in (
+            "VERY GOOD TEACHING LOVE IT 😀 Ms Chelsea and Mr Keefe are rlly nice and patient plus the notes are excellent 😁",
+            "TBT exposed me to how bio can actl be fun, with their fun, interactive classes and concise notes, I’ve developed a love for Bio, even looking forward to my bio lessons both in schl and at TBT. Furthermore, I’ve improved from a 65% to 85% in Bio just after attending TBT for 2 months 🤯",
+            "The notes are incredibly concise and they helped me clear syllabus way faster and memorised content more efficiently.",
+            "All tutors pass rigorous screening. Can take 1+ month before teaching their first class.",
+            "All tutors follow the same standardised content and teaching methods. Every class ends with a student feedback form, reviewed and acted on weekly.",
+            "Notes, flashcards, lesson clips, extra practice papers, WhatsApp help (message your tutor anytime, get help same day instead of waiting 7 days), and snacks for physical lessons. All free for students.",
+            "No. And that’s actually a good thing. Good tutors transition to group teaching eventually because of demand, and it lets us build resources, notes, CAQs, memory shortcuts, specifically for this syllabus, which a 1-1 tutor never could.",
+        ):
+            with self.subTest(copy=exact_copy[:50]):
+                self.assertIn(exact_copy, self.source)
+
     def test_home_is_progressively_accessible(self):
         meaningful_images = [
             element

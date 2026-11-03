@@ -49,20 +49,16 @@
   object-position: 50% 35%;
 }
 
-.home-classroom .gallery__item:nth-child(1) img {
+.inquire-classroom .gallery__item:nth-child(1) img {
   object-position: 50% 58%;
 }
 
-.home-classroom .gallery__item:nth-child(2) img {
+.inquire-classroom .gallery__item:nth-child(2) img {
   object-position: 50% 52%;
 }
 
-.home-classroom .gallery__item:nth-child(3) img {
+.inquire-classroom .gallery__item:nth-child(3) img {
   object-position: 50% 50%;
-}
-
-.home-closing {
-  padding-top: clamp(6rem, 11vw, 10rem);
 }
 
 /* Inquire homepage body. Header rules stay in components.css so the original
@@ -74,10 +70,6 @@
   --inquire-pale: #f1f8ed;
   --inquire-mist: #f7f8f6;
   --inquire-border: #dce8d8;
-}
-
-.page-home main {
-  overflow: clip;
 }
 
 .page-home .inquire-section {
@@ -716,6 +708,10 @@
   color: #fff;
 }
 
+.inquire-closing p:last-of-type {
+  margin-bottom: 2rem;
+}
+
 .inquire-closing img {
   width: 100%;
   max-height: 38rem;
@@ -953,14 +949,6 @@
 
   .home-track-record .media-grid__item:nth-child(4) {
     grid-column: 2 / 4;
-  }
-
-  .home-classroom .gallery__item:first-child {
-    grid-column: span 2;
-  }
-
-  .home-classroom .gallery__item img {
-    min-height: 28rem;
   }
 
 }

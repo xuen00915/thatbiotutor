@@ -436,6 +436,15 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertEqual(page.locator("#practical-sessions .gallery__item").count(), 3)
         self.assertEqual(page.locator("#classroom-life .gallery__item").count(), 3)
 
+        closing_prompt = page.locator("#closing-cta p").last.bounding_box()
+        closing_button = page.locator("#closing-cta .button").bounding_box()
+        self.assertIsNotNone(closing_prompt)
+        self.assertIsNotNone(closing_button)
+        self.assertGreaterEqual(
+            closing_button["y"] - (closing_prompt["y"] + closing_prompt["height"]),
+            24,
+        )
+
     def test_home_inquire_sections_stack_without_overflow_on_tablet_and_mobile(self) -> None:
         for width in (390, 768):
             with self.subTest(width=width):
