@@ -49,6 +49,14 @@ function tbt_render_meta_tags(): void
     echo '<meta property="og:url" content="' . esc_url((string) $meta['og_url']) . '">' . "\n";
 }
 
+/** Apply the same portable SEO title to WordPress's document title. */
+function tbt_filter_document_title_parts(array $parts): array
+{
+    $meta = tbt_page_metadata()[tbt_current_metadata_key()] ?? null;
+    if (is_array($meta)) { $parts['title'] = (string) $meta['title']; }
+    return $parts;
+}
+
 function tbt_retired_route_redirects(): array { return tbt_reference_content()['aliases'] ?? []; }
 
 function tbt_should_bypass_frontend_redirects(): bool
@@ -83,3 +91,4 @@ if (function_exists('add_action')) {
     add_action('wp_head', 'tbt_render_meta_tags', 2);
     add_action('template_redirect', 'tbt_redirect_legacy_routes', 1);
 }
+if (function_exists('add_filter')) { add_filter('document_title_parts', 'tbt_filter_document_title_parts'); }

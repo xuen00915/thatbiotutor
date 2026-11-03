@@ -30,6 +30,8 @@ final class ResultsTest extends TbtContentTestCase
         $this->assertSame('C6', $records[0]['before'], 'Before grade must normalize.');
         $this->assertSame('A2', $records[0]['after'], 'After grade must normalize.');
         $this->assertSame('2025', $records[0]['year'], 'Year must normalize.');
+        $html = $this->capture(static fn () => tbt_render_results());
+        $this->assertSame(2, substr_count($html, '<article class="tbt-result">'), 'Published result records must render through the shared public renderer.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} result assertions\n");
     }

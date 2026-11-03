@@ -19,7 +19,10 @@ function tbt_page_field(string $name, mixed $fallback = '', int $post_id = 0): m
     }
 
     $value = get_field($name, $postId);
-    if ($value === null || $value === '' || $value === []) {
+    if ($value === null || $value === []) {
+        return $fallback;
+    }
+    if ($value === '' && (!function_exists('metadata_exists') || !metadata_exists('post', $postId, $name))) {
         return $fallback;
     }
 
@@ -242,6 +245,22 @@ function tbt_render_media_image(string $key, string $class = '', array $attribut
         }
     }
     echo ' src="' . esc_url((string) $media['url']) . '" alt="' . esc_attr((string) ($media['alt'] ?? '')) . '" width="' . esc_attr((string) ($media['width'] ?? 0)) . '" height="' . esc_attr((string) ($media['height'] ?? 0)) . '">';
+}
+
+/** Render an editable ACF image with one approved manifest fallback. */
+function tbt_render_page_image(string $fieldName, string $fallbackKey, string $class = '', array $attributes = []): void
+{
+    $fallback = tbt_media($fallbackKey);
+    $image = tbt_page_image($fieldName, (string) ($fallback['url'] ?? ''));
+    if ($image['url'] === '') { return; }
+    echo '<img data-media-key="' . esc_attr($fallbackKey) . '"';
+    if ($class !== '') { echo ' class="' . esc_attr($class) . '"'; }
+    foreach ($attributes as $name => $value) {
+        if (preg_match('/^(?:data-[a-z0-9-]+|aria-[a-z0-9-]+|loading)$/', (string) $name) === 1) {
+            echo ' ' . esc_attr((string) $name) . '="' . esc_attr((string) $value) . '"';
+        }
+    }
+    echo ' src="' . esc_url((string) $image['url']) . '" alt="' . esc_attr((string) ($image['alt'] ?: ($fallback['alt'] ?? ''))) . '" width="' . esc_attr((string) ($image['width'] ?? 0)) . '" height="' . esc_attr((string) ($image['height'] ?? 0)) . '">';
 }
 
 /** Enqueue the protected local design system and progressive interactions. */

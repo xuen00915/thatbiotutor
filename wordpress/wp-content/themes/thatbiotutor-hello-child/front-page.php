@@ -84,6 +84,7 @@ $tbt_media_image = static function (string $key, string $class = '', string $dat
     <section class="tbt-section tbt-hall" data-section="hall-of-fame">
         <h2>TBT Hall of Fame</h2>
         <?php $tbt_media_image('curated_shared_hall_of_fame', 'tbt-hall__image'); ?>
+        <div class="tbt-results-artwork"><?php foreach (range(1, 4) as $tbt_index) : tbt_render_page_image(sprintf('home_number_image_%02d', $tbt_index), sprintf('home_number_%02d', $tbt_index), 'tbt-contain-artwork', ['loading' => 'lazy']); endforeach; ?></div>
     </section>
 
     <section class="tbt-section tbt-section--soft" data-section="testimonials">

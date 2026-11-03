@@ -55,6 +55,14 @@ const sizes = [
     await page.close();
   }
 
+  const resizePage = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await resizePage.goto(base, { waitUntil: 'load' });
+  await resizePage.setViewportSize({ width: 390, height: 844 });
+  await resizePage.waitForFunction(() => document.querySelector('[data-menu]')?.hidden === true);
+  await resizePage.setViewportSize({ width: 1440, height: 900 });
+  await resizePage.waitForFunction(() => document.querySelector('[data-menu]')?.hidden === false);
+  await resizePage.close();
+
   await browser.close();
   if (errors.length) throw new Error(`Console errors:\n${errors.join('\n')}`);
   console.log(`PASS: ${routes.length} routes at ${sizes.map((size) => size.width).join('/')}px, navigation, carousel, console, screenshots`);

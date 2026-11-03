@@ -19,3 +19,15 @@ function tbt_get_results(array $args = []): array
     ], tbt_get_structured_posts('tbt_result', $args));
 }
 
+/** Render editable structured result records below preserved source artwork. */
+function tbt_render_results(array $args = []): void
+{
+    echo '<div class="tbt-results" data-result-list>';
+    foreach (tbt_get_results($args) as $result) {
+        echo '<article class="tbt-result"><h3>' . esc_html($result['student']) . '</h3><p><span>' . esc_html($result['before']) . '</span> <span aria-hidden="true">→</span> <strong>' . esc_html($result['after']) . '</strong></p>';
+        if ($result['year'] !== '') { echo '<p>Class of ' . esc_html($result['year']) . '</p>'; }
+        echo '</article>';
+    }
+    echo '</div>';
+}
+

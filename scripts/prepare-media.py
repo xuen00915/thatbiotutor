@@ -218,7 +218,7 @@ def convert_media(source: MediaSource, output_root: Path) -> MediaRecord:
 
     return MediaRecord(
         key=source.key,
-        source=str(source.source),
+        source="provenance://" + source.source.name,
         file=relative.as_posix(),
         sha256=_sha256(destination),
         alt=source.alt,

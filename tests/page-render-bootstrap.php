@@ -19,6 +19,7 @@ function get_footer(): void { echo '</main><footer data-test-footer></footer>'; 
 function tbt_render_testimonials(array $args = []): void { echo '<div data-testimonial-renderer></div>'; }
 function tbt_render_tutors(array $args = []): void { echo '<div data-tutor-renderer></div>'; }
 function tbt_render_faqs(string $collection): void { echo '<div data-faq-renderer="' . esc_attr($collection) . '"></div>'; }
+function tbt_render_results(array $args = []): void { echo '<div data-result-renderer></div>'; }
 
 require_once dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/inc/reference-content.php';
 require_once dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/inc/theme-helpers.php';

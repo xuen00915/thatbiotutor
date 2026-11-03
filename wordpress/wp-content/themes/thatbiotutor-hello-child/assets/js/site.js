@@ -63,8 +63,15 @@
     const toggle = document.querySelector('[data-menu-toggle]');
     const menu = document.querySelector('[data-menu]');
     if (!toggle || !menu) return;
-    const mobile = windowObject.matchMedia && windowObject.matchMedia('(max-width: 1100px)').matches;
-    menu.hidden = Boolean(mobile);
+    const media = windowObject.matchMedia && windowObject.matchMedia('(max-width: 1100px)');
+    const syncViewport = (event) => {
+      const mobile = Boolean(event.matches);
+      menu.hidden = mobile;
+      toggle.setAttribute('aria-expanded', 'false');
+    };
+    syncViewport(media || { matches: false });
+    if (media && typeof media.addEventListener === 'function') media.addEventListener('change', syncViewport);
+    else if (media && typeof media.addListener === 'function') media.addListener(syncViewport);
     toggle.addEventListener('click', () => {
       if (toggle.getAttribute('aria-expanded') === 'true') closeMenu(menu, toggle, true);
       else openMenu(menu, toggle);

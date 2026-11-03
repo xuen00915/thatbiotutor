@@ -32,4 +32,5 @@
 - Static/unit verification passed; clean setup remained idempotent and preserved client/unrelated data.
 - All 12 canonical routes returned 200, both aliases returned a single 301, and browser checks passed at 1440, 768, 390, and 320 pixels.
 - Local preview: `http://localhost:8888` (while `npm run wp-env:start` is running).
+- Final review fixes connected numbered ACF media to public templates, populated FAQ/result and preserved review collections, preserved intentionally blank edits, repaired WP-CLI collision reporting, synchronized navigation across viewport changes, removed archive record caps, and stripped workstation paths from the public media manifest.
 

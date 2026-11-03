@@ -19,6 +19,11 @@ final class WP_Error
     {
         return $this->code;
     }
+
+    public function get_error_message(): string
+    {
+        return $this->message;
+    }
 }
 
 $GLOBALS['tbt_db'] = [
@@ -181,9 +186,12 @@ final class SiteSetupTest
         $first = tbt_setup_site(false);
         $this->assertTrue(is_array($first), 'First setup run must return its owned page IDs.');
         $this->assertSame(12, count($first['pages'] ?? []), 'First run must create every canonical page.');
-        $this->assertSame(48, count($GLOBALS['tbt_db']['posts']), 'Only the twelve approved pages and approved structured seeds may be added.');
+        $expectedPosts = 1 + 12 + array_sum(array_map('count', tbt_reference_content()['records']));
+        $this->assertSame($expectedPosts, count($GLOBALS['tbt_db']['posts']), 'Only the twelve approved pages and approved structured seeds may be added.');
         $this->assertSame(4, count($first['records']['tutors'] ?? []), 'Setup must seed the four original tutors.');
-        $this->assertSame(31, count($first['records']['testimonials'] ?? []), 'Setup must seed 24 video and seven text testimonials.');
+        $this->assertTrue(count($first['records']['testimonials'] ?? []) >= 50, 'Setup must seed the video and preserved text-review archives.');
+        $this->assertTrue(count($first['records']['faqs'] ?? []) >= 30, 'Setup must seed the original FAQ collections.');
+        $this->assertTrue(count($first['records']['results'] ?? []) >= 1, 'Setup must seed editable structured results.');
         $this->assertSame('page', $GLOBALS['tbt_db']['options']['show_on_front'] ?? null, 'Setup must select a static front page.');
         $homeId = $first['pages']['home'];
         $this->assertSame($homeId, $GLOBALS['tbt_db']['options']['page_on_front'] ?? null, 'Home must be assigned as the static front page.');
@@ -197,7 +205,7 @@ final class SiteSetupTest
         $second = tbt_setup_site(false);
         $this->assertTrue(is_array($second), 'Second setup run must succeed.');
         $this->assertSame($first['pages'], $second['pages'], 'Second run must reuse the same page IDs.');
-        $this->assertSame(48, count($GLOBALS['tbt_db']['posts']), 'Second run must not duplicate pages or structured records.');
+        $this->assertSame($expectedPosts, count($GLOBALS['tbt_db']['posts']), 'Second run must not duplicate pages or structured records.');
         $this->assertTrue(isset($GLOBALS['tbt_db']['posts'][$unrelatedId]), 'Unrelated pages must survive setup.');
         $this->assertSame(['keep' => true], get_option('unrelated_option'), 'Unrelated options must survive setup.');
 
@@ -222,6 +230,10 @@ final class SiteSetupTest
         update_post_meta($postId, $fieldName, 'Client wording');
         $this->assertSame(false, tbt_update_seeded_field($postId, $fieldKey, $fieldName, 'Seed C'), 'Normal rerun must preserve client-edited values.');
         $this->assertSame('Client wording', get_post_meta($postId, $fieldName, true), 'Client wording must survive normal rerun.');
+
+        update_post_meta($postId, $fieldName, '');
+        $this->assertSame(false, tbt_update_seeded_field($postId, $fieldKey, $fieldName, 'Seed C'), 'Normal rerun must preserve an intentionally cleared field.');
+        $this->assertSame('', get_post_meta($postId, $fieldName, true), 'Intentionally blank client wording must survive normal rerun.');
 
         update_post_meta($postId, 'client_private_note', 'Never touch');
         $this->assertTrue(tbt_update_seeded_field($postId, $fieldKey, $fieldName, 'Seed C', true), 'Approved refresh must update the protected reference field.');

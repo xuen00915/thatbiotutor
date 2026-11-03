@@ -60,7 +60,7 @@ function tbt_update_seeded_field(
     $hashMeta = '_tbt_seed_hash_' . $fieldName;
     $previousHash = (string) get_post_meta($postId, $hashMeta, true);
     $currentValue = get_post_meta($postId, $fieldName, true);
-    $hasCurrentValue = $currentValue !== '' && $currentValue !== null;
+    $hasCurrentValue = $previousHash !== '' || get_post_meta($postId, $fieldName, false) !== [];
 
     if (!$refresh && $hasCurrentValue) {
         if ($previousHash === '' || !hash_equals($previousHash, tbt_seed_value_hash($currentValue))) {
@@ -103,6 +103,7 @@ function tbt_upsert_seed_record(string $postType, array $record, bool $refreshAp
     } else {
         $created = wp_insert_post([
             'post_title' => (string) ($record['title'] ?? $seedKey),
+            'post_content' => (string) ($record['content'] ?? ''),
             'post_name' => sanitize_title((string) ($record['title'] ?? $seedKey)),
             'post_type' => $postType,
             'post_status' => 'publish',
@@ -216,7 +217,7 @@ final class TBT_Setup_Site_Command
         $result = tbt_setup_site($refresh);
 
         if (is_wp_error($result)) {
-            WP_CLI::error($result->message);
+            WP_CLI::error($result->get_error_message());
             return;
         }
 

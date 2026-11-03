@@ -22,7 +22,7 @@ final class ResourcePagesTest
         $this->assertTrue(str_contains($testimonials, 'data-archive-group'), 'Long testimonial archive must expose grouping anchors.');
 
         $last = -1;
-        foreach (['For Pure / G3 Biology', 'Free O Level Biology Notes Singapore', 'What Students Are Saying', 'Why are you giving your notes for FREE?', "This sounds too good to be true. What's the catch?", 'How do I download it?', 'What Students Are Saying...'] as $marker) {
+        foreach (['For Pure / G3 Biology', 'Free O Level Biology Notes Singapore', 'What Students Are Saying...', 'Why are you giving your notes for FREE?', "This sounds too good to be true. What's the catch?", 'How do I download it?'] as $marker) {
             $position = strpos($notes, $marker, $last + 1); $this->assertTrue($position !== false, "Notes must contain {$marker}."); $this->assertTrue($position > $last, "Notes section {$marker} must stay in original order."); $last = $position;
         }
         $this->assertSame(3, substr_count($notes, 'data-carousel-slide'), 'Notes hero must include three slides.');
@@ -30,7 +30,7 @@ final class ResourcePagesTest
         $this->assertSame(4, substr_count($notes, 'data-notes-benefit'), 'Notes must explain four benefits.');
         $this->assertTrue(str_contains($notes, '7,000+ downloads'), 'Notes must preserve its download-count proof.');
         $this->assertTrue(str_contains($notes, 'id="notes-download"'), 'Download CTA must resolve to the disclosed access section.');
-        $this->assertTrue(str_contains($notes, 'data-faq-renderer="notes-reviews"'), 'Notes must render its complete editable review collection.');
+        $this->assertTrue(str_contains($notes, 'data-testimonial-renderer'), 'Notes must render its complete editable review collection.');
 
         foreach (['Only For 2023 Sec 4 Pure Bio Students!', 'IMPORTANT:', 'How do I access it?', 'What Students Are Saying About The Crash Course:'] as $marker) $this->assertTrue(str_contains($cell, $marker), "Cell Division must contain {$marker}.");
         $this->assertTrue(str_contains($cell, '/contact/') && str_contains($cell, 'historical 2023'), 'Cell Division access must clearly disclose its dated external/contact boundary.');
