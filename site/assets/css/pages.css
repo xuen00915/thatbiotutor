@@ -117,10 +117,13 @@
 }
 
 .inquire-hero .eyebrow {
+  max-width: 100%;
+  margin-inline: auto;
   margin-bottom: 1.15rem;
   color: var(--inquire-green);
   font-size: var(--home-type-body);
   letter-spacing: 0.14em;
+  text-align: center;
   text-transform: uppercase;
 }
 
@@ -168,32 +171,62 @@
 .home-hero .media-carousel__controls {
   position: absolute;
   z-index: 3;
-  inset: 50% 1rem auto;
+  inset: 0 10px;
+  height: 100%;
   margin: 0;
-  translate: 0 -50%;
+  pointer-events: none;
 }
 
 .home-hero .media-carousel__button {
-  border-color: rgb(255 255 255 / 65%);
-  background: rgb(0 0 0 / 46%);
-  color: #fff;
+  width: 30px;
+  height: 30px;
+  min-height: 30px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgb(237 237 237 / 90%);
+  padding: 0;
   box-shadow: none;
+  pointer-events: auto;
+}
+
+.home-hero .media-carousel__button:hover {
+  border: 0;
+  background: transparent;
+  color: #fff;
+}
+
+.home-hero .media-carousel__button svg {
+  width: 30px;
+  height: 30px;
+  fill: currentColor;
 }
 
 .home-hero .media-carousel__dots {
   position: absolute;
-  top: calc(50% - 2rem);
+  bottom: -1px;
   left: 50%;
+  gap: 0;
+  pointer-events: auto;
   translate: -50% 0;
 }
 
+.home-hero .media-carousel__dot {
+  width: 18px;
+  min-height: 18px;
+}
+
 .home-hero .media-carousel__dot::before {
-  background: rgb(255 255 255 / 58%);
+  width: 6px;
+  height: 6px;
+  background: #fff;
 }
 
 .home-hero .media-carousel__dot.is-active::before,
 .home-hero .media-carousel__dot[aria-current="true"]::before {
-  background: #fff;
+  width: 6px;
+  border-radius: 50%;
+  background: #2f8a27;
 }
 
 .home-hero .media-carousel__status {
@@ -764,10 +797,6 @@
 
   .home-hero .media-carousel__viewport {
     aspect-ratio: 4 / 3;
-  }
-
-  .home-hero .media-carousel__dots {
-    display: none;
   }
 
   .page-home .inquire-section {
