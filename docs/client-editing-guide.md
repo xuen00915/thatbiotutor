@@ -39,7 +39,7 @@ Never edit `build/` or `.preview-site/`; both are generated. GitHub checks rebui
 
 ## Homepage editing map
 
-The homepage body follows the Inquire page, while the shared header and shared footer remain the single site-wide templates. Edit `site/pages/home.html` one named section at a time; each section is deliberately independent so it can later become one Elementor Container.
+The homepage body follows the Inquire page for section order, spacing, colour, and presentation, while the shared header and shared footer remain the single site-wide templates. Its desktop typography uses the original ThatBioTutor scale (60px hero, 36px primary headings, 30px secondary headings, 22px lead text, 16px body text, and 14px small text), with responsive reductions on mobile. Edit `site/pages/home.html` one named section at a time; each section is deliberately independent so it can later become one Elementor Container.
 
 | Section ID | Client-friendly edit |
 | --- | --- |

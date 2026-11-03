@@ -16,6 +16,8 @@ Keep the native desktop, tablet, and mobile spacing relationships. Text-heavy ar
 
 Set Elementor Global Fonts to match the original site: **Montserrat Regular (400)** for body copy, **Montserrat Bold (700)** for headings and actions, **Montserrat Italic (400/700)** where emphasis is used, and **Futura LT Book (400)** for the main navigation. The native build vendors the exact webfont files locally under `site/assets/fonts/`.
 
+For the homepage, retain the Inquire page's layout and colour system, but use the original ThatBioTutor desktop size scale: **60px hero**, **36px primary heading**, **30px secondary heading**, **22px lead**, **16px body**, and **14px small text**. The native CSS reduces those sizes to **36px / 24px / 20px / 18px** for the corresponding mobile hierarchy.
+
 ## Theme Builder templates
 
 | Native shared template | Elementor implementation |
