@@ -1,16 +1,40 @@
 @font-face {
-  font-family: "Futura TBT";
-  src: url("../fonts/futura-light.woff2") format("woff2");
+  font-family: "Futura Book TBT";
+  src: url("../fonts/futura-book.woff2") format("woff2");
   font-style: normal;
-  font-weight: 300 500;
+  font-weight: 400;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Avenir TBT";
-  src: url("../fonts/avenir-heavy.woff2") format("woff2");
+  font-family: "Montserrat TBT";
+  src: url("../fonts/montserrat-regular.woff2") format("woff2");
   font-style: normal;
-  font-weight: 700 900;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat TBT";
+  src: url("../fonts/montserrat-italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat TBT";
+  src: url("../fonts/montserrat-bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat TBT";
+  src: url("../fonts/montserrat-bold-italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 700;
   font-display: swap;
 }
 
@@ -31,8 +55,9 @@
   --color-danger: #b93d3d;
 
   /* Elementor global typography */
-  --font-sans: "Futura TBT", Futura, "Trebuchet MS", Arial, sans-serif;
-  --font-display: "Avenir TBT", Avenir, "Arial Black", sans-serif;
+  --font-nav: "Futura Book TBT", Futura, "Trebuchet MS", Arial, sans-serif;
+  --font-sans: "Montserrat TBT", Montserrat, Arial, sans-serif;
+  --font-display: "Montserrat TBT", Montserrat, Arial, sans-serif;
   --font-size-xs: 0.72rem;
   --font-size-sm: 0.84rem;
   --font-size-base: 1rem;
@@ -150,7 +175,7 @@ h2,
 h3 {
   color: var(--color-ink);
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0;
   line-height: var(--line-heading);
 }
@@ -189,7 +214,7 @@ li {
   background: var(--color-brand-deep);
   color: #fff;
   padding: var(--space-3) var(--space-4);
-  font-weight: 800;
+  font-weight: 700;
   transition: translate 160ms ease;
 }
 
@@ -259,7 +284,7 @@ li {
   margin-bottom: var(--space-3);
   color: var(--color-brand);
   font-size: var(--font-size-xs);
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.13em;
   line-height: 1.2;
   text-transform: uppercase;

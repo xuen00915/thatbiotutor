@@ -1566,6 +1566,37 @@ class FinalReviewRegressionTests(unittest.TestCase):
         self.assertIn("font-family: var(--font-sans)", self.base_css)
         self.assertIn("line-height: var(--line-body)", self.base_css)
 
+    def test_typography_uses_the_original_site_font_roles(self):
+        for filename in (
+            "futura-book.woff2",
+            "montserrat-regular.woff2",
+            "montserrat-italic.woff2",
+            "montserrat-bold.woff2",
+            "montserrat-bold-italic.woff2",
+        ):
+            with self.subTest(filename=filename):
+                self.assertTrue((SITE_DIR / "assets/fonts" / filename).is_file())
+
+        self.assertRegex(
+            self.base_css,
+            r'font-family:\s*"Futura Book TBT";[\s\S]*?futura-book\.woff2[\s\S]*?font-weight:\s*400',
+        )
+        self.assertRegex(
+            self.base_css,
+            r'font-family:\s*"Montserrat TBT";[\s\S]*?montserrat-regular\.woff2[\s\S]*?font-weight:\s*400',
+        )
+        self.assertRegex(
+            self.base_css,
+            r'font-family:\s*"Montserrat TBT";[\s\S]*?montserrat-bold\.woff2[\s\S]*?font-weight:\s*700',
+        )
+        self.assertIn('--font-nav: "Futura Book TBT"', self.base_css)
+        self.assertIn('--font-sans: "Montserrat TBT"', self.base_css)
+        self.assertIn('--font-display: "Montserrat TBT"', self.base_css)
+        self.assertRegex(
+            self.components_css,
+            r"\.site-nav__links\s+a\s*\{[^}]*font-family:\s*var\(--font-nav\);[^}]*font-weight:\s*400",
+        )
+
     def test_carousels_preserve_keyboard_focus_and_real_touch_swipe(self):
         self.assertIn("carousel.tabIndex = 0", self.site_js)
         self.assertIn("pointerStartY", self.site_js)

@@ -39,7 +39,7 @@
   color: var(--color-ink);
   font-family: var(--font-display);
   font-size: 0.58rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.18em;
   line-height: 1.1;
   text-decoration: none;
@@ -55,9 +55,9 @@
   margin-top: -0.15rem;
   color: #202020;
   content: "THATBIOTUTOR";
-  font-family: "Avenir TBT", Avenir, sans-serif;
+  font-family: var(--font-display);
   font-size: 0.32rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.22em;
 }
 
@@ -94,9 +94,9 @@
   border-left: 1px solid #26304b;
   color: var(--color-ink);
   padding: 0 clamp(1rem, 1.9vw, 1.85rem);
-  font-family: var(--font-sans);
+  font-family: var(--font-nav);
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.15;
   text-align: center;
   text-decoration: none;
@@ -113,7 +113,7 @@
   background: var(--color-brand);
   color: #fff;
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .site-nav__links .site-header__contact:hover,
@@ -153,7 +153,7 @@
   color: var(--color-brand-deep);
   padding: 0.68rem 1.18rem;
   font-size: var(--font-size-sm);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.1;
   text-align: center;
   text-decoration: none;
@@ -188,7 +188,7 @@
   color: #fff;
   padding: 0.55rem 1rem;
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
   text-decoration: none;
   transition: background-color 140ms ease, color 140ms ease;
@@ -569,7 +569,7 @@
   color: var(--color-brand-deep);
   font-family: var(--font-display);
   font-size: clamp(2.3rem, 6vw, 4.8rem);
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: -0.06em;
   line-height: 0.95;
 }
@@ -687,7 +687,7 @@
   place-items: center;
   border-radius: 50%;
   font-size: 0.75rem;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .pain-list li::before {
@@ -718,7 +718,7 @@
   margin-bottom: var(--space-5);
   color: var(--color-brand-deep);
   font-size: var(--font-size-lg);
-  font-weight: 650;
+  font-weight: 400;
 }
 
 .testimonial__person {
@@ -887,7 +887,7 @@
   background: transparent;
   color: var(--color-brand-deep);
   padding: var(--space-4) var(--space-5);
-  font-weight: 850;
+  font-weight: 700;
   text-align: left;
   cursor: pointer;
 }

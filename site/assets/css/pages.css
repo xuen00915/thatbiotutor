@@ -61,7 +61,7 @@
 .limited-time {
   color: var(--color-ink);
   font-size: var(--font-size-lg);
-  font-weight: 750;
+  font-weight: 700;
 }
 
 .limited-time strong {
@@ -247,7 +247,7 @@
 .solution-rows article > span {
   color: var(--color-brand);
   font-size: var(--font-size-xl);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .solution-rows {
@@ -583,7 +583,7 @@
 
 .resource-intro h1 {
   font-size: clamp(2.6rem, 4.2vw, 4.2rem);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .resource-intro .highlight {
@@ -618,7 +618,7 @@
   margin: 0;
   color: #fff;
   font-size: clamp(2rem, 3vw, 2.8rem);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .utility-page {
@@ -628,7 +628,7 @@
 
 .utility-page h1 {
   font-size: clamp(3.4rem, 6vw, 5rem);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .page-trees #tree-planting,
