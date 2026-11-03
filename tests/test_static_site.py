@@ -466,6 +466,22 @@ class HomePageTests(unittest.TestCase):
             any(link["attrs"].get("href", "").startswith("https://wa.me/") for link in links)
         )
 
+    def test_home_social_proof_uses_the_inquire_hall_of_fame_and_review_cards(self):
+        proof_images = [
+            element["attrs"].get("src", "")
+            for element in self.parser.elements_in("social-proof", "img")
+        ]
+        self.assertTrue(
+            any(src.endswith("assets/images/shared/hall-of-fame.webp") for src in proof_images)
+        )
+        self.assertFalse(any("results-2025-" in src for src in proof_images))
+        reviews = [
+            element
+            for element in self.parser.elements_in("social-proof", "article")
+            if "inquire-review" in element["attrs"].get("class", "").split()
+        ]
+        self.assertEqual(len(reviews), 3)
+
     def test_home_is_progressively_accessible(self):
         meaningful_images = [
             element

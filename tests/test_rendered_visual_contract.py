@@ -325,6 +325,74 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertAlmostEqual(first_image_box["height"], hero_media["height"], delta=1)
         self.assertEqual(object_position, "50% 68%")
 
+    def test_home_matches_inquire_desktop_section_system(self) -> None:
+        page = self.open_page("/", width=1440, height=1000)
+        hero_intro = page.locator(".inquire-hero__intro").bounding_box()
+        hero_heading = page.locator("#home-title").bounding_box()
+        colors = page.evaluate(
+            """() => Object.fromEntries([
+                ['hero', '.inquire-hero'],
+                ['fasttrack', '#fasttrack'],
+                ['tutors', '#tutors'],
+                ['trial', '#trial-guarantee'],
+                ['closing', '#closing-cta'],
+                ['footer', '.site-footer'],
+            ].map(([key, selector]) => [
+                key,
+                getComputedStyle(document.querySelector(selector)).backgroundColor,
+            ]))"""
+        )
+        stats_columns = page.locator("#track-record .stats").evaluate(
+            "element => getComputedStyle(element).gridTemplateColumns.split(' ').length"
+        )
+        suitability_columns = page.locator(".inquire-suitability__grid").evaluate(
+            "element => getComputedStyle(element).gridTemplateColumns.split(' ').length"
+        )
+
+        self.assertIsNotNone(hero_intro)
+        self.assertIsNotNone(hero_heading)
+        self.assertLessEqual(hero_intro["width"], 980)
+        self.assertAlmostEqual(
+            hero_intro["x"] + hero_intro["width"] / 2, 720, delta=2
+        )
+        self.assertAlmostEqual(
+            hero_heading["x"] + hero_heading["width"] / 2, 720, delta=2
+        )
+        self.assertEqual(colors["hero"], "rgb(255, 255, 255)")
+        self.assertNotEqual(colors["fasttrack"], colors["hero"])
+        self.assertNotEqual(colors["tutors"], colors["hero"])
+        self.assertEqual(colors["trial"], colors["closing"])
+        self.assertEqual(colors["footer"], colors["closing"])
+        self.assertEqual(stats_columns, 4)
+        self.assertEqual(suitability_columns, 2)
+        self.assertEqual(page.locator("#fasttrack .feature-row").count(), 5)
+        self.assertEqual(page.locator("#tutors .tutor-card").count(), 4)
+        self.assertEqual(page.locator("#practical-sessions .gallery__item").count(), 3)
+        self.assertEqual(page.locator("#classroom-life .gallery__item").count(), 3)
+
+    def test_home_inquire_sections_stack_without_overflow_on_tablet_and_mobile(self) -> None:
+        for width in (390, 768):
+            with self.subTest(width=width):
+                page = self.open_page("/", width=width, height=900)
+                page.locator("#closing-cta").scroll_into_view_if_needed()
+                layout = page.evaluate(
+                    """() => ({
+                        overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+                        stats: getComputedStyle(document.querySelector('#track-record .stats')).gridTemplateColumns.split(' ').length,
+                        feature: getComputedStyle(document.querySelector('#fasttrack .feature-row')).gridTemplateColumns.split(' ').length,
+                        suitability: getComputedStyle(document.querySelector('.inquire-suitability__grid')).gridTemplateColumns.split(' ').length,
+                        classroom: getComputedStyle(document.querySelector('#classroom-life .gallery')).gridTemplateColumns.split(' ').length,
+                    })"""
+                )
+                self.assertEqual(layout["overflow"], 0)
+                self.assertLessEqual(layout["stats"], 2)
+                self.assertEqual(layout["feature"], 1)
+                self.assertEqual(layout["suitability"], 1)
+                self.assertEqual(layout["classroom"], 1)
+                self.assertTrue(
+                    page.locator("#closing-cta .button").is_visible()
+                )
+
     def test_mobile_navigation_links_remain_visible_without_javascript(self) -> None:
         context = self.browser.new_context(
             viewport={"width": 390, "height": 844}, java_script_enabled=False
