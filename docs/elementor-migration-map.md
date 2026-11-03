@@ -14,6 +14,8 @@ This map translates the native website into maintainable WordPress Elementor tem
 
 Keep the native desktop, tablet, and mobile spacing relationships. Text-heavy artwork must use `contain`; photographs may use `cover` with the manifest focal position.
 
+Set Elementor Global Fonts to match the original site: **Montserrat Regular (400)** for body copy, **Montserrat Bold (700)** for headings and actions, **Montserrat Italic (400/700)** where emphasis is used, and **Futura LT Book (400)** for the main navigation. The native build vendors the exact webfont files locally under `site/assets/fonts/`.
+
 ## Theme Builder templates
 
 | Native shared template | Elementor implementation |

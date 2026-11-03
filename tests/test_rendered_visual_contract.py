@@ -84,6 +84,7 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
                 const style = getComputedStyle(element);
                 return {
                     borderLeftWidth: parseFloat(style.borderLeftWidth),
+                    fontFamily: style.fontFamily,
                     fontSize: parseFloat(style.fontSize),
                     fontWeight: parseInt(style.fontWeight, 10),
                     height: element.getBoundingClientRect().height,
@@ -110,6 +111,7 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
             ],
         )
         self.assertGreaterEqual(nav_style["borderLeftWidth"], 1)
+        self.assertIn("futura book", nav_style["fontFamily"].lower())
         self.assertGreaterEqual(nav_style["fontSize"], 16)
         self.assertLessEqual(nav_style["fontWeight"], 500)
         self.assertGreaterEqual(nav_style["height"], 64)
@@ -123,11 +125,19 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         body_style = page.locator("body").evaluate(
             """element => {
                 const style = getComputedStyle(element);
-                return { background: style.backgroundColor, family: style.fontFamily };
+                const heading = getComputedStyle(document.querySelector('h1'));
+                return {
+                    background: style.backgroundColor,
+                    family: style.fontFamily,
+                    headingFamily: heading.fontFamily,
+                    headingWeight: parseInt(heading.fontWeight, 10),
+                };
             }"""
         )
         self.assertEqual(body_style["background"], "rgb(255, 255, 255)")
-        self.assertIn("futura", body_style["family"].lower())
+        self.assertIn("montserrat", body_style["family"].lower())
+        self.assertIn("montserrat", body_style["headingFamily"].lower())
+        self.assertEqual(body_style["headingWeight"], 700)
 
     def test_classes_and_tuition_pages_use_full_width_original_photo_heroes(self) -> None:
         expected_heights = {
