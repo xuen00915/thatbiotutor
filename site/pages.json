@@ -43,7 +43,7 @@
     "ogImage": "assets/images/intensivefix/program-01.webp",
     "context": {
       "track_section_class": "section section--white intensive-track-record",
-      "track_section_id": "results",
+      "track_section_id": "track-record",
       "track_layout_slot": "track-record",
       "track_eyebrow": "A proven system",
       "track_fourth_key": "intensiveLessons",

@@ -1,6 +1,6 @@
         <main id="main">
       <!-- ELEMENTOR CONTAINER: IntensiveFix hero -->
-      <section class="hero" id="hero">
+      <section class="hero original-hero" id="hero" data-layout-slot="hero">
         <div class="container container--wide hero__grid">
           <div class="hero__copy">
             <p class="eyebrow">Sec 3 Pure / G3 Biology Holiday Bootcamp</p>
@@ -10,7 +10,7 @@
             <p class="lead">Eight focused lessons to rebuild nine Sec 3 topics—from cells to homeostasis—before Sec 4 begins.</p>
             <div class="cluster hero__actions">
               <a class="button button--large" href="{{ whatsapp_url }}">Fix My Sec 3 Foundation</a>
-              <a class="button button--outline button--large" href="#program-carousel">See Programme Details</a>
+              <a class="button button--outline button--large" href="#programme-media">See Programme Details</a>
             </div>
           </div>
           <div class="hero__media">
@@ -20,7 +20,7 @@
       </section>
 
       <!-- ELEMENTOR CONTAINER: Ten supplied IntensiveFix graphics -->
-      <section class="section section--dark" id="program-carousel" aria-labelledby="program-title">
+      <section class="section section--dark" id="programme-media" data-layout-slot="programme-media" aria-labelledby="program-title">
         <div class="container">
           <div class="section-heading section-heading--center">
             <p class="eyebrow">Swipe through the full plan</p>
@@ -89,7 +89,7 @@
       </section>
 
       <!-- ELEMENTOR CONTAINER: IntensiveFix pain points -->
-      <section class="section section--white" aria-labelledby="pain-title">
+      <section class="section section--white" id="student-proof" data-layout-slot="student-proof" aria-labelledby="pain-title">
         <div class="container">
           <div class="section-heading section-heading--center"><p class="eyebrow">A fresh start before Sec 4</p><h2 id="pain-title">Does This Sound Familiar?</h2></div>
           <div class="card-grid">
@@ -97,21 +97,14 @@
             <article class="card"><div class="card__icon" aria-hidden="true">02</div><p>“I've been meaning to start revising since the June holidays… and now it's already December.”</p></article>
             <article class="card"><div class="card__icon" aria-hidden="true">03</div><p>“School Bio skimmed through the content too fast. I don't understand concepts deeply enough.”</p></article>
           </div>
-          <p class="lead section-heading section-heading--center"><strong>Sound familiar? After our 2-week IntensiveFix, they’re telling us:</strong></p>
-        </div>
-      </section>
-
-      <!-- ELEMENTOR CONTAINER: Approved IntensiveFix review only -->
-      <section class="section section--soft" id="reviews" aria-labelledby="reviews-title">
-        <div class="container">
-          <div class="section-heading section-heading--center"><p class="eyebrow">From IntensiveFix students</p><h2 id="reviews-title">Interactive, Patient, and Easier to Understand</h2></div>
+          <div class="section-heading section-heading--center"><p class="lead"><strong>Sound familiar? After our 2-week IntensiveFix, they’re telling us:</strong></p><h3>Interactive, Patient, and Easier to Understand</h3></div>
           <img class="intensive-review" src="{{ root }}assets/images/intensivefix/student-reviews.webp" data-supplied-group="intensiveFixReview" width="1080" height="1350" loading="lazy" alt="IntensiveFix students describe interactive, patient, and clear teaching">
         </div>
       </section>
       <!-- INCLUDE: partials/sections/track-record.html -->
 
 <!-- ELEMENTOR CONTAINER: Retained analysis video -->
-      <section class="section section--soft intensive-analysis" id="analysis-video" aria-labelledby="analysis-title">
+      <section class="section section--soft intensive-analysis" id="analysis-video" data-layout-slot="analysis-video" aria-labelledby="analysis-title">
         <div class="container split-section">
           <div class="split-section__copy">
             <p class="eyebrow">Understand what went wrong</p>
@@ -126,7 +119,7 @@
       <!-- INCLUDE: partials/sections/fasttrack.html -->
 
 <!-- ELEMENTOR CONTAINER: Suitability, directly after FastTrack -->
-      <section class="section section--soft" id="suitability" aria-labelledby="suitability-title">
+      <section class="section section--soft" id="suitability" data-layout-slot="suitability" aria-labelledby="suitability-title">
         <div class="container">
           <div class="section-heading section-heading--center"><p class="eyebrow">A focused two-week commitment</p><h2 id="suitability-title">Is IntensiveFix Right for You?</h2></div>
           <div class="comparison">
@@ -154,7 +147,7 @@
       </section>
 
       <!-- ELEMENTOR CONTAINER: Approved EOY closing copy -->
-      <section class="section section--deep section--white intensive-closing" id="final-cta" aria-labelledby="final-cta-title">
+      <section class="section section--deep section--white intensive-closing" id="closing-cta" data-layout-slot="closing-cta" aria-labelledby="final-cta-title">
         <div class="container">
           <div class="cta-panel">
             <!-- CLIENT EDIT: Approved closing copy and CTA. -->

@@ -477,15 +477,36 @@ class IntensiveFixPageTests(unittest.TestCase):
         }
         required = {
             "hero",
-            "program-carousel",
-            "reviews",
-            "results",
+            "programme-media",
+            "student-proof",
+            "track-record",
             "analysis-video",
             "fasttrack",
             "suitability",
-            "final-cta",
+            "closing-cta",
         }
         self.assertTrue(required.issubset(ids), required - ids)
+
+    def test_intensivefix_uses_original_style_slot_order(self):
+        slots = [
+            element["attrs"]["data-layout-slot"]
+            for element in self.parser.elements
+            if element["tag"] == "section"
+            and "data-layout-slot" in element["attrs"]
+        ]
+        self.assertEqual(
+            slots,
+            [
+                "hero",
+                "programme-media",
+                "student-proof",
+                "track-record",
+                "analysis-video",
+                "fasttrack",
+                "suitability",
+                "closing-cta",
+            ],
+        )
 
     def test_hero_and_navigation_use_approved_copy(self):
         exact_subtitle = (
@@ -509,7 +530,7 @@ class IntensiveFixPageTests(unittest.TestCase):
         ]
         actual_program = [
             element["attrs"]["src"]
-            for element in self.parser.elements_in("program-carousel", "img")
+            for element in self.parser.elements_in("programme-media", "img")
             if element["attrs"].get("data-supplied-group")
             == "intensiveFixCarousel"
         ]
@@ -519,7 +540,7 @@ class IntensiveFixPageTests(unittest.TestCase):
         ]
         actual_review = [
             element["attrs"]["src"]
-            for element in self.parser.elements_in("reviews", "img")
+            for element in self.parser.elements_in("student-proof", "img")
             if element["attrs"].get("data-supplied-group") == "intensiveFixReview"
         ]
         self.assertEqual(actual_review, expected_review)
@@ -561,7 +582,7 @@ class IntensiveFixPageTests(unittest.TestCase):
             "All IntensiveFix students will receive ThatBioTutor’s FastTrack System",
             self.source,
         )
-        closing = self.parser.section_text("final-cta")
+        closing = self.parser.section_text("closing-cta")
         self.assertIn(
             "Your EOY Bio Grade doesn’t have to define your O Levels.",
             self.source,
@@ -581,7 +602,7 @@ class IntensiveFixPageTests(unittest.TestCase):
             "2.3",
             PAGE_CONFIG["intensivefix"]["context"]["track_fourth_value"],
         ):
-            self.assertIn(final_value, self.parser.section_text("results"))
+            self.assertIn(final_value, self.parser.section_text("track-record"))
         controls = [
             element
             for element in self.parser.elements
@@ -607,6 +628,18 @@ class IntensiveFixPageTests(unittest.TestCase):
             if element["tag"] == "a"
         ]
         self.assertIn("../", home_links)
+
+    def test_programme_graphics_remain_readable_and_copy_is_exact(self):
+        pages_css = (SITE_DIR / "assets/css/pages.css").read_text(encoding="utf-8")
+        self.assertRegex(
+            pages_css,
+            r"\.intensive-carousel\s+\.media-carousel__slide\s+img\s*\{[^}]*object-fit:\s*contain",
+        )
+        self.assertIn("Sound familiar?", self.source)
+        self.assertIn(
+            "All IntensiveFix students will receive ThatBioTutor’s FastTrack System",
+            self.source,
+        )
 
 
 class SharedTemplateTests(unittest.TestCase):
