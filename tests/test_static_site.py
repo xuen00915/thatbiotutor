@@ -797,18 +797,15 @@ class ClassesPageTests(unittest.TestCase):
     }
     LEVEL_SECTIONS = {
         "hero",
-        "learning-options",
+        "learning-modes",
         "curriculum",
-        "topics",
-        "exam-techniques",
         "results",
-        "testimonials",
-        "lesson-experience",
+        "track-record",
+        "student-voices",
+        "lesson",
         "resources",
-        "tutors",
-        "suitability",
+        "team",
         "faq",
-        "final-cta",
     }
 
     @classmethod
@@ -905,6 +902,89 @@ class ClassesPageTests(unittest.TestCase):
         self.assertIn('href="../../sec-3-pure-g3-biology-tuition/"', source)
         sitemap = (self.build_root / "sitemap.xml").read_text(encoding="utf-8")
         self.assertNotIn("/classes/sec-3-pure-g3-biology-tuition/", sitemap)
+
+
+class TuitionPageTests(unittest.TestCase):
+    ROUTES = {
+        "sec3": "sec-3-pure-g3-biology-tuition/",
+        "sec4": "sec-4-pure-g3-biology-tuition/",
+    }
+    EXPECTED_SLOTS = [
+        "hero",
+        "learning-modes",
+        "curriculum",
+        "results",
+        "track-record",
+        "student-voices",
+        "lesson",
+        "resources",
+        "team",
+        "faq",
+    ]
+
+    @classmethod
+    def setUpClass(cls):
+        cls.build_root = build_test_site()
+
+    def read_page(self, key):
+        source = (self.build_root / self.ROUTES[key] / "index.html").read_text(
+            encoding="utf-8"
+        )
+        parser = PageParser()
+        parser.feed(source)
+        return source, parser
+
+    def test_level_pages_follow_the_same_original_composition(self):
+        for key in self.ROUTES:
+            with self.subTest(page=key):
+                source, parser = self.read_page(key)
+                slots = [
+                    element["attrs"]["data-layout-slot"]
+                    for element in parser.elements
+                    if element["tag"] == "section"
+                    and "data-layout-slot" in element["attrs"]
+                ]
+                self.assertEqual(slots, self.EXPECTED_SLOTS)
+                self.assertEqual(
+                    len(
+                        [
+                            element
+                            for element in parser.elements
+                            if element["tag"] == "h1"
+                        ]
+                    ),
+                    1,
+                )
+                for value in ("912+", "91%", "69.21%", "2.3", "1 in 2"):
+                    self.assertIn(value, parser.section_text("results"))
+                for resource in (
+                    "TBT Notes &amp; Flashcards",
+                    "Lesson Recordings",
+                    "Commonly Asked Questions",
+                ):
+                    self.assertIn(resource, source)
+                for tutor in ("Ms Chelsea", "Ms Jamie", "Mr Keefe", "Ms Ng"):
+                    self.assertIn(tutor, parser.section_text("team"))
+
+    def test_each_level_keeps_its_original_heading_and_curriculum(self):
+        sec3, _ = self.read_page("sec3")
+        sec4, _ = self.read_page("sec4")
+        self.assertIn(
+            "The Best Time to Start Pure/G3 Biology Tuition Is at the Start of Sec 3. The Second Best Time Is Now.",
+            sec3,
+        )
+        self.assertIn("Phase 1 — Teaching the Syllabus (Mar – Aug)", sec3)
+        self.assertIn("Phase 2 — EOY Intensives (Sep – Oct)", sec3)
+        self.assertIn(
+            "From B4 or Worse to A1/A2/B3 in O Levels Is Still Possible.", sec4
+        )
+        self.assertIn("Phase 1 — Teaching the Syllabus (Dec – May)", sec4)
+        self.assertIn("Phase 3 — O Levels Intensives (Aug – Nov)", sec4)
+        self.assertNotEqual(sec3, sec4)
+        sec3_main = sec3.split("<main", 1)[1].split("</main>", 1)[0]
+        self.assertNotIn("IntensiveFix", sec3_main)
+        self.assertNotIn("Fix My Sec 3 Foundation", sec3_main)
+        self.assertNotIn("holiday programme", sec3_main.lower())
 
 
 class ResourcePageTests(unittest.TestCase):
