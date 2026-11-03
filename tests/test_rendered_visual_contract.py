@@ -74,6 +74,9 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
     def test_desktop_header_uses_original_logo_led_segmented_navigation(self) -> None:
         page = self.open_page("/")
         header = page.locator(".site-header").bounding_box()
+        inner = page.locator(".site-header__inner").bounding_box()
+        brand = page.locator(".site-header .site-brand").bounding_box()
+        nav = page.locator(".site-header .site-nav").bounding_box()
         logo = page.locator(".site-header .site-brand img").bounding_box()
         brand_text_display = page.locator(".site-header .site-brand span").evaluate(
             "element => getComputedStyle(element).display"
@@ -93,11 +96,22 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         )
 
         self.assertIsNotNone(header)
+        self.assertIsNotNone(inner)
+        self.assertIsNotNone(brand)
+        self.assertIsNotNone(nav)
         self.assertIsNotNone(logo)
         self.assertGreaterEqual(header["height"], 64)
         self.assertLessEqual(header["height"], 70)
         self.assertGreaterEqual(logo["width"], 54)
         self.assertGreaterEqual(logo["height"], 54)
+        self.assertAlmostEqual(inner["x"], 230, delta=1)
+        self.assertAlmostEqual(inner["width"], 980, delta=1)
+        self.assertAlmostEqual(brand["x"], 278, delta=1)
+        self.assertAlmostEqual(brand["width"], 65, delta=1)
+        self.assertAlmostEqual(nav["x"], 366, delta=1)
+        self.assertAlmostEqual(nav["width"], 705, delta=2)
+        self.assertAlmostEqual(nav["y"], 15, delta=1)
+        self.assertAlmostEqual(nav["height"], 50, delta=1)
         self.assertEqual(brand_text_display, "none")
         self.assertEqual(
             labels,
@@ -110,15 +124,32 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
                 "Our Causes",
             ],
         )
-        self.assertGreaterEqual(nav_style["borderLeftWidth"], 1)
+        self.assertEqual(nav_style["borderLeftWidth"], 0)
         self.assertIn("futura book", nav_style["fontFamily"].lower())
         self.assertGreaterEqual(nav_style["fontSize"], 16)
         self.assertLessEqual(nav_style["fontWeight"], 500)
-        self.assertGreaterEqual(nav_style["height"], 64)
-        contact = page.locator(".site-header__contact")
-        self.assertEqual(contact.count(), 1)
-        self.assertEqual(contact.inner_text(), "Contact Us")
-        self.assertTrue((contact.get_attribute("href") or "").endswith("contact/"))
+        self.assertAlmostEqual(nav_style["height"], 50, delta=1)
+        links = page.locator(".site-nav__links > .site-nav__link")
+        first_link = links.first.bounding_box()
+        last_link = links.last.bounding_box()
+        self.assertIsNotNone(first_link)
+        self.assertIsNotNone(last_link)
+        self.assertAlmostEqual(first_link["x"], 366, delta=1)
+        self.assertAlmostEqual(first_link["width"], 77, delta=1)
+        self.assertAlmostEqual(last_link["x"] + last_link["width"], 1071, delta=2)
+        self.assertEqual(
+            links.first.evaluate("element => getComputedStyle(element).borderLeftWidth"),
+            "0px",
+        )
+        self.assertIn(
+            "inset",
+            links.nth(1).evaluate("element => getComputedStyle(element).boxShadow"),
+        )
+        self.assertEqual(
+            links.last.evaluate("element => getComputedStyle(element).borderRightWidth"),
+            "0px",
+        )
+        self.assertEqual(page.locator(".site-header__contact").count(), 0)
 
     def test_global_typography_and_sections_use_original_light_vocabulary(self) -> None:
         page = self.open_page("/classes/")
@@ -220,18 +251,23 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
                 page = self.open_page("/", width=width, height=844)
                 toggle = page.locator(".site-menu-toggle")
                 menu = page.locator(".site-nav__links")
+                toggle_box = toggle.bounding_box()
+                self.assertIsNotNone(toggle_box)
+                self.assertAlmostEqual(
+                    toggle_box["x"] + toggle_box["width"], width - 16, delta=2
+                )
                 toggle.click()
 
                 menu_box = menu.bounding_box()
                 first_link_box = menu.locator("a").first.bounding_box()
-                contact_box = menu.locator(".site-header__contact").bounding_box()
+                last_link_box = menu.locator("a").last.bounding_box()
                 self.assertIsNotNone(menu_box)
                 self.assertIsNotNone(first_link_box)
-                self.assertIsNotNone(contact_box)
+                self.assertIsNotNone(last_link_box)
                 self.assertAlmostEqual(menu_box["x"] + menu_box["width"], width, delta=2)
                 self.assertAlmostEqual(first_link_box["x"], menu_box["x"], delta=2)
                 self.assertAlmostEqual(first_link_box["width"], menu_box["width"], delta=2)
-                self.assertAlmostEqual(contact_box["width"], menu_box["width"], delta=2)
+                self.assertAlmostEqual(last_link_box["width"], menu_box["width"], delta=2)
                 if width < 768:
                     self.assertAlmostEqual(menu_box["width"], width, delta=2)
                 else:
@@ -278,6 +314,16 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         page.goto(f"{BASE_URL}/", wait_until="networkidle")
         menu = page.locator(".site-nav__links")
         self.assertTrue(menu.is_visible())
+        menu_box = menu.bounding_box()
+        self.assertIsNotNone(menu_box)
+        self.assertAlmostEqual(menu_box["x"], 16, delta=2)
+        self.assertAlmostEqual(menu_box["width"], 358, delta=2)
+        self.assertEqual(
+            page.evaluate(
+                "document.documentElement.scrollWidth - document.documentElement.clientWidth"
+            ),
+            0,
+        )
         self.assertTrue(menu.locator("a").first.is_visible())
         self.assertTrue(page.locator(".floating-whatsapp").is_visible())
 
