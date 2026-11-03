@@ -109,6 +109,44 @@ function tbt_reference_content(): array
         'captured' => '2026-11-03',
     ];
 
+    $testimonialRecords = [];
+    $videoIds = ['-YGN_dQE3qM', 'BZeEXmU8oQQ', 'EfS7RQit79U', 'Fxa8-Hi2dfQ', 'H8YSD2u4tjc', 'MY7T5Hqf8l4', 'QzfoV5yH1Tc', 'RJxR3ONbylQ', 'STE5tyEo10w', 'UE2K7-92pkM', 'V4dj5XYEcow', 'Vkzlr16AGvo', 'XuuBFtldw_A', 'YNEW5TFVyMs', 'Ycvn6yK_F0o', 'bTQfAjTy0_E', 'cDz1UQe4wOI', 'hqZtkbQNxxc', 'jH3ve35ECXE', 'nCfeU3UthgA', 'shZaStH4nGI', 'uewzV0bhqoc', 'xG8PcBOOhCA', 'xT8OzWLZ4w8'];
+    $videoGroups = ['2025', '2024', '2023', '2022', '2021'];
+    foreach ($videoIds as $index => $videoId) {
+        $number = $index + 1;
+        $testimonialRecords[] = [
+            'seed_key' => sprintf('testimonial-video-%02d', $number),
+            'title' => sprintf('Student Story %02d', $number),
+            'menu_order' => $number,
+            'source' => $crawlSource('/testimonials'),
+            'fields' => [
+                'tbt_student_name' => sprintf('Student Story %02d', $number),
+                'tbt_quote' => '',
+                'tbt_rating' => 5,
+                'tbt_video_url' => 'https://www.youtube.com/watch?v=' . $videoId,
+                'tbt_display_group' => $videoGroups[min(4, intdiv($index, 5))],
+            ],
+        ];
+    }
+    $textTestimonials = [
+        ['testimonial-javier-tee', 'Javier Tee', 'VERY GOOD TEACHING LOVE IT. Ms Chelsea and Mr Keefe are really nice and patient, plus the notes are excellent.', '2025'],
+        ['testimonial-cayden-zhu', 'Cayden Zhu', 'TBT exposed me to how Biology can actually be fun, with interactive classes and concise notes.', '2025'],
+        ['testimonial-jordan-tang', 'Jordan Tang', 'The notes are incredibly concise and helped me clear the syllabus faster and memorise content more efficiently.', '2025'],
+        ['notes-review-jezelle', 'Jezelle', 'Thank you so much for this! This is my lifesaver and my day-to-day grind for O-Level A1 in Pure Bio.', 'notes-reviews'],
+        ['notes-review-j', 'J', 'The notes were very informative and good.', 'notes-reviews'],
+        ['notes-review-anisatusyifa', 'Anisatusyifa', 'Very useful. During O-Level Bio Paper 2 I barely left any blanks because I could remember most of the points.', 'notes-reviews'],
+        ['notes-review-l', 'L', 'Concise, visual, and much easier to revise from.', 'notes-reviews'],
+    ];
+    foreach ($textTestimonials as $index => [$seedKey, $name, $quote, $group]) {
+        $testimonialRecords[] = [
+            'seed_key' => $seedKey,
+            'title' => $name,
+            'menu_order' => 100 + $index,
+            'source' => $crawlSource($group === 'notes-reviews' ? '/notes' : '/testimonials'),
+            'fields' => ['tbt_student_name' => $name, 'tbt_quote' => $quote, 'tbt_rating' => 5, 'tbt_video_url' => '', 'tbt_display_group' => $group],
+        ];
+    }
+
     return [
         'version' => '2026-11-03.1',
         'source_date' => '2026-11-03',
@@ -264,6 +302,7 @@ function tbt_reference_content(): array
             'map' => '',
         ],
         'records' => [
+            'testimonials' => $testimonialRecords,
             'tutors' => [
                 [
                     'seed_key' => 'tutor-ms-chelsea',

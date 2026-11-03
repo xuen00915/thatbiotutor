@@ -17,4 +17,7 @@
 - Rebuilt the original Home section sequence with the supplied five-image hero, lower first-slide focal point, FastTrack, trust metrics, results, crest marquee, videos, experience media, tutors, FAQs, and CTAs.
 - Added distinct original-style Classes, Sec 3, and Sec 4 templates with phase, topic, results, team, and FAQ content.
 - Added IntensiveFix as a separate four-day recovery programme with ten ordered supplied graphics, review artwork, analysis video, FastTrack, suitability, and WhatsApp enquiry flow.
+- Added grouped Results & Testimonials archives with the 24 unique public testimonial videos preserved from the authoritative crawl.
+- Rebuilt Free Bio Notes with its slider, four benefits, proof, original Q&A sequence, editable reviews, and explicit access-form boundary.
+- Preserved Cell Division as a clearly dated historical 2023 resource without inventing current access claims.
 

@@ -181,8 +181,9 @@ final class SiteSetupTest
         $first = tbt_setup_site(false);
         $this->assertTrue(is_array($first), 'First setup run must return its owned page IDs.');
         $this->assertSame(12, count($first['pages'] ?? []), 'First run must create every canonical page.');
-        $this->assertSame(17, count($GLOBALS['tbt_db']['posts']), 'Only the twelve approved pages and four approved tutor seeds may be added.');
+        $this->assertSame(48, count($GLOBALS['tbt_db']['posts']), 'Only the twelve approved pages and approved structured seeds may be added.');
         $this->assertSame(4, count($first['records']['tutors'] ?? []), 'Setup must seed the four original tutors.');
+        $this->assertSame(31, count($first['records']['testimonials'] ?? []), 'Setup must seed 24 video and seven text testimonials.');
         $this->assertSame('page', $GLOBALS['tbt_db']['options']['show_on_front'] ?? null, 'Setup must select a static front page.');
         $homeId = $first['pages']['home'];
         $this->assertSame($homeId, $GLOBALS['tbt_db']['options']['page_on_front'] ?? null, 'Home must be assigned as the static front page.');
@@ -196,7 +197,7 @@ final class SiteSetupTest
         $second = tbt_setup_site(false);
         $this->assertTrue(is_array($second), 'Second setup run must succeed.');
         $this->assertSame($first['pages'], $second['pages'], 'Second run must reuse the same page IDs.');
-        $this->assertSame(17, count($GLOBALS['tbt_db']['posts']), 'Second run must not duplicate pages or structured records.');
+        $this->assertSame(48, count($GLOBALS['tbt_db']['posts']), 'Second run must not duplicate pages or structured records.');
         $this->assertTrue(isset($GLOBALS['tbt_db']['posts'][$unrelatedId]), 'Unrelated pages must survive setup.');
         $this->assertSame(['keep' => true], get_option('unrelated_option'), 'Unrelated options must survive setup.');
 

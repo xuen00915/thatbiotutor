@@ -75,6 +75,20 @@
   .tbt-stat strong { font-size: 2rem; }
 }
 
+.tbt-resource-page { overflow-x: clip; }
+.tbt-results-artwork { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+.tbt-archive-jump { display:flex; flex-wrap:wrap; gap:12px; }
+.tbt-archive-jump a { padding:10px 16px; border:1px solid var(--tbt-green); border-radius:999px; text-decoration:none; }
+.tbt-review-archive blockquote { overflow-wrap: anywhere; }
+.tbt-notes-hero { display:grid; grid-template-columns:minmax(0,1fr) minmax(320px,.85fr); align-items:center; gap:50px; }
+.tbt-notes-carousel { position:relative; overflow:hidden; }
+.tbt-notes-carousel figure { margin:0; }
+.tbt-notes-carousel figure[hidden] { display:none; }
+.tbt-notes-benefits { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.tbt-notes-benefits article { padding:20px; border-radius:18px; background:#fff; text-align:center; }
+@media (max-width:768px){.tbt-results-artwork,.tbt-notes-hero,.tbt-notes-benefits{grid-template-columns:1fr}.tbt-review-archive .tbt-testimonials{grid-template-columns:1fr}}
+@media (max-width:390px){.tbt-review-archive blockquote{font-size:1rem}.tbt-archive-jump{display:grid}.tbt-archive-jump a{text-align:center}}
+
 .tbt-programme-page { overflow-x: clip; }
 .tbt-programme-hero { width: 100%; min-height: clamp(520px, 68vh, 820px); display: grid; align-content: center; justify-items: center; gap: 26px; text-align: center; background: #fff; }
 .tbt-programme-hero .tbt-heading { max-width: 1180px; }
