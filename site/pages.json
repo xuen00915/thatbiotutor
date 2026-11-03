@@ -27,9 +27,9 @@
     "aliases": []
   },
   {
-    "key": "s3-intensivefix",
-    "route": "s3-intensivefix/",
-    "source": "pages/s3-intensivefix.html",
+    "key": "intensivefix",
+    "route": "intensivefix/",
+    "source": "pages/intensivefix.html",
     "title": "Sec 3 IntensiveFix | ThatBioTutor",
     "description": "Rebuild your Sec 3 Pure or G3 Biology foundation in ThatBioTutor's focused IntensiveFix holiday programme.",
     "bodyClass": "page-intensivefix",
@@ -51,7 +51,9 @@
       "fasttrack_practical_label": "Practical Sessions (20% of Grade)",
       "fasttrack_support_label": "Support"
     },
-    "aliases": []
+    "aliases": [
+      "s3-intensivefix/"
+    ]
   },
   {
     "key": "about",

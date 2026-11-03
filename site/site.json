@@ -39,7 +39,7 @@
     {
       "key": "intensivefix",
       "label": "IntensiveFix",
-      "route": "s3-intensivefix/"
+      "route": "intensivefix/"
     },
     {
       "key": "contact",
@@ -91,7 +91,7 @@
     {
       "key": "intensivefix",
       "label": "Sec 3 IntensiveFix",
-      "route": "s3-intensivefix/"
+      "route": "intensivefix/"
     },
     {
       "key": "trees",

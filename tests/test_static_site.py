@@ -83,6 +83,35 @@ class PageParser(HTMLParser):
         return " ".join(" ".join(self.text_by_section.get(section, [])).split())
 
 
+class RouteContractTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.build_root = build_test_site()
+
+    def test_intensivefix_is_canonical_and_sec3_stays_distinct(self):
+        self.assertIn("intensivefix", PAGE_CONFIG)
+        intensivefix = PAGE_CONFIG["intensivefix"]
+        sec3 = PAGE_CONFIG["sec-3-pure-g3-biology-tuition"]
+
+        self.assertEqual(intensivefix["route"], "intensivefix/")
+        self.assertIn("s3-intensivefix/", intensivefix["aliases"])
+        self.assertEqual(sec3["route"], "sec-3-pure-g3-biology-tuition/")
+        self.assertNotEqual(intensivefix["source"], sec3["source"])
+
+    def test_legacy_intensivefix_alias_points_to_canonical_page(self):
+        alias = (self.build_root / "s3-intensivefix/index.html").read_text(
+            encoding="utf-8"
+        )
+        sitemap = (self.build_root / "sitemap.xml").read_text(encoding="utf-8")
+
+        self.assertIn(
+            'href="https://www.thatbiotutor.com/intensivefix/"', alias
+        )
+        self.assertIn('href="../intensivefix/"', alias)
+        self.assertIn("https://www.thatbiotutor.com/intensivefix/", sitemap)
+        self.assertNotIn("https://www.thatbiotutor.com/s3-intensivefix/", sitemap)
+
+
 class StaticSiteAssetTests(unittest.TestCase):
     def load_manifest(self):
         self.assertTrue(MANIFEST_PATH.exists(), f"Missing {MANIFEST_PATH}")
@@ -335,16 +364,16 @@ class HomePageTests(unittest.TestCase):
             element["attrs"].get("href")
             for element in self.parser.elements
             if element["tag"] == "a"
-            and "s3-intensivefix" in element["attrs"].get("href", "")
+            and "intensivefix" in element["attrs"].get("href", "")
         ]
-        self.assertIn("s3-intensivefix/", intensive_links)
+        self.assertIn("intensivefix/", intensive_links)
 
 
 class IntensiveFixPageTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.build_root = build_test_site()
-        cls.path = cls.build_root / "s3-intensivefix/index.html"
+        cls.path = cls.build_root / "intensivefix/index.html"
         cls.source = cls.path.read_text(encoding="utf-8") if cls.path.is_file() else ""
         cls.parser = PageParser()
         cls.parser.feed(cls.source)
@@ -464,7 +493,7 @@ class IntensiveFixPageTests(unittest.TestCase):
             "912+",
             "91%",
             "2.3",
-            PAGE_CONFIG["s3-intensivefix"]["context"]["track_fourth_value"],
+            PAGE_CONFIG["intensivefix"]["context"]["track_fourth_value"],
         ):
             self.assertIn(final_value, self.parser.section_text("results"))
         controls = [
@@ -502,21 +531,21 @@ class SharedTemplateTests(unittest.TestCase):
 
     def test_approved_pages_are_registered_and_generated(self):
         self.assertTrue(
-            {"home", "s3-intensivefix"}.issubset(
+            {"home", "intensivefix"}.issubset(
                 {page["key"] for page in self.registry}
             )
         )
         self.assertTrue((self.build_root / "index.html").is_file())
-        self.assertTrue((self.build_root / "s3-intensivefix/index.html").is_file())
+        self.assertTrue((self.build_root / "intensivefix/index.html").is_file())
 
     def test_header_footer_and_floating_action_come_from_shared_partials(self):
-        for source_name in ("home.html", "s3-intensivefix.html"):
+        for source_name in ("home.html", "intensivefix.html"):
             source = (SITE_DIR / "pages" / source_name).read_text(encoding="utf-8")
             self.assertNotIn("<header", source)
             self.assertNotIn('<footer class="site-footer"', source)
             self.assertNotIn("floating-whatsapp", source)
 
-        for relative_path in ("index.html", "s3-intensivefix/index.html"):
+        for relative_path in ("index.html", "intensivefix/index.html"):
             generated = (self.build_root / relative_path).read_text(encoding="utf-8")
             self.assertIn("<header", generated)
             self.assertIn("<footer", generated)
@@ -527,7 +556,7 @@ class SharedTemplateTests(unittest.TestCase):
 
     def test_root_and_nested_assets_work_under_repository_subpath(self):
         home = (self.build_root / "index.html").read_text(encoding="utf-8")
-        intensive = (self.build_root / "s3-intensivefix/index.html").read_text(
+        intensive = (self.build_root / "intensivefix/index.html").read_text(
             encoding="utf-8"
         )
         self.assertIn('href="assets/css/base.css"', home)
@@ -537,7 +566,7 @@ class SharedTemplateTests(unittest.TestCase):
 
         for page_path in (
             self.build_root / "index.html",
-            self.build_root / "s3-intensivefix/index.html",
+            self.build_root / "intensivefix/index.html",
         ):
             parser = PageParser()
             parser.feed(page_path.read_text(encoding="utf-8"))
@@ -813,7 +842,8 @@ class ResourcePageTests(unittest.TestCase):
         )
         self.assertEqual(len(manifest["pages"]), 12)
         self.assertEqual(
-            manifest["aliases"], ["classes/sec-3-pure-g3-biology-tuition/"]
+            manifest["aliases"],
+            ["s3-intensivefix/", "classes/sec-3-pure-g3-biology-tuition/"],
         )
 
     def test_pages_have_one_h1_shared_landmarks_and_required_sections(self):
@@ -981,7 +1011,7 @@ class FinalReviewRegressionTests(unittest.TestCase):
         cls.pages_css = (SITE_DIR / "assets/css/pages.css").read_text(encoding="utf-8")
         cls.site_js = (SITE_DIR / "assets/js/site.js").read_text(encoding="utf-8")
         cls.home = (build_root / "index.html").read_text(encoding="utf-8")
-        cls.intensive = (build_root / "s3-intensivefix/index.html").read_text(
+        cls.intensive = (build_root / "intensivefix/index.html").read_text(
             encoding="utf-8"
         )
 
