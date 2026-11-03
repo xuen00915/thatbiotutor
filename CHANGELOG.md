@@ -12,4 +12,6 @@
 - Added deterministic published-record queries and escaped reusable renderers for reviews, tutors, and FAQ accordions.
 - Added a deterministic WebP conversion pipeline with SHA-256 deduplication, preserved transparency, explicit fit/focal metadata, and source provenance.
 - Documented the Montserrat/system fallback and excluded captured proprietary font binaries pending licence confirmation.
+- Added one sticky responsive header, protected Classes submenu, shared footer, and floating WhatsApp control.
+- Added dependency-free accessible mobile navigation, carousel, swipe, FAQ, focus-return, and reduced-motion behavior.
 

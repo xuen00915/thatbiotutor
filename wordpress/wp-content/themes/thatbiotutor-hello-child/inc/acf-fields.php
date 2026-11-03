@@ -112,6 +112,7 @@ function tbt_acf_page_groups(): array
             $fields[] = tbt_acf_image('field_tbt_home_shared_logo', 'Site logo', 'home_shared_logo');
             $fields[] = tbt_acf_field('field_tbt_home_shared_whatsapp_number', 'WhatsApp number', 'home_shared_whatsapp_number');
             $fields[] = tbt_acf_textarea('field_tbt_home_shared_whatsapp_message', 'Default WhatsApp message', 'home_shared_whatsapp_message');
+            $fields[] = tbt_acf_field('field_tbt_home_shared_phone', 'Phone number', 'home_shared_phone');
             $fields[] = tbt_acf_textarea('field_tbt_home_shared_address', 'Address', 'home_shared_address');
             $fields[] = tbt_acf_url('field_tbt_home_shared_map_url', 'Map link', 'home_shared_map_url');
             $fields[] = tbt_acf_textarea('field_tbt_home_shared_opening_hours', 'Opening hours', 'home_shared_opening_hours');

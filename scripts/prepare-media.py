@@ -57,6 +57,10 @@ def _natural_key(path: Path) -> Tuple[object, ...]:
     return tuple(int(part) if part.isdigit() else part.lower() for part in re.split(r"(\d+)", path.name))
 
 
+def _slug(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
+
+
 def _images(root: Path) -> List[Path]:
     if not root.is_dir():
         return []
@@ -108,9 +112,10 @@ def collect_sources(crawl: Path, modified_source: Path, intensivefix_source: Pat
         relative = path.relative_to(curated_root)
         page = relative.parts[0] if len(relative.parts) > 1 else "shared"
         kind = "text_artwork" if page in {"notes", "intensivefix"} else "photo"
+        logical_path = relative.with_suffix("").as_posix()
         sources.append(
             _source(
-                "curated_%03d" % index,
+                "curated_" + (_slug(logical_path) or ("image_%03d" % index)),
                 path,
                 "ThatBioTutor %s image %d" % (page.replace("-", " "), index),
                 kind,

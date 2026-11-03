@@ -1,0 +1,7 @@
+.tbt-section { padding: clamp(64px, 8vw, 120px) max(20px, calc((100vw - var(--tbt-page)) / 2)); }
+.tbt-section--soft { background: var(--tbt-soft); }
+.tbt-section--dark { background: var(--tbt-green-dark); color: #fff; }
+.tbt-eyebrow { color: #4d9340; font-weight: 800; letter-spacing: .08em; text-align: center; text-transform: uppercase; }
+.tbt-heading { margin: 0; font-size: clamp(2.25rem, 6vw, 5.25rem); line-height: 1.06; overflow-wrap: anywhere; }
+.tbt-button { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 14px 28px; border-radius: 999px; background: var(--tbt-green); color: #17311b; font-weight: 800; text-decoration: none; }
+

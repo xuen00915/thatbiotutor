@@ -133,6 +133,7 @@ class PrepareMediaTest(unittest.TestCase):
         self.make_image(supplied / "2B. Intensivefix reviews/7 testims.jpg", (9, 9, 9))
 
         sources = collect_sources(crawl, modified, supplied)
+        self.assertIn("curated_notes_slide", [item.key for item in sources])
         intensive_keys = [item.key for item in sources if item.key.startswith("intensivefix_program_")]
         self.assertEqual([f"intensivefix_program_{index:02d}" for index in range(1, 11)], intensive_keys)
         self.assertFalse(any(item.source.suffix.lower().startswith(".woff") for item in sources))

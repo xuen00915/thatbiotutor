@@ -121,3 +121,123 @@ function tbt_page_image(string $name, string $fallback, int $post_id = 0): array
     return tbt_normalize_image($fallback) ?? ['url' => '', 'alt' => '', 'width' => 0, 'height' => 0];
 }
 
+/** Return the protected navigation model. */
+function tbt_navigation_items(): array
+{
+    $reference = tbt_reference_content();
+    return $reference['navigation'] ?? [];
+}
+
+/** Render the protected main navigation using portable WordPress URLs. */
+function tbt_render_navigation(string $class = 'site-nav__list'): void
+{
+    echo '<ul class="' . esc_attr($class) . '">';
+    foreach (tbt_navigation_items() as $index => $item) {
+        $children = $item['children'] ?? [];
+        $hasChildren = is_array($children) && $children !== [];
+        echo '<li class="site-nav__item' . ($hasChildren ? ' site-nav__item--has-children' : '') . '">';
+        echo '<a class="site-nav__link" href="' . esc_url(home_url((string) $item['path'])) . '">' . esc_html((string) $item['label']) . '</a>';
+        if ($hasChildren) {
+            $submenuId = 'site-nav-submenu-' . $index;
+            echo '<button class="site-nav__submenu-toggle" type="button" data-submenu-toggle aria-expanded="false" aria-controls="' . esc_attr($submenuId) . '"><span class="screen-reader-text">' . esc_html('Open ' . $item['label'] . ' submenu') . '</span><span aria-hidden="true">⌄</span></button>';
+            echo '<ul class="site-nav__submenu" id="' . esc_attr($submenuId) . '" data-submenu>';
+            foreach ($children as $child) {
+                echo '<li><a class="site-nav__submenu-link" href="' . esc_url(home_url((string) $child['path'])) . '">' . esc_html((string) $child['label']) . '</a></li>';
+            }
+            echo '</ul>';
+        }
+        echo '</li>';
+    }
+    echo '</ul>';
+}
+
+/** Return one approved shared fallback from the reference module. */
+function tbt_shared_fallback(string $name, mixed $fallback = ''): mixed
+{
+    $reference = tbt_reference_content();
+    return $reference['shared'][$name] ?? $fallback;
+}
+
+/** Read one Home-owned shared value with its approved reference fallback. */
+function tbt_shared_field(string $name, mixed $fallback = ''): mixed
+{
+    return tbt_home_field('home_shared_' . $name, tbt_shared_fallback($name, $fallback));
+}
+
+/** Return a safe portable WhatsApp link. */
+function tbt_whatsapp_url(string $message = ''): string
+{
+    $number = preg_replace('/\D+/', '', (string) tbt_shared_field('whatsapp_number', '6587597182'));
+    if (!is_string($number) || strlen($number) < 8 || strlen($number) > 15) {
+        return '';
+    }
+    $text = $message !== '' ? $message : (string) tbt_shared_field('whatsapp_message', 'Hi ThatBioTutor');
+    return 'https://wa.me/' . $number . ($text !== '' ? '?text=' . rawurlencode($text) : '');
+}
+
+/** Normalize a human-entered phone number to a safe tel URL. */
+function tbt_safe_tel_url(string $phone): string
+{
+    if ($phone === '' || preg_match('/^[+0-9()\s.-]+$/', $phone) !== 1) {
+        return '';
+    }
+    $digits = preg_replace('/\D+/', '', $phone);
+    if (!is_string($digits) || strlen($digits) < 8 || strlen($digits) > 15) {
+        return '';
+    }
+    return 'tel:+' . $digits;
+}
+
+/** Accept only absolute HTTP(S) destinations for external links. */
+function tbt_safe_external_url(string $url): string
+{
+    if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+        return '';
+    }
+    $scheme = strtolower((string) parse_url($url, PHP_URL_SCHEME));
+    return in_array($scheme, ['http', 'https'], true) ? $url : '';
+}
+
+/** Load the generated media manifest once per request. */
+function tbt_media_manifest(): array
+{
+    static $items = null;
+    if (is_array($items)) {
+        return $items;
+    }
+    $path = TBT_THEME_DIR . '/assets/images/media-manifest.json';
+    $decoded = is_file($path) ? json_decode((string) file_get_contents($path), true) : null;
+    $items = [];
+    foreach (($decoded['items'] ?? []) as $item) {
+        $items[(string) $item['key']] = $item;
+    }
+    return $items;
+}
+
+/** Return one manifest image with its public theme URL. */
+function tbt_media(string $key): array
+{
+    $item = tbt_media_manifest()[$key] ?? null;
+    if (!is_array($item)) {
+        return ['key' => $key, 'url' => '', 'alt' => '', 'width' => 0, 'height' => 0, 'fit' => 'cover', 'objectPosition' => '50% 50%'];
+    }
+    $item['url'] = TBT_THEME_URI . '/assets/images/' . ltrim((string) $item['file'], '/');
+    return $item;
+}
+
+/** Enqueue the protected local design system and progressive interactions. */
+function tbt_enqueue_assets(): void
+{
+    $styles = ['base', 'components', 'pages'];
+    foreach ($styles as $name) {
+        $path = TBT_THEME_DIR . '/assets/css/' . $name . '.css';
+        wp_enqueue_style('tbt-' . $name, TBT_THEME_URI . '/assets/css/' . $name . '.css', [], is_file($path) ? (string) filemtime($path) : TBT_THEME_VERSION);
+    }
+    $script = TBT_THEME_DIR . '/assets/js/site.js';
+    wp_enqueue_script('tbt-site', TBT_THEME_URI . '/assets/js/site.js', [], is_file($script) ? (string) filemtime($script) : TBT_THEME_VERSION, true);
+}
+
+if (function_exists('add_action')) {
+    add_action('wp_enqueue_scripts', 'tbt_enqueue_assets');
+}
+

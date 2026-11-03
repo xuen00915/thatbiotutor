@@ -131,6 +131,17 @@ function tbt_reference_content(): array
             '/classes/sec-3-pure-g3-biology-tuition/' => '/sec-3-pure-g3-biology-tuition/',
             '/s3-intensivefix/' => '/intensivefix/',
         ],
+        'shared' => [
+            'source' => $crawlSource('/contact'),
+            'whatsapp_number' => '6587597182',
+            'whatsapp_message' => 'Hi ThatBioTutor',
+            'phone' => '+65 8759 7182',
+            'address' => 'ThatBioTutor, Singapore',
+            'map_url' => '',
+            'opening_hours' => '',
+            'footer_description' => 'Singapore O-Level Pure / G3 Biology specialists.',
+            'copyright' => 'ThatBioTutor. All rights reserved.',
+        ],
         'pages' => [
             'home' => [
                 'source' => $crawlSource('/'),
