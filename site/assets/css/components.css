@@ -106,6 +106,22 @@
   border-right: 1px solid #26304b;
 }
 
+.site-nav__links .site-header__contact {
+  flex: 0 0 auto;
+  min-width: 7.3rem;
+  border-color: var(--color-brand);
+  background: var(--color-brand);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+
+.site-nav__links .site-header__contact:hover,
+.site-nav__links .site-header__contact[aria-current="page"] {
+  background: var(--color-brand-deep);
+  color: #fff;
+}
+
 .site-nav__links a:hover,
 .site-nav__links a[aria-current="page"] {
   color: var(--color-brand);
@@ -257,6 +273,10 @@
   margin-inline: auto;
   color: #fff;
   text-align: center;
+}
+
+.original-hero .accent {
+  color: var(--color-brand-bright);
 }
 
 .full-photo-hero {
@@ -964,15 +984,16 @@
 }
 
 @media (max-width: 71.99rem) {
-  .site-header,
-  .site-header__inner {
-    height: 4.5rem;
+  .site-header {
+    height: auto;
     min-height: 4.5rem;
   }
 
-  .site-header__inner {
+  .site-header .site-header__inner {
     width: 100%;
-    flex-wrap: nowrap;
+    height: auto;
+    min-height: 4.5rem;
+    flex-wrap: wrap;
     padding: 0 1rem;
   }
 
@@ -991,21 +1012,47 @@
   }
 
   .site-nav {
-    width: auto;
-    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    flex: 1 0 100%;
   }
 
   .site-nav__links {
-    display: none;
+    display: grid;
+    width: 100%;
+    height: auto;
+    padding-bottom: 0.75rem;
+  }
+
+  .site-nav__links a {
+    min-height: 48px;
+    justify-content: flex-start;
+    border: 0;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .site-nav__links .site-header__contact {
+    min-width: 0;
+    border-top-color: var(--color-brand);
+    background: var(--color-brand);
+    color: #fff;
+  }
+
+  .menu-enhanced .site-header {
+    height: 4.5rem;
   }
 
   .menu-enhanced .site-header__inner {
+    height: 4.5rem;
+    min-height: 4.5rem;
     flex-wrap: nowrap;
     padding-block: 0;
   }
 
   .menu-enhanced .site-nav {
     width: auto;
+    height: 100%;
+    flex: 0 0 auto;
   }
 
   .menu-enhanced .site-menu-toggle {

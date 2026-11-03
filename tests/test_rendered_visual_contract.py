@@ -78,8 +78,8 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         brand_text_display = page.locator(".site-header .site-brand span").evaluate(
             "element => getComputedStyle(element).display"
         )
-        labels = page.locator(".site-nav__links > a").all_text_contents()
-        nav_style = page.locator(".site-nav__links > a").first.evaluate(
+        labels = page.locator(".site-nav__links > .site-nav__link").all_text_contents()
+        nav_style = page.locator(".site-nav__links > .site-nav__link").first.evaluate(
             """element => {
                 const style = getComputedStyle(element);
                 return {
@@ -113,7 +113,10 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertGreaterEqual(nav_style["fontSize"], 16)
         self.assertLessEqual(nav_style["fontWeight"], 500)
         self.assertGreaterEqual(nav_style["height"], 64)
-        self.assertEqual(page.locator(".site-header__contact").count(), 0)
+        contact = page.locator(".site-header__contact")
+        self.assertEqual(contact.count(), 1)
+        self.assertEqual(contact.inner_text(), "Contact Us")
+        self.assertTrue((contact.get_attribute("href") or "").endswith("contact/"))
 
     def test_global_typography_and_sections_use_original_light_vocabulary(self) -> None:
         page = self.open_page("/classes/")
@@ -201,42 +204,80 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
         self.assertLessEqual(logo["width"], 66)
         self.assertTrue(page.locator(".site-menu-toggle").is_visible())
 
-    def test_every_canonical_route_renders_cleanly_on_mobile(self) -> None:
-        for path in self.CANONICAL_PATHS:
-            with self.subTest(path=path):
-                page = self.open_page(path, width=390, height=844)
-                page.evaluate(
-                    """async () => {
-                        const images = [...document.images];
-                        images.forEach(image => { image.loading = 'eager'; });
-                        await Promise.all(images.map(image => {
-                            if (image.complete) return Promise.resolve();
-                            return new Promise(resolve => {
-                                image.addEventListener('load', resolve, { once: true });
-                                image.addEventListener('error', resolve, { once: true });
-                            });
-                        }));
-                    }"""
-                )
-                health = page.evaluate(
-                    """() => ({
-                        clientWidth: document.documentElement.clientWidth,
-                        scrollWidth: document.documentElement.scrollWidth,
-                        brokenImages: [...document.images]
-                            .filter(image => !image.complete || image.naturalWidth === 0)
-                            .map(image => image.getAttribute('src')),
-                        h1Count: document.querySelectorAll('main h1').length,
-                        hasHeader: Boolean(document.querySelector('.site-header')),
-                        hasFooter: Boolean(document.querySelector('.site-footer')),
-                        hasWhatsApp: Boolean(document.querySelector('.floating-whatsapp')),
-                    })"""
-                )
-                self.assertEqual(health["scrollWidth"], health["clientWidth"])
-                self.assertEqual(health["brokenImages"], [])
-                self.assertEqual(health["h1Count"], 1)
-                self.assertTrue(health["hasHeader"])
-                self.assertTrue(health["hasFooter"])
-                self.assertTrue(health["hasWhatsApp"])
+    def test_shared_navigation_carousel_and_faq_behaviors_work_in_browser(self) -> None:
+        mobile = self.open_page("/", width=390, height=844)
+        toggle = mobile.locator(".site-menu-toggle")
+        menu = mobile.locator(".site-nav__links")
+        toggle.click()
+        self.assertEqual(toggle.get_attribute("aria-expanded"), "true")
+        self.assertTrue(menu.is_visible())
+
+        home = self.open_page("/")
+        carousel = home.locator(".media-carousel").first
+        status = carousel.locator("[data-carousel-status]")
+        self.assertIn("Image 1 of", status.inner_text())
+        carousel.locator("[data-carousel-next]").click()
+        self.assertIn("Image 2 of", status.inner_text())
+
+        classes = self.open_page("/classes/")
+        second_faq = classes.locator(".faq").nth(1)
+        faq_button = second_faq.locator("[data-faq-button]")
+        faq_panel = second_faq.locator("[data-faq-panel]")
+        self.assertEqual(faq_button.get_attribute("aria-expanded"), "false")
+        self.assertTrue(faq_panel.is_hidden())
+        faq_button.click()
+        self.assertEqual(faq_button.get_attribute("aria-expanded"), "true")
+        self.assertTrue(faq_panel.is_visible())
+
+    def test_mobile_navigation_links_remain_visible_without_javascript(self) -> None:
+        context = self.browser.new_context(
+            viewport={"width": 390, "height": 844}, java_script_enabled=False
+        )
+        self.addCleanup(context.close)
+        page = context.new_page()
+        page.goto(f"{BASE_URL}/", wait_until="networkidle")
+        menu = page.locator(".site-nav__links")
+        self.assertTrue(menu.is_visible())
+        self.assertTrue(menu.locator("a").first.is_visible())
+        self.assertTrue(page.locator(".floating-whatsapp").is_visible())
+
+    def test_every_canonical_route_renders_cleanly_at_release_widths(self) -> None:
+        for width, height in ((390, 844), (768, 900), (1280, 900)):
+            for path in self.CANONICAL_PATHS:
+                with self.subTest(path=path, width=width):
+                    page = self.open_page(path, width=width, height=height)
+                    page.evaluate(
+                        """async () => {
+                            const images = [...document.images];
+                            images.forEach(image => { image.loading = 'eager'; });
+                            await Promise.all(images.map(image => {
+                                if (image.complete) return Promise.resolve();
+                                return new Promise(resolve => {
+                                    image.addEventListener('load', resolve, { once: true });
+                                    image.addEventListener('error', resolve, { once: true });
+                                });
+                            }));
+                        }"""
+                    )
+                    health = page.evaluate(
+                        """() => ({
+                            clientWidth: document.documentElement.clientWidth,
+                            scrollWidth: document.documentElement.scrollWidth,
+                            brokenImages: [...document.images]
+                                .filter(image => !image.complete || image.naturalWidth === 0)
+                                .map(image => image.getAttribute('src')),
+                            h1Count: document.querySelectorAll('main h1').length,
+                            hasHeader: Boolean(document.querySelector('.site-header')),
+                            hasFooter: Boolean(document.querySelector('.site-footer')),
+                            hasWhatsApp: Boolean(document.querySelector('.floating-whatsapp')),
+                        })"""
+                    )
+                    self.assertEqual(health["scrollWidth"], health["clientWidth"])
+                    self.assertEqual(health["brokenImages"], [])
+                    self.assertEqual(health["h1Count"], 1)
+                    self.assertTrue(health["hasHeader"])
+                    self.assertTrue(health["hasFooter"])
+                    self.assertTrue(health["hasWhatsApp"])
 
 
 if __name__ == "__main__":

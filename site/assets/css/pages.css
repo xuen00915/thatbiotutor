@@ -314,6 +314,10 @@
   .mode-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .level-choice-grid__intensive {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (min-width: 64rem) {
@@ -455,6 +459,62 @@
   color: var(--color-brand);
 }
 
+.page-testimonials #student-stories .card-grid,
+.cell-review-list {
+  display: grid;
+  width: min(100%, 52rem);
+  margin-inline: auto;
+  gap: 1px;
+  border-block: 1px solid var(--color-line);
+  background: var(--color-line);
+}
+
+.page-testimonials #student-stories .testimonial,
+.cell-review-list .testimonial {
+  border-radius: 0;
+  background: #fff;
+  padding: var(--space-6);
+}
+
+.testimonial-archive-heading {
+  margin-top: var(--space-9);
+}
+
+.testimonial-archive {
+  display: grid;
+  width: min(100%, 52rem);
+  margin-inline: auto;
+  gap: 1px;
+  border-block: 1px solid var(--color-line);
+  background: var(--color-line);
+}
+
+.testimonial-archive .testimonial--archive {
+  border-radius: 0;
+  background: #fff;
+  padding: var(--space-6);
+}
+
+.testimonial-archive .testimonial__person {
+  justify-content: space-between;
+  color: var(--color-brand);
+}
+
+.cell-source-archive {
+  display: grid;
+  width: min(100%, 52rem);
+  margin-inline: auto;
+  gap: 1px;
+  border-block: 1px solid var(--color-line);
+  background: var(--color-line);
+}
+
+.cell-source-archive .testimonial--archive {
+  border-radius: 0;
+  background: #fff;
+  padding: var(--space-6);
+}
+
 .notes-fit-grid {
   display: grid;
   gap: var(--space-7);
@@ -488,6 +548,25 @@
 
 .notes-download__actions {
   justify-content: center;
+}
+
+.notes-review-archive-heading {
+  margin-top: var(--space-9);
+}
+
+.notes-review-archive {
+  display: grid;
+  width: min(100%, 52rem);
+  margin-inline: auto;
+  gap: 1px;
+  border-block: 1px solid var(--color-line);
+  background: var(--color-line);
+  text-align: left;
+}
+
+.notes-review-archive .notes-review--archive {
+  background: #fff;
+  padding: var(--space-6);
 }
 
 .resource-intro {

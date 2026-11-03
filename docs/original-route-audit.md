@@ -26,3 +26,9 @@ Captured on 2026-11-03 from the live original and the local modified build at 14
 - Many tests asserted only `data-layout-slot` labels, so abbreviated or visually unrelated sections still passed.
 - All existing routes need rendered comparison, not just homepage and Notes.
 
+## Correction status
+
+The table above records the pre-correction baseline that triggered the site-wide rebuild; it is not the release state. The corrected build restores the original route-specific compositions, type family, segmented header, image treatment, and simple utility-page layouts. It also preserves the source site's complete identifiable review material in editable partials: 137 Testimonials entries, 228 Notes reviews, and 15 Cell Division reviews. Remaining full-page height differences are primarily the result of removing Wix runtime spacing and duplicated empty regions, not omitted review entries.
+
+The release is browser-checked at 390, 768, 1280, and 1440 CSS pixels. Automated contracts cover shared header/footer/WhatsApp rendering, JavaScript-disabled mobile navigation, overflow, image loading, archive counts, accessibility contrast, and shared interactions.
+

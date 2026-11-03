@@ -24,8 +24,13 @@ jobs:
       - name: Build generated site
         run: python3 scripts/build_site.py --output build
 
+      - name: Install browser test dependencies
+        run: |
+          python3 -m pip install playwright==1.60.0
+          python3 -m playwright install --with-deps chromium
+
       - name: Run Python tests
-        run: python3 -m unittest tests.test_site_builder tests.test_static_site -v
+        run: python3 -m unittest discover -s tests -v
 
       - name: Check JavaScript syntax
         run: |

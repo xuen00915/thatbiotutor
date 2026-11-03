@@ -29,6 +29,9 @@ Never edit `build/` or `.preview-site/`; both are generated. GitHub checks rebui
 | FAQs | the matching file in `site/pages/` | Keep each button, panel ID, and question order paired. |
 | statistics | `site/pages.json`, a page fragment, or a shared partial | Update the displayed value and its label together; verify the claim before publishing. |
 | carousel order | the matching page or partial | Move complete `<figure>` elements; keep supplied manifest groups in numeric order. |
+| original testimonial archive | `site/partials/sections/original-testimonial-archive.html` | Edit one complete `<blockquote>` at a time; keep the student name/year attribution with its text. |
+| original Notes reviews | `site/partials/sections/original-notes-review-archive.html` | Edit one complete `<blockquote>` at a time; preserve the reviewer attribution. |
+| original Cell Division reviews | `site/partials/sections/original-cell-review-archive.html` | Edit one complete `<blockquote>` at a time; preserve the reviewer attribution. |
 | video URLs | the relevant `<iframe>` in `site/pages/` | Replace only the embed `src`; retain a descriptive `title`. |
 | image focal positions | `site/assets/images/asset-manifest.json` and `site/assets/css/pages.css` | Update `objectPosition` and the matching CSS rule, then check mobile and desktop. |
 
@@ -45,6 +48,8 @@ Never edit `build/` or `.preview-site/`; both are generated. GitHub checks rebui
 - `site/assets/css/pages.css` contains page-specific layout and image positioning.
 
 Change a shared partial once. The builder applies it to every relevant page.
+
+The three `original-*-archive.html` files are deliberately separate from their page shells because they contain the long, source-preserved review collections. They are plain editable HTML—not generated output. In Elementor, map each archive item to an individual Testimonial or Text Editor widget so a client can add, remove, or reorder entries without touching the surrounding page design.
 
 ## Editing a page safely
 

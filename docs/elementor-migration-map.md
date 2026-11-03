@@ -36,8 +36,9 @@ The Header contains the logo, navigation, mobile toggle, IntensiveFix link, and 
 | `.tutor-grid` | Responsive nested Containers with Image, Heading, and Text Editor widgets |
 | `.video-frame` | Video widget with the existing title and embed URL |
 | `.compact-cta` | Button widget using the global green button style |
+| each `<blockquote>` in an `original-*-archive.html` partial | One **Testimonial** or Text Editor widget, preserving its attribution |
 
-Create reusable saved Containers for FastTrack rows, results, class resources, tutor profiles, and testimonial summaries. Use a Global Widget only when every instance must update together.
+Create reusable saved Containers for FastTrack rows, results, class resources, tutor profiles, and testimonial summaries. Use a Global Widget only when every instance must update together. Import the long review archives as separate repeated widgets; do not combine hundreds of reviews into one HTML widget.
 
 ## Page sections
 
