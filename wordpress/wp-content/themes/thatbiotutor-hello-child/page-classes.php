@@ -24,9 +24,9 @@ $tbt_heading = static function (string $heading): void {
         <div class="tbt-programme-hero__background"><?php tbt_render_media_image('curated_heroes_classes_original', '', ['loading' => 'eager']); ?></div>
         <div class="tbt-programme-hero__shade" aria-hidden="true"></div>
         <div class="tbt-programme-hero__content">
-            <p class="tbt-programme-hero__eyebrow">O Level Pure Biology Tuition Singapore&nbsp; · &nbsp;Sec 3 &amp; Sec 4</p>
+            <p class="tbt-programme-hero__eyebrow"><?php echo esc_html($tbt_field('classes_eyebrow')); ?></p>
             <h1><?php $tbt_heading($tbt_field('classes_heading')); ?></h1>
-            <p class="tbt-programme-hero__lead">ThatBioTutor &nbsp;|&nbsp; Singapore's only <span>“O” Level Pure / G3 Bio</span> specialist</p>
+            <p class="tbt-programme-hero__lead"><?php echo esc_html($tbt_field('classes_hero_lead')); ?></p>
             <div class="tbt-programme-hero__actions"><a class="tbt-programme-button" href="<?php echo esc_url(home_url('/sec-3-pure-g3-biology-tuition/')); ?>">I am in Sec 3&nbsp; →</a><a class="tbt-programme-button" href="<?php echo esc_url(home_url('/sec-4-pure-g3-biology-tuition/')); ?>">I am in Sec 4&nbsp; →</a></div>
         </div>
     </header>

@@ -40,15 +40,15 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
 
     <section class="tbt-resource-section tbt-notes-access-intro" data-section="access-intro">
         <div class="tbt-resource-shell tbt-resource-narrow">
-            <h2>Simply Enter Your Email Below And A Copy Will Be Sent To You.</h2>
-            <p>After submitting the original form, students were redirected to the homepage and received the notes by email. If you have issues receiving them, contact keefe@thatbiotutor.com.</p>
+            <h2><?php echo esc_html($tbt_field('notes_access_heading')); ?></h2>
+            <p><?php echo esc_html($tbt_field('notes_access_copy')); ?></p>
             <a class="tbt-resource-button" href="#notes-download">GET THE NOTES</a>
         </div>
     </section>
 
     <section class="tbt-resource-section tbt-notes-fit" data-section="fit">
         <div class="tbt-resource-shell tbt-resource-narrow">
-            <h2>Hey Pure Bio Student, is this you?</h2>
+            <h2><?php echo esc_html($tbt_field('notes_fit_heading')); ?></h2>
             <ul class="tbt-notes-pain-list">
                 <li>Your school notes/textbook is thick and confusing</li>
                 <li>You're not sure what is the most important content to focus on</li>
@@ -56,7 +56,7 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
                 <li>You wish you knew what the commonly tested questions are, and how to answer them with full marks</li>
                 <li>You really want to improve in bio fast</li>
             </ul>
-            <p class="tbt-notes-fit__answer">If you answered 'yes' to the above, these notes were made for you. I spent hundreds of hours making these concise notes so that students like you can have an easy time studying.</p>
+            <p class="tbt-notes-fit__answer"><?php echo esc_html($tbt_field('notes_fit_answer')); ?></p>
         </div>
     </section>
 
@@ -103,8 +103,8 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
 
     <section class="tbt-resource-section tbt-notes-download" id="notes-download" data-section="download">
         <div class="tbt-resource-shell tbt-resource-narrow">
-            <h2>How do I download it?</h2>
-            <p>Enter your best email address and a copy will be sent to you. This is to make sure you're a real person, and if the notes are updated in future, the updated version can be sent automatically.</p>
+            <h2><?php echo esc_html($tbt_field('notes_download_heading')); ?></h2>
+            <p><?php echo esc_html($tbt_field('notes_download_copy')); ?></p>
             <p>The original website used an embedded form. This portable WordPress version keeps the access boundary clear: contact the team for the current download link.</p>
             <a class="tbt-resource-button" href="<?php echo esc_url(home_url('/contact/')); ?>">REQUEST THE NOTES</a>
         </div>

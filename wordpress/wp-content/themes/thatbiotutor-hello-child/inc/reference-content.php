@@ -318,8 +318,11 @@ function tbt_reference_content(): array
                 'source' => $crawlSource('/classes'),
                 'fields' => [
                     'classes_heading' => 'The AVERAGE TBT Student Makes a 2.3 Grade Jump (~C5 to A2)',
+                    'classes_eyebrow' => 'O Level Pure Biology Tuition Singapore · Sec 3 & Sec 4',
+                    'classes_hero_lead' => "ThatBioTutor | Singapore's only “O” Level Pure / G3 Bio specialist",
                     'classes_level_heading' => 'Ready to find out more? Choose your level below.',
                     'classes_intro_heading' => 'What exactly is O Level Pure/G3 Biology?',
+                    'classes_intro_copy' => 'O Level Pure Biology, syllabus 6093 (renamed to G3 Biology starting 2027) is a full-subject O Level science taken by Sec 3 and Sec 4 students. Unlike Combined Science, Pure Bio students are examined on the complete Cambridge syllabus — making it more rigorous but also worth a full subject grade on the L1R5/L1R4 score.',
                     'classes_struggle_heading' => 'Why do so many students struggle with Pure/ G3 Biology?',
                     'classes_solution_heading' => 'How TBT solves each one:',
                     'classes_difference_heading' => 'What makes our classes unlike any other',
@@ -329,6 +332,9 @@ function tbt_reference_content(): array
                 'source' => $crawlSource('/sec-3-pure-g3-biology-tuition'),
                 'fields' => [
                     'sec3_heading' => 'The Best Time to Start Pure / G3 Biology Tuition is at the Start of Sec 3. The Second Best Time is Now!',
+                    'sec3_eyebrow' => 'Sec 3 Pure / G3 Biology Tuition Singapore · Face-to-Face & Online · Classes Open March',
+                    'sec3_hero_lead' => 'Build the right foundation before Sec 4 pressure hits and give yourself the best shot at A1 when O Levels come.',
+                    'sec3_options_intro' => 'Both formats teach the same TBT content and methods — standardised across all tutors.',
                     'sec3_cover_heading' => 'What TBT Sec 3 classes cover',
                     'sec3_topics_heading' => 'Sec 3 Topics:',
                 ],
@@ -337,6 +343,8 @@ function tbt_reference_content(): array
                 'source' => $crawlSource('/sec-4-pure-g3-biology-tuition'),
                 'fields' => [
                     'sec4_heading' => "From B4 or worse to A in O Levels is still possible. Here's the proof.",
+                    'sec4_eyebrow' => 'Sec 4 Pure / G3 Biology Tuition Singapore · Face-to-Face & Online · O Level Focused',
+                    'sec4_hero_lead' => '69.21% of TBT students started at B4 or lower... yet 91% of them go on to score A1/A2/B3 in O levels. With the right method, high syllabus accuracy and patient support, Pure / G3 Biology can still be a subject you do well in L1R5.',
                     'sec4_cover_heading' => 'What TBT Sec 4 classes cover',
                     'sec4_topics_heading' => 'Sec 4 Topics:',
                 ],
@@ -353,6 +361,12 @@ function tbt_reference_content(): array
                 'fields' => [
                     'notes_heading' => 'Free O Level Biology Notes Singapore',
                     'notes_audience' => 'For Pure / G3 Biology',
+                    'notes_access_heading' => 'Simply Enter Your Email Below And A Copy Will Be Sent To You.',
+                    'notes_access_copy' => 'After submitting the original form, students were redirected to the homepage and received the notes by email. If you have issues receiving them, contact keefe@thatbiotutor.com.',
+                    'notes_fit_heading' => 'Hey Pure Bio Student, is this you?',
+                    'notes_fit_answer' => "If you answered 'yes' to the above, these notes were made for you. I spent hundreds of hours making these concise notes so that students like you can have an easy time studying.",
+                    'notes_download_heading' => 'How do I download it?',
+                    'notes_download_copy' => "Enter your best email address and a copy will be sent to you. This is to make sure you're a real person, and if the notes are updated in future, the updated version can be sent automatically.",
                 ],
             ],
             'celldivision' => [

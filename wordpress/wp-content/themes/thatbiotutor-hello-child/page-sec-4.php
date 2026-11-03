@@ -20,9 +20,9 @@ $tbt_hero_heading = static function (string $heading): void {
         <div class="tbt-programme-hero__background"><?php tbt_render_media_image('curated_heroes_sec4_original', '', ['loading' => 'eager']); ?></div>
         <div class="tbt-programme-hero__shade" aria-hidden="true"></div>
         <div class="tbt-programme-hero__content">
-            <p class="tbt-programme-hero__eyebrow">Sec 4 Pure / G3 Biology Tuition Singapore&nbsp; · &nbsp;Face-to-Face &amp; Online&nbsp; · &nbsp;O Level Focused</p>
+            <p class="tbt-programme-hero__eyebrow"><?php echo esc_html($tbt_field('sec4_eyebrow')); ?></p>
             <h1><?php $tbt_hero_heading($tbt_field('sec4_heading')); ?></h1>
-            <p class="tbt-programme-hero__lead"><span>69.21%</span> of TBT students started at <span>B4 or lower...</span> yet <span>91%</span> of them go on to score <span>A1/A2/B3</span> in O levels. With the <span>right method</span>, high <span>syllabus accuracy</span> and <span>patient support</span>, Pure / G3 Biology can still be a subject you do well in L1R5.</p>
+            <p class="tbt-programme-hero__lead"><?php echo esc_html($tbt_field('sec4_hero_lead')); ?></p>
             <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-programme-button" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">WhatsApp Us Now</a><?php endif; ?>
         </div>
     </header>

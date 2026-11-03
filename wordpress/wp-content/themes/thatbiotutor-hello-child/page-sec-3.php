@@ -21,9 +21,9 @@ $tbt_hero_heading = static function (string $heading): void {
         <div class="tbt-programme-hero__background"><?php tbt_render_media_image('curated_heroes_sec3_original', '', ['loading' => 'eager']); ?></div>
         <div class="tbt-programme-hero__shade" aria-hidden="true"></div>
         <div class="tbt-programme-hero__content">
-            <p class="tbt-programme-hero__eyebrow">Sec 3 Pure / G3 Biology Tuition Singapore&nbsp; · &nbsp;Face-to-Face &amp; Online&nbsp; · &nbsp;Classes Open March</p>
+            <p class="tbt-programme-hero__eyebrow"><?php echo esc_html($tbt_field('sec3_eyebrow')); ?></p>
             <h1><?php $tbt_hero_heading($tbt_field('sec3_heading')); ?></h1>
-            <p class="tbt-programme-hero__lead">Build the <span>right foundation before Sec 4</span> pressure hits and give yourself the <span>best shot at A1</span> when O Levels come.</p>
+            <p class="tbt-programme-hero__lead"><?php echo esc_html($tbt_field('sec3_hero_lead')); ?></p>
             <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-programme-button" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">WhatsApp Us Now</a><?php endif; ?>
         </div>
     </header>

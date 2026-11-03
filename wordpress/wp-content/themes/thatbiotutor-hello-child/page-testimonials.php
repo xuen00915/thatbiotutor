@@ -19,7 +19,7 @@ $tbt_group_args = static fn (string $year): array => [
 
     <section class="tbt-testimonials-featured" data-section="featured">
         <div class="tbt-testimonials-container">
-            <h2 aria-label="What Students Are Saying About ThatBioTutor:">What <span>Students Are Saying</span> About ThatBioTutor:</h2>
+            <h2><?php echo esc_html($tbt_field('testimonials_reviews_heading')); ?></h2>
             <div class="tbt-video tbt-video--testimonial"><iframe src="https://www.youtube-nocookie.com/embed/Vkzlr16AGvo" title="ThatBioTutor Exposed: What Students Are Saying" loading="lazy" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
             <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-testimonials-button" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">WhatsApp Us</a><?php endif; ?>
         </div>
