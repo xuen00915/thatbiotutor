@@ -1395,7 +1395,7 @@ class ClientDocumentationTests(unittest.TestCase):
             "homeHero",
             "trackRecord",
             "homeClassroom",
-            "50% 68%",
+            "50% 56%",
             "shared header",
             "shared footer",
         ):

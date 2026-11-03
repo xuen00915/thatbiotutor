@@ -64,7 +64,7 @@ Each `<section data-layout-slot="…">` becomes one named top-level **Elementor 
 
 - Upload the WebP files; do not hotlink the static website.
 - Preserve carousel order from `asset-manifest.json`.
-- Set `homeHero` as one five-image Image Carousel, keeping image 1 at the lower `50% 68%` focal position.
+- Set `homeHero` as one five-image Image Carousel, keeping image 1 at the lower `50% 56%` focal position so the students and practical activity remain visible together.
 - Map `trackRecord` to a four-image gallery below four Counter widgets, and `homeClassroom` to a three-image gallery after the Accordion FAQ.
 - Build `trial-guarantee` with an Icon, Heading, Text Editor, and WhatsApp Button; do not recreate the removed embedded form.
 - Build `social-proof` with two Video widgets, the crest gallery, Hall of Fame Image, and three Testimonial widgets.
