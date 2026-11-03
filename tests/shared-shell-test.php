@@ -76,6 +76,9 @@ final class SharedShellTest
         $this->assertTrue(str_contains($components, '.site-nav__link[aria-current="page"]') && str_contains($components, '#8de15e'), 'Current-page navigation state must use the original green.');
         $this->assertTrue(str_contains($components, 'min-width: 44px') && str_contains($components, 'min-height: 44px'), 'Interactive controls must be at least 44×44 CSS pixels.');
         $this->assertTrue(str_contains($base, 'prefers-reduced-motion'), 'Base CSS must respect reduced motion.');
+        $pages = (string) file_get_contents($theme . '/assets/css/pages.css');
+        $this->assertTrue(str_contains($pages, '.tbt-section') && str_contains($pages, '.tbt-button'), 'pages.css must retain only reusable page primitives.');
+        $this->assertTrue(!str_contains($pages, '.tbt-home') && !str_contains($pages, '.tbt-programme-page') && !str_contains($pages, '.tbt-institutional-page'), 'Shared primitives must not leak route-family presentation.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} shared-shell assertions\n");
     }

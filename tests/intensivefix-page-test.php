@@ -12,6 +12,7 @@ final class IntensiveFixPageTest
     {
         $file = TBT_THEME_DIR . '/page-intensivefix.php';
         $this->assertTrue(is_file($file), 'IntensiveFix template must exist.');
+        $this->assertTrue(is_file(TBT_THEME_DIR . '/assets/css/pages-intensivefix.css'), 'IntensiveFix must own a focused stylesheet.');
         $html = tbt_test_render_template('page-intensivefix.php');
         $this->assertSame(1, substr_count($html, '<h1'), 'IntensiveFix must render exactly one H1.');
         foreach (['Fix Your Entire Sec 3 Biology Foundation', 'in 4 Days', 'Everything You Need to Know About IntensiveFix', 'TBT Track Record', 'Turn Your EOY Result into a Sec 4 Recovery Plan', 'Our FastTrack System', 'Is IntensiveFix Right for You?', 'This is for:', 'This isn’t for:'] as $marker) {
@@ -32,6 +33,15 @@ final class IntensiveFixPageTest
         $this->assertTrue(str_contains($html, 'https://wa.me/6587597182'), 'Final CTA must use the safe shared WhatsApp link.');
         $this->assertTrue(str_contains($html, 'data-carousel-prev') && str_contains($html, 'data-carousel-next') && str_contains($html, 'data-carousel-dot'), 'Programme artwork must use accessible carousel controls.');
         $this->assertTrue(!str_contains($html, 'inquire.thatbiotutor.com'), 'IntensiveFix must use the original ThatBioTutor visual shell, not the Inquire shell.');
+
+        $focusedCss = (string) file_get_contents(TBT_THEME_DIR . '/assets/css/pages-intensivefix.css');
+        $sharedCss = (string) file_get_contents(TBT_THEME_DIR . '/assets/css/pages.css');
+        $helpers = (string) file_get_contents(TBT_THEME_DIR . '/inc/theme-helpers.php');
+        $this->assertTrue(str_contains($focusedCss, '.tbt-intensivefix-page') && str_contains($focusedCss, '@media (max-width: 320px)'), 'IntensiveFix stylesheet must be scoped and responsive.');
+        $this->assertTrue(str_contains($helpers, "\$styles[] = 'pages-intensivefix'"), 'IntensiveFix route must enqueue its focused stylesheet.');
+        foreach (['.tbt-home', '.tbt-resource-page', '.tbt-programme-page', '.tbt-institutional-page', '.tbt-intensivefix'] as $routeSelector) {
+            $this->assertTrue(!str_contains($sharedCss, $routeSelector), "Shared pages.css must not own {$routeSelector}.");
+        }
 
         fwrite(STDOUT, "PASS: {$this->assertions} IntensiveFix assertions\n");
     }
