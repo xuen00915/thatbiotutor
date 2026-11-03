@@ -682,16 +682,13 @@ class InstitutionalPageTests(unittest.TestCase):
             "tutors",
             "founder-message",
             "beliefs",
-            "vision-mission-values",
-            "final-cta",
         },
-        "contact": {"hero", "faq-pointer", "contact-details", "final-cta"},
-        "trees": {"hero", "tree-planting", "local-causes", "final-cta"},
+        "contact": {"hero", "faq-pointer", "final-cta"},
+        "trees": {"hero", "tree-planting", "local-causes"},
         "tuitionrecs": {
             "hero",
             "recommendations",
             "independence-disclosure",
-            "final-cta",
         },
     }
 
@@ -777,6 +774,52 @@ class InstitutionalPageTests(unittest.TestCase):
         )
         self.assertIn("independent", parser.section_text("independence-disclosure").lower())
         self.assertIn("docs.google.com/document/d/1Wwn8kzMaT59326gpnidbuGwRWMB6etmh7-Ff6eJiKLw", source)
+
+    def test_about_uses_original_six_part_order(self):
+        _, parser = self.read_page("about")
+        slots = [
+            element["attrs"]["data-layout-slot"]
+            for element in parser.elements
+            if element["tag"] == "section"
+            and "data-layout-slot" in element["attrs"]
+        ]
+        self.assertEqual(
+            slots,
+            ["hero", "mission", "quality", "tutors", "founder-message", "beliefs"],
+        )
+
+    def test_contact_is_faq_first_and_uses_shared_whatsapp(self):
+        source, parser = self.read_page("contact")
+        self.assertIn("Contact.", parser.section_text("hero"))
+        self.assertIn("Please read our", parser.section_text("faq-pointer"))
+        self.assertLess(source.index('id="faq-pointer"'), source.index('id="final-cta"'))
+        whatsapp_links = [
+            element["attrs"].get("href", "")
+            for element in parser.elements
+            if element["tag"] == "a"
+            and element["attrs"].get("href", "").startswith("https://wa.me/")
+        ]
+        self.assertTrue(whatsapp_links)
+        self.assertTrue(
+            all(
+                link.startswith(f"https://wa.me/{SITE_CONFIG['whatsappNumber']}")
+                for link in whatsapp_links
+            )
+        )
+        self.assertEqual(source.count('<header class="site-header original-header">'), 1)
+        self.assertEqual(source.count('<footer class="site-footer original-footer">'), 1)
+
+    def test_trees_and_recommendations_keep_original_simple_structure(self):
+        trees, trees_parser = self.read_page("trees")
+        recommendations, recommendation_parser = self.read_page("tuitionrecs")
+        self.assertIn("1. Planting Trees!", trees)
+        self.assertIn("2. SG Environmental Causes", trees)
+        self.assertIn("Tuition Recommendations", recommendations)
+        lists = recommendation_parser.elements_in("recommendations", "ul")
+        self.assertEqual(len(lists), 1)
+        self.assertGreaterEqual(
+            len(recommendation_parser.elements_in("recommendations", "li")), 3
+        )
 
 
 class ClassesPageTests(unittest.TestCase):

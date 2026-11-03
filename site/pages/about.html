@@ -1,6 +1,6 @@
 <main id="main">
   <!-- CLIENT EDIT: Each top-level section maps to one Elementor Container. -->
-  <section class="hero" id="hero">
+  <section class="hero original-hero" id="hero" data-layout-slot="hero">
     <div class="container container--reading hero__copy">
       <p class="eyebrow">Pure Biology specialists since 2021</p>
       <h1>About ThatBiotutor</h1>
@@ -8,7 +8,7 @@
     </div>
   </section>
 
-  <section class="section section--white" id="mission" aria-labelledby="mission-title">
+  <section class="section section--white" id="mission" data-layout-slot="mission" aria-labelledby="mission-title">
     <div class="container split-section">
       <div class="split-section__copy">
         <p class="eyebrow">Why we exist</p>
@@ -21,7 +21,7 @@
     </div>
   </section>
 
-  <section class="section section--soft" id="quality" aria-labelledby="quality-title">
+  <section class="section section--soft" id="quality" data-layout-slot="quality" aria-labelledby="quality-title">
     <div class="container">
       <div class="section-heading section-heading--center"><p class="eyebrow">Consistent standards</p><h2 id="quality-title">Quality Teaching Only</h2></div>
       <div class="card-grid">
@@ -32,7 +32,7 @@
     </div>
   </section>
 
-  <section class="section section--white" id="tutors" aria-labelledby="tutors-title">
+  <section class="section section--white" id="tutors" data-layout-slot="tutors" aria-labelledby="tutors-title">
     <div class="container">
       <div class="section-heading section-heading--center"><p class="eyebrow">Specialist guidance</p><h2 id="tutors-title">Our Tutors</h2></div>
       <div class="tutor-grid">
@@ -44,7 +44,7 @@
     </div>
   </section>
 
-  <section class="section section--soft" id="founder-message" aria-labelledby="founder-message-title">
+  <section class="section section--soft" id="founder-message" data-layout-slot="founder-message" aria-labelledby="founder-message-title">
     <div class="container container--reading">
       <p class="eyebrow">Why ThatBioTutor began</p>
       <h2 id="founder-message-title">A Message From The Founder</h2>
@@ -55,22 +55,7 @@
     </div>
   </section>
 
-  <section class="section section--dark" id="beliefs" aria-labelledby="beliefs-title">
-    <div class="container container--reading"><p class="eyebrow">The principles behind our work</p><h2 id="beliefs-title">What We Believe In</h2><p class="lead">Strong Biology teaching can change more than a grade. It can help students recognise their own ability to learn, grow, and improve.</p></div>
-  </section>
-
-  <section class="section section--white" id="vision-mission-values" aria-labelledby="vmv-title">
-    <div class="container">
-      <div class="section-heading section-heading--center"><h2 id="vmv-title">Vision, Mission &amp; Values</h2></div>
-      <div class="card-grid">
-        <article class="card"><h3>Vision</h3><p>Provide high-quality Biology education to students who genuinely want to improve but are not getting the help they need from school.</p></article>
-        <article class="card"><h3>Mission</h3><p>Empower students to realise their inherent worth by showing them they can conquer Biology, while treating them with care and respect.</p></article>
-        <article class="card"><h3>Values</h3><p>Obsessive greatness. Speed is king. Always do right by the customer.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--deep section--white" id="final-cta" aria-labelledby="about-cta-title">
-    <div class="container"><div class="cta-panel"><h2 id="about-cta-title">Meet the team in a Biology lesson</h2><p>Talk to us about the right class and experience our approach first-hand.</p><a class="button button--large" href="{{ whatsapp_url }}">Contact ThatBioTutor</a></div></div>
+  <section class="section section--dark" id="beliefs" data-layout-slot="beliefs" aria-labelledby="beliefs-title">
+    <div class="container container--reading"><p class="eyebrow">The principles behind our work</p><h2 id="beliefs-title">What We Believe In</h2><p class="lead">Strong Biology teaching can change more than a grade. It can help students recognise their own ability to learn, grow, and improve.</p><h3>Our vision</h3><p>Provide high-quality Biology education to students who genuinely want to improve but are not getting the help they need from school.</p><h3>Our mission</h3><p>Empower students to realise their inherent worth by showing them they can conquer Biology, while treating them with care and respect.</p><h3>Our values</h3><p>Obsessive greatness. Speed is king. Always do right by the customer.</p><p><a class="button" href="{{ whatsapp_url }}">Contact ThatBioTutor</a></p></div>
   </section>
 </main>
