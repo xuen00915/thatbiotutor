@@ -1,0 +1,175 @@
+.tbt-programme-page { overflow-x: clip; background: #fff; color: #171717; }
+.tbt-programme-page, .tbt-programme-page * { box-sizing: border-box; }
+.tbt-programme-page h1, .tbt-programme-page h2, .tbt-programme-page h3, .tbt-programme-page p, .tbt-programme-page li { overflow-wrap: anywhere; }
+.tbt-programme-container { width: min(calc(100% - 40px), 980px); margin-inline: auto; }
+.tbt-programme-section { padding: 74px 0; text-align: center; scroll-margin-top: calc(var(--tbt-header-height) + 8px); }
+.tbt-programme-section h2 { margin: 0 auto 34px; font-size: clamp(2rem, 3.4vw, 2.8rem); font-weight: 800; line-height: 1.16; }
+.tbt-programme-section h2 span { color: #2bb82f; }
+.tbt-programme-kicker { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px; color: #075d43; font-size: 1rem; font-style: italic; font-weight: 700; }
+.tbt-programme-kicker::before { width: 22px; height: 3px; background: #087258; content: ""; }
+.tbt-programme-button { display: inline-flex; min-width: 335px; min-height: 68px; align-items: center; justify-content: center; padding: 15px 34px; border-radius: 15px; background: #8de65c; color: #fff; font-size: 1.45rem; font-weight: 800; text-decoration: none; box-shadow: 0 7px 18px rgba(0,0,0,.2); }
+.tbt-programme-button:hover, .tbt-programme-button:focus-visible { background: #6fcf48; color: #fff; }
+
+.tbt-programme-hero { position: relative; display: grid; width: 100%; min-height: 710px; place-items: center; overflow: hidden; color: #fff; text-align: center; }
+.tbt-programme-hero--classes { min-height: 575px; }
+.tbt-programme-hero--sec { min-height: 710px; }
+.tbt-sec3-page .tbt-programme-hero--sec { min-height: 730px; }
+.tbt-programme-hero__background, .tbt-programme-hero__shade { position: absolute; inset: 0; }
+.tbt-programme-hero__background img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.tbt-programme-hero__shade { background: rgba(0,0,0,.55); }
+.tbt-programme-hero__content { position: relative; z-index: 1; display: grid; width: min(calc(100% - 40px), 980px); justify-items: center; gap: 24px; padding: 46px 0; }
+.tbt-programme-hero__eyebrow { margin: 0; color: #fff; font-size: 1rem; font-style: italic; font-weight: 400; }
+.tbt-programme-hero h1 { max-width: 960px; margin: 0; color: #fff; font-size: clamp(2.9rem, 4.2vw, 3.75rem); font-weight: 800; letter-spacing: -.025em; line-height: 1.22; text-shadow: 0 4px 4px rgba(0,0,0,.55); }
+.tbt-programme-hero h1 span, .tbt-programme-hero__lead span { color: #8de65c; }
+.tbt-programme-hero h1 .tbt-programme-hero__line { display: block; color: #fff; }
+.tbt-programme-hero h1 .tbt-programme-hero__line em { color: #8de65c; font-style: normal; }
+.tbt-programme-hero h1 .tbt-programme-hero__line--green { color: #8de65c; }
+.tbt-programme-hero__highlight { color: #8de65c; }
+.tbt-programme-hero__lead { max-width: 960px; margin: 0; color: #fff; font-size: clamp(1.05rem, 1.6vw, 1.25rem); font-weight: 700; line-height: 1.75; }
+.tbt-programme-hero__actions { display: grid; width: 880px; max-width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-top: 10px; }
+.tbt-programme-hero__actions .tbt-programme-button { width: 100%; }
+
+.tbt-programme-definition__grid { display: grid; grid-template-columns: minmax(280px, .85fr) 1.15fr; align-items: start; gap: 56px; text-align: left; }
+.tbt-programme-artwork { display: block; width: 100%; height: auto; max-height: 750px; object-fit: contain; }
+.tbt-programme-copy > p { margin: 0 0 28px; font-size: 1.05rem; line-height: 1.75; }
+.tbt-topic-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.tbt-topic-columns strong { color: #13883e; font-size: 1.2rem; }
+.tbt-topic-columns ol { margin: 14px 0 0; padding-left: 24px; line-height: 1.75; }
+
+.tbt-programme-struggles { background: #f8f9f7; }
+.tbt-struggle-list { display: grid; gap: 0; text-align: left; }
+.tbt-struggle-list article { display: grid; grid-template-columns: .75fr 1.25fr; align-items: center; gap: 46px; padding: 26px 0; border-bottom: 1px solid #d9ddd8; }
+.tbt-struggle-list h3, .tbt-struggle-list p { margin: 0; }
+.tbt-struggle-list h3 { font-size: 1.4rem; }
+.tbt-struggle-list p { color: #454b47; line-height: 1.7; }
+
+.tbt-programme-solutions { background: #143c20; color: #fff; }
+.tbt-programme-solutions h2 { color: #fff; }
+.tbt-solution-list { display: grid; gap: 24px; text-align: left; }
+.tbt-solution-list article { padding: 26px 30px; border-radius: 16px; background: #f4faf1; color: #162019; }
+.tbt-solution-list h3 { margin: 0 0 10px; color: #3aa934; font-size: 1.3rem; }
+.tbt-solution-list p { margin: 0; line-height: 1.65; }
+
+.tbt-difference-layout { display: grid; grid-template-columns: 1fr 390px; align-items: center; gap: 48px; text-align: left; }
+.tbt-difference-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.tbt-difference-list article { padding: 24px; border: 1px solid #dfe8db; border-radius: 12px; background: #f7fbf5; }
+.tbt-difference-list h3, .tbt-difference-list p { margin: 0; }
+.tbt-difference-list h3 { color: #11853e; font-size: 1.1rem; }
+.tbt-difference-list p { margin-top: 10px; color: #525a54; line-height: 1.6; }
+.tbt-practical-feature { margin-top: 62px; }
+.tbt-practical-feature > h3 { margin: 0 0 12px; font-size: 2rem; }
+.tbt-practical-feature > p { margin: 0 auto 28px; max-width: 760px; }
+.tbt-practical-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.tbt-practical-photo { width: 100%; height: 360px; object-fit: cover; }
+
+.tbt-programme-results, .tbt-programme-numbers { background: #f5f7f3; }
+.tbt-programme-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 20px; }
+.tbt-programme-stats > div { display: grid; justify-items: center; gap: 8px; }
+.tbt-programme-stats strong { color: #62bd49; font-size: clamp(2.6rem, 4vw, 3.7rem); line-height: 1; }
+.tbt-programme-stats span { font-weight: 700; }
+.tbt-programme-stats--three { grid-template-columns: repeat(3, 1fr); }
+
+.tbt-programme-levels__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; margin: 40px 0 30px; text-align: left; }
+.tbt-programme-levels__grid a { display: grid; min-height: 230px; align-content: center; gap: 16px; padding: 36px; border: 2px solid #8de65c; border-radius: 16px; color: #181818; text-decoration: none; }
+.tbt-programme-levels__grid strong { font-size: 1.7rem; }
+.tbt-programme-levels__grid span { line-height: 1.65; }
+.tbt-programme-levels__grid b, .tbt-programme-levels__help a { color: #198837; }
+
+.tbt-programme-options { text-align: left; }
+.tbt-programme-options > .tbt-programme-container > h2, .tbt-programme-options > .tbt-programme-container > p:not(.tbt-programme-kicker) { text-align: left; }
+.tbt-programme-options__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 42px; }
+.tbt-programme-options__grid article { padding: 34px; border: 1px solid #d6dfd3; border-radius: 14px; box-shadow: 0 8px 24px rgba(24,69,40,.08); }
+.tbt-programme-options__grid h3 { margin: 0 0 6px; color: #1b8b3c; font-size: 1.65rem; }
+.tbt-programme-options__grid ul { margin: 24px 0; padding: 0; list-style: none; line-height: 1.85; }
+.tbt-programme-options__grid li::first-letter { color: #39b54a; }
+.tbt-programme-options__included { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 24px; padding: 22px; border-radius: 12px; background: #eff7eb; }
+.tbt-programme-options__included strong { grid-column: 1 / -1; color: #278f39; }
+
+.tbt-programme-cover { background: #f7f9f6; }
+.tbt-programme-phases { display: grid; gap: 22px; margin-bottom: 28px; text-align: left; }
+.tbt-programme-phase { padding: 28px 32px; border-left: 7px solid #66bd4a; background: #fff; box-shadow: 0 5px 20px rgba(0,0,0,.06); }
+.tbt-programme-phase h3 { margin: 0 0 14px; font-size: 1.35rem; }
+.tbt-programme-phase h3 span { color: #4ca33d; }
+.tbt-programme-phase p { margin: 7px 0; }
+.tbt-programme-join-note { margin: 30px auto 50px; max-width: 760px; font-weight: 700; }
+.tbt-programme-topics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 50px; max-width: 700px; margin: 0 auto 55px; padding-left: 34px; text-align: left; line-height: 1.7; }
+.tbt-programme-exam { padding: 40px; border-radius: 18px; background: #153c20; color: #fff; text-align: left; }
+.tbt-programme-exam h2 { margin-bottom: 22px; color: #fff; text-align: center; }
+.tbt-programme-exam ul { line-height: 1.9; }
+.tbt-programme-exam > p { margin: 24px 0 0; color: #a1ec77; font-weight: 700; text-align: center; }
+
+.tbt-programme-hall__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin: 38px 0; }
+.tbt-programme-track { width: 100%; height: 330px; object-fit: contain; }
+.tbt-programme-testimonials h2 span { color: #50b742; }
+.tbt-programme-testimonials .tbt-testimonials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; text-align: left; }
+.tbt-programme-testimonials .tbt-testimonial { padding: 26px; border: 1px solid #d8e4d3; background: #fff; }
+.tbt-programme-text-link { display: inline-flex; margin-top: 28px; color: #16873a; font-weight: 800; }
+
+.tbt-programme-lesson { background: #f7f8f6; }
+.tbt-programme-lesson__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; text-align: left; }
+.tbt-programme-lesson__grid article { padding: 30px; border-radius: 12px; background: #fff; }
+.tbt-programme-lesson__grid h3 { margin: 0; color: #188c3d; }
+.tbt-programme-lesson__grid p { margin: 12px 0 0; line-height: 1.65; }
+.tbt-programme-inclusions-section { background: #143c20; color: #fff; }
+.tbt-programme-inclusions-section h2 { color: #fff; }
+.tbt-programme-inclusions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+.tbt-inclusion-card { padding: 28px; border-radius: 12px; background: #fff; color: #181818; text-align: left; }
+.tbt-inclusion-card h3 { margin: 0; color: #48ad3d; }
+.tbt-inclusion-card p { margin: 10px 0 0; line-height: 1.6; }
+
+.tbt-programme-tutors .tbt-tutors { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.tbt-programme-tutors .tbt-tutor img { width: 190px; height: 190px; border-radius: 50%; object-fit: cover; }
+.tbt-programme-quality { max-width: 760px; margin: 42px auto 30px; padding: 28px; background: #f1f7ee; text-align: left; }
+.tbt-programme-quality p { margin: 10px 0; }
+.tbt-programme-faq { background: #fff; }
+.tbt-programme-faq .tbt-faqs { max-width: 860px; margin-inline: auto; text-align: left; }
+
+@media (min-width: 1440px) {
+  .tbt-programme-section { padding-block: 82px; }
+  .tbt-programme-hero--classes { min-height: 575px; }
+  .tbt-programme-hero--sec { min-height: 710px; }
+  .tbt-sec3-page .tbt-programme-hero--sec { min-height: 730px; }
+}
+
+@media (max-width: 768px) {
+  .tbt-programme-container { width: min(calc(100% - 34px), 680px); }
+  .tbt-programme-section { padding: 58px 0; }
+  .tbt-programme-hero, .tbt-programme-hero--classes, .tbt-programme-hero--sec, .tbt-sec3-page .tbt-programme-hero--sec { min-height: 620px; }
+  .tbt-programme-hero__content { width: min(calc(100% - 38px), 680px); }
+  .tbt-programme-hero h1 { font-size: clamp(2.45rem, 7.4vw, 3.5rem); }
+  .tbt-programme-hero__actions, .tbt-programme-definition__grid, .tbt-difference-layout, .tbt-programme-options__grid { grid-template-columns: 1fr; }
+  .tbt-programme-hero__actions { width: min(100%, 520px); }
+  .tbt-programme-definition__grid { gap: 34px; }
+  .tbt-programme-definition__grid .tbt-programme-artwork { width: min(100%, 430px); margin-inline: auto; }
+  .tbt-struggle-list article { grid-template-columns: 1fr; gap: 10px; }
+  .tbt-difference-list, .tbt-programme-lesson__grid, .tbt-programme-inclusions { grid-template-columns: 1fr; }
+  .tbt-difference-layout > .tbt-programme-artwork { width: min(100%, 430px); margin-inline: auto; }
+  .tbt-programme-options__included { grid-template-columns: repeat(2, 1fr); }
+  .tbt-programme-testimonials .tbt-testimonials, .tbt-programme-tutors .tbt-tutors { grid-template-columns: repeat(2, 1fr); }
+  .tbt-practical-photo { height: 290px; }
+}
+
+@media (max-width: 390px) {
+  .tbt-programme-container { width: calc(100% - 28px); }
+  .tbt-programme-section { padding: 48px 0; }
+  .tbt-programme-section h2 { font-size: 2rem; }
+  .tbt-programme-hero, .tbt-programme-hero--classes, .tbt-programme-hero--sec, .tbt-sec3-page .tbt-programme-hero--sec { min-height: 570px; }
+  .tbt-programme-hero h1 { font-size: 2.25rem; line-height: 1.16; }
+  .tbt-programme-hero__eyebrow { font-size: .85rem; }
+  .tbt-programme-hero__lead { font-size: .98rem; line-height: 1.55; }
+  .tbt-programme-button { width: 100%; min-width: 0; min-height: 56px; font-size: 1.08rem; }
+  .tbt-topic-columns, .tbt-programme-levels__grid, .tbt-programme-stats, .tbt-programme-stats--three, .tbt-programme-hall__grid, .tbt-practical-grid, .tbt-programme-topics, .tbt-programme-options__included { grid-template-columns: 1fr; }
+  .tbt-programme-topics { padding-left: 30px; }
+  .tbt-programme-exam, .tbt-programme-options__grid article { padding: 25px 20px; }
+  .tbt-programme-testimonials .tbt-testimonials, .tbt-programme-tutors .tbt-tutors { grid-template-columns: 1fr; }
+  .tbt-programme-tutors .tbt-tutor img { width: 170px; height: 170px; }
+  .tbt-programme-track { height: auto; }
+  .tbt-practical-photo { height: 360px; }
+}
+
+@media (max-width: 320px) {
+  .tbt-programme-hero h1 { font-size: 2rem; }
+  .tbt-programme-hero__content { width: calc(100% - 24px); }
+  .tbt-programme-section h2 { font-size: 1.8rem; }
+  .tbt-practical-photo { height: 300px; }
+}

@@ -20,30 +20,61 @@ final class ClassesPagesTest
         }
 
         $classes = $html['page-classes.php'];
+        $this->assertSectionOrder($classes, ['hero', 'definition', 'struggles', 'solutions', 'difference', 'results', 'levels', 'faq'], 'Classes');
         foreach (['What exactly is O Level', 'Why do so many students struggle', 'How TBT solves each one', 'What makes our classes unlike any other', 'Choose your level below', 'Sec 3 Pure / G3 Biology Classes', 'Sec 4 Pure / G3 Biology Classes'] as $marker) {
             $this->assertTrue(str_contains($classes, $marker), "Classes page must preserve {$marker}.");
         }
         $this->assertTrue(str_contains($classes, '/sec-3-pure-g3-biology-tuition/') && str_contains($classes, '/sec-4-pure-g3-biology-tuition/'), 'Classes level choices must link to distinct canonical pages.');
+        $this->assertTrue(str_contains($classes, 'curated_heroes_classes_original'), 'Classes hero must use the captured public background.');
+        preg_match_all('/class="[^"]*\\btbt-programme-hero__line\\b[^"]*"/', $classes, $heroLines);
+        $this->assertSame(3, count($heroLines[0]), 'Classes hero must retain the public three-line headline composition.');
+        $this->assertTrue(str_contains($classes, 'curated_classes_pure_vs_combined'), 'Classes definition must use the public Pure-vs-Combined artwork.');
+        $this->assertTrue(str_contains($classes, 'curated_classes_fasttrack_study_prep'), 'Classes difference must use the public FastTrack artwork.');
+        $this->assertTrue(!str_contains($classes, 'tbt-problem-grid'), 'Classes must not substitute the public stacked struggle composition with generic problem cards.');
 
         $sec3 = $html['page-sec-3.php'];
+        $sec3Text = html_entity_decode(strip_tags($sec3));
+        $this->assertSectionOrder($sec3, ['hero', 'options', 'cover', 'hall', 'stats', 'testimonials', 'lesson', 'inclusions', 'tutors', 'faq'], 'Sec 3');
         foreach (['The Best Time to Start', 'Choose how your child learns best', 'What TBT Sec 3 classes cover', 'Phase 1 — Teaching the Syllabus', 'Phase 2 — EOY Intensives', 'Sec 3 Topics', 'Exam Techniques — Built Into Every Lesson', 'Questions Parents and Sec 3 Students Always Ask'] as $marker) {
-            $this->assertTrue(str_contains($sec3, $marker), "Sec 3 must preserve {$marker}.");
+            $this->assertTrue(str_contains($sec3Text, $marker), "Sec 3 must preserve {$marker}.");
         }
         $this->assertTrue(!str_contains($sec3, 'Fix Your Entire Sec 3 Biology Foundation'), 'Sec 3 must not be replaced by the IntensiveFix recovery hero.');
         $this->assertTrue(!str_contains($sec3, 'IntensiveFix programme'), 'Regular Sec 3 tuition must remain separate from IntensiveFix.');
+        $this->assertTrue(str_contains($sec3, 'curated_heroes_sec3_original'), 'Sec 3 hero must use the captured public background.');
+        $this->assertTrue(substr_count($sec3, 'tbt-programme-hero__highlight') >= 2, 'Sec 3 hero must preserve the public green phrase emphasis.');
+        $this->assertTrue(str_contains($sec3, 'March') && str_contains($sec3, 'Sep – Oct'), 'Sec 3 must retain its March opening and two-phase calendar.');
+        $this->assertTrue(!str_contains($sec3, 'Phase 3 — O Levels Intensives'), 'Sec 3 must not inherit the Sec 4 third phase.');
 
         $sec4 = $html['page-sec-4.php'];
+        $sec4Text = html_entity_decode(strip_tags($sec4));
+        $this->assertSectionOrder($sec4, ['hero', 'options', 'cover', 'hall', 'stats', 'testimonials', 'lesson', 'inclusions', 'tutors', 'faq'], 'Sec 4');
         foreach (['From B4 or worse to A in O Levels', 'Choose how your child learns best', 'What TBT Sec 4 classes cover', 'Phase 1 — Teaching the Syllabus', 'Phase 2 — Prelim Intensives', 'Phase 3 — O Levels Intensives', 'Sec 4 Topics', 'Questions Parents and Sec 4 Students Always Ask'] as $marker) {
-            $this->assertTrue(str_contains($sec4, $marker), "Sec 4 must preserve {$marker}.");
+            $this->assertTrue(str_contains($sec4Text, $marker), "Sec 4 must preserve {$marker}.");
         }
         $this->assertTrue(str_contains($sec3, 'data-faq-renderer="sec3"') && str_contains($sec4, 'data-faq-renderer="sec4"'), 'Each tuition page must use its own FAQ collection.');
         $this->assertTrue(str_contains($sec3, 'data-tutor-renderer') && str_contains($sec4, 'data-tutor-renderer'), 'Both tuition pages must use the shared tutor renderer.');
+        $this->assertTrue(str_contains($sec4, 'curated_heroes_sec4_original'), 'Sec 4 hero must use the captured public background.');
+        $this->assertTrue(substr_count($sec4, 'tbt-programme-hero__highlight') >= 3, 'Sec 4 hero must preserve the public green proof emphasis.');
+        $this->assertTrue(str_contains($sec4, 'Aug – Nov') && str_contains($sec4, '69.21%'), 'Sec 4 must retain its O-Level intensive phase and recovery proof.');
+        foreach ([$sec3, $sec4] as $programme) {
+            $this->assertTrue(str_contains($programme, 'https://wa.me/'), 'Programme trial CTA must open the configured WhatsApp destination.');
+            foreach (['98', '912+', '2.3', '91%', '69.21%', '1 in 2'] as $stat) {
+                $this->assertTrue(str_contains($programme, '>' . $stat . '<'), "Programme must render public statistic {$stat}.");
+            }
+            $this->assertTrue(substr_count($programme, 'data-track-record') === 3, 'Programme hall of fame must render three public result panels.');
+            $this->assertTrue(substr_count($programme, 'class="tbt-inclusion-card') === 8, 'Programme inclusions must render all eight public benefits.');
+        }
 
         fwrite(STDOUT, "PASS: {$this->assertions} Classes/Sec tuition assertions\n");
     }
 
     private function assertSame(mixed $expected, mixed $actual, string $message): void { $this->assertions++; if ($expected !== $actual) throw new RuntimeException($message); }
     private function assertTrue(bool $condition, string $message): void { $this->assertions++; if (!$condition) throw new RuntimeException($message); }
+    private function assertSectionOrder(string $html, array $expected, string $page): void
+    {
+        preg_match_all('/data-section="([^"]+)"/', $html, $matches);
+        $this->assertSame($expected, $matches[1], "{$page} sections must follow the current public-site order.");
+    }
 }
 
 try { (new ClassesPagesTest())->run(); } catch (Throwable $error) { fwrite(STDERR, 'FAIL: ' . $error->getMessage() . "\n"); exit(1); }

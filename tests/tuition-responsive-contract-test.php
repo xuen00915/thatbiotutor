@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 $theme = dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child';
-$css = (string) @file_get_contents($theme . '/assets/css/pages.css');
+$css = (string) @file_get_contents($theme . '/assets/css/pages-programmes.css');
 $intensive = (string) @file_get_contents($theme . '/page-intensivefix.php');
 $classes = (string) @file_get_contents($theme . '/page-classes.php');
 $sec3 = (string) @file_get_contents($theme . '/page-sec-3.php');
@@ -11,6 +11,13 @@ $sec4 = (string) @file_get_contents($theme . '/page-sec-4.php');
 
 $contracts = [
     [$css, '.tbt-programme-hero', 'full-width programme hero'],
+    [$css, '.tbt-programme-hero__background', 'programme hero background layer'],
+    [$css, 'min-height: 575px', 'desktop Classes hero height'],
+    [$css, 'min-height: 710px', 'desktop Sec hero height'],
+    [$css, '.tbt-programme-options__grid', 'public class-options two-column composition'],
+    [$css, '.tbt-programme-phase', 'public phase cards'],
+    [$css, '.tbt-programme-stats', 'public six-stat grid'],
+    [$css, '.tbt-programme-inclusions', 'public inclusion cards'],
     [$css, 'object-fit: contain', 'text-artwork contain fit'],
     [$css, 'object-fit: cover', 'crop-safe photo fit'],
     [$css, 'overflow-wrap: anywhere', 'long topic wrapping'],
@@ -24,6 +31,9 @@ $contracts = [
     [$classes, 'classes_heading', 'Classes canonical field namespace'],
     [$sec3, 'sec3_heading', 'Sec 3 canonical field namespace'],
     [$sec4, 'sec4_heading', 'Sec 4 canonical field namespace'],
+    [$classes, 'curated_heroes_classes_original', 'Classes hero media key'],
+    [$sec3, 'curated_heroes_sec3_original', 'Sec 3 hero media key'],
+    [$sec4, 'curated_heroes_sec4_original', 'Sec 4 hero media key'],
 ];
 
 foreach ($contracts as [$source, $needle, $label]) {
