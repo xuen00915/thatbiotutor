@@ -21,13 +21,14 @@
     </div>
   </section>
 
-  <section class="section section--soft" id="quality" data-layout-slot="quality" aria-labelledby="quality-title">
+  <section class="section section--soft section--barred" id="quality" data-layout-slot="quality" aria-labelledby="quality-title">
+    <div class="section-bar"><h2 id="quality-title">Quality Teaching Only</h2></div>
     <div class="container">
-      <div class="section-heading section-heading--center"><p class="eyebrow">Consistent standards</p><h2 id="quality-title">Quality Teaching Only</h2></div>
-      <div class="card-grid">
-        <article class="card"><div class="card__icon" aria-hidden="true">01</div><h3>Rigorous screening</h3><p>Every tutor goes through screening and testing that can take up to a month before teaching a formal class.</p></article>
-        <article class="card"><div class="card__icon" aria-hidden="true">02</div><h3>Weekly coaching</h3><p>Tutors meet weekly and are mentored by founder Mr Keefe so the teaching approach stays clear and consistent.</p></article>
-        <article class="card"><div class="card__icon" aria-hidden="true">03</div><h3>Student feedback</h3><p>Every class ends with an after-lesson feedback form. The team reviews and acts on that feedback each week.</p></article>
+      <div class="section-heading section-heading--center"><p class="eyebrow">Consistent standards</p></div>
+      <div class="plain-feature-grid">
+        <article><strong class="plain-feature__mark" aria-hidden="true">01</strong><h3>Rigorous screening</h3><p>Every tutor goes through screening and testing that can take up to a month before teaching a formal class.</p></article>
+        <article><strong class="plain-feature__mark" aria-hidden="true">02</strong><h3>Weekly coaching</h3><p>Tutors meet weekly and are mentored by founder Mr Keefe so the teaching approach stays clear and consistent.</p></article>
+        <article><strong class="plain-feature__mark" aria-hidden="true">03</strong><h3>Student feedback</h3><p>Every class ends with an after-lesson feedback form. The team reviews and acts on that feedback each week.</p></article>
       </div>
     </div>
   </section>
@@ -36,10 +37,10 @@
     <div class="container">
       <div class="section-heading section-heading--center"><p class="eyebrow">Specialist guidance</p><h2 id="tutors-title">Our Tutors</h2></div>
       <div class="tutor-grid">
-        <article class="tutor-card"><img src="{{ root }}assets/images/about/tutor-chelsea.webp" width="460" height="460" alt="Portrait of Biology tutor Ms Chelsea"><h3>Ms Chelsea</h3><p>Biological Sciences graduate with Highest Distinction from NTU; A in H2 Biology and 87.5/90 A-Level rank points.</p><p><a href="https://www.linkedin.com/in/xiang-ting-chee/">View Ms Chelsea's LinkedIn profile</a></p></article>
-        <article class="tutor-card"><img src="{{ root }}assets/images/about/tutor-jamie.webp" width="460" height="460" alt="Portrait of Biology tutor Ms Jamie"><h3>Ms Jamie</h3><p>National Junior College Integrated Programme alumna; A in H2 Biology and an NUS Life Sciences undergraduate.</p></article>
-        <article class="tutor-card"><img src="{{ root }}assets/images/about/tutor-keefe.webp" width="460" height="460" alt="Portrait of ThatBioTutor founder Mr Keefe"><h3>Mr Keefe (Founder)</h3><p>Former GEP and Raffles Institution student, Raffles Academy Biology alumnus, 90 A-Level rank points, and former NUS Merit Scholar.</p></article>
-        <article class="tutor-card"><img src="{{ root }}assets/images/about/tutor-ng.webp" width="460" height="460" alt="Portrait of former MOE Biology teacher Ms Ng"><h3>Ms Ng (Ex-MOE Teacher &amp; Syllabus Reviewer)</h3><p>More than 11 years of Singapore school experience, reviewing our syllabus against what O Level examinations test.</p></article>
+        <article class="tutor-card"><img src="{{ root }}assets/images/about/tutor-chelsea.webp" width="460" height="460" alt="Portrait of Biology tutor Ms Chelsea"><h3>Ms Chelsea</h3><ul><li>Graduated with Honours (Highest Distinction) in Biological Sciences from Nanyang Technological University</li><li>Achieved A in A Level H2 Biology</li><li>87.5/90 rank points in A Levels</li><li>Distinction in O Level Biology</li></ul><p><a href="https://www.linkedin.com/in/xiang-ting-chee/">View Ms Chelsea's LinkedIn profile</a></p></article>
+        <article class="tutor-card"><img src="{{ root }}assets/images/about/tutor-jamie.webp" width="460" height="460" alt="Portrait of Biology tutor Ms Jamie"><h3>Ms Jamie</h3><ul><li>Enrolled in National Junior College’s Integrated Programme</li><li>Achieved A for H2 Biology in A Levels</li><li>NUS undergraduate majoring in Life Sciences, with a double minor in Computer Science and Bioinformatics</li></ul></article>
+        <article class="tutor-card"><img src="{{ root }}assets/images/about/tutor-keefe.webp" width="460" height="460" alt="Portrait of ThatBioTutor founder Mr Keefe"><h3>Mr Keefe (Founder)</h3><ul><li>Enrolled in the Gifted Education Programme from Primary 4 to 6</li><li>Raffles Institution Integrated Programme student, with a GPA of 3.65/4.0</li><li>Raffles Academy Biology alumnus</li><li>Attained all As in the GCE A Levels, achieving 90 rank points</li><li>Former NUS Merit Scholar</li></ul></article>
+        <article class="tutor-card"><img src="{{ root }}assets/images/about/tutor-ng.webp" width="460" height="460" alt="Portrait of former MOE Biology teacher Ms Ng"><h3>Ms Ng (Ex-MOE Teacher &amp; Syllabus Reviewer)</h3><ul><li>Ex-MOE Biology teacher with more than 11 years of Singapore school experience, reviewing our syllabus against what O Level examinations test</li><li>Nominated for the Outstanding Youth Educators Award 2022</li><li>Merit in Post-Graduate Diploma in Education at NIE</li><li>Bachelor of Science, majoring in Life Sciences at NUS</li></ul></article>
       </div>
     </div>
   </section>
@@ -48,9 +49,18 @@
     <div class="container container--reading">
       <p class="eyebrow">Why ThatBioTutor began</p>
       <h2 id="founder-message-title">A Message From The Founder</h2>
-      <p>Like many students, I struggled with certain subjects and wanted to improve but did not get enough help in school. In JC, an excellent Economics tutor showed me how much easier a subject can become when someone teaches memorisation and answering skills clearly.</p>
-      <p>I wanted Biology students to have that same transformative experience: enthusiastic, accurate teaching that makes the subject feel conquerable.</p>
-      <p>Through improving their Biology grades, I want students to see that they can change and improve whatever their starting point may be. They should leave class with more confidence in themselves than when they entered.</p>
+      <h3>Q: Why did you start ThatBioTutor?</h3>
+      <p>A: Like many of you, I struggled with certain subjects throughout my school journey. I wanted to improve, but didn't get enough help from my teachers. Sometimes they're too busy, and other times… well, let's just say they weren't too enthusiastic about the subject themselves.</p>
+      <p>In JC, I took up Econs tuition when I realised my grades were falling. That was when I first experienced the power of a truly capable tutor. I learnt how to memorise content easier and how to answer questions better. The subject became so much easier... It even became one of my favourite!</p>
+      <p>I want to give you that transformative experience as well. Many students are struggling with Bio, and you might be too. But it doesn't have to be that way. I wish to change that by giving high-quality lessons, taught in an enthusiastic and clear manner. Because you guys deserve the best.</p>
+      <h3>Q: Why is it important that students who really want to do well can do so?</h3>
+      <p>A: I’ve experienced what it’s like to always struggle in a subject. It made me feel inadequate, stupid and worthless. I don’t want them to feel that way.</p>
+      <p>I want them to see that whatever they put their mind to, they can achieve. They can change and improve themselves, wherever their starting point may be. I want them to see that they are inherently highly capable people, increasing their self-confidence and self-worth.</p>
+      <h3>Q: Why is it that students having high self-confidence important to you?</h3>
+      <p>A: I came from a rocky childhood, and I’m not a psychologist, but I guess that was a big reason for my feelings of low self-worth during childhood.</p>
+      <p>I don’t want my students to feel that way too: that they’re not good enough, not smart enough, or they’re inadequate. I don’t want them to lead defeated lives.</p>
+      <p>What set me free of that was proving to myself that I can achieve whatever I set my mind to. Whether it was learning how to solve a Rubik’s cube in 15 seconds, building up my body and physique from the scrawny kid I was, or even building this tuition business… each event showed me that we humans are capable of change and improvement.</p>
+      <p>Through transforming their Bio grades, I want my students to see that they can achieve whatever they set their mind to. I want them to leave our class having a higher self-esteem and confidence in themselves than before they entered.</p>
       <p><strong>— Mr Keefe</strong></p>
     </div>
   </section>

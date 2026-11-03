@@ -285,8 +285,8 @@ class StaticSiteFoundationTests(unittest.TestCase):
         self.assertRegex(pages, r"@media\s*\([^)]*max-width")
         self.assertRegex(pages, r"@media\s*\([^)]*min-width")
         self.assertRegex(
-            pages,
-            r"\.page-home\s+\.hero__media\s*\{[^}]*width:\s*100%",
+            components,
+            r"\.full-photo-hero\s+\.hero__media\s*\{[^}]*width:\s*100%",
         )
         self.assertRegex(
             components,
@@ -1385,6 +1385,7 @@ class FinalReviewRegressionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         build_root = build_test_site()
+        cls.build_root = build_root
         cls.base_css = (SITE_DIR / "assets/css/base.css").read_text(encoding="utf-8")
         cls.components_css = (SITE_DIR / "assets/css/components.css").read_text(
             encoding="utf-8"
@@ -1395,6 +1396,127 @@ class FinalReviewRegressionTests(unittest.TestCase):
         cls.intensive = (build_root / "intensivefix/index.html").read_text(
             encoding="utf-8"
         )
+
+    def test_original_full_width_photo_heroes_use_overlay_geometry(self):
+        for route in ("", "classes/", "intensivefix/"):
+            source = (self.build_root / route / "index.html").read_text(
+                encoding="utf-8"
+            )
+            with self.subTest(route=route or "/"):
+                self.assertIn('class="hero original-hero full-photo-hero"', source)
+
+        self.assertRegex(
+            self.components_css,
+            r"\.full-photo-hero\s+\.hero__media\s*\{[^}]*position:\s*absolute;[^}]*inset:\s*0",
+        )
+        self.assertRegex(
+            self.components_css,
+            r"\.full-photo-hero\s+\.hero__copy\s*\{[^}]*z-index:\s*2;[^}]*text-align:\s*center",
+        )
+        self.assertRegex(
+            self.components_css,
+            r"\.full-photo-hero\s+\.hero__media\s+img\s*\{[^}]*object-fit:\s*cover",
+        )
+        self.assertRegex(
+            self.components_css,
+            r"\.full-photo-hero\s+\.hero__grid\s*\{[^}]*padding-bottom:\s*clamp\(",
+        )
+        self.assertRegex(
+            self.components_css,
+            r"\.full-photo-hero::after\s*\{[^}]*pointer-events:\s*none",
+        )
+
+    def test_original_section_bars_are_used_in_rendered_homepage(self):
+        self.assertGreaterEqual(self.home.count('class="section-bar"'), 8)
+        self.assertIn("Here’s the Track Record", self.home)
+        self.assertIn("The TBT FastTrack System", self.home)
+
+    def test_original_plain_sections_do_not_use_inquire_card_panels_or_gradients(self):
+        for section_id in ("missing-key", "advantage", "student-benefits"):
+            section = self.home.split(f'id="{section_id}"', 1)[1].split(
+                "</section>", 1
+            )[0]
+            with self.subTest(section=section_id):
+                self.assertNotIn('class="card"', section)
+
+        about = (self.build_root / "about/index.html").read_text(encoding="utf-8")
+        quality = about.split('id="quality"', 1)[1].split("</section>", 1)[0]
+        self.assertNotIn('class="card"', quality)
+        self.assertIn('class="section-bar"', quality)
+        self.assertNotRegex(
+            self.components_css,
+            r"\.guarantee\s*\{[^}]*radial-gradient",
+        )
+        self.assertNotRegex(
+            self.components_css,
+            r"\.cta-panel\s*\{[^}]*radial-gradient",
+        )
+
+    def test_intensivefix_limited_time_copy_uses_light_overlay_colours(self):
+        self.assertRegex(
+            self.pages_css,
+            r"\.full-photo-hero\s+\.limited-time\s*\{[^}]*color:\s*#fff",
+        )
+        self.assertRegex(
+            self.pages_css,
+            r"\.full-photo-hero\s+\.limited-time\s+strong\s*\{[^}]*color:\s*var\(--color-brand-bright\)",
+        )
+        self.assertRegex(
+            self.components_css,
+            r"\.guarantee\s+\.eyebrow\s*\{[^}]*color:\s*var\(--color-brand-bright\)",
+        )
+
+    def test_brand_text_and_photo_hero_outline_meet_contrast_requirements(self):
+        match = re.search(r"--color-brand:\s*(#[0-9a-fA-F]{6})", self.base_css)
+        self.assertIsNotNone(match)
+
+        def channel(value):
+            value /= 255
+            return value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4
+
+        color = match.group(1)
+        red, green, blue = (int(color[index : index + 2], 16) for index in (1, 3, 5))
+        luminance = 0.2126 * channel(red) + 0.7152 * channel(green) + 0.0722 * channel(blue)
+        white_contrast = 1.05 / (luminance + 0.05)
+        self.assertGreaterEqual(white_contrast, 4.5)
+        self.assertRegex(
+            self.components_css,
+            r"\.full-photo-hero\s+\.button--outline\s*\{[^}]*color:\s*#fff",
+        )
+
+    def test_original_long_form_copy_is_not_reduced(self):
+        about = (self.build_root / "about/index.html").read_text(encoding="utf-8")
+        sec3 = (
+            self.build_root / "sec-3-pure-g3-biology-tuition/index.html"
+        ).read_text(encoding="utf-8")
+        sec4 = (
+            self.build_root / "sec-4-pure-g3-biology-tuition/index.html"
+        ).read_text(encoding="utf-8")
+
+        self.assertEqual(self.home.count('class="faq"'), 13)
+        self.assertEqual(sec3.count('class="faq"'), 13)
+        self.assertEqual(sec4.count('class="faq"'), 12)
+        for question in (
+            "Why did you start ThatBioTutor?",
+            "Why is it important that students who really want to do well can do so?",
+            "Why is it that students having high self-confidence important to you?",
+        ):
+            self.assertIn(question, about)
+        for technique in (
+            "FIRED method for full marks in OEQs",
+            "how to interpret graphs and tables",
+            "linking topics to unseen scenarios",
+            "technique, table drawing, graph plotting",
+            "which questions to prioritize and when to move on",
+            "topic by topic throughout the year",
+        ):
+            with self.subTest(technique=technique):
+                self.assertIn(technique, sec3)
+                self.assertIn(technique, sec4)
+        for page in (sec3, sec4):
+            self.assertIn("Real Practical Sessions. Real Practice.", page)
+            self.assertIn("Paper 3 makes up 20% of the grade", page)
+            self.assertIn("additional hands-on sessions", page)
 
     def test_light_cards_reset_dark_section_text_colour(self):
         self.assertRegex(
@@ -1440,11 +1562,11 @@ class FinalReviewRegressionTests(unittest.TestCase):
         ):
             self.assertIn(exact_intensive_copy, self.intensive)
 
-    def test_carousel_figures_and_group_photo_are_not_overcropped(self):
+    def test_carousel_figures_reset_margin_and_keep_group_photo_centred(self):
         self.assertRegex(self.base_css, r"figure\s*\{[^}]*margin:\s*0")
         self.assertRegex(
             self.pages_css,
-            r"\.home-hero\s+\.media-carousel__slide:nth-child\(3\)\s+img\s*\{[^}]*object-fit:\s*contain",
+            r"\.home-hero\s+\.media-carousel__slide:nth-child\(3\)\s+img\s*\{[^}]*object-position:\s*50% 50%",
         )
 
     def test_programme_graphics_have_accessible_html_details(self):

@@ -3,7 +3,7 @@
   --color-ink: #222222;
   --color-muted: #686868;
   --color-brand-deep: #194326;
-  --color-brand: #52c739;
+  --color-brand: #267a21;
   --color-brand-bright: #78e45b;
   --color-brand-soft: #eff9ed;
   --color-warm: #ffffff;
@@ -45,7 +45,7 @@
   --radius-pill: 999px;
   --shadow-sm: 0 0.2rem 0.7rem rgb(0 0 0 / 9%);
   --shadow-md: 0 0.65rem 1.8rem rgb(0 0 0 / 13%);
-  --shadow-focus: 0 0 0 0.2rem rgb(82 199 57 / 35%);
+  --shadow-focus: 0 0 0 0.2rem rgb(38 122 33 / 35%);
   --container-reading: 44rem;
   --container-content: 62rem;
   --container-wide: 74rem;
@@ -263,7 +263,7 @@ li {
 }
 
 .accent {
-  color: var(--color-brand);
+  color: var(--color-brand-bright);
 }
 
 .accent-bright {
