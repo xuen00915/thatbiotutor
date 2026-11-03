@@ -148,6 +148,17 @@ function tbt_reference_content(): array
                 'fields' => [
                     'home_heading' => "The AVERAGE TBT Student Makes A 2.3 Grade Jump (~C5 to A2)",
                     'home_primary_cta_label' => 'Find Out More',
+                    'home_missing_key_heading' => 'The 1 MISSING KEY To Go From FAIL to A1, While Cutting Down Study Time By 90%',
+                    'home_fasttrack_heading' => 'Our FastTrack System 🚀',
+                    'home_trust_heading' => 'Why You Can Trust In TBT:',
+                    'home_testimonials_heading' => 'What Students Are Saying About ThatBioTutor:',
+                    'home_schools_heading' => 'Schools We Have Taught Students From:',
+                    'home_advantage_heading' => 'The TBT Advantage',
+                    'home_experience_heading' => 'Sneak Peek Into The TBT Experience:',
+                    'home_causes_heading' => 'Save The Planet With Us!',
+                    'home_tutors_heading' => 'Our Tutors',
+                    'home_faq_heading' => 'Frequently Asked Questions',
+                    'home_closing_heading' => 'Ready to make Biology click?',
                 ],
             ],
             'classes' => [

@@ -14,4 +14,5 @@
 - Documented the Montserrat/system fallback and excluded captured proprietary font binaries pending licence confirmation.
 - Added one sticky responsive header, protected Classes submenu, shared footer, and floating WhatsApp control.
 - Added dependency-free accessible mobile navigation, carousel, swipe, FAQ, focus-return, and reduced-motion behavior.
+- Rebuilt the original Home section sequence with the supplied five-image hero, lower first-slide focal point, FastTrack, trust metrics, results, crest marquee, videos, experience media, tutors, FAQs, and CTAs.
 
