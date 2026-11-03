@@ -48,7 +48,7 @@ Each `<section data-layout-slot="…">` becomes one named top-level **Elementor 
 
 | Page | Ordered Elementor Containers |
 | --- | --- |
-| Home | hero, missing-key, fasttrack, track-record, hall-of-fame, student-voices, schools, advantage, student-benefits, experience, causes, tutors, faq, closing-cta |
+| Home | hero, pain-points, student-results, track-record, video-transition, fasttrack, social-proof, tutors, quality-control, practical-sessions, trial-guarantee, suitability, founder, faq, classroom-life, closing-cta |
 | Classes | hero, pure-biology, struggles, solutions, class-difference, results, level-choice, faq |
 | Sec 3 and Sec 4 tuition | hero, learning-modes, curriculum, results, track-record, student-voices, lesson, resources, team, faq |
 | IntensiveFix | hero, programme-media, student-proof, track-record, analysis-video, fasttrack, suitability, closing-cta |
@@ -64,7 +64,10 @@ Each `<section data-layout-slot="…">` becomes one named top-level **Elementor 
 
 - Upload the WebP files; do not hotlink the static website.
 - Preserve carousel order from `asset-manifest.json`.
-- Set the five homepage hero images as one Image Carousel without changing hero geometry.
+- Set `homeHero` as one five-image Image Carousel, keeping image 1 at the lower `50% 68%` focal position.
+- Map `trackRecord` to a four-image gallery below four Counter widgets, and `homeClassroom` to a three-image gallery after the Accordion FAQ.
+- Build `trial-guarantee` with an Icon, Heading, Text Editor, and WhatsApp Button; do not recreate the removed embedded form.
+- Build `social-proof` with two Video widgets, the crest gallery, Hall of Fame Image, and three Testimonial widgets.
 - Set all ten IntensiveFix programme graphics to `contain` so words are never cropped.
 - Keep carousel arrows and dots keyboard accessible and touch enabled.
 - Keep Counter final values visible even if animation fails.

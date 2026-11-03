@@ -1364,6 +1364,45 @@ class ResourcePageTests(unittest.TestCase):
 
 
 class ClientDocumentationTests(unittest.TestCase):
+    def test_guides_cover_the_rebuilt_homepage_editing_and_elementor_map(self):
+        guide = (REPO_ROOT / "docs/client-editing-guide.md").read_text(
+            encoding="utf-8"
+        )
+        migration_map = (REPO_ROOT / "docs/elementor-migration-map.md").read_text(
+            encoding="utf-8"
+        )
+        for required_text in (
+            "pain-points",
+            "student-results",
+            "social-proof",
+            "quality-control",
+            "practical-sessions",
+            "trial-guarantee",
+            "classroom-life",
+            "homeHero",
+            "trackRecord",
+            "homeClassroom",
+            "50% 68%",
+            "shared header",
+            "shared footer",
+        ):
+            with self.subTest(document="client guide", required_text=required_text):
+                self.assertIn(required_text, guide)
+        for required_text in (
+            "pain-points",
+            "student-results",
+            "social-proof",
+            "quality-control",
+            "practical-sessions",
+            "trial-guarantee",
+            "classroom-life",
+            "Image Carousel",
+            "Counter",
+            "Accordion",
+        ):
+            with self.subTest(document="Elementor map", required_text=required_text):
+                self.assertIn(required_text, migration_map)
+
     def test_client_guide_covers_every_common_edit(self):
         guide_path = REPO_ROOT / "docs/client-editing-guide.md"
         self.assertTrue(guide_path.is_file(), f"Missing {guide_path}")
