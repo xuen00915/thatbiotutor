@@ -250,6 +250,11 @@ function tbt_reference_content(): array
                 'source' => $crawlSource('/about'),
                 'fields' => [
                     'about_heading' => 'About ThatBioTutor',
+                    'about_mission_heading' => 'Our Mission',
+                    'about_quality_heading' => 'Quality Teaching Only',
+                    'about_tutors_heading' => 'Our Tutors',
+                    'about_founder_heading' => 'A Message From The Founder',
+                    'about_beliefs_heading' => 'What We Believe In',
                 ],
             ],
             'contact' => [
