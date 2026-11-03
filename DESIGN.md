@@ -16,3 +16,5 @@ The active ThatBioTutor Hello Child theme recreates the original website without
 
 The 3 November 2026 crawl of `www.thatbiotutor.com` is authoritative for original pages. IntensiveFix is additional approved scope and uses the closest original Classes/Sec 3 visual vocabulary. Proprietary captured fonts are not redistributed without a licence; open Montserrat and documented system fallbacks are used instead.
 
+The child theme remains the source of truth even when WordPress exposes Elementor. ACF Free owns content, while templates own structure; no production layout depends on Elementor Pro data.
+

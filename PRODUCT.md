@@ -11,3 +11,5 @@ ThatBioTutor is a Singapore O-Level Pure/G3 Biology tuition website. This packag
 
 The package must remain portable to a future WordPress host and must not assume a final hostname.
 
+IntensiveFix is separate from regular Sec 3 tuition. Production launch, DNS, mail, analytics, and consent remain externally approved operations, not repository defaults.
+

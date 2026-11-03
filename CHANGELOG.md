@@ -22,4 +22,5 @@
 - Preserved Cell Division as a clearly dated historical 2023 resource without inventing current access claims.
 - Added native About, Contact, Our Causes, and Tuition Recommendations templates with authoritative copy, safe external links, shared tutors, and responsive institutional layouts.
 - Added portable per-page metadata, same-site legacy redirects, conservative security headers, disabled comments/pingbacks, and clear fallback templates.
+- Added client editing, collaborator onboarding, guarded deployment, staging migration, rollback, and launch-approval documentation.
 

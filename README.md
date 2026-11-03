@@ -14,8 +14,11 @@ Elementor Pro, ACF Pro, and Code Snippets are not required. WordPress core, the 
 ## Local verification
 
 ```bash
+ npm install
+ npm run wp-env:start
+ npm run wp-env:setup
 scripts/verify-local.sh
 ```
 
-The clean local WordPress runtime and browser-preview commands are added by the release-verification phase. No live domain, DNS, or existing website is changed by this repository.
+See `docs/CLIENT-EDITING-GUIDE.md` for ACF Free editing and `docs/DEPLOYMENT.md` for guarded deployment. The child theme is the source of truth. No production hostname, live domain, DNS, or existing website is changed by this repository.
 
