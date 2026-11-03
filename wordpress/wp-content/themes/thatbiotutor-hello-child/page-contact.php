@@ -7,8 +7,15 @@ $tbt_defaults = tbt_reference_content()['pages']['contact']['fields'];
 $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, $tbt_defaults[$name] ?? '');
 ?>
 <article class="tbt-institutional-page tbt-contact-page">
-    <header class="tbt-section tbt-utility-hero"><h1><?php echo esc_html($tbt_field('contact_heading')); ?></h1><p class="tbt-lead">Dear parent/student,</p></header>
-    <section class="tbt-section tbt-institutional-section"><div class="tbt-reading-width"><h2>Have a question?</h2><p><?php echo esc_html($tbt_field('contact_intro')); ?></p><p>They cover lesson modes, homework, class size, levels, fees, and trial lessons.</p></div></section>
-    <section class="tbt-section tbt-section--soft tbt-contact-cta"><div class="tbt-contact-cta__panel"><h2>Planning to sign up for lessons?</h2><p>If the FAQs do not answer your question, drop us a message on WhatsApp. Our friendly team will get back to you as soon as possible!</p><a class="tbt-button" href="<?php echo esc_url(tbt_whatsapp_url('Hi ThatBioTutor, I would like to ask about lessons.')); ?>">WhatsApp Us Now</a></div></section>
+    <section class="tbt-contact-content" data-section="content">
+        <div class="tbt-institutional-shell">
+            <h1><?php echo esc_html($tbt_field('contact_heading')); ?></h1>
+            <p>Dear parent/student,</p>
+            <p data-copy="read our FAQs first">If you have a question, please read our <a href="<?php echo esc_url(home_url('/#faq')); ?>"><strong><u>FAQs</u></strong></a> first!</p>
+            <p>If you’re planning to sign up for our lessons and have any other questions, just drop us a message on WhatsApp.</p>
+            <p>Our friendly team will get back to you as soon as possible!</p>
+            <p class="tbt-contact-content__action"><a class="tbt-institutional-button" href="<?php echo esc_url(tbt_whatsapp_url("Hi ThatBioTutor, I'm a Student/Parent and I'd like to enquire about classes.")); ?>">WhatsApp Us Now</a></p>
+        </div>
+    </section>
 </article>
 <?php get_footer(); ?>

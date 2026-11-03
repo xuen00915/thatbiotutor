@@ -2087,6 +2087,58 @@
       "licenseStatus": "site-owned"
     },
     {
+      "key": "curated_about_chelsea_certificate",
+      "source": "provenance://061220_cca5deb257ca463c8f211204cc264ee0~mv2.png",
+      "file": "files/a1d7d5cb51a1cbcdb4ae65abf1ae81d2.webp",
+      "sha256": "1021ffbe952d28e2bdf2326171c2170ab0cd4aa71f1b398da499537f17931cf8",
+      "alt": "Ms Chelsea's Biology qualifications",
+      "width": 1080,
+      "height": 1350,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": ["about"],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "curated_about_chelsea_credentials",
+      "source": "provenance://061220_1c1e64da40194f5da7cf3dd33b56bf0e~mv2.jpg",
+      "file": "files/aca4eb3f968aa1c2535a6e9045c0fcdc.webp",
+      "sha256": "315105e3d56f7eef69f9b676ab7d4ca86d469db5f8f4fa9b0af01521718e44fe",
+      "alt": "Ms Chelsea's tutor credentials",
+      "width": 1044,
+      "height": 715,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": ["about"],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "curated_about_keefe_certificate",
+      "source": "provenance://061220_9e8c5f7c44b944329564b7f7350f5339~mv2.png",
+      "file": "files/4e8fed15a4c23bb5be44da46a42824a4.webp",
+      "sha256": "70a79a050fd374708af50d4f0e24e22b675b5c1a2fac7ad55f6d6929ce198d2e",
+      "alt": "Mr Keefe's A Level certificate",
+      "width": 1080,
+      "height": 1350,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": ["about"],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "curated_about_founder_message",
+      "source": "provenance://061220_4fef513be7cb49929dd24b3a4bd0f08f~mv2.png",
+      "file": "files/f8cc9179a6c68e1728187c66176d5b07.webp",
+      "sha256": "30ee75fc8fafd206f0f421faad5a2a8355d0fe25c5836e9afef105dd5e64dba2",
+      "alt": "ThatBioTutor classroom",
+      "width": 4032,
+      "height": 3024,
+      "fit": "cover",
+      "objectPosition": "50% 58%",
+      "pages": ["about"],
+      "licenseStatus": "public-site-capture"
+    },
+    {
       "key": "curated_about_tutor_chelsea",
       "source": "provenance://tutor-chelsea.webp",
       "file": "files/3ce63282936a9035b9a19db812c91cb5.webp",

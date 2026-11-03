@@ -1,0 +1,331 @@
+/* Public About, Contact, Causes and Recommendations compositions. */
+.tbt-institutional-page {
+  --institutional-green: #62bb46;
+  --institutional-dark: #303030;
+  overflow-x: clip;
+  background: #fff;
+  color: #111;
+}
+
+.tbt-institutional-page h1,
+.tbt-institutional-page h2,
+.tbt-institutional-page h3,
+.tbt-institutional-page p,
+.tbt-institutional-page li,
+.tbt-institutional-page a { overflow-wrap: anywhere; }
+
+.tbt-institutional-shell,
+.tbt-reading-width {
+  width: min(980px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.tbt-institutional-title-bar {
+  display: grid;
+  min-height: 58px;
+  place-items: center;
+  padding: 8px 24px;
+  background: var(--institutional-dark);
+  color: #fff;
+  text-align: center;
+}
+
+.tbt-institutional-title-bar h1,
+.tbt-institutional-title-bar h2 {
+  margin: 0;
+  color: inherit;
+  font-size: 1.9rem;
+  line-height: 1.25;
+}
+
+.tbt-institutional-button {
+  display: inline-flex;
+  min-height: 68px;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 40px;
+  border-radius: 10px;
+  background: #8be05d;
+  color: #fff;
+  font-size: 1.65rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* About. */
+.tbt-about-page mark {
+  padding: 0 .08em;
+  background: #62db4d;
+  color: #111;
+  font-weight: 700;
+}
+
+.tbt-about-hero {
+  position: relative;
+  min-height: 321px;
+  overflow: hidden;
+  background: #1b1b1b;
+}
+
+.tbt-about-hero__image {
+  display: block;
+  width: 100%;
+  height: 321px;
+  object-fit: cover;
+  object-position: center;
+  opacity: .58;
+}
+
+.tbt-about-hero__title {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.tbt-about-hero h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 4.05rem;
+  line-height: 1.05;
+}
+
+.tbt-about-hero h1 span,
+.tbt-about-hero h1 strong { display: block; }
+.tbt-about-hero h1 strong { color: #73dd57; }
+
+.tbt-about-mission .tbt-reading-width { padding: 78px 0 92px; }
+.tbt-about-mission h3 {
+  margin: 0 0 52px;
+  font-size: 2.5rem;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.tbt-about-page .tbt-reading-width p,
+.tbt-about-page .tbt-reading-width li {
+  font-size: 1.38rem;
+  line-height: 1.5;
+}
+
+.tbt-about-quality .tbt-reading-width { padding: 62px 0 90px; }
+.tbt-about-quality .tbt-reading-width > p:first-child { margin-top: 0; }
+.tbt-about-quality li + li { margin-top: 24px; }
+.tbt-about-quality__image {
+  display: block;
+  width: 600px;
+  max-width: 100%;
+  height: auto;
+  margin: 56px auto 0;
+  object-fit: contain;
+}
+
+.tbt-about-tutors .tbt-tutors {
+  display: block;
+  width: min(980px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.tbt-about-tutors .tbt-tutor {
+  display: block;
+  padding: 34px 0 70px;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+}
+
+.tbt-about-tutors .tbt-tutor:nth-child(1) { min-height: 1530px; }
+.tbt-about-tutors .tbt-tutor:nth-child(2) { min-height: 660px; }
+.tbt-about-tutors .tbt-tutor:nth-child(3) { min-height: 1210px; }
+.tbt-about-tutors .tbt-tutor:nth-child(4) { min-height: 720px; }
+
+.tbt-about-tutors .tbt-tutor h3 {
+  margin: 0 0 28px;
+  font-size: 1.85rem;
+  text-align: center;
+}
+
+.tbt-about-tutors .tbt-tutor h3 small {
+  display: block;
+  margin-top: 6px;
+  font-size: .72em;
+}
+
+.tbt-about-tutors .tbt-tutor__portrait {
+  display: block;
+  width: 230px;
+  height: 230px;
+  margin: 0 auto 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.tbt-about-tutors .tbt-tutor__qualifications {
+  width: min(900px, 100%);
+  margin: 0 auto;
+  padding-left: 1.4em;
+}
+
+.tbt-about-tutors .tbt-tutor__qualifications li {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.tbt-about-tutors .tbt-tutor__documents {
+  display: grid;
+  justify-items: center;
+  gap: 44px;
+  margin-top: 48px;
+}
+
+.tbt-about-tutors .tbt-tutor__document {
+  display: block;
+  width: auto;
+  max-width: min(420px, 100%);
+  max-height: 450px;
+  object-fit: contain;
+}
+
+.tbt-founder-message .tbt-reading-width { padding: 0 0 88px; }
+.tbt-founder-message__image {
+  display: block;
+  width: 979px;
+  max-width: 100%;
+  height: 411px;
+  margin: 44px auto 58px;
+  object-fit: cover;
+  object-position: 50% 58%;
+}
+
+.tbt-founder-message h3 {
+  margin: 44px 0 10px;
+  font-size: 1.38rem;
+}
+
+.tbt-about-beliefs .tbt-reading-width { padding: 62px 0 120px; }
+.tbt-beliefs-grid { display: block; text-align: center; }
+.tbt-beliefs-grid article {
+  margin: 0 auto 34px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.tbt-beliefs-grid h3 { margin-bottom: 8px; color: var(--institutional-green); font-size: 1.65rem; }
+.tbt-beliefs-grid p { margin: 0; }
+
+/* Contact. */
+.tbt-contact-content {
+  min-height: 1055px;
+  padding: 50px 0 100px;
+}
+
+.tbt-contact-content h1 {
+  margin: 0 0 28px;
+  font-size: 3.75rem;
+  line-height: 1.15;
+}
+
+.tbt-contact-content p {
+  margin: 0 0 42px;
+  font-size: 1.28rem;
+  line-height: 1.75;
+}
+
+.tbt-contact-content__action { text-align: center; }
+
+/* Causes. */
+.tbt-causes-page { background: #fff; }
+.tbt-causes-section__media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.tbt-causes-section__media--square { width: 550px; height: 550px; margin: 0 auto; }
+.tbt-causes-copy { padding: 48px 0 60px; }
+.tbt-causes-copy h2 {
+  margin: 0 0 34px;
+  font-size: 1.85rem;
+  text-align: center;
+}
+.tbt-causes-copy p { margin: 0 0 28px; font-size: 1.35rem; line-height: 1.55; }
+.tbt-causes-section__media--record {
+  width: 654px;
+  max-width: 100%;
+  aspect-ratio: 654 / 502;
+  margin: 38px auto 0;
+}
+.tbt-causes-section__media--giving {
+  width: 719px;
+  max-width: 100%;
+  aspect-ratio: 719 / 589;
+  margin: 32px auto 0;
+}
+.tbt-causes-section[data-section="sg-causes"] .tbt-causes-copy { padding-top: 42px; padding-bottom: 280px; }
+
+/* Tuition recommendations. */
+.tbt-recommendations-page { min-height: 948px; }
+.tbt-recommendations-page .tbt-institutional-title-bar { min-height: 84px; }
+.tbt-recommendations-page .tbt-institutional-title-bar h1 { font-size: 2.5rem; }
+.tbt-recommendations-copy { padding: 52px 0 100px; }
+.tbt-recommendations-copy p { margin: 0 0 32px; font-size: 1.25rem; line-height: 1.55; }
+.tbt-recommendations-copy strong { color: #20af23; }
+
+@media (min-width: 1440px) {
+  .tbt-institutional-shell,
+  .tbt-reading-width { width: min(980px, calc(100% - 80px)); }
+}
+
+@media (max-width: 768px) {
+  .tbt-institutional-shell,
+  .tbt-reading-width,
+  .tbt-about-tutors .tbt-tutors { width: min(680px, calc(100% - 36px)); }
+  .tbt-about-hero,
+  .tbt-about-hero__image { min-height: 250px; height: 250px; }
+  .tbt-about-hero h1 { font-size: 3.2rem; }
+  .tbt-about-page .tbt-reading-width p,
+  .tbt-about-page .tbt-reading-width li { font-size: 1.08rem; }
+  .tbt-about-mission h3 { font-size: 2rem; }
+  .tbt-about-tutors .tbt-tutor:nth-child(n) { min-height: 0; padding-bottom: 90px; }
+  .tbt-about-tutors .tbt-tutor__qualifications li { font-size: 1.06rem; }
+  .tbt-founder-message__image { height: auto; aspect-ratio: 979 / 411; }
+  .tbt-contact-content { min-height: 835px; }
+  .tbt-causes-copy p { font-size: 1.08rem; }
+  .tbt-causes-section[data-section="sg-causes"] .tbt-causes-copy { padding-bottom: 160px; }
+}
+
+@media (max-width: 390px) {
+  .tbt-institutional-shell,
+  .tbt-reading-width,
+  .tbt-about-tutors .tbt-tutors { width: calc(100% - 28px); }
+  .tbt-institutional-title-bar h1,
+  .tbt-institutional-title-bar h2 { font-size: 1.45rem; }
+  .tbt-about-hero,
+  .tbt-about-hero__image { min-height: 210px; height: 210px; }
+  .tbt-about-hero h1 { font-size: 2.6rem; }
+  .tbt-about-mission .tbt-reading-width,
+  .tbt-about-quality .tbt-reading-width,
+  .tbt-about-beliefs .tbt-reading-width { padding-block: 52px; }
+  .tbt-about-mission h3 { font-size: 1.55rem; }
+  .tbt-about-tutors .tbt-tutor__portrait { width: 180px; height: 180px; }
+  .tbt-founder-message__image { margin-block: 28px 40px; }
+  .tbt-contact-content h1 { font-size: 3rem; }
+  .tbt-contact-content p { font-size: 1.08rem; margin-bottom: 28px; }
+  .tbt-institutional-button { width: 100%; min-height: 58px; font-size: 1.3rem; }
+  .tbt-causes-section__media--square { width: 100%; height: auto; aspect-ratio: 1; }
+  .tbt-causes-copy { padding-block: 36px 46px; }
+  .tbt-causes-copy h2 { font-size: 1.45rem; }
+  .tbt-recommendations-page .tbt-institutional-title-bar h1 { font-size: 1.75rem; }
+  .tbt-recommendations-copy { padding-top: 38px; }
+  .tbt-recommendations-copy p { font-size: 1.08rem; }
+}
+
+@media (max-width: 320px) {
+  .tbt-institutional-shell,
+  .tbt-reading-width,
+  .tbt-about-tutors .tbt-tutors { width: calc(100% - 20px); }
+  .tbt-about-hero h1 { font-size: 2.2rem; }
+  .tbt-about-page .tbt-reading-width p,
+  .tbt-about-page .tbt-reading-width li { font-size: 1rem; }
+  .tbt-about-tutors .tbt-tutor h3 { font-size: 1.45rem; }
+  .tbt-contact-content h1 { font-size: 2.55rem; }
+  .tbt-contact-content { padding-top: 36px; }
+}
