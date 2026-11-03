@@ -70,6 +70,14 @@
   --inquire-pale: #f1f8ed;
   --inquire-mist: #f7f8f6;
   --inquire-border: #dce8d8;
+
+  /* ThatBioTutor desktop type scale: 60 / 36 / 30 / 22 / 16 / 14. */
+  --home-type-hero: 3.75rem;
+  --home-type-section: 2.25rem;
+  --home-type-subsection: 1.875rem;
+  --home-type-lead: 1.375rem;
+  --home-type-body: 1rem;
+  --home-type-small: 0.875rem;
 }
 
 .page-home .inquire-section {
@@ -82,6 +90,8 @@
 .page-home .section-heading h3 {
   max-width: 32ch;
   margin-inline: auto;
+  font-size: var(--home-type-section);
+  line-height: 1.25;
 }
 
 .page-home .section-heading--center {
@@ -109,7 +119,7 @@
 .inquire-hero .eyebrow {
   margin-bottom: 1.15rem;
   color: var(--inquire-green);
-  font-size: 0.8rem;
+  font-size: var(--home-type-body);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -117,8 +127,8 @@
 .inquire-hero h1 {
   max-width: 22ch;
   margin: 0 auto 1.4rem;
-  font-size: clamp(2.75rem, 4.8vw, 4.4rem);
-  line-height: 0.98;
+  font-size: var(--home-type-hero);
+  line-height: 1.25;
 }
 
 .inquire-accent {
@@ -136,7 +146,7 @@
 
 .inquire-hero__proof {
   margin-bottom: 0.4rem;
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-size: var(--home-type-lead);
 }
 
 .inquire-hero__proof strong {
@@ -146,7 +156,7 @@
 .inquire-hero__refund {
   margin-bottom: 1.7rem;
   color: #606560;
-  font-size: 0.84rem;
+  font-size: var(--home-type-body);
 }
 
 .inquire-hero .button {
@@ -274,7 +284,8 @@
 
 .page-home .home-track-record > .section-bar h2 {
   color: var(--color-ink);
-  font-size: var(--font-size-h2);
+  font-size: var(--home-type-subsection);
+  line-height: 1.2;
   text-align: center;
 }
 
@@ -297,14 +308,14 @@
 
 .page-home .home-track-record .stat__value {
   color: #39983c;
-  font-size: clamp(2rem, 3.2vw, 3.25rem);
+  font-size: 2.5rem;
   letter-spacing: -0.04em;
 }
 
 .page-home .home-track-record .stat__label {
   margin-inline: auto;
   color: #334337;
-  font-size: 0.72rem;
+  font-size: var(--home-type-small);
 }
 
 .page-home .home-track-record .media-grid {
@@ -379,7 +390,8 @@
 .page-home #fasttrack > .container > .section-heading h3 {
   max-width: 34ch;
   margin-inline: auto;
-  font-size: clamp(2rem, 3vw, 2.5rem);
+  font-size: var(--home-type-section);
+  line-height: 1.25;
 }
 
 .page-home #fasttrack .eyebrow {
@@ -396,8 +408,12 @@
   color: #26342b;
   padding: 1rem 1.25rem;
   box-shadow: 0 0.35rem 1rem rgb(0 0 0 / 12%);
-  font-size: 0.84rem;
+  font-size: var(--home-type-small);
   line-height: 1.45;
+}
+
+.page-home #fasttrack .feature-row h3 {
+  font-size: 1.25rem;
 }
 
 .page-home #fasttrack .feature-row h3,
@@ -551,6 +567,11 @@
 
 .inquire-practical .section-heading {
   width: min(100%, 49rem);
+}
+
+.page-home .inquire-practical .section-heading h2,
+.page-home .inquire-classroom .section-heading h2 {
+  font-size: var(--home-type-subsection);
 }
 
 .inquire-practical .gallery,
@@ -726,12 +747,19 @@
 }
 
 @media (max-width: 47.99rem) {
+  .page-home {
+    --home-type-hero: 2.25rem;
+    --home-type-section: 1.5rem;
+    --home-type-subsection: 1.25rem;
+    --home-type-lead: 1.125rem;
+  }
+
   .inquire-hero__intro {
     padding-block: 3.5rem 4rem;
   }
 
   .inquire-hero h1 {
-    font-size: clamp(2.3rem, 12vw, 3.25rem);
+    font-size: var(--home-type-hero);
   }
 
   .home-hero .media-carousel__viewport {

@@ -446,6 +446,45 @@ class RenderedOriginalVisualContractTests(unittest.TestCase):
             24,
         )
 
+    def test_home_keeps_inquire_layout_with_original_type_scale(self) -> None:
+        desktop = self.open_page("/", width=1440, height=1000)
+        desktop_sizes = desktop.evaluate(
+            """() => Object.fromEntries([
+                ['hero', '#home-title'],
+                ['section', '#student-results-title'],
+                ['subsection', '#results-title'],
+                ['proof', '.inquire-hero__proof'],
+                ['refund', '.inquire-hero__refund'],
+                ['stat', '.home-track-record .stat__value'],
+            ].map(([key, selector]) => [
+                key,
+                parseFloat(getComputedStyle(document.querySelector(selector)).fontSize),
+            ]))"""
+        )
+        self.assertEqual(desktop_sizes["hero"], 60)
+        self.assertEqual(desktop_sizes["section"], 36)
+        self.assertEqual(desktop_sizes["subsection"], 30)
+        self.assertEqual(desktop_sizes["proof"], 22)
+        self.assertEqual(desktop_sizes["refund"], 16)
+        self.assertEqual(desktop_sizes["stat"], 40)
+
+        mobile = self.open_page("/", width=390, height=844)
+        mobile_sizes = mobile.evaluate(
+            """() => Object.fromEntries([
+                ['hero', '#home-title'],
+                ['section', '#student-results-title'],
+                ['subsection', '#results-title'],
+                ['proof', '.inquire-hero__proof'],
+            ].map(([key, selector]) => [
+                key,
+                parseFloat(getComputedStyle(document.querySelector(selector)).fontSize),
+            ]))"""
+        )
+        self.assertEqual(mobile_sizes["hero"], 36)
+        self.assertEqual(mobile_sizes["section"], 24)
+        self.assertEqual(mobile_sizes["subsection"], 20)
+        self.assertEqual(mobile_sizes["proof"], 18)
+
     def test_home_inquire_sections_stack_without_overflow_on_tablet_and_mobile(self) -> None:
         for width in (390, 768):
             with self.subTest(width=width):
