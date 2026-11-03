@@ -10,4 +10,6 @@
 - Added typed field and local-image fallback helpers that keep pages available when ACF is missing.
 - Added private admin content types for testimonials, tutors, FAQs, and structured results.
 - Added deterministic published-record queries and escaped reusable renderers for reviews, tutors, and FAQ accordions.
+- Added a deterministic WebP conversion pipeline with SHA-256 deduplication, preserved transparency, explicit fit/focal metadata, and source provenance.
+- Documented the Montserrat/system fallback and excluded captured proprietary font binaries pending licence confirmation.
 

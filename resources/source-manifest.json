@@ -20,6 +20,16 @@
     "wordpressOutput": "/Users/dmsyx/Documents/Projects/thatbiotutor-wordpress",
     "standaloneArchiveIncluded": false,
     "liveSiteWritesAllowed": false
+  },
+  "mediaPipeline": {
+    "script": "scripts/prepare-media.py",
+    "output": "wordpress/wp-content/themes/thatbiotutor-hello-child/assets/images",
+    "format": "WebP",
+    "photoQuality": 86,
+    "method": 6,
+    "textArtwork": "lossless",
+    "deduplication": "source SHA-256",
+    "fontPolicy": "No captured proprietary font files are redistributed without a confirmed licence"
   }
 }
 
