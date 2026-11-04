@@ -82,25 +82,97 @@ const sizes = [
     if (await firstSection.locator('.tbt-home-hero__copy').count() !== 1) throw new Error(`Home hero copy missing at ${viewport.width}`);
     const homeScale = await page.locator('.tbt-home-inquire').evaluate((home) => {
       const heroHeading = home.querySelector('h1');
+      const heroKicker = home.querySelector('.tbt-home-kicker');
+      const heroResult = home.querySelector('.tbt-home-hero__result');
+      const heroRefund = home.querySelector('.tbt-home-hero__refund');
+      const heroButton = home.querySelector('.tbt-home-hero .tbt-home-button');
       const sectionHeading = home.querySelector('[data-section="track-record"] h2');
       const carousel = home.querySelector('.tbt-home-hero__carousel');
+      const carouselDots = [...home.querySelectorAll('.tbt-home-hero [data-carousel-dot]')];
+      const carouselControl = home.querySelector('.tbt-home-hero [data-carousel-prev]');
       const statsPhotos = home.querySelector('.tbt-home-stats__photos');
       const tutors = home.querySelector('.tbt-home-tutors__grid');
       const proofResults = home.querySelector('.tbt-home-proof__results');
+      const sectionKeys = ['problem', 'track-record', 'fasttrack', 'proof', 'tutors', 'quality', 'practical', 'guarantee', 'fit', 'founder', 'faq', 'classroom', 'closing'];
       const rect = (element) => element.getBoundingClientRect();
       const columnCount = (element) => getComputedStyle(element).gridTemplateColumns.split(' ').length;
+      const style = (element) => getComputedStyle(element);
       return {
         heroFont: parseFloat(getComputedStyle(heroHeading).fontSize),
+        heroFamily: style(heroHeading).fontFamily,
+        heroLineHeight: parseFloat(style(heroHeading).lineHeight),
+        heroLetterSpacing: style(heroHeading).letterSpacing,
+        kickerFont: parseFloat(style(heroKicker).fontSize),
+        kickerWeight: style(heroKicker).fontWeight,
+        resultFont: parseFloat(style(heroResult).fontSize),
+        resultLineHeight: parseFloat(style(heroResult).lineHeight),
+        refundFont: parseFloat(style(heroRefund).fontSize),
+        refundLineHeight: parseFloat(style(heroRefund).lineHeight),
+        buttonFont: parseFloat(style(heroButton).fontSize),
+        buttonWeight: style(heroButton).fontWeight,
+        buttonHeight: rect(heroButton).height,
+        buttonRadius: parseFloat(style(heroButton).borderRadius),
+        buttonBackground: style(heroButton).backgroundColor,
         sectionFont: parseFloat(getComputedStyle(sectionHeading).fontSize),
         carouselRatio: rect(carousel).width / rect(carousel).height,
+        carouselDotCount: carouselDots.length,
+        carouselDots: carouselDots.map((dot) => ({
+          width: rect(dot).width,
+          height: rect(dot).height,
+          radius: style(dot).borderRadius,
+          background: style(dot).backgroundColor,
+        })),
+        carouselControl: {
+          width: rect(carouselControl).width,
+          height: rect(carouselControl).height,
+          background: style(carouselControl).backgroundColor,
+          borderWidth: style(carouselControl).borderWidth,
+        },
         statsPhotoColumns: columnCount(statsPhotos),
         tutorColumns: columnCount(tutors),
         proofResultColumns: columnCount(proofResults),
+        sections: Object.fromEntries(sectionKeys.map((key) => {
+          const section = home.querySelector(`[data-section="${key}"]`);
+          const heading = section.querySelector('h2');
+          return [key, {
+            background: style(section).backgroundColor,
+            heading: heading ? {
+              size: parseFloat(style(heading).fontSize),
+              lineHeight: parseFloat(style(heading).lineHeight),
+              align: style(heading).textAlign,
+              spacing: style(heading).letterSpacing,
+            } : null,
+          }];
+        })),
       };
     });
-    const maximumHeroFont = viewport.width >= 1000 ? 61 : viewport.width <= 520 ? 37 : 49;
+    const maximumHeroFont = viewport.width >= 768 ? 61 : viewport.width <= 520 ? 37 : 49;
     const maximumSectionFont = viewport.width >= 1000 ? 37 : viewport.width <= 520 ? 31 : 35;
     if (homeScale.heroFont > maximumHeroFont) throw new Error(`Home hero heading exceeds the reference scale at ${viewport.width}: ${homeScale.heroFont}px`);
+    const expectedHeroTypography = viewport.width <= 520
+      ? { hero: 36, heroLine: 45, kicker: 14, result: 18, resultLine: 28, refund: 14, refundLine: 20 }
+      : { hero: 60, heroLine: 75, kicker: 16, result: 24, resultLine: 32, refund: 16, refundLine: 24 };
+    if (!homeScale.heroFamily.startsWith('Poppins')) throw new Error(`Home does not use the Inquire Poppins family at ${viewport.width}: ${homeScale.heroFamily}`);
+    if (homeScale.heroFont !== expectedHeroTypography.hero || homeScale.heroLineHeight !== expectedHeroTypography.heroLine || homeScale.heroLetterSpacing !== 'normal') throw new Error(`Home hero typography differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
+    if (homeScale.kickerFont !== expectedHeroTypography.kicker || homeScale.kickerWeight !== '600') throw new Error(`Home kicker typography differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
+    if (homeScale.resultFont !== expectedHeroTypography.result || homeScale.resultLineHeight !== expectedHeroTypography.resultLine) throw new Error(`Home result typography differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
+    if (homeScale.refundFont !== expectedHeroTypography.refund || homeScale.refundLineHeight !== expectedHeroTypography.refundLine) throw new Error(`Home refund typography differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
+    if (homeScale.buttonFont !== 18 || homeScale.buttonWeight !== '700' || homeScale.buttonHeight !== 60 || homeScale.buttonRadius < 9999 || homeScale.buttonBackground !== 'rgb(67, 180, 58)') throw new Error(`Home CTA differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
+    if (homeScale.carouselDotCount !== 5 || homeScale.carouselDots.some((dot) => dot.width !== 6 || dot.height !== 6 || dot.radius !== '50%' || !['rgb(47, 138, 39)', 'rgb(255, 255, 255)'].includes(dot.background))) throw new Error(`Home carousel dots differ from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.carouselDots)}`);
+    if (homeScale.carouselControl.width !== 30 || homeScale.carouselControl.height !== 30 || homeScale.carouselControl.background !== 'rgba(0, 0, 0, 0)' || homeScale.carouselControl.borderWidth !== '0px') throw new Error(`Home carousel control differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.carouselControl)}`);
+    const lightSections = ['problem', 'track-record', 'proof', 'quality', 'practical', 'fit', 'faq', 'classroom'];
+    const softGreenSections = ['tutors', 'founder'];
+    const darkSections = ['fasttrack', 'guarantee', 'closing'];
+    if (lightSections.some((key) => homeScale.sections[key].background !== 'rgb(255, 255, 255)')) throw new Error(`Home light section sequence differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.sections)}`);
+    if (softGreenSections.some((key) => homeScale.sections[key].background !== 'rgb(240, 248, 238)')) throw new Error(`Home soft-green section sequence differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.sections)}`);
+    if (darkSections.some((key) => homeScale.sections[key].background !== 'rgb(14, 55, 29)')) throw new Error(`Home dark section sequence differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.sections)}`);
+    const centeredSections = ['fasttrack', 'proof', 'tutors', 'quality', 'practical', 'guarantee', 'faq', 'classroom'];
+    if (centeredSections.some((key) => homeScale.sections[key].heading?.align !== 'center')) throw new Error(`Home section heading alignment differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.sections)}`);
+    const compactHeadingSize = viewport.width <= 520 ? 24 : 30;
+    const standardHeadingSize = viewport.width <= 520 ? 30 : 36;
+    if (['track-record', 'practical', 'classroom'].some((key) => homeScale.sections[key].heading?.size !== compactHeadingSize)) throw new Error(`Home compact section headings differ from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.sections)}`);
+    if (['fasttrack', 'proof', 'tutors', 'quality', 'guarantee', 'founder', 'faq'].some((key) => homeScale.sections[key].heading?.size !== standardHeadingSize)) throw new Error(`Home standard section headings differ from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.sections)}`);
+    if (homeScale.sections.fit.heading?.size !== 24 || Object.values(homeScale.sections).filter((section) => section.heading).some((section) => section.heading.spacing !== 'normal')) throw new Error(`Home section typography differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.sections)}`);
     if (homeScale.sectionFont > maximumSectionFont) throw new Error(`Home section heading exceeds the reference scale at ${viewport.width}: ${homeScale.sectionFont}px`);
     if (Math.abs(homeScale.carouselRatio - 3) > 0.1) throw new Error(`Home hero carousel is outside the reference 3:1 ratio at ${viewport.width}: ${homeScale.carouselRatio}`);
     if (viewport.width <= 520 && (homeScale.statsPhotoColumns !== 2 || homeScale.tutorColumns !== 2 || homeScale.proofResultColumns !== 2)) {
