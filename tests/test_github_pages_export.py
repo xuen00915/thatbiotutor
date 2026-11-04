@@ -58,6 +58,7 @@ class GithubPagesExportTest(unittest.TestCase):
         self.assertIn("actions/upload-pages-artifact@v3", workflow)
         self.assertIn("actions/deploy-pages@v4", workflow)
         self.assertIn("npm run wp-env:setup", workflow)
+        self.assertIn("Pillow==11.3.0", workflow)
 
 
 if __name__ == "__main__":
