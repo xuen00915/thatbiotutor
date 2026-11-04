@@ -74,6 +74,10 @@ final class HomePageTest
         }
         $this->assertSame(1, substr_count($html, 'curated_home_hall_of_fame'), 'Home must reproduce the single public Hall of Fame artwork.');
         $this->assertSame(3, substr_count($html, 'data-home-testimonial'), 'Home must reproduce the three public featured testimonials.');
+        $this->assertTrue(
+            str_contains($html, 'He got me from a C6 (my Sec 3 EOY grade) to A2 in O Level 🙏'),
+            'Home must retain the complete Aryan testimonial rather than an abbreviated rewrite.'
+        );
         foreach (range(1, 4) as $index) {
             $this->assertSame(1, substr_count($html, sprintf('curated_home_benefit_%02d', $index)), "Student benefit artwork {$index} must render once.");
         }
@@ -84,6 +88,14 @@ final class HomePageTest
         $this->assertSame(1, substr_count($html, 'data-faq-renderer="home"'), 'Home must use the shared Home FAQ renderer.');
         $homeFaqs = array_filter($tbt_reference['records']['faqs'] ?? [], static fn (array $faq): bool => ($faq['fields']['tbt_faq_collection'] ?? '') === 'home');
         $this->assertSame(13, count($homeFaqs), 'Home must retain all thirteen public FAQs.');
+        $homeFaqCopy = implode("\n", array_column($homeFaqs, 'content'));
+        foreach ([
+            "We don't believe in overloading students with homework when they already have enough from school",
+            'We even take the time to voice message them explanations if the question is more complex.',
+            'Because we offer several class options tailored to different needs, fees may vary.',
+        ] as $publicFaqWording) {
+            $this->assertTrue(str_contains($homeFaqCopy, $publicFaqWording), 'Home FAQs must preserve the complete public wording.');
+        }
         $this->assertSame(1, substr_count($html, 'curated_home_faq_graphic'), 'Home closing must reproduce the public FAQ artwork.');
         $this->assertTrue(str_contains($html, 'https://wa.me/'), 'Home must provide WhatsApp trial CTA links.');
         $this->assertTrue(!preg_match('~https?://static\.wixstatic\.com~', $html), 'Home must not hotlink Wix media.');

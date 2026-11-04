@@ -32,6 +32,19 @@ final class ClassesPagesTest
         $this->assertTrue(str_contains($classes, 'curated_classes_fasttrack_study_prep'), 'Classes difference must use the public FastTrack artwork.');
         $this->assertTrue(!str_contains($classes, 'tbt-problem-grid'), 'Classes must not substitute the public stacked struggle composition with generic problem cards.');
         $this->assertTrue(str_contains($classes, 'class="tbt-programme-button tbt-programme-levels__button"'), 'Classes level chooser must retain the public WhatsApp button below the guidance copy.');
+        foreach ([
+            'a structured answering framework that earns full marks consistently',
+            'Mr. Keefe and the TBT team have developed mnemonics and memory hacks for every major topic.',
+            'training on the exact experiment types most commonly tested in Paper 3, well before exam day.',
+        ] as $publicClassesWording) {
+            $this->assertTrue(str_contains(html_entity_decode(strip_tags($classes)), $publicClassesWording), 'Classes must retain the complete public programme wording.');
+        }
+
+        $reference = tbt_reference_content();
+        $classesFaqs = array_values(array_filter($reference['records']['faqs'] ?? [], static fn (array $faq): bool => ($faq['fields']['tbt_faq_collection'] ?? '') === 'classes'));
+        $this->assertSame(5, count($classesFaqs), 'Classes must retain all five public FAQs.');
+        $classesFaqCopy = implode("\n", array_column($classesFaqs, 'content'));
+        $this->assertTrue(str_contains($classesFaqCopy, 'It will be renamed to G3 Biology starting 2027'), 'Classes FAQs must retain the complete Pure Biology explanation.');
 
         $sec3 = $html['page-sec-3.php'];
         $sec3Text = html_entity_decode(strip_tags($sec3));
@@ -45,7 +58,15 @@ final class ClassesPagesTest
         $this->assertTrue(substr_count($sec3, 'tbt-programme-hero__highlight') >= 2, 'Sec 3 hero must preserve the public green phrase emphasis.');
         $this->assertTrue(str_contains($sec3, 'March') && str_contains($sec3, 'Sep – Oct'), 'Sec 3 must retain its March opening and two-phase calendar.');
         $this->assertTrue(!str_contains($sec3, 'Phase 3 — O Levels Intensives'), 'Sec 3 must not inherit the Sec 4 third phase.');
-        $this->assertTrue(str_contains($sec3, 'data-testimonial-cohort="2025"'), 'Sec 3 must render an editable structured-testimonial cohort rather than an empty non-existent group.');
+        $this->assertTrue(str_contains($sec3, 'data-testimonial-cohort="sec3-featured"'), 'Sec 3 must render its three exact public featured reviews.');
+        foreach ([
+            'Students are also allowed to switch freely between modes each week.',
+            'All Sec 3 topics recapped (~2 topics per lesson)',
+            'Time management — which questions to prioritize and when to move on',
+            'Full recording uploaded after every lesson, with worksheets and teacher',
+        ] as $publicSec3Wording) {
+            $this->assertTrue(str_contains($sec3Text, $publicSec3Wording), 'Sec 3 must retain the complete public programme wording.');
+        }
 
         $sec4 = $html['page-sec-4.php'];
         $sec4Text = html_entity_decode(strip_tags($sec4));
@@ -58,7 +79,28 @@ final class ClassesPagesTest
         $this->assertTrue(str_contains($sec4, 'curated_heroes_sec4_original'), 'Sec 4 hero must use the captured public background.');
         $this->assertTrue(substr_count($sec4, 'tbt-programme-hero__highlight') >= 3, 'Sec 4 hero must preserve the public green proof emphasis.');
         $this->assertTrue(str_contains($sec4, 'Aug – Nov') && str_contains($sec4, '69.21%'), 'Sec 4 must retain its O-Level intensive phase and recovery proof.');
-        $this->assertTrue(str_contains($sec4, 'data-testimonial-cohort="2025"'), 'Sec 4 must render an editable structured-testimonial cohort rather than an empty non-existent group.');
+        $this->assertTrue(str_contains($sec4, 'data-testimonial-cohort="sec4-featured"'), 'Sec 4 must render its three exact public featured reviews.');
+        foreach ([
+            'Students are also allowed to switch freely between modes each week.',
+            'All topics of the entire O Level Pure / G3 Biology syllabus recapped (~2 topics per lesson)',
+            'Real practical sessions on the exact experiment types most commonly tested',
+            'Time management — which questions to prioritize and when to move on',
+        ] as $publicSec4Wording) {
+            $this->assertTrue(str_contains($sec4Text, $publicSec4Wording), 'Sec 4 must retain the complete public programme wording.');
+        }
+
+        foreach (['sec3' => 13, 'sec4' => 12] as $faqCollection => $expectedFaqCount) {
+            $programmeFaqs = array_values(array_filter($reference['records']['faqs'] ?? [], static fn (array $faq): bool => ($faq['fields']['tbt_faq_collection'] ?? '') === $faqCollection));
+            $this->assertSame($expectedFaqCount, count($programmeFaqs), ucfirst($faqCollection) . ' must retain every public FAQ.');
+            $programmeFaqCopy = implode("\n", array_column($programmeFaqs, 'content'));
+            $this->assertTrue(str_contains($programmeFaqCopy, 'None of our students found it impossible to get their questions answered'), ucfirst($faqCollection) . ' FAQs must retain the complete class-size answer.');
+        }
+        foreach (['sec3-featured' => 'Bio was horrible and I failed even after memorizing a lot of content.', 'sec4-featured' => 'Unlike school teachers who just merely read off the slides'] as $group => $publicQuote) {
+            $featured = array_values(array_filter($reference['records']['testimonials'] ?? [], static fn (array $record): bool => ($record['fields']['tbt_display_group'] ?? '') === $group));
+            $this->assertSame(3, count($featured), $group . ' must preserve all three public featured reviews.');
+            $featuredCopy = implode("\n", array_column(array_column($featured, 'fields'), 'tbt_quote'));
+            $this->assertTrue(str_contains($featuredCopy, $publicQuote), $group . ' must preserve its exact public review wording.');
+        }
         foreach ([$sec3, $sec4] as $programme) {
             $this->assertTrue(str_contains($programme, 'https://wa.me/'), 'Programme trial CTA must open the configured WhatsApp destination.');
             foreach (['98', '912+', '2.3', '91%', '69.21%', '1 in 2'] as $stat) {

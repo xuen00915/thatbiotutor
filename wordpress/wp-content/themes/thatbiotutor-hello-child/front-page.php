@@ -64,7 +64,7 @@ $tbt_home_testimonials = [
     [
         'media' => 'curated_home_testimonial_aryan',
         'result' => 'C6 → A2',
-        'quote' => 'Excellent tutor in terms of the amount of resources he has... Very knowledgeable and has his own personal touch to everything he does and genuinely cares for the students. Lessons are very beneficial and 100% would recommend for O Level taking students. He got me from a C6 to A2 in O Level.',
+        'quote' => 'Excellent tutor in terms of the amount of resources he has... Very knowledgeable and has his own personal touch to everything he does and genuinely cares for the students. Lessons are very beneficial and 100% would recommend for O Level taking students. He got me from a C6 (my Sec 3 EOY grade) to A2 in O Level 🙏',
         'name' => 'Aryan, Sec 4 in 2024',
     ],
 ];

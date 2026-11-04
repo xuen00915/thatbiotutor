@@ -46,8 +46,8 @@ $tbt_notes_portrait = tbt_media('original_003');
             <div class="tbt-resource-access-spacer" aria-hidden="true"></div>
             <div class="tbt-resource-access-instructions">
                 <p><strong>IMPORTANT:</strong> <?php echo esc_html($tbt_field('notes_access_copy')); ?></p>
-                <p>You'll receive an email with the notes; in Gmail, it might be found in your “Promotions” folder.</p>
-                <p>Can't press the submit button or having issues receiving it? Email <a href="mailto:keefe@thatbiotutor.com">keefe@thatbiotutor.com</a>, and the team will help you out ASAP.</p>
+                <p>You'll then receive an email with our notes (on gmail, it might be found in your 'promotions' folder).</p>
+                <p>Can't press the submit button/Having issues receiving it? Email <a href="mailto:keefe@thatbiotutor.com">keefe@thatbiotutor.com</a>, and I'll help you out ASAP.</p>
             </div>
         </div>
     </section>
@@ -72,7 +72,7 @@ $tbt_notes_portrait = tbt_media('original_003');
             <div class="tbt-notes-benefits__grid">
                 <?php
                 $tbt_benefits = [
-                    'concise' => "Concise notes which cut out the clutter, so you know what's important to <strong>focus on</strong>.",
+                    'concise' => "Concise notes which cuts out the clutter, so you know what's important to <strong>focus on</strong>",
                     'memory' => 'Includes our very own <strong>memory shortcuts</strong> for you to memorise faster and recall easier in exams.',
                     'questions' => "I've looked through many papers and assessment books to draw out the <strong>commonly asked questions</strong> for each topic! Now you'll know which MCQs + OEQs are important to study for.",
                     'reviewed' => '<strong>Ex-MOE Teacher Reviewed:</strong> Our syllabus and notes have been reviewed by an Ex-MOE teacher of 11 years.',
@@ -106,7 +106,7 @@ $tbt_notes_portrait = tbt_media('original_003');
                 <h2>This sounds <span>too good to be true</span>. What's the catch?</h2>
                 <ul>
                     <li>I do this because I'd like to earn your trust, by giving you results in advance.</li>
-                    <li>I want you to know that this is the <strong>real deal</strong>. It's my hope that those of you who want bio tuition will choose TBT when looking for tuition :)</li>
+                    <li>I want you to know that this is the <strong>real deal</strong>. It's my hope that those of you who want bio tuition will choose TBT when looking for bio tuition :)</li>
                 </ul>
             </div>
         </section>
@@ -116,7 +116,7 @@ $tbt_notes_portrait = tbt_media('original_003');
                 <h2>How do I <span>download</span> it?</h2>
                 <ul>
                     <li><?php echo esc_html($tbt_field('notes_download_copy')); ?></li>
-                    <li>This confirms you're a real person, and means future updated versions can be sent automatically.</li>
+                    <li>(This is to make sure you're a real person, and if I update the notes in future, I'll send you the updated version automatically!)</li>
                 </ul>
                 <a class="tbt-resource-button" href="<?php echo esc_url(home_url('/contact/')); ?>">DOWNLOAD</a>
             </div>

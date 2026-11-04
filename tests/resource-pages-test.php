@@ -36,6 +36,25 @@ final class ResourcePagesTest
         $this->assertTrue(str_contains($notes, '<strong>thick and confusing</strong>'), 'Notes fit copy must preserve the public emphasis hierarchy.');
         foreach (range(1, 3) as $index) $this->assertTrue(str_contains($notes, sprintf('curated_notes_notes_slide_%02d', $index)), "Notes slide {$index} must use approved local media.");
         $this->assertTrue(!str_contains($notes, '<form'), 'Resource page must not invent a replacement data-collection form.');
+        foreach ([
+            "IMPORTANT: After submitting the form, you'll be automatically redirected to the homepage.",
+            "I want you to know that this is the real deal. It's my hope that those of you who want bio tuition will choose TBT when looking for bio tuition :)",
+            "This is to make sure you're a real person, and if I update the notes in future, I'll send you the updated version automatically!",
+        ] as $publicNotesWording) {
+            $this->assertTrue(str_contains($notesText, $publicNotesWording), 'Notes must retain the complete public access wording.');
+        }
+        $notesReviews = array_values(array_filter(
+            tbt_reference_content()['records']['testimonials'] ?? [],
+            static fn(array $record): bool => ($record['fields']['tbt_display_group'] ?? '') === 'notes-reviews'
+        ));
+        $notesReviewCopy = implode("\n", array_column(array_column($notesReviews, 'fields'), 'tbt_quote'));
+        foreach ([
+            'Thank you soooooo much for this! This is my lifesaver and my day to day grind for o level A1 in pure bio',
+            'I like how concise everything was. There were many tables and drawings that allowed me to understand just the important stuff :)',
+            'The notes is a very powerful tool and I love it a lot!',
+        ] as $publicReviewWording) {
+            $this->assertTrue(str_contains($notesReviewCopy, $publicReviewWording), 'Notes lead reviews must preserve their complete original wording.');
+        }
 
         $cellText = strip_tags($cell);
         foreach (['Only For 2023 Sec 4 Pure Bio Students!', 'IMPORTANT:', 'How do I access it?', 'What Students Are Saying About The Crash Course:'] as $marker) $this->assertTrue(str_contains($cellText, $marker), "Cell Division must contain {$marker}.");
@@ -48,6 +67,13 @@ final class ResourcePagesTest
         $this->assertTrue(str_contains($cell, 'alt="Mr Keefe from ThatBioTutor"'), 'Cell Division access portrait must have useful alternative text.');
         $this->assertTrue(str_contains($cell, '<strong>HATE</strong>') && str_contains($cell, '<strong>CONTENT</strong>'), 'Cell Division problem copy must preserve the public emphasis hierarchy.');
         $this->assertTrue(str_contains($cell, '/contact/') && str_contains($cell, 'historical 2023'), 'Cell Division access must clearly disclose its dated external/contact boundary.');
+        foreach ([
+            "this crash course is for you. I've cut out clips from my lessons on important cell division concepts - so you can quickly go through them",
+            "IMPORTANT: After successfully submitting the form, you'll be automatically redirected to the homepage.",
+            "Can't press the submit button/Having issues receiving it? Email keefe@thatbiotutor.com, and I'll help you out ASAP.",
+        ] as $publicCellWording) {
+            $this->assertTrue(str_contains($cellText, $publicCellWording), 'Cell Division must retain the complete original access wording alongside the historical disclosure.');
+        }
         $cellReviews = array_values(array_filter(
             tbt_reference_content()['records']['testimonials'] ?? [],
             static fn(array $record): bool => ($record['fields']['tbt_display_group'] ?? '') === 'celldivision-reviews'

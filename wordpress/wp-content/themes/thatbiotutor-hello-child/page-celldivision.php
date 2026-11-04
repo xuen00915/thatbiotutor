@@ -45,7 +45,7 @@ $tbt_cell_portrait = tbt_media('original_056');
                 <li>Don't understand <strong>crossing over, independent assortment</strong></li>
                 <li>So many <strong>difficult terms</strong></li>
             </ul>
-            <p class="tbt-cell-problems__answer"><em>If you answered 'yes' to the above, this crash course is for you. I've cut out clips from my lessons on <strong>important cell division concepts</strong>—so you can quickly go through them as a “crash course” and <strong>fix your doubts</strong> ASAP.</em></p>
+            <p class="tbt-cell-problems__answer"><em>If you answered 'yes' to the above, this crash course is for you. I've cut out clips from my lessons on important cell division concepts - so you can quickly go through them as a "crash course" and fix your doubts ASAP.</em></p>
         </div>
     </section>
 
@@ -91,9 +91,9 @@ $tbt_cell_portrait = tbt_media('original_056');
         </div>
         <div class="tbt-resource-section tbt-cell-access__instructions">
             <div class="tbt-resource-shell tbt-resource-narrow">
-                <p><strong>IMPORTANT:</strong> After successfully submitting the original form, students were automatically redirected to the homepage.</p>
-                <p>They then received an email; in Gmail, it might be found in the “Promotions” folder.</p>
-                <p>Having issues receiving it? Email keefe@thatbiotutor.com, or use the contact page, and the team will help.</p>
+                <p><strong>IMPORTANT:</strong> After successfully submitting the form, you'll be automatically redirected to the homepage.</p>
+                <p>You'll then receive an email (on gmail, it might be found in your 'promotions' folder).</p>
+                <p>Can't press the submit button/Having issues receiving it? Email keefe@thatbiotutor.com, and I'll help you out ASAP.</p>
             </div>
         </div>
     </section>
