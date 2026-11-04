@@ -24,6 +24,7 @@
 - Added a deterministic WebP conversion pipeline with SHA-256 deduplication, preserved transparency, explicit fit/focal metadata, and source provenance.
 - Documented the Montserrat/system fallback and excluded captured proprietary font binaries pending licence confirmation.
 - Added one sticky responsive header, protected Classes submenu, shared footer, and floating WhatsApp control.
+- Matched the shared footer to the compact Inquire layout with its exact responsive height, 1120px desktop content width, four-column desktop grid, three-column mobile information row, and reference typography.
 - Added dependency-free accessible mobile navigation, carousel, swipe, FAQ, focus-return, and reduced-motion behavior.
 - Rebuilt the original Home section sequence with the supplied five-image hero, lower first-slide focal point, FastTrack, trust metrics, results, crest marquee, videos, experience media, tutors, FAQs, and CTAs.
 - Added distinct original-style Classes, Sec 3, and Sec 4 templates with phase, topic, results, team, and FAQ content.

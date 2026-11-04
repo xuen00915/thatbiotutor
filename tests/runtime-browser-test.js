@@ -48,11 +48,31 @@ const sizes = [
     }
     const footerPresentation = await siteFooter.evaluate((footer) => {
       const footerStyle = getComputedStyle(footer);
-      const gridStyle = getComputedStyle(footer.querySelector('.site-footer__inner'));
-      return { background: footerStyle.backgroundColor, columns: gridStyle.gridTemplateColumns.split(' ').length };
+      const inner = footer.querySelector('.site-footer__inner');
+      const gridStyle = getComputedStyle(inner);
+      const logo = footer.querySelector('.site-footer__logo');
+      const brand = footer.querySelector('.site-footer__brand-link span');
+      const heading = footer.querySelector('.site-footer__column h2');
+      return {
+        background: footerStyle.backgroundColor,
+        height: footer.getBoundingClientRect().height,
+        paddingTop: parseFloat(footerStyle.paddingTop),
+        paddingBottom: parseFloat(footerStyle.paddingBottom),
+        innerWidth: inner.getBoundingClientRect().width,
+        columns: gridStyle.gridTemplateColumns.split(' ').length,
+        logoWidth: logo.getBoundingClientRect().width,
+        brandFont: parseFloat(getComputedStyle(brand).fontSize),
+        headingFont: parseFloat(getComputedStyle(heading).fontSize),
+      };
     });
-    if (footerPresentation.background !== 'rgb(8, 37, 15)') throw new Error(`Footer background is wrong at ${viewport.width}: ${footerPresentation.background}`);
-    if (viewport.width >= 1000 && footerPresentation.columns !== 4) throw new Error(`Footer is not four columns at ${viewport.width}: ${footerPresentation.columns}`);
+    if (footerPresentation.background !== 'rgb(6, 38, 18)') throw new Error(`Footer background is wrong at ${viewport.width}: ${footerPresentation.background}`);
+    if (footerPresentation.paddingTop !== 48 || footerPresentation.paddingBottom !== 48) throw new Error(`Footer padding is outside the Inquire reference at ${viewport.width}: ${JSON.stringify(footerPresentation)}`);
+    if (footerPresentation.logoWidth !== 36 || footerPresentation.brandFont !== 18 || footerPresentation.headingFont !== 12) throw new Error(`Footer typography is outside the Inquire reference at ${viewport.width}: ${JSON.stringify(footerPresentation)}`);
+    if (viewport.width >= 768 && footerPresentation.columns !== 4) throw new Error(`Footer is not four columns at ${viewport.width}: ${footerPresentation.columns}`);
+    if (viewport.width < 768 && footerPresentation.columns !== 3) throw new Error(`Footer is not three columns at ${viewport.width}: ${footerPresentation.columns}`);
+    const footerHeightRange = viewport.width >= 768 ? [250, 285] : viewport.width >= 360 ? [350, 430] : [430, 480];
+    if (footerPresentation.height < footerHeightRange[0] || footerPresentation.height > footerHeightRange[1]) throw new Error(`Footer height is outside the Inquire reference at ${viewport.width}: ${footerPresentation.height}`);
+    if (viewport.width >= 1200 && Math.abs(footerPresentation.innerWidth - 1120) > 1) throw new Error(`Footer content width is outside the Inquire reference at ${viewport.width}: ${footerPresentation.innerWidth}`);
     if (await siteFooter.locator('img[alt="ThatBioTutor"]').count() !== 1) throw new Error(`Footer logo is missing at ${viewport.width}`);
     const firstSection = page.locator('main [data-section]').first();
     if (await firstSection.getAttribute('data-section') !== 'hero') throw new Error(`Home hero is not the first section at ${viewport.width}`);
