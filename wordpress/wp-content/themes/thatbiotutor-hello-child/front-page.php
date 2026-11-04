@@ -107,12 +107,14 @@ $tbt_faqs = [
             <div class="tbt-home-problem__quotes">
                 <blockquote>“There's WAY too much to memorise... so many confusing terms”</blockquote>
                 <blockquote>“I already wrote down a very detailed answer... how come I didn't get the points?”</blockquote>
-                <blockquote>“School bio skims through the content too fast! I don't understand concepts deeply enough...”</blockquote>
+                <blockquote>“School bio skim through the content too fast! I don't understand concepts deeply enough...”</blockquote>
             </div>
+            <p class="tbt-home-problem__bridge tbt-home-problem__bridge--strong">Sound familiar? Many TBT students started exactly here.</p>
+            <p class="tbt-home-problem__bridge">But by the end of the year, they’re telling me:</p>
             <div class="tbt-home-problem__proof">
-                <figure><blockquote>“Unlike school teachers who merely read off the slides, these tutors made such a content-heavy subject engaging.”</blockquote><figcaption><?php $tbt_media_image('curated_home_testimonial_yong'); ?><span><strong>Yong Zheng</strong><small>Sec 4 · E8 → A1 in 3 months</small></span></figcaption></figure>
-                <figure><blockquote>“After using TBT's notes and memorising the shortcuts, I could learn the model template answers easily.”</blockquote><figcaption><?php $tbt_media_image('curated_home_testimonial_gwen'); ?><span><strong>Gwen</strong><small>Sec 4 · F9 → A1</small></span></figcaption></figure>
-                <figure><blockquote>“Very knowledgeable, with a personal touch in everything he does, and he genuinely cares for the students.”</blockquote><figcaption><?php $tbt_media_image('curated_home_testimonial_aryan'); ?><span><strong>Aryan</strong><small>Sec 4 · C6 → A2</small></span></figcaption></figure>
+                <figure><blockquote>“Unlike school teachers who just merely read off the slides, these tutors had somehow made such a content heavy subject into something engaging.”</blockquote><figcaption><?php $tbt_media_image('curated_home_testimonial_yong'); ?><span><strong>Yong Zheng</strong><small>Sec 4 (E8 → A1 in 3 months)</small></span></figcaption></figure>
+                <figure><blockquote>“After using TBT's notes and memorising all the shortcuts I managed to get the model template answer and memorise it easily.”</blockquote><figcaption><?php $tbt_media_image('curated_home_testimonial_gwen'); ?><span><strong>Gwen</strong><small>Sec 4 (F9 → A1)</small></span></figcaption></figure>
+                <figure><blockquote>“Very knowledgeable and has his own personal touch to everything he does and genuinely cares for the students.”</blockquote><figcaption><?php $tbt_media_image('curated_home_testimonial_aryan'); ?><span><strong>Aryan</strong><small>Sec 4 (C6 → A2)</small></span></figcaption></figure>
             </div>
         </div>
     </section>
