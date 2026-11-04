@@ -96,9 +96,20 @@ const sizes = [
       const problemBridges = [...home.querySelectorAll('.tbt-home-problem__bridge')];
       const problemCard = problemProof.querySelector('figure');
       const problemSecondCard = problemProof.querySelector('figure:nth-child(2)');
+      const fasttrackContainer = home.querySelector('[data-section="fasttrack"] > .tbt-home-container');
+      const fasttrackCard = home.querySelector('.tbt-home-fasttrack__comparison');
+      const fasttrackHeader = fasttrackCard.querySelector('h3');
+      const fasttrackColumns = [...fasttrackCard.querySelectorAll(':scope > div')];
+      const proofContainer = home.querySelector('[data-section="proof"] > .tbt-home-container');
+      const proofVideos = home.querySelector('.tbt-home-proof__videos');
+      const proofSchools = home.querySelector('.tbt-home-proof__schools-copy');
+      const proofCrests = home.querySelector('.tbt-home-proof__crests');
+      const firstProofCrest = proofCrests.querySelector('img');
+      const proofResultsCopy = home.querySelector('.tbt-home-proof__results-copy');
+      const proofResults = home.querySelector('.tbt-home-proof__results');
+      const proofResultImages = [...proofResults.querySelectorAll('img')];
       const statsPhotos = home.querySelector('.tbt-home-stats__photos');
       const tutors = home.querySelector('.tbt-home-tutors__grid');
-      const proofResults = home.querySelector('.tbt-home-proof__results');
       const sectionKeys = ['problem', 'track-record', 'fasttrack', 'proof', 'tutors', 'quality', 'practical', 'guarantee', 'fit', 'founder', 'faq', 'classroom', 'closing'];
       const rect = (element) => element.getBoundingClientRect();
       const columnCount = (element) => getComputedStyle(element).gridTemplateColumns.split(' ').length;
@@ -160,6 +171,43 @@ const sizes = [
             align: style(problemBridges[1]).textAlign,
           } : null,
         },
+        fasttrack: {
+          containerWidth: rect(fasttrackContainer).width,
+          containerPadding: parseFloat(style(fasttrackContainer).paddingLeft),
+          cardWidth: rect(fasttrackCard).width,
+          cardColumns: columnCount(fasttrackCard),
+          cardBackground: style(fasttrackCard).backgroundColor,
+          cardBorderWidth: parseFloat(style(fasttrackCard).borderTopWidth),
+          cardRadius: parseFloat(style(fasttrackCard).borderRadius),
+          headerWidth: rect(fasttrackHeader).width,
+          headerHeight: rect(fasttrackHeader).height,
+          headerPadding: parseFloat(style(fasttrackHeader).paddingTop),
+          headerBackground: style(fasttrackHeader).backgroundColor,
+          headerCounterCount: fasttrackHeader.querySelectorAll('span').length,
+          columnBackgrounds: fasttrackColumns.map((column) => style(column).backgroundColor),
+          mediaCount: home.querySelectorAll('.tbt-home-fasttrack__tbt img').length,
+        },
+        proof: {
+          containerWidth: rect(proofContainer).width,
+          containerPadding: parseFloat(style(proofContainer).paddingLeft),
+          eyebrowCount: home.querySelectorAll('[data-section="proof"] > .tbt-home-container > .tbt-home-eyebrow').length,
+          videoWidth: rect(proofVideos).width,
+          videoColumns: columnCount(proofVideos),
+          videoGap: parseFloat(style(proofVideos).gap),
+          schoolsSize: parseFloat(style(proofSchools).fontSize),
+          schoolsLineHeight: parseFloat(style(proofSchools).lineHeight),
+          crestDisplay: style(proofCrests).display,
+          crestOverflow: style(proofCrests).overflowX,
+          crestWidth: rect(firstProofCrest).width,
+          crestRows: new Set([...proofCrests.querySelectorAll('img')].map((crest) => Math.round(rect(crest).top))).size,
+          resultsCopy: proofResultsCopy?.textContent.trim() || '',
+          resultsCopySize: proofResultsCopy ? parseFloat(style(proofResultsCopy).fontSize) : 0,
+          resultsCopyLineHeight: proofResultsCopy ? parseFloat(style(proofResultsCopy).lineHeight) : 0,
+          resultImageCount: proofResultImages.length,
+          resultMediaKey: proofResultImages[0]?.getAttribute('data-media-key') || '',
+          resultWidth: proofResultImages[0] ? rect(proofResultImages[0]).width : 0,
+          resultRatio: proofResultImages[0] ? rect(proofResultImages[0]).width / rect(proofResultImages[0]).height : 0,
+        },
         statsPhotoColumns: columnCount(statsPhotos),
         tutorColumns: columnCount(tutors),
         proofResultColumns: columnCount(proofResults),
@@ -202,6 +250,26 @@ const sizes = [
     if (!homeScale.problem.firstBridge || homeScale.problem.firstBridge.size !== expectedProblemTypography.bridge || homeScale.problem.firstBridge.weight !== '700' || homeScale.problem.firstBridge.lineHeight !== expectedProblemTypography.bridgeLine || homeScale.problem.firstBridge.align !== 'center') throw new Error(`Home first problem transition differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
     if (!homeScale.problem.secondBridge || homeScale.problem.secondBridge.size !== 18 || homeScale.problem.secondBridge.lineHeight !== 28 || homeScale.problem.secondBridge.align !== 'center') throw new Error(`Home second problem transition differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
     if (homeScale.problem.cardPadding !== 24 || homeScale.problem.cardRadius !== 18 || homeScale.problem.cardBorderWidth !== 0 || homeScale.problem.secondCardTransform !== 'none') throw new Error(`Home problem testimonials differ from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
+    const expectedFeatureContainerWidth = Math.min(1024, viewport.width);
+    const expectedFeatureContentWidth = expectedFeatureContainerWidth - 32;
+    const expectedFasttrackColumns = viewport.width <= 520 ? 1 : 2;
+    if (homeScale.fasttrack.containerWidth !== expectedFeatureContainerWidth || homeScale.fasttrack.containerPadding !== 16 || homeScale.fasttrack.cardWidth !== expectedFeatureContentWidth) throw new Error(`Home FastTrack width differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.fasttrack)}`);
+    if (homeScale.fasttrack.cardColumns !== expectedFasttrackColumns || homeScale.fasttrack.cardBackground !== 'rgb(255, 255, 255)' || homeScale.fasttrack.cardBorderWidth !== 0 || homeScale.fasttrack.cardRadius !== 18) throw new Error(`Home FastTrack card differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.fasttrack)}`);
+    if (Math.abs(homeScale.fasttrack.headerWidth - expectedFeatureContentWidth) > 1 || homeScale.fasttrack.headerHeight !== 52 || homeScale.fasttrack.headerPadding !== 12 || homeScale.fasttrack.headerBackground !== 'rgb(67, 180, 58)' || homeScale.fasttrack.headerCounterCount !== 0) throw new Error(`Home FastTrack header differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.fasttrack)}`);
+    if (homeScale.fasttrack.columnBackgrounds[0] !== 'rgba(0, 0, 0, 0)' || homeScale.fasttrack.columnBackgrounds[1] !== 'rgba(240, 248, 238, 0.6)' || homeScale.fasttrack.mediaCount !== 5) throw new Error(`Home FastTrack comparison content differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.fasttrack)}`);
+    const expectedProofColumns = viewport.width < 768 ? 1 : 2;
+    const expectedSchoolsTypography = viewport.width <= 520 ? { size: 20, line: 28 } : { size: 24, line: 32 };
+    const expectedCrestWidth = viewport.width >= 1025
+      ? (expectedFeatureContentWidth - (7 * 35)) / 8
+      : viewport.width >= 768
+        ? (expectedFeatureContentWidth - 35) / 2
+        : (expectedFeatureContentWidth - 30) / 4;
+    if (homeScale.proof.containerWidth !== expectedFeatureContainerWidth || homeScale.proof.containerPadding !== 16 || homeScale.proof.videoWidth !== expectedFeatureContentWidth || homeScale.proof.videoColumns !== expectedProofColumns || homeScale.proof.videoGap !== 24) throw new Error(`Home proof layout differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.proof)}`);
+    if (homeScale.proof.eyebrowCount !== 0 || homeScale.proof.schoolsSize !== expectedSchoolsTypography.size || homeScale.proof.schoolsLineHeight !== expectedSchoolsTypography.line) throw new Error(`Home proof typography differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.proof)}`);
+    if (homeScale.proof.crestDisplay !== 'flex' || homeScale.proof.crestOverflow !== 'hidden' || Math.abs(homeScale.proof.crestWidth - expectedCrestWidth) > 1 || homeScale.proof.crestRows !== 1) throw new Error(`Home school carousel differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.proof)}`);
+    const expectedProofResultWidth = Math.min(896, expectedFeatureContentWidth);
+    if (homeScale.proof.resultsCopy !== 'Some of our biggest grade jumps. There are many more.' || homeScale.proof.resultsCopySize !== expectedSchoolsTypography.size || homeScale.proof.resultsCopyLineHeight !== expectedSchoolsTypography.line) throw new Error(`Home proof result copy differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.proof)}`);
+    if (homeScale.proof.resultImageCount !== 1 || homeScale.proof.resultMediaKey !== 'curated_shared_hall_of_fame' || Math.abs(homeScale.proof.resultWidth - expectedProofResultWidth) > 1 || Math.abs(homeScale.proof.resultRatio - (940 / 791)) > 0.01) throw new Error(`Home Hall of Fame differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.proof)}`);
     const lightSections = ['problem', 'track-record', 'proof', 'quality', 'practical', 'fit', 'faq', 'classroom'];
     const softGreenSections = ['tutors', 'founder'];
     const darkSections = ['fasttrack', 'guarantee', 'closing'];
@@ -217,7 +285,7 @@ const sizes = [
     if (homeScale.sections.fit.heading?.size !== 24 || Object.values(homeScale.sections).filter((section) => section.heading).some((section) => section.heading.spacing !== 'normal')) throw new Error(`Home section typography differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.sections)}`);
     if (homeScale.sectionFont > maximumSectionFont) throw new Error(`Home section heading exceeds the reference scale at ${viewport.width}: ${homeScale.sectionFont}px`);
     if (Math.abs(homeScale.carouselRatio - 3) > 0.1) throw new Error(`Home hero carousel is outside the reference 3:1 ratio at ${viewport.width}: ${homeScale.carouselRatio}`);
-    if (viewport.width <= 520 && (homeScale.statsPhotoColumns !== 2 || homeScale.tutorColumns !== 2 || homeScale.proofResultColumns !== 2)) {
+    if (viewport.width <= 520 && (homeScale.statsPhotoColumns !== 2 || homeScale.tutorColumns !== 2)) {
       throw new Error(`Home mobile grids are too large at ${viewport.width}: ${JSON.stringify(homeScale)}`);
     }
     const firstHeroImage = firstSection.locator('[data-carousel-slide]').first().locator('img');

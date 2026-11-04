@@ -27,6 +27,7 @@
 - Matched the shared footer to the compact Inquire layout with its exact responsive height, 1120px desktop content width, four-column desktop grid, three-column mobile information row, and reference typography.
 - Matched the Home page to the Inquire Poppins type system, pill CTA sizing, six-pixel green/white carousel pagination, transparent arrow controls, section surface sequence, heading alignment, and responsive title scale.
 - Restored the Home problem-to-proof transition copy and matched the Inquire single-column prompt and testimonial-card layout across desktop and mobile.
+- Matched the Home FastTrack and Student Stories sections to the Inquire 1024px container, green comparison headers, illustrated comparison cards, paired tablet videos, and single-row school crest treatment.
 - Added dependency-free accessible mobile navigation, carousel, swipe, FAQ, focus-return, and reduced-motion behavior.
 - Rebuilt the original Home section sequence with the supplied five-image hero, lower first-slide focal point, FastTrack, trust metrics, results, crest marquee, videos, experience media, tutors, FAQs, and CTAs.
 - Added distinct original-style Classes, Sec 3, and Sec 4 templates with phase, topic, results, team, and FAQ content.
