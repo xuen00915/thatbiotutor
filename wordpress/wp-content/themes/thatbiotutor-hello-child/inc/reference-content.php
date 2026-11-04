@@ -370,7 +370,7 @@ function tbt_reference_content(): array
     ]];
 
     return [
-        'version' => '2026-11-04.4',
+        'version' => '2026-11-04.5',
         'source_date' => '2026-11-03',
         'navigation' => [
             ['label' => 'Home', 'path' => '/'],
@@ -396,10 +396,10 @@ function tbt_reference_content(): array
             'whatsapp_number' => '6587597182',
             'whatsapp_message' => 'Hi ThatBioTutor',
             'phone' => '+65 8759 7182',
-            'address' => 'ThatBioTutor, Singapore',
-            'map_url' => '',
-            'opening_hours' => '',
-            'footer_description' => 'Singapore O-Level Pure / G3 Biology specialists.',
+            'address' => "175 Bencoolen St\n#01-45\nSingapore 189649",
+            'map_url' => 'https://www.google.com/maps/search/?api=1&query=175+Bencoolen+Street+Singapore+189649',
+            'opening_hours' => "Friday – Thursday\n11am – 9:30pm\n(open all 7 days)",
+            'footer_description' => "Singapore's only O Level Pure/G3 Biology specialist.",
             'copyright' => 'ThatBioTutor. All rights reserved.',
         ],
         'pages' => [
