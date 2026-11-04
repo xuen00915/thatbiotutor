@@ -2139,6 +2139,19 @@
       "licenseStatus": "public-site-capture"
     },
     {
+      "key": "curated_about_beliefs",
+      "source": "provenance://df63745d43ee_061220_c35e98d837124c6ab7c244922f8b3386~mv2.jpeg",
+      "file": "files/359cc1200915dab92381ae51247c8f28.webp",
+      "sha256": "12b301fe39d5da4ca2b72c0a122504a4900b1351e5938129bc85c822525eba6d",
+      "alt": "ThatBioTutor classroom values",
+      "width": 3024,
+      "height": 4032,
+      "fit": "cover",
+      "objectPosition": "50% 50%",
+      "pages": ["about"],
+      "licenseStatus": "public-site-capture"
+    },
+    {
       "key": "curated_about_tutor_chelsea",
       "source": "provenance://tutor-chelsea.webp",
       "file": "files/3ce63282936a9035b9a19db812c91cb5.webp",

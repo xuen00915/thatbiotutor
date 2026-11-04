@@ -34,11 +34,15 @@ function tbt_render_tutors(array $args = []): void
     $fallbackPortraits = is_array($args['fallback_portraits'] ?? null) ? $args['fallback_portraits'] : [];
     $qualifications = is_array($args['qualifications'] ?? null) ? $args['qualifications'] : [];
     $supplementalMedia = is_array($args['supplemental_media'] ?? null) ? $args['supplemental_media'] : [];
+    $displayNames = is_array($args['display_names'] ?? null) ? $args['display_names'] : [];
+    $profileLinks = is_array($args['profile_links'] ?? null) ? $args['profile_links'] : [];
+    $showRoles = !array_key_exists('show_roles', $args) || (bool) $args['show_roles'];
     echo '<div class="tbt-tutors">';
     foreach (tbt_get_tutors($args) as $tutor) {
         echo '<article class="tbt-tutor' . ($variant === 'about' ? ' tbt-tutor--about' : '') . '">';
         if ($variant === 'about') {
-            echo '<h3>' . esc_html($tutor['name']) . ($tutor['role'] !== '' ? '<small>' . esc_html($tutor['role']) . '</small>' : '') . '</h3>';
+            $displayName = (string) ($displayNames[$tutor['name']] ?? $tutor['name']);
+            echo '<h3>' . esc_html($displayName) . ($showRoles && $tutor['role'] !== '' ? '<small>' . esc_html($tutor['role']) . '</small>' : '') . '</h3>';
         }
         if ($tutor['portrait']['url'] !== '') {
             echo '<img src="' . esc_url($tutor['portrait']['url']) . '" alt="' . esc_attr($tutor['portrait']['alt'] ?: $tutor['name']) . '">';
@@ -60,6 +64,10 @@ function tbt_render_tutors(array $args = []): void
                 echo '<li>' . esc_html((string) $qualification) . '</li>';
             }
             echo '</ul>';
+        }
+        if ($variant === 'about' && isset($profileLinks[$tutor['name']]) && (string) $profileLinks[$tutor['name']] !== '') {
+            $profileUrl = (string) $profileLinks[$tutor['name']];
+            echo '<p class="tbt-tutor__profile"><a href="' . esc_url($profileUrl) . '" target="_blank" rel="noopener noreferrer">' . esc_html($profileUrl) . '</a></p>';
         }
         if ($variant === 'about' && isset($supplementalMedia[$tutor['name']]) && is_array($supplementalMedia[$tutor['name']]) && function_exists('tbt_render_media_image')) {
             echo '<div class="tbt-tutor__documents">';

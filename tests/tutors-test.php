@@ -32,6 +32,16 @@ final class TutorsTest extends TbtContentTestCase
         $this->assertTrue(str_contains($html, 'Mr Keefe'), 'Second active tutor must render.');
         $this->assertTrue(!str_contains($html, 'Retired Tutor'), 'Draft tutor must not render.');
 
+        $aboutHtml = $this->capture(static fn () => tbt_render_tutors([
+            'variant' => 'about',
+            'show_roles' => false,
+            'display_names' => ['Mr Keefe' => 'Mr Keefe (Founder)'],
+            'profile_links' => ['Ms Chelsea' => 'https://www.linkedin.com/in/xiang-ting-chee/'],
+        ]));
+        $this->assertTrue(str_contains($aboutHtml, '>Mr Keefe (Founder)</h3>'), 'About tutors must support the original combined display heading.');
+        $this->assertTrue(str_contains($aboutHtml, 'https://www.linkedin.com/in/xiang-ting-chee/'), 'About tutors must support the original public profile link.');
+        $this->assertTrue(str_contains($aboutHtml, 'target="_blank"') && str_contains($aboutHtml, 'rel="noopener noreferrer"'), 'Tutor profile links must open safely.');
+
         fwrite(STDOUT, "PASS: {$this->assertions} tutor assertions\n");
     }
 }

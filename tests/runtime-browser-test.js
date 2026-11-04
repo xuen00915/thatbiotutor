@@ -97,6 +97,29 @@ const sizes = [
     const cellStatus = cellCarousel.locator('[data-carousel-status]');
     if ((await cellStatus.textContent()).trim() !== '1 of 5') throw new Error(`Cell Division carousel status is wrong at ${viewport.width}`);
 
+    await page.goto(`${base}/about/`, { waitUntil: 'load' });
+    await page.evaluate(() => document.fonts?.ready);
+    if (await page.locator('[data-section="beliefs"] img').count() !== 1) throw new Error(`About beliefs image is missing at ${viewport.width}`);
+    if (viewport.width >= 1000) {
+      const aboutHero = await page.locator('[data-section="hero"]').boundingBox();
+      const missionBar = await page.locator('[data-section="mission"] .tbt-institutional-title-bar').boundingBox();
+      const qualityBar = await page.locator('[data-section="quality"] .tbt-institutional-title-bar').boundingBox();
+      if (!aboutHero || Math.abs(aboutHero.height - 321) > 1) throw new Error('About hero must preserve the original 321px desktop height');
+      if (!missionBar || Math.abs(missionBar.height - 82) > 1) throw new Error('About mission bar must preserve the original 82px desktop height');
+      if (!qualityBar || Math.abs(qualityBar.height - 70) > 1) throw new Error('About section bars must preserve the original 70px desktop height');
+      const heroOpacity = await page.locator('.tbt-about-hero__image').evaluate((image) => getComputedStyle(image).opacity);
+      if (heroOpacity !== '0.78') throw new Error(`About hero image opacity is ${heroOpacity}, expected 0.78`);
+      const missionHeadingStyle = await page.locator('[data-section="mission"] .tbt-institutional-title-bar h2').evaluate((heading) => {
+        const style = getComputedStyle(heading);
+        return { family: style.fontFamily.toLowerCase(), size: style.fontSize, weight: style.fontWeight };
+      });
+      if (!missionHeadingStyle.family.includes('montserrat') || missionHeadingStyle.size !== '35px' || missionHeadingStyle.weight !== '700') {
+        throw new Error(`About mission heading typography is wrong: ${JSON.stringify(missionHeadingStyle)}`);
+      }
+      const beliefsImage = await page.locator('[data-section="beliefs"] img').boundingBox();
+      if (!beliefsImage || Math.abs(beliefsImage.width - 509) > 1 || Math.abs(beliefsImage.height - 679) > 1) throw new Error('About beliefs image must preserve the original 509x679 desktop frame');
+    }
+
     if (viewport.width === 320) {
       await page.goto(base, { waitUntil: 'load' });
       await page.locator('main h1').first().evaluate((heading) => { heading.textContent = 'ExtremelyLongClientEditedBiologyHeadingWithoutNaturalBreaks0123456789'; });
