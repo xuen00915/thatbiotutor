@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Rescaled the Home landing page to the reference's compact proportions: 60px/36px desktop typography, 36px/30px mobile typography, a 3:1 hero gallery, tighter section rhythm, and denser mobile result and tutor grids.
+
 - Replaced the Home page with the Inquire landing-page structure, the client-supplied ordered hero, track-record, and classroom photography, animated figures, compact booking header, WhatsApp trial guarantee, and revised responsive layouts.
 
 - Restored the About page's original Wix composition, typography, section spacing, exact tutor labels, founder-message rhythm, and missing beliefs photograph.
