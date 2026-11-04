@@ -57,9 +57,35 @@ const sizes = [
     const firstSection = page.locator('main [data-section]').first();
     if (await firstSection.getAttribute('data-section') !== 'hero') throw new Error(`Home hero is not the first section at ${viewport.width}`);
     const heroBox = await firstSection.boundingBox();
-    const minimumHeroHeight = viewport.width >= 1000 ? 1100 : 900;
-    if (!heroBox || heroBox.height < minimumHeroHeight) throw new Error(`Home hero is too short at ${viewport.width}`);
+    const heroHeightRange = viewport.width >= 1000 ? [980, 1200] : viewport.width <= 520 ? [600, 800] : [740, 1000];
+    if (!heroBox || heroBox.height < heroHeightRange[0] || heroBox.height > heroHeightRange[1]) throw new Error(`Home hero is outside the reference scale at ${viewport.width}: ${JSON.stringify(heroBox)}`);
     if (await firstSection.locator('.tbt-home-hero__copy').count() !== 1) throw new Error(`Home hero copy missing at ${viewport.width}`);
+    const homeScale = await page.locator('.tbt-home-inquire').evaluate((home) => {
+      const heroHeading = home.querySelector('h1');
+      const sectionHeading = home.querySelector('[data-section="track-record"] h2');
+      const carousel = home.querySelector('.tbt-home-hero__carousel');
+      const statsPhotos = home.querySelector('.tbt-home-stats__photos');
+      const tutors = home.querySelector('.tbt-home-tutors__grid');
+      const proofResults = home.querySelector('.tbt-home-proof__results');
+      const rect = (element) => element.getBoundingClientRect();
+      const columnCount = (element) => getComputedStyle(element).gridTemplateColumns.split(' ').length;
+      return {
+        heroFont: parseFloat(getComputedStyle(heroHeading).fontSize),
+        sectionFont: parseFloat(getComputedStyle(sectionHeading).fontSize),
+        carouselRatio: rect(carousel).width / rect(carousel).height,
+        statsPhotoColumns: columnCount(statsPhotos),
+        tutorColumns: columnCount(tutors),
+        proofResultColumns: columnCount(proofResults),
+      };
+    });
+    const maximumHeroFont = viewport.width >= 1000 ? 61 : viewport.width <= 520 ? 37 : 49;
+    const maximumSectionFont = viewport.width >= 1000 ? 37 : viewport.width <= 520 ? 31 : 35;
+    if (homeScale.heroFont > maximumHeroFont) throw new Error(`Home hero heading exceeds the reference scale at ${viewport.width}: ${homeScale.heroFont}px`);
+    if (homeScale.sectionFont > maximumSectionFont) throw new Error(`Home section heading exceeds the reference scale at ${viewport.width}: ${homeScale.sectionFont}px`);
+    if (Math.abs(homeScale.carouselRatio - 3) > 0.1) throw new Error(`Home hero carousel is outside the reference 3:1 ratio at ${viewport.width}: ${homeScale.carouselRatio}`);
+    if (viewport.width <= 520 && (homeScale.statsPhotoColumns !== 2 || homeScale.tutorColumns !== 2 || homeScale.proofResultColumns !== 2)) {
+      throw new Error(`Home mobile grids are too large at ${viewport.width}: ${JSON.stringify(homeScale)}`);
+    }
     const firstHeroImage = firstSection.locator('[data-carousel-slide]').first().locator('img');
     if ((await firstHeroImage.evaluate((image) => getComputedStyle(image).objectPosition)) !== '50% 58%') throw new Error(`Home hero focal point is wrong at ${viewport.width}`);
     const videoBox = await page.locator('[data-section="track-record"] .tbt-home-video').boundingBox();
