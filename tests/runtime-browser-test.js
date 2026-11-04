@@ -57,56 +57,30 @@ const sizes = [
     const firstSection = page.locator('main [data-section]').first();
     if (await firstSection.getAttribute('data-section') !== 'hero') throw new Error(`Home hero is not the first section at ${viewport.width}`);
     const heroBox = await firstSection.boundingBox();
-    const minimumHeroHeight = viewport.width >= 1000 ? 560 : 420;
+    const minimumHeroHeight = viewport.width >= 1000 ? 1100 : 900;
     if (!heroBox || heroBox.height < minimumHeroHeight) throw new Error(`Home hero is too short at ${viewport.width}`);
-    if (await firstSection.locator('.tbt-home-hero__overlay').count() !== 1) throw new Error(`Home hero overlay missing at ${viewport.width}`);
+    if (await firstSection.locator('.tbt-home-hero__copy').count() !== 1) throw new Error(`Home hero copy missing at ${viewport.width}`);
     const firstHeroImage = firstSection.locator('[data-carousel-slide]').first().locator('img');
-    if ((await firstHeroImage.evaluate((image) => getComputedStyle(image).objectPosition)) !== '50% 54%') throw new Error(`Home hero focal point is wrong at ${viewport.width}`);
-    const videoBox = await page.locator('[data-section="missing-key"] .tbt-video').boundingBox();
+    if ((await firstHeroImage.evaluate((image) => getComputedStyle(image).objectPosition)) !== '50% 58%') throw new Error(`Home hero focal point is wrong at ${viewport.width}`);
+    const videoBox = await page.locator('[data-section="track-record"] .tbt-home-video').boundingBox();
     if (!videoBox || Math.abs((videoBox.width / videoBox.height) - (16 / 9)) > 0.04) throw new Error(`Home video ratio is wrong at ${viewport.width}`);
-    if (await page.locator('[data-school-page]').count() !== 6) throw new Error(`Home school artwork count is wrong at ${viewport.width}`);
-    if (await page.locator('[data-benefit-image]').count() !== 4) throw new Error(`Home benefit artwork count is wrong at ${viewport.width}`);
-    if (viewport.width >= 1000) {
-      await page.evaluate(() => document.fonts?.ready);
-      const expectedHomeSections = {
-        'hero': { y: 65, height: 724 },
-        'missing-key': { y: 789, height: 840 },
-        'fasttrack': { y: 1629, height: 1869 },
-        'trust': { y: 3498, height: 381 },
-        'hall-of-fame': { y: 3879, height: 1147 },
-        'testimonials': { y: 5026, height: 800 },
-        'schools': { y: 5826, height: 3390 },
-        'advantage': { y: 9216, height: 2151 },
-        'benefits': { y: 11367, height: 2140 },
-        'causes': { y: 13507, height: 1283 },
-        'tutors': { y: 14790, height: 2285 },
-        'faq': { y: 17075, height: 1358 },
-      };
-      for (const [section, expected] of Object.entries(expectedHomeSections)) {
-        const actual = await page.locator(`[data-section="${section}"]`).boundingBox();
-        if (!actual || Math.abs(actual.y - expected.y) > 2 || Math.abs(actual.height - expected.height) > 2) {
-          throw new Error(`Home ${section} geometry is wrong: ${JSON.stringify(actual)}`);
-        }
-      }
-      const benefitImages = await page.locator('[data-benefit-image]').evaluateAll((images) => images.map((image) => {
-        const rect = image.getBoundingClientRect();
-        return { width: rect.width, height: rect.height };
-      }));
-      if (benefitImages.some((image) => Math.abs(image.width - 481) > 2 || Math.abs(image.height - 602) > 2)) {
-        throw new Error(`Home benefit artwork geometry is wrong: ${JSON.stringify(benefitImages)}`);
-      }
-      const closingImage = await page.locator('[data-section="closing"] img').boundingBox();
-      if (!closingImage || Math.abs(closingImage.width - 711) > 2 || Math.abs(closingImage.height - 936) > 2) {
-        throw new Error(`Home closing artwork geometry is wrong: ${JSON.stringify(closingImage)}`);
-      }
-    }
+    if (await page.locator('[data-section="track-record"] [data-media-key^="home_number_"]').count() !== 4) throw new Error(`Home number-photo count is wrong at ${viewport.width}`);
+    if (await page.locator('[data-section="classroom"] [data-media-key^="home_classroom_"]').count() !== 3) throw new Error(`Home classroom-photo count is wrong at ${viewport.width}`);
+    if (await page.locator('[data-section="guarantee"] form').count() !== 0) throw new Error(`Home guarantee still contains a form at ${viewport.width}`);
+    if (await page.locator('[data-section="guarantee"] a[href^="https://wa.me/"]').count() !== 1) throw new Error(`Home guarantee WhatsApp CTA is missing at ${viewport.width}`);
+    const homeSections = await page.locator('main [data-section]').evaluateAll((sections) => sections.map((section) => section.getAttribute('data-section')));
+    const expectedHomeSections = ['hero', 'problem', 'track-record', 'fasttrack', 'proof', 'tutors', 'quality', 'practical', 'guarantee', 'fit', 'founder', 'faq', 'classroom', 'closing'];
+    if (JSON.stringify(homeSections) !== JSON.stringify(expectedHomeSections)) throw new Error(`Home section order is wrong at ${viewport.width}: ${JSON.stringify(homeSections)}`);
+    const countUps = page.locator('[data-count-up]');
+    await countUps.first().scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1400);
+    const countDisplays = await countUps.evaluateAll((nodes) => nodes.map((node) => node.textContent.trim()));
+    if (JSON.stringify(countDisplays) !== JSON.stringify(['912+', '91%', '2.3', '1 in 2'])) throw new Error(`Home count-up values are wrong at ${viewport.width}: ${JSON.stringify(countDisplays)}`);
     if (viewport.width <= 768) {
-      const toggle = page.locator('[data-menu-toggle]');
-      await toggle.click();
-      if (await toggle.getAttribute('aria-expanded') !== 'true') throw new Error('Mobile navigation did not open');
-      await page.keyboard.press('Escape');
-      if (await toggle.getAttribute('aria-expanded') !== 'false') throw new Error('Mobile navigation did not close');
+      if (await page.locator('.tbt-landing-header__cta').count() !== 1) throw new Error('Mobile landing header CTA is missing');
     } else {
+      const landingCta = await page.locator('.tbt-landing-header__cta').boundingBox();
+      if (!landingCta || landingCta.width > 260) throw new Error(`Desktop landing header CTA is too wide: ${JSON.stringify(landingCta)}`);
       const visibleIndex = () => page.locator('[data-carousel-slide]').evaluateAll((slides) => slides.findIndex((slide) => !slide.hidden));
       const before = await visibleIndex();
       await page.locator('[data-carousel-next]').first().click();
@@ -310,7 +284,7 @@ const sizes = [
   }
 
   const resizePage = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-  await resizePage.goto(base, { waitUntil: 'load' });
+  await resizePage.goto(`${base}/classes/`, { waitUntil: 'load' });
   await resizePage.setViewportSize({ width: 390, height: 844 });
   await resizePage.waitForFunction(() => document.querySelector('[data-menu]')?.hidden === true);
   await resizePage.setViewportSize({ width: 1440, height: 900 });

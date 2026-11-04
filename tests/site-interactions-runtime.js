@@ -5,7 +5,7 @@ const themeScript = process.argv[2];
 if (!themeScript) throw new Error('Theme script path is required');
 
 const api = require(path.resolve(themeScript));
-const required = ['openMenu', 'closeMenu', 'toggleSubmenu', 'handleMenuKeydown', 'carouselIndex', 'swipeDirection', 'toggleFaq', 'prefersReducedMotion'];
+const required = ['openMenu', 'closeMenu', 'toggleSubmenu', 'handleMenuKeydown', 'carouselIndex', 'swipeDirection', 'toggleFaq', 'prefersReducedMotion', 'formatCountUpValue'];
 for (const name of required) {
   if (typeof api[name] !== 'function') throw new Error(`${name} must be exported`);
 }
@@ -48,6 +48,10 @@ if (faqPanel.hidden || faqButton.getAttribute('aria-expanded') !== 'true') throw
 
 if (!api.prefersReducedMotion(() => ({ matches: true }))) throw new Error('Reduced-motion detection failed');
 if (api.prefersReducedMotion(() => ({ matches: false }))) throw new Error('Normal-motion detection failed');
+
+if (api.formatCountUpValue(912, '912+') !== '912+') throw new Error('Integer count-up formatting failed');
+if (api.formatCountUpValue(2.3, '2.3') !== '2.3') throw new Error('Decimal count-up formatting failed');
+if (api.formatCountUpValue(1, '1 in 2') !== '1 in 2') throw new Error('Ratio count-up formatting failed');
 
 if (typeof api.syncNavigationViewport !== 'function') throw new Error('syncNavigationViewport must be exported');
 const resizeMenu = new MockElement();
