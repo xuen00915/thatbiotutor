@@ -142,8 +142,47 @@
         carousel.addEventListener('mouseleave', resume);
         carousel.addEventListener('focusin', pause);
         carousel.addEventListener('focusout', resume);
-        windowObject.setInterval(() => { if (!paused) move(1); }, autoplay);
+        windowObject.setInterval(() => {
+          if (!paused && !document.documentElement.classList.contains('tbt-lightbox-open')) move(1);
+        }, autoplay);
       }
+    });
+  }
+
+  function initCertificateLightbox(document) {
+    const triggers = Array.from(document.querySelectorAll('[data-certificate-lightbox-trigger]'));
+    if (!triggers.length || !document.body) return;
+    const dialog = document.createElement('dialog');
+    dialog.className = 'tbt-certificate-lightbox';
+    dialog.setAttribute('aria-label', 'Enlarged certificate');
+    dialog.innerHTML = '<button class="tbt-certificate-lightbox__close" type="button" data-certificate-lightbox-close aria-label="Close enlarged certificate">&times;</button><div class="tbt-certificate-lightbox__stage"><img alt=""></div>';
+    document.body.appendChild(dialog);
+    const image = dialog.querySelector('img');
+    const closeButton = dialog.querySelector('[data-certificate-lightbox-close]');
+    let activeTrigger = null;
+    const close = () => {
+      if (!dialog.open) return;
+      if (typeof dialog.close === 'function') dialog.close();
+      else dialog.removeAttribute('open');
+    };
+    triggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const source = trigger.querySelector('img');
+        if (!source || !image) return;
+        activeTrigger = trigger;
+        image.src = source.currentSrc || source.src;
+        image.alt = source.alt || 'Enlarged certificate';
+        document.documentElement.classList.add('tbt-lightbox-open');
+        if (typeof dialog.showModal === 'function') dialog.showModal();
+        else dialog.setAttribute('open', '');
+      });
+    });
+    if (closeButton) closeButton.addEventListener('click', close);
+    dialog.addEventListener('click', (event) => { if (event.target === dialog) close(); });
+    dialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('tbt-lightbox-open');
+      if (activeTrigger && typeof activeTrigger.focus === 'function') activeTrigger.focus();
+      activeTrigger = null;
     });
   }
 
@@ -161,9 +200,10 @@
     document.documentElement.classList.add('js');
     initNavigation(document, windowObject);
     initCarousels(document, windowObject);
+    initCertificateLightbox(document);
     initFaqs(document);
   }
 
-  return { openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, syncNavigationViewport, init };
+  return { openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, syncNavigationViewport, initCertificateLightbox, init };
 });
 

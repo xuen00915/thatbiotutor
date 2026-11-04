@@ -155,6 +155,21 @@ const sizes = [
     if ((await chelseaCertificateStatus.textContent()).trim() !== '1 of 2') throw new Error(`Chelsea certificate status is wrong at ${viewport.width}`);
     await chelseaCertificates.locator('[data-carousel-next]').click();
     if ((await chelseaCertificateStatus.textContent()).trim() !== '2 of 2') throw new Error(`Chelsea certificate controls failed at ${viewport.width}`);
+    const visibleCertificateTrigger = chelseaCertificates.locator('[data-carousel-slide]:not([hidden]) [data-certificate-lightbox-trigger]');
+    await visibleCertificateTrigger.click();
+    const certificateLightbox = page.locator('.tbt-certificate-lightbox');
+    if (!await certificateLightbox.isVisible()) throw new Error(`Certificate lightbox did not open at ${viewport.width}`);
+    const enlargedCertificate = certificateLightbox.locator('img');
+    if (!await enlargedCertificate.evaluate((image) => image.complete && image.naturalWidth > 0)) throw new Error(`Certificate lightbox image did not load at ${viewport.width}`);
+    const lightboxGeometry = await certificateLightbox.evaluate((dialog) => {
+      const dialogRect = dialog.getBoundingClientRect();
+      const imageRect = dialog.querySelector('img')?.getBoundingClientRect();
+      return { dialogTop: dialogRect.top, dialogBottom: dialogRect.bottom, imageTop: imageRect?.top, imageBottom: imageRect?.bottom };
+    });
+    if (lightboxGeometry.imageTop < lightboxGeometry.dialogTop || lightboxGeometry.imageBottom > lightboxGeometry.dialogBottom) throw new Error(`Certificate is clipped in the lightbox at ${viewport.width}: ${JSON.stringify(lightboxGeometry)}`);
+    await certificateLightbox.locator('[data-certificate-lightbox-close]').click();
+    if (await certificateLightbox.isVisible()) throw new Error(`Certificate lightbox did not close at ${viewport.width}`);
+    if (!await visibleCertificateTrigger.evaluate((trigger) => trigger === document.activeElement)) throw new Error(`Certificate lightbox did not restore focus at ${viewport.width}`);
     if (viewport.width >= 1000) {
       const aboutHero = await page.locator('[data-section="hero"]').boundingBox();
       const missionBar = await page.locator('[data-section="mission"] .tbt-institutional-title-bar').boundingBox();
