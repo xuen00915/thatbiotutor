@@ -98,6 +98,7 @@ function tbt_upsert_seed_record(string $postType, array $record, bool $refreshAp
         return new WP_Error('tbt_seed_collision', sprintf('Multiple %s records use seed key %s.', $postType, $seedKey));
     }
 
+    $createdRecord = false;
     if ($matches !== []) {
         $postId = (int) $matches[0]->ID;
     } else {
@@ -113,8 +114,37 @@ function tbt_upsert_seed_record(string $postType, array $record, bool $refreshAp
             return $created;
         }
         $postId = (int) $created;
+        $createdRecord = true;
         update_post_meta($postId, '_tbt_seed_key', $seedKey);
         update_post_meta($postId, '_tbt_reference_record', '1');
+    }
+
+    $coreFields = [
+        'post_title' => (string) ($record['title'] ?? $seedKey),
+        'post_content' => (string) ($record['content'] ?? ''),
+        'menu_order' => (int) ($record['menu_order'] ?? 0),
+    ];
+    $coreUpdate = ['ID' => $postId];
+    $coreHashes = [];
+    foreach ($coreFields as $fieldName => $value) {
+        $hashMeta = '_tbt_seed_hash_core_' . $fieldName;
+        $previousHash = (string) get_post_meta($postId, $hashMeta, true);
+        $currentValue = $createdRecord ? $value : ($matches[0]->{$fieldName} ?? ($fieldName === 'menu_order' ? 0 : ''));
+        $seedOwned = $createdRecord || $refreshApproved || ($previousHash !== '' && hash_equals($previousHash, tbt_seed_value_hash($currentValue)));
+        if (!$seedOwned) {
+            continue;
+        }
+        $coreUpdate[$fieldName] = $value;
+        $coreHashes[$hashMeta] = tbt_seed_value_hash($value);
+    }
+    if (count($coreUpdate) > 1) {
+        $updated = wp_update_post($coreUpdate, true);
+        if (is_wp_error($updated)) {
+            return $updated;
+        }
+        foreach ($coreHashes as $hashMeta => $hash) {
+            update_post_meta($postId, $hashMeta, $hash);
+        }
     }
 
     foreach (($record['fields'] ?? []) as $fieldName => $value) {

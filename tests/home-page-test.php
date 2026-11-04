@@ -39,7 +39,7 @@ final class HomePageTest
         preg_match_all('/data-section="([^"]+)"/', $html, $sectionMatches);
         $this->assertSame([
             'hero', 'missing-key', 'fasttrack', 'trust', 'hall-of-fame', 'testimonials',
-            'schools', 'advantage', 'benefits', 'experience', 'causes', 'tutors', 'faq', 'closing',
+            'schools', 'advantage', 'benefits', 'causes', 'tutors', 'faq', 'closing',
         ], $sectionMatches[1], 'Home sections must follow the exact public-site order.');
 
         preg_match('/<section[^>]+data-section="hero".*?<\/section>/s', $html, $heroMatch);
@@ -68,18 +68,24 @@ final class HomePageTest
             $this->assertTrue(str_contains($html, '>' . $value . '<'), "Trust counter {$value} must render.");
         }
         $this->assertTrue(substr_count($html, 'youtube-nocookie.com/embed/') >= 4, 'Home must preserve the original video-led sections.');
-        $this->assertSame(12, substr_count($html, 'data-school-crest'), 'School crest panel must contain twelve crests.');
-        $this->assertTrue(str_contains($html, 'data-school-marquee'), 'School crests must use the shared running panel hook.');
-        foreach (range(1, 4) as $index) {
-            $this->assertTrue(str_contains($html, sprintf('home_number_%02d', $index)), "Home number image {$index} must render through its editable slot.");
+        $this->assertSame(6, substr_count($html, 'data-school-page'), 'School panel must reproduce all six public school pages.');
+        foreach (range(1, 6) as $index) {
+            $this->assertTrue(str_contains($html, sprintf('curated_home_schools_%02d', $index)), "School page {$index} must use its approved public artwork.");
         }
-        $this->assertSame(1, substr_count($html, 'data-result-renderer'), 'Home must render the editable Results records.');
-        $this->assertSame(3, substr_count($html, 'data-practical-image'), 'Home must show three practical-session images.');
-        $this->assertSame(3, substr_count($html, 'data-classroom-image'), 'Home must show three supplied classroom images.');
-        $this->assertSame(1, substr_count($html, 'data-testimonial-renderer'), 'Home must use the shared testimonial renderer.');
+        $this->assertSame(1, substr_count($html, 'curated_home_hall_of_fame'), 'Home must reproduce the single public Hall of Fame artwork.');
+        $this->assertSame(3, substr_count($html, 'data-home-testimonial'), 'Home must reproduce the three public featured testimonials.');
+        foreach (range(1, 4) as $index) {
+            $this->assertSame(1, substr_count($html, sprintf('curated_home_benefit_%02d', $index)), "Student benefit artwork {$index} must render once.");
+        }
+        $this->assertTrue(str_contains($html, 'data-experience-heading'), 'The public Sneak Peek heading must remain inside Student Benefits.');
+        $this->assertTrue(str_contains($html, 'Each year, our students will vote'), 'Home environmental-giving copy must reproduce the current public wording.');
+        $this->assertSame(1, substr_count($html, 'curated_home_cause_graphic'), 'Home must use the public environmental-giving artwork.');
         $this->assertSame(1, substr_count($html, 'data-tutor-renderer'), 'Home must use the shared tutor renderer.');
         $this->assertSame(1, substr_count($html, 'data-faq-renderer="home"'), 'Home must use the shared Home FAQ renderer.');
-        $this->assertTrue(str_contains($html, '/contact/') && str_contains($html, 'https://wa.me/'), 'Home must provide closing and WhatsApp trial CTA links.');
+        $homeFaqs = array_filter($tbt_reference['records']['faqs'] ?? [], static fn (array $faq): bool => ($faq['fields']['tbt_faq_collection'] ?? '') === 'home');
+        $this->assertSame(13, count($homeFaqs), 'Home must retain all thirteen public FAQs.');
+        $this->assertSame(1, substr_count($html, 'curated_home_faq_graphic'), 'Home closing must reproduce the public FAQ artwork.');
+        $this->assertTrue(str_contains($html, 'https://wa.me/'), 'Home must provide WhatsApp trial CTA links.');
         $this->assertTrue(!preg_match('~https?://static\.wixstatic\.com~', $html), 'Home must not hotlink Wix media.');
         $this->assertTrue(substr_count($html, '.webp') >= 22, 'Home media must resolve to the local WebP library.');
 

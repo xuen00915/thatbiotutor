@@ -25,6 +25,15 @@ $contracts = [
     [$css, '@media (max-width: 768px)', '768 tablet behavior'],
     [$css, '@media (max-width: 390px)', '390 mobile behavior'],
     [$css, '@media (max-width: 320px)', '320 narrow-mobile behavior'],
+    [$css, '@media (min-width: 981px)', 'desktop public-section geometry'],
+    [$css, '.tbt-programme-numbers__background', 'classroom-photo numbers layer'],
+    [$css, '.tbt-programme-proof', 'public grade-jump proof blocks'],
+    [$css, '.tbt-programme-hall__actions', 'paired hall-of-fame conversion actions'],
+    [$css, '.tbt-programme-options__grid { grid-template-columns: 1fr;', 'stacked public class-option panels'],
+    [$css, '.tbt-programme-cover { background: #08664f;', 'dark-teal programme coverage section'],
+    [$css, '.tbt-programme-lesson { background: #000;', 'black public lesson section'],
+    [$css, '.tbt-classes-page .tbt-programme-struggles { background: #000;', 'black Classes struggle section'],
+    [$css, '.tbt-programme-tutors .tbt-tutors { display: grid; grid-template-columns: 1fr;', 'vertical public tutor flow'],
     [$intensive, 'data-carousel-status', 'accessible programme carousel status'],
     [$intensive, 'intensivefix_program_%02d', 'ordered programme source-key pattern'],
     [$intensive, 'intensivefix_student_reviews', 'student review source key'],
@@ -38,5 +47,11 @@ $contracts = [
 
 foreach ($contracts as [$source, $needle, $label]) {
     if ($source === '' || !str_contains($source, $needle)) { fwrite(STDERR, "FAIL: Missing {$label} contract.\n"); exit(1); }
+}
+foreach (['padding-block: 271px', 'padding-block: 447px', 'padding-block: 453px'] as $inflatedPadding) {
+    if (str_contains($css, $inflatedPadding)) {
+        fwrite(STDERR, "FAIL: Programme geometry must not use artificial whole-page padding {$inflatedPadding}.\n");
+        exit(1);
+    }
 }
 fwrite(STDOUT, 'PASS: ' . count($contracts) . " tuition responsive/media contracts\n");

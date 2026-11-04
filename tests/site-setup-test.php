@@ -152,6 +152,7 @@ final class SiteSetupTest
         $this->testCollisionSafety();
         $this->testIdempotentPageSetup();
         $this->testSeedOwnership();
+        $this->testSeedRecordCoreOwnership();
 
         fwrite(STDOUT, "PASS: {$this->assertions} site-setup assertions\n");
     }
@@ -242,6 +243,32 @@ final class SiteSetupTest
         $this->assertSame($fieldKey, get_post_meta($postId, '_' . $fieldName, true), 'Seeded field must retain its ACF field-key reference.');
         $this->assertTrue(get_post_meta($postId, '_tbt_seed_hash_' . $fieldName, true) !== '', 'Seed hash must be recorded for ownership checks.');
         $this->assertTrue(get_post_meta($postId, '_tbt_seed_version', true) !== '', 'Seed version must be recorded.');
+    }
+
+    private function testSeedRecordCoreOwnership(): void
+    {
+        tbt_test_reset_db();
+        $record = [
+            'seed_key' => 'faq-core-ownership',
+            'title' => 'Original question?',
+            'content' => '<p>Original answer.</p>',
+            'menu_order' => 1,
+            'fields' => ['tbt_faq_collection' => 'home'],
+        ];
+        $postId = tbt_upsert_seed_record('tbt_faq', $record, false);
+        $this->assertTrue(is_int($postId), 'Structured seed record must be created.');
+
+        $GLOBALS['tbt_db']['posts'][$postId]['post_title'] = 'Client question?';
+        $record['title'] = 'Updated reference question?';
+        $record['content'] = '<p>Updated reference answer.</p>';
+        $record['menu_order'] = 2;
+        tbt_upsert_seed_record('tbt_faq', $record, false);
+        $this->assertSame('Client question?', $GLOBALS['tbt_db']['posts'][$postId]['post_title'], 'Normal rerun must preserve a client-edited record title.');
+        $this->assertSame('<p>Updated reference answer.</p>', $GLOBALS['tbt_db']['posts'][$postId]['post_content'], 'Untouched record content must advance to the new reference value.');
+        $this->assertSame(2, $GLOBALS['tbt_db']['posts'][$postId]['menu_order'], 'Untouched record ordering must advance to the new reference value.');
+
+        tbt_upsert_seed_record('tbt_faq', $record, true);
+        $this->assertSame('Updated reference question?', $GLOBALS['tbt_db']['posts'][$postId]['post_title'], 'Approved refresh must update a protected record title.');
     }
 
     private function assertSame(mixed $expected, mixed $actual, string $message): void

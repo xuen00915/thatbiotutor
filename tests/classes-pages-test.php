@@ -31,6 +31,7 @@ final class ClassesPagesTest
         $this->assertTrue(str_contains($classes, 'curated_classes_pure_vs_combined'), 'Classes definition must use the public Pure-vs-Combined artwork.');
         $this->assertTrue(str_contains($classes, 'curated_classes_fasttrack_study_prep'), 'Classes difference must use the public FastTrack artwork.');
         $this->assertTrue(!str_contains($classes, 'tbt-problem-grid'), 'Classes must not substitute the public stacked struggle composition with generic problem cards.');
+        $this->assertTrue(str_contains($classes, 'class="tbt-programme-button tbt-programme-levels__button"'), 'Classes level chooser must retain the public WhatsApp button below the guidance copy.');
 
         $sec3 = $html['page-sec-3.php'];
         $sec3Text = html_entity_decode(strip_tags($sec3));
@@ -44,6 +45,7 @@ final class ClassesPagesTest
         $this->assertTrue(substr_count($sec3, 'tbt-programme-hero__highlight') >= 2, 'Sec 3 hero must preserve the public green phrase emphasis.');
         $this->assertTrue(str_contains($sec3, 'March') && str_contains($sec3, 'Sep – Oct'), 'Sec 3 must retain its March opening and two-phase calendar.');
         $this->assertTrue(!str_contains($sec3, 'Phase 3 — O Levels Intensives'), 'Sec 3 must not inherit the Sec 4 third phase.');
+        $this->assertTrue(str_contains($sec3, 'data-testimonial-cohort="2025"'), 'Sec 3 must render an editable structured-testimonial cohort rather than an empty non-existent group.');
 
         $sec4 = $html['page-sec-4.php'];
         $sec4Text = html_entity_decode(strip_tags($sec4));
@@ -56,12 +58,17 @@ final class ClassesPagesTest
         $this->assertTrue(str_contains($sec4, 'curated_heroes_sec4_original'), 'Sec 4 hero must use the captured public background.');
         $this->assertTrue(substr_count($sec4, 'tbt-programme-hero__highlight') >= 3, 'Sec 4 hero must preserve the public green proof emphasis.');
         $this->assertTrue(str_contains($sec4, 'Aug – Nov') && str_contains($sec4, '69.21%'), 'Sec 4 must retain its O-Level intensive phase and recovery proof.');
+        $this->assertTrue(str_contains($sec4, 'data-testimonial-cohort="2025"'), 'Sec 4 must render an editable structured-testimonial cohort rather than an empty non-existent group.');
         foreach ([$sec3, $sec4] as $programme) {
             $this->assertTrue(str_contains($programme, 'https://wa.me/'), 'Programme trial CTA must open the configured WhatsApp destination.');
             foreach (['98', '912+', '2.3', '91%', '69.21%', '1 in 2'] as $stat) {
                 $this->assertTrue(str_contains($programme, '>' . $stat . '<'), "Programme must render public statistic {$stat}.");
             }
-            $this->assertTrue(substr_count($programme, 'data-track-record') === 3, 'Programme hall of fame must render three public result panels.');
+            $this->assertSame(2, substr_count($programme, 'data-track-record'), 'Programme hall of fame must render the two public portrait result panels.');
+            $this->assertSame(3, substr_count($programme, 'class="tbt-programme-proof"'), 'Programme hall of fame must render the three public grade-jump proof blocks.');
+            preg_match_all('/<a class="tbt-programme-hall__action\s/', $programme, $hallActions);
+            $this->assertSame(2, count($hallActions[0]), 'Programme hall of fame must retain both public conversion actions.');
+            $this->assertTrue(str_contains($programme, 'tbt-programme-numbers__background') && str_contains($programme, 'curated_heroes_classes_original'), 'Programme numbers must retain the public dark classroom-photo treatment.');
             $this->assertTrue(substr_count($programme, 'class="tbt-inclusion-card') === 8, 'Programme inclusions must render all eight public benefits.');
         }
 

@@ -48,6 +48,26 @@ $tbt_missing_key_heading = static function (string $heading): void {
     }
 };
 $tbt_whatsapp = tbt_whatsapp_url('Hi ThatBioTutor, I would like to know more about a trial lesson.');
+$tbt_home_testimonials = [
+    [
+        'media' => 'curated_home_testimonial_yong',
+        'result' => 'E8 → A1 in 3 months',
+        'quote' => 'Unlike school teachers who just merely read off the slides, these tutors had somehow made such a content heavy subject into something engaging... The night before bio O-levels, they were all staying up till midnight to answer their students’ questions... it really showed how much they care for their students.',
+        'name' => 'Yong Zheng, Sec 4 in 2024',
+    ],
+    [
+        'media' => 'curated_home_testimonial_gwen',
+        'result' => 'F9 → A1',
+        'quote' => 'After using TBT’s notes and memorising all the shortcuts I managed to get the model template answer and memorise it easily... TBT is a really good option because I joined and I managed to get from a failing student to an A1 student.',
+        'name' => 'Gwen, Sec 4 in 2024',
+    ],
+    [
+        'media' => 'curated_home_testimonial_aryan',
+        'result' => 'C6 → A2',
+        'quote' => 'Excellent tutor in terms of the amount of resources he has... Very knowledgeable and has his own personal touch to everything he does and genuinely cares for the students. Lessons are very beneficial and 100% would recommend for O Level taking students. He got me from a C6 to A2 in O Level.',
+        'name' => 'Aryan, Sec 4 in 2024',
+    ],
+];
 ?>
 <div class="tbt-home">
     <section class="tbt-home-hero" data-section="hero" data-carousel data-carousel-autoplay="7000" aria-label="ThatBioTutor students and classes">
@@ -92,7 +112,6 @@ $tbt_whatsapp = tbt_whatsapp_url('Hi ThatBioTutor, I would like to know more abo
             <figure><?php $tbt_media_image('curated_home_fasttrack_system', 'tbt-fasttrack__artwork'); ?><figcaption>Watch the video for explanation:</figcaption><a class="tbt-button" href="#tbt-advantage">Watch the Video</a></figure>
             <figure><?php $tbt_media_image('curated_home_trial_information', 'tbt-fasttrack__artwork'); ?><figcaption>Watch the video for pricing details:</figcaption><a class="tbt-button" href="#tbt-advantage">Watch the Video</a></figure>
         </div>
-        <div class="tbt-home-container tbt-fasttrack__class-photo"><?php $tbt_media_image('curated_home_classroom_reference', 'tbt-cover-photo'); ?></div>
     </section>
 
     <section class="tbt-home-section tbt-trust" data-section="trust">
@@ -107,21 +126,34 @@ $tbt_whatsapp = tbt_whatsapp_url('Hi ThatBioTutor, I would like to know more abo
     <section class="tbt-home-section tbt-hall" data-section="hall-of-fame">
         <header class="tbt-home-band"><h2>TBT Hall of Fame</h2><p>Some of our biggest grade jumps (there are many more!)</p></header>
         <div class="tbt-home-container">
-            <div class="tbt-hall__gallery"><?php foreach (range(1, 4) as $tbt_index) { tbt_render_page_image(sprintf('home_number_image_%02d', $tbt_index), sprintf('home_number_%02d', $tbt_index), 'tbt-hall__image', ['loading' => 'lazy']); } ?></div>
-            <?php tbt_render_results(['posts_per_page' => -1]); ?>
-            <a class="tbt-button" href="<?php echo esc_url(home_url('/testimonials/')); ?>">More Results</a>
+            <?php $tbt_media_image('curated_home_hall_of_fame', 'tbt-hall__image'); ?>
+            <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-button" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">WhatsApp Us Now</a><?php endif; ?>
         </div>
     </section>
 
     <section class="tbt-home-section tbt-home-testimonials" data-section="testimonials">
-        <div class="tbt-home-container"><h2><?php echo esc_html($tbt_home_field('home_testimonials_heading')); ?></h2><?php tbt_render_testimonials(['posts_per_page' => 3]); ?><a class="tbt-button" href="<?php echo esc_url(home_url('/testimonials/')); ?>">More Testimonials</a></div>
+        <div class="tbt-home-container">
+            <h2><?php echo esc_html($tbt_home_field('home_testimonials_heading')); ?></h2>
+            <div class="tbt-home-testimonials__grid">
+                <?php foreach ($tbt_home_testimonials as $tbt_testimonial) : ?>
+                    <article class="tbt-home-testimonial" data-home-testimonial>
+                        <?php $tbt_media_image($tbt_testimonial['media'], 'tbt-home-testimonial__portrait'); ?>
+                        <p class="tbt-home-testimonial__stars" aria-label="5 out of 5 stars">★★★★★</p>
+                        <h3><?php echo esc_html($tbt_testimonial['result']); ?></h3>
+                        <blockquote><?php echo esc_html($tbt_testimonial['quote']); ?></blockquote>
+                        <p class="tbt-home-testimonial__name"><?php echo esc_html($tbt_testimonial['name']); ?></p>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+            <a class="tbt-button" href="<?php echo esc_url(home_url('/testimonials/')); ?>">More Testimonials</a>
+        </div>
     </section>
 
     <section class="tbt-home-section tbt-schools" data-section="schools">
         <header class="tbt-home-band"><h2><?php echo esc_html($tbt_home_field('home_schools_heading')); ?></h2></header>
-        <div class="tbt-school-marquee" data-school-marquee><div class="tbt-school-marquee__track">
-            <?php foreach (range(1, 12) as $tbt_index) : $tbt_media_image(sprintf('curated_shared_school_crest_%02d', $tbt_index), 'tbt-school-crest', 'data-school-crest'); endforeach; ?>
-        </div></div>
+        <div class="tbt-home-container tbt-schools__pages">
+            <?php foreach (range(1, 6) as $tbt_index) : $tbt_media_image(sprintf('curated_home_schools_%02d', $tbt_index), 'tbt-schools__page', 'data-school-page'); endforeach; ?>
+        </div>
     </section>
 
     <section class="tbt-home-section tbt-advantage" id="tbt-advantage" data-section="advantage">
@@ -136,29 +168,47 @@ $tbt_whatsapp = tbt_whatsapp_url('Hi ThatBioTutor, I would like to know more abo
 
     <section class="tbt-home-section tbt-benefits-section" data-section="benefits">
         <header class="tbt-home-band"><h2>Student Benefits</h2><p>TBT Is So Much More Than Bio Lessons...</p></header>
-        <div class="tbt-home-container"><?php $tbt_media_image('curated_home_student_benefits', 'tbt-benefits-artwork'); ?></div>
-    </section>
-
-    <section class="tbt-home-section tbt-experience" data-section="experience">
-        <header class="tbt-home-band"><h2><?php echo esc_html($tbt_home_field('home_experience_heading')); ?></h2></header>
         <div class="tbt-home-container">
-            <div class="tbt-media-grid"><?php foreach (range(1, 3) as $tbt_index) : $tbt_media_image(sprintf('curated_shared_practical_%02d', $tbt_index), 'tbt-media-grid__image', 'data-practical-image'); endforeach; ?></div>
-            <div class="tbt-media-grid"><?php foreach (range(1, 3) as $tbt_index) :
-                $tbt_key = sprintf('home_classroom_%02d', $tbt_index);
-                $tbt_fallback = tbt_media($tbt_key);
-                $tbt_image = tbt_page_image(sprintf('home_classroom_image_%02d', $tbt_index), (string) ($tbt_fallback['url'] ?? ''));
-            ?><img data-classroom-image data-media-key="<?php echo esc_attr($tbt_key); ?>" src="<?php echo esc_url($tbt_image['url']); ?>" alt="<?php echo esc_attr($tbt_image['alt'] ?: 'Life inside the ThatBioTutor classroom'); ?>" loading="lazy"><?php endforeach; ?></div>
+            <div class="tbt-benefits-grid"><?php foreach (range(1, 4) as $tbt_index) : $tbt_media_image(sprintf('curated_home_benefit_%02d', $tbt_index), 'tbt-benefits-grid__image', 'data-benefit-image'); endforeach; ?></div>
+            <h2 class="tbt-benefits-section__experience" data-experience-heading><?php echo esc_html($tbt_home_field('home_experience_heading')); ?></h2>
+            <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-button" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">WhatsApp Us Now</a><?php endif; ?>
         </div>
     </section>
 
     <section class="tbt-home-section tbt-causes" data-section="causes">
         <header class="tbt-home-band"><h2><?php echo esc_html($tbt_home_field('home_causes_heading')); ?></h2></header>
-        <div class="tbt-home-container tbt-causes__grid"><div><p>Up to 2025, ThatBioTutor donated a portion of its profits to global reforestation, resulting in 1,982 trees planted. From 2026 onwards, students help choose an environmental cause closer to home.</p><a class="tbt-button" href="<?php echo esc_url(home_url('/trees/')); ?>">See Our Causes</a></div><?php $tbt_media_image('curated_home_cause_graphic', 'tbt-causes__artwork'); ?></div>
+        <div class="tbt-home-container tbt-causes__content">
+            <p>Up to 2025, ThatBioTutor donated a portion of its profits to global reforestation through TeamTrees.org in partnership with the Arbor Day Foundation, resulting in 1,982 trees planted. 🌲<br><br>From 2026 onwards, ThatBioTutor will be focusing our giving efforts on causes closer to home. 🇸🇬</p>
+            <p>Each year, our students will vote on the environmental cause on <a href="https://www.giving.sg/" target="_blank" rel="noopener noreferrer">Giving.sg</a> that matters most to them, and we’ll make a lump-sum donation to the chosen cause.</p>
+            <?php $tbt_media_image('curated_home_cause_graphic', 'tbt-causes__artwork'); ?>
+        </div>
     </section>
 
     <section class="tbt-home-section tbt-home-tutors" data-section="tutors">
         <header class="tbt-home-band"><h2><?php echo esc_html($tbt_home_field('home_tutors_heading')); ?></h2></header>
-        <div class="tbt-home-container"><?php tbt_render_tutors(); ?><p class="tbt-quality-note">Every tutor passes rigorous screening, receives weekly coaching, and acts on student feedback.</p><a class="tbt-button" href="<?php echo esc_url(home_url('/about/')); ?>">Meet Our Tutors</a></div>
+        <div class="tbt-home-container">
+            <?php tbt_render_tutors([
+                'variant' => 'about',
+                'show_roles' => false,
+                'display_names' => [
+                    'Mr Keefe' => 'Mr Keefe (Founder)',
+                    'Ms Ng' => 'Ms Ng (Ex-MOE Teacher & Syllabus Reviewer)',
+                ],
+                'fallback_portraits' => [
+                    'Ms Chelsea' => 'curated_about_tutor_chelsea',
+                    'Ms Jamie' => 'curated_about_tutor_jamie',
+                    'Mr Keefe' => 'curated_about_tutor_keefe',
+                    'Ms Ng' => 'curated_about_tutor_ng',
+                ],
+            ]); ?>
+            <p class="tbt-home-tutors__more">Click <a href="<?php echo esc_url(home_url('/about/')); ?>">here</a> for more info about our tutors.</p>
+            <div class="tbt-quality-note">
+                <p><strong>Quality control — how TBT ensures every class is excellent:</strong></p>
+                <p>✓ All tutors pass rigorous screening — can take 1+ month before teaching their first class</p>
+                <p>✓ Weekly tutor coaching sessions — every TBT tutor is mentored by Mr. Keefe each week</p>
+                <p>✓ Every class ends with a student feedback form — reviewed and acted on weekly</p>
+            </div>
+        </div>
     </section>
 
     <section class="tbt-home-section tbt-home-faq" data-section="faq">
@@ -167,7 +217,7 @@ $tbt_whatsapp = tbt_whatsapp_url('Hi ThatBioTutor, I would like to know more abo
     </section>
 
     <section class="tbt-home-section tbt-closing" data-section="closing">
-        <div class="tbt-home-container"><h2><?php echo esc_html($tbt_home_field('home_closing_heading')); ?></h2><a class="tbt-button" href="<?php echo esc_url(home_url('/contact/')); ?>">Book a Trial Lesson</a></div>
+        <div class="tbt-home-container"><?php $tbt_media_image('curated_home_faq_graphic', 'tbt-closing__artwork'); ?></div>
     </section>
 </div>
 <?php
