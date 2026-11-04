@@ -1,0 +1,102 @@
+.tbt-testimonials-page { overflow-x: clip; background: #fff; color: #181818; }
+.tbt-testimonials-page, .tbt-testimonials-page * { box-sizing: border-box; }
+.tbt-testimonials-container { width: min(calc(100% - 40px), 980px); margin-inline: auto; }
+
+.tbt-testimonials-hero { position: relative; min-height: 449px; overflow: hidden; color: #fff; }
+.tbt-testimonials-hero__background { position: absolute; inset: 0; }
+.tbt-testimonials-hero__background img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.tbt-testimonials-hero__content { position: relative; display: grid; width: min(calc(100% - 40px), 980px); min-height: 449px; align-content: center; justify-items: center; margin-inline: auto; padding-left: 500px; text-align: center; }
+.tbt-testimonials-hero h1 { margin: 0; color: #fff; font-size: clamp(3.3rem, 5.5vw, 5rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.18; text-shadow: 0 3px 7px rgba(0,0,0,.3); }
+.tbt-testimonials-hero p { margin: 48px 0 0; color: #ffd34c; font-size: 3.25rem; letter-spacing: 2px; line-height: 1; filter: drop-shadow(0 1px 1px #9c6a00); }
+
+.tbt-testimonials-featured { padding: 44px 0 77px; text-align: center; }
+.tbt-testimonials-featured h2 { margin: 0 0 30px; color: #111; font-size: clamp(2rem, 3.2vw, 2.375rem); font-weight: 800; line-height: 1.2; }
+.tbt-testimonials-featured h2 span, .tbt-story-heading h3 span { color: #2bb223; }
+.tbt-video--testimonial { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #000; }
+.tbt-video--testimonial iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; overflow: hidden; }
+.tbt-testimonials-featured .tbt-video--testimonial { width: min(100%, 694px); margin-inline: auto; border: 2px solid #111; box-shadow: 0 2px 5px rgba(0,0,0,.28); }
+.tbt-testimonials-button { display: inline-flex; width: min(100%, 330px); min-height: 64px; align-items: center; justify-content: center; margin-top: 34px; padding: 12px 30px; border-radius: 8px; background: #8de65c; color: #fff; font-size: 1.2rem; font-weight: 800; text-decoration: none; }
+
+.tbt-testimonials-year { padding: 0; scroll-margin-top: calc(var(--tbt-header-height) + 8px); text-align: center; }
+.tbt-testimonials-artwork { display: grid; align-items: center; justify-content: center; margin: 0 auto; }
+.tbt-testimonials-artwork--portrait { grid-template-columns: repeat(2, minmax(0, 1fr)); width: min(100%, 922px); gap: 0; margin-bottom: 57px; }
+#class-of-2025 .tbt-testimonials-artwork--portrait { width: min(100%, 896px); }
+#class-of-2023 .tbt-testimonials-artwork--portrait { grid-template-columns: minmax(0, 600px); width: min(100%, 600px); margin-bottom: 47px; }
+.tbt-testimonials-artwork img { display: block; width: 100%; height: auto; object-fit: cover; }
+
+.tbt-testimonials-artwork-band { width: 100%; padding: 83px 0; background: #303030; }
+.tbt-testimonials-artwork-band .tbt-testimonials-artwork { gap: 32px; }
+.tbt-testimonials-artwork--landscape { grid-template-columns: minmax(0, 1fr); }
+.tbt-testimonials-artwork-band .tbt-testimonials-artwork--landscape { width: min(100%, 884px); }
+#class-of-2024 .tbt-testimonials-artwork--landscape img { aspect-ratio: 884 / 553; object-fit: cover; }
+#class-of-2023 .tbt-testimonials-artwork-band { padding: 63px 0 69px; }
+#class-of-2023 .tbt-testimonials-artwork--landscape img { aspect-ratio: 884 / 614; object-fit: cover; border: 2px solid #111; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.5); }
+.tbt-testimonials-artwork-band--2022 { padding: 45px 0 39px; color: #fff; }
+.tbt-testimonials-artwork-band--2022 h2, .tbt-testimonials-results-band h2 { margin: 0; color: #fff; font-size: 2.5rem; font-weight: 700; line-height: 1.5; text-align: center; }
+.tbt-testimonials-artwork-band--2022 .tbt-testimonials-artwork { width: min(100%, 845px); margin-top: 213px; }
+.tbt-testimonials-artwork-band--2022 .tbt-testimonials-artwork img { aspect-ratio: 845 / 572; object-fit: cover; border: 2px solid #111; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.5); }
+
+.tbt-testimonials-results-band { min-height: 349px; padding: 42px 0 26px; background: #303030; color: #fff; }
+.tbt-testimonials-results-band h2 { font-size: 1.875rem; }
+.tbt-testimonials-results-band p { margin: 182px 0 0; color: #fff; font-size: 1.25rem; font-style: italic; line-height: 1.35; }
+
+.tbt-story-heading { margin: 0 0 56px; padding-top: 40px; text-align: center; }
+#class-of-2025 .tbt-story-heading, #class-of-2024 .tbt-story-heading { padding-top: 57px; }
+#class-of-2023 .tbt-story-heading { padding-top: 24px; }
+.tbt-story-heading h3 { margin: 0; color: #111; font-size: clamp(2rem, 3.5vw, 2.625rem); font-weight: 700; line-height: 1.2; }
+.tbt-story-heading p { margin: 32px 0 0; color: #181818; font-size: 1.375rem; font-style: italic; font-weight: 400; line-height: 1.3; }
+#class-of-2021 .tbt-story-heading { margin-bottom: 380px; }
+
+.tbt-testimonials-year .tbt-testimonials { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; gap: 560px; margin-inline: auto; }
+.tbt-testimonials-year .tbt-testimonial { display: flex; min-width: 0; flex-direction: column; align-items: center; padding: 0; border: 0; background: transparent; text-align: center; box-shadow: none; }
+.tbt-testimonials-year .tbt-testimonial--video { width: min(100%, 884px); margin-inline: auto; padding: 0; border: 0; background: transparent; box-shadow: none; }
+.tbt-testimonials-year .tbt-testimonial__portrait { order: 0; width: 64px; height: 64px; margin-bottom: 20px; border-radius: 50%; object-fit: cover; }
+.tbt-testimonials-year .tbt-testimonial--video .tbt-video--testimonial { order: 0; margin: 0; background: #000; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
+.tbt-testimonials-year blockquote { order: 1; width: 100%; margin: 0; font-size: 1.375rem; font-style: italic; line-height: 1.35; }
+.tbt-testimonials-year .tbt-testimonial__name { order: 2; margin: 30px 0 0; font-size: 1.375rem; font-style: italic; line-height: 1.35; }
+.tbt-testimonials-year .tbt-testimonial__stars { order: 3; margin-top: 5px; color: #f6b829; font-size: 1.35rem; letter-spacing: 1px; line-height: 1; }
+.tbt-testimonials-button--archive { margin: 120px auto 50px; }
+
+@media (min-width: 769px) {
+  #class-of-2025 .tbt-testimonials { gap: 170px; }
+  #class-of-2024 .tbt-testimonials { gap: 290px; }
+  #class-of-2023 .tbt-testimonials { gap: 377px; }
+}
+
+@media (max-width: 768px) {
+  .tbt-testimonials-container { width: min(calc(100% - 34px), 680px); }
+  .tbt-testimonials-hero { min-height: 430px; }
+  .tbt-testimonials-hero__content { width: min(calc(100% - 34px), 680px); min-height: 430px; justify-items: end; padding-left: 44%; }
+  .tbt-testimonials-hero h1 { font-size: clamp(2.7rem, 8vw, 4rem); }
+  .tbt-testimonials-hero p { margin-top: 34px; font-size: 2.5rem; }
+  .tbt-testimonials-artwork-band { padding-block: 52px; }
+  .tbt-testimonials-artwork-band--2022 .tbt-testimonials-artwork { margin-top: 90px; }
+  .tbt-testimonials-year .tbt-testimonials { gap: 160px; }
+  .tbt-testimonials-results-band p { margin-top: 150px; }
+}
+
+@media (max-width: 390px) {
+  .tbt-testimonials-container { width: calc(100% - 28px); }
+  .tbt-testimonials-hero { min-height: 360px; }
+  .tbt-testimonials-hero__background img { object-position: 38% 50%; }
+  .tbt-testimonials-hero__content { min-height: 360px; justify-items: center; padding: 74px 0 20px; }
+  .tbt-testimonials-hero h1 { max-width: 290px; font-size: 2.65rem; }
+  .tbt-testimonials-hero p { margin-top: 28px; font-size: 2rem; }
+  .tbt-testimonials-featured { padding: 38px 0 52px; }
+  .tbt-testimonials-featured h2 { font-size: 1.9rem; }
+  .tbt-testimonials-button { min-height: 58px; }
+  .tbt-testimonials-artwork--portrait, #class-of-2023 .tbt-testimonials-artwork--portrait { grid-template-columns: 1fr; width: 100%; }
+  .tbt-testimonials-artwork-band { padding-block: 38px; }
+  .tbt-testimonials-artwork-band--2022 h2 { font-size: 2.1rem; }
+  .tbt-testimonials-artwork-band--2022 .tbt-testimonials-artwork { margin-top: 62px; }
+  .tbt-testimonials-results-band h2 { font-size: 1.7rem; }
+  .tbt-story-heading { padding-top: 38px; }
+  .tbt-story-heading h3 { font-size: 2rem; }
+  .tbt-story-heading p { margin-top: 20px; font-size: 1rem; }
+  .tbt-testimonials-year blockquote, .tbt-testimonials-year .tbt-testimonial__name { font-size: 1.125rem; }
+  #class-of-2021 .tbt-story-heading { margin-bottom: 180px; }
+}
+
+@media (max-width: 320px) {
+  .tbt-testimonials-hero h1 { font-size: 2.3rem; }
+}

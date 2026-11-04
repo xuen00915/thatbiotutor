@@ -1,0 +1,9 @@
+<?php
+declare(strict_types=1);
+$root=dirname(__DIR__);$required=['docs/CLIENT-EDITING-GUIDE.md','docs/DEPLOYMENT.md','docs/COLLABORATOR-ONBOARDING.md','docs/STAGING-TO-FINAL-MIGRATION.md','launch/README.md','launch/PRE-LAUNCH-CHECKLIST.md'];$docs='';foreach($required as $path){$file=$root.'/'.$path;if(!is_file($file))throw new RuntimeException("Missing {$path}");$docs.="\n".(string)file_get_contents($file);}
+foreach(['ACF Free','Testimonials','Tutors','FAQs','Results','Home','Classes','Sec 3','Sec 4','IntensiveFix','Free Bio Notes','About','Contact','Our Causes','Tuition Recommendations','WebP','fixed numbered','Draft','menu order'] as $term)if(!str_contains($docs,$term))throw new RuntimeException("Editing documentation missing {$term}");
+foreach(['wp tbt setup-site','scripts/verify-local.sh','npm run wp-env:start','backup','dry-run','confirmation','rollback','verify','production hostname','DNS','mail','analytics','consent','launch approval','pending'] as $term)if(stripos($docs,$term)===false)throw new RuntimeException("Operations documentation missing {$term}");
+if(!str_contains($docs,'IntensiveFix is separate from regular Sec 3'))throw new RuntimeException('IntensiveFix distinction must be explicit.');
+foreach(['pages-home.css','pages-programmes.css','pages-testimonials.css','pages-resources.css','pages-institutional.css','pages-intensivefix.css','five fixed numbered Cell Division slides','visual:capture','font-licensing fallback'] as $term)if(stripos($docs,$term)===false)throw new RuntimeException("Fidelity documentation missing {$term}");
+$repoDocs='';foreach(['README.md','PRODUCT.md','DESIGN.md','CHANGELOG.md'] as $path)$repoDocs.=(string)file_get_contents($root.'/'.$path);foreach(['ACF Free','Hello Elementor','no production','source of truth'] as $term)if(stripos($repoDocs,$term)===false)throw new RuntimeException("Repository docs missing {$term}");
+fwrite(STDOUT,"PASS: documentation contracts\n");

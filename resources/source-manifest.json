@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "authoritativeCrawl": {
+    "date": "2026-11-03",
+    "site": "https://www.thatbiotutor.com/",
+    "path": "/Users/dmsyx/Documents/Projects/thatbiotutor-live-crawl-2026-11-03",
+    "reports": "reports/crawl.json",
+    "role": "Authoritative source for all original public pages"
+  },
+  "suppliedAssets": {
+    "path": "/Users/dmsyx/Downloads/drive-download-20261102T021322Z-1-001",
+    "instructions": "Inquire pages to copy over (&what not to).docx",
+    "role": "Approved Home media replacements and IntensiveFix programme assets"
+  },
+  "maintainedModifiedSource": {
+    "path": "/Users/dmsyx/Documents/Projects/thatbiotutor-modified",
+    "role": "Reference for the separately approved IntensiveFix page only"
+  },
+  "boundaries": {
+    "wordpressOutput": "/Users/dmsyx/Documents/Projects/thatbiotutor-wordpress",
+    "standaloneArchiveIncluded": false,
+    "liveSiteWritesAllowed": false
+  },
+  "mediaPipeline": {
+    "script": "scripts/prepare-media.py",
+    "output": "wordpress/wp-content/themes/thatbiotutor-hello-child/assets/images",
+    "format": "WebP",
+    "photoQuality": 86,
+    "method": 6,
+    "textArtwork": "lossless",
+    "deduplication": "source SHA-256",
+    "fontPolicy": "No captured proprietary font files are redistributed without a confirmed licence"
+  }
+}
+

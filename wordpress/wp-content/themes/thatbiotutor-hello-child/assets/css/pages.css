@@ -1,0 +1,11 @@
+/* Cross-page primitives only. Route families live in pages-*.css. */
+.tbt-section { padding: clamp(64px, 8vw, 120px) max(20px, calc((100vw - var(--tbt-page)) / 2)); }
+.tbt-section--soft { background: var(--tbt-soft); }
+.tbt-section--dark { background: var(--tbt-green-dark); color: #fff; }
+.tbt-eyebrow { color: #4d9340; font-weight: 800; letter-spacing: .08em; text-align: center; text-transform: uppercase; }
+.tbt-heading { margin: 0; font-size: clamp(2.25rem, 6vw, 5.25rem); line-height: 1.06; overflow-wrap: anywhere; }
+.tbt-button { display: inline-flex; min-height: 52px; align-items: center; justify-content: center; padding: 14px 28px; border-radius: 999px; background: var(--tbt-green); color: #17311b; font-weight: 800; text-decoration: none; }
+
+@media (min-width: 1440px) { .tbt-section { padding-block: 110px; } }
+@media (max-width: 390px) { .tbt-section { padding-inline: 18px; } .tbt-heading { font-size: clamp(2rem, 13vw, 3.2rem); } }
+@media (max-width: 320px) { .tbt-section { padding-inline: 14px; } }

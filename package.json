@@ -1,0 +1,20 @@
+{
+  "name": "thatbiotutor-wordpress",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "wp-env:start": "wp-env start",
+    "wp-env:stop": "wp-env stop",
+    "wp-env:clean": "wp-env clean all",
+    "wp-env:setup": "wp-env run cli wp theme activate thatbiotutor-hello-child && wp-env run cli wp plugin activate advanced-custom-fields && wp-env run cli wp tbt setup-site && wp-env run cli wp option update blogname ThatBioTutor && wp-env run cli wp option update blog_public 0",
+    "browser:install": "playwright install chromium",
+    "test:local": "scripts/verify-local.sh",
+    "test:runtime": "bash tests/runtime-setup-test.sh && bash tests/runtime-pages-test.sh && wp-env run cli wp eval-file tests/runtime-editing-test.php && node tests/runtime-browser-test.js",
+    "visual:capture": "node scripts/capture-visual-reference.js",
+    "visual:review": "node scripts/build-visual-review.js"
+  },
+  "devDependencies": {
+    "@wordpress/env": "12.0.0",
+    "playwright": "1.64.1"
+  }
+}

@@ -1,6 +1,15 @@
-build/
-.preview-site/
-.superpowers/
-__pycache__/
-*.pyc
+/.wp-env/
+/.artifacts/
+/node_modules/
+/wordpress/wp-admin/
+/wordpress/wp-includes/
+/wordpress/wp-content/plugins/
+/wordpress/wp-content/uploads/
+/wordpress/wp-content/cache/
+/wordpress/wp-config.php
+*.log
+*.sql
+*.sqlite
+*.zip
+.DS_Store
 
