@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/content-test-bootstrap.php';
 
+function tbt_normalize_image(mixed $value): ?array
+{
+    return is_array($value) ? $value : null;
+}
+
 final class TutorsTest extends TbtContentTestCase
 {
     public function run(): void
@@ -20,7 +25,16 @@ final class TutorsTest extends TbtContentTestCase
             tbt_test_post(11, 'tbt_tutor', 'Retired Tutor', 0, 'draft'),
         ];
         $GLOBALS['tbt_content_meta'] = [
-            10 => ['tbt_tutor_role' => 'Biology Tutor', 'tbt_tutor_short_bio' => 'Patient and clear.'],
+            10 => [
+                'tbt_tutor_role' => 'Biology Tutor',
+                'tbt_tutor_short_bio' => 'Patient and clear.',
+                'tbt_tutor_portrait' => [
+                    'url' => 'https://example.test/chelsea.webp',
+                    'alt' => 'Ms Chelsea portrait',
+                    'width' => 460,
+                    'height' => 460,
+                ],
+            ],
             12 => ['tbt_tutor_role' => 'Founder', 'tbt_tutor_short_bio' => 'Makes Biology click.'],
             11 => ['tbt_tutor_role' => 'Retired', 'tbt_tutor_short_bio' => 'Hidden.'],
         ];
@@ -39,8 +53,12 @@ final class TutorsTest extends TbtContentTestCase
             'profile_links' => ['Ms Chelsea' => 'https://www.linkedin.com/in/xiang-ting-chee/'],
         ]));
         $this->assertTrue(str_contains($aboutHtml, '>Mr Keefe (Founder)</h3>'), 'About tutors must support the original combined display heading.');
+        $this->assertTrue(str_contains($aboutHtml, '<div class="tbt-tutor__visual">'), 'About tutors must group portrait media in a visual column.');
+        $this->assertTrue(str_contains($aboutHtml, '<div class="tbt-tutor__details">'), 'About tutors must group names and credentials in a details column.');
+        $this->assertTrue(str_contains($aboutHtml, 'class="tbt-tutor__portrait" src="https://example.test/chelsea.webp"'), 'Direct About portrait URLs must receive the shared portrait class.');
         $this->assertTrue(str_contains($aboutHtml, 'https://www.linkedin.com/in/xiang-ting-chee/'), 'About tutors must support the original public profile link.');
         $this->assertTrue(str_contains($aboutHtml, 'target="_blank"') && str_contains($aboutHtml, 'rel="noopener noreferrer"'), 'Tutor profile links must open safely.');
+        $this->assertTrue(!str_contains($html, 'tbt-tutor__visual') && !str_contains($html, 'tbt-tutor__details'), 'Compact About wrappers must not change the shared card variant.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} tutor assertions\n");
     }

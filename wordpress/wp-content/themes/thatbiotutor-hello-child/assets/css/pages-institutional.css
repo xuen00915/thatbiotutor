@@ -195,63 +195,80 @@
 }
 
 .tbt-about-tutors .tbt-tutors {
-  display: block;
+  display: grid;
+  gap: 28px;
   margin-inline: auto;
+  padding: 40px 0 72px;
 }
 
 .tbt-about-tutors .tbt-tutor {
-  display: block;
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 60px);
+  align-items: start;
   box-sizing: border-box;
-  padding: 42px 0 0;
-  border: 0;
-  border-radius: 0;
-  background: #fff;
-  box-shadow: none;
+  padding: 34px;
+  border: 1px solid rgba(148, 174, 74, 0.28);
+  border-radius: 18px;
+  background: #f8faf4;
+  box-shadow: 0 14px 34px rgba(45, 58, 32, 0.08);
 }
 
-@media (min-width: 769px) {
-  .tbt-about-tutors .tbt-tutor:nth-child(1) { height: 1579px; }
-  .tbt-about-tutors .tbt-tutor:nth-child(2) { height: 607px; }
-  .tbt-about-tutors .tbt-tutor:nth-child(3) { height: 1219px; }
-  .tbt-about-tutors .tbt-tutor:nth-child(4) { height: 620px; }
+.tbt-about-tutors .tbt-tutor__visual {
+  min-width: 0;
+}
+
+.tbt-about-tutors .tbt-tutor__details {
+  min-width: 0;
+  padding-top: 8px;
 }
 
 .tbt-about-tutors .tbt-tutor h3 {
-  margin: 0 0 12px;
+  margin: 0 0 22px;
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
   font-size: 30px;
   font-weight: 700;
-  line-height: 1.5;
-  text-align: center;
+  line-height: 1.25;
+  text-align: left;
+  text-wrap: balance;
 }
 
 .tbt-about-tutors .tbt-tutor__portrait {
   display: block;
-  width: 230px;
-  height: 230px;
-  margin: 0 auto 31px;
+  width: min(220px, 100%);
+  height: auto;
+  aspect-ratio: 1;
+  margin: 0 auto;
+  border: 5px solid #fff;
   border-radius: 50%;
   object-fit: cover;
+  box-shadow: 0 0 0 3px rgba(148, 174, 74, 0.82);
 }
 
 .tbt-about-tutors .tbt-tutor__qualifications {
   box-sizing: border-box;
   width: 100%;
   margin: 0 auto;
-  padding-left: 40px;
+  padding-left: 26px;
 }
 
 .tbt-about-tutors .tbt-tutor__qualifications li {
-  margin: 0;
+  margin: 0 0 10px;
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
-  font-size: 22px;
-  line-height: 1.4;
+  font-size: 18px;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.tbt-about-tutors .tbt-tutor__qualifications li:last-child {
+  margin-bottom: 0;
 }
 
 .tbt-about-tutors .tbt-tutor__profile {
-  margin: 31px 0 0;
-  font-size: 22px;
+  margin: 24px 0 0;
+  font-size: 17px;
   line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .tbt-about-tutors .tbt-tutor__profile a {
@@ -261,36 +278,25 @@
 
 .tbt-about-tutors .tbt-tutor__documents {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   justify-items: center;
-  gap: 43px;
-  margin-top: 53px;
+  gap: 12px;
+  margin-top: 22px;
 }
 
 .tbt-about-tutors .tbt-tutor__document {
   display: block;
+  width: 100%;
   max-width: 100%;
-  object-fit: cover;
+  height: 164px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: #fff;
 }
 
-.tbt-about-tutors .tbt-tutor:first-child .tbt-tutor__document:first-child,
-.tbt-about-tutors .tbt-tutor:nth-child(3) .tbt-tutor__document:first-child {
-  width: 309px;
-  height: 449px;
-}
-
-.tbt-about-tutors .tbt-tutor:first-child .tbt-tutor__document:nth-child(2) {
-  width: 417px;
-  height: 285px;
-}
-
-.tbt-about-tutors .tbt-tutor:nth-child(2) .tbt-tutor__portrait { margin-bottom: 46px; }
-.tbt-about-tutors .tbt-tutor:nth-child(3) h3 { margin-bottom: 18px; }
-.tbt-about-tutors .tbt-tutor:nth-child(3) .tbt-tutor__portrait { margin-bottom: 31px; }
-.tbt-about-tutors .tbt-tutor:nth-child(4) h3 { margin-bottom: 21px; }
-.tbt-about-tutors .tbt-tutor:nth-child(4) .tbt-tutor__portrait { margin-bottom: 28px; }
-.tbt-about-tutors .tbt-tutor:nth-child(4) .tbt-tutor__qualifications li {
-  font-size: 20px;
-  line-height: 1.4;
+.tbt-about-tutors .tbt-tutor__documents:has(> :only-child) {
+  grid-template-columns: minmax(0, 180px);
+  justify-content: center;
 }
 
 .tbt-founder-message .tbt-reading-width { padding: 0 0 44px; }
@@ -490,7 +496,15 @@
   .tbt-about-page .tbt-reading-width p,
   .tbt-about-page .tbt-reading-width li { font-size: 1.08rem; }
   .tbt-about-mission h3 { width: auto; margin-left: 0; font-size: 2rem; }
-  .tbt-about-tutors .tbt-tutor:nth-child(n) { min-height: 0; padding-bottom: 90px; }
+  .tbt-about-tutors .tbt-tutors { gap: 22px; padding-block: 28px 56px; }
+  .tbt-about-tutors .tbt-tutor {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    padding: 30px;
+  }
+  .tbt-about-tutors .tbt-tutor__visual { width: min(100%, 480px); margin-inline: auto; }
+  .tbt-about-tutors .tbt-tutor__details { padding-top: 0; }
+  .tbt-about-tutors .tbt-tutor h3 { text-align: center; }
   .tbt-about-tutors .tbt-tutor__qualifications li { font-size: 1.06rem; }
   .tbt-about-quality__image,
   .tbt-about-beliefs__image { height: auto; }
@@ -515,7 +529,10 @@
   .tbt-about-quality .tbt-reading-width,
   .tbt-about-beliefs .tbt-reading-width { padding-block: 52px; }
   .tbt-about-mission h3 { font-size: 1.55rem; }
-  .tbt-about-tutors .tbt-tutor__portrait { width: 180px; height: 180px; }
+  .tbt-about-tutors .tbt-tutor { padding: 24px 20px 28px; }
+  .tbt-about-tutors .tbt-tutor__portrait { width: 170px; }
+  .tbt-about-tutors .tbt-tutor__documents { gap: 8px; }
+  .tbt-about-tutors .tbt-tutor__document { height: 142px; }
   .tbt-founder-message__image { margin-block: 28px 40px; }
   .tbt-contact-content h1 { font-size: 3rem; }
   .tbt-contact-content p { font-size: 1.08rem; margin-bottom: 28px; }
