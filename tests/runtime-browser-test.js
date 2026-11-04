@@ -145,6 +145,16 @@ const sizes = [
     await page.goto(`${base}/about/`, { waitUntil: 'load' });
     await page.evaluate(() => document.fonts?.ready);
     if (await page.locator('[data-section="beliefs"] img').count() !== 1) throw new Error(`About beliefs image is missing at ${viewport.width}`);
+    const tutorCards = page.locator('.tbt-about-tutors .tbt-tutor');
+    if (await tutorCards.count() !== 4) throw new Error(`About tutor count is wrong at ${viewport.width}`);
+    if (await page.locator('.tbt-about-tutors .tbt-tutor--has-documents').count() !== 2) throw new Error(`About certificate tutor count is wrong at ${viewport.width}`);
+    const chelseaCertificates = tutorCards.first().locator('.tbt-tutor__certificates');
+    if (await chelseaCertificates.locator('[data-carousel-slide]').count() !== 2) throw new Error(`Chelsea certificate carousel is incomplete at ${viewport.width}`);
+    if (await tutorCards.nth(1).locator('.tbt-tutor__certificates').count() !== 0 || await tutorCards.nth(3).locator('.tbt-tutor__certificates').count() !== 0) throw new Error(`About tutor cards render empty certificate columns at ${viewport.width}`);
+    const chelseaCertificateStatus = chelseaCertificates.locator('[data-carousel-status]');
+    if ((await chelseaCertificateStatus.textContent()).trim() !== '1 of 2') throw new Error(`Chelsea certificate status is wrong at ${viewport.width}`);
+    await chelseaCertificates.locator('[data-carousel-next]').click();
+    if ((await chelseaCertificateStatus.textContent()).trim() !== '2 of 2') throw new Error(`Chelsea certificate controls failed at ${viewport.width}`);
     if (viewport.width >= 1000) {
       const aboutHero = await page.locator('[data-section="hero"]').boundingBox();
       const missionBar = await page.locator('[data-section="mission"] .tbt-institutional-title-bar').boundingBox();
@@ -163,6 +173,21 @@ const sizes = [
       }
       const beliefsImage = await page.locator('[data-section="beliefs"] img').boundingBox();
       if (!beliefsImage || Math.abs(beliefsImage.width - 509) > 1 || Math.abs(beliefsImage.height - 679) > 1) throw new Error('About beliefs image must preserve the original 509x679 desktop frame');
+      const chelseaColumns = await tutorCards.first().evaluate((card) => {
+        const portrait = card.querySelector('.tbt-tutor__visual')?.getBoundingClientRect();
+        const details = card.querySelector('.tbt-tutor__details')?.getBoundingClientRect();
+        const certificates = card.querySelector('.tbt-tutor__certificates')?.getBoundingClientRect();
+        return { portraitX: portrait?.x, detailsX: details?.x, certificatesX: certificates?.x };
+      });
+      if (!(chelseaColumns.portraitX < chelseaColumns.detailsX && chelseaColumns.detailsX < chelseaColumns.certificatesX)) throw new Error(`About tutor columns are not ordered at ${viewport.width}: ${JSON.stringify(chelseaColumns)}`);
+    } else {
+      const chelseaStack = await tutorCards.first().evaluate((card) => {
+        const portrait = card.querySelector('.tbt-tutor__visual')?.getBoundingClientRect();
+        const details = card.querySelector('.tbt-tutor__details')?.getBoundingClientRect();
+        const certificates = card.querySelector('.tbt-tutor__certificates')?.getBoundingClientRect();
+        return { portraitY: portrait?.y, detailsY: details?.y, certificatesY: certificates?.y };
+      });
+      if (!(chelseaStack.portraitY < chelseaStack.detailsY && chelseaStack.detailsY < chelseaStack.certificatesY)) throw new Error(`About tutor columns do not stack at ${viewport.width}: ${JSON.stringify(chelseaStack)}`);
     }
 
     if (viewport.width >= 1000) {
@@ -237,6 +262,18 @@ const sizes = [
   await resizePage.setViewportSize({ width: 1440, height: 900 });
   await resizePage.waitForFunction(() => document.querySelector('[data-menu]')?.hidden === false);
   await resizePage.close();
+
+  const motionPage = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' });
+  await motionPage.goto(`${base}/about/`, { waitUntil: 'load' });
+  const certificateCarousel = motionPage.locator('.tbt-tutor__certificates [data-carousel]').first();
+  const certificateStatus = certificateCarousel.locator('[data-carousel-status]');
+  await certificateCarousel.hover();
+  await motionPage.waitForTimeout(4700);
+  if ((await certificateStatus.textContent()).trim() !== '1 of 2') throw new Error('Certificate autoplay must pause on hover');
+  await motionPage.mouse.move(0, 0);
+  await motionPage.waitForTimeout(4700);
+  if ((await certificateStatus.textContent()).trim() !== '2 of 2') throw new Error('Certificate autoplay did not resume after hover');
+  await motionPage.close();
 
   await browser.close();
   if (errors.length) throw new Error(`Console errors:\n${errors.join('\n')}`);

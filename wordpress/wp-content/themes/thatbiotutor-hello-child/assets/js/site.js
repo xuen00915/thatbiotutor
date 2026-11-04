@@ -112,6 +112,7 @@
       const status = carousel.querySelector('[data-carousel-status]');
       let index = 0;
       let touchStart = 0;
+      let paused = false;
       const show = (next) => {
         index = carouselIndex(next, 0, slides.length);
         slides.forEach((slide, slideIndex) => { slide.hidden = slideIndex !== index; });
@@ -132,7 +133,16 @@
       show(0);
       const autoplay = Number(carousel.getAttribute('data-carousel-autoplay') || 0);
       if (autoplay > 0 && !prefersReducedMotion(windowObject.matchMedia && windowObject.matchMedia.bind(windowObject))) {
-        windowObject.setInterval(() => move(1), autoplay);
+        const pause = () => { paused = true; };
+        const resume = (event) => {
+          if (event && event.relatedTarget && carousel.contains(event.relatedTarget)) return;
+          paused = false;
+        };
+        carousel.addEventListener('mouseenter', pause);
+        carousel.addEventListener('mouseleave', resume);
+        carousel.addEventListener('focusin', pause);
+        carousel.addEventListener('focusout', resume);
+        windowObject.setInterval(() => { if (!paused) move(1); }, autoplay);
       }
     });
   }

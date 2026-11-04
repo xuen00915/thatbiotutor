@@ -9,6 +9,11 @@ function tbt_normalize_image(mixed $value): ?array
     return is_array($value) ? $value : null;
 }
 
+function tbt_render_media_image(string $mediaKey, string $class = '', array $attributes = []): void
+{
+    echo '<img data-media-key="' . esc_attr($mediaKey) . '" class="' . esc_attr($class) . '" alt="' . esc_attr($mediaKey) . '">';
+}
+
 final class TutorsTest extends TbtContentTestCase
 {
     public function run(): void
@@ -51,6 +56,10 @@ final class TutorsTest extends TbtContentTestCase
             'show_roles' => false,
             'display_names' => ['Mr Keefe' => 'Mr Keefe (Founder)'],
             'profile_links' => ['Ms Chelsea' => 'https://www.linkedin.com/in/xiang-ting-chee/'],
+            'supplemental_media' => [
+                'Ms Chelsea' => ['chelsea-certificate', 'chelsea-credentials'],
+                'Mr Keefe' => ['keefe-certificate'],
+            ],
         ]));
         $this->assertTrue(str_contains($aboutHtml, '>Mr Keefe (Founder)</h3>'), 'About tutors must support the original combined display heading.');
         $this->assertTrue(str_contains($aboutHtml, '<div class="tbt-tutor__visual">'), 'About tutors must group portrait media in a visual column.');
@@ -58,6 +67,13 @@ final class TutorsTest extends TbtContentTestCase
         $this->assertTrue(str_contains($aboutHtml, 'class="tbt-tutor__portrait" src="https://example.test/chelsea.webp"'), 'Direct About portrait URLs must receive the shared portrait class.');
         $this->assertTrue(str_contains($aboutHtml, 'https://www.linkedin.com/in/xiang-ting-chee/'), 'About tutors must support the original public profile link.');
         $this->assertTrue(str_contains($aboutHtml, 'target="_blank"') && str_contains($aboutHtml, 'rel="noopener noreferrer"'), 'Tutor profile links must open safely.');
+        $this->assertTrue(str_contains($aboutHtml, 'tbt-tutor--has-documents'), 'About tutors with certificates must opt into the three-column layout.');
+        $this->assertTrue(str_contains($aboutHtml, '<aside class="tbt-tutor__certificates"'), 'About tutor certificates must render in a dedicated third column.');
+        $this->assertTrue(str_contains($aboutHtml, 'data-carousel data-carousel-autoplay="4500"'), 'Multiple certificates must use the shared autoplay carousel.');
+        $this->assertSame(2, substr_count($aboutHtml, 'data-carousel-slide'), 'Chelsea must render two certificate slides.');
+        $this->assertSame(1, substr_count($aboutHtml, 'data-carousel-prev'), 'Only multi-certificate tutors need carousel controls.');
+        $this->assertSame(1, substr_count($aboutHtml, 'data-carousel-next'), 'Only multi-certificate tutors need carousel controls.');
+        $this->assertTrue(str_contains($aboutHtml, 'aria-label="Ms Chelsea certificates"'), 'Certificate carousel must have an accessible tutor-specific label.');
         $this->assertTrue(!str_contains($html, 'tbt-tutor__visual') && !str_contains($html, 'tbt-tutor__details'), 'Compact About wrappers must not change the shared card variant.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} tutor assertions\n");
