@@ -38,68 +38,72 @@ final class HomePageTest
         $this->assertSame(1, substr_count($html, '<h1'), 'Home must render exactly one H1.');
         preg_match_all('/data-section="([^"]+)"/', $html, $sectionMatches);
         $this->assertSame([
-            'hero', 'missing-key', 'fasttrack', 'trust', 'hall-of-fame', 'testimonials',
-            'schools', 'advantage', 'benefits', 'causes', 'tutors', 'faq', 'closing',
-        ], $sectionMatches[1], 'Home sections must follow the exact public-site order.');
+            'hero', 'problem', 'track-record', 'fasttrack', 'proof', 'tutors', 'quality',
+            'practical', 'guarantee', 'fit', 'founder', 'faq', 'classroom', 'closing',
+        ], $sectionMatches[1], 'Home sections must follow the Inquire landing-page order.');
+
+        $this->assertTrue(str_contains($html, 'The One Missing Key to go from'), 'Home must use the Inquire hero headline.');
+        $this->assertTrue(str_contains($html, "If a student doesn't absolutely love the $95 trial lesson"), 'Hero must state the trial refund promise.');
+        $this->assertTrue(str_contains($html, '>Book My Trial Lesson<'), 'Hero must use the approved primary CTA label.');
 
         preg_match('/<section[^>]+data-section="hero".*?<\/section>/s', $html, $heroMatch);
         $hero = $heroMatch[0] ?? '';
-        $this->assertTrue(str_contains($hero, 'tbt-home-hero__overlay'), 'Grade-jump copy must sit inside the image-overlay hero.');
-        $heroText = html_entity_decode(strip_tags($hero));
-        $this->assertTrue(str_contains($heroText, 'The AVERAGE TBT Student'), 'Hero must contain the public grade-jump headline.');
-        $this->assertTrue(str_contains($heroText, "Singapore's ONLY 'O' Level Pure/G3 Bio Specialist"), 'Hero must contain the public specialist line.');
-        $this->assertTrue(str_contains($hero, 'class="tbt-home-hero__specialist-highlight"'), 'Hero specialist line must retain the public green emphasis.');
-        $this->assertTrue(str_contains($hero, 'curated_home_reference_hero'), 'First hero slide must use the current public group photograph.');
-
-        preg_match('/<section[^>]+data-section="missing-key".*?<h2>(.*?)<\/h2>/s', $html, $missingKeyMatch);
-        $missingKeyHeading = $missingKeyMatch[1] ?? '';
-        $this->assertTrue(str_contains($missingKeyHeading, 'class="tbt-emphasis-green"'), 'Missing-key heading must preserve the public green emphasis.');
-        $this->assertTrue(str_contains($missingKeyHeading, 'class="tbt-emphasis-red"'), 'Missing-key heading must preserve the public red emphasis.');
-
-        $this->assertSame(5, substr_count($html, 'data-carousel-slide'), 'Home hero must contain five ordered slides.');
+        $this->assertSame(5, substr_count($hero, 'data-carousel-slide'), 'Hero must contain five Drive images in order.');
         foreach (range(1, 5) as $index) {
-            $key = $index === 1 ? 'curated_home_reference_hero' : sprintf('home_hero_%02d', $index);
-            $this->assertSame(1, substr_count($html, 'data-media-key="' . $key . '"'), "Hero media {$key} must render once.");
+            $key = sprintf('home_hero_%02d', $index);
+            $this->assertSame(1, substr_count($hero, 'data-media-key="' . $key . '"'), "Hero media {$key} must render once.");
         }
-        $this->assertTrue(str_contains($html, 'object-position:50% 54%'), 'First hero slide must preserve the approved lower focal point.');
-        $this->assertTrue(str_contains($html, 'data-carousel-prev') && str_contains($html, 'data-carousel-next') && str_contains($html, 'data-carousel-dot'), 'Hero must provide previous, next, and dot controls.');
+        $this->assertTrue(str_contains($hero, 'data-carousel-prev') && str_contains($hero, 'data-carousel-next') && str_contains($hero, 'data-carousel-dot'), 'Hero must provide accessible carousel controls.');
 
-        foreach (['98', '912+', '2.3', '91%', '69.21%', '1 in 2'] as $value) {
-            $this->assertTrue(str_contains($html, '>' . $value . '<'), "Trust counter {$value} must render.");
-        }
-        $this->assertTrue(substr_count($html, 'youtube-nocookie.com/embed/') >= 4, 'Home must preserve the original video-led sections.');
-        $this->assertSame(6, substr_count($html, 'data-school-page'), 'School panel must reproduce all six public school pages.');
-        foreach (range(1, 6) as $index) {
-            $this->assertTrue(str_contains($html, sprintf('curated_home_schools_%02d', $index)), "School page {$index} must use its approved public artwork.");
-        }
-        $this->assertSame(1, substr_count($html, 'curated_home_hall_of_fame'), 'Home must reproduce the single public Hall of Fame artwork.');
-        $this->assertSame(3, substr_count($html, 'data-home-testimonial'), 'Home must reproduce the three public featured testimonials.');
-        $this->assertTrue(
-            str_contains($html, 'He got me from a C6 (my Sec 3 EOY grade) to A2 in O Level 🙏'),
-            'Home must retain the complete Aryan testimonial rather than an abbreviated rewrite.'
-        );
-        foreach (range(1, 4) as $index) {
-            $this->assertSame(1, substr_count($html, sprintf('curated_home_benefit_%02d', $index)), "Student benefit artwork {$index} must render once.");
-        }
-        $this->assertTrue(str_contains($html, 'data-experience-heading'), 'The public Sneak Peek heading must remain inside Student Benefits.');
-        $this->assertTrue(str_contains($html, 'Each year, our students will vote'), 'Home environmental-giving copy must reproduce the current public wording.');
-        $this->assertSame(1, substr_count($html, 'curated_home_cause_graphic'), 'Home must use the public environmental-giving artwork.');
-        $this->assertSame(1, substr_count($html, 'data-tutor-renderer'), 'Home must use the shared tutor renderer.');
-        $this->assertSame(1, substr_count($html, 'data-faq-renderer="home"'), 'Home must use the shared Home FAQ renderer.');
-        $homeFaqs = array_filter($tbt_reference['records']['faqs'] ?? [], static fn (array $faq): bool => ($faq['fields']['tbt_faq_collection'] ?? '') === 'home');
-        $this->assertSame(13, count($homeFaqs), 'Home must retain all thirteen public FAQs.');
-        $homeFaqCopy = implode("\n", array_column($homeFaqs, 'content'));
         foreach ([
-            "We don't believe in overloading students with homework when they already have enough from school",
-            'We even take the time to voice message them explanations if the question is more complex.',
-            'Because we offer several class options tailored to different needs, fees may vary.',
-        ] as $publicFaqWording) {
-            $this->assertTrue(str_contains($homeFaqCopy, $publicFaqWording), 'Home FAQs must preserve the complete public wording.');
+            '912+' => 'Students taught, across 98 Singapore schools',
+            '91%' => 'Score A1, A2, or B3',
+            '2.3' => 'Average grade jump, roughly C5 to A2',
+            '1 in 2' => 'Score A (Distinction)',
+        ] as $value => $label) {
+            $this->assertTrue(str_contains($html, 'data-count-display="' . $value . '"'), "Trust figure {$value} must use the running-number hook and preserve its final display.");
+            $this->assertTrue(str_contains($html, $label), "Trust figure {$value} must retain its label.");
         }
-        $this->assertSame(1, substr_count($html, 'curated_home_faq_graphic'), 'Home closing must reproduce the public FAQ artwork.');
-        $this->assertTrue(str_contains($html, 'https://wa.me/'), 'Home must provide WhatsApp trial CTA links.');
+        preg_match('/<section[^>]+data-section="track-record".*?<\/section>/s', $html, $trackMatch);
+        $track = $trackMatch[0] ?? '';
+        foreach (range(1, 4) as $index) {
+            $this->assertSame(1, substr_count($track, sprintf('data-media-key="home_number_%02d"', $index)), "Number image {$index} must render in Drive order.");
+        }
+
+        foreach (['Content &amp; Understanding', 'Memory', 'Answering Skills (OEQ)', 'Practical Sessions (20% of Grade)', 'Support'] as $heading) {
+            $this->assertTrue(str_contains($html, $heading), "FastTrack comparison must include {$heading}.");
+        }
+        $this->assertTrue(substr_count($html, 'youtube-nocookie.com/embed/') >= 3, 'Home must preserve the reference video-led proof sections.');
+        foreach (['Mr Keefe', 'Ms Chelsea', 'Ms Jamie', 'Ms Ng'] as $tutor) {
+            $this->assertTrue(str_contains($html, $tutor), "Tutor row must include {$tutor}.");
+        }
+        foreach (range(1, 3) as $index) {
+            $this->assertSame(1, substr_count($html, sprintf('curated_shared_practical_%02d', $index)), "Practical image {$index} must render once.");
+        }
+
+        preg_match('/<section[^>]+data-section="guarantee".*?<\/section>/s', $html, $guaranteeMatch);
+        $guarantee = $guaranteeMatch[0] ?? '';
+        $this->assertTrue(str_contains($guarantee, 'data-guarantee-shield'), 'Guarantee section must include the themed shield mark.');
+        $this->assertTrue(str_contains($guarantee, 'A trial lesson is $95. We’re so confident of our lesson quality that if you didn’t absolutely love it, simply ask for a refund and you’ll get your money back, no questions asked.'), 'Guarantee section must reproduce the Drive brief exactly.');
+        $this->assertTrue(str_contains($guarantee, 'https://wa.me/'), 'Guarantee CTA must open WhatsApp.');
+        $this->assertTrue(!str_contains($guarantee, '<form') && !str_contains($guarantee, '<input'), 'Guarantee must replace the old enquiry form.');
+
+        $this->assertSame(9, substr_count($html, 'data-home-inquire-faq'), 'FAQ must reproduce the nine Inquire-page questions.');
+        $faqPosition = strpos($html, 'data-section="faq"');
+        $classroomPosition = strpos($html, 'data-section="classroom"');
+        $this->assertTrue(is_int($faqPosition) && is_int($classroomPosition) && $classroomPosition > $faqPosition, 'Classroom gallery must sit after FAQ.');
+        preg_match('/<section[^>]+data-section="classroom".*?<\/section>/s', $html, $classroomMatch);
+        $classroom = $classroomMatch[0] ?? '';
+        foreach (range(1, 3) as $index) {
+            $this->assertSame(1, substr_count($classroom, sprintf('data-media-key="home_classroom_%02d"', $index)), "Classroom image {$index} must render in Drive order.");
+        }
+        $this->assertTrue(str_contains($html, 'tbt-home-closing__cta-wrap'), 'Last CTA must include the requested extra spacing hook.');
         $this->assertTrue(!preg_match('~https?://static\.wixstatic\.com~', $html), 'Home must not hotlink Wix media.');
-        $this->assertTrue(substr_count($html, '.webp') >= 22, 'Home media must resolve to the local WebP library.');
+        $this->assertTrue(substr_count($html, '.webp') >= 24, 'Home media must resolve to the local WebP library.');
+
+        $headerSource = (string) file_get_contents(TBT_THEME_DIR . '/header.php');
+        $this->assertTrue(str_contains($headerSource, 'tbt-landing-header'), 'Front page must have the compact Inquire landing header.');
+        $this->assertTrue(str_contains($headerSource, 'is_front_page'), 'Landing header must be restricted to the homepage.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} Home-page assertions\n");
     }
@@ -109,4 +113,3 @@ final class HomePageTest
 }
 
 try { (new HomePageTest())->run(); } catch (Throwable $error) { fwrite(STDERR, 'FAIL: ' . $error->getMessage() . "\n"); exit(1); }
-

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Replaced the Home page with the Inquire landing-page structure, the client-supplied ordered hero, track-record, and classroom photography, animated figures, compact booking header, WhatsApp trial guarantee, and revised responsive layouts.
+
 - Restored the About page's original Wix composition, typography, section spacing, exact tutor labels, founder-message rhythm, and missing beliefs photograph.
 
 - Completed the full public-site visual fidelity pass with focused page-family stylesheets, four-width browser acceptance, local WebP-only media checks, and reusable reference-versus-local capture reports.

@@ -29,7 +29,7 @@ function wp_head(): void { echo '<meta name="test-head">'; }
 function wp_footer(): void { echo '<script data-test-footer></script>'; }
 function body_class(string $class = ''): void { echo 'class="' . esc_attr(trim('no-js ' . $class)) . '"'; }
 function wp_body_open(): void { echo '<!-- body-open -->'; }
-function is_front_page(): bool { return true; }
+function is_front_page(): bool { return false; }
 function is_page(mixed $page = null): bool { return false; }
 
 require_once dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/inc/reference-content.php';

@@ -59,6 +59,57 @@
     return Boolean(matchMedia('(prefers-reduced-motion: reduce)').matches);
   }
 
+  function formatCountUpValue(value, display) {
+    const finalDisplay = String(display || '');
+    if (finalDisplay.includes(' in ')) return value >= 1 ? finalDisplay : '0';
+    if (finalDisplay.includes('.')) {
+      const decimals = (finalDisplay.split('.')[1] || '').replace(/\D/g, '').length;
+      return Number(value).toFixed(decimals);
+    }
+    const suffix = finalDisplay.endsWith('%') ? '%' : (finalDisplay.endsWith('+') ? '+' : '');
+    return `${Math.round(Number(value))}${suffix}`;
+  }
+
+  function initCountUps(document, windowObject) {
+    const counters = Array.from(document.querySelectorAll('[data-count-up]'));
+    if (!counters.length) return;
+    const reveal = (counter, animate) => {
+      if (counter.getAttribute('data-count-complete') === 'true') return;
+      const target = Number(counter.getAttribute('data-count-target') || 0);
+      const display = counter.getAttribute('data-count-display') || String(target);
+      const duration = animate ? 1200 : 0;
+      const start = windowObject.performance && typeof windowObject.performance.now === 'function' ? windowObject.performance.now() : 0;
+      const step = (time) => {
+        const progress = duration === 0 ? 1 : Math.min(1, (time - start) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        counter.textContent = formatCountUpValue(target * eased, display);
+        if (progress < 1 && typeof windowObject.requestAnimationFrame === 'function') windowObject.requestAnimationFrame(step);
+        else {
+          counter.textContent = display;
+          counter.setAttribute('data-count-complete', 'true');
+        }
+      };
+      if (duration > 0 && typeof windowObject.requestAnimationFrame === 'function') windowObject.requestAnimationFrame(step);
+      else step(start);
+    };
+    const reduceMotion = prefersReducedMotion(windowObject.matchMedia && windowObject.matchMedia.bind(windowObject));
+    if (reduceMotion || typeof windowObject.IntersectionObserver !== 'function') {
+      counters.forEach((counter) => reveal(counter, false));
+      return;
+    }
+    const observer = new windowObject.IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        reveal(entry.target, true);
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.4 });
+    counters.forEach((counter) => {
+      counter.textContent = formatCountUpValue(0, counter.getAttribute('data-count-display') || '0');
+      observer.observe(counter);
+    });
+  }
+
   function syncNavigationViewport(menu, toggle, submenuPairs, mobile) {
     menu.hidden = mobile;
     toggle.setAttribute('aria-expanded', 'false');
@@ -226,10 +277,11 @@
     document.documentElement.classList.add('js');
     initNavigation(document, windowObject);
     initCarousels(document, windowObject);
+    initCountUps(document, windowObject);
     initCertificateLightbox(document);
     initFaqs(document);
   }
 
-  return { openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, syncNavigationViewport, initCertificateLightbox, init };
+  return { openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, formatCountUpValue, syncNavigationViewport, initCertificateLightbox, init };
 });
 
