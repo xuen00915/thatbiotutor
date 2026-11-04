@@ -6,6 +6,7 @@
 
 - Completed the full public-site visual fidelity pass with focused page-family stylesheets, four-width browser acceptance, local WebP-only media checks, and reusable reference-versus-local capture reports.
 - Recovered the live year-by-year Results archive with all 61 student-story videos and restored all 15 full Cell Division reviews.
+- Restored the exact transcript wording beneath all 61 student-story videos and the five missing text-only Class of 2021 reviews.
 
 - Scaffolded the portable ThatBioTutor Hello Elementor child-theme repository.
 - Defined protected-code and ACF Free content-ownership boundaries.

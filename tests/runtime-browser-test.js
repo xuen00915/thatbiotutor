@@ -116,6 +116,17 @@ const sizes = [
       if (!box || Math.abs((box.width / box.height) - (16 / 9)) > 0.04) throw new Error(`Testimonials video ratio is wrong at ${viewport.width}`);
       if (await wrapper.evaluate((element) => getComputedStyle(element).overflow) !== 'hidden') throw new Error(`Testimonials video wrapper can scroll at ${viewport.width}`);
     }
+    const firstStudentStory = page.locator('#class-of-2025 .tbt-testimonial--video').first();
+    const firstStudentStoryText = (await firstStudentStory.innerText()).trim();
+    if (!firstStudentStoryText.includes('I actually struggled a lot with answering open-ended questions') || !firstStudentStoryText.includes('Alicia [C6 to A1]')) {
+      throw new Error(`Testimonials wording is disconnected from Alicia's video at ${viewport.width}`);
+    }
+    const firstStudentStoryLayout = await firstStudentStory.evaluate((article) => ({
+      videoBeforeQuote: Boolean(article.querySelector('iframe')?.compareDocumentPosition(article.querySelector('blockquote')) & Node.DOCUMENT_POSITION_FOLLOWING),
+      background: getComputedStyle(article).backgroundColor,
+    }));
+    if (!firstStudentStoryLayout.videoBeforeQuote) throw new Error(`Alicia's wording renders before her video at ${viewport.width}`);
+    if (firstStudentStoryLayout.background !== 'rgba(0, 0, 0, 0)') throw new Error(`Alicia's transcript card has an opaque background at ${viewport.width}`);
 
     await page.goto(`${base}/notes/`, { waitUntil: 'load' });
     const notesCarousel = page.locator('[data-section="hero"] [data-carousel]');

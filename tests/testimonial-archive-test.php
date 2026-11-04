@@ -16,13 +16,25 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         $videos = array_values(array_filter($records, static fn(array $r): bool => ($r['fields']['tbt_video_url'] ?? '') !== ''));
         $texts = array_values(array_filter($records, static fn(array $r): bool => ($r['fields']['tbt_video_url'] ?? '') === ''));
         $this->assertSame(61, count($videos), 'Seeded video count must match the 61 year-archive embeds in the authoritative crawl.');
-        $this->assertTrue(count($texts) >= 350, 'The complete public text-review archive must remain editable structured records.');
+        $quoteRecords = array_values(array_filter($records, static fn(array $r): bool => ($r['fields']['tbt_quote'] ?? '') !== ''));
+        $this->assertTrue(count($quoteRecords) >= 350, 'The complete public wording archive must remain editable structured records.');
+        $this->assertSame(0, count(array_filter($videos, static fn(array $r): bool => trim((string)($r['fields']['tbt_quote'] ?? '')) === '')), 'Every year-archive video must retain its accompanying live transcript.');
+        $aliciaRecords = array_values(array_filter($records, static fn(array $r): bool => ($r['fields']['tbt_display_group'] ?? '') === '2025' && str_starts_with((string)($r['fields']['tbt_student_name'] ?? ''), 'Alicia')));
+        $this->assertSame(1, count($aliciaRecords), 'Alicia must be one combined video-and-transcript record, not disconnected duplicate records.');
+        $this->assertTrue(
+            str_contains((string)($aliciaRecords[0]['fields']['tbt_quote'] ?? ''), "I actually struggled a lot with answering open-ended questions")
+            && str_contains((string)($aliciaRecords[0]['fields']['tbt_quote'] ?? ''), 'I was confident going into the exam.'),
+            'Alicia must retain the full wording visible on the public page.'
+        );
         $this->assertTrue(count(array_unique(array_column($records, 'seed_key'))) === count($records), 'Every seeded testimonial must have a unique identity.');
         $groups = array_unique(array_map(static fn(array $r): string => (string)($r['fields']['tbt_display_group'] ?? ''), $records));
         foreach (['2025', '2024', '2023', '2022', '2021', 'notes-reviews'] as $group) $this->assertTrue(in_array($group, $groups, true), "Archive group {$group} must be seeded.");
         $groupCounts = array_count_values(array_map(static fn(array $r): string => (string)($r['fields']['tbt_display_group'] ?? ''), $records));
         $videoGroupCounts = array_count_values(array_map(static fn(array $r): string => (string)($r['fields']['tbt_display_group'] ?? ''), $videos));
         $this->assertSame(['2025' => 7, '2024' => 16, '2023' => 16, '2022' => 19, '2021' => 3], $videoGroupCounts, 'Video stories must preserve their live year archive mapping.');
+        foreach (['2025' => 16, '2024' => 64, '2023' => 25, '2022' => 19, '2021' => 11] as $year => $expectedCount) {
+            $this->assertSame($expectedCount, $groupCounts[$year] ?? 0, "Class of {$year} must preserve every live story and written review exactly once.");
+        }
         $this->assertTrue(($groupCounts['2024'] ?? 0) >= 60, 'The long 2024 Results archive must not be truncated.');
         $this->assertTrue(($groupCounts['notes-reviews-bottom'] ?? 0) >= 200, 'The long Free Notes review archive must not be truncated.');
 
@@ -41,6 +53,15 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         $this->assertSame(61, substr_count($html, 'loading="lazy"'), 'Every video must lazy-load.');
         $this->assertSame(61, substr_count($html, 'allowfullscreen'), 'Every video must allow fullscreen.');
         $this->assertSame(61, substr_count($html, 'scrolling="no"'), 'Every video must explicitly disable iframe scrolling.');
+        $aliciaVideoPosition = strpos($html, 'RJxR3ONbylQ');
+        $aliciaArticleStart = strrpos(substr($html, 0, (int) $aliciaVideoPosition), '<article class="tbt-testimonial');
+        $aliciaArticleEnd = strpos($html, '</article>', (int) $aliciaVideoPosition);
+        $aliciaArticle = substr($html, (int) $aliciaArticleStart, (int) $aliciaArticleEnd - (int) $aliciaArticleStart);
+        $this->assertTrue(
+            str_contains($aliciaArticle, 'I actually struggled a lot with answering open-ended questions')
+            && strpos($aliciaArticle, 'RJxR3ONbylQ') < strpos($aliciaArticle, '<blockquote>'),
+            'Alicia video and wording must render in one card with the video before its transcript.'
+        );
         $this->assertTrue(!str_contains($html, 'src=""'), 'Text-only records must not render empty media.');
         $this->assertTrue(!str_contains($html, 'overflow:'), 'Archive renderer must not create nested content scrolling.');
         $this->assertTrue(str_contains($html, 'Anisatusyifa') && str_contains($html, 'Jezelle'), 'Unicode-safe Notes review names must survive output.');

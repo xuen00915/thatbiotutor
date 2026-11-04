@@ -110,6 +110,23 @@ function tbt_reference_content(): array
     ];
 
     $testimonialRecords = [];
+    $videoTranscriptPath = dirname(__DIR__) . '/assets/content/video-testimonial-transcripts.json';
+    $videoTranscriptArchive = is_file($videoTranscriptPath) ? json_decode((string) file_get_contents($videoTranscriptPath), true) : null;
+    $videoTranscripts = [];
+    $pendingVideoTranscriptNames = [];
+    foreach (($videoTranscriptArchive['transcripts'] ?? []) as $transcript) {
+        $videoId = trim((string) ($transcript['video_id'] ?? ''));
+        $name = trim((string) ($transcript['name'] ?? ''));
+        $quote = trim((string) ($transcript['quote'] ?? ''));
+        $group = trim((string) ($transcript['group'] ?? ''));
+        if ($videoId === '' || $name === '' || $quote === '' || !in_array($group, ['2025', '2024', '2023', '2022', '2021'], true)) {
+            continue;
+        }
+        $videoTranscripts[$videoId] = ['name' => $name, 'quote' => $quote, 'group' => $group];
+        $nameBase = strtolower(trim((string) preg_replace('/\s*\[[^]]*]\s*$/u', '', $name)));
+        $transcriptNameKey = $group . '|' . $nameBase;
+        $pendingVideoTranscriptNames[$transcriptNameKey] = ($pendingVideoTranscriptNames[$transcriptNameKey] ?? 0) + 1;
+    }
     $videoArchive = [
         ['RJxR3ONbylQ', "Alicia's Story [C6 to A1!]", '2025'],
         ['EfS7RQit79U', "Richelle's Story [Class of 2025]", '2025'],
@@ -175,14 +192,15 @@ function tbt_reference_content(): array
     ];
     foreach ($videoArchive as $index => [$videoId, $videoTitle, $videoGroup]) {
         $number = $index + 1;
+        $transcript = $videoTranscripts[$videoId] ?? ['name' => $videoTitle, 'quote' => '', 'group' => $videoGroup];
         $testimonialRecords[] = [
             'seed_key' => sprintf('testimonial-video-%02d', $number),
-            'title' => $videoTitle,
+            'title' => $transcript['name'],
             'menu_order' => $number,
             'source' => $crawlSource('/testimonials'),
             'fields' => [
-                'tbt_student_name' => $videoTitle,
-                'tbt_quote' => '',
+                'tbt_student_name' => $transcript['name'],
+                'tbt_quote' => $transcript['quote'],
                 'tbt_rating' => 5,
                 'tbt_video_url' => 'https://www.youtube.com/watch?v=' . $videoId,
                 'tbt_display_group' => $videoGroup,
@@ -236,9 +254,17 @@ function tbt_reference_content(): array
         ['cell-review-y1', 'Y1', "Tysm. I liked that qns types were given and there were long detailed descriptions for me to understand. The videos are also vv clear to me.\nThis really helped me understand more about mitosis and meiosis.\nThis crash course was vv explainable and understandable, easy to go back and convenient all-in-all.", 'celldivision-reviews'],
         ['cell-review-sl', 'sl', 'The videos were very helpful! I managed to have a better understanding of meiosis as the examples that you gave made it easy for me to understand how the number of chromosomes and DNA can be different. The example to understand the difference between diploid and haploid were also very interesting, keeping me engaged while learning. Thank you!', 'celldivision-reviews'],
         ['cell-review-roy', 'roy', 'i just finished going through the lesson clips. In the lesson, the analogies used were very useful. They were simple to understand and they illustrate the concept in a much more simplified manner, making it easier to visualise and understand the concept. The use of acronyms also make it easier to memorise keywords and since there is constant reference to the acronyms when explaining the concepts, it helps us to really memorise the acronyms and ultimately the keywords. Concepts were also explained in a very detailed and concise manner, by breaking down the concept and explaining them in a step by step manner, ensuring that we do not get lost in the midst of the large amount of content. In conclusion, it was very helpful for me to really understand cell division. 👍👍', 'celldivision-reviews'],
+        ['testimonial-2021-isa', 'Isa [C5 to A1 in 3 months]', '"the notes given and aid provided was very helpful during my o levels, especially the suggested answers for common oeqs. mr keefe also helped to clear up many misconceptions I had during lessons and also outside of lessons. he is a very supportive tutor who helped me get from c5 for prelims to a1 for o levels. thank you mr keefe"', '2021'],
+        ['testimonial-2021-melissa', 'Melissa [A2 for Pure Bio]', '"He is a dedicated tutor that will patiently guide you through lessons and answer any questions or doubts you may have at any point in time... he teaches us answering techniques too instead of only content so that we can attain the highest possible marks in exams."', '2021'],
+        ['testimonial-2021-shams', 'Shams [F9 to C6 for Pure Bio]', '"The teacher is very encouraging and caring. Lessons are planned in an organised manner such that learning content and doing practice questions make it easier to understand the topics better."', '2021'],
+        ['testimonial-2021-emelia', 'Emelia [D7 to B3]', '"He is a very approachable tutor and plays a big part in helping me comprehend all the topics that are taught very well... He teaches useful tips that allows me to remember points a lot more efficiently. Being very mindful, he pays special attention to every student and I find his guidance very helpful."', '2021'],
+        ['testimonial-2021-jolie', 'Jolie [C5 to B3 in 2 months]', '"This class is an all in one package, as the lessons are all recorded so you can always refer back for revision. There are also homework questions provided, and even if you can’t complete it due to commitments, the tutor is very understanding.\n\nWhenever I have any doubts or misconceptions, he is able to answer them quickly, and he is also very patient and understanding. You don’t need to do notes and flashcards from scratch which helps to save time if time is not on your side and you need to do very quick revision."', '2021'],
     ];
     foreach ($additionalReviews as $index => [$seedKey, $name, $quote, $group]) {
-        $testimonialRecords[] = ['seed_key' => $seedKey, 'title' => $name, 'menu_order' => 200 + $index, 'source' => $crawlSource($group === 'notes-reviews' ? '/notes' : '/celldivision'), 'fields' => ['tbt_student_name' => $name, 'tbt_quote' => $quote, 'tbt_rating' => 5, 'tbt_video_url' => '', 'tbt_display_group' => $group]];
+        $reviewRoute = $group === 'notes-reviews'
+            ? '/notes'
+            : ($group === 'celldivision-reviews' ? '/celldivision' : '/testimonials');
+        $testimonialRecords[] = ['seed_key' => $seedKey, 'title' => $name, 'menu_order' => 200 + $index, 'source' => $crawlSource($reviewRoute), 'fields' => ['tbt_student_name' => $name, 'tbt_quote' => $quote, 'tbt_rating' => 5, 'tbt_video_url' => '', 'tbt_display_group' => $group]];
     }
 
     $publicArchivePath = dirname(__DIR__) . '/assets/content/public-review-archive.json';
@@ -250,6 +276,13 @@ function tbt_reference_content(): array
         $group = trim((string) ($review['group'] ?? ''));
         if ($name === '' || $quote === '' || !in_array($group, ['2025', '2024', '2023', '2022', '2021', 'notes-reviews-bottom'], true)) {
             continue;
+        }
+        $nameBase = strtolower(trim((string) preg_replace('/\s*\[[^]]*]\s*$/u', '', $name)));
+        $transcriptNameKey = $group . '|' . $nameBase;
+        $displayGroup = $group;
+        if (($pendingVideoTranscriptNames[$transcriptNameKey] ?? 0) > 0) {
+            $pendingVideoTranscriptNames[$transcriptNameKey]--;
+            $displayGroup = 'video-transcript-source';
         }
         $seedKey = 'public-review-' . sha1($group . "\0" . $name . "\0" . $quote);
         if (isset($publicReviewSeedKeys[$seedKey])) {
@@ -266,7 +299,7 @@ function tbt_reference_content(): array
                 'tbt_quote' => $quote,
                 'tbt_rating' => 5,
                 'tbt_video_url' => '',
-                'tbt_display_group' => $group,
+                'tbt_display_group' => $displayGroup,
             ],
         ];
     }
@@ -328,7 +361,7 @@ function tbt_reference_content(): array
     ]];
 
     return [
-        'version' => '2026-11-04.2',
+        'version' => '2026-11-04.3',
         'source_date' => '2026-11-03',
         'navigation' => [
             ['label' => 'Home', 'path' => '/'],

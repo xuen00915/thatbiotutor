@@ -57,22 +57,20 @@ function tbt_render_testimonials(array $args = []): void
     $records = tbt_get_testimonials($args);
     echo '<div class="tbt-testimonials" data-testimonial-list>';
     foreach ($records as $record) {
-        $videoOnly = $record['video_url'] !== '' && $record['quote'] === '';
-        echo '<article class="tbt-testimonial' . ($videoOnly ? ' tbt-testimonial--video' : '') . '">';
+        $hasVideo = $record['video_url'] !== '';
+        echo '<article class="tbt-testimonial' . ($hasVideo ? ' tbt-testimonial--video' : '') . '">';
         if ($record['portrait']['url'] !== '') {
             echo '<img class="tbt-testimonial__portrait" src="' . esc_url($record['portrait']['url']) . '" alt="' . esc_attr($record['portrait']['alt']) . '">';
         }
-        if (!$videoOnly) {
+        if ($hasVideo) {
+            echo '<div class="tbt-video tbt-video--testimonial"><iframe src="' . esc_url($record['video_url']) . '" title="' . esc_attr($record['name'] . ' video testimonial') . '" loading="lazy" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>';
+        }
+        if ($record['quote'] !== '') {
             echo '<div class="tbt-testimonial__stars" aria-label="' . esc_attr((string) $record['rating'] . ' out of 5 stars') . '">' . esc_html(str_repeat('★', $record['rating'])) . '</div>';
         }
         if ($record['quote'] !== '') {
             echo '<blockquote>' . nl2br(esc_html($record['quote'])) . '</blockquote>';
-        }
-        if (!$videoOnly) {
             echo '<p class="tbt-testimonial__name"><strong>' . esc_html($record['name']) . '</strong></p>';
-        }
-        if ($record['video_url'] !== '') {
-            echo '<div class="tbt-video tbt-video--testimonial"><iframe src="' . esc_url($record['video_url']) . '" title="' . esc_attr($record['name'] . ' video testimonial') . '" loading="lazy" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>';
         }
         echo '</article>';
     }
