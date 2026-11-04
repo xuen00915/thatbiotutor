@@ -10,10 +10,10 @@ $GLOBALS['tbt_shell_fields'] = [99 => [
     'home_shared_whatsapp_number' => '+65 8759 7182',
     'home_shared_whatsapp_message' => 'Hi ThatBioTutor',
     'home_shared_phone' => '+65 8759 7182',
-    'home_shared_address' => "ThatBioTutor\nSingapore",
+    'home_shared_address' => "175 Bencoolen St\n#01-45\nSingapore 189649",
     'home_shared_map_url' => 'https://maps.example/thatbiotutor',
-    'home_shared_opening_hours' => "Monday–Friday\n10am–8pm",
-    'home_shared_footer_description' => 'Singapore O-Level Pure Biology specialists.',
+    'home_shared_opening_hours' => "Friday – Thursday\n11am – 9:30pm\n(open all 7 days)",
+    'home_shared_footer_description' => "Singapore's only O Level Pure/G3 Biology specialist.",
     'home_shared_copyright' => 'ThatBioTutor. All rights reserved.',
 ]];
 
@@ -55,6 +55,13 @@ final class SharedShellTest
         $this->assertSame(1, substr_count($html, 'class="skip-link'), 'Shared shell must contain one skip link.');
         $this->assertSame(1, substr_count($html, '<header class="site-header"'), 'Shared shell must contain one header.');
         $this->assertSame(1, substr_count($html, '<footer class="site-footer"'), 'Shared shell must contain one footer.');
+        $this->assertSame(1, substr_count($html, 'class="site-footer__inner"'), 'Shared footer must contain one structured information grid.');
+        $this->assertTrue(str_contains($html, 'class="site-footer__brand"') && str_contains($html, '>ThatBioTutor</span>'), 'Shared footer must display the approved logo and brand name.');
+        foreach (['VISIT', 'WHATSAPP', 'HOURS', '175 Bencoolen St', '#01-45', 'Singapore 189649', '8759 7182', 'Friday – Thursday', '11am – 9:30pm', '(open all 7 days)'] as $footerText) {
+            $this->assertTrue(str_contains($html, $footerText), "Shared footer must display {$footerText}.");
+        }
+        $this->assertTrue(str_contains($html, 'href="https://wa.me/6587597182'), 'Footer WhatsApp number must be an actionable safe link.');
+        $this->assertTrue(str_contains($html, 'class="site-footer__copyright"'), 'Footer copyright must be visible rather than screen-reader-only.');
         $this->assertSame(1, substr_count($html, 'data-whatsapp-float'), 'Shared shell must contain one floating WhatsApp control.');
         $this->assertSame(1, substr_count($html, 'data-menu-toggle'), 'Shared shell must contain one mobile-menu toggle.');
         $this->assertTrue(str_contains($html, 'curated_shared_tbt_logo') || str_contains($html, '/files/b3d1102b6adcca4d05893ead7b492b4f.webp'), 'Header must use the approved original logo asset.');
@@ -70,7 +77,7 @@ final class SharedShellTest
         $this->assertTrue(str_contains($base, '--tbt-header-height: 65px'), 'Desktop header height must match the 65px reference shell.');
         $this->assertTrue(str_contains($components, 'width: min(100%, 980px)'), 'Desktop header content must use the measured 980px reference width.');
         $this->assertTrue(str_contains($components, 'width: 65px') && str_contains($components, 'height: 65px'), 'Desktop logo must match the 65px reference geometry.');
-        $this->assertTrue(str_contains($components, 'min-height: 96px') && str_contains($components, 'background: #fff'), 'Site-wide footer must match the original white 96px footer surface.');
+        $this->assertTrue(str_contains($components, '.site-footer__inner') && str_contains($components, 'grid-template-columns'), 'Site-wide footer must define the responsive information grid.');
         $this->assertTrue(str_contains($components, 'position: sticky'), 'Header CSS must keep the header sticky.');
         $this->assertTrue(preg_match('/site-nav[^}]*:hover[^}]*#[dD][0-9a-fA-F]{5}|site-nav[^}]*:hover[^}]*red/s', $components) === 1, 'Navigation hover state must be red.');
         $this->assertTrue(str_contains($components, '.site-nav__link[aria-current="page"]') && str_contains($components, '#8de15e'), 'Current-page navigation state must use the original green.');

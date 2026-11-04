@@ -41,6 +41,19 @@ const sizes = [
 
     await page.goto(base, { waitUntil: 'networkidle' });
     if (!(await page.title()).includes('ThatBioTutor')) throw new Error(`Bad Home title at ${viewport.width}`);
+    const siteFooter = page.locator('.site-footer');
+    const footerText = (await siteFooter.innerText()).replace(/\s+/g, ' ').trim();
+    for (const requiredFooterText of ['ThatBioTutor', "Singapore's only O Level Pure/G3 Biology specialist.", '175 Bencoolen St', '#01-45', 'Singapore 189649', '8759 7182', 'Friday – Thursday', '11am – 9:30pm', '(open all 7 days)']) {
+      if (!footerText.includes(requiredFooterText)) throw new Error(`Footer is missing ${requiredFooterText} at ${viewport.width}`);
+    }
+    const footerPresentation = await siteFooter.evaluate((footer) => {
+      const footerStyle = getComputedStyle(footer);
+      const gridStyle = getComputedStyle(footer.querySelector('.site-footer__inner'));
+      return { background: footerStyle.backgroundColor, columns: gridStyle.gridTemplateColumns.split(' ').length };
+    });
+    if (footerPresentation.background !== 'rgb(8, 37, 15)') throw new Error(`Footer background is wrong at ${viewport.width}: ${footerPresentation.background}`);
+    if (viewport.width >= 1000 && footerPresentation.columns !== 4) throw new Error(`Footer is not four columns at ${viewport.width}: ${footerPresentation.columns}`);
+    if (await siteFooter.locator('img[alt="ThatBioTutor"]').count() !== 1) throw new Error(`Footer logo is missing at ${viewport.width}`);
     const firstSection = page.locator('main [data-section]').first();
     if (await firstSection.getAttribute('data-section') !== 'hero') throw new Error(`Home hero is not the first section at ${viewport.width}`);
     const heroBox = await firstSection.boundingBox();
