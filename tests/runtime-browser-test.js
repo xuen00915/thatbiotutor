@@ -90,6 +90,12 @@ const sizes = [
       const carousel = home.querySelector('.tbt-home-hero__carousel');
       const carouselDots = [...home.querySelectorAll('.tbt-home-hero [data-carousel-dot]')];
       const carouselControl = home.querySelector('.tbt-home-hero [data-carousel-prev]');
+      const problemQuotes = home.querySelector('.tbt-home-problem__quotes');
+      const problemProof = home.querySelector('.tbt-home-problem__proof');
+      const problemQuote = problemQuotes.querySelector('blockquote');
+      const problemBridges = [...home.querySelectorAll('.tbt-home-problem__bridge')];
+      const problemCard = problemProof.querySelector('figure');
+      const problemSecondCard = problemProof.querySelector('figure:nth-child(2)');
       const statsPhotos = home.querySelector('.tbt-home-stats__photos');
       const tutors = home.querySelector('.tbt-home-tutors__grid');
       const proofResults = home.querySelector('.tbt-home-proof__results');
@@ -128,6 +134,32 @@ const sizes = [
           background: style(carouselControl).backgroundColor,
           borderWidth: style(carouselControl).borderWidth,
         },
+        problem: {
+          bridgeText: problemBridges.map((bridge) => bridge.textContent.trim()),
+          quoteColumns: columnCount(problemQuotes),
+          proofColumns: columnCount(problemProof),
+          quotesWidth: rect(problemQuotes).width,
+          proofWidth: rect(problemProof).width,
+          quoteRadius: parseFloat(style(problemQuote).borderRadius),
+          quoteAlign: style(problemQuote).textAlign,
+          quoteFont: parseFloat(style(problemQuote).fontSize),
+          quoteLineHeight: parseFloat(style(problemQuote).lineHeight),
+          cardPadding: parseFloat(style(problemCard).paddingTop),
+          cardRadius: parseFloat(style(problemCard).borderRadius),
+          cardBorderWidth: parseFloat(style(problemCard).borderTopWidth),
+          secondCardTransform: style(problemSecondCard).transform,
+          firstBridge: problemBridges[0] ? {
+            size: parseFloat(style(problemBridges[0]).fontSize),
+            weight: style(problemBridges[0]).fontWeight,
+            lineHeight: parseFloat(style(problemBridges[0]).lineHeight),
+            align: style(problemBridges[0]).textAlign,
+          } : null,
+          secondBridge: problemBridges[1] ? {
+            size: parseFloat(style(problemBridges[1]).fontSize),
+            lineHeight: parseFloat(style(problemBridges[1]).lineHeight),
+            align: style(problemBridges[1]).textAlign,
+          } : null,
+        },
         statsPhotoColumns: columnCount(statsPhotos),
         tutorColumns: columnCount(tutors),
         proofResultColumns: columnCount(proofResults),
@@ -160,6 +192,16 @@ const sizes = [
     if (homeScale.buttonFont !== 18 || homeScale.buttonWeight !== '700' || homeScale.buttonHeight !== 60 || homeScale.buttonRadius < 9999 || homeScale.buttonBackground !== 'rgb(67, 180, 58)') throw new Error(`Home CTA differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
     if (homeScale.carouselDotCount !== 5 || homeScale.carouselDots.some((dot) => dot.width !== 6 || dot.height !== 6 || dot.radius !== '50%' || !['rgb(47, 138, 39)', 'rgb(255, 255, 255)'].includes(dot.background))) throw new Error(`Home carousel dots differ from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.carouselDots)}`);
     if (homeScale.carouselControl.width !== 30 || homeScale.carouselControl.height !== 30 || homeScale.carouselControl.background !== 'rgba(0, 0, 0, 0)' || homeScale.carouselControl.borderWidth !== '0px') throw new Error(`Home carousel control differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.carouselControl)}`);
+    const expectedProblemWidth = Math.min(736, viewport.width - 32);
+    const expectedProblemTypography = viewport.width <= 520
+      ? { quote: 16, quoteLine: 24, bridge: 20, bridgeLine: 28 }
+      : { quote: 18, quoteLine: 28, bridge: 24, bridgeLine: 32 };
+    if (JSON.stringify(homeScale.problem.bridgeText) !== JSON.stringify(['Sound familiar? Many TBT students started exactly here.', "But by the end of the year, they’re telling me:"])) throw new Error(`Home problem transitions are missing at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
+    if (homeScale.problem.quoteColumns !== 1 || homeScale.problem.proofColumns !== 1 || Math.abs(homeScale.problem.quotesWidth - expectedProblemWidth) > 1 || Math.abs(homeScale.problem.proofWidth - expectedProblemWidth) > 1) throw new Error(`Home problem layout differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
+    if (homeScale.problem.quoteRadius !== 18 || homeScale.problem.quoteAlign !== 'center' || homeScale.problem.quoteFont !== expectedProblemTypography.quote || homeScale.problem.quoteLineHeight !== expectedProblemTypography.quoteLine) throw new Error(`Home problem prompts differ from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
+    if (!homeScale.problem.firstBridge || homeScale.problem.firstBridge.size !== expectedProblemTypography.bridge || homeScale.problem.firstBridge.weight !== '700' || homeScale.problem.firstBridge.lineHeight !== expectedProblemTypography.bridgeLine || homeScale.problem.firstBridge.align !== 'center') throw new Error(`Home first problem transition differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
+    if (!homeScale.problem.secondBridge || homeScale.problem.secondBridge.size !== 18 || homeScale.problem.secondBridge.lineHeight !== 28 || homeScale.problem.secondBridge.align !== 'center') throw new Error(`Home second problem transition differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
+    if (homeScale.problem.cardPadding !== 24 || homeScale.problem.cardRadius !== 18 || homeScale.problem.cardBorderWidth !== 0 || homeScale.problem.secondCardTransform !== 'none') throw new Error(`Home problem testimonials differ from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
     const lightSections = ['problem', 'track-record', 'proof', 'quality', 'practical', 'fit', 'faq', 'classroom'];
     const softGreenSections = ['tutors', 'founder'];
     const darkSections = ['fasttrack', 'guarantee', 'closing'];
