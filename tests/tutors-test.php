@@ -74,6 +74,9 @@ final class TutorsTest extends TbtContentTestCase
         $this->assertSame(1, substr_count($aboutHtml, 'data-carousel-prev'), 'Only multi-certificate tutors need carousel controls.');
         $this->assertSame(1, substr_count($aboutHtml, 'data-carousel-next'), 'Only multi-certificate tutors need carousel controls.');
         $this->assertTrue(str_contains($aboutHtml, 'aria-label="Ms Chelsea certificates"'), 'Certificate carousel must have an accessible tutor-specific label.');
+        $this->assertSame(3, substr_count($aboutHtml, 'data-certificate-lightbox-trigger'), 'Every certificate must be an enlarge control.');
+        $this->assertSame(3, substr_count($aboutHtml, 'aria-haspopup="dialog"'), 'Certificate controls must announce the modal interaction.');
+        $this->assertTrue(str_contains($aboutHtml, 'aria-label="Enlarge certificate 1 for Ms Chelsea"'), 'Certificate controls must identify the tutor and document.');
         $this->assertTrue(!str_contains($html, 'tbt-tutor__visual') && !str_contains($html, 'tbt-tutor__details'), 'Compact About wrappers must not change the shared card variant.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} tutor assertions\n");

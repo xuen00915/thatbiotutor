@@ -74,8 +74,9 @@ function tbt_render_tutors(array $args = []): void
                 echo '<div class="tbt-tutor__documents"' . ($isCarousel ? ' data-carousel data-carousel-autoplay="4500"' : '') . '>';
                 foreach ($documentKeys as $index => $mediaKey) {
                     echo '<figure class="tbt-tutor__document-slide"' . ($isCarousel ? ' data-carousel-slide' . ($index > 0 ? ' hidden' : '') : '') . '>';
+                    echo '<button class="tbt-tutor__document-trigger" type="button" data-certificate-lightbox-trigger aria-haspopup="dialog" aria-label="' . esc_attr('Enlarge certificate ' . ($index + 1) . ' for ' . $displayName) . '">';
                     tbt_render_media_image($mediaKey, 'tbt-tutor__document', ['loading' => 'eager']);
-                    echo '</figure>';
+                    echo '<span class="tbt-tutor__document-enlarge" aria-hidden="true">&#x26F6;</span></button></figure>';
                 }
                 if ($isCarousel) {
                     echo '<button class="tbt-tutor__document-control tbt-tutor__document-control--previous" type="button" data-carousel-prev aria-label="Previous certificate">&#8249;</button>';
