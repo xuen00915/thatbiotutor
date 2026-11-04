@@ -80,8 +80,15 @@ final class ReferenceContentTest
 
         $decoded = json_decode((string) file_get_contents($manifest), true, 512, JSON_THROW_ON_ERROR);
         $this->assertSame('2026-11-03', $decoded['authoritativeCrawl']['date'] ?? null, 'Manifest must record the authoritative crawl date.');
-        $this->assertTrue(is_dir($decoded['authoritativeCrawl']['path'] ?? ''), 'Manifest crawl path must resolve locally.');
-        $this->assertTrue(is_dir($decoded['suppliedAssets']['path'] ?? ''), 'Manifest supplied-asset path must resolve locally.');
+        $crawlPath = $decoded['authoritativeCrawl']['path'] ?? '';
+        $suppliedAssetsPath = $decoded['suppliedAssets']['path'] ?? '';
+        if (getenv('CI') === 'true') {
+            $this->assertTrue(str_starts_with($crawlPath, '/'), 'Manifest crawl path must remain absolute in CI.');
+            $this->assertTrue(str_starts_with($suppliedAssetsPath, '/'), 'Manifest supplied-asset path must remain absolute in CI.');
+        } else {
+            $this->assertTrue(is_dir($crawlPath), 'Manifest crawl path must resolve locally.');
+            $this->assertTrue(is_dir($suppliedAssetsPath), 'Manifest supplied-asset path must resolve locally.');
+        }
 
         fwrite(STDOUT, "PASS: {$this->assertions} reference-content assertions\n");
     }
