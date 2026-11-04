@@ -294,6 +294,12 @@ function tbt_render_page_image(string $fieldName, string $fallbackKey, string $c
 /** Enqueue the protected local design system and progressive interactions. */
 function tbt_enqueue_assets(): void
 {
+    wp_enqueue_style(
+        'tbt-poppins',
+        'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap',
+        [],
+        null
+    );
     $styles = ['base', 'components', 'pages'];
     if (function_exists('is_front_page') && is_front_page()) {
         $styles[] = 'pages-home';

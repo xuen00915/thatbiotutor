@@ -25,6 +25,7 @@
 - Documented the Montserrat/system fallback and excluded captured proprietary font binaries pending licence confirmation.
 - Added one sticky responsive header, protected Classes submenu, shared footer, and floating WhatsApp control.
 - Matched the shared footer to the compact Inquire layout with its exact responsive height, 1120px desktop content width, four-column desktop grid, three-column mobile information row, and reference typography.
+- Matched the Home page to the Inquire Poppins type system, pill CTA sizing, six-pixel green/white carousel pagination, transparent arrow controls, section surface sequence, heading alignment, and responsive title scale.
 - Added dependency-free accessible mobile navigation, carousel, swipe, FAQ, focus-return, and reduced-motion behavior.
 - Rebuilt the original Home section sequence with the supplied five-image hero, lower first-slide focal point, FastTrack, trust metrics, results, crest marquee, videos, experience media, tutors, FAQs, and CTAs.
 - Added distinct original-style Classes, Sec 3, and Sec 4 templates with phase, topic, results, team, and FAQ content.
