@@ -208,9 +208,9 @@
   align-items: start;
   box-sizing: border-box;
   padding: 34px;
-  border: 1px solid rgba(148, 174, 74, 0.28);
+  border: 1px solid #cddda2;
   border-radius: 18px;
-  background: #f8faf4;
+  background: #fff;
   box-shadow: 0 14px 34px rgba(45, 58, 32, 0.08);
 }
 
@@ -324,6 +324,9 @@
   color: inherit;
   cursor: zoom-in;
   overflow: hidden;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .tbt-about-tutors .tbt-tutor__document-trigger:focus-visible {
@@ -360,20 +363,22 @@
   width: 38px;
   height: 38px;
   place-items: center;
-  border-radius: 50%;
-  background: rgba(34, 45, 23, .82);
-  color: #fff;
+  border: 1px solid rgba(82, 98, 45, .3);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .94);
+  color: #52622d;
   font-size: 20px;
   line-height: 1;
-  opacity: 0;
-  transform: translateY(5px);
-  transition: opacity 180ms ease, transform 180ms ease;
+  opacity: .9;
+  box-shadow: 0 5px 16px rgba(45, 58, 32, .14);
+  transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
 .tbt-about-tutors .tbt-tutor__document-trigger:hover .tbt-tutor__document-enlarge,
 .tbt-about-tutors .tbt-tutor__document-trigger:focus-visible .tbt-tutor__document-enlarge {
-  opacity: 1;
-  transform: translateY(0);
+  border-color: #789535;
+  color: #3e4c26;
+  transform: scale(1.04);
 }
 
 .tbt-about-tutors .tbt-tutor__document-control {
@@ -381,39 +386,53 @@
   top: 50%;
   z-index: 2;
   display: grid;
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
-  min-height: 36px;
+  width: 34px;
+  height: 42px;
+  min-width: 34px;
+  min-height: 42px;
   place-items: center;
   padding: 0;
   transform: translateY(-50%);
-  border: 0;
-  border-radius: 50%;
-  background: rgba(34, 45, 23, .74);
-  color: #fff;
-  font-size: 26px;
+  border: 1px solid rgba(82, 98, 45, .26);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, .92);
+  color: #52622d;
   line-height: 1;
-  opacity: 0;
-  transition: opacity 180ms ease, background-color 180ms ease, transform 180ms ease;
+  opacity: .9;
+  box-shadow: 0 5px 16px rgba(45, 58, 32, .14);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 180ms ease, color 180ms ease, opacity 180ms ease, transform 180ms ease;
 }
 
-.tbt-about-tutors .tbt-tutor__documents:hover .tbt-tutor__document-control,
-.tbt-about-tutors .tbt-tutor__documents:focus-within .tbt-tutor__document-control {
-  opacity: 1;
+.tbt-about-tutors .tbt-tutor__document-control svg,
+.tbt-certificate-lightbox__control svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
 }
 
 .tbt-about-tutors .tbt-tutor__document-control:hover,
 .tbt-about-tutors .tbt-tutor__document-control:focus-visible {
-  background: #2f3e1f;
+  border-color: #789535;
+  background: #fff;
+  color: #3e4c26;
+  opacity: 1;
+  outline: none;
 }
 
 .tbt-about-tutors .tbt-tutor__document-control:active {
   transform: translateY(-50%) scale(.96);
 }
 
-.tbt-about-tutors .tbt-tutor__document-control--previous { left: 8px; }
-.tbt-about-tutors .tbt-tutor__document-control--next { right: 8px; }
+.tbt-about-tutors .tbt-tutor__document-control--previous { left: 10px; }
+.tbt-about-tutors .tbt-tutor__document-control--next { right: 10px; }
 
 .tbt-about-tutors .tbt-tutor__document-dots {
   position: absolute;
@@ -475,7 +494,7 @@ html.tbt-lightbox-open { overflow: hidden; }
   width: 100%;
   height: 100%;
   place-items: center;
-  padding: 32px;
+  padding: 32px 84px;
   box-sizing: border-box;
 }
 
@@ -499,18 +518,66 @@ html.tbt-lightbox-open { overflow: hidden; }
   min-height: 46px;
   place-items: center;
   padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(34, 45, 23, .86);
-  color: #fff;
+  border: 1px solid rgba(82, 98, 45, .34);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .96);
+  color: #52622d;
   font-size: 30px;
   line-height: 1;
-  transition: background-color 180ms ease, transform 180ms ease;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
 .tbt-certificate-lightbox__close:hover,
-.tbt-certificate-lightbox__close:focus-visible { background: #52622d; }
+.tbt-certificate-lightbox__close:focus-visible {
+  border-color: #789535;
+  background: #f4f7ed;
+  color: #3e4c26;
+  outline: none;
+}
 .tbt-certificate-lightbox__close:active { transform: scale(.96); }
+
+.tbt-certificate-lightbox__control {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: grid;
+  width: 48px;
+  height: 56px;
+  min-width: 48px;
+  min-height: 56px;
+  place-items: center;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 1px solid rgba(82, 98, 45, .34);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .94);
+  color: #52622d;
+  box-shadow: 0 8px 24px rgba(45, 58, 32, .14);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.tbt-certificate-lightbox__control--previous { left: 18px; }
+.tbt-certificate-lightbox__control--next { right: 18px; }
+
+.tbt-certificate-lightbox__control:hover,
+.tbt-certificate-lightbox__control:focus-visible {
+  border-color: #789535;
+  background: #f4f7ed;
+  color: #3e4c26;
+  outline: none;
+}
+
+.tbt-certificate-lightbox__control:active { transform: translateY(-50%) scale(.96); }
+
+.tbt-certificate-lightbox__control[hidden] { display: none; }
 
 .tbt-founder-message .tbt-reading-width { padding: 0 0 44px; }
 .tbt-founder-message__image {
@@ -723,6 +790,15 @@ html.tbt-lightbox-open { overflow: hidden; }
   .tbt-about-tutors .tbt-tutor__qualifications li { font-size: 1.06rem; }
   .tbt-certificate-lightbox { width: calc(100% - 20px); height: calc(100dvh - 20px); border-radius: 12px; }
   .tbt-certificate-lightbox__stage { padding: 58px 12px 16px; }
+  .tbt-certificate-lightbox__control {
+    width: 42px;
+    height: 50px;
+    min-width: 42px;
+    min-height: 50px;
+    border-radius: 10px;
+  }
+  .tbt-certificate-lightbox__control--previous { left: 8px; }
+  .tbt-certificate-lightbox__control--next { right: 8px; }
   .tbt-about-quality__image,
   .tbt-about-beliefs__image { height: auto; }
   .tbt-about-quality__image { aspect-ratio: 600 / 485; }

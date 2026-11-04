@@ -149,6 +149,12 @@ const sizes = [
     if (await tutorCards.count() !== 4) throw new Error(`About tutor count is wrong at ${viewport.width}`);
     if (await page.locator('.tbt-about-tutors .tbt-tutor--has-documents').count() !== 2) throw new Error(`About certificate tutor count is wrong at ${viewport.width}`);
     const chelseaCertificates = tutorCards.first().locator('.tbt-tutor__certificates');
+    const tutorCardSurface = await tutorCards.first().evaluate((card) => {
+      const style = getComputedStyle(card);
+      return { backgroundColor: style.backgroundColor, borderColor: style.borderTopColor };
+    });
+    if (tutorCardSurface.backgroundColor !== 'rgb(255, 255, 255)') throw new Error(`Tutor card background is not white at ${viewport.width}: ${tutorCardSurface.backgroundColor}`);
+    if (tutorCardSurface.borderColor === 'rgba(0, 0, 0, 0)' || tutorCardSurface.borderColor === 'transparent') throw new Error(`Tutor card green border is missing at ${viewport.width}`);
     if (await chelseaCertificates.locator('[data-carousel-slide]').count() !== 2) throw new Error(`Chelsea certificate carousel is incomplete at ${viewport.width}`);
     if (await tutorCards.nth(1).locator('.tbt-tutor__certificates').count() !== 0 || await tutorCards.nth(3).locator('.tbt-tutor__certificates').count() !== 0) throw new Error(`About tutor cards render empty certificate columns at ${viewport.width}`);
     const chelseaCertificateStatus = chelseaCertificates.locator('[data-carousel-status]');
@@ -161,6 +167,15 @@ const sizes = [
     if (!await certificateLightbox.isVisible()) throw new Error(`Certificate lightbox did not open at ${viewport.width}`);
     const enlargedCertificate = certificateLightbox.locator('img');
     if (!await enlargedCertificate.evaluate((image) => image.complete && image.naturalWidth > 0)) throw new Error(`Certificate lightbox image did not load at ${viewport.width}`);
+    const enlargedSecondSource = await enlargedCertificate.getAttribute('src');
+    const lightboxPrevious = certificateLightbox.locator('[data-certificate-lightbox-prev]');
+    const lightboxNext = certificateLightbox.locator('[data-certificate-lightbox-next]');
+    if (!await lightboxPrevious.isVisible() || !await lightboxNext.isVisible()) throw new Error(`Multi-certificate lightbox controls are missing at ${viewport.width}`);
+    await lightboxPrevious.click();
+    const enlargedFirstSource = await enlargedCertificate.getAttribute('src');
+    if (!enlargedFirstSource || enlargedFirstSource === enlargedSecondSource) throw new Error(`Lightbox previous control did not change the certificate at ${viewport.width}`);
+    await lightboxNext.click();
+    if (await enlargedCertificate.getAttribute('src') !== enlargedSecondSource) throw new Error(`Lightbox next control did not restore the certificate at ${viewport.width}`);
     const lightboxGeometry = await certificateLightbox.evaluate((dialog) => {
       const dialogRect = dialog.getBoundingClientRect();
       const imageRect = dialog.querySelector('img')?.getBoundingClientRect();
@@ -170,6 +185,10 @@ const sizes = [
     await certificateLightbox.locator('[data-certificate-lightbox-close]').click();
     if (await certificateLightbox.isVisible()) throw new Error(`Certificate lightbox did not close at ${viewport.width}`);
     if (!await visibleCertificateTrigger.evaluate((trigger) => trigger === document.activeElement)) throw new Error(`Certificate lightbox did not restore focus at ${viewport.width}`);
+    const singleCertificateTrigger = tutorCards.nth(2).locator('[data-certificate-lightbox-trigger]');
+    await singleCertificateTrigger.click();
+    if (await lightboxPrevious.isVisible() || await lightboxNext.isVisible()) throw new Error(`Single-certificate lightbox shows unnecessary controls at ${viewport.width}`);
+    await certificateLightbox.locator('[data-certificate-lightbox-close]').click();
     if (viewport.width >= 1000) {
       const aboutHero = await page.locator('[data-section="hero"]').boundingBox();
       const missionBar = await page.locator('[data-section="mission"] .tbt-institutional-title-bar').boundingBox();

@@ -79,8 +79,8 @@ function tbt_render_tutors(array $args = []): void
                     echo '<span class="tbt-tutor__document-enlarge" aria-hidden="true">&#x26F6;</span></button></figure>';
                 }
                 if ($isCarousel) {
-                    echo '<button class="tbt-tutor__document-control tbt-tutor__document-control--previous" type="button" data-carousel-prev aria-label="Previous certificate">&#8249;</button>';
-                    echo '<button class="tbt-tutor__document-control tbt-tutor__document-control--next" type="button" data-carousel-next aria-label="Next certificate">&#8250;</button>';
+                    echo '<button class="tbt-tutor__document-control tbt-tutor__document-control--previous" type="button" data-carousel-prev aria-label="Previous certificate"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>';
+                    echo '<button class="tbt-tutor__document-control tbt-tutor__document-control--next" type="button" data-carousel-next aria-label="Next certificate"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>';
                     echo '<div class="tbt-tutor__document-dots">';
                     foreach ($documentKeys as $index => $_mediaKey) {
                         echo '<button type="button" data-carousel-dot aria-label="Show certificate ' . esc_attr((string) ($index + 1)) . '"></button>';

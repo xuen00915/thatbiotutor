@@ -155,11 +155,29 @@
     const dialog = document.createElement('dialog');
     dialog.className = 'tbt-certificate-lightbox';
     dialog.setAttribute('aria-label', 'Enlarged certificate');
-    dialog.innerHTML = '<button class="tbt-certificate-lightbox__close" type="button" data-certificate-lightbox-close aria-label="Close enlarged certificate">&times;</button><div class="tbt-certificate-lightbox__stage"><img alt=""></div>';
+    dialog.innerHTML = '<button class="tbt-certificate-lightbox__close" type="button" data-certificate-lightbox-close aria-label="Close enlarged certificate">&times;</button><button class="tbt-certificate-lightbox__control tbt-certificate-lightbox__control--previous" type="button" data-certificate-lightbox-prev aria-label="Previous certificate"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><div class="tbt-certificate-lightbox__stage"><img alt=""></div><button class="tbt-certificate-lightbox__control tbt-certificate-lightbox__control--next" type="button" data-certificate-lightbox-next aria-label="Next certificate"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button><p class="screen-reader-text" data-certificate-lightbox-status aria-live="polite"></p>';
     document.body.appendChild(dialog);
     const image = dialog.querySelector('img');
     const closeButton = dialog.querySelector('[data-certificate-lightbox-close]');
-    let activeTrigger = null;
+    const previousButton = dialog.querySelector('[data-certificate-lightbox-prev]');
+    const nextButton = dialog.querySelector('[data-certificate-lightbox-next]');
+    const status = dialog.querySelector('[data-certificate-lightbox-status]');
+    let openingTrigger = null;
+    let activeGroup = [];
+    let activeIndex = 0;
+    const show = (nextIndex) => {
+      if (!activeGroup.length || !image) return;
+      activeIndex = carouselIndex(nextIndex, 0, activeGroup.length);
+      const source = activeGroup[activeIndex].querySelector('img');
+      if (!source) return;
+      image.src = source.currentSrc || source.src;
+      image.alt = source.alt || 'Enlarged certificate';
+      const hasMultiple = activeGroup.length > 1;
+      if (previousButton) previousButton.hidden = !hasMultiple;
+      if (nextButton) nextButton.hidden = !hasMultiple;
+      if (status) status.textContent = `${activeIndex + 1} of ${activeGroup.length}`;
+    };
+    const move = (delta) => show(activeIndex + delta);
     const close = () => {
       if (!dialog.open) return;
       if (typeof dialog.close === 'function') dialog.close();
@@ -167,22 +185,30 @@
     };
     triggers.forEach((trigger) => {
       trigger.addEventListener('click', () => {
-        const source = trigger.querySelector('img');
-        if (!source || !image) return;
-        activeTrigger = trigger;
-        image.src = source.currentSrc || source.src;
-        image.alt = source.alt || 'Enlarged certificate';
+        const certificateViewer = trigger.closest('.tbt-tutor__documents');
+        activeGroup = certificateViewer ? Array.from(certificateViewer.querySelectorAll('[data-certificate-lightbox-trigger]')) : [trigger];
+        openingTrigger = trigger;
+        show(Math.max(0, activeGroup.indexOf(trigger)));
         document.documentElement.classList.add('tbt-lightbox-open');
         if (typeof dialog.showModal === 'function') dialog.showModal();
         else dialog.setAttribute('open', '');
       });
     });
     if (closeButton) closeButton.addEventListener('click', close);
+    if (previousButton) previousButton.addEventListener('click', () => move(-1));
+    if (nextButton) nextButton.addEventListener('click', () => move(1));
+    dialog.addEventListener('keydown', (event) => {
+      if (activeGroup.length < 2) return;
+      if (event.key === 'ArrowLeft') { event.preventDefault(); move(-1); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); move(1); }
+    });
     dialog.addEventListener('click', (event) => { if (event.target === dialog) close(); });
     dialog.addEventListener('close', () => {
       document.documentElement.classList.remove('tbt-lightbox-open');
-      if (activeTrigger && typeof activeTrigger.focus === 'function') activeTrigger.focus();
-      activeTrigger = null;
+      if (openingTrigger && typeof openingTrigger.focus === 'function') openingTrigger.focus();
+      openingTrigger = null;
+      activeGroup = [];
+      activeIndex = 0;
     });
   }
 
