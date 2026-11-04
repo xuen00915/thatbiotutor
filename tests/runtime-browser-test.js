@@ -165,6 +165,11 @@ const sizes = [
     await visibleCertificateTrigger.click();
     const certificateLightbox = page.locator('.tbt-certificate-lightbox');
     if (!await certificateLightbox.isVisible()) throw new Error(`Certificate lightbox did not open at ${viewport.width}`);
+    const lightboxBackground = await certificateLightbox.evaluate((dialog) => getComputedStyle(dialog).backgroundColor);
+    if (lightboxBackground !== 'rgb(255, 255, 255)') throw new Error(`Certificate lightbox background is not white at ${viewport.width}: ${lightboxBackground}`);
+    await page.addStyleTag({ content: 'body button:hover, body button:focus, body button:active { background-color: rgb(190, 61, 103) !important; color: #fff !important; }' });
+    const closeControlBackground = await certificateLightbox.locator('[data-certificate-lightbox-close]').evaluate((button) => getComputedStyle(button).backgroundColor);
+    if (closeControlBackground === 'rgb(190, 61, 103)') throw new Error(`Parent theme pink leaked into the certificate close control at ${viewport.width}`);
     const enlargedCertificate = certificateLightbox.locator('img');
     if (!await enlargedCertificate.evaluate((image) => image.complete && image.naturalWidth > 0)) throw new Error(`Certificate lightbox image did not load at ${viewport.width}`);
     const enlargedSecondSource = await enlargedCertificate.getAttribute('src');
@@ -172,6 +177,8 @@ const sizes = [
     const lightboxNext = certificateLightbox.locator('[data-certificate-lightbox-next]');
     if (!await lightboxPrevious.isVisible() || !await lightboxNext.isVisible()) throw new Error(`Multi-certificate lightbox controls are missing at ${viewport.width}`);
     await lightboxPrevious.click();
+    const previousControlBackground = await lightboxPrevious.evaluate((button) => getComputedStyle(button).backgroundColor);
+    if (previousControlBackground === 'rgb(190, 61, 103)') throw new Error(`Parent theme pink leaked into the certificate navigation at ${viewport.width}`);
     const enlargedFirstSource = await enlargedCertificate.getAttribute('src');
     if (!enlargedFirstSource || enlargedFirstSource === enlargedSecondSource) throw new Error(`Lightbox previous control did not change the certificate at ${viewport.width}`);
     await lightboxNext.click();

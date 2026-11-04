@@ -320,7 +320,7 @@
   padding: 0;
   border: 0;
   border-radius: 10px;
-  background: transparent;
+  background: transparent !important;
   color: inherit;
   cursor: zoom-in;
   overflow: hidden;
@@ -332,6 +332,13 @@
 .tbt-about-tutors .tbt-tutor__document-trigger:focus-visible {
   outline: 3px solid #789535;
   outline-offset: -4px;
+}
+
+.tbt-about-tutors .tbt-tutor__document-trigger:hover,
+.tbt-about-tutors .tbt-tutor__document-trigger:focus,
+.tbt-about-tutors .tbt-tutor__document-trigger:active {
+  background-color: transparent !important;
+  color: inherit !important;
 }
 
 .tbt-about-tutors .tbt-tutor__document-trigger:active {
@@ -395,8 +402,8 @@
   transform: translateY(-50%);
   border: 1px solid rgba(82, 98, 45, .26);
   border-radius: 9px;
-  background: rgba(255, 255, 255, .92);
-  color: #52622d;
+  background: rgba(255, 255, 255, .92) !important;
+  color: #52622d !important;
   line-height: 1;
   opacity: .9;
   box-shadow: 0 5px 16px rgba(45, 58, 32, .14);
@@ -419,15 +426,18 @@
 }
 
 .tbt-about-tutors .tbt-tutor__document-control:hover,
+.tbt-about-tutors .tbt-tutor__document-control:focus,
 .tbt-about-tutors .tbt-tutor__document-control:focus-visible {
   border-color: #789535;
-  background: #fff;
-  color: #3e4c26;
+  background: #fff !important;
+  color: #3e4c26 !important;
   opacity: 1;
   outline: none;
 }
 
 .tbt-about-tutors .tbt-tutor__document-control:active {
+  background: #fff !important;
+  color: #3e4c26 !important;
   transform: translateY(-50%) scale(.96);
 }
 
@@ -453,7 +463,7 @@
   place-items: center;
   padding: 0;
   border: 0;
-  background: transparent;
+  background: transparent !important;
 }
 
 .tbt-about-tutors .tbt-tutor__document-dots [data-carousel-dot]::before {
@@ -479,7 +489,7 @@ html.tbt-lightbox-open { overflow: hidden; }
   padding: 0;
   border: 1px solid rgba(148, 174, 74, .42);
   border-radius: 18px;
-  background: #f8faf4;
+  background: #fff;
   box-shadow: 0 24px 80px rgba(22, 29, 15, .32);
   overflow: hidden;
 }
@@ -520,8 +530,8 @@ html.tbt-lightbox-open { overflow: hidden; }
   padding: 0;
   border: 1px solid rgba(82, 98, 45, .34);
   border-radius: 12px;
-  background: rgba(255, 255, 255, .96);
-  color: #52622d;
+  background: rgba(255, 255, 255, .96) !important;
+  color: #52622d !important;
   font-size: 30px;
   line-height: 1;
   cursor: pointer;
@@ -532,13 +542,18 @@ html.tbt-lightbox-open { overflow: hidden; }
 }
 
 .tbt-certificate-lightbox__close:hover,
+.tbt-certificate-lightbox__close:focus,
 .tbt-certificate-lightbox__close:focus-visible {
   border-color: #789535;
-  background: #f4f7ed;
-  color: #3e4c26;
+  background: #f4f7ed !important;
+  color: #3e4c26 !important;
   outline: none;
 }
-.tbt-certificate-lightbox__close:active { transform: scale(.96); }
+.tbt-certificate-lightbox__close:active {
+  background: #f4f7ed !important;
+  color: #3e4c26 !important;
+  transform: scale(.96);
+}
 
 .tbt-certificate-lightbox__control {
   position: absolute;
@@ -554,8 +569,8 @@ html.tbt-lightbox-open { overflow: hidden; }
   transform: translateY(-50%);
   border: 1px solid rgba(82, 98, 45, .34);
   border-radius: 12px;
-  background: rgba(255, 255, 255, .94);
-  color: #52622d;
+  background: rgba(255, 255, 255, .94) !important;
+  color: #52622d !important;
   box-shadow: 0 8px 24px rgba(45, 58, 32, .14);
   cursor: pointer;
   -webkit-appearance: none;
@@ -568,14 +583,19 @@ html.tbt-lightbox-open { overflow: hidden; }
 .tbt-certificate-lightbox__control--next { right: 18px; }
 
 .tbt-certificate-lightbox__control:hover,
+.tbt-certificate-lightbox__control:focus,
 .tbt-certificate-lightbox__control:focus-visible {
   border-color: #789535;
-  background: #f4f7ed;
-  color: #3e4c26;
+  background: #f4f7ed !important;
+  color: #3e4c26 !important;
   outline: none;
 }
 
-.tbt-certificate-lightbox__control:active { transform: translateY(-50%) scale(.96); }
+.tbt-certificate-lightbox__control:active {
+  background: #f4f7ed !important;
+  color: #3e4c26 !important;
+  transform: translateY(-50%) scale(.96);
+}
 
 .tbt-certificate-lightbox__control[hidden] { display: none; }
 
