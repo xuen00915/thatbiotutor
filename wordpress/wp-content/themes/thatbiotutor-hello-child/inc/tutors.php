@@ -39,7 +39,11 @@ function tbt_render_tutors(array $args = []): void
     $showRoles = !array_key_exists('show_roles', $args) || (bool) $args['show_roles'];
     echo '<div class="tbt-tutors">';
     foreach (tbt_get_tutors($args) as $tutor) {
-        echo '<article class="tbt-tutor' . ($variant === 'about' ? ' tbt-tutor--about' : '') . '">';
+        $documentKeys = $variant === 'about' && isset($supplementalMedia[$tutor['name']]) && is_array($supplementalMedia[$tutor['name']])
+            ? array_values(array_filter($supplementalMedia[$tutor['name']], 'is_string'))
+            : [];
+        $hasDocuments = $documentKeys !== [] && function_exists('tbt_render_media_image');
+        echo '<article class="tbt-tutor' . ($variant === 'about' ? ' tbt-tutor--about' : '') . ($hasDocuments ? ' tbt-tutor--has-documents' : '') . '">';
         if ($variant === 'about') {
             $displayName = (string) ($displayNames[$tutor['name']] ?? $tutor['name']);
             echo '<div class="tbt-tutor__visual">';
@@ -47,13 +51,6 @@ function tbt_render_tutors(array $args = []): void
                 echo '<img class="tbt-tutor__portrait" src="' . esc_url($tutor['portrait']['url']) . '" alt="' . esc_attr($tutor['portrait']['alt'] ?: $tutor['name']) . '">';
             } elseif (isset($fallbackPortraits[$tutor['name']]) && function_exists('tbt_render_media_image')) {
                 tbt_render_media_image((string) $fallbackPortraits[$tutor['name']], 'tbt-tutor__portrait', ['loading' => 'eager']);
-            }
-            if (isset($supplementalMedia[$tutor['name']]) && is_array($supplementalMedia[$tutor['name']]) && function_exists('tbt_render_media_image')) {
-                echo '<div class="tbt-tutor__documents">';
-                foreach ($supplementalMedia[$tutor['name']] as $mediaKey) {
-                    tbt_render_media_image((string) $mediaKey, 'tbt-tutor__document', ['loading' => 'eager']);
-                }
-                echo '</div>';
             }
             echo '</div><div class="tbt-tutor__details">';
             echo '<h3>' . esc_html($displayName) . ($showRoles && $tutor['role'] !== '' ? '<small>' . esc_html($tutor['role']) . '</small>' : '') . '</h3>';
@@ -69,6 +66,28 @@ function tbt_render_tutors(array $args = []): void
                 echo '<p class="tbt-tutor__profile"><a href="' . esc_url($profileUrl) . '" target="_blank" rel="noopener noreferrer">' . esc_html($profileUrl) . '</a></p>';
             }
             echo '</div>';
+            if ($hasDocuments) {
+                $documentCount = count($documentKeys);
+                $isCarousel = $documentCount > 1;
+                echo '<aside class="tbt-tutor__certificates" aria-label="' . esc_attr($displayName . ' certificates') . '">';
+                echo '<h4>Certificates</h4>';
+                echo '<div class="tbt-tutor__documents"' . ($isCarousel ? ' data-carousel data-carousel-autoplay="4500"' : '') . '>';
+                foreach ($documentKeys as $index => $mediaKey) {
+                    echo '<figure class="tbt-tutor__document-slide"' . ($isCarousel ? ' data-carousel-slide' . ($index > 0 ? ' hidden' : '') : '') . '>';
+                    tbt_render_media_image($mediaKey, 'tbt-tutor__document', ['loading' => 'eager']);
+                    echo '</figure>';
+                }
+                if ($isCarousel) {
+                    echo '<button class="tbt-tutor__document-control tbt-tutor__document-control--previous" type="button" data-carousel-prev aria-label="Previous certificate">&#8249;</button>';
+                    echo '<button class="tbt-tutor__document-control tbt-tutor__document-control--next" type="button" data-carousel-next aria-label="Next certificate">&#8250;</button>';
+                    echo '<div class="tbt-tutor__document-dots">';
+                    foreach ($documentKeys as $index => $_mediaKey) {
+                        echo '<button type="button" data-carousel-dot aria-label="Show certificate ' . esc_attr((string) ($index + 1)) . '"></button>';
+                    }
+                    echo '</div><p class="screen-reader-text" data-carousel-status aria-live="polite">1 of ' . esc_html((string) $documentCount) . '</p>';
+                }
+                echo '</div></aside>';
+            }
         } else {
             if ($tutor['portrait']['url'] !== '') {
                 echo '<img src="' . esc_url($tutor['portrait']['url']) . '" alt="' . esc_attr($tutor['portrait']['alt'] ?: $tutor['name']) . '">';
