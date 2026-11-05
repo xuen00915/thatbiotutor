@@ -26,6 +26,7 @@ $tbt_landing_whatsapp = tbt_whatsapp_url('Hi ThatBioTutor, I would like to book 
         <a class="site-brand" href="<?php echo esc_url(home_url('/')); ?>" aria-label="ThatBioTutor home">
             <?php if ($tbt_logo['url'] !== '') : ?>
                 <img class="site-brand__logo" src="<?php echo esc_url($tbt_logo['url']); ?>" alt="ThatBioTutor" width="192" height="192">
+                <?php if ($tbt_is_front_page) : ?><span class="site-brand__wordmark" aria-hidden="true">That<span>Bio</span>Tutor</span><?php endif; ?>
             <?php else : ?>
                 <span class="site-brand__text">ThatBioTutor</span>
             <?php endif; ?>
