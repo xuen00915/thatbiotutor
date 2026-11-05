@@ -10,6 +10,8 @@ body.tbt-site .site-header { display: block; width: 100%; max-width: none; margi
 .site-header__menu-icon::before { position: absolute; top: -8px; }
 .site-header__menu-icon::after { position: absolute; top: 8px; }
 .site-nav { height: 50px; align-self: end; }
+/* Desktop navigation never depends on JavaScript state. */
+@media (min-width: 981px) { .site-nav[hidden] { display: block; } .site-header__menu-toggle { display: none; } }
 .site-nav__list { height: 100%; }
 .site-nav__list { display: flex; align-items: stretch; list-style: none; margin: 0; padding: 0; }
 .site-nav__item { position: relative; display: flex; align-items: stretch; border-left: 1px solid #26334c; }

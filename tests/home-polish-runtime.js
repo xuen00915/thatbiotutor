@@ -21,6 +21,12 @@ const {chromium} = require('playwright');
   assert.equal(await page.locator('.tbt-home-practical .tbt-home-eyebrow,.tbt-home-classroom .tbt-home-eyebrow,.tbt-home-tutors .tbt-home-eyebrow').count(),0);
   const rows=await page.locator('.tbt-home-quality li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().y));
   assert.ok(rows[0]<rows[1]&&rows[1]<rows[2],'Quality checks must stack');
+  if (width>980) {
+    const navVisible=await page.evaluate(()=>{const n=document.querySelector('.site-nav');n.hidden=true;const d=getComputedStyle(n).display;n.hidden=false;return d});
+    assert.notEqual(navVisible,'none','Desktop navigation must stay visible even if its hidden attribute is set');
+    const labels=await page.locator('.site-header .site-nav > ul > li > a, .site-header .site-nav .site-nav__link').allTextContents();
+    for (const label of ['Home','Classes','Results & Testimonials','Free Bio Notes','About Us','Our Causes']) assert.ok(labels.some(x=>x.trim()===label),'Header must show '+label);
+  }
   const faq=page.locator('.tbt-home-faq__item button').first();
   await faq.hover();
   await page.waitForFunction(()=>getComputedStyle(document.querySelector('.tbt-home-faq__item button')).backgroundColor==='rgb(237, 245, 232)');
@@ -31,6 +37,8 @@ const {chromium} = require('playwright');
   assert.equal(faqIcon,'rgb(47, 138, 39)');
   await faq.click();assert.equal(await faq.getAttribute('aria-expanded'),'true');
   await page.waitForTimeout(600);
+  await page.mouse.move(0,0);await page.waitForTimeout(400);
+  assert.deepEqual(await faq.evaluate(e=>{const s=getComputedStyle(e);return {bg:s.backgroundColor,color:s.color,focused:document.activeElement===e}}),{bg:'rgba(0, 0, 0, 0)',color:'rgb(25, 34, 26)',focused:true},'Clicked FAQ button must never turn pink');
   assert.equal(await faq.evaluate(e=>getComputedStyle(e.querySelector('.tbt-home-faq__icon'),'::after').transform!=='none'||getComputedStyle(e.querySelector('.tbt-home-faq__icon'),'::after').opacity==='0'),true,'Open FAQ icon must turn into a minus');
   assert.ok(await page.locator('.tbt-home-faq__answer:not([hidden])').first().evaluate(e=>e.getBoundingClientRect().height>40),'Open FAQ answer must be visible');
   assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'smooth');

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Made the desktop navigation independent of JavaScript state so the header always shows Home, Classes, Results & Testimonials, Free Bio Notes, About Us and Our Causes above 980px.
+
+- Fixed the homepage FAQ buttons turning Hello's pink after being clicked; focus and active states now keep the green palette.
+
 - Restyled the homepage FAQ as a bordered, rounded list with green plus / dark minus icons and a bordered answer panel that opens and closes with a height animation.
 - Added site-wide smooth effects: sections fade up as they scroll into view, links and buttons transition smoothly, and the FAQ animates; all of it is disabled under reduced-motion.
 

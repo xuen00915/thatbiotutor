@@ -132,6 +132,13 @@
       syncNavigationViewport(menu, toggle, submenuPairs, Boolean(event.matches));
     };
     syncViewport(media || { matches: false });
+    let lastMobile = windowObject.innerWidth <= 980;
+    windowObject.addEventListener('resize', () => {
+      const mobile = windowObject.innerWidth <= 980;
+      if (mobile === lastMobile) return;
+      lastMobile = mobile;
+      syncViewport({ matches: mobile });
+    });
     if (media && typeof media.addEventListener === 'function') media.addEventListener('change', syncViewport);
     else if (media && typeof media.addListener === 'function') media.addListener(syncViewport);
     toggle.addEventListener('click', () => {

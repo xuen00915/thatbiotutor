@@ -531,12 +531,16 @@
 }
 
 /* Keep interactive controls in the site palette instead of Hello's pink states. */
-.tbt-home-faq__item button:hover,
-.tbt-home-faq__item button:focus-visible,
+.tbt-home-faq__item button,
+.tbt-home-faq__item button:focus,
 .tbt-home-faq__item button:active {
-  background: #edf5e8;
+  background: transparent;
   color: var(--tbt-home-ink);
   box-shadow: none;
+}
+.tbt-home-faq__item button:hover,
+.tbt-home-faq__item button:focus-visible {
+  background: #edf5e8;
 }
 .tbt-google-reviews { position: relative; margin-top: 48px; padding: 32px 48px 24px; border-radius: 18px; background: #fff; box-shadow: 0 12px 32px rgba(25, 69, 38, .1); }
 .tbt-google-reviews h3 { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 24px; line-height: 32px; }
