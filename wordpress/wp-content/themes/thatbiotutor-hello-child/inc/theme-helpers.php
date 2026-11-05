@@ -323,6 +323,7 @@ function tbt_enqueue_assets(): void
     if (function_exists('is_page') && is_page('intensivefix')) {
         $styles[] = 'pages-intensivefix';
     }
+    $styles[] = 'layout';
     foreach ($styles as $name) {
         $path = TBT_THEME_DIR . '/assets/css/' . $name . '.css';
         wp_enqueue_style('tbt-' . $name, TBT_THEME_URI . '/assets/css/' . $name . '.css', [], is_file($path) ? (string) filemtime($path) : TBT_THEME_VERSION);

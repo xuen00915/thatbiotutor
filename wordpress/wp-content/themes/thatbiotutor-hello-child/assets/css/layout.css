@@ -1,0 +1,34 @@
+/* Shared content geometry, loaded after page-family presentation.
+ * Inquire's wide sections use a 1152px box with 16px padding: 1120px content.
+ * Section backgrounds remain full bleed; inner text/media may be narrower.
+ */
+body.tbt-site :where(.tbt-home-container),
+body.tbt-site .tbt-programme-container,
+body.tbt-site .tbt-programme-hero__content,
+body.tbt-site .tbt-testimonials-container,
+body.tbt-site .tbt-testimonials-hero__content,
+body.tbt-site .tbt-resource-shell,
+body.tbt-site .tbt-institutional-shell,
+body.tbt-site .tbt-reading-width,
+body.tbt-site .tbt-about-tutors .tbt-tutors,
+body.tbt-site .site-header .site-header__inner {
+  width: min(var(--tbt-page), calc(100% - 2 * var(--tbt-gutter)));
+  margin-inline: auto;
+}
+
+body.tbt-site .tbt-section {
+  padding-inline: max(var(--tbt-gutter), calc((100% - var(--tbt-page)) / 2));
+}
+
+body.tbt-site .site-footer {
+  padding-inline: var(--tbt-gutter);
+}
+
+body.tbt-site .site-footer__inner {
+  width: min(100%, var(--tbt-page));
+  margin-inline: auto;
+}
+
+body.tbt-site .site-header .site-header__inner {
+  padding-inline: 0;
+}

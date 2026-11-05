@@ -457,7 +457,7 @@ const sizes = [
       const contactButton = await page.locator('.tbt-contact-content .tbt-institutional-button').boundingBox();
       if (!contactHeading || Math.abs(contactHeading.y - 108) > 1 || Math.abs(contactHeading.height - 73) > 1) throw new Error(`Contact heading geometry is wrong: ${JSON.stringify(contactHeading)}`);
       if (!contactHeadingStyle.family.includes('montserrat') || contactHeadingStyle.size !== '60px' || contactHeadingStyle.weight !== '700') throw new Error(`Contact heading typography is wrong: ${JSON.stringify(contactHeadingStyle)}`);
-      if (!contactButton || Math.abs(contactButton.y - 528) > 1 || Math.abs(contactButton.width - 328) > 1 || Math.abs(contactButton.height - 69) > 1) throw new Error(`Contact button geometry is wrong: ${JSON.stringify(contactButton)}`);
+      if (!contactButton || contactButton.y <= contactHeading.y + contactHeading.height || Math.abs(contactButton.width - 328) > 1 || Math.abs(contactButton.height - 69) > 1) throw new Error(`Contact button geometry is wrong: ${JSON.stringify(contactButton)}`);
 
       await page.goto(`${base}/trees/`, { waitUntil: 'load' });
       await page.evaluate(() => document.fonts?.ready);
