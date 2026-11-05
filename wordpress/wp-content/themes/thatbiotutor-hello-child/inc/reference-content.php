@@ -114,6 +114,7 @@ function tbt_reference_content(): array
     $videoTranscriptArchive = is_file($videoTranscriptPath) ? json_decode((string) file_get_contents($videoTranscriptPath), true) : null;
     $videoTranscripts = [];
     $pendingVideoTranscriptNames = [];
+    $pendingVideoTranscriptBrackets = [];
     foreach (($videoTranscriptArchive['transcripts'] ?? []) as $transcript) {
         $videoId = trim((string) ($transcript['video_id'] ?? ''));
         $name = trim((string) ($transcript['name'] ?? ''));
@@ -126,6 +127,8 @@ function tbt_reference_content(): array
         $nameBase = strtolower(trim((string) preg_replace('/\s*\[[^]]*]\s*$/u', '', $name)));
         $transcriptNameKey = $group . '|' . $nameBase;
         $pendingVideoTranscriptNames[$transcriptNameKey] = ($pendingVideoTranscriptNames[$transcriptNameKey] ?? 0) + 1;
+        $transcriptBracket = preg_match('/\[([^]]*)]\s*$/u', $name, $bracketMatch) === 1 ? strtolower(trim((string) preg_replace('/[\s\x{00A0}]+/u', ' ', $bracketMatch[1]))) : '';
+        $pendingVideoTranscriptBrackets[$transcriptNameKey][] = $transcriptBracket;
     }
     $videoArchive = [
         ['RJxR3ONbylQ', "Alicia's Story [C6 to A1!]", '2025'],
@@ -270,7 +273,19 @@ function tbt_reference_content(): array
         $reviewRoute = $group === 'notes-reviews'
             ? '/notes'
             : ($group === 'celldivision-reviews' ? '/celldivision' : '/testimonials');
-        $testimonialRecords[] = ['seed_key' => $seedKey, 'title' => $name, 'menu_order' => 200 + $index, 'source' => $crawlSource($reviewRoute), 'fields' => ['tbt_student_name' => $name, 'tbt_quote' => $quote, 'tbt_rating' => 5, 'tbt_video_url' => '', 'tbt_display_group' => $group]];
+        $featuredGrades = [
+            'sec3-featured-isaac' => ['D7', 'A2'],
+            'sec3-featured-dayan' => ['B4', 'A2'],
+            'sec3-featured-jun-jie' => ['B4', 'B3'],
+            'sec4-featured-yong-zheng' => ['E8', 'A1 in 3 months'],
+            'sec4-featured-gwen' => ['F9', 'A1'],
+            'sec4-featured-aryan' => ['C6', 'A2'],
+        ];
+        $fields = ['tbt_student_name' => $name, 'tbt_quote' => $quote, 'tbt_rating' => 5, 'tbt_video_url' => '', 'tbt_display_group' => $group];
+        if (isset($featuredGrades[$seedKey])) {
+            [$fields['tbt_before_result'], $fields['tbt_after_result']] = $featuredGrades[$seedKey];
+        }
+        $testimonialRecords[] = ['seed_key' => $seedKey, 'title' => $name, 'menu_order' => 200 + $index, 'source' => $crawlSource($reviewRoute), 'fields' => $fields];
     }
 
     $publicArchivePath = dirname(__DIR__) . '/assets/content/public-review-archive.json';
@@ -286,8 +301,14 @@ function tbt_reference_content(): array
         $nameBase = strtolower(trim((string) preg_replace('/\s*\[[^]]*]\s*$/u', '', $name)));
         $transcriptNameKey = $group . '|' . $nameBase;
         $displayGroup = $group;
-        if (($pendingVideoTranscriptNames[$transcriptNameKey] ?? 0) > 0) {
+        $reviewBracket = preg_match('/\[([^]]*)]\s*$/u', $name, $reviewBracketMatch) === 1 ? strtolower(trim((string) preg_replace('/[\s\x{00A0}]+/u', ' ', $reviewBracketMatch[1]))) : '';
+        $bracketIndex = array_search($reviewBracket, $pendingVideoTranscriptBrackets[$transcriptNameKey] ?? [], true);
+        if ($bracketIndex === false && $reviewBracket === '') {
+            $bracketIndex = 0;
+        }
+        if (($pendingVideoTranscriptNames[$transcriptNameKey] ?? 0) > 0 && $bracketIndex !== false) {
             $pendingVideoTranscriptNames[$transcriptNameKey]--;
+            array_splice($pendingVideoTranscriptBrackets[$transcriptNameKey], (int) $bracketIndex, 1);
             $displayGroup = 'video-transcript-source';
         }
         $seedKey = 'public-review-' . sha1($group . "\0" . $name . "\0" . $quote);
@@ -320,6 +341,14 @@ function tbt_reference_content(): array
         ['How do I find out about fees and available timeslots?', 'A: WhatsApp us — our friendly staff will share the most updated fees and timeslot availability ASAP.'],
         ['What’s the difference between the timeslots?', 'A: We offer different class timings to suit students’ schedules. Our staff will share the latest schedule via WhatsApp to ensure you receive the most updated information. No matter which timeslot you go to, the content and methods taught is the same across tutors, as we standardise it for every lesson.'],
     ];
+    $formatFaqAnswer = static function (array $faqs, string $venue): array {
+        foreach ($faqs as $i => $faq) {
+            if (str_starts_with($faq[0], 'Face-to-face or online')) {
+                $faqs[$i][1] = 'A: Both formats cover the same content and use the same TBT methods. ' . $venue . ' at Burlington Square, S(189649). Online lessons are held on Zoom. Choose based on what suits your child better - your child can also switch between formats from week to week.';
+            }
+        }
+        return $faqs;
+    };
     $faqCollections = [
         'home' => [
             ['Do you teach physical lessons?', 'Yes! Starting 2024, you choose between coming online or physically.'],
@@ -349,13 +378,13 @@ function tbt_reference_content(): array
             ['My child just started Sec 3 — is it too early to join?', 'A: No — starting early is the single best thing a Sec 3 student can do. The earlier they build a solid content foundation and answering techniques, the less stress they’ll have and the less catching up they’ll need in Sec 4.'],
             ['When do Sec 3 classes open?', 'A: Sec 3 classes open every March. WhatsApp us early to get on the waitlist — spots fill up quickly.'],
             ['What if my child’s school has not covered certain topics yet?', 'A: Students are welcome to join even if certain topics have not been covered in school. Rest assured, all topics are already part of our programme and will be covered in due course. If you missed lessons where we first taught a topic, they’ve all been recorded for you along with the full worksheets.<br><br>Students have also said they greatly benefitted from first learning a topic at TBT, because it became so easy to understand when their school later taught it.'],
-        ], $sharedClassFaqs),
+        ], $formatFaqAnswer($sharedClassFaqs, 'Face-to-face classes')),
         'sec4' => array_merge([
             ['How is the sec 4 programme structured across the year?', 'A: The Sec 4 programme is split into three phases, each building progressively towards exam readiness:<br><br>1. Content Teaching Phase (Dec - May)<br><br>2. Prelim Intensive Lessons (May - Aug)<br><br>3. Os Intensive Lessons (Aug - Nov)<br><br>Students are allowed to join anytime throughout the year, provided there are available spots for the class. Lesson recordings and worksheets are fully provided for those lessons you missed prior to joining.'],
             ['Do you have hands-on practical sessions?', 'Yes, our hands-on practical sessions cover the most commonly tested experiments, so students walk into Paper 3 with the hand-eye coordination and confidence to protect the full 20% of their grade.'],
             ['My child is already in Sec 4 — is it too late to join?', 'A: Not at all. 69.21% of TBT students joined at B4 or lower, and the average TBT student improved 2.3 grades (~C5 to A2). Many students who joined post-prelims have gone from C6 to B3 in two months. That said, the sooner a student starts fixing bio by joining TBT, the better.'],
             ['What if my child’s school has not covered certain topics yet?', 'A: Students are welcome to join even if certain topics have not been covered in school. Rest assured, all topics are already part of our programme and will be covered in due course. If you missed lessons where we first taught a topic, they’ve all been recorded for you along with the full worksheets.<br><br>Students have also said they greatly benefitted from first learning a topic at TBT, because it became so easy to understand when their school later taught it.'],
-        ], $sharedClassFaqs),
+        ], $formatFaqAnswer($sharedClassFaqs, 'F2F is')),
     ];
     $faqRecords = [];
     foreach ($faqCollections as $collection => $items) {

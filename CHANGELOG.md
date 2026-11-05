@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Restored original-site content gaps: Charmaine's E8 to A2 written review (video-transcript matching now respects grade brackets), Sec 3/Sec 4 featured-testimonial grade badges, the original Sec 3/Sec 4 face-to-face FAQ wording, and the Notes "requesting for notes" wording.
+
 - Removed the extra "Results, not promises", trial-guarantee, founder and FAQ eyebrow labels that the original homepage does not have.
 
 - Matched the homepage header (64px, no border or shadow, 40px logo with ThatBioTutor wordmark), the "Fail" red and the body font stack to the original inquiry site without changing content widths.

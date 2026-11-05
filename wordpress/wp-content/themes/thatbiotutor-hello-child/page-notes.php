@@ -94,7 +94,7 @@ $tbt_notes_portrait = tbt_media('original_003');
             <div class="tbt-resource-shell tbt-resource-narrow">
                 <h2>Why are you giving your notes for <span>FREE</span>?</h2>
                 <ul>
-                    <li>I get tons of messages requesting notes, so this must be a big need in the community. A lot of you are <strong>needlessly struggling</strong> in this subject, and I don't want you to be one of them.</li>
+                    <li>I get tons of messages requesting for notes, so this must be a big need in the community. A lot of you are <strong>needlessly struggling</strong> in this subject, and I don't want you to be one of them.</li>
                     <li>If you are, maybe you're not getting the quality of <strong>teaching and materials</strong> you need. It shouldn't be this way, because bio is an easy subject, and you deserve to score well in it.</li>
                     <li>I was in your position before, and I wished someone gave me notes like these to make my life <strong>easier</strong>. Now I get to make it a reality for you, and that brings me lots of joy.</li>
                 </ul>

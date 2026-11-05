@@ -68,6 +68,9 @@ function tbt_render_testimonials(array $args = []): void
         if ($record['quote'] !== '') {
             echo '<div class="tbt-testimonial__stars" aria-label="' . esc_attr((string) $record['rating'] . ' out of 5 stars') . '">' . esc_html(str_repeat('★', $record['rating'])) . '</div>';
         }
+        if ($record['quote'] !== '' && $record['before'] !== '' && $record['after'] !== '') {
+            echo '<p class="tbt-testimonial__result">' . esc_html($record['before'] . ' → ' . $record['after']) . '</p>';
+        }
         if ($record['quote'] !== '') {
             echo '<blockquote>' . nl2br(esc_html($record['quote'])) . '</blockquote>';
             echo '<p class="tbt-testimonial__name"><strong>' . esc_html($record['name']) . '</strong></p>';
