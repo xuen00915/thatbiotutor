@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Removed the extra "Results, not promises", trial-guarantee, founder and FAQ eyebrow labels that the original homepage does not have.
+
 - Matched the homepage header (64px, no border or shadow, 40px logo with ThatBioTutor wordmark), the "Fail" red and the body font stack to the original inquiry site without changing content widths.
 
 - Removed the school-logo pause button while retaining automatic scrolling, hover pause and reduced-motion support.

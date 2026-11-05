@@ -126,7 +126,6 @@ $tbt_faqs = [
 
     <section class="tbt-home-section tbt-home-stats" data-section="track-record">
         <div class="tbt-home-container">
-            <p class="tbt-home-eyebrow">Results, not promises</p>
             <h2>Here's the track record:</h2>
             <div class="tbt-home-stats__grid">
                 <?php foreach ($tbt_stats as $tbt_stat) : ?>
@@ -218,7 +217,6 @@ $tbt_faqs = [
         <div class="tbt-home-container tbt-home-guarantee__inner">
             <div class="tbt-home-guarantee__shield" data-guarantee-shield aria-hidden="true"><svg viewBox="0 0 64 72"><path d="M32 3 57 12v19c0 18-10 31-25 38C17 62 7 49 7 31V12L32 3Z"/><path d="m21 35 7 7 16-18"/></svg></div>
             <div>
-                <p class="tbt-home-eyebrow">The trial lesson guarantee</p>
                 <h2>Join a Trial Lesson. If You Didn't Absolutely Love It, <span>You Can Get a Full Refund.</span></h2>
                 <p>A trial lesson is $95. We’re so confident of our lesson quality that if you didn’t absolutely love it, simply ask for a refund and you’ll get your money back, no questions asked.</p>
                 <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-home-button tbt-home-button--light" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">Book My Trial Lesson</a><?php endif; ?>
@@ -236,13 +234,13 @@ $tbt_faqs = [
     <section class="tbt-home-section tbt-home-founder" data-section="founder">
         <div class="tbt-home-container tbt-home-founder__inner">
             <figure><?php $tbt_media_image('curated_home_founder_standing', '', 'loading="lazy"'); ?></figure>
-            <div><p class="tbt-home-eyebrow">Why ThatBioTutor exists</p><h2>About The Founder</h2><p>I was a GEP student, went through Raffles Institution, and was offered a scholarship by NUS to study Life Sciences. On paper, that probably sounds like someone who never struggled in school.</p><p>In JC, my grades started slipping and I finally took Econs tuition. That's when I understood what a genuinely good tutor could do: help me memorise smarter and answer questions in a way that actually scores.</p><p>That inspired me to build ThatBioTutor, because I wanted other students to have that same experience with Biology. That feeling of trying hard and still not getting anywhere is exactly why I built the <strong>FastTrack System</strong>.</p></div>
+            <div><h2>About The Founder</h2><p>I was a GEP student, went through Raffles Institution, and was offered a scholarship by NUS to study Life Sciences. On paper, that probably sounds like someone who never struggled in school.</p><p>In JC, my grades started slipping and I finally took Econs tuition. That's when I understood what a genuinely good tutor could do: help me memorise smarter and answer questions in a way that actually scores.</p><p>That inspired me to build ThatBioTutor, because I wanted other students to have that same experience with Biology. That feeling of trying hard and still not getting anywhere is exactly why I built the <strong>FastTrack System</strong>.</p></div>
         </div>
     </section>
 
     <section class="tbt-home-section tbt-home-faq" data-section="faq">
         <div class="tbt-home-container">
-            <p class="tbt-home-eyebrow">Before you book</p><h2>FAQ</h2>
+            <h2>FAQ</h2>
             <div class="tbt-home-faq__list">
                 <?php foreach ($tbt_faqs as $tbt_index => [$tbt_question, $tbt_answer]) : $tbt_panel_id = 'tbt-home-faq-' . ($tbt_index + 1); ?>
                     <article class="tbt-home-faq__item" data-home-inquire-faq><h3><button type="button" data-faq-button aria-expanded="false" aria-controls="<?php echo esc_attr($tbt_panel_id); ?>"><span><?php echo esc_html((string) ($tbt_index + 1) . '. ' . $tbt_question); ?></span><span aria-hidden="true">+</span></button></h3><div id="<?php echo esc_attr($tbt_panel_id); ?>" class="tbt-home-faq__answer" hidden><p><?php echo esc_html($tbt_answer); ?></p></div></article>
