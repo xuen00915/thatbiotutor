@@ -377,8 +377,11 @@
 .tbt-home-guarantee__inner { display: block; text-align: center; }
 .tbt-home-guarantee__content { display: flex; flex-direction: column; align-items: center; }
 .tbt-home-guarantee__shield { margin: 32px auto 0; }
-.tbt-home-guarantee__shield { display: grid; width: 88px; height: 88px; place-items: center; border: 1px solid rgba(255,255,255,.18); border-radius: 50%; background: rgba(255,255,255,.07); }
-.tbt-home-guarantee__shield svg { width: 44px; height: 50px; fill: none; stroke: #83d771; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4; }
+.tbt-home-guarantee__shield { display: grid; width: 88px; height: 88px; place-items: center; }
+.tbt-home-guarantee__shield svg { width: auto; height: 100%; }
+.tbt-home-guarantee__shield-base { fill: #43b43a; }
+.tbt-home-guarantee__shield-line { fill: none; stroke: #fff; stroke-width: 9; }
+.tbt-home-guarantee__shield-check { fill: #fff; }
 .tbt-home-guarantee h2,
 .tbt-home-guarantee p { color: #fff; }
 .tbt-home-guarantee h2 { text-align: center; }

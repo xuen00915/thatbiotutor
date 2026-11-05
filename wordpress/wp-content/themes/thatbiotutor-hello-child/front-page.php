@@ -217,7 +217,7 @@ $tbt_faqs = [
         <div class="tbt-home-container tbt-home-guarantee__inner">
             <div class="tbt-home-guarantee__content">
                 <h2>Join a Trial Lesson. If You Didn't Absolutely Love It, <span>You Can Get a Full Refund.</span></h2>
-                <div class="tbt-home-guarantee__shield" data-guarantee-shield aria-hidden="true"><svg viewBox="0 0 64 72"><path d="M32 3 57 12v19c0 18-10 31-25 38C17 62 7 49 7 31V12L32 3Z"/><path d="m21 35 7 7 16-18"/></svg></div>
+                <div class="tbt-home-guarantee__shield" data-guarantee-shield aria-hidden="true"><svg viewBox="0 0 270 316"><path class="tbt-home-guarantee__shield-base" d="M135 0C170 28 215 45 266 50C270 150 263 265 135 316C7 265 0 150 4 50C55 45 100 28 135 0Z"/><path class="tbt-home-guarantee__shield-line" d="M135 20C170 46 212 58 254 63C256 150 248 250 135 300C22 250 14 150 16 63C58 58 100 46 135 20Z"/><path class="tbt-home-guarantee__shield-check" d="M65 160 90 142 122 180 202 92 220 110 123 226Z"/></svg></div>
                 <p>A trial lesson is $95. We’re so confident of our lesson quality that if you didn’t absolutely love it, simply ask for a refund and you’ll get your money back, no questions asked.</p>
                 <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-home-button" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">Book My Trial Lesson</a><?php endif; ?>
             </div>

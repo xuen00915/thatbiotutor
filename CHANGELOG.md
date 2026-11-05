@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Replaced the homepage guarantee icon with the supplied solid green shield and white check, without the circular backdrop.
+
 - Replaced the homepage closing copy with the supplied text and moved its now-green booking button close to the paragraphs.
 
 - Reduced the homepage guarantee shield to 88px and changed its booking button to green with white text.

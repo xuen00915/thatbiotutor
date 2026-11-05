@@ -85,6 +85,7 @@ final class HomePageTest
         $guarantee = $guaranteeMatch[0] ?? '';
         $this->assertTrue(str_contains($guarantee, 'data-guarantee-shield'), 'Guarantee section must include the themed shield mark.');
         $this->assertTrue(str_contains($guarantee, 'tbt-home-button') && !str_contains($guarantee, 'tbt-home-button--light'), 'Guarantee CTA must use the green button with white text.');
+        $this->assertTrue(str_contains($guarantee, 'tbt-home-guarantee__shield-base') && str_contains($guarantee, 'tbt-home-guarantee__shield-check'), 'Guarantee must use the solid shield icon with a white check.');
         $homeCss = (string) file_get_contents(TBT_THEME_DIR . '/assets/css/pages-home.css');
         preg_match('/<section[^>]+data-section="closing".*?<\/section>/s', $html, $closingMatch);
         $closing = $closingMatch[0] ?? '';
