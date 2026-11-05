@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Corrected the Home track-record section to Inquire’s 736px content width, with proportionate statistic typography and card spacing.
+
 - Standardized page containers, headers, and footers to the Inquire reference’s 1120px content width and 16px side gutters across all 12 routes. Kept full-width section backgrounds and narrower reading/media limits.
 
 - Rescaled the Home landing page to the reference's compact proportions: 60px/36px desktop typography, 36px/30px mobile typography, a 3:1 hero gallery, tighter section rhythm, and denser mobile result and tutor grids.

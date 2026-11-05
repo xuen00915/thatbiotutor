@@ -312,10 +312,15 @@
 .tbt-home-problem__proof figcaption strong { font-size: 16px; line-height: 24px; }
 .tbt-home-problem__proof figcaption small { color: #687168; font-size: 14px; line-height: 20px; }
 
+/* Match the narrower track-record composition on Inquire. */
+body.tbt-site .tbt-home-stats > .tbt-home-container {
+  width: min(736px, calc(100% - 2 * var(--tbt-gutter)));
+}
+
 .tbt-home-stats h2 { margin-bottom: 42px; font-size: 30px; line-height: 36px; text-align: center; }
-.tbt-home-stats__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-.tbt-home-stat { padding: 30px 24px; border-radius: 18px; background: #f0f8ee; }
-.tbt-home-stat strong { display: block; color: var(--tbt-home-green); font-size: clamp(2.5rem, 5vw, 4.4rem); font-variant-numeric: tabular-nums; letter-spacing: -.07em; line-height: .95; }
+.tbt-home-stats__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.tbt-home-stat { padding: 24px 16px; border-radius: 18px; background: #f0f8ee; }
+.tbt-home-stat strong { display: block; color: var(--tbt-home-green); font-size: 36px; font-variant-numeric: tabular-nums; letter-spacing: -.07em; line-height: .95; }
 .tbt-home-stat span { display: block; margin-top: 14px; font-size: 16px; font-weight: 700; line-height: 1.4; }
 .tbt-home-stat small { display: block; margin-top: 8px; color: #687168; line-height: 1.4; }
 

@@ -24,12 +24,12 @@ const routes = {
       for (const [route, selector] of Object.entries(routes)) {
         await page.goto(new URL(route, process.env.TBT_RUNTIME_URL || 'http://localhost:8888').href, { waitUntil: 'domcontentloaded' });
         console.log(`Checking ${route} at ${width}`);
-        for (const target of [selector, '.site-header__inner', '.site-footer__inner']) {
+        for (const target of [selector, '.site-header__inner', '.site-footer__inner', ...(route === '/' ? ['.tbt-home-stats > .tbt-home-container'] : [])]) {
           const box = await page.locator(target).first().evaluate(el => {
             const r = el.getBoundingClientRect(), s = getComputedStyle(el);
             return { width: r.width - parseFloat(s.paddingLeft) - parseFloat(s.paddingRight), center: r.x + r.width / 2 };
           });
-          assert.ok(Math.abs(box.width - Math.min(1120, width - 32)) < 2, `${route} ${target} at ${width}: ${box.width}`);
+          assert.ok(Math.abs(box.width - Math.min(target.includes('tbt-home-stats') ? 736 : 1120, width - 32)) < 2, `${route} ${target} at ${width}: ${box.width}`);
           assert.ok(Math.abs(box.center - width / 2) < 2, `${route} ${target} is not centered`);
         }
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${route} overflows at ${width}`);
