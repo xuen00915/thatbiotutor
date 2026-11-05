@@ -321,6 +321,7 @@ function tbt_enqueue_assets(): void
         $styles[] = 'pages-institutional';
     }
     if (function_exists('is_page') && is_page('intensivefix')) {
+        $styles[] = 'pages-home';
         $styles[] = 'pages-intensivefix';
     }
     $styles[] = 'layout';

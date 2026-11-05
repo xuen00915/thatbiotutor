@@ -12,7 +12,7 @@ const routes = {
   '/contact/': '.tbt-institutional-shell',
   '/trees/': '.tbt-institutional-shell',
   '/tuitionrecs/': '.tbt-institutional-shell',
-  '/intensivefix/': '.tbt-section',
+  '/intensivefix/': '.tbt-home-container',
 };
 (async () => {
   const browser = await chromium.launch();
@@ -31,7 +31,7 @@ const routes = {
           }));
           assert.ok(boxes.length > 0, `${route}: missing ${target}`);
           for (const box of boxes) {
-          assert.ok(Math.abs(box.width - Math.min(route === '/' ? 944 : 1120, width - 32)) < 2, `${route} ${target} at ${width}: ${box.width}`);
+          assert.ok(Math.abs(box.width - Math.min(['/', '/intensivefix/'].includes(route) ? 944 : 1120, width - 32)) < 2, `${route} ${target} at ${width}: ${box.width}`);
           assert.ok(Math.abs(box.center - width / 2) < 2, `${route} ${target} is not centered`);
           }
         }
