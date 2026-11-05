@@ -308,6 +308,9 @@ const sizes = [
     if (viewport.width > 768) {
       const navLabels = await page.locator('.site-header .site-nav a').allTextContents();
       if (!['Home', 'Classes', 'Results & Testimonials', 'Free Bio Notes', 'About Us', 'Our Causes'].every((label) => navLabels.some((text) => text.trim() === label))) throw new Error(`Home header navigation differs from the original: ${JSON.stringify(navLabels)}`);
+      const brandBox = await page.locator('.site-header .site-brand').boundingBox();
+      const navBox = await page.locator('.site-header .site-nav').boundingBox();
+      if (Math.abs((brandBox.x + navBox.x + navBox.width) / 2 - viewport.width / 2) > 2) throw new Error(`Home header group is not centered at ${viewport.width}: ${JSON.stringify({ brandBox, navBox })}`);
       const visibleIndex = () => page.locator('[data-carousel-slide]').evaluateAll((slides) => slides.findIndex((slide) => !slide.hidden));
       const before = await visibleIndex();
       await page.locator('[data-carousel-next]').first().click();

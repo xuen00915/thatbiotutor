@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Centered the shared desktop header so the logo and navigation sit in the middle of the page as one group.
+
 - Replaced the homepage's compact landing header with the original site header (logo plus Home, Classes, Results & Testimonials, Free Bio Notes, About Us, Our Causes) shared by every page.
 
 - Narrowed the FastTrack content track to the inquiry site's 992px (944px cards) while keeping the shared 1120px container.

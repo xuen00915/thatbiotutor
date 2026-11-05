@@ -80,6 +80,7 @@ final class SharedShellTest
         $this->assertTrue(str_contains($components, '.site-footer__inner') && str_contains($components, 'grid-template-columns'), 'Site-wide footer must define the responsive information grid.');
         $this->assertTrue(str_contains($components, 'position: sticky'), 'Header CSS must keep the header sticky.');
         $this->assertTrue(preg_match('/site-nav[^}]*:hover[^}]*#[dD][0-9a-fA-F]{5}|site-nav[^}]*:hover[^}]*red/s', $components) === 1, 'Navigation hover state must be red.');
+        $this->assertTrue(preg_match('/\.site-header__inner \{[^}]*grid-template-columns: 136px auto;[^}]*justify-content: center;/', $components) === 1, 'Desktop header logo and navigation must be centered as one group.');
         $this->assertTrue(str_contains($components, '.site-nav__link[aria-current="page"]') && str_contains($components, '#8de15e'), 'Current-page navigation state must use the original green.');
         $this->assertTrue(str_contains($components, 'min-width: 44px') && str_contains($components, 'min-height: 44px'), 'Interactive controls must be at least 44×44 CSS pixels.');
         $this->assertTrue(str_contains($base, 'prefers-reduced-motion'), 'Base CSS must respect reduced motion.');
