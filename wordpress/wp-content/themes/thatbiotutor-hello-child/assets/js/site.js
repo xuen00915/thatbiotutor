@@ -274,8 +274,7 @@
 
   function initHomeProof(document, windowObject) {
     const crests = document.querySelector('.tbt-home-proof__crests');
-    const toggle = document.querySelector('[data-crest-toggle]');
-    if (crests && toggle) {
+    if (crests) {
       const motion = windowObject.matchMedia('(prefers-reduced-motion: reduce)');
       let paused = motion.matches;
       let hovering = false;
@@ -289,15 +288,9 @@
         clone.alt = '';
         crests.appendChild(clone);
       });
-      const sync = () => {
-        toggle.setAttribute('aria-pressed', String(paused));
-        toggle.textContent = paused ? 'Play school logos' : 'Pause school logos';
-      };
-      toggle.addEventListener('click', () => { paused = !paused; sync(); });
       crests.addEventListener('mouseenter', () => { hovering = true; });
       crests.addEventListener('mouseleave', () => { hovering = false; });
-      motion.addEventListener('change', () => { paused = motion.matches; sync(); });
-      sync();
+      motion.addEventListener('change', () => { paused = motion.matches; });
       const tick = (time) => {
         const delta = previousTime ? Math.min(time - previousTime, 50) : 0;
         previousTime = time;

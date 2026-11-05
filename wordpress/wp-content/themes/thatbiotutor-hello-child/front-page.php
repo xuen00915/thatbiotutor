@@ -174,7 +174,6 @@ $tbt_faqs = [
             <div class="tbt-home-proof__crests" aria-label="Schools attended by ThatBioTutor students">
                 <?php foreach (range(1, 12) as $tbt_index) : ?><?php $tbt_media_image(sprintf('curated_shared_school_crest_%02d', $tbt_index), '', 'loading="lazy"'); ?><?php endforeach; ?>
             </div>
-            <button class="tbt-crest-toggle" type="button" data-crest-toggle aria-pressed="false">Pause school logos</button>
             <p class="tbt-home-proof__results-copy">Some of our biggest grade jumps. There are many more.</p>
             <div class="tbt-home-proof__results">
                 <?php $tbt_media_image('curated_shared_hall_of_fame', '', 'loading="lazy"'); ?>

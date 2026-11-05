@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Removed the school-logo pause button while retaining automatic scrolling, hover pause and reduced-motion support.
+
 - Expanded the homepage results image to the full 1120px content width while preserving its aspect ratio and centered alignment.
 
 - Aligned homepage photos and circular tutor portraits, restored moving school logos with pause/reduced-motion controls, centered the results artwork, and rebuilt the original Google Reviews presentation with source review snapshots, scrolling and expandable text.

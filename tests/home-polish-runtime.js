@@ -42,10 +42,11 @@ const {chromium} = require('playwright');
  await page.mouse.move(0,0);
  const start=await crests.evaluate(e=>e.scrollLeft);
  await page.waitForFunction(start=>document.querySelector('.tbt-home-proof__crests').scrollLeft>start+5,start);
- await page.locator('[data-crest-toggle]').click();
+ assert.equal(await page.locator('[data-crest-toggle]').count(),0);
+ await crests.hover();
  const paused=await crests.evaluate(e=>e.scrollLeft);await page.waitForTimeout(200);assert.equal(await crests.evaluate(e=>e.scrollLeft),paused);
  await page.emulateMedia({reducedMotion:'reduce'});await page.reload({waitUntil:'domcontentloaded'});
- assert.equal(await page.locator('[data-crest-toggle]').getAttribute('aria-pressed'),'true');
+ const reduced=await crests.evaluate(e=>e.scrollLeft);await page.waitForTimeout(200);assert.equal(await crests.evaluate(e=>e.scrollLeft),reduced);
  console.log('PASS: photo/tutor alignment, centered results, reference sections, reviews, FAQ colors and crest movement');
  } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});
