@@ -409,15 +409,18 @@
 .tbt-home-faq { padding-block: 64px; }
 .tbt-home-faq h2 { margin-bottom: 30px; text-align: center; }
 .tbt-home-faq .tbt-home-eyebrow { text-align: center; }
-.tbt-home-faq__list { margin-inline: auto; }
-.tbt-home-faq__item { border-top: 1px solid var(--tbt-home-line); }
-.tbt-home-faq__item:last-child { border-bottom: 1px solid var(--tbt-home-line); }
+.tbt-home-faq__list { margin-inline: auto; overflow: hidden; border: 1px solid #d9dcd9; border-radius: 18px; background: #fff; }
+.tbt-home-faq__item + .tbt-home-faq__item { border-top: 1px solid #dcdfdc; }
 .tbt-home-faq__item h3 { margin: 0; }
-.tbt-home-faq__item button { display: grid; width: 100%; grid-template-columns: 1fr 30px; align-items: center; gap: 16px; padding: 11px 0; border: 0; background: transparent; color: var(--tbt-home-ink); cursor: pointer; font-weight: 700; text-align: left; }
-.tbt-home-faq__item button > span:last-child { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: #edf5e8; color: var(--tbt-home-green); font-size: 19px; transition: transform .2s ease; }
-.tbt-home-faq__item button[aria-expanded="true"] > span:last-child { transform: rotate(45deg); }
-.tbt-home-faq__answer { padding: 0 66px 24px 0; }
-.tbt-home-faq__answer p { color: #566259; line-height: 1.75; }
+.tbt-home-faq__item button { display: grid; width: 100%; grid-template-columns: 1fr 24px; align-items: center; gap: 16px; padding: 18px 26px; border: 0; background: transparent; color: var(--tbt-home-ink); cursor: pointer; font-size: 18px; font-weight: 600; line-height: 28px; text-align: left; }
+.tbt-home-faq__icon { position: relative; display: block; width: 18px; height: 18px; justify-self: center; }
+.tbt-home-faq__icon::before,
+.tbt-home-faq__icon::after { position: absolute; top: 50%; left: 0; width: 100%; height: 3px; margin-top: -1.5px; border-radius: 2px; background: var(--tbt-home-green); content: ""; transition: transform .3s ease, background-color .3s ease, opacity .3s ease; }
+.tbt-home-faq__icon::after { transform: rotate(90deg); }
+.tbt-home-faq__item button[aria-expanded="true"] .tbt-home-faq__icon::before { background: var(--tbt-home-ink); }
+.tbt-home-faq__item button[aria-expanded="true"] .tbt-home-faq__icon::after { background: var(--tbt-home-ink); opacity: 0; transform: rotate(0deg) scaleX(0); }
+.tbt-home-faq__answer { padding: 0; border-top: 2px solid #e3e6e3; }
+.tbt-home-faq__answer p { margin: 0; padding: 24px 26px; color: var(--tbt-home-ink); font-size: 18px; line-height: 1.65; }
 
 .tbt-home-classroom { padding-top: 50px; }
 .tbt-home-classroom h2 { font-size: 30px; line-height: 36px; text-align: center; }
@@ -499,7 +502,6 @@
   .tbt-home-practical__grid { grid-template-columns: 1fr; }
   .tbt-home-practical__grid figure:first-child { grid-column: auto; aspect-ratio: 4 / 3; }
   .tbt-home-classroom__grid { grid-template-columns: 1fr; }
-  .tbt-home-faq__answer { padding-right: 0; }
 }
 
 @media (max-width: 390px) {
@@ -530,9 +532,8 @@
 
 /* Keep interactive controls in the site palette instead of Hello's pink states. */
 .tbt-home-faq__item button:hover,
-.tbt-home-faq__item button:focus,
-.tbt-home-faq__item button:active,
-.tbt-home-faq__item button[aria-expanded="true"] {
+.tbt-home-faq__item button:focus-visible,
+.tbt-home-faq__item button:active {
   background: #edf5e8;
   color: var(--tbt-home-ink);
   box-shadow: none;

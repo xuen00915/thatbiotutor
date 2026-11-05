@@ -243,7 +243,7 @@ $tbt_faqs = [
             <h2>FAQ</h2>
             <div class="tbt-home-faq__list">
                 <?php foreach ($tbt_faqs as $tbt_index => [$tbt_question, $tbt_answer]) : $tbt_panel_id = 'tbt-home-faq-' . ($tbt_index + 1); ?>
-                    <article class="tbt-home-faq__item" data-home-inquire-faq><h3><button type="button" data-faq-button aria-expanded="false" aria-controls="<?php echo esc_attr($tbt_panel_id); ?>"><span><?php echo esc_html((string) ($tbt_index + 1) . '. ' . $tbt_question); ?></span><span aria-hidden="true">+</span></button></h3><div id="<?php echo esc_attr($tbt_panel_id); ?>" class="tbt-home-faq__answer" hidden><p><?php echo esc_html($tbt_answer); ?></p></div></article>
+                    <article class="tbt-home-faq__item" data-home-inquire-faq><h3><button type="button" data-faq-button aria-expanded="false" aria-controls="<?php echo esc_attr($tbt_panel_id); ?>"><span><?php echo esc_html((string) ($tbt_index + 1) . '. ' . $tbt_question); ?></span><span class="tbt-home-faq__icon" aria-hidden="true"></span></button></h3><div id="<?php echo esc_attr($tbt_panel_id); ?>" class="tbt-home-faq__answer" hidden><p><?php echo esc_html($tbt_answer); ?></p></div></article>
                 <?php endforeach; ?>
             </div>
         </div>

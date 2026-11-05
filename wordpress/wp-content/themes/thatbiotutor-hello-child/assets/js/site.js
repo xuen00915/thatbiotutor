@@ -263,12 +263,51 @@
     });
   }
 
-  function initFaqs(document) {
+  function initFaqs(document, windowObject) {
+    const reduce = prefersReducedMotion(windowObject && windowObject.matchMedia ? windowObject.matchMedia.bind(windowObject) : undefined);
     document.querySelectorAll('[data-faq-button]').forEach((button) => {
       const panel = document.getElementById(button.getAttribute('aria-controls'));
       if (!panel) return;
       panel.hidden = true;
-      button.addEventListener('click', () => toggleFaq(button, panel));
+      button.addEventListener('click', () => {
+        if (reduce || typeof panel.animate !== 'function') {
+          toggleFaq(button, panel);
+          return;
+        }
+        const opening = button.getAttribute('aria-expanded') !== 'true';
+        panel.getAnimations().forEach((animation) => animation.cancel());
+        panel.style.overflow = 'hidden';
+        if (opening) {
+          toggleFaq(button, panel);
+          const height = panel.scrollHeight;
+          panel.animate([{ height: '0px', opacity: 0 }, { height: height + 'px', opacity: 1 }], { duration: 320, easing: 'ease' }).onfinish = () => { panel.style.overflow = ''; };
+        } else {
+          button.setAttribute('aria-expanded', 'false');
+          const height = panel.getBoundingClientRect().height;
+          panel.animate([{ height: height + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 260, easing: 'ease' }).onfinish = () => {
+            panel.hidden = true;
+            panel.style.overflow = '';
+          };
+        }
+      });
+    });
+  }
+
+  function initReveal(document, windowObject) {
+    const targets = Array.from(document.querySelectorAll('#main-content > section, #main-content > div > section, .site-footer'));
+    const reduce = prefersReducedMotion(windowObject.matchMedia ? windowObject.matchMedia.bind(windowObject) : undefined);
+    if (!targets.length) return;
+    if (reduce || typeof windowObject.IntersectionObserver !== 'function') return;
+    const observer = new windowObject.IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0 });
+    targets.forEach((target) => {
+      target.classList.add('tbt-reveal');
+      observer.observe(target);
     });
   }
 
@@ -332,7 +371,8 @@
     initCarousels(document, windowObject);
     initCountUps(document, windowObject);
     initCertificateLightbox(document);
-    initFaqs(document);
+    initFaqs(document, windowObject);
+    initReveal(document, windowObject);
     initHomeProof(document, windowObject);
   }
 

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Restyled the homepage FAQ as a bordered, rounded list with green plus / dark minus icons and a bordered answer panel that opens and closes with a height animation.
+- Added site-wide smooth effects: sections fade up as they scroll into view, links and buttons transition smoothly, and the FAQ animates; all of it is disabled under reduced-motion.
+
 - Replaced the homepage guarantee icon with the supplied solid green shield and white check, without the circular backdrop.
 
 - Replaced the homepage closing copy with the supplied text and moved its now-green booking button close to the paragraphs.

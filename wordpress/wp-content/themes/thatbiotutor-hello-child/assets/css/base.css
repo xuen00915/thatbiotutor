@@ -32,6 +32,11 @@ button, input, textarea, select { font: inherit; }
 .site-main { min-height: 50vh; }
 body.tbt-site .site-main { width: 100%; max-width: none; margin: 0; padding: 0; }
 
+/* Smooth interactions across the whole site. */
+a, button { transition: color .25s ease, background-color .25s ease, border-color .25s ease, box-shadow .25s ease, transform .25s ease, opacity .25s ease; }
+.js .tbt-reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.js .tbt-reveal.is-visible { opacity: 1; transform: none; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
