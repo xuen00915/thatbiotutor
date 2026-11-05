@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Narrowed the FastTrack content track to the inquiry site's 992px (944px cards) while keeping the shared 1120px container.
+
 - Rebuilt the homepage classroom gallery as three equal 363:453 cards in one row and matched the closing section to the inquiry site (864px inner width, 330x368 image, 24px heading, 18px copy).
 
 - Restacked the homepage trial guarantee as a centered column: title, shield icon, guarantee text, then the booking button.
