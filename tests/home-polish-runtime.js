@@ -88,6 +88,8 @@ const {chromium} = require('playwright');
   const closing=await page.evaluate(()=>{const f=document.querySelector('.tbt-home-closing figure').getBoundingClientRect();const d=document.querySelector('.tbt-home-closing__inner > div').getBoundingClientRect();return {f:f.height,d:d.height,fw:f.width}});
   assert.ok(Math.abs(closing.f-closing.d)<3,'Closing image and text must have the same height ('+JSON.stringify(closing)+')');
   await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(800);
+  const heroGap=await page.evaluate(()=>document.querySelector('.tbt-home-hero .tbt-home-kicker').getBoundingClientRect().top-document.querySelector('.site-header').getBoundingClientRect().bottom);
+  assert.ok(heroGap<=56,'Space between the IntensiveFix header and hero must be tight ('+heroGap+'px)');
   const headerBg=()=>page.locator('.site-header').evaluate(e=>getComputedStyle(e).backgroundColor);
   assert.equal(await headerBg(),'rgb(255, 255, 255)','Landing header is solid white at the top');
   await page.evaluate(()=>window.scrollTo(0,700));await page.waitForTimeout(700);

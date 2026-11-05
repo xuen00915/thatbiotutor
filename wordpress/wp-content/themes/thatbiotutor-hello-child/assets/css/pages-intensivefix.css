@@ -8,6 +8,9 @@
 .tbt-intensivefix-page p,
 .tbt-intensivefix-page li { overflow-wrap: anywhere; }
 
+/* Tight gap between the header and the hero. */
+.tbt-intensivefix-page .tbt-home-hero__copy { padding-top: 40px; }
+
 /* Hero: limited-time line (black with green emphasis) and the swipeable programme graphics. */
 .tbt-intensivefix-hero__limited { color: var(--tbt-home-ink); }
 .tbt-intensivefix-hero__cta { margin-top: 12px; }
@@ -49,6 +52,10 @@
   .tbt-intensivefix-page .tbt-home-closing__inner { grid-template-columns: minmax(0, 1fr); }
   .tbt-intensivefix-page .tbt-home-closing figure { width: min(100%, 420px); height: auto; aspect-ratio: 1 / 1; min-height: 0; margin-inline: auto; }
   .tbt-intensivefix-carousel__viewport { aspect-ratio: 1 / 1; }
+}
+
+@media (max-width: 520px) {
+  .tbt-intensivefix-page .tbt-home-hero__copy { padding-top: 28px; }
 }
 
 @media (max-width: 320px) {
