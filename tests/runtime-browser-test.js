@@ -240,7 +240,7 @@ const sizes = [
     if (homeScale.buttonFont !== 18 || homeScale.buttonWeight !== '700' || homeScale.buttonHeight !== 60 || homeScale.buttonRadius < 9999 || homeScale.buttonBackground !== 'rgb(67, 180, 58)') throw new Error(`Home CTA differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
     if (homeScale.carouselDotCount !== 5 || homeScale.carouselDots.some((dot) => dot.width !== 6 || dot.height !== 6 || dot.radius !== '50%' || !['rgb(47, 138, 39)', 'rgb(255, 255, 255)'].includes(dot.background))) throw new Error(`Home carousel dots differ from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.carouselDots)}`);
     if (homeScale.carouselControl.width !== 30 || homeScale.carouselControl.height !== 30 || homeScale.carouselControl.background !== 'rgba(0, 0, 0, 0)' || homeScale.carouselControl.borderWidth !== '0px') throw new Error(`Home carousel control differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.carouselControl)}`);
-    const expectedProblemWidth = Math.min(736, viewport.width - 32);
+    const expectedProblemWidth = Math.min(1120, viewport.width - 32);
     const expectedProblemTypography = viewport.width <= 520
       ? { quote: 16, quoteLine: 24, bridge: 20, bridgeLine: 28 }
       : { quote: 18, quoteLine: 28, bridge: 24, bridgeLine: 32 };

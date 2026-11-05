@@ -263,7 +263,7 @@
 .tbt-home-problem__quotes,
 .tbt-home-problem__proof,
 .tbt-home-problem__bridge {
-  width: min(736px, calc(100vw - 32px));
+  width: 100%;
   margin-inline: auto !important;
 }
 

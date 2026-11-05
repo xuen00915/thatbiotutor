@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Expanded the homepage problem quotes, transition text and testimonial cards to fill the shared 1120px content container.
+
 - Restored the original 1120px track-record width and statistic sizing, and applied that width to every homepage container, carousel, header and footer.
 
 - Applied the 736px track-record content width consistently to every homepage section, hero carousel, header and footer, with 16px mobile gutters.
