@@ -219,7 +219,7 @@ $tbt_faqs = [
                 <h2>Join a Trial Lesson. If You Didn't Absolutely Love It, <span>You Can Get a Full Refund.</span></h2>
                 <div class="tbt-home-guarantee__shield" data-guarantee-shield aria-hidden="true"><svg viewBox="0 0 64 72"><path d="M32 3 57 12v19c0 18-10 31-25 38C17 62 7 49 7 31V12L32 3Z"/><path d="m21 35 7 7 16-18"/></svg></div>
                 <p>A trial lesson is $95. We’re so confident of our lesson quality that if you didn’t absolutely love it, simply ask for a refund and you’ll get your money back, no questions asked.</p>
-                <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-home-button tbt-home-button--light" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">Book My Trial Lesson</a><?php endif; ?>
+                <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-home-button" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">Book My Trial Lesson</a><?php endif; ?>
             </div>
         </div>
     </section>
@@ -259,7 +259,7 @@ $tbt_faqs = [
     <section class="tbt-home-section tbt-home-closing" data-section="closing">
         <div class="tbt-home-container tbt-home-closing__inner">
             <figure><?php $tbt_media_image('curated_home_founder_about', '', 'loading="lazy"'); ?></figure>
-            <div><h2>Bio doesn’t have to eat up every other part of a student’s life.</h2><p>Students shouldn’t have to give up their CCA, friends, or other subjects just to keep their Biology grades afloat.</p><p>That’s exactly why I built the FastTrack System. The notes, shortcuts, and support are already done for them. Studying smart takes a fraction of the time it used to.</p><div class="tbt-home-closing__cta-wrap"><?php if ($tbt_whatsapp !== '') : ?><a class="tbt-home-button tbt-home-button--light" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">Book My Trial Lesson</a><?php endif; ?></div></div>
+            <div><h2>Bio doesn’t have to eat up every other part of a student’s life.</h2><p>Students shouldn’t have to give up their CCA. Or their friends. Or their other subjects, just to keep their Biology grades afloat.</p><p>That’s exactly why I built the FastTrack System. The notes, the shortcuts, and the support are already done for them. Studying smart takes a fraction of the time it used to.</p><p>Students still get to have a life outside textbooks. And score the grade they know they’re capable of.</p><p>Ready to see what that actually feels like?</p><div class="tbt-home-closing__cta-wrap"><?php if ($tbt_whatsapp !== '') : ?><a class="tbt-home-button" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">Book My Trial Lesson</a><?php endif; ?></div></div>
         </div>
     </section>
 </div>

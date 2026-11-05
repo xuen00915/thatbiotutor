@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Replaced the homepage closing copy with the supplied text and moved its now-green booking button close to the paragraphs.
+
+- Reduced the homepage guarantee shield to 88px and changed its booking button to green with white text.
+
 - Changed the homepage content width from 1120px to the 944px FastTrack card width across every section, including the header and footer tracks; other pages stay at 1120px.
 
 - Centered the shared desktop header so the logo and navigation sit in the middle of the page as one group.

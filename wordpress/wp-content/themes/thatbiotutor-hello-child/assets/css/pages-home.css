@@ -377,15 +377,13 @@
 .tbt-home-guarantee__inner { display: block; text-align: center; }
 .tbt-home-guarantee__content { display: flex; flex-direction: column; align-items: center; }
 .tbt-home-guarantee__shield { margin: 32px auto 0; }
-.tbt-home-guarantee__shield { display: grid; width: 180px; height: 180px; place-items: center; border: 1px solid rgba(255,255,255,.18); border-radius: 50%; background: rgba(255,255,255,.07); }
-.tbt-home-guarantee__shield svg { width: 94px; height: 106px; fill: none; stroke: #83d771; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4; }
+.tbt-home-guarantee__shield { display: grid; width: 88px; height: 88px; place-items: center; border: 1px solid rgba(255,255,255,.18); border-radius: 50%; background: rgba(255,255,255,.07); }
+.tbt-home-guarantee__shield svg { width: 44px; height: 50px; fill: none; stroke: #83d771; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4; }
 .tbt-home-guarantee h2,
 .tbt-home-guarantee p { color: #fff; }
 .tbt-home-guarantee h2 { text-align: center; }
 .tbt-home-guarantee h2 span { color: #8fe17e; }
 .tbt-home-guarantee__inner > div:last-child > p:not(.tbt-home-eyebrow) { max-width: none; margin: 28px auto 30px !important; text-align: center; color: #d6e0d6; font-size: clamp(1rem, 1.8vw, 1.25rem); line-height: 1.7; }
-.tbt-home-button--light { background: #fff; box-shadow: none; color: var(--tbt-home-forest); }
-.tbt-home-button--light:hover { background: #eaf4e5; color: var(--tbt-home-forest); }
 
 .tbt-home-fit__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
 .tbt-home-fit h2 { font-size: 24px; line-height: 32px; }
@@ -432,7 +430,7 @@
 .tbt-home-closing__inner > div { display: flex; flex-direction: column; justify-content: flex-start; max-width: none; padding: 0; }
 .tbt-home-closing h2 { margin: 0; color: #f5faf4; font-size: 24px; font-weight: 700; line-height: 32px; text-align: left; }
 .tbt-home-closing p { margin: 15px 0 0 !important; color: rgba(245,250,244,.9); font-size: 18px; line-height: 29.25px; }
-.tbt-home-closing__cta-wrap { margin-top: 111px; padding-top: 0; }
+.tbt-home-closing__cta-wrap { margin-top: 24px; padding-top: 0; }
 
 @media (min-width: 769px) {
   .tbt-home-classroom { padding-bottom: 64px; }
@@ -462,14 +460,11 @@
   .tbt-home-problem__proof blockquote { min-height: 0; }
   .tbt-home-practical__grid { grid-template-columns: 1fr 1fr; }
   .tbt-home-practical__grid figure:first-child { grid-column: 1 / 3; aspect-ratio: 16 / 10; }
-  .tbt-home-guarantee__shield { width: 120px; height: 120px; }
-  .tbt-home-guarantee__shield svg { width: 64px; height: 74px; }
   .tbt-home-founder__inner { grid-template-columns: 1fr; }
   .tbt-home-founder figure { max-height: 520px; }
   .tbt-home-founder img { min-height: 0; }
   .tbt-home-closing__inner { grid-template-columns: minmax(0, 1fr); }
   .tbt-home-closing figure { width: min(100%, 330px); height: auto; aspect-ratio: 330 / 368; margin-inline: auto; }
-  .tbt-home-closing__cta-wrap { margin-top: 32px; }
 }
 
 @media (max-width: 520px) {

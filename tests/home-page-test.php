@@ -84,6 +84,15 @@ final class HomePageTest
         preg_match('/<section[^>]+data-section="guarantee".*?<\/section>/s', $html, $guaranteeMatch);
         $guarantee = $guaranteeMatch[0] ?? '';
         $this->assertTrue(str_contains($guarantee, 'data-guarantee-shield'), 'Guarantee section must include the themed shield mark.');
+        $this->assertTrue(str_contains($guarantee, 'tbt-home-button') && !str_contains($guarantee, 'tbt-home-button--light'), 'Guarantee CTA must use the green button with white text.');
+        $homeCss = (string) file_get_contents(TBT_THEME_DIR . '/assets/css/pages-home.css');
+        preg_match('/<section[^>]+data-section="closing".*?<\/section>/s', $html, $closingMatch);
+        $closing = $closingMatch[0] ?? '';
+        foreach (['Students shouldn’t have to give up their CCA. Or their friends. Or their other subjects, just to keep their Biology grades afloat.', 'That’s exactly why I built the FastTrack System. The notes, the shortcuts, and the support are already done for them. Studying smart takes a fraction of the time it used to.', 'Students still get to have a life outside textbooks. And score the grade they know they’re capable of.', 'Ready to see what that actually feels like?'] as $closingCopy) {
+            $this->assertTrue(str_contains($closing, $closingCopy), 'Closing copy must match the supplied text.');
+        }
+        $this->assertTrue(str_contains($closing, 'tbt-home-button') && !str_contains($closing, 'tbt-home-button--light'), 'Closing CTA must use the green button with white text.');
+        $this->assertTrue(str_contains($homeCss, '.tbt-home-guarantee__shield { display: grid; width: 88px; height: 88px;'), 'Guarantee shield must stay small.');
         $this->assertTrue(str_contains($guarantee, 'A trial lesson is $95. We’re so confident of our lesson quality that if you didn’t absolutely love it, simply ask for a refund and you’ll get your money back, no questions asked.'), 'Guarantee section must reproduce the Drive brief exactly.');
         $this->assertTrue(str_contains($guarantee, 'https://wa.me/'), 'Guarantee CTA must open WhatsApp.');
         $this->assertTrue(!str_contains($guarantee, '<form') && !str_contains($guarantee, '<input'), 'Guarantee must replace the old enquiry form.');
