@@ -89,7 +89,7 @@
 }
 
 .tbt-home-lead {
-  max-width: 760px;
+  max-width: none;
   margin-top: 22px !important;
   color: #4e5950;
   font-size: clamp(1.05rem, 1.8vw, 1.3rem);
@@ -335,7 +335,7 @@
 .tbt-home-fasttrack__tbt strong { color: var(--tbt-home-green); font-weight: 700; }
 .tbt-home-fasttrack__tbt-content { display: flex; align-items: flex-start; gap: 16px; margin-top: 12px; }
 .tbt-home-fasttrack__tbt-content img { width: 112px; height: 80px; flex: 0 0 112px; object-fit: contain; }
-.tbt-home-fasttrack__close { max-width: 880px; margin: 46px auto 0 !important; color: #dce6dc !important; font-size: 20px; line-height: 1.6; text-align: center; }
+.tbt-home-fasttrack__close { margin: 46px auto 0 !important; color: #dce6dc !important; font-size: 20px; line-height: 1.6; text-align: center; }
 .tbt-home-fasttrack__close strong { color: #8fe17e; }
 
 .tbt-home-proof > .tbt-home-container > h2 { text-align: center; }
@@ -359,7 +359,7 @@
 .tbt-home-tutors__grid p { margin-top: 4px; color: var(--tbt-home-green-bright); font-size: 14px; }
 
 .tbt-home-quality { padding-block: 80px; }
-.tbt-home-quality h2 { max-width: 900px; margin-inline: auto; text-align: center; }
+.tbt-home-quality h2 { margin-inline: auto; text-align: center; }
 .tbt-home-quality ul { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 42px 0 0; padding: 0; list-style: none; }
 .tbt-home-quality li { display: grid; grid-template-columns: 24px 1fr; gap: 12px; padding: 20px; border-radius: 18px; background: #fff; box-shadow: 0 8px 30px -12px rgba(25, 69, 38, .25); }
 .tbt-home-quality li span { display: grid; width: 24px; height: 24px; place-items: center; border-radius: 50%; background: var(--tbt-home-green-bright); color: #fff; font-weight: 900; }
@@ -383,7 +383,7 @@
 .tbt-home-guarantee p { color: #fff; }
 .tbt-home-guarantee h2 { text-align: center; }
 .tbt-home-guarantee h2 span { color: #8fe17e; }
-.tbt-home-guarantee__inner > div:last-child > p:not(.tbt-home-eyebrow) { max-width: 780px; margin: 28px auto 30px !important; text-align: center; color: #d6e0d6; font-size: clamp(1rem, 1.8vw, 1.25rem); line-height: 1.7; }
+.tbt-home-guarantee__inner > div:last-child > p:not(.tbt-home-eyebrow) { max-width: none; margin: 28px auto 30px !important; text-align: center; color: #d6e0d6; font-size: clamp(1rem, 1.8vw, 1.25rem); line-height: 1.7; }
 .tbt-home-button--light { background: #fff; box-shadow: none; color: var(--tbt-home-forest); }
 .tbt-home-button--light:hover { background: #eaf4e5; color: var(--tbt-home-forest); }
 
