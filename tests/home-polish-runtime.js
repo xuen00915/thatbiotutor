@@ -111,6 +111,7 @@ const {chromium} = require('playwright');
   const wa=await page.locator('[data-whatsapp-float]').evaluate(e=>{const s=getComputedStyle(e);const n=getComputedStyle(e.querySelector('.whatsapp-float__notification'));return {bg:s.backgroundColor,border:s.borderTopWidth,rings:(s.boxShadow.match(/rgba?\([^)]*\)\s+0px 0px 0px (\d+)px/g)||[]).length,w:e.getBoundingClientRect().width,dot:n.backgroundColor,dotW:parseFloat(n.width),icon:getComputedStyle(e.querySelector('.whatsapp-float__icon')).color}});
   assert.equal(wa.bg,'rgb(88, 185, 71)');
   assert.equal(wa.border,'0px','Floating button has no solid border ring');
+  await page.emulateMedia({reducedMotion:'no-preference'});
   const glow=await page.locator('[data-whatsapp-float]').evaluate(e=>{const s=getComputedStyle(e);const sizes=[...s.boxShadow.matchAll(/0px 0px 0px (\d+(?:\.\d+)?)px/g)].map(m=>Number(m[1]));return {maxSpread:sizes.length?Math.max(...sizes):0,animation:s.animationName,duration:s.animationDuration,iteration:s.animationIterationCount}});
   assert.notEqual(glow.animation,'none','Glow must animate');
   assert.equal(glow.iteration,'infinite','Glow keeps pulsing');
