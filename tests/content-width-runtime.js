@@ -24,7 +24,7 @@ const routes = {
       for (const [route, selector] of Object.entries(routes)) {
         await page.goto(new URL('.' + route, (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\/?$/, '/')).href, { waitUntil: 'domcontentloaded' });
         console.log(`Checking ${route} at ${width}`);
-        for (const target of [selector, '.site-header__inner', '.site-footer__inner', ...(route === '/' ? ['.tbt-home-hero h1', '.tbt-home-hero__result', '.tbt-home-hero__refund', '.tbt-home-stats .tbt-home-video', '.tbt-home-hero__carousel', '.tbt-home-problem__quotes', '.tbt-home-problem__proof', '.tbt-home-problem__bridge'] : [])]) {
+        for (const target of [selector, '.site-header__inner', '.site-footer__inner', ...(route === '/' ? ['.tbt-home-proof__results', '.tbt-home-proof__results img', '.tbt-home-hero h1', '.tbt-home-hero__result', '.tbt-home-hero__refund', '.tbt-home-stats .tbt-home-video', '.tbt-home-hero__carousel', '.tbt-home-problem__quotes', '.tbt-home-problem__proof', '.tbt-home-problem__bridge'] : [])]) {
           const boxes = await page.locator(target).evaluateAll(elements => elements.map(el => {
             const r = el.getBoundingClientRect(), s = getComputedStyle(el);
             return { width: r.width - parseFloat(s.paddingLeft) - parseFloat(s.paddingRight), center: r.x + r.width / 2 };

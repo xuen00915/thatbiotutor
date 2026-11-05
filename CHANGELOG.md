@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Expanded the homepage results image to the full 1120px content width while preserving its aspect ratio and centered alignment.
+
 - Aligned homepage photos and circular tutor portraits, restored moving school logos with pause/reduced-motion controls, centered the results artwork, and rebuilt the original Google Reviews presentation with source review snapshots, scrolling and expandable text.
 - Restored stacked Quality Control rows and outlined suitability cards, removed extra practical/classroom/tutor eyebrows, and replaced inherited pink FAQ interaction colors with green.
 
