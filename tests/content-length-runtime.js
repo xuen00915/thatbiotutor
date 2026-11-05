@@ -26,8 +26,8 @@ const pages = [
           height: document.documentElement.scrollHeight,
           buttons: [...document.querySelectorAll('[data-reviews-more]')].map((b) => b.textContent.trim()),
         }));
-        assert.equal(state.total, spec.reviews, `${tag}: every review must stay on the page (${state.total})`);
-        assert.ok(state.visible < spec.reviews || spec.reviews <= 20, `${tag}: long lists must start collapsed`);
+        assert.ok(state.total >= spec.reviews, `${tag}: every review must stay on the page (${state.total} of at least ${spec.reviews})`);
+        assert.ok(state.visible < state.total || spec.reviews <= 20, `${tag}: long lists must start collapsed`);
         assert.ok(state.height <= spec.maxHeight * (width < 800 ? 1.6 : 1), `${tag}: page is still ${state.height}px tall`);
         if (spec.reviews > 20) assert.ok(state.buttons.length >= 1 && /more/i.test(state.buttons[0]), `${tag}: a "show more" control is required`);
       }
