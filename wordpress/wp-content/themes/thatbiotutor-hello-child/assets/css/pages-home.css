@@ -419,14 +419,16 @@ body.tbt-site.home { font-family: -apple-system, "system-ui", "Segoe UI", Roboto
 .tbt-home-practical__grid img { width: 100%; height: 100%; object-fit: cover; }
 
 .tbt-home-guarantee { background: var(--tbt-home-forest); }
-.tbt-home-guarantee__inner { display: grid; grid-template-columns: 200px 1fr; align-items: center; gap: clamp(36px, 7vw, 90px); }
+.tbt-home-guarantee__inner { display: block; text-align: center; }
+.tbt-home-guarantee__content { display: flex; flex-direction: column; align-items: center; }
+.tbt-home-guarantee__shield { margin: 32px auto 0; }
 .tbt-home-guarantee__shield { display: grid; width: 180px; height: 180px; place-items: center; border: 1px solid rgba(255,255,255,.18); border-radius: 50%; background: rgba(255,255,255,.07); }
 .tbt-home-guarantee__shield svg { width: 94px; height: 106px; fill: none; stroke: #83d771; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4; }
 .tbt-home-guarantee h2,
 .tbt-home-guarantee p { color: #fff; }
 .tbt-home-guarantee h2 { text-align: center; }
 .tbt-home-guarantee h2 span { color: #8fe17e; }
-.tbt-home-guarantee__inner > div:last-child > p:not(.tbt-home-eyebrow) { max-width: 780px; margin: 24px 0 30px !important; color: #d6e0d6; font-size: clamp(1rem, 1.8vw, 1.25rem); line-height: 1.7; }
+.tbt-home-guarantee__inner > div:last-child > p:not(.tbt-home-eyebrow) { max-width: 780px; margin: 28px auto 30px !important; text-align: center; color: #d6e0d6; font-size: clamp(1rem, 1.8vw, 1.25rem); line-height: 1.7; }
 .tbt-home-button--light { background: #fff; box-shadow: none; color: var(--tbt-home-forest); }
 .tbt-home-button--light:hover { background: #eaf4e5; color: var(--tbt-home-forest); }
 
@@ -521,7 +523,6 @@ body.tbt-site.home { font-family: -apple-system, "system-ui", "Segoe UI", Roboto
   .tbt-home-problem__proof blockquote { min-height: 0; }
   .tbt-home-practical__grid { grid-template-columns: 1fr 1fr; }
   .tbt-home-practical__grid figure:first-child { grid-column: 1 / 3; aspect-ratio: 16 / 10; }
-  .tbt-home-guarantee__inner { grid-template-columns: 1fr; }
   .tbt-home-guarantee__shield { width: 120px; height: 120px; }
   .tbt-home-guarantee__shield svg { width: 64px; height: 74px; }
   .tbt-home-founder__inner { grid-template-columns: 1fr; }
