@@ -14,11 +14,14 @@
 .tbt-intensivefix-hero__graphics { padding-bottom: 24px; }
 
 .tbt-intensivefix-carousel { position: relative; width: min(100%, 820px); margin: 0 auto; touch-action: pan-y; }
-.tbt-intensivefix-carousel__viewport { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--tbt-home-line); border-radius: 18px; background: #fff; }
+.tbt-intensivefix-carousel__viewport { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border: 0; border-radius: 18px; background: #fff; }
 .tbt-intensivefix-carousel figure { position: absolute; inset: 0; margin: 0; }
 .tbt-intensivefix-carousel figure[hidden] { display: none; }
 .tbt-intensivefix__graphic { width: 100%; height: 100%; object-fit: contain; }
-.tbt-intensivefix-carousel .tbt-home-carousel__control { top: calc(50% - 20px); color: var(--tbt-home-forest); }
+.tbt-intensivefix-carousel .tbt-home-carousel__control,
+.tbt-intensivefix-carousel .tbt-home-carousel__control:hover,
+.tbt-intensivefix-carousel .tbt-home-carousel__control:focus,
+.tbt-intensivefix-carousel .tbt-home-carousel__control:active { top: calc(50% - 20px); background: transparent; color: var(--tbt-home-forest); }
 .tbt-intensivefix-carousel .tbt-home-carousel__dots { position: static; display: flex; justify-content: center; gap: 8px; margin-top: 16px; transform: none; }
 .tbt-intensivefix-carousel .tbt-home-carousel__dots button { width: 8px; height: 8px; min-width: 8px; min-height: 8px; background: #c6d6c1; }
 .tbt-intensivefix-carousel .tbt-home-carousel__dots button[aria-current="true"] { width: 24px; border-radius: 8px; background: var(--tbt-home-green); }

@@ -227,7 +227,9 @@
   transition: background-color .2s ease, transform .2s ease;
 }
 
-.tbt-home-carousel__control:hover { background: transparent; color: #fff; transform: translateY(-50%); }
+.tbt-home-carousel__control:hover,
+.tbt-home-carousel__control:focus,
+.tbt-home-carousel__control:active { background: transparent; box-shadow: none; color: #fff; transform: translateY(-50%); }
 .tbt-home-carousel__control--previous { left: 10px; }
 .tbt-home-carousel__control--next { right: 10px; }
 

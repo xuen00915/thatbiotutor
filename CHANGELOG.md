@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Removed the border around the IntensiveFix graphics carousel and stopped its arrows (and the homepage hero arrows) turning Hello's pink after a click.
+
 - The homepage uses the same menu header as the other pages again; only IntensiveFix keeps the Inquire header with the "Contact Us" button.
 
 - Applied the client's IntensiveFix change list: deleted the small grey hero subtext, replaced the hero subtitle with a black-and-green "Limited time" line, set the hero button to "Fix My Sec 3 Foundation", replaced the hero photos with the swipeable IntensiveFix graphics in supplied order, changed the bridge line to "Sound familiar? After our 2-week IntensiveFix, they're telling us:", replaced the video with the single student-review graphic, deleted the three off-topic testimonial cards, ran the count-up animation on all four numbers, prefixed the FastTrack title with "All IntensiveFix students will receive", skipped every section between FastTrack and "This is for / This isn't for", and replaced the closing copy. The top-right header button on the homepage and IntensiveFix is now "Contact Us". The shared FastTrack section is its own template part.
