@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Shortened the long pages without removing any content: review lists (testimonials, Free Notes, Cell Division) open with four reviews and offer "Show more" / "Show all" controls that keep every review on the page, fixed pixel section heights copied from the original Wix layout now follow their content, and the huge gaps between reviews are a steady 64px rhythm. The testimonials page drops from about 132,000px to about 29,000px, Free Notes from about 48,000px to 7,500px. New `tests/content-length-runtime.js` guards the review counts and page lengths.
+
 - Standardised the whole site on one design system (new `standard.css`, loaded last): a single 944px content width for header, content and footer; Poppins everywhere; one type scale (h1 60px, h2 36px, h3 24px, body 16-18px); one brand palette (ink #19221a, green #2f8a27 / #43b43a, forest #0e371d, soft #f0f8ee) replacing the per-page olives, teals and charcoals; one 64px (48px on mobile) section rhythm; and one green pill button. Touch targets are at least 44px (carousel arrows and dots, review controls, FAQ rows, document controls), body text never drops below 16px on phones, and cards, menus and images now animate smoothly (all disabled under reduced-motion). A new `tests/standard-pages-runtime.js` enforces the standard on all twelve public pages at five viewport sizes.
 
 - The IntensiveFix "Contact Us" header button now opens the WhatsApp number, and the floating WhatsApp button follows the supplied design (light-green disc, white glyph, red dot, two translucent rings).

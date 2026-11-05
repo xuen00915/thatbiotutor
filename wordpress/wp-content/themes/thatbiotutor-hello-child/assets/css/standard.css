@@ -213,3 +213,71 @@ body.tbt-site :is(a, button, summary, [role="button"]):focus-visible {
   body.tbt-site .site-nav__submenu,
   body.tbt-site .site-nav { animation: none; }
 }
+
+/* ---------- Long review lists ---------- */
+body.tbt-site #main-content .tbt-testimonial[hidden] { display: none; }
+
+@keyframes tbt-std-review-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+body.tbt-site #main-content .tbt-testimonial.is-revealed { animation: tbt-std-review-in 0.5s var(--tbt-std-ease) both; }
+
+.tbt-reviews-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 16px;
+  margin: 40px auto 0;
+}
+
+.tbt-reviews-controls button {
+  min-height: 48px;
+  padding: 12px 28px;
+  border: 2px solid var(--tbt-std-green-bright);
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--tbt-std-green);
+  font: 700 1rem/1.4 var(--tbt-font);
+  cursor: pointer;
+  transition: background-color 0.25s var(--tbt-std-ease), color 0.25s var(--tbt-std-ease), transform 0.25s var(--tbt-std-ease);
+}
+
+.tbt-reviews-controls button.tbt-reviews-controls__more {
+  background: var(--tbt-std-green-bright);
+  color: #fff;
+}
+
+.tbt-reviews-controls button:is(:hover, :focus, :active) { background: var(--tbt-std-forest); border-color: var(--tbt-std-forest); color: #fff; }
+.tbt-reviews-controls[hidden], .tbt-reviews-controls button[hidden] { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  body.tbt-site #main-content .tbt-testimonial.is-revealed { animation: none; }
+}
+
+/* ---------- Section heights follow their content ---------- */
+/* The original Wix layout fixed every section at a pixel height; here each section is as tall as what it holds. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(
+  .tbt-programme-section, .tbt-resource-section, .tbt-institutional-section, .tbt-causes-section,
+  .tbt-testimonials-year, .tbt-testimonials-featured, .tbt-testimonials-results-band,
+  .tbt-resource-reviews, .tbt-resource-reviews--lead, .tbt-notes-details, .tbt-notes-benefit,
+  .tbt-cell-access, .tbt-cell-access__promise, .tbt-cell-access__instructions, .tbt-contact-content,
+  .tbt-programme-testimonials .tbt-testimonial, .tbt-solution-list article, .tbt-programme-proof, .tbt-inclusion-card,
+  .tbt-notes-hero, .tbt-notes-benefits, .tbt-notes-access-intro, .tbt-cell-important, .tbt-recommendations-page,
+  .tbt-notes-page .tbt-notes-benefits article.tbt-notes-benefit
+) {
+  min-height: 0;
+}
+
+/* Spacing between items is a steady rhythm, not a share of a fixed height. */
+body.tbt-site #main-content .tbt-resource-reviews--lead .tbt-testimonials { min-height: 0; justify-content: flex-start; gap: 8px; }
+body.tbt-site #main-content .tbt-notes-benefits__grid { gap: 32px; }
+
+/* Heroes keep a strong first screen without filling it. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-programme-hero, .tbt-testimonials-hero, .tbt-resource-hero, .tbt-testimonials-hero__content) {
+  min-height: clamp(380px, 56vh, 560px);
+}
+
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-cell-hero { min-height: 0; }

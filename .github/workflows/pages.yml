@@ -62,6 +62,7 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:4173 node tests/content-width-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/home-polish-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/standard-pages-runtime.js
+          TBT_RUNTIME_URL=http://localhost:4173 node tests/content-length-runtime.js
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

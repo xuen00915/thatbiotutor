@@ -114,10 +114,10 @@ final class TestimonialArchiveTest extends TbtContentTestCase
             preg_match('/\.tbt-testimonials-artwork--landscape\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\);[^}]*\}/s', $css) === 1,
             'Lazy landscape artwork must retain a full-width grid track before its intrinsic image dimensions load.'
         );
-        foreach (['2025' => 170, '2024' => 290, '2023' => 377] as $year => $gap) {
+        foreach (['2025' => 64, '2024' => 64, '2023' => 64] as $year => $gap) {
             $this->assertTrue(
                 preg_match('/#class-of-' . $year . ' \.tbt-testimonials\s*\{[^}]*gap:\s*' . $gap . 'px;[^}]*\}/s', $css) === 1,
-                "Class of {$year} desktop review rhythm must keep its public year-band boundary."
+                "Class of {$year} desktop review rhythm must use the shared compact spacing."
             );
         }
         $this->assertTrue(

@@ -313,6 +313,46 @@
     });
   }
 
+  function initReviewDisclosure(document) {
+    // Long review lists open with the first few; every review stays in the page and can be revealed.
+    const initial = 4;
+    const batch = 12;
+    document.querySelectorAll('[data-testimonial-list]').forEach((list, listIndex) => {
+      const items = Array.from(list.querySelectorAll(':scope > .tbt-testimonial'));
+      if (items.length <= initial + 2) return;
+      if (!list.id) list.id = 'tbt-review-list-' + (listIndex + 1);
+      items.slice(initial).forEach((item) => { item.hidden = true; });
+      const controls = document.createElement('div');
+      controls.className = 'tbt-reviews-controls';
+      const more = document.createElement('button');
+      more.type = 'button';
+      more.className = 'tbt-reviews-controls__more';
+      more.setAttribute('data-reviews-more', '');
+      more.setAttribute('aria-controls', list.id);
+      const all = document.createElement('button');
+      all.type = 'button';
+      all.className = 'tbt-reviews-controls__all';
+      all.setAttribute('data-reviews-all', '');
+      all.setAttribute('aria-controls', list.id);
+      controls.append(more, all);
+      list.after(controls);
+      const refresh = () => {
+        const hiddenItems = items.filter((item) => item.hidden);
+        if (!hiddenItems.length) { controls.hidden = true; all.hidden = true; more.hidden = true; return; }
+        more.textContent = 'Show ' + Math.min(batch, hiddenItems.length) + ' more reviews';
+        all.textContent = 'Show all ' + items.length + ' reviews';
+        all.hidden = hiddenItems.length <= batch;
+      };
+      const reveal = (count) => {
+        items.filter((item) => item.hidden).slice(0, count).forEach((item) => { item.hidden = false; item.classList.add('is-revealed'); });
+        refresh();
+      };
+      more.addEventListener('click', () => reveal(batch));
+      all.addEventListener('click', () => reveal(items.length));
+      refresh();
+    });
+  }
+
   function initHeaderScroll(document, windowObject) {
     const header = document.querySelector('.tbt-landing-header');
     if (!header) return;
@@ -401,6 +441,7 @@
     initCertificateLightbox(document);
     initFaqs(document, windowObject);
     initHeaderScroll(document, windowObject);
+    initReviewDisclosure(document);
     initReveal(document, windowObject);
     initHomeProof(document, windowObject);
   }
