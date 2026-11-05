@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Rebuilt the homepage classroom gallery as three equal 363:453 cards in one row and matched the closing section to the inquiry site (864px inner width, 330x368 image, 24px heading, 18px copy).
+
 - Restacked the homepage trial guarantee as a centered column: title, shield icon, guarantee text, then the booking button.
 
 - Restored original-site content gaps: Charmaine's E8 to A2 written review (video-transcript matching now respects grade brackets), Sec 3/Sec 4 featured-testimonial grade badges, the original Sec 3/Sec 4 face-to-face FAQ wording, and the Notes "requesting for notes" wording.
