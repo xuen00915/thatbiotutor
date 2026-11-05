@@ -149,7 +149,15 @@
     document.addEventListener('click', (event) => {
       if (toggle.getAttribute('aria-expanded') === 'true' && !menu.contains(event.target) && !toggle.contains(event.target)) closeMenu(menu, toggle, false);
     });
+    const hoverMenus = windowObject.matchMedia ? windowObject.matchMedia('(min-width: 981px) and (hover: hover)') : null;
     submenuPairs.forEach(({ toggle: button, menu: submenu }) => {
+      const item = button.closest('.site-nav__item');
+      if (item) {
+        let closeTimer = 0;
+        const setOpen = (open) => { submenu.hidden = !open; button.setAttribute('aria-expanded', open ? 'true' : 'false'); };
+        item.addEventListener('mouseenter', () => { if (hoverMenus && hoverMenus.matches) { windowObject.clearTimeout(closeTimer); setOpen(true); } });
+        item.addEventListener('mouseleave', () => { if (hoverMenus && hoverMenus.matches) { closeTimer = windowObject.setTimeout(() => setOpen(false), 160); } });
+      }
       submenu.hidden = true;
       button.addEventListener('click', () => toggleSubmenu(submenu, button));
       button.addEventListener('keydown', (event) => {

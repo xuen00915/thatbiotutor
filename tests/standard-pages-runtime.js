@@ -52,10 +52,14 @@ const darkInk = 'rgb(25, 34, 26)';
                 const name = `${e.tagName}.${String(e.className).split(' ')[0]}`;
                 const dark = ['rgb(25, 34, 26)', 'rgb(0, 0, 0)', 'rgb(17, 17, 17)', 'rgb(48, 48, 48)', 'rgb(24, 24, 24)', 'rgb(32, 32, 32)'].includes(s.backgroundColor);
                 if (dark && r.width > 400 && !e.closest('[class*=video], iframe') && e.tagName !== 'IFRAME') issues.push(`near-black fill ${name}`);
-                const media = ['IMG', 'IFRAME', 'VIDEO'].includes(e.tagName) && r.width < 1300;
+                const media = ['IMG', 'IFRAME', 'VIDEO'].includes(e.tagName) && r.width < 1300 && r.width < innerWidth - 2;
                 const boxed = parseFloat(s.borderTopWidth) > 0 && s.borderTopStyle !== 'none' && r.width < 1300;
                 if ((media || boxed) && !rounded(e)) issues.push(`sharp edges ${name}`);
                 if (boxed && /rgb\((0, 0, 0|25, 34, 26|17, 17, 17)\)/.test(s.borderTopColor) && parseFloat(s.borderTopWidth) >= 1 && !e.matches('input, button')) issues.push(`black outline ${name}`);
+              });
+              main.querySelectorAll('img, [class*=background], [class*=shade]').forEach((e) => {
+                const r = e.getBoundingClientRect();
+                if (r.width >= innerWidth - 2 && r.height > 40 && visible(e) && parseFloat(cs(e).borderTopLeftRadius) > 0) issues.push(`curved edge-to-edge ${e.tagName}.${String(e.className).split(' ')[0]}`);
               });
               return [...new Set(issues)];
             })(),

@@ -293,7 +293,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content {
 }
 
 /* Pictures and video frames */
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(img, video, iframe):not([class*="hero"]):not([class*="logo"]):not(.tbt-tutor__portrait):not([width="1"]) {
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(img, video, iframe):not([class*="hero"]):not([class*="logo"]):not(.tbt-tutor__portrait):not([width="1"]):not(:is([class*="hero"], [class*="background"], [class*="banner"], [class*="shade"]) img) {
   border-radius: var(--tbt-std-radius);
 }
 
@@ -417,3 +417,53 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 }
 
 body.tbt-site #main-content .tbt-testimonial blockquote p { margin-bottom: 0.7em; }
+
+/* Edge-to-edge pictures stay square where they meet the browser edge. */
+body.tbt-site #main-content :is([class*="background"], [class*="shade"], [class*="hero"]) :is(img, video) { border-radius: 0; }
+
+/* ---------- FAQ: hover keeps dark readable text ---------- */
+body.tbt-site .tbt-home-faq__item button:is(:hover, :focus, :focus-visible, :active) { color: var(--tbt-std-ink); }
+
+/* ---------- FastTrack pictures: one large size ---------- */
+body.tbt-site .tbt-home-fasttrack__tbt-content img {
+  width: 128px;
+  height: 128px;
+  flex: 0 0 128px;
+  object-fit: contain;
+}
+
+@media (max-width: 520px) {
+  body.tbt-site .tbt-home-fasttrack__tbt-content img { width: 104px; height: 104px; flex-basis: 104px; }
+}
+
+/* ---------- Google reviews: equal cards, arrows in their own gutters ---------- */
+body.tbt-site .tbt-google-reviews { padding-inline: 72px; }
+body.tbt-site .tbt-google-reviews__track { align-items: stretch; }
+body.tbt-site .tbt-google-review { display: flex; min-height: 340px; flex-direction: column; align-items: center; }
+body.tbt-site .tbt-google-review__text { flex: 1 1 auto; }
+body.tbt-site .tbt-google-reviews__controls button { width: 44px; height: 44px; top: calc(50% - 22px); }
+body.tbt-site .tbt-google-reviews__controls [data-review-prev] { left: 14px; }
+body.tbt-site .tbt-google-reviews__controls [data-review-next] { right: 14px; }
+
+@media (max-width: 768px) {
+  body.tbt-site .tbt-google-reviews { padding: 24px 16px 84px; }
+  body.tbt-site .tbt-google-reviews__controls button { top: auto; bottom: 28px; }
+  body.tbt-site .tbt-google-reviews__controls [data-review-prev] { left: calc(50% - 56px); }
+  body.tbt-site .tbt-google-reviews__controls [data-review-next] { right: calc(50% - 56px); }
+}
+
+/* ---------- Closing: photo is as tall as the text beside it ---------- */
+body.tbt-site .tbt-home-closing__inner { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); align-items: stretch; }
+body.tbt-site .tbt-home-closing figure { width: 100%; height: auto; min-height: 100%; }
+body.tbt-site .tbt-home-closing img { height: 100%; }
+
+@media (max-width: 768px) {
+  body.tbt-site .tbt-home-closing__inner { grid-template-columns: minmax(0, 1fr); }
+  body.tbt-site .tbt-home-closing figure { width: min(100%, 420px); aspect-ratio: 1 / 1; min-height: 0; margin-inline: auto; }
+}
+
+/* Pictures that run edge to edge on a phone stay square at the browser edge. */
+@media (max-width: 640px) {
+  body.tbt-site #main-content .tbt-causes-section__media--square :is(img, video) { border-radius: 0 !important; }
+  body.tbt-site #main-content .tbt-causes-section__media--square { border-radius: 0 !important; }
+}

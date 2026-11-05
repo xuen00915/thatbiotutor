@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Dropdown menus now open on hover (desktop pointers) and the dropdown arrow never turns Hello's pink; the floating WhatsApp glow is smaller and gently pulses; FastTrack pictures share one larger size; Google review cards share one height with arrows in their own gutters (below the cards on phones); FAQ rows keep dark readable text on hover; the closing photo matches its text height on the homepage too; and edge-to-edge pictures keep square corners.
+
 - Gave every page one rounded, soft style: 18px corners on cards, pictures, videos and section bars; soft green outlines instead of black borders; forest green (#0e371d) replacing the near-black and pure-black bands, overlays and title bars; softer highlight colour in About; photo frames that fill their box. Rebuilt the Results & Testimonials page as clean rounded review cards in two balanced columns with tidy paragraphs (blank and zero-width paragraphs dropped, text unchanged). The standard test now also fails on sharp media, black outlines and near-black fills.
 
 - Shortened the long pages without removing any content: review lists (testimonials, Free Notes, Cell Division) open with four reviews and offer "Show more" / "Show all" controls that keep every review on the page, fixed pixel section heights copied from the original Wix layout now follow their content, and the huge gaps between reviews are a steady 64px rhythm. The testimonials page drops from about 132,000px to about 29,000px, Free Notes from about 48,000px to 7,500px. New `tests/content-length-runtime.js` guards the review counts and page lengths.
