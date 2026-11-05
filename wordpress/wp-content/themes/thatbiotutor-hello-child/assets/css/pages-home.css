@@ -471,7 +471,7 @@ body.tbt-site.home { font-family: -apple-system, "system-ui", "Segoe UI", Roboto
 .tbt-home-classroom__grid img { width: 100%; height: 100%; object-fit: cover; }
 
 .tbt-home-closing { padding: 80px 0; background: var(--tbt-home-forest); }
-.tbt-home-closing__inner { display: grid; width: min(864px, calc(100% - 32px)); max-width: none; grid-template-columns: 330px minmax(0, 1fr); gap: 40px; align-items: start; }
+body.tbt-site.home .tbt-home-closing .tbt-home-closing__inner { display: grid; width: min(864px, calc(100% - 32px)); margin-inline: auto; max-width: none; grid-template-columns: 330px minmax(0, 1fr); gap: 40px; align-items: start; }
 .tbt-home-closing figure { width: 330px; height: 368px; overflow: hidden; border-radius: 15px; }
 .tbt-home-closing img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .tbt-home-closing__inner > div { display: flex; flex-direction: column; justify-content: flex-start; max-width: none; padding: 0; }
