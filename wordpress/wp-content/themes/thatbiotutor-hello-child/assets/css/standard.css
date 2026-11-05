@@ -281,3 +281,139 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is
 }
 
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-cell-hero { min-height: 0; }
+
+/* =====================================================================
+ * Rounded, soft style: every card, picture, video and bar shares one
+ * 18px radius, a soft green outline instead of black borders, and forest
+ * green instead of near-black fills.
+ * ===================================================================== */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content {
+  --std-card-border: 1px solid var(--tbt-std-line);
+  --std-card-shadow: 0 18px 38px -26px rgba(14, 55, 29, 0.4);
+}
+
+/* Pictures and video frames */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(img, video, iframe):not([class*="hero"]):not([class*="logo"]):not(.tbt-tutor__portrait):not([width="1"]) {
+  border-radius: var(--tbt-std-radius);
+}
+
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-video, .tbt-video--testimonial, .tbt-resource-carousel__viewport, .tbt-programme-testimonials .tbt-testimonial, .tbt-inclusion-card, .tbt-programme-topics, .tbt-programme-track, [class*="__media"], .tbt-founder-message__image, .tbt-about-beliefs__image, .tbt-about-quality__image) {
+  border-radius: var(--tbt-std-radius);
+  overflow: hidden;
+}
+
+/* Outlined boxes: soft green line, never black */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-programme-levels__grid a, .tbt-programme-options__grid article, .tbt-programme-proof, .tbt-programme-track, .tbt-programme-testimonials .tbt-testimonial, .tbt-testimonials-featured .tbt-video--testimonial, .tbt-testimonials-artwork img, #class-of-2023 .tbt-testimonials-artwork--landscape img, .tbt-testimonials-artwork-band--2022 .tbt-testimonials-artwork img) {
+  border: var(--std-card-border);
+  box-shadow: var(--std-card-shadow);
+}
+
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-programme-levels__grid a, .tbt-programme-options__grid article, .tbt-programme-proof, .tbt-inclusion-card) {
+  border-radius: var(--tbt-std-radius);
+}
+
+/* Section title bars become rounded forest bars inside the content width */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar {
+  width: min(var(--tbt-page), calc(100% - 2 * var(--tbt-gutter)));
+  margin-inline: auto;
+  border-radius: var(--tbt-std-radius);
+  background: var(--tbt-std-forest);
+}
+
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content mark {
+  padding: 0.05em 0.35em;
+  border-radius: 8px;
+  background: #d9f2d2;
+  color: var(--tbt-std-forest);
+}
+
+/* ---------- Testimonials: clean cards ---------- */
+body.tbt-site #main-content .tbt-testimonials-year .tbt-testimonial {
+  align-items: stretch;
+  gap: 18px;
+  padding: 24px;
+  border: var(--std-card-border, 1px solid var(--tbt-std-line));
+  border-radius: var(--tbt-std-radius);
+  background: #fff;
+  box-shadow: 0 18px 38px -26px rgba(14, 55, 29, 0.4);
+  text-align: left;
+}
+
+body.tbt-site #main-content .tbt-testimonials-year .tbt-testimonial .tbt-video--testimonial {
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  box-shadow: none;
+}
+
+body.tbt-site #main-content .tbt-testimonial blockquote {
+  margin: 0;
+  color: var(--tbt-std-ink);
+  text-align: left;
+}
+
+body.tbt-site #main-content .tbt-testimonial blockquote p {
+  margin: 0 0 0.9em;
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.7;
+}
+
+body.tbt-site #main-content .tbt-testimonial blockquote p:last-child { margin-bottom: 0; }
+
+body.tbt-site #main-content .tbt-testimonial__name {
+  margin: 0;
+  color: var(--tbt-std-green);
+  font-weight: 700;
+}
+
+body.tbt-site #main-content .tbt-testimonial__stars {
+  color: #f7a619;
+  letter-spacing: 0.08em;
+}
+
+/* Two clean columns for text reviews on wide screens; videos keep one column. */
+@media (min-width: 900px) {
+  body.tbt-site #main-content .tbt-testimonials-year .tbt-testimonials {
+    display: block;
+    column-count: 2;
+    column-gap: 28px;
+  }
+
+  body.tbt-site #main-content .tbt-testimonials-year .tbt-testimonials > .tbt-testimonial {
+    break-inside: avoid;
+    margin-bottom: 28px;
+  }
+}
+
+body.tbt-site #main-content .tbt-testimonials-year .tbt-testimonials { gap: 28px; }
+body.tbt-site #main-content #class-of-2025 .tbt-testimonials,
+body.tbt-site #main-content #class-of-2024 .tbt-testimonials,
+body.tbt-site #main-content #class-of-2023 .tbt-testimonials { gap: 28px; }
+
+body.tbt-site #main-content .tbt-testimonials-artwork-band,
+body.tbt-site #main-content .tbt-testimonials-results-band {
+  background: var(--tbt-std-forest);
+}
+
+body.tbt-site #main-content .tbt-testimonials-artwork-band .tbt-testimonials-artwork img { border: 0; }
+
+/* The homepage results graphic shares the rounded picture style. */
+body.tbt-site .tbt-home-proof__results img { border-radius: var(--tbt-std-radius); }
+
+/* Tutor portraits are always true circles. */
+body.tbt-site #main-content .tbt-tutor__portrait { border-radius: 50%; object-fit: cover; aspect-ratio: 1; }
+
+/* Photo frames fill their box instead of floating in blank space. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-programme-track {
+  height: auto;
+  aspect-ratio: 4 / 3;
+  border: 0;
+  object-fit: cover;
+}
+
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-programme-proof {
+  padding: 20px 14px;
+  gap: 6px;
+}
+
+body.tbt-site #main-content .tbt-testimonial blockquote p { margin-bottom: 0.7em; }

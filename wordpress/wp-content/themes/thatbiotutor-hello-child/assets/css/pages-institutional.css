@@ -17,7 +17,7 @@
 
 .tbt-institutional-page {
   --institutional-green: #43b43a;
-  --institutional-dark: #19221a;
+  --institutional-dark: #0e371d;
   overflow-x: clip;
   background: #fff;
   color: #19221a;
@@ -71,8 +71,8 @@
 /* About. */
 .tbt-about-page {
   --institutional-green: #43b43a;
-  --institutional-highlight: #4bd763;
-  --institutional-dark: #19221a;
+  --institutional-highlight: #d9f2d2;
+  --institutional-dark: #0e371d;
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
 }
 

@@ -43,7 +43,7 @@
 .tbt-topic-columns strong { color: #2f8a27; font-size: 24px; }
 .tbt-topic-columns ol { margin: 20px 0 0; padding-left: 22px; font-size: 15px; line-height: 2.05; }
 
-.tbt-classes-page .tbt-programme-struggles { background: #000; color: #fff; }
+.tbt-classes-page .tbt-programme-struggles { background: #0e371d; color: #fff; }
 .tbt-classes-page .tbt-programme-struggles h2 { max-width: 930px; color: #fff; font-size: 30px; }
 .tbt-struggle-list { display: grid; gap: 24px; text-align: left; }
 .tbt-struggle-list article { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 0; border: 0; }
@@ -137,7 +137,7 @@
 .tbt-programme-numbers { position: relative; overflow: hidden; color: #fff; }
 .tbt-programme-numbers__background, .tbt-programme-numbers__shade { position: absolute; inset: 0; }
 .tbt-programme-numbers__background img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.tbt-programme-numbers__shade { background: rgba(0, 0, 0, .7); }
+.tbt-programme-numbers__shade { background: rgba(14, 55, 29, .82); }
 .tbt-programme-numbers > .tbt-programme-container { position: relative; z-index: 1; }
 .tbt-programme-numbers h2 { color: #fff; }
 
@@ -148,7 +148,7 @@
 .tbt-programme-testimonials .tbt-testimonial__name { color: #2f8a27; font-style: italic; }
 .tbt-programme-text-link { display: inline-flex; min-width: 370px; min-height: 60px; align-items: center; justify-content: center; margin-top: 45px; border-radius: 12px; background: #43b43a; color: #fff; font-size: 20px; font-weight: 700; text-decoration: none; }
 
-.tbt-programme-lesson { background: #000; color: #fff; }
+.tbt-programme-lesson { background: #0e371d; color: #fff; }
 .tbt-programme-lesson h2 { color: #fff; }
 .tbt-programme-lesson__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 58px 40px; margin-top: 730px; text-align: left; }
 .tbt-programme-lesson__grid article { padding: 0 0 0 18px; border-left: 3px solid #2f8a27; border-radius: 0; background: transparent; }

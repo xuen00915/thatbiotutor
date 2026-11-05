@@ -1,7 +1,7 @@
 /* Native reproductions of the public Notes and Cell Division resource pages. */
 .tbt-resource-page {
   --resource-green: #43b43a;
-  --resource-dark: #19221a;
+  --resource-dark: #0e371d;
   --resource-copy: #19221a;
   overflow: clip;
   background: #fff;
@@ -359,7 +359,7 @@
   padding: 22px 28px 18px;
   border: 0;
   border-radius: 16px;
-  background: #19221a;
+  background: #0e371d;
   color: #fff;
   text-align: center;
 }

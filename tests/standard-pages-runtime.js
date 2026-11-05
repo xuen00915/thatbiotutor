@@ -42,9 +42,27 @@ const darkInk = 'rgb(25, 34, 26)';
             p: para && parseFloat(cs(para).fontSize),
             content, buttons, sections, small, taps,
             overflow: document.documentElement.scrollWidth - innerWidth,
+            style: (() => {
+              const issues = [];
+              const rounded = (e) => { for (let n = e, i = 0; n && n !== main && i < 3; n = n.parentElement, i += 1) { const s = cs(n); if (parseFloat(s.borderTopLeftRadius) >= 12 && (i === 0 || s.overflow !== 'visible')) return true; } return false; };
+              main.querySelectorAll('*').forEach((e) => {
+                const r = e.getBoundingClientRect();
+                if (r.width < 160 || r.height < 60 || !visible(e) || e.closest('[class*=hero], [class*=crest], .tbt-tutor__portrait-frame')) return;
+                const s = cs(e);
+                const name = `${e.tagName}.${String(e.className).split(' ')[0]}`;
+                const dark = ['rgb(25, 34, 26)', 'rgb(0, 0, 0)', 'rgb(17, 17, 17)', 'rgb(48, 48, 48)', 'rgb(24, 24, 24)', 'rgb(32, 32, 32)'].includes(s.backgroundColor);
+                if (dark && r.width > 400 && !e.closest('[class*=video], iframe') && e.tagName !== 'IFRAME') issues.push(`near-black fill ${name}`);
+                const media = ['IMG', 'IFRAME', 'VIDEO'].includes(e.tagName) && r.width < 1300;
+                const boxed = parseFloat(s.borderTopWidth) > 0 && s.borderTopStyle !== 'none' && r.width < 1300;
+                if ((media || boxed) && !rounded(e)) issues.push(`sharp edges ${name}`);
+                if (boxed && /rgb\((0, 0, 0|25, 34, 26|17, 17, 17)\)/.test(s.borderTopColor) && parseFloat(s.borderTopWidth) >= 1 && !e.matches('input, button')) issues.push(`black outline ${name}`);
+              });
+              return [...new Set(issues)];
+            })(),
           };
         }, { contentSelector, sectionSelector, buttonSelector });
 
+        assert.deepEqual(m.style, [], `${tag}: rounded, softly-coloured style violations`);
         assert.ok(m.overflow <= 1, `${tag}: horizontal overflow ${m.overflow}px`);
         for (const [name, family] of Object.entries(m.font)) if (family) assert.match(family, /^"?Poppins/, `${tag}: ${name} must use Poppins, got ${family}`);
         assert.ok(m.content.length > 0, `${tag}: no content container found`);

@@ -343,7 +343,7 @@ const sizes = [
       background: getComputedStyle(article).backgroundColor,
     }));
     if (!firstStudentStoryLayout.videoBeforeQuote) throw new Error(`Alicia's wording renders before her video at ${viewport.width}`);
-    if (firstStudentStoryLayout.background !== 'rgba(0, 0, 0, 0)') throw new Error(`Alicia's transcript card has an opaque background at ${viewport.width}`);
+    if (firstStudentStoryLayout.background !== 'rgb(255, 255, 255)') throw new Error(`Alicia's transcript card must be a clean white card at ${viewport.width}: ${firstStudentStoryLayout.background}`);
 
     await page.goto(`${base}/notes/`, { waitUntil: 'load' });
     const notesCarousel = page.locator('[data-section="hero"] [data-carousel]');

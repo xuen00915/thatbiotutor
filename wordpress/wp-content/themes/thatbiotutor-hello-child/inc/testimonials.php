@@ -72,7 +72,14 @@ function tbt_render_testimonials(array $args = []): void
             echo '<p class="tbt-testimonial__result">' . esc_html($record['before'] . ' → ' . $record['after']) . '</p>';
         }
         if ($record['quote'] !== '') {
-            echo '<blockquote>' . nl2br(esc_html($record['quote'])) . '</blockquote>';
+            $paragraphs = preg_split('/\n\s*\n+/u', trim((string) $record['quote'])) ?: [(string) $record['quote']];
+            echo '<blockquote>';
+            foreach ($paragraphs as $paragraph) {
+                if (preg_replace('/[\s\x{200B}\x{00A0}]+/u', '', $paragraph) !== '') {
+                    echo '<p>' . nl2br(esc_html(preg_replace('/^[\s\x{200B}\x{00A0}]+|[\s\x{200B}\x{00A0}]+$/u', '', $paragraph) ?? trim($paragraph))) . '</p>';
+                }
+            }
+            echo '</blockquote>';
             echo '<p class="tbt-testimonial__name"><strong>' . esc_html($record['name']) . '</strong></p>';
         }
         echo '</article>';
