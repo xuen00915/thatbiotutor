@@ -307,9 +307,9 @@ const sizes = [
     const countDisplays = await countUps.evaluateAll((nodes) => nodes.map((node) => node.textContent.trim()));
     if (JSON.stringify(countDisplays) !== JSON.stringify(['912+', '91%', '2.3', '1 in 2'])) throw new Error(`Home count-up values are wrong at ${viewport.width}: ${JSON.stringify(countDisplays)}`);
     if (viewport.width > 768) {
-      if (await page.locator('.site-header.tbt-landing-header .site-brand__wordmark').count() !== 1 || await page.locator('.site-header.tbt-landing-header .tbt-landing-header__cta').count() !== 1) throw new Error(`Home must use the Inquire landing header at ${viewport.width}`);
-      if ((await page.locator('.tbt-landing-header__cta').textContent()).trim() !== 'Contact Us') throw new Error('Landing header button must read Contact Us');
-      if (await page.locator('.site-header .site-nav').count() !== 0) throw new Error('Home landing header must not render the navigation menu');
+      const navLabels = await page.locator('.site-header .site-nav .site-nav__link').allTextContents();
+      if (!['Home', 'Classes', 'Results & Testimonials', 'Free Bio Notes', 'About Us', 'Our Causes'].every((label) => navLabels.some((text) => text.trim() === label))) throw new Error(`Home header navigation differs from the other pages: ${JSON.stringify(navLabels)}`);
+      if (await page.locator('.site-header.tbt-landing-header').count() !== 0) throw new Error('Home must use the same menu header as the other pages');
       const visibleIndex = () => page.locator('[data-carousel-slide]').evaluateAll((slides) => slides.findIndex((slide) => !slide.hidden));
       const before = await visibleIndex();
       await page.locator('[data-carousel-next]').first().click();

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- The homepage uses the same menu header as the other pages again; only IntensiveFix keeps the Inquire header with the "Contact Us" button.
+
 - Applied the client's IntensiveFix change list: deleted the small grey hero subtext, replaced the hero subtitle with a black-and-green "Limited time" line, set the hero button to "Fix My Sec 3 Foundation", replaced the hero photos with the swipeable IntensiveFix graphics in supplied order, changed the bridge line to "Sound familiar? After our 2-week IntensiveFix, they're telling us:", replaced the video with the single student-review graphic, deleted the three off-topic testimonial cards, ran the count-up animation on all four numbers, prefixed the FastTrack title with "All IntensiveFix students will receive", skipped every section between FastTrack and "This is for / This isn't for", and replaced the closing copy. The top-right header button on the homepage and IntensiveFix is now "Contact Us". The shared FastTrack section is its own template part.
 
 - Aligned the IntensiveFix page with the reviewed Markup page: red "Chaotic Sec 4 Year" and green "4 DAYS" headline, green 91% sub-headline, "Secure My Spot In the Intensive Fix Class" hero button, all buttons linking to the sign-up band with the steps, refund terms and embedded lead form, the homepage closing copy, and the Inquire section order (programme details now sit just before sign-up).

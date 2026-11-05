@@ -8,9 +8,8 @@ if (!defined('ABSPATH')) {
 
 $tbt_logo_fallback = tbt_media('curated_shared_tbt_logo');
 $tbt_logo = tbt_page_image('home_shared_logo', (string) ($tbt_logo_fallback['url'] ?? ''), (int) get_option('page_on_front', 0));
-$tbt_is_front_page = function_exists('is_front_page') && is_front_page();
 $tbt_is_intensivefix = function_exists('is_page') && is_page('intensivefix');
-$tbt_landing = $tbt_is_front_page || $tbt_is_intensivefix;
+$tbt_landing = $tbt_is_intensivefix;
 $tbt_landing_cta_href = home_url('/contact/');
 $tbt_landing_cta_label = 'Contact Us';
 ?>
