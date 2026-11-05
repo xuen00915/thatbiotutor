@@ -72,7 +72,7 @@ const sizes = [
     if (viewport.width < 768 && footerPresentation.columns !== 3) throw new Error(`Footer is not three columns at ${viewport.width}: ${footerPresentation.columns}`);
     const footerHeightRange = viewport.width >= 768 ? [250, 285] : viewport.width >= 360 ? [350, 430] : [430, 480];
     if (footerPresentation.height < footerHeightRange[0] || footerPresentation.height > footerHeightRange[1]) throw new Error(`Footer height is outside the Inquire reference at ${viewport.width}: ${footerPresentation.height}`);
-    if (viewport.width >= 1200 && Math.abs(footerPresentation.innerWidth - 736) > 1) throw new Error(`Footer content width is outside the Inquire reference at ${viewport.width}: ${footerPresentation.innerWidth}`);
+    if (viewport.width >= 1200 && Math.abs(footerPresentation.innerWidth - 1120) > 1) throw new Error(`Footer content width is outside the Inquire reference at ${viewport.width}: ${footerPresentation.innerWidth}`);
     if (await siteFooter.locator('img[alt="ThatBioTutor"]').count() !== 1) throw new Error(`Footer logo is missing at ${viewport.width}`);
     const firstSection = page.locator('main [data-section]').first();
     if (await firstSection.getAttribute('data-section') !== 'hero') throw new Error(`Home hero is not the first section at ${viewport.width}`);
@@ -250,7 +250,7 @@ const sizes = [
     if (!homeScale.problem.firstBridge || homeScale.problem.firstBridge.size !== expectedProblemTypography.bridge || homeScale.problem.firstBridge.weight !== '700' || homeScale.problem.firstBridge.lineHeight !== expectedProblemTypography.bridgeLine || homeScale.problem.firstBridge.align !== 'center') throw new Error(`Home first problem transition differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
     if (!homeScale.problem.secondBridge || homeScale.problem.secondBridge.size !== 18 || homeScale.problem.secondBridge.lineHeight !== 28 || homeScale.problem.secondBridge.align !== 'center') throw new Error(`Home second problem transition differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
     if (homeScale.problem.cardPadding !== 24 || homeScale.problem.cardRadius !== 18 || homeScale.problem.cardBorderWidth !== 0 || homeScale.problem.secondCardTransform !== 'none') throw new Error(`Home problem testimonials differ from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
-    const expectedFeatureContainerWidth = Math.min(736, viewport.width - 32);
+    const expectedFeatureContainerWidth = Math.min(1120, viewport.width - 32);
     const expectedFeatureContentWidth = expectedFeatureContainerWidth;
     const expectedFasttrackColumns = viewport.width <= 520 ? 1 : 2;
     if (homeScale.fasttrack.containerWidth !== expectedFeatureContainerWidth || homeScale.fasttrack.containerPadding !== 0 || homeScale.fasttrack.cardWidth !== expectedFeatureContentWidth) throw new Error(`Home FastTrack width differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.fasttrack)}`);
