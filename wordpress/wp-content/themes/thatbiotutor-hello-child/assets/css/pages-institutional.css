@@ -16,11 +16,11 @@
 }
 
 .tbt-institutional-page {
-  --institutional-green: #62bb46;
-  --institutional-dark: #303030;
+  --institutional-green: #43b43a;
+  --institutional-dark: #19221a;
   overflow-x: clip;
   background: #fff;
-  color: #111;
+  color: #19221a;
 }
 
 .tbt-institutional-page h1,
@@ -61,7 +61,7 @@
   justify-content: center;
   padding: 15px 40px;
   border-radius: 10px;
-  background: #8be05d;
+  background: #43b43a;
   color: #fff;
   font-size: 1.65rem;
   font-weight: 700;
@@ -70,16 +70,16 @@
 
 /* About. */
 .tbt-about-page {
-  --institutional-green: #8de15e;
+  --institutional-green: #43b43a;
   --institutional-highlight: #4bd763;
-  --institutional-dark: #343434;
+  --institutional-dark: #19221a;
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
 }
 
 .tbt-about-page mark {
   padding: 0;
   background: var(--institutional-highlight);
-  color: #111;
+  color: #19221a;
   font-weight: 700;
 }
 
@@ -208,7 +208,7 @@
   align-items: start;
   box-sizing: border-box;
   padding: 34px;
-  border: 1px solid #cddda2;
+  border: 1px solid #d8e4cb;
   border-radius: 18px;
   background: #fff;
   box-shadow: 0 14px 34px rgba(45, 58, 32, 0.08);
@@ -297,7 +297,7 @@
 
 .tbt-about-tutors .tbt-tutor__certificates h4 {
   margin: 2px 0 12px;
-  color: #52622d;
+  color: #0e371d;
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
   font-size: 13px;
   font-weight: 700;
@@ -330,7 +330,7 @@
 }
 
 .tbt-about-tutors .tbt-tutor__document-trigger:focus-visible {
-  outline: 3px solid #789535;
+  outline: 3px solid #43b43a;
   outline-offset: -4px;
 }
 
@@ -373,7 +373,7 @@
   border: 1px solid rgba(82, 98, 45, .3);
   border-radius: 10px;
   background: rgba(255, 255, 255, .94);
-  color: #52622d;
+  color: #0e371d;
   font-size: 20px;
   line-height: 1;
   opacity: .9;
@@ -383,8 +383,8 @@
 
 .tbt-about-tutors .tbt-tutor__document-trigger:hover .tbt-tutor__document-enlarge,
 .tbt-about-tutors .tbt-tutor__document-trigger:focus-visible .tbt-tutor__document-enlarge {
-  border-color: #789535;
-  color: #3e4c26;
+  border-color: #43b43a;
+  color: #0e371d;
   transform: scale(1.04);
 }
 
@@ -403,7 +403,7 @@
   border: 1px solid rgba(82, 98, 45, .26);
   border-radius: 9px;
   background: rgba(255, 255, 255, .92) !important;
-  color: #52622d !important;
+  color: #0e371d !important;
   line-height: 1;
   opacity: .9;
   box-shadow: 0 5px 16px rgba(45, 58, 32, .14);
@@ -428,16 +428,16 @@
 .tbt-about-tutors .tbt-tutor__document-control:hover,
 .tbt-about-tutors .tbt-tutor__document-control:focus,
 .tbt-about-tutors .tbt-tutor__document-control:focus-visible {
-  border-color: #789535;
+  border-color: #43b43a;
   background: #fff !important;
-  color: #3e4c26 !important;
+  color: #0e371d !important;
   opacity: 1;
   outline: none;
 }
 
 .tbt-about-tutors .tbt-tutor__document-control:active {
   background: #fff !important;
-  color: #3e4c26 !important;
+  color: #0e371d !important;
   transform: translateY(-50%) scale(.96);
 }
 
@@ -475,7 +475,7 @@
 }
 
 .tbt-about-tutors .tbt-tutor__document-dots [data-carousel-dot][aria-current="true"]::before {
-  background: #94ae4a;
+  background: #43b43a;
 }
 
 html.tbt-lightbox-open { overflow: hidden; }
@@ -531,7 +531,7 @@ html.tbt-lightbox-open { overflow: hidden; }
   border: 1px solid rgba(82, 98, 45, .34);
   border-radius: 12px;
   background: rgba(255, 255, 255, .96) !important;
-  color: #52622d !important;
+  color: #0e371d !important;
   font-size: 30px;
   line-height: 1;
   cursor: pointer;
@@ -544,14 +544,14 @@ html.tbt-lightbox-open { overflow: hidden; }
 .tbt-certificate-lightbox__close:hover,
 .tbt-certificate-lightbox__close:focus,
 .tbt-certificate-lightbox__close:focus-visible {
-  border-color: #789535;
-  background: #f4f7ed !important;
-  color: #3e4c26 !important;
+  border-color: #43b43a;
+  background: #f0f8ee !important;
+  color: #0e371d !important;
   outline: none;
 }
 .tbt-certificate-lightbox__close:active {
-  background: #f4f7ed !important;
-  color: #3e4c26 !important;
+  background: #f0f8ee !important;
+  color: #0e371d !important;
   transform: scale(.96);
 }
 
@@ -570,7 +570,7 @@ html.tbt-lightbox-open { overflow: hidden; }
   border: 1px solid rgba(82, 98, 45, .34);
   border-radius: 12px;
   background: rgba(255, 255, 255, .94) !important;
-  color: #52622d !important;
+  color: #0e371d !important;
   box-shadow: 0 8px 24px rgba(45, 58, 32, .14);
   cursor: pointer;
   -webkit-appearance: none;
@@ -585,15 +585,15 @@ html.tbt-lightbox-open { overflow: hidden; }
 .tbt-certificate-lightbox__control:hover,
 .tbt-certificate-lightbox__control:focus,
 .tbt-certificate-lightbox__control:focus-visible {
-  border-color: #789535;
-  background: #f4f7ed !important;
-  color: #3e4c26 !important;
+  border-color: #43b43a;
+  background: #f0f8ee !important;
+  color: #0e371d !important;
   outline: none;
 }
 
 .tbt-certificate-lightbox__control:active {
-  background: #f4f7ed !important;
-  color: #3e4c26 !important;
+  background: #f0f8ee !important;
+  color: #0e371d !important;
   transform: translateY(-50%) scale(.96);
 }
 

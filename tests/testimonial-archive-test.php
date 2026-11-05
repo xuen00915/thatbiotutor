@@ -99,8 +99,8 @@ final class TestimonialArchiveTest extends TbtContentTestCase
 
         $css = (string) file_get_contents(dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/assets/css/pages-testimonials.css');
         $this->assertTrue(
-            preg_match('/\.tbt-testimonials-artwork-band\s*\{[^}]*background:\s*#303030;[^}]*\}/s', $css) === 1,
-            'Result artwork bands must use the public charcoal field.'
+            preg_match('/\.tbt-testimonials-artwork-band\s*\{[^}]*background:\s*#19221a;[^}]*\}/s', $css) === 1,
+            'Result artwork bands must use the shared brand ink field.'
         );
         $this->assertTrue(
             preg_match('/\.tbt-testimonials-year \.tbt-testimonial\s*\{[^}]*text-align:\s*center;[^}]*\}/s', $css) === 1,

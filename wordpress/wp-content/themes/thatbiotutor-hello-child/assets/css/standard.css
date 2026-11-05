@@ -1,0 +1,215 @@
+/* ThatBioTutor shared design standard, loaded last on every page.
+ *
+ * One content width (--tbt-page, 944px), one font (Poppins), one type scale, one
+ * set of brand colours, one button, one section rhythm and one set of touch targets
+ * across the homepage, IntensiveFix, programme, results, notes, about, causes and
+ * contact pages. Page stylesheets keep only what is unique to a page.
+ *
+ * The homepage and IntensiveFix already follow these values through pages-home.css,
+ * so this file normalises the other page families to match them.
+ */
+:root {
+  --tbt-std-ink: #19221a;
+  --tbt-std-body: #4e5950;
+  --tbt-std-green: #2f8a27;
+  --tbt-std-green-bright: #43b43a;
+  --tbt-std-green-hover: #3a9f32;
+  --tbt-std-forest: #0e371d;
+  --tbt-std-soft: #f0f8ee;
+  --tbt-std-line: #d8e4cb;
+  --tbt-std-radius: 18px;
+  --tbt-std-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Font family ---------- */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content,
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content *,
+body.tbt-site .site-footer,
+body.tbt-site .site-footer * {
+  font-family: var(--tbt-font);
+}
+
+/* ---------- Type scale ---------- */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content h1 {
+  font-size: clamp(2rem, 1.1rem + 4.5vw, 3.75rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content h2 {
+  font-size: clamp(1.625rem, 1.1rem + 1.8vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content h3 {
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(p, li, blockquote, dd, summary) {
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  line-height: 1.7;
+}
+
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(h1, h2, h3, h4) {
+  overflow-wrap: break-word;
+}
+
+/* Small labels share one eyebrow style. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is([class*="kicker"], [class*="eyebrow"]) {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+/* ---------- Section rhythm ---------- */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-programme-section, .tbt-testimonials-year, .tbt-testimonials-featured, .tbt-resource-section, .tbt-institutional-section, .tbt-causes-section) {
+  padding-block: var(--tbt-section);
+}
+
+@media (max-width: 768px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-programme-section, .tbt-testimonials-year, .tbt-testimonials-featured, .tbt-resource-section, .tbt-institutional-section, .tbt-causes-section) {
+    padding-block: 48px;
+  }
+}
+
+/* ---------- Brand button (one shape, one green, one type) ---------- */
+body.tbt-site #main-content :is(.tbt-button, .tbt-programme-button, .tbt-testimonials-button, .tbt-resource-button, .tbt-institutional-button) {
+  display: inline-flex;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 36px;
+  border: 0;
+  border-radius: 9999px;
+  background: var(--tbt-std-green-bright);
+  box-shadow: 0 10px 22px -8px rgba(14, 55, 29, 0.35);
+  color: #fff;
+  font-family: var(--tbt-font);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.25s var(--tbt-std-ease), box-shadow 0.25s var(--tbt-std-ease), transform 0.25s var(--tbt-std-ease);
+}
+
+body.tbt-site #main-content :is(.tbt-button, .tbt-programme-button, .tbt-testimonials-button, .tbt-resource-button, .tbt-institutional-button):is(:hover, :focus, :focus-visible) {
+  background: var(--tbt-std-green-hover);
+  box-shadow: 0 14px 28px -10px rgba(14, 55, 29, 0.45);
+  color: #fff;
+}
+
+body.tbt-site #main-content :is(.tbt-button, .tbt-programme-button, .tbt-testimonials-button, .tbt-resource-button, .tbt-institutional-button):active {
+  background: var(--tbt-std-green-hover);
+  box-shadow: 0 6px 14px -8px rgba(14, 55, 29, 0.4);
+  color: #fff;
+  transform: translateY(1px);
+}
+
+@media (hover: hover) {
+  body.tbt-site #main-content :is(.tbt-button, .tbt-programme-button, .tbt-testimonials-button, .tbt-resource-button, .tbt-institutional-button):hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* ---------- Colour ---------- */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content {
+  color: var(--tbt-std-ink);
+}
+
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content a:not([class]) {
+  color: var(--tbt-std-green);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Touch targets and carousels ---------- */
+body.tbt-site #main-content :is([data-review-expand], [data-review-prev], [data-review-next], [data-faq-button], summary) {
+  min-height: 44px;
+}
+
+body.tbt-site #main-content :is([data-review-prev], [data-review-next]) {
+  min-width: 44px;
+}
+
+body.tbt-site #main-content [data-review-expand] {
+  min-width: 44px;
+  padding-inline: 12px;
+}
+
+/* Carousel dots stay small to look at but get a 44px touch area. */
+body.tbt-site #main-content [data-carousel-dot] { position: relative; }
+body.tbt-site #main-content [data-carousel-dot]::after { position: absolute; inset: -19px -8px; content: ""; }
+
+body.tbt-site #main-content :is(.tbt-resource-carousel__control, .tbt-tutor__document-control, .tbt-carousel__control, [data-carousel-prev], [data-carousel-next]) {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+body.tbt-site #main-content :is(.tbt-resource-carousel__control, .tbt-tutor__document-control, .tbt-carousel__control, [data-carousel-prev], [data-carousel-next]):is(:hover, :focus, :active) {
+  background: rgba(14, 55, 29, 0.85);
+  color: #fff;
+}
+
+body.tbt-site #main-content :is(.tbt-resource-carousel__control, .tbt-tutor__document-control, .tbt-carousel__control) {
+  transition: background-color 0.25s var(--tbt-std-ease), transform 0.25s var(--tbt-std-ease);
+}
+
+/* ---------- Smooth effects ---------- */
+/* Cards lift softly on devices that can hover; touch devices keep them still. */
+@media (hover: hover) and (pointer: fine) {
+  body.tbt-site #main-content :is(.tbt-inclusion-card, .tbt-notes-benefit, .tbt-cell-feature, .tbt-testimonial, .tbt-tutor, .tbt-programme-phase, .tbt-faq) {
+    transition: transform 0.35s var(--tbt-std-ease), box-shadow 0.35s var(--tbt-std-ease);
+  }
+
+  body.tbt-site #main-content :is(.tbt-inclusion-card, .tbt-notes-benefit, .tbt-cell-feature, .tbt-testimonial, .tbt-tutor, .tbt-programme-phase):hover {
+    box-shadow: 0 18px 36px -18px rgba(14, 55, 29, 0.35);
+    transform: translateY(-4px);
+  }
+}
+
+/* Menus open with a short fade and slide instead of snapping. */
+@keyframes tbt-std-menu-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: none; }
+}
+
+body.tbt-site .site-nav__submenu:not([hidden]),
+body.tbt-site .site-nav:not([hidden]) {
+  animation: tbt-std-menu-in 0.28s var(--tbt-std-ease);
+}
+
+@media (min-width: 981px) {
+  body.tbt-site .site-nav:not([hidden]) { animation: none; }
+}
+
+/* Images settle in once loaded. */
+@keyframes tbt-std-image-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+body.tbt-site #main-content img {
+  animation: tbt-std-image-in 0.5s ease both;
+}
+
+/* Keyboard focus is visible and on-brand everywhere. */
+body.tbt-site :is(a, button, summary, [role="button"]):focus-visible {
+  outline: 3px solid var(--tbt-std-green-bright);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.tbt-site #main-content img,
+  body.tbt-site .site-nav__submenu,
+  body.tbt-site .site-nav { animation: none; }
+}

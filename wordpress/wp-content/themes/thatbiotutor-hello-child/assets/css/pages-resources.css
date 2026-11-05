@@ -1,8 +1,8 @@
 /* Native reproductions of the public Notes and Cell Division resource pages. */
 .tbt-resource-page {
-  --resource-green: #8de15e;
-  --resource-dark: #303030;
-  --resource-copy: #202020;
+  --resource-green: #43b43a;
+  --resource-dark: #19221a;
+  --resource-copy: #19221a;
   overflow: clip;
   background: #fff;
   color: var(--resource-copy);
@@ -49,7 +49,7 @@
 
 .tbt-resource-button:hover,
 .tbt-resource-button:focus-visible {
-  background: #73c94c;
+  background: #43b43a;
   color: #fff;
   transform: translateY(-1px);
 }
@@ -183,7 +183,7 @@
 .tbt-notes-page .tbt-resource-reviews blockquote {
   grid-area: quote;
   margin: 3px 0 0;
-  color: #303030;
+  color: #19221a;
   font-size: 20px;
   font-style: italic;
   line-height: 1.45;
@@ -192,7 +192,7 @@
 .tbt-notes-page .tbt-resource-reviews .tbt-testimonial__name {
   grid-area: name;
   margin: 0;
-  color: #55c94c;
+  color: #43b43a;
   font-size: 20px;
   font-weight: 400;
 }
@@ -359,7 +359,7 @@
   padding: 22px 28px 18px;
   border: 0;
   border-radius: 16px;
-  background: #242323;
+  background: #19221a;
   color: #fff;
   text-align: center;
 }

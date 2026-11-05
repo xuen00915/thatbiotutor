@@ -30,7 +30,7 @@ $contracts = [
     [$css, '.tbt-programme-proof', 'public grade-jump proof blocks'],
     [$css, '.tbt-programme-hall__actions', 'paired hall-of-fame conversion actions'],
     [$css, '.tbt-programme-options__grid { grid-template-columns: 1fr;', 'stacked public class-option panels'],
-    [$css, '.tbt-programme-cover { background: #08664f;', 'dark-teal programme coverage section'],
+    [$css, '.tbt-programme-cover { background: #0e371d;', 'brand-forest programme coverage section'],
     [$css, '.tbt-programme-lesson { background: #000;', 'black public lesson section'],
     [$css, '.tbt-classes-page .tbt-programme-struggles { background: #000;', 'black Classes struggle section'],
     [$css, '.tbt-programme-tutors .tbt-tutors { display: grid; grid-template-columns: 1fr;', 'vertical public tutor flow'],

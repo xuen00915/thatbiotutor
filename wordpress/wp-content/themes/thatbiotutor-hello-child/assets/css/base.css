@@ -1,13 +1,17 @@
 :root {
-  --tbt-green: #65b84f;
-  --tbt-green-dark: #173d20;
+  --tbt-green: #43b43a;
+  --tbt-green-dark: #0e371d;
+  --tbt-green-text: #2f8a27;
+  --tbt-body: #4e5950;
+  --tbt-font: Poppins, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --tbt-section: 64px;
   --tbt-red: #d64037;
-  --tbt-ink: #202220;
+  --tbt-ink: #19221a;
   --tbt-muted: #667068;
   --tbt-line: #d8ddd8;
   --tbt-surface: #ffffff;
-  --tbt-soft: #f2f6f0;
-  --tbt-page: 1120px;
+  --tbt-soft: #f0f8ee;
+  --tbt-page: 944px;
   --tbt-gutter: 16px;
   --tbt-header-height: 65px;
   --tbt-radius: 20px;

@@ -37,7 +37,7 @@ body.tbt-site .site-footer { box-sizing: border-box; width: 100%; max-width: non
   display: grid;
   grid-template-columns: minmax(243px, 1.65fr) repeat(3, minmax(0, 1fr));
   gap: 24px;
-  width: min(100%, 1120px);
+  width: min(100%, var(--tbt-page));
   margin-inline: auto;
 }
 .site-footer__brand,
@@ -121,6 +121,6 @@ body.tbt-site .site-footer { box-sizing: border-box; width: 100%; max-width: non
 @media (max-width: 767px) {
   .site-footer__inner { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 24px; }
   .site-footer__brand { grid-column: 1 / -1; }
-  .whatsapp-float { right: 30px; bottom: 30px; width: 52px; height: 52px; min-width: 52px; min-height: 52px; }
+  .whatsapp-float { right: 24px; bottom: 24px; width: 52px; height: 52px; min-width: 52px; min-height: 52px; box-shadow: 0 0 0 7px rgba(67, 180, 58, .22), 0 0 0 14px rgba(67, 180, 58, .12); }
 }
 
