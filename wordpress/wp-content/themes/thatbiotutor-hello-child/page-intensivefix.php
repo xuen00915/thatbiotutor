@@ -14,12 +14,12 @@ $tbt_defaults = tbt_reference_content()['pages']['intensivefix']['fields'];
 $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, $tbt_defaults[$name] ?? '');
 $tbt_enrol_whatsapp = tbt_whatsapp_url('Hi ThatBioTutor, I would like to secure a spot in IntensiveFix. Please share the schedule and next steps.');
 
-// IntensiveFix replaces the fourth homepage statistic and the final FAQ answer.
-$tbt_stats[3] = ['display' => '4-Day', 'target' => '', 'label' => 'Intensive: 8 lessons to rebuild your entire Sec 3 foundation'];
-$tbt_faqs[8] = ['Can students find out more about IntensiveFix fees and timeslots?', 'IntensiveFix is $110 per 2-hour lesson for non-TBT students and $90 per lesson for current TBT students, across eight lessons. Message us on WhatsApp for the latest timeslots and to secure a spot.'];
+// IntensiveFix replaces the fourth homepage statistic.
+$tbt_stats[3] = ['display' => '4-Day', 'target' => '', 'label' => '8 lessons to rebuild your entire Sec 3 foundation'];
 
-// The headline keeps its emphasis on "4 DAYS" while staying a single editable field.
+// The headline keeps its red and green emphasis while staying a single editable field.
 $tbt_heading = esc_html($tbt_field('intensivefix_heading'));
+$tbt_heading = preg_replace('/(Chaotic Sec 4 Year)/', '<span class="tbt-home-accent tbt-home-accent--red">$1</span>', $tbt_heading, 1) ?? $tbt_heading;
 $tbt_heading = preg_replace('/(4 DAYS)/', '<span class="tbt-home-accent">$1</span>', $tbt_heading, 1) ?? $tbt_heading;
 ?>
 <div class="tbt-home tbt-home-inquire tbt-intensivefix-page">
@@ -27,9 +27,9 @@ $tbt_heading = preg_replace('/(4 DAYS)/', '<span class="tbt-home-accent">$1</spa
         <div class="tbt-home-container tbt-home-hero__copy">
             <p class="tbt-home-kicker">Singapore's ONLY 'O' Level Pure/G3 Bio Specialist</p>
             <h1><?php echo $tbt_heading; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above, only the accent span is added. ?></h1>
-            <p class="tbt-home-hero__result"><strong>91%</strong> of Our Students Score A1, A2, or B3 in O Levels (despite 69% starting at B4 or lower)</p>
+            <p class="tbt-home-hero__result"><strong>91% of Our Students Score A1, A2, or B3</strong> in O Levels (despite 69% starting at B4 or lower)</p>
             <p class="tbt-home-hero__refund">Start with a $110 trial lesson. If you don't love it, get a full refund. Runs late Nov to early Dec 2026. Limited intake.</p>
-            <a class="tbt-home-button" href="#details"><?php echo esc_html($tbt_field('intensivefix_cta_label')); ?></a>
+            <a class="tbt-home-button tbt-intensivefix-hero__cta" href="#trial"><?php echo esc_html($tbt_field('intensivefix_cta_label')); ?></a>
         </div>
         <div class="tbt-home-hero__carousel" data-carousel data-carousel-autoplay="5200" aria-label="ThatBioTutor lessons and students">
             <div class="tbt-home-hero__slides">
@@ -62,7 +62,6 @@ $tbt_heading = preg_replace('/(4 DAYS)/', '<span class="tbt-home-accent">$1</spa
                 <figure><blockquote>“After using TBT's notes and memorising all the shortcuts I managed to get the model template answer and memorise it easily.”</blockquote><figcaption><?php $tbt_media_image('curated_home_testimonial_gwen'); ?><span><strong>Gwen</strong><small>Sec 4 (F9 → A1)</small></span></figcaption></figure>
                 <figure><blockquote>“Very knowledgeable and has his own personal touch to everything he does and genuinely cares for the students.”</blockquote><figcaption><?php $tbt_media_image('curated_home_testimonial_aryan'); ?><span><strong>Aryan</strong><small>Sec 4 (C6 → A2)</small></span></figcaption></figure>
             </div>
-            <div class="tbt-intensivefix-feedback"><?php tbt_render_page_image('intensivefix_student_reviews_image', 'intensivefix_student_reviews', 'tbt-intensivefix__reviews', ['loading' => 'lazy']); ?></div>
         </div>
     </section>
 
@@ -89,14 +88,7 @@ $tbt_heading = preg_replace('/(4 DAYS)/', '<span class="tbt-home-accent">$1</spa
         </div>
     </section>
 
-    <section class="tbt-home-section tbt-intensivefix-analysis" data-section="analysis">
-        <div class="tbt-home-container">
-            <p class="tbt-home-eyebrow">Understand what went wrong</p>
-            <h2><?php echo esc_html($tbt_field('intensivefix_analysis_heading')); ?></h2>
-            <p class="tbt-home-lead">Mr Keefe breaks down the post-EOY situation and explains how IntensiveFix rebuilds the weak foundation before it follows students into Sec 4.</p>
-            <div class="tbt-home-video"><iframe src="https://www.youtube-nocookie.com/embed/q_IPfEdODqI" title="Mr Keefe post-EOY Biology analysis and IntensiveFix overview" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
-        </div>
-    </section>
+    <?php require TBT_THEME_DIR . '/template-parts/inquire-sections-main.php'; ?>
 
     <section class="tbt-home-section tbt-intensivefix-details" id="details" data-section="details">
         <div class="tbt-home-container">
@@ -125,27 +117,27 @@ $tbt_heading = preg_replace('/(4 DAYS)/', '<span class="tbt-home-accent">$1</spa
                 <h4>Lessons cover</h4>
                 <p><strong>Cells, movement of substances, and biological molecules</strong>; enzymes and nutrition in humans; transport in humans; respiration; excretion; and homeostasis. The same sequence runs in both intakes. Contact us on WhatsApp if you need help with scheduling.</p>
             </div>
-            <div class="tbt-intensivefix-details__cta"><?php if ($tbt_enrol_whatsapp !== '') : ?><a class="tbt-home-button" href="<?php echo esc_url($tbt_enrol_whatsapp); ?>" target="_blank" rel="noopener noreferrer">Secure My Spot in IntensiveFix</a><?php endif; ?></div>
+            <div class="tbt-intensivefix-feedback"><?php tbt_render_page_image('intensivefix_student_reviews_image', 'intensivefix_student_reviews', 'tbt-intensivefix__reviews', ['loading' => 'lazy']); ?></div>
+            <div class="tbt-intensivefix-details__cta"><a class="tbt-home-button" href="#trial">Secure My Spot in IntensiveFix</a></div>
         </div>
     </section>
-
-    <?php require TBT_THEME_DIR . '/template-parts/inquire-sections-main.php'; ?>
 
     <section class="tbt-home-section tbt-home-guarantee tbt-intensivefix-offer" id="trial" data-section="guarantee">
         <div class="tbt-home-container tbt-home-guarantee__inner">
             <div class="tbt-home-guarantee__content">
                 <h2>Join the IntensiveFix Program. If You Didn't Absolutely Love Your First Lesson, <span>You Can Get a Full Refund.</span></h2>
                 <div class="tbt-home-guarantee__shield" data-guarantee-shield aria-hidden="true"><svg viewBox="0 0 270 316"><path class="tbt-home-guarantee__shield-base" d="M135 0C170 28 215 45 266 50C270 150 263 265 135 316C7 265 0 150 4 50C55 45 100 28 135 0Z"/><path class="tbt-home-guarantee__shield-line" d="M135 20C170 46 212 58 254 63C256 150 248 250 135 300C22 250 14 150 16 63C58 58 100 46 135 20Z"/><path class="tbt-home-guarantee__shield-check" d="M65 160 90 142 122 180 202 92 220 110 123 226Z"/></svg></div>
-                <p class="tbt-intensivefix-offer__lead">Here’s exactly what happens after you message us:</p>
+                <p class="tbt-intensivefix-offer__lead">Here’s exactly what happens after the form below is submitted:</p>
                 <ol class="tbt-intensivefix-steps">
-                    <li><span>1</span>Message us on WhatsApp. Takes about 30 seconds.</li>
+                    <li><span>1</span>Fill out the form. Takes about 30 seconds.</li>
                     <li><span>2</span>We'll confirm your spot for the next IntensiveFix intake, and share the full lesson schedule.</li>
                     <li><span>3</span>Attend your first lesson and see the FastTrack System in action.</li>
                     <li><span>4</span>IntensiveFix runs over the last 2 weeks of November through the first 2 weeks of December. Spots are limited to this window only.</li>
                 </ol>
                 <p>IntensiveFix is a full 8-lesson programme, priced at $880 for non-TBT students. Your $110 trial covers the first lesson, and this refund only applies to that lesson, so you can try it risk free before committing to the rest.</p>
-                <?php if ($tbt_enrol_whatsapp !== '') : ?><a class="tbt-home-button" href="<?php echo esc_url($tbt_enrol_whatsapp); ?>" target="_blank" rel="noopener noreferrer">Secure My Spot in IntensiveFix</a><?php endif; ?>
             </div>
+            <div class="tbt-intensivefix-form"><iframe src="https://link.icecube.asia/widget/form/9h0XpRAiyc5b8dU3CPZx" title="IntensiveFix enrolment form" loading="lazy" data-form-id="9h0XpRAiyc5b8dU3CPZx"></iframe></div>
+            <?php if ($tbt_enrol_whatsapp !== '') : ?><p class="tbt-intensivefix-whatsapp">Prefer WhatsApp? <a href="<?php echo esc_url($tbt_enrol_whatsapp); ?>" target="_blank" rel="noopener noreferrer">Message us to secure your spot.</a></p><?php endif; ?>
         </div>
     </section>
 
@@ -155,12 +147,12 @@ $tbt_heading = preg_replace('/(4 DAYS)/', '<span class="tbt-home-accent">$1</spa
         <div class="tbt-home-container tbt-home-closing__inner">
             <figure><?php $tbt_media_image('curated_home_founder_about', '', 'loading="lazy"'); ?></figure>
             <div>
-                <h2>Your EOY Bio Grade doesn’t have to define your O Levels.</h2>
-                <p>It can be demoralising to have scored poorer than expected for the Sec 3 end of year bio exam. But there is still time to turn things around.</p>
-                <p>We’ve had students come in during this period at F9, going all the way to an A1 in O levels.</p>
-                <p>What you need is a thorough content overhaul, fixing that weak sec 3 foundation, to supercharge and give you confidence heading into sec 4, to score the O level grade you’re truly capable of.</p>
-                <p>Ready to see what that feels like?</p>
-                <div class="tbt-home-closing__cta-wrap"><a class="tbt-home-button" href="#details">Fix My Sec 3 Foundation Now</a></div>
+                <h2>Bio doesn’t have to eat up every other part of a student’s life.</h2>
+                <p>Students shouldn’t have to give up their CCA. Or their friends. Or their other subjects, just to keep their Biology grades afloat.</p>
+                <p>That’s exactly why I built the FastTrack System. The notes, the shortcuts, and the support are already done for them. Studying smart takes a fraction of the time it used to.</p>
+                <p>Students still get to have a life outside textbooks. And score the grade they know they’re capable of.</p>
+                <p>Ready to see what that actually feels like?</p>
+                <div class="tbt-home-closing__cta-wrap tbt-intensivefix-closing__cta"><a class="tbt-home-button" href="#trial">Fix My Sec 3 Foundation Now</a></div>
             </div>
         </div>
     </section>

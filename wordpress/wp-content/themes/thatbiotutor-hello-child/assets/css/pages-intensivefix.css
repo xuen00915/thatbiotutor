@@ -9,14 +9,9 @@
 .tbt-intensivefix-page p,
 .tbt-intensivefix-page li { overflow-wrap: anywhere; }
 
-/* Student feedback artwork under the testimonial cards. */
-.tbt-intensivefix-feedback { margin: 40px auto 0; }
+/* Student feedback artwork inside the programme details. */
+.tbt-intensivefix-feedback { width: min(100%, 560px); margin: 48px auto 0; }
 .tbt-intensivefix__reviews { width: 100%; height: auto; border-radius: 18px; }
-
-/* "Understand what went wrong" video block. */
-.tbt-intensivefix-analysis { background: #f0f8ee; text-align: center; }
-.tbt-intensivefix-analysis .tbt-home-eyebrow { text-align: center; }
-.tbt-intensivefix-analysis .tbt-home-video { margin-top: 32px; }
 
 /* Programme details, reached by every IntensiveFix button. */
 .tbt-intensivefix-details { background: #fff; scroll-margin-top: 80px; text-align: center; }
@@ -42,7 +37,9 @@
 .tbt-intensivefix-runs h4 { margin-top: 0; }
 .tbt-intensivefix-runs p { margin: 0; }
 
-/* Clear space between the programme text and its button. */
+/* Clear space between text and the buttons (review comment 14). */
+.tbt-intensivefix-hero__cta { margin-top: 12px; }
+.tbt-intensivefix-closing__cta { margin-top: 44px !important; }
 .tbt-intensivefix-details__cta { margin-top: 48px; text-align: center; }
 
 /* Offer / refund steps on the dark guarantee band. */
@@ -50,7 +47,11 @@
 .tbt-intensivefix-steps { display: grid; width: 100%; margin: 16px auto 0; padding: 0; gap: 12px; list-style: none; text-align: left; }
 .tbt-intensivefix-steps li { display: grid; grid-template-columns: 36px 1fr; align-items: start; gap: 14px; color: #d6e0d6; font-size: 18px; line-height: 1.6; }
 .tbt-intensivefix-steps li span { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 50%; background: var(--tbt-home-green-bright); color: #fff; font-weight: 700; }
-.tbt-intensivefix-offer .tbt-home-guarantee__content > p:not(.tbt-intensivefix-offer__lead) { margin-bottom: 36px !important; }
+.tbt-intensivefix-offer .tbt-home-guarantee__content > p:not(.tbt-intensivefix-offer__lead) { max-width: none; margin: 32px auto 0 !important; color: #d6e0d6; font-size: clamp(1rem, 1.8vw, 1.25rem); line-height: 1.7; text-align: center; }
+.tbt-intensivefix-form { width: min(100%, 712px); margin: 40px auto 0; overflow: hidden; border-radius: 12px; background: #fff; }
+.tbt-intensivefix-form iframe { display: block; width: 100%; height: 798px; border: 0; }
+.tbt-intensivefix-whatsapp { margin: 20px 0 0; color: #d6e0d6; text-align: center; }
+.tbt-intensivefix-whatsapp a { color: #8fe17e; font-weight: 600; }
 
 @media (max-width: 768px) {
   .tbt-intensivefix-runs { grid-template-columns: 1fr; }

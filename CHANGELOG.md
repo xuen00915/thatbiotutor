@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Aligned the IntensiveFix page with the reviewed Markup page: red "Chaotic Sec 4 Year" and green "4 DAYS" headline, green 91% sub-headline, "Secure My Spot In the Intensive Fix Class" hero button, all buttons linking to the sign-up band with the steps, refund terms and embedded lead form, the homepage closing copy, and the Inquire section order (programme details now sit just before sign-up).
+
 - Restored the Inquire landing header (logo with ThatBioTutor wordmark and green booking button) on the homepage and IntensiveFix, solid white at the top and translucent white after scrolling; all other pages keep the navigation header.
 
 - Rebuilt the IntensiveFix page in the Inquire design (shared hero, quotes, track record, FastTrack, proof, tutors, quality, practical, offer, suitability, founder, FAQ, classroom and closing sections) and applied the MarkUp review comments: "In Just 4 DAYS" headline, new bridge line, updated CTA labels linking to a new `#details` section with the fees, schedule and programme graphics, refund terms for the first lesson, a 4-Day stat, and spacing above the details button. The homepage's shared sections now live in `template-parts/inquire-*.php`. Existing sites keep stored IntensiveFix heading/button text until edited or re-seeded.

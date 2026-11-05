@@ -11,7 +11,7 @@ $tbt_logo = tbt_page_image('home_shared_logo', (string) ($tbt_logo_fallback['url
 $tbt_is_front_page = function_exists('is_front_page') && is_front_page();
 $tbt_is_intensivefix = function_exists('is_page') && is_page('intensivefix');
 $tbt_landing = $tbt_is_front_page || $tbt_is_intensivefix;
-$tbt_landing_cta_href = $tbt_is_intensivefix ? '#details' : tbt_whatsapp_url('Hi ThatBioTutor, I would like to book a $95 trial lesson. Please share the available timings.');
+$tbt_landing_cta_href = $tbt_is_intensivefix ? '#trial' : tbt_whatsapp_url('Hi ThatBioTutor, I would like to book a $95 trial lesson. Please share the available timings.');
 $tbt_landing_cta_label = $tbt_is_intensivefix ? 'Secure My Spot in IntensiveFix' : 'Book My Trial Lesson';
 ?>
 <!doctype html>

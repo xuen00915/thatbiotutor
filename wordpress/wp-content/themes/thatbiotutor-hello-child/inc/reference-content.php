@@ -551,7 +551,7 @@ function tbt_reference_content(): array
                 ],
                 'fields' => [
                     'intensivefix_heading' => 'Fix Your Entire Sec 3 Bio Foundation Before the Chaotic Sec 4 Year Begins — In Just 4 DAYS',
-                    'intensivefix_cta_label' => 'Secure My Spot in IntensiveFix',
+                    'intensivefix_cta_label' => 'Secure My Spot In the Intensive Fix Class',
                     'intensivefix_program_heading' => 'Everything You Need to Know About IntensiveFix',
                     'intensivefix_analysis_heading' => 'Turn Your EOY Result into a Sec 4 Recovery Plan',
                     'intensivefix_suitability_heading' => 'Is IntensiveFix Right for You?',

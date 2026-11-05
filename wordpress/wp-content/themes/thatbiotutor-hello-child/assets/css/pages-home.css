@@ -12,6 +12,8 @@
 
 /* Inquire landing header: solid white at the top, translucent white once scrolled. */
 .site-header.tbt-landing-header {
+  --tbt-home-green-bright: #43b43a;
+  --tbt-home-ink: #19221a;
   position: sticky;
   z-index: 50;
   top: 0;
