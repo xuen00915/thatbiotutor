@@ -310,12 +310,12 @@ const sizes = [
       const navLabels = await page.locator('.site-header .site-nav .site-nav__link').allTextContents();
       if (!['Home', 'Classes', 'Results & Testimonials', 'Free Bio Notes', 'About Us', 'Our Causes'].every((label) => navLabels.some((text) => text.trim() === label))) throw new Error(`Home header navigation differs from the other pages: ${JSON.stringify(navLabels)}`);
       if (await page.locator('.site-header.tbt-landing-header').count() !== 0) throw new Error('Home must use the same menu header as the other pages');
-      const visibleIndex = () => page.locator('[data-carousel-slide]').evaluateAll((slides) => slides.findIndex((slide) => !slide.hidden));
+      const visibleIndex = () => page.locator('[data-carousel-slide]').evaluateAll((slides) => slides.findIndex((slide) => (slide.closest('[data-carousel-fade]') ? slide.classList.contains('is-active') : !slide.hidden)));
       const before = await visibleIndex();
       await page.locator('[data-carousel-next]').first().click();
       if (before === await visibleIndex()) throw new Error('Carousel did not advance');
     }
-    const visibleImage = page.locator('[data-carousel-slide]:not([hidden]) img');
+    const visibleImage = page.locator('[data-carousel-fade] [data-carousel-slide].is-active img, [data-carousel]:not([data-carousel-fade]) [data-carousel-slide]:not([hidden]) img');
     await visibleImage.evaluate(async (image) => {
       if (!image.complete) await new Promise((resolve) => image.addEventListener('load', resolve, { once: true }));
       if (image.decode) await image.decode();

@@ -19,11 +19,11 @@ require TBT_THEME_DIR . '/template-parts/inquire-data.php';
             <p class="tbt-home-hero__refund">If a student doesn't absolutely love the $95 trial lesson, they get a full refund.</p>
             <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-home-button" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">Book My Trial Lesson</a><?php endif; ?>
         </div>
-        <div class="tbt-home-hero__carousel" data-carousel data-carousel-autoplay="5200" aria-label="ThatBioTutor lessons and students">
+        <div class="tbt-home-hero__carousel" data-carousel data-carousel-fade data-carousel-autoplay="5200" aria-label="ThatBioTutor lessons and students">
             <div class="tbt-home-hero__slides">
                 <?php foreach (range(1, 5) as $tbt_index) : $tbt_key = sprintf('home_hero_%02d', $tbt_index); ?>
-                    <figure class="tbt-home-hero__slide<?php echo $tbt_index === 1 ? ' is-active' : ''; ?>" data-carousel-slide<?php echo $tbt_index > 1 ? ' hidden' : ''; ?>>
-                        <?php $tbt_media_image($tbt_key, '', $tbt_index === 1 ? 'fetchpriority="high"' : 'loading="lazy"'); ?>
+                    <figure class="tbt-home-hero__slide<?php echo $tbt_index === 1 ? ' is-active' : ''; ?>" data-carousel-slide>
+                        <?php $tbt_media_image($tbt_key, '', $tbt_index === 1 ? 'fetchpriority="high"' : 'loading="eager"'); ?>
                     </figure>
                 <?php endforeach; ?>
             </div>

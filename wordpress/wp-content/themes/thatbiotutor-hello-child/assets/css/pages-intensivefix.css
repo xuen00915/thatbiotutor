@@ -16,7 +16,9 @@
 .tbt-intensivefix-carousel { position: relative; width: min(100%, 820px); margin: 0 auto; touch-action: pan-y; }
 .tbt-intensivefix-carousel__viewport { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border: 0; border-radius: 18px; background: #fff; }
 .tbt-intensivefix-carousel figure { position: absolute; inset: 0; margin: 0; }
-.tbt-intensivefix-carousel figure[hidden] { display: none; }
+/* Crossfade between graphics; slides stay rendered so there is no blank frame. */
+.tbt-intensivefix-carousel figure { opacity: 0; pointer-events: none; transition: opacity .6s ease; }
+.tbt-intensivefix-carousel figure.is-active { opacity: 1; pointer-events: auto; }
 .tbt-intensivefix__graphic { width: 100%; height: 100%; object-fit: contain; }
 .tbt-intensivefix-carousel .tbt-home-carousel__control,
 .tbt-intensivefix-carousel .tbt-home-carousel__control:hover,
@@ -35,10 +37,17 @@
 .tbt-intensivefix-closing__ready strong { color: #fff; font-weight: 700; }
 .tbt-intensivefix-closing__cta { margin-top: 44px !important; }
 
-/* FastTrack title: bold lead-in. */
-.tbt-home-fasttrack h2 strong { font-weight: 800; }
+/* FastTrack title: bold lead-in in the same green as the A1/A2 accent. */
+.tbt-home-fasttrack h2 strong { color: #77cf64; font-weight: 800; }
+
+/* Closing: the image column is larger and stretches to the full height of the text beside it. */
+.tbt-intensivefix-page .tbt-home-closing__inner { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); align-items: stretch; }
+.tbt-intensivefix-page .tbt-home-closing figure { width: 100%; height: auto; min-height: 100%; }
+.tbt-intensivefix-page .tbt-home-closing img { height: 100%; }
 
 @media (max-width: 768px) {
+  .tbt-intensivefix-page .tbt-home-closing__inner { grid-template-columns: minmax(0, 1fr); }
+  .tbt-intensivefix-page .tbt-home-closing figure { width: min(100%, 420px); height: auto; aspect-ratio: 1 / 1; min-height: 0; margin-inline: auto; }
   .tbt-intensivefix-carousel__viewport { aspect-ratio: 1 / 1; }
 }
 

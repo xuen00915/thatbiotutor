@@ -72,6 +72,22 @@ const {chromium} = require('playwright');
   await page.mouse.move(0,0);await page.waitForTimeout(500);
   assert.deepEqual(await page.locator('.tbt-intensivefix-carousel .tbt-home-carousel__control--next').evaluate(e=>{const s=getComputedStyle(e);return {bg:s.backgroundColor,focused:document.activeElement===e}}),{bg:'rgba(0, 0, 0, 0)',focused:true},'Clicked carousel arrows must never turn pink');
   await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(700);
+  // Smooth slider: crossfade (no hidden slides, so no blank flash) and automatic sliding.
+  const fade=await page.evaluate(()=>{const c=document.querySelector('.tbt-intensivefix-carousel');const slides=[...c.querySelectorAll('[data-carousel-slide]')];return {fade:c.hasAttribute('data-carousel-fade'),autoplay:c.getAttribute('data-carousel-autoplay'),hidden:slides.filter(s=>s.hidden).length,active:slides.findIndex(s=>s.classList.contains('is-active')),transition:getComputedStyle(slides[1]).transitionProperty,lazy:slides.filter(s=>s.querySelector('img[loading=lazy]')).length}});
+  assert.equal(fade.fade,true,'Programme slider must crossfade');
+  assert.ok(Number(fade.autoplay)>=3000,'Programme slider must auto slide');
+  assert.equal(fade.hidden,0,'No slide may be display:none (that causes the blank flash)');
+  assert.equal(fade.lazy,0,'Slider images must preload so a switch never shows a blank frame');
+  assert.match(fade.transition,/opacity/,'Slides must fade with an opacity transition');
+  await page.evaluate(()=>document.querySelector('.tbt-intensivefix-carousel').scrollIntoView({block:'center'}));
+  await page.mouse.move(5,5);await page.waitForTimeout(5600);
+  assert.ok(await page.evaluate(()=>[...document.querySelectorAll('.tbt-intensivefix-carousel [data-carousel-slide]')].findIndex(s=>s.classList.contains('is-active'))>0),'Programme slider must advance by itself');
+  // FastTrack title lead-in uses the green accent.
+  assert.equal(await page.locator('.tbt-home-fasttrack h2 strong').evaluate(e=>getComputedStyle(e).color),'rgb(119, 207, 100)','FastTrack lead-in must be green like the A1/A2 accent');
+  // Closing image is as tall as the text beside it.
+  const closing=await page.evaluate(()=>{const f=document.querySelector('.tbt-home-closing figure').getBoundingClientRect();const d=document.querySelector('.tbt-home-closing__inner > div').getBoundingClientRect();return {f:f.height,d:d.height,fw:f.width}});
+  assert.ok(Math.abs(closing.f-closing.d)<3,'Closing image and text must have the same height ('+JSON.stringify(closing)+')');
+  await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(800);
   const headerBg=()=>page.locator('.site-header').evaluate(e=>getComputedStyle(e).backgroundColor);
   assert.equal(await headerBg(),'rgb(255, 255, 255)','Landing header is solid white at the top');
   await page.evaluate(()=>window.scrollTo(0,700));await page.waitForTimeout(700);

@@ -34,9 +34,9 @@ $tbt_fasttrack_heading = '<strong>All IntensiveFix students will receive</strong
             <?php if ($tbt_enrol_whatsapp !== '') : ?><a class="tbt-home-button tbt-intensivefix-hero__cta" href="<?php echo esc_url($tbt_enrol_whatsapp); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($tbt_field('intensivefix_cta_label')); ?></a><?php endif; ?>
         </div>
         <div class="tbt-home-container tbt-intensivefix-hero__graphics">
-            <div class="tbt-intensivefix-carousel" data-carousel aria-label="IntensiveFix programme graphics">
+            <div class="tbt-intensivefix-carousel" data-carousel data-carousel-fade data-carousel-autoplay="4500" aria-label="IntensiveFix programme graphics">
                 <div class="tbt-intensivefix-carousel__viewport">
-                    <?php foreach (range(1, 10) as $tbt_index) : $tbt_key = sprintf('intensivefix_program_%02d', $tbt_index); ?><figure data-carousel-slide<?php echo $tbt_index > 1 ? ' hidden' : ''; ?>><?php tbt_render_page_image(sprintf('intensivefix_program_image_%02d', $tbt_index), $tbt_key, 'tbt-intensivefix__graphic', $tbt_index === 1 ? ['loading' => 'eager'] : ['loading' => 'lazy']); ?></figure><?php endforeach; ?>
+                    <?php foreach (range(1, 10) as $tbt_index) : $tbt_key = sprintf('intensivefix_program_%02d', $tbt_index); ?><figure data-carousel-slide<?php echo $tbt_index === 1 ? ' class="is-active"' : ''; ?>><?php tbt_render_page_image(sprintf('intensivefix_program_image_%02d', $tbt_index), $tbt_key, 'tbt-intensivefix__graphic', ['loading' => 'eager']); ?></figure><?php endforeach; ?>
                 </div>
                 <button class="tbt-home-carousel__control tbt-home-carousel__control--previous" type="button" data-carousel-prev aria-label="Previous programme graphic"><span aria-hidden="true">‹</span></button>
                 <button class="tbt-home-carousel__control tbt-home-carousel__control--next" type="button" data-carousel-next aria-label="Next programme graphic"><span aria-hidden="true">›</span></button>

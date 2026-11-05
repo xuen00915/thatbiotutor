@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Made the IntensiveFix graphics and homepage hero sliders crossfade with every slide preloaded (no blank flash when switching), added automatic sliding to the IntensiveFix graphics, coloured the FastTrack title lead-in green, and enlarged the IntensiveFix closing image to match the height of its text.
+
 - Removed the border around the IntensiveFix graphics carousel and stopped its arrows (and the homepage hero arrows) turning Hello's pink after a click.
 
 - The homepage uses the same menu header as the other pages again; only IntensiveFix keeps the Inquire header with the "Contact Us" button.

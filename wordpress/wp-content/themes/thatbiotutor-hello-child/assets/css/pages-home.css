@@ -202,7 +202,8 @@
 .tbt-home-hero__slide:nth-child(2) img { object-position: 50% 45%; }
 .tbt-home-hero__slide:nth-child(4) img { object-position: 50% 47%; }
 .tbt-home-hero__slide:nth-child(5) img { object-position: 50% 56%; }
-.tbt-home-hero__slide[hidden] { display: none; }
+.tbt-home-hero__slide { opacity: 0; pointer-events: none; transition: opacity .6s ease; }
+.tbt-home-hero__slide.is-active { opacity: 1; pointer-events: auto; }
 
 .tbt-home-carousel__control {
   position: absolute;
