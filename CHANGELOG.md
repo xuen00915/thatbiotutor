@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- The IntensiveFix "Contact Us" header button now opens the WhatsApp number, and the floating WhatsApp button follows the supplied design (light-green disc, white glyph, red dot, two translucent rings).
+
 - Reduced the space between the IntensiveFix header and hero from 96px to 40px (28px on phones).
 
 - Made the IntensiveFix graphics and homepage hero sliders crossfade with every slide preloaded (no blank flash when switching), added automatic sliding to the IntensiveFix graphics, coloured the FastTrack title lead-in green, and enlarged the IntensiveFix closing image to match the height of its text.

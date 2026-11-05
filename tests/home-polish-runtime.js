@@ -90,6 +90,17 @@ const {chromium} = require('playwright');
   await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(800);
   const heroGap=await page.evaluate(()=>document.querySelector('.tbt-home-hero .tbt-home-kicker').getBoundingClientRect().top-document.querySelector('.site-header').getBoundingClientRect().bottom);
   assert.ok(heroGap<=56,'Space between the IntensiveFix header and hero must be tight ('+heroGap+'px)');
+  // Contact Us goes straight to the WhatsApp number.
+  const contact=await page.locator('.tbt-landing-header__cta').evaluate(e=>({href:e.getAttribute('href'),target:e.getAttribute('target')}));
+  assert.ok(contact.href.startsWith('https://wa.me/6587597182'),'Contact Us must open the WhatsApp number');
+  assert.equal(contact.target,'_blank');
+  // Floating WhatsApp button: light-green disc, white glyph, red dot, two translucent rings.
+  const wa=await page.locator('[data-whatsapp-float]').evaluate(e=>{const s=getComputedStyle(e);const n=getComputedStyle(e.querySelector('.whatsapp-float__notification'));return {bg:s.backgroundColor,border:s.borderTopWidth,rings:(s.boxShadow.match(/rgba?\([^)]*\)\s+0px 0px 0px (\d+)px/g)||[]).length,w:e.getBoundingClientRect().width,dot:n.backgroundColor,dotW:parseFloat(n.width),icon:getComputedStyle(e.querySelector('.whatsapp-float__icon')).color}});
+  assert.equal(wa.bg,'rgb(88, 185, 71)');
+  assert.equal(wa.border,'0px','Floating button has no solid border ring');
+  assert.equal(wa.rings,2,'Floating button has two translucent rings');
+  assert.equal(wa.icon,'rgb(255, 255, 255)');
+  assert.ok(wa.dotW>=10&&wa.dotW<=14,'Red notification dot is clearly visible');
   const headerBg=()=>page.locator('.site-header').evaluate(e=>getComputedStyle(e).backgroundColor);
   assert.equal(await headerBg(),'rgb(255, 255, 255)','Landing header is solid white at the top');
   await page.evaluate(()=>window.scrollTo(0,700));await page.waitForTimeout(700);

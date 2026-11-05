@@ -91,10 +91,10 @@ body.tbt-site .site-footer { box-sizing: border-box; width: 100%; max-width: non
   line-height: 16px;
   text-align: center;
 }
-.whatsapp-float { position: fixed; right: 24px; bottom: 24px; z-index: 900; display: grid; width: 64px; height: 64px; min-width: 64px; min-height: 64px; place-items: center; border: 8px solid #dff7e4; border-radius: 50%; background: #25d366; color: #fff; text-decoration: none; box-shadow: 0 0 0 16px rgba(80,199,104,.10), 0 8px 24px rgba(0,0,0,.16); transition: transform 180ms ease, box-shadow 180ms ease; }
-.whatsapp-float:hover, .whatsapp-float:focus-visible { color: #fff; transform: translateY(-2px); box-shadow: 0 0 0 16px rgba(80,199,104,.14), 0 10px 26px rgba(0,0,0,.2); }
-.whatsapp-float__icon { width: 34px; height: 34px; }
-.whatsapp-float__notification { position: absolute; top: -1px; right: -1px; width: 9px; height: 9px; border-radius: 50%; background: #f14c42; }
+.whatsapp-float { position: fixed; right: 36px; bottom: 36px; z-index: 900; display: grid; width: 56px; height: 56px; min-width: 56px; min-height: 56px; place-items: center; border: 0; border-radius: 50%; background: #58b947; color: #fff; text-decoration: none; box-shadow: 0 0 0 12px rgba(67, 180, 58, .22), 0 0 0 24px rgba(67, 180, 58, .12); transition: transform 180ms ease, box-shadow 180ms ease; }
+.whatsapp-float:hover, .whatsapp-float:focus-visible { color: #fff; transform: scale(1.05); box-shadow: 0 0 0 14px rgba(67, 180, 58, .28), 0 0 0 28px rgba(67, 180, 58, .14); }
+.whatsapp-float__icon { width: 32px; height: 32px; }
+.whatsapp-float__notification { position: absolute; top: -1px; right: -1px; width: 12px; height: 12px; border-radius: 50%; background: #e53935; }
 
 .tbt-video { position: relative; aspect-ratio: 16 / 9; width: 100%; overflow: hidden; }
 .tbt-video iframe { width: 100%; height: 100%; }
@@ -121,6 +121,6 @@ body.tbt-site .site-footer { box-sizing: border-box; width: 100%; max-width: non
 @media (max-width: 767px) {
   .site-footer__inner { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 24px; }
   .site-footer__brand { grid-column: 1 / -1; }
-  .whatsapp-float { right: 16px; bottom: 16px; width: 60px; height: 60px; min-width: 60px; min-height: 60px; }
+  .whatsapp-float { right: 30px; bottom: 30px; width: 52px; height: 52px; min-width: 52px; min-height: 52px; }
 }
 

@@ -10,7 +10,7 @@ $tbt_logo_fallback = tbt_media('curated_shared_tbt_logo');
 $tbt_logo = tbt_page_image('home_shared_logo', (string) ($tbt_logo_fallback['url'] ?? ''), (int) get_option('page_on_front', 0));
 $tbt_is_intensivefix = function_exists('is_page') && is_page('intensivefix');
 $tbt_landing = $tbt_is_intensivefix;
-$tbt_landing_cta_href = home_url('/contact/');
+$tbt_landing_cta_href = tbt_whatsapp_url('Hi ThatBioTutor, I would like to find out more about IntensiveFix.');
 $tbt_landing_cta_label = 'Contact Us';
 ?>
 <!doctype html>
@@ -34,7 +34,7 @@ $tbt_landing_cta_label = 'Contact Us';
             <?php endif; ?>
         </a>
         <?php if ($tbt_landing) : ?>
-            <?php if ($tbt_landing_cta_href !== '') : ?><a class="tbt-landing-header__cta" href="<?php echo esc_url($tbt_landing_cta_href); ?>"><?php echo esc_html($tbt_landing_cta_label); ?></a><?php endif; ?>
+            <?php if ($tbt_landing_cta_href !== '') : ?><a class="tbt-landing-header__cta" href="<?php echo esc_url($tbt_landing_cta_href); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($tbt_landing_cta_label); ?></a><?php endif; ?>
         <?php else : ?>
             <button class="site-header__menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-navigation">
                 <span class="screen-reader-text">Open navigation</span>
