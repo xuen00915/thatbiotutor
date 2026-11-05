@@ -39,7 +39,7 @@
   padding: 10px 20px;
   border-radius: 9999px;
   background: #43b43a;
-  box-shadow: none;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
   font-size: 14px;
   font-weight: 600;
   line-height: 21px;
@@ -47,7 +47,7 @@
 
 .home .tbt-landing-header .site-brand { display: flex; align-items: center; gap: 8px; }
 .home .tbt-landing-header .site-brand__logo { width: 40px; height: 40px; }
-.home .site-brand__wordmark { font: 700 18px/1.2 Poppins, ui-sans-serif, system-ui, sans-serif; color: var(--tbt-home-ink); letter-spacing: -.01em; }
+.home .site-brand__wordmark { font: 700 18px/28px Poppins, ui-sans-serif, system-ui, sans-serif; color: var(--tbt-home-ink); letter-spacing: -.01em; }
 .home .site-brand__wordmark span { color: var(--tbt-home-green-bright); }
 body.tbt-site.home { font-family: -apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif; }
 
