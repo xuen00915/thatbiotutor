@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Applied the 736px track-record content width consistently to every homepage section, hero carousel, header and footer, with 16px mobile gutters.
+
 - Corrected the Home track-record section to Inquire’s 736px content width, with proportionate statistic typography and card spacing.
 
 - Standardized page containers, headers, and footers to the Inquire reference’s 1120px content width and 16px side gutters across all 12 routes. Kept full-width section backgrounds and narrower reading/media limits.
