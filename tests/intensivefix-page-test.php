@@ -15,48 +15,56 @@ final class IntensiveFixPageTest
         $this->assertTrue(is_file(TBT_THEME_DIR . '/assets/css/pages-intensivefix.css'), 'IntensiveFix must own a focused stylesheet.');
         $html = tbt_test_render_template('page-intensivefix.php');
         $this->assertSame(1, substr_count($html, '<h1'), 'IntensiveFix must render exactly one H1.');
-        // Rebuilt in the Inquire design: same section system as the homepage.
-        $sections = ['hero', 'problem', 'track-record', 'fasttrack', 'proof', 'tutors', 'quality', 'practical', 'details', 'guarantee', 'fit', 'founder', 'faq', 'classroom', 'closing'];
+        // Client change list (Google Doc table): sections after FastTrack are skipped, jumping to "This is for".
+        $sections = ['hero', 'problem', 'track-record', 'fasttrack', 'fit', 'founder', 'faq', 'classroom', 'closing'];
         $last = -1;
         foreach ($sections as $section) {
             $position = strpos($html, 'data-section="' . $section . '"');
-            $this->assertTrue($position !== false && $position > $last, "IntensiveFix section {$section} must exist in Inquire order.");
+            $this->assertTrue($position !== false && $position > $last, "IntensiveFix section {$section} must exist in the client's order.");
             $last = (int) $position;
         }
+        foreach (['proof', 'tutors', 'quality', 'practical', 'guarantee', 'details', 'analysis'] as $skipped) {
+            $this->assertTrue(!str_contains($html, 'data-section="' . $skipped . '"'), "Section {$skipped} must be skipped per the client change list.");
+        }
         $this->assertTrue(str_contains($html, 'tbt-home-inquire') && str_contains($html, 'tbt-intensivefix-page'), 'IntensiveFix must use the Inquire section system.');
-        // Review comments applied.
-        $this->assertTrue(str_contains($html, 'Fix Your Entire Sec 3 Bio Foundation Before the') && str_contains($html, 'Chaotic Sec 4 Year</span> Begins') && preg_match('~In Just <span[^>]*>4 DAYS</span>~', $html) === 1, 'Headline must read "In Just 4 DAYS" (review comment 8).');
-        $this->assertTrue(str_contains($html, "But after learning the hard way that it pays to fix your foundation early, they&#039;re saying:") || str_contains($html, 'But after learning the hard way that it pays to fix your foundation early, they’re saying:') || str_contains($html, "But after learning the hard way that it pays to fix your foundation early, they're saying:"), 'Bridge line must follow review comment 9.');
-        $this->assertTrue(str_contains($html, 'Secure My Spot in IntensiveFix') && str_contains($html, 'Secure My Spot In the Intensive Fix Class') && str_contains($html, 'Fix My Sec 3 Foundation Now'), 'CTA texts must match the reviewed Markup page (review comment 5).');
-        $this->assertTrue(str_contains($html, 'id="trial"') && substr_count($html, 'href="#trial"') >= 3, 'Header, hero and closing buttons must link to the sign-up section (review comment 3).');
-        $this->assertTrue(str_contains($html, 'Chaotic Sec 4 Year</span>') && str_contains($html, 'tbt-home-accent--red'), 'Headline must colour "Chaotic Sec 4 Year" red like the reviewed page.');
-        $this->assertTrue(str_contains($html, '<strong>91% of Our Students Score A1, A2, or B3</strong> in O Levels'), 'Hero sub-headline must follow the reviewed page.');
-        $this->assertTrue(str_contains($html, 'link.icecube.asia/widget/form/9h0XpRAiyc5b8dU3CPZx') && str_contains($html, 'Fill out the form. Takes about 30 seconds.'), 'Sign-up section must embed the lead form like the reviewed page.');
-        $this->assertTrue(str_contains($html, 'Bio doesn’t have to eat up every other part of a student’s life.') && !str_contains($html, 'data-section="analysis"'), 'Closing must follow the reviewed page.');
-        foreach (['$110 per 2-hour lesson', '$90 per 2-hour lesson', '$160 off', '$150 referral bonus', 'refund only applies to that lesson', 'Run 1', 'Run 2'] as $detail) {
-            $this->assertTrue(str_contains($html, $detail), "Details must include {$detail} (review comments 4 and 7).");
-        }
-        $this->assertTrue(str_contains($html, '4-Day'), 'The 4-Day label must be present (review comment 13).');
-        $this->assertTrue(str_contains($html, 'Everything You Need to Know About IntensiveFix'), 'IntensiveFix programme details heading must be kept.');
-        $this->assertTrue(str_contains($html, 'tbt-intensivefix-details__cta'), 'Details CTA must have its own spacing hook (review comment 14).');
-        foreach (['curated_home_testimonial_yong', 'curated_home_testimonial_gwen', 'curated_home_testimonial_aryan'] as $portrait) {
-            $this->assertSame(1, substr_count($html, 'data-media-key="' . $portrait . '"'), "Student picture {$portrait} must render once (review comments 10-12).");
-        }
-        $this->assertTrue(preg_match('~<img[^>]+src=""~', $html) !== 1, 'No image may render with an empty source (review comments 10-12).');
-
+        // Hero.
+        $this->assertTrue(str_contains($html, 'Fix Your Entire Sec 3 Bio Foundation Before the') && str_contains($html, 'Chaotic Sec 4 Year</span> Begins') && preg_match('~In Just <span[^>]*>4 DAYS</span>~', $html) === 1, 'Headline must read "...In Just 4 DAYS" with the red Chaotic phrase.');
+        $this->assertTrue(!str_contains($html, 'Start with a $110 trial lesson') && !str_contains($html, 'tbt-home-hero__refund'), 'The small grey hero subtext must be deleted.');
+        $this->assertTrue(str_contains($html, 'Limited time:') && str_contains($html, 'Only during') && str_contains($html, 'last two weeks of Nov/first two weeks of Dec') && str_contains($html, 'tbt-intensivefix-hero__limited'), 'Hero subtitle must be the limited-time line in black and green.');
+        $this->assertTrue(!str_contains($html, '91% of Our Students'), 'The old 91% hero subtitle must be replaced.');
+        $this->assertTrue(str_contains($html, '>Fix My Sec 3 Foundation</a>') && str_contains($html, 'Fix My Sec 3 Foundation Now'), 'Hero CTA must read "Fix My Sec 3 Foundation".');
+        // Hero pictures become the swipeable IntensiveFix graphics in the right order.
+        $this->assertTrue(!str_contains($html, 'data-media-key="home_hero_01"'), 'Hero photos must be replaced by the IntensiveFix graphics.');
         $last = -1;
         foreach (range(1, 10) as $index) {
             $key = sprintf('intensivefix_program_%02d', $index);
             $position = strpos($html, 'data-media-key="' . $key . '"');
             $this->assertTrue($position !== false, "IntensiveFix must render {$key}.");
-            $this->assertTrue($position > $last, "IntensiveFix media {$key} must remain in numeric order.");
+            $this->assertTrue($position > $last, "IntensiveFix graphic {$key} must stay in the supplied order.");
             $last = $position;
         }
-        $this->assertSame(1, substr_count($html, 'data-media-key="intensivefix_student_reviews"'), 'Supplied student-review artwork must render once.');
-        $this->assertTrue(str_contains($html, 'youtube-nocookie.com/embed/'), 'Proof videos must be present.');
+        $heroEnd = (int) strpos($html, 'data-section="problem"');
+        $this->assertTrue($last < $heroEnd, 'The swipeable graphics must sit in the hero under the main title.');
+        // Problem section.
+        $this->assertTrue(str_contains($html, 'Sound familiar? After our 2-week IntensiveFix, they’re telling us:') || str_contains($html, "Sound familiar? After our 2-week IntensiveFix, they're telling us:"), 'Bridge line must follow the change list.');
+        $this->assertTrue(!str_contains($html, 'tbt-home-problem__proof') && !str_contains($html, 'curated_home_testimonial_'), 'The three off-topic testimonial cards must be deleted.');
+        $this->assertSame(1, substr_count($html, 'data-media-key="intensivefix_student_reviews"'), 'Only one student-review graphic must replace the video.');
+        // Track record.
+        $this->assertTrue(substr_count($html, 'data-count-up') === 4, 'All four numbers must use the running-number animation.');
+        foreach (range(1, 4) as $index) {
+            $this->assertSame(1, substr_count($html, 'data-media-key="' . sprintf('home_number_%02d', $index) . '"'), 'Track-record images must match the homepage images.');
+        }
+        $this->assertTrue(str_contains($html, 'youtube-nocookie.com/embed/q_IPfEdODqI'), 'The current video link stays until Mr Keefe supplies the new one.');
+        // FastTrack heading.
+        $this->assertTrue(str_contains($html, 'All IntensiveFix students will receive</strong> ThatBioTutor'), 'FastTrack title must start with the IntensiveFix line.');
         $this->assertTrue(str_contains($html, 'curated_shared_fasttrack_content') && str_contains($html, 'curated_shared_fasttrack_memory') && str_contains($html, 'curated_shared_fasttrack_answering'), 'IntensiveFix must explain the shared FastTrack system.');
-        $this->assertTrue(str_contains($html, 'https://wa.me/6587597182'), 'WhatsApp fallback must use the safe shared link.');
+        // Closing.
+        foreach (['Your EOY Bio Grade doesn’t have to define your O Levels.', 'It can be demoralising to have scored poorer than expected for the Sec 3 end of year bio exam. But there is still time to turn things around.', 'We’ve had students come in during this period at F9, going all the way to an A1 in O levels.', 'What you need is a thorough content overhaul, fixing that weak sec 3 foundation, to supercharge and give you confidence heading into sec 4, to score the O level grade you’re truly capable of.', 'Ready to see what that feels like?'] as $copy) {
+            $this->assertTrue(str_contains($html, $copy), 'Closing copy must match the change list.');
+        }
+        $this->assertTrue(str_contains($html, 'Fix My Sec 3 Foundation Now') && str_contains($html, 'https://wa.me/6587597182'), 'Closing CTA is unchanged and opens WhatsApp.');
         $this->assertTrue(str_contains($html, 'data-carousel-prev') && str_contains($html, 'data-carousel-next') && str_contains($html, 'data-carousel-dot'), 'Programme artwork must use accessible carousel controls.');
+        $this->assertTrue(preg_match('~<img[^>]+src=""~', $html) !== 1, 'No image may render with an empty source.');
         $this->assertTrue(!str_contains($html, 'inquire.thatbiotutor.com'), 'IntensiveFix must not hotlink the Inquire site.');
 
         $focusedCss = (string) file_get_contents(TBT_THEME_DIR . '/assets/css/pages-intensivefix.css');

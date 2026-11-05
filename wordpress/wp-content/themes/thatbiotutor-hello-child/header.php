@@ -11,8 +11,8 @@ $tbt_logo = tbt_page_image('home_shared_logo', (string) ($tbt_logo_fallback['url
 $tbt_is_front_page = function_exists('is_front_page') && is_front_page();
 $tbt_is_intensivefix = function_exists('is_page') && is_page('intensivefix');
 $tbt_landing = $tbt_is_front_page || $tbt_is_intensivefix;
-$tbt_landing_cta_href = $tbt_is_intensivefix ? '#trial' : tbt_whatsapp_url('Hi ThatBioTutor, I would like to book a $95 trial lesson. Please share the available timings.');
-$tbt_landing_cta_label = $tbt_is_intensivefix ? 'Secure My Spot in IntensiveFix' : 'Book My Trial Lesson';
+$tbt_landing_cta_href = home_url('/contact/');
+$tbt_landing_cta_label = 'Contact Us';
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -35,7 +35,7 @@ $tbt_landing_cta_label = $tbt_is_intensivefix ? 'Secure My Spot in IntensiveFix'
             <?php endif; ?>
         </a>
         <?php if ($tbt_landing) : ?>
-            <?php if ($tbt_landing_cta_href !== '') : ?><a class="tbt-landing-header__cta" href="<?php echo esc_url($tbt_landing_cta_href); ?>"<?php echo $tbt_is_intensivefix ? '' : ' target="_blank" rel="noopener noreferrer"'; ?>><?php echo esc_html($tbt_landing_cta_label); ?></a><?php endif; ?>
+            <?php if ($tbt_landing_cta_href !== '') : ?><a class="tbt-landing-header__cta" href="<?php echo esc_url($tbt_landing_cta_href); ?>"><?php echo esc_html($tbt_landing_cta_label); ?></a><?php endif; ?>
         <?php else : ?>
             <button class="site-header__menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-navigation">
                 <span class="screen-reader-text">Open navigation</span>

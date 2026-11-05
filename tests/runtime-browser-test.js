@@ -308,6 +308,7 @@ const sizes = [
     if (JSON.stringify(countDisplays) !== JSON.stringify(['912+', '91%', '2.3', '1 in 2'])) throw new Error(`Home count-up values are wrong at ${viewport.width}: ${JSON.stringify(countDisplays)}`);
     if (viewport.width > 768) {
       if (await page.locator('.site-header.tbt-landing-header .site-brand__wordmark').count() !== 1 || await page.locator('.site-header.tbt-landing-header .tbt-landing-header__cta').count() !== 1) throw new Error(`Home must use the Inquire landing header at ${viewport.width}`);
+      if ((await page.locator('.tbt-landing-header__cta').textContent()).trim() !== 'Contact Us') throw new Error('Landing header button must read Contact Us');
       if (await page.locator('.site-header .site-nav').count() !== 0) throw new Error('Home landing header must not render the navigation menu');
       const visibleIndex = () => page.locator('[data-carousel-slide]').evaluateAll((slides) => slides.findIndex((slide) => !slide.hidden));
       const before = await visibleIndex();

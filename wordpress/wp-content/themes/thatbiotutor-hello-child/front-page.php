@@ -73,7 +73,8 @@ require TBT_THEME_DIR . '/template-parts/inquire-data.php';
         </div>
     </section>
 
-    <?php require TBT_THEME_DIR . '/template-parts/inquire-sections-main.php'; ?>
+    <?php require TBT_THEME_DIR . '/template-parts/inquire-section-fasttrack.php'; ?>
+    <?php require TBT_THEME_DIR . '/template-parts/inquire-sections-proof.php'; ?>
 
     <section class="tbt-home-section tbt-home-guarantee" id="trial" data-section="guarantee">
         <div class="tbt-home-container tbt-home-guarantee__inner">

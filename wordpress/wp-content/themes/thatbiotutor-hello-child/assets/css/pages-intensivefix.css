@@ -5,19 +5,15 @@
 .tbt-intensivefix-page h1,
 .tbt-intensivefix-page h2,
 .tbt-intensivefix-page h3,
-.tbt-intensivefix-page h4,
 .tbt-intensivefix-page p,
 .tbt-intensivefix-page li { overflow-wrap: anywhere; }
 
-/* Student feedback artwork inside the programme details. */
-.tbt-intensivefix-feedback { width: min(100%, 560px); margin: 48px auto 0; }
-.tbt-intensivefix__reviews { width: 100%; height: auto; border-radius: 18px; }
+/* Hero: limited-time line (black with green emphasis) and the swipeable programme graphics. */
+.tbt-intensivefix-hero__limited { color: var(--tbt-home-ink); }
+.tbt-intensivefix-hero__cta { margin-top: 12px; }
+.tbt-intensivefix-hero__graphics { padding-bottom: 24px; }
 
-/* Programme details, reached by every IntensiveFix button. */
-.tbt-intensivefix-details { background: #fff; scroll-margin-top: 80px; text-align: center; }
-.tbt-intensivefix-details .tbt-home-eyebrow { text-align: center; }
-
-.tbt-intensivefix-carousel { position: relative; width: min(100%, 820px); margin: 36px auto 0; }
+.tbt-intensivefix-carousel { position: relative; width: min(100%, 820px); margin: 0 auto; touch-action: pan-y; }
 .tbt-intensivefix-carousel__viewport { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--tbt-home-line); border-radius: 18px; background: #fff; }
 .tbt-intensivefix-carousel figure { position: absolute; inset: 0; margin: 0; }
 .tbt-intensivefix-carousel figure[hidden] { display: none; }
@@ -27,40 +23,22 @@
 .tbt-intensivefix-carousel .tbt-home-carousel__dots button { width: 8px; height: 8px; min-width: 8px; min-height: 8px; background: #c6d6c1; }
 .tbt-intensivefix-carousel .tbt-home-carousel__dots button[aria-current="true"] { width: 24px; border-radius: 8px; background: var(--tbt-home-green); }
 
-.tbt-intensivefix-text { width: 100%; margin: 48px auto 0; text-align: left; }
-.tbt-intensivefix-text h3 { margin: 0 0 16px; font-size: 24px; line-height: 32px; text-align: center; }
-.tbt-intensivefix-text h4 { margin: 28px 0 8px; font-size: 18px; line-height: 28px; color: var(--tbt-home-green); }
-.tbt-intensivefix-text p { margin: 0 0 14px; color: #4e5950; font-size: 18px; line-height: 1.65; }
-.tbt-intensivefix-text strong { color: var(--tbt-home-ink); }
-.tbt-intensivefix-runs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
-.tbt-intensivefix-runs article { padding: 20px 24px; border: 1px solid var(--tbt-home-line); border-radius: 18px; background: #f5faf4; }
-.tbt-intensivefix-runs h4 { margin-top: 0; }
-.tbt-intensivefix-runs p { margin: 0; }
+/* Student feedback graphic that replaces the old video. */
+.tbt-intensivefix-feedback { width: min(100%, 560px); margin: 32px auto 0; }
+.tbt-intensivefix__reviews { width: 100%; height: auto; border-radius: 18px; }
 
-/* Clear space between text and the buttons (review comment 14). */
-.tbt-intensivefix-hero__cta { margin-top: 12px; }
+/* Closing: the "Ready to see..." line is bold and the button sits below a clear gap. */
+.tbt-intensivefix-closing__ready { margin-top: 22px; }
+.tbt-intensivefix-closing__ready strong { color: #fff; font-weight: 700; }
 .tbt-intensivefix-closing__cta { margin-top: 44px !important; }
-.tbt-intensivefix-details__cta { margin-top: 48px; text-align: center; }
 
-/* Offer / refund steps on the dark guarantee band. */
-.tbt-intensivefix-offer__lead { margin-top: 28px !important; font-weight: 600; }
-.tbt-intensivefix-steps { display: grid; width: 100%; margin: 16px auto 0; padding: 0; gap: 12px; list-style: none; text-align: left; }
-.tbt-intensivefix-steps li { display: grid; grid-template-columns: 36px 1fr; align-items: start; gap: 14px; color: #d6e0d6; font-size: 18px; line-height: 1.6; }
-.tbt-intensivefix-steps li span { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 50%; background: var(--tbt-home-green-bright); color: #fff; font-weight: 700; }
-.tbt-intensivefix-offer .tbt-home-guarantee__content > p:not(.tbt-intensivefix-offer__lead) { max-width: none; margin: 32px auto 0 !important; color: #d6e0d6; font-size: clamp(1rem, 1.8vw, 1.25rem); line-height: 1.7; text-align: center; }
-.tbt-intensivefix-form { width: min(100%, 712px); margin: 40px auto 0; overflow: hidden; border-radius: 12px; background: #fff; }
-.tbt-intensivefix-form iframe { display: block; width: 100%; height: 798px; border: 0; }
-.tbt-intensivefix-whatsapp { margin: 20px 0 0; color: #d6e0d6; text-align: center; }
-.tbt-intensivefix-whatsapp a { color: #8fe17e; font-weight: 600; }
+/* FastTrack title: bold lead-in. */
+.tbt-home-fasttrack h2 strong { font-weight: 800; }
 
 @media (max-width: 768px) {
-  .tbt-intensivefix-runs { grid-template-columns: 1fr; }
   .tbt-intensivefix-carousel__viewport { aspect-ratio: 1 / 1; }
-  .tbt-intensivefix-details__cta { margin-top: 36px; }
 }
 
 @media (max-width: 320px) {
-  .tbt-intensivefix-text p,
-  .tbt-intensivefix-steps li { font-size: 16px; }
-  .tbt-intensivefix-runs article { padding: 16px; }
+  .tbt-intensivefix-hero__limited { font-size: 1.1rem; }
 }
