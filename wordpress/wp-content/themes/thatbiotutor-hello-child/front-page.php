@@ -174,21 +174,18 @@ $tbt_faqs = [
             <div class="tbt-home-proof__crests" aria-label="Schools attended by ThatBioTutor students">
                 <?php foreach (range(1, 12) as $tbt_index) : ?><?php $tbt_media_image(sprintf('curated_shared_school_crest_%02d', $tbt_index), '', 'loading="lazy"'); ?><?php endforeach; ?>
             </div>
+            <button class="tbt-crest-toggle" type="button" data-crest-toggle aria-pressed="false">Pause school logos</button>
             <p class="tbt-home-proof__results-copy">Some of our biggest grade jumps. There are many more.</p>
             <div class="tbt-home-proof__results">
                 <?php $tbt_media_image('curated_shared_hall_of_fame', '', 'loading="lazy"'); ?>
             </div>
-            <div class="tbt-home-proof__reviews">
-                <article><p class="tbt-home-stars" aria-label="5 out of 5 stars">★★★★★</p><blockquote>“The notes are incredibly concise and helped me clear the syllabus faster and memorise content more efficiently.”</blockquote><strong>Jordan Tang</strong></article>
-                <article><p class="tbt-home-stars" aria-label="5 out of 5 stars">★★★★★</p><blockquote>“Fun, interactive classes and concise notes helped me improve from 65% to 85% in just two months.”</blockquote><strong>Cayden Zhu</strong></article>
-                <article><p class="tbt-home-stars" aria-label="5 out of 5 stars">★★★★★</p><blockquote>“Very caring tutors. Thanks for all the free food and drinks too.”</blockquote><strong>TBT student review</strong></article>
-            </div>
+            <?php require TBT_THEME_DIR . '/template-parts/google-reviews.php'; ?>
         </div>
     </section>
 
     <section class="tbt-home-section tbt-home-tutors" data-section="tutors">
         <div class="tbt-home-container">
-            <p class="tbt-home-eyebrow">The people behind the system</p>
+
             <h2>Meet Your Tutors</h2>
             <div class="tbt-home-tutors__grid">
                 <?php foreach ($tbt_tutors as $tbt_tutor) : ?>
@@ -202,7 +199,7 @@ $tbt_faqs = [
         <div class="tbt-home-container">
             <h2>Quality Control: How TBT Ensures Every Class Is Excellent</h2>
             <ul>
-                <li><span>✓</span><p>All tutors pass rigorous screening. It can take one month or more before teaching their first class.</p></li>
+                <li><span>✓</span><p>All tutors pass rigorous screening. Can take 1+ month before teaching their first class.</p></li>
                 <li><span>✓</span><p>Weekly tutor coaching sessions. Every TBT tutor is mentored by Mr Keefe each week.</p></li>
                 <li><span>✓</span><p>All tutors follow the same standardised content and teaching methods. Every class ends with a student feedback form, reviewed and acted on weekly.</p></li>
             </ul>
@@ -211,7 +208,7 @@ $tbt_faqs = [
 
     <section class="tbt-home-section tbt-home-practical" data-section="practical">
         <div class="tbt-home-container">
-            <p class="tbt-home-eyebrow">Protect the full 20%</p>
+
             <h2>Real Practical Sessions. Real Practice.</h2>
             <p class="tbt-home-lead">Paper 3 makes up 20% of the grade, and most students walk in undertrained. TBT students can opt in to hands-on sessions covering the exact experiment types most commonly tested, well before exam day.</p>
             <div class="tbt-home-practical__grid"><?php foreach (range(1, 3) as $tbt_index) : ?><figure><?php $tbt_media_image(sprintf('curated_shared_practical_%02d', $tbt_index), '', 'loading="lazy"'); ?></figure><?php endforeach; ?></div>
@@ -232,8 +229,8 @@ $tbt_faqs = [
 
     <section class="tbt-home-section tbt-home-fit" data-section="fit">
         <div class="tbt-home-container tbt-home-fit__grid">
-            <article class="tbt-home-fit__yes"><h2>This is for:</h2><ul><li>Students taking O Level Pure/G3 Biology in Sec 3 or Sec 4.</li><li>Students who feel lost in the content, or need a few concepts strengthened.</li><li>Students who know the content but blank out on OEQs and lose marks anyway.</li><li>Students who genuinely want to improve in Bio out of their own drive.</li><li>Students in Singapore who can attend physical or online classes.</li></ul></article>
-            <article class="tbt-home-fit__no"><h2>This isn't for:</h2><ul><li>Students taking Combined Science Biology, not Pure/G3.</li><li>Students based outside Singapore.</li><li>Students only joining because someone else is forcing them.</li><li>Students who aren't committed to putting in the work required to ace the subject.</li></ul></article>
+            <article class="tbt-home-fit__yes"><h2>This is for:</h2><ul><li>Students taking O Level Pure/G3 Biology in Sec 3 or Sec 4.</li><li>Students who feel very lost in the content, or just need a few concepts strengthened.</li><li>Students who know the content but blank out on OEQs and lose marks anyway.</li><li>Students who genuinely want to improve in Bio, out of their own drive, not because someone else is forcing them.</li><li>Students based in Singapore who can attend physical or online classes.</li></ul></article>
+            <article class="tbt-home-fit__no"><h2>This isn't for:</h2><ul><li>Students taking Combined Science Biology, not Pure/G3.</li><li>Students based outside Singapore.</li><li>Students only joining because their parents are making them, without wanting to improve themselves.</li><li>Students who aren't committed to putting in the work required to ace the subject.</li></ul></article>
         </div>
     </section>
 
@@ -257,7 +254,7 @@ $tbt_faqs = [
 
     <section class="tbt-home-section tbt-home-classroom" data-section="classroom">
         <div class="tbt-home-container">
-            <p class="tbt-home-eyebrow">A look inside</p><h2>Life inside a TBT classroom</h2>
+            <h2>Life inside a TBT classroom</h2>
             <div class="tbt-home-classroom__grid"><?php foreach (range(1, 3) as $tbt_index) : ?><figure><?php $tbt_media_image(sprintf('home_classroom_%02d', $tbt_index), '', 'loading="lazy"'); ?></figure><?php endforeach; ?></div>
         </div>
     </section>

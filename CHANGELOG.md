@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Aligned homepage photos and circular tutor portraits, restored moving school logos with pause/reduced-motion controls, centered the results artwork, and rebuilt the original Google Reviews presentation with source review snapshots, scrolling and expandable text.
+- Restored stacked Quality Control rows and outlined suitability cards, removed extra practical/classroom/tutor eyebrows, and replaced inherited pink FAQ interaction colors with green.
+
 - Removed the remaining width caps from the homepage hero headline, refund text and track-record video so they fill the shared 1120px container.
 
 - Expanded the homepage problem quotes, transition text and testimonial cards to fill the shared 1120px content container.

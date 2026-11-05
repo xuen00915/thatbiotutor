@@ -272,6 +272,66 @@
     });
   }
 
+  function initHomeProof(document, windowObject) {
+    const crests = document.querySelector('.tbt-home-proof__crests');
+    const toggle = document.querySelector('[data-crest-toggle]');
+    if (crests && toggle) {
+      const motion = windowObject.matchMedia('(prefers-reduced-motion: reduce)');
+      let paused = motion.matches;
+      let hovering = false;
+      let previousTime = 0;
+      let offset = 0;
+      const originals = Array.from(crests.children);
+      originals.forEach((image) => {
+        const clone = image.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        clone.removeAttribute('data-media-key');
+        clone.alt = '';
+        crests.appendChild(clone);
+      });
+      const sync = () => {
+        toggle.setAttribute('aria-pressed', String(paused));
+        toggle.textContent = paused ? 'Play school logos' : 'Pause school logos';
+      };
+      toggle.addEventListener('click', () => { paused = !paused; sync(); });
+      crests.addEventListener('mouseenter', () => { hovering = true; });
+      crests.addEventListener('mouseleave', () => { hovering = false; });
+      motion.addEventListener('change', () => { paused = motion.matches; sync(); });
+      sync();
+      const tick = (time) => {
+        const delta = previousTime ? Math.min(time - previousTime, 50) : 0;
+        previousTime = time;
+        if (!paused && !hovering && !document.hidden && originals.length) {
+          const cycle = crests.children[originals.length].offsetLeft - originals[0].offsetLeft;
+          if (cycle > 0) {
+            offset = (offset + delta * 0.035) % cycle;
+            crests.scrollLeft = offset;
+          }
+        }
+        windowObject.requestAnimationFrame(tick);
+      };
+      windowObject.requestAnimationFrame(tick);
+    }
+    document.querySelectorAll('[data-google-reviews]').forEach((widget) => {
+      const track = widget.querySelector('[data-review-track]');
+      const move = (direction) => {
+        const reduced = prefersReducedMotion(windowObject.matchMedia.bind(windowObject));
+        const distance = track.firstElementChild.getBoundingClientRect().width + 16;
+        track.scrollBy({ left: direction * distance, behavior: reduced ? 'instant' : 'smooth' });
+      };
+      widget.querySelector('[data-review-prev]').addEventListener('click', () => move(-1));
+      widget.querySelector('[data-review-next]').addEventListener('click', () => move(1));
+      widget.querySelectorAll('[data-review-expand]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const expanded = button.getAttribute('aria-expanded') !== 'true';
+          button.setAttribute('aria-expanded', String(expanded));
+          button.textContent = expanded ? 'Read less' : 'Read more';
+          document.getElementById(button.getAttribute('aria-controls')).classList.toggle('is-expanded', expanded);
+        });
+      });
+    });
+  }
+
   function init(document, windowObject) {
     document.documentElement.classList.remove('no-js');
     document.documentElement.classList.add('js');
@@ -280,6 +340,7 @@
     initCountUps(document, windowObject);
     initCertificateLightbox(document);
     initFaqs(document);
+    initHomeProof(document, windowObject);
   }
 
   return { openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, formatCountUpValue, syncNavigationViewport, initCertificateLightbox, init };

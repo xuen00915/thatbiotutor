@@ -59,6 +59,8 @@ jobs:
           python3 -m http.server 4173 --directory build >/tmp/tbt-pages-server.log 2>&1 &
           curl --fail --retry 10 --retry-connrefused --retry-delay 1 http://localhost:4173/ >/dev/null
           TBT_RUNTIME_URL=http://localhost:4173 node tests/runtime-browser-test.js
+          TBT_RUNTIME_URL=http://localhost:4173 node tests/content-width-runtime.js
+          TBT_RUNTIME_URL=http://localhost:4173 node tests/home-polish-runtime.js
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

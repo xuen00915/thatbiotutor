@@ -30,7 +30,7 @@ $contracts = [
     ['source' => $templateSource, 'needle' => 'data-count-up', 'label' => 'running-number animation hook'],
     ['source' => $baseCss, 'needle' => ':focus-visible', 'label' => 'keyboard focus styling'],
     ['source' => $baseCss, 'needle' => 'prefers-reduced-motion', 'label' => 'reduced-motion styling'],
-    ['source' => $pageCss, 'needle' => '@media (min-width: 1000px)', 'label' => 'desktop landing geometry'],
+    ['source' => $pageCss, 'needle' => '@media (min-width: 769px)', 'label' => 'desktop landing geometry'],
     ['source' => $pageCss, 'needle' => '@media (max-width: 768px)', 'label' => 'tablet behavior'],
     ['source' => $pageCss, 'needle' => '@media (max-width: 390px)', 'label' => 'mobile behavior'],
     ['source' => $pageCss, 'needle' => '@media (max-width: 320px)', 'label' => 'narrow-mobile behavior'],
