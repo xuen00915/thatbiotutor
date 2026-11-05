@@ -102,8 +102,8 @@ final class HomePageTest
         $this->assertTrue(substr_count($html, '.webp') >= 24, 'Home media must resolve to the local WebP library.');
 
         $headerSource = (string) file_get_contents(TBT_THEME_DIR . '/header.php');
-        $this->assertTrue(str_contains($headerSource, 'tbt-landing-header'), 'Front page must have the compact Inquire landing header.');
-        $this->assertTrue(str_contains($headerSource, 'is_front_page'), 'Landing header must be restricted to the homepage.');
+        $this->assertTrue(!str_contains($headerSource, 'tbt-landing-header') && !str_contains($headerSource, 'is_front_page'), 'Homepage must use the same original navigation header as every other page.');
+        $this->assertTrue(str_contains($headerSource, 'tbt_render_navigation'), 'Header must render the primary navigation.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} Home-page assertions\n");
     }
