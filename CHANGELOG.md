@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Changed the homepage content width from 1120px to the 944px FastTrack card width across every section, including the header and footer tracks; other pages stay at 1120px.
+
 - Centered the shared desktop header so the logo and navigation sit in the middle of the page as one group.
 
 - Replaced the homepage's compact landing header with the original site header (logo plus Home, Classes, Results & Testimonials, Free Bio Notes, About Us, Our Causes) shared by every page.

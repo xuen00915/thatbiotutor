@@ -31,7 +31,7 @@ const routes = {
           }));
           assert.ok(boxes.length > 0, `${route}: missing ${target}`);
           for (const box of boxes) {
-          assert.ok(Math.abs(box.width - Math.min(1120, width - 32)) < 2, `${route} ${target} at ${width}: ${box.width}`);
+          assert.ok(Math.abs(box.width - Math.min(route === '/' ? 944 : 1120, width - 32)) < 2, `${route} ${target} at ${width}: ${box.width}`);
           assert.ok(Math.abs(box.center - width / 2) < 2, `${route} ${target} is not centered`);
           }
         }
