@@ -31,7 +31,9 @@ const routes = {
           }));
           assert.ok(boxes.length > 0, `${route}: missing ${target}`);
           for (const box of boxes) {
-          assert.ok(Math.abs(box.width - Math.min(['/', '/intensivefix/'].includes(route) ? 944 : 1120, width - 32)) < 2, `${route} ${target} at ${width}: ${box.width}`);
+          const inquire = ['/', '/intensivefix/'].includes(route);
+          const expected = inquire && target !== '.site-header__inner' ? 944 : 1120;
+          assert.ok(Math.abs(box.width - Math.min(expected, width - 32)) < 2, `${route} ${target} at ${width}: ${box.width}`);
           assert.ok(Math.abs(box.center - width / 2) < 2, `${route} ${target} is not centered`);
           }
         }

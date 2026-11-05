@@ -112,8 +112,9 @@ final class HomePageTest
         $this->assertTrue(substr_count($html, '.webp') >= 24, 'Home media must resolve to the local WebP library.');
 
         $headerSource = (string) file_get_contents(TBT_THEME_DIR . '/header.php');
-        $this->assertTrue(!str_contains($headerSource, 'tbt-landing-header') && !str_contains($headerSource, 'is_front_page'), 'Homepage must use the same original navigation header as every other page.');
-        $this->assertTrue(str_contains($headerSource, 'tbt_render_navigation'), 'Header must render the primary navigation.');
+        $this->assertTrue(str_contains($headerSource, 'tbt-landing-header') && str_contains($headerSource, 'is_front_page') && str_contains($headerSource, "is_page('intensivefix')"), 'Homepage and IntensiveFix must use the Inquire landing header.');
+        $this->assertTrue(str_contains($headerSource, 'site-brand__wordmark') && str_contains($headerSource, 'tbt-landing-header__cta'), 'Landing header must show the ThatBioTutor wordmark and a booking button.');
+        $this->assertTrue(str_contains($headerSource, 'tbt_render_navigation'), 'Other pages must keep the primary navigation header.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} Home-page assertions\n");
     }

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Restored the Inquire landing header (logo with ThatBioTutor wordmark and green booking button) on the homepage and IntensiveFix, solid white at the top and translucent white after scrolling; all other pages keep the navigation header.
+
 - Rebuilt the IntensiveFix page in the Inquire design (shared hero, quotes, track record, FastTrack, proof, tutors, quality, practical, offer, suitability, founder, FAQ, classroom and closing sections) and applied the MarkUp review comments: "In Just 4 DAYS" headline, new bridge line, updated CTA labels linking to a new `#details` section with the fees, schedule and programme graphics, refund terms for the first lesson, a 4-Day stat, and spacing above the details button. The homepage's shared sections now live in `template-parts/inquire-*.php`. Existing sites keep stored IntensiveFix heading/button text until edited or re-seeded.
 
 - Made the desktop navigation independent of JavaScript state so the header always shows Home, Classes, Results & Testimonials, Free Bio Notes, About Us and Our Causes above 980px.

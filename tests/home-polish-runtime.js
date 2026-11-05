@@ -21,12 +21,11 @@ const {chromium} = require('playwright');
   assert.equal(await page.locator('.tbt-home-practical .tbt-home-eyebrow,.tbt-home-classroom .tbt-home-eyebrow,.tbt-home-tutors .tbt-home-eyebrow').count(),0);
   const rows=await page.locator('.tbt-home-quality li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().y));
   assert.ok(rows[0]<rows[1]&&rows[1]<rows[2],'Quality checks must stack');
-  if (width>980) {
-    const navVisible=await page.evaluate(()=>{const n=document.querySelector('.site-nav');n.hidden=true;const d=getComputedStyle(n).display;n.hidden=false;return d});
-    assert.notEqual(navVisible,'none','Desktop navigation must stay visible even if its hidden attribute is set');
-    const labels=await page.locator('.site-header .site-nav > ul > li > a, .site-header .site-nav .site-nav__link').allTextContents();
-    for (const label of ['Home','Classes','Results & Testimonials','Free Bio Notes','About Us','Our Causes']) assert.ok(labels.some(x=>x.trim()===label),'Header must show '+label);
-  }
+  const headerBg=()=>page.locator('.site-header').evaluate(e=>getComputedStyle(e).backgroundColor);
+  assert.equal(await headerBg(),'rgb(255, 255, 255)','Landing header is solid white at the top');
+  await page.evaluate(()=>window.scrollTo(0,700));await page.waitForTimeout(700);
+  assert.match(await headerBg(),/^rgba\(255, 255, 255, 0\.\d+\)$/,'Landing header turns translucent white after scrolling');
+  await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(500);
   const faq=page.locator('.tbt-home-faq__item button').first();
   await faq.hover();
   await page.waitForFunction(()=>getComputedStyle(document.querySelector('.tbt-home-faq__item button')).backgroundColor==='rgb(237, 245, 232)');
@@ -67,5 +66,11 @@ const {chromium} = require('playwright');
  await page.emulateMedia({reducedMotion:'reduce'});await page.reload({waitUntil:'domcontentloaded'});
  const reduced=await crests.evaluate(e=>e.scrollLeft);await page.waitForTimeout(200);assert.equal(await crests.evaluate(e=>e.scrollLeft),reduced);
  console.log('PASS: photo/tutor alignment, centered results, reference sections, reviews, FAQ colors and crest movement');
+  await page.setViewportSize({width:1440,height:900});
+  await page.goto(new URL('classes/',(process.env.TBT_RUNTIME_URL || 'http://localhost:8888/').replace(/\/?$/,'/')).href,{waitUntil:'domcontentloaded'});
+  const navVisible=await page.evaluate(()=>{const n=document.querySelector('.site-nav');n.hidden=true;const d=getComputedStyle(n).display;n.hidden=false;return d});
+  assert.notEqual(navVisible,'none','Desktop navigation must stay visible even if its hidden attribute is set');
+  const labels=await page.locator('.site-header .site-nav .site-nav__link').allTextContents();
+  for (const label of ['Home','Classes','Results & Testimonials','Free Bio Notes','About Us','Our Causes']) assert.ok(labels.some(x=>x.trim()===label),'Header must show '+label);
  } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});

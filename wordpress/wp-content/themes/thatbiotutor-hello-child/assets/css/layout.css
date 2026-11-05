@@ -35,7 +35,6 @@ body.tbt-site .site-header .site-header__inner {
 
 /* Every homepage section follows the 944px FastTrack card width, including the shared header and footer tracks. */
 
-body.tbt-site:is(.home, .page-template-page-intensivefix) .site-header .site-header__inner,
 body.tbt-site .tbt-home-inquire .tbt-home-container,
 body.tbt-site .tbt-home-inquire .tbt-home-hero__carousel {
   width: min(944px, calc(100% - 2 * var(--tbt-gutter)));

@@ -300,6 +300,14 @@
     });
   }
 
+  function initHeaderScroll(document, windowObject) {
+    const header = document.querySelector('.tbt-landing-header');
+    if (!header) return;
+    const update = () => header.classList.toggle('is-scrolled', (windowObject.scrollY || 0) > 8);
+    windowObject.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+
   function initReveal(document, windowObject) {
     const targets = Array.from(document.querySelectorAll('#main-content > section, #main-content > div > section, .site-footer'));
     const reduce = prefersReducedMotion(windowObject.matchMedia ? windowObject.matchMedia.bind(windowObject) : undefined);
@@ -379,6 +387,7 @@
     initCountUps(document, windowObject);
     initCertificateLightbox(document);
     initFaqs(document, windowObject);
+    initHeaderScroll(document, windowObject);
     initReveal(document, windowObject);
     initHomeProof(document, windowObject);
   }
