@@ -155,7 +155,7 @@ body.tbt-site #main-content :is(.tbt-resource-carousel__control, .tbt-tutor__doc
   min-height: 44px;
 }
 
-body.tbt-site #main-content :is(.tbt-resource-carousel__control, .tbt-tutor__document-control, .tbt-carousel__control, [data-carousel-prev], [data-carousel-next]):is(:hover, :focus, :active) {
+body.tbt-site #main-content :is(.tbt-resource-carousel__control, .tbt-tutor__document-control, .tbt-carousel__control):is(:hover, :focus, :active) {
   background: rgba(14, 55, 29, 0.85);
   color: #fff;
 }
