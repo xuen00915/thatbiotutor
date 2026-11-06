@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] About tutor cards: the certificate viewer column is now exactly as tall as that tutor's words (desktop) and the certificate picture fills it, so it is larger (it was a fixed 286px box); on phones the viewer is 340px tall. `tests/about-page-runtime.js` guards it.
+
 - [main-site] About: "Quality Teaching Only" and "What We Believe In" now show the words on the left and the photo on the right (desktop), with the photo exactly as tall as the words; they stack on tablets and phones. The founder's three answers sit in cards: questions 1 and 2 side by side, question 3 across the full width underneath (stacked on small screens). On "What We Believe In" the photo sits closer to the words (a wider photo column). `tests/about-page-runtime.js` guards the layout.
 - [fix-page] FastTrack icons made smaller (88px wide, 72px on phones, at most 96px tall) while still starting level with their phrase.
 
