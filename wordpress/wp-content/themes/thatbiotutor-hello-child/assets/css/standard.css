@@ -517,3 +517,21 @@ body.tbt-site .tbt-google-reviews__source { padding-block: 12px; font-size: 13px
 @media (max-width: 768px) {
   body.tbt-site .tbt-home-closing figure { margin-bottom: 28px; }
 }
+
+/* ---------- Classes page: readable labels, centred headings, visible practical photos ---------- */
+body.tbt-site .tbt-classes-page .tbt-programme-struggles .tbt-programme-kicker,
+body.tbt-site .tbt-classes-page .tbt-programme-results .tbt-programme-kicker { color: var(--tbt-std-green-bright); }
+
+body.tbt-site .tbt-classes-page .tbt-programme-section > .tbt-programme-container > .tbt-programme-kicker { display: flex; justify-content: center; }
+body.tbt-site .tbt-classes-page .tbt-programme-section > .tbt-programme-container > h2,
+body.tbt-site .tbt-classes-page .tbt-programme-levels > .tbt-programme-container > p { margin-inline: auto; text-align: center; }
+body.tbt-site .tbt-classes-page .tbt-programme-difference > .tbt-programme-container > h2 { justify-content: center; }
+body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels__button { display: flex; width: max-content; max-width: 100%; margin-inline: auto; }
+body.tbt-site .tbt-classes-page .tbt-programme-levels__grid { margin-inline: 0; }
+
+/* The three practical-session photos show instead of leaving a blank gap. */
+body.tbt-site .tbt-classes-page .tbt-practical-grid { visibility: visible; height: auto; margin-top: 32px; }
+body.tbt-site .tbt-classes-page .tbt-practical-photo { height: 280px; border-radius: 18px; }
+@media (max-width: 768px) {
+  body.tbt-site .tbt-classes-page .tbt-practical-photo { height: 220px; }
+}
