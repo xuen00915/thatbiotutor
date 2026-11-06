@@ -467,3 +467,9 @@ body.tbt-site .tbt-home-closing img { height: 100%; }
   body.tbt-site #main-content .tbt-causes-section__media--square :is(img, video) { border-radius: 0 !important; }
   body.tbt-site #main-content .tbt-causes-section__media--square { border-radius: 0 !important; }
 }
+
+/* ---------- Hero headline: original 864px text measure inside the shared 944px container ---------- */
+body.tbt-site .tbt-home-hero h1 {
+  padding-inline: clamp(0px, calc((100% - 864px) / 2), 40px);
+  text-wrap: wrap;
+}

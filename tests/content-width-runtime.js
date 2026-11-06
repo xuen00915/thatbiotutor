@@ -27,7 +27,9 @@ const routes = {
         for (const target of [selector, '.site-header__inner', '.site-footer__inner', ...(route === '/' ? ['.tbt-home-proof__results', '.tbt-home-proof__results img', '.tbt-home-hero h1', '.tbt-home-hero__result', '.tbt-home-hero__refund', '.tbt-home-stats .tbt-home-video', '.tbt-home-hero__carousel', '.tbt-home-problem__quotes', '.tbt-home-problem__proof', '.tbt-home-problem__bridge'] : [])]) {
           const boxes = await page.locator(target).evaluateAll(elements => elements.map(el => {
             const r = el.getBoundingClientRect(), s = getComputedStyle(el);
-            return { width: r.width - parseFloat(s.paddingLeft) - parseFloat(s.paddingRight), center: r.x + r.width / 2 };
+            // The hero headline box fills the container; its text measure is narrower by design (864px).
+            const inset = el.matches('.tbt-home-hero h1') ? 0 : parseFloat(s.paddingLeft) + parseFloat(s.paddingRight);
+            return { width: r.width - inset, center: r.x + r.width / 2 };
           }));
           assert.ok(boxes.length > 0, `${route}: missing ${target}`);
           for (const box of boxes) {

@@ -21,6 +21,10 @@ const {chromium} = require('playwright');
   assert.equal(await page.locator('.tbt-home-practical .tbt-home-eyebrow,.tbt-home-classroom .tbt-home-eyebrow,.tbt-home-tutors .tbt-home-eyebrow').count(),0);
   const rows=await page.locator('.tbt-home-quality li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().y));
   assert.ok(rows[0]<rows[1]&&rows[1]<rows[2],'Quality checks must stack');
+  if (width===1440) {
+    const lines=await page.evaluate(()=>{const h=document.querySelector('.tbt-home-hero h1');const w=document.createTreeWalker(h,NodeFilter.SHOW_TEXT);const lines=new Map();let n;while((n=w.nextNode())){const re=/\S+/g;let m;while((m=re.exec(n.textContent))){const r=document.createRange();r.setStart(n,m.index);r.setEnd(n,m.index+m[0].length);const top=Math.round(r.getBoundingClientRect().top);lines.set(top,(lines.get(top)||[]).concat(m[0]))}}return [...lines.entries()].sort((a,b)=>a[0]-b[0]).map(e=>e[1].join(' '))});
+    assert.equal(lines[0],'The One Missing Key to go','Homepage headline wraps like the original ('+JSON.stringify(lines)+')');
+  }
   // FastTrack images share one large size.
   const icons=await page.locator('.tbt-home-fasttrack__tbt-content img').evaluateAll(es=>es.map(e=>[Math.round(e.getBoundingClientRect().width),Math.round(e.getBoundingClientRect().height)]));
   assert.ok(icons.length===5&&icons.every(([w,h])=>w===icons[0][0]&&h===icons[0][1]),'FastTrack images must be one size ('+JSON.stringify(icons)+')');
@@ -103,6 +107,9 @@ const {chromium} = require('playwright');
   await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(800);
   const heroGap=await page.evaluate(()=>document.querySelector('.tbt-home-hero .tbt-home-kicker').getBoundingClientRect().top-document.querySelector('.site-header').getBoundingClientRect().bottom);
   assert.ok(heroGap<=56,'Space between the IntensiveFix header and hero must be tight ('+heroGap+'px)');
+  const heroLines=()=>page.evaluate(()=>{const h=document.querySelector('.tbt-home-hero h1');const w=document.createTreeWalker(h,NodeFilter.SHOW_TEXT);const lines=new Map();let n;while((n=w.nextNode())){const re=/\S+/g;let m;while((m=re.exec(n.textContent))){const r=document.createRange();r.setStart(n,m.index);r.setEnd(n,m.index+m[0].length);const top=Math.round(r.getBoundingClientRect().top);lines.set(top,(lines.get(top)||[]).concat(m[0]))}}return [...lines.entries()].sort((a,b)=>a[0]-b[0]).map(e=>e[1].join(' '))});
+  const ifLines=await heroLines();
+  assert.deepEqual(ifLines,['Fix Your Entire Sec 3 Bio','Foundation Before the','Chaotic Sec 4 Year Begins','— In Just 4 DAYS'],'IntensiveFix headline wraps like the original');
   // Contact Us goes straight to the WhatsApp number.
   const contact=await page.locator('.tbt-landing-header__cta').evaluate(e=>({href:e.getAttribute('href'),target:e.getAttribute('target')}));
   assert.ok(contact.href.startsWith('https://wa.me/6587597182'),'Contact Us must open the WhatsApp number');
