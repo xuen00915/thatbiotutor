@@ -86,6 +86,7 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:4173 node tests/content-length-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/causes-page-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/about-page-runtime.js
+          TBT_RUNTIME_URL=http://localhost:4173 node tests/nav-arrow-runtime.js
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
