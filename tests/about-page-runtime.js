@@ -40,6 +40,43 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       } else {
         assert.ok(m.pSize >= 16, `Reading text must stay comfortable on small screens ${at}`);
       }
+      // Certificate viewer: no frame lines, and the arrows sit beside the picture, not on it.
+      const cert = await page.evaluate(() => {
+        const viewer = document.querySelector('.tbt-about-tutors .tbt-tutor__documents');
+        if (!viewer) return null;
+        const px = (el, prop) => parseFloat(getComputedStyle(el)[prop]) || 0;
+        const border = (el) => ['Top', 'Right', 'Bottom', 'Left'].reduce((n, side) => n + px(el, `border${side}Width`), 0);
+        const img = Array.from(viewer.querySelectorAll('.tbt-tutor__document')).find((i) => i.getBoundingClientRect().width > 0);
+        const ir = img.getBoundingClientRect();
+        const pad = (side) => px(img, `padding${side}`);
+        const picture = { left: ir.left + pad('Left'), right: ir.right - pad('Right') };
+        const gaps = Array.from(viewer.querySelectorAll('.tbt-tutor__document-control')).map((c) => {
+          const r = c.getBoundingClientRect();
+          return { border: border(c), gap: c.matches('.tbt-tutor__document-control--previous') ? picture.left - r.right : r.left - picture.right };
+        });
+        return { viewerBorder: border(viewer), enlargeBorder: border(viewer.querySelector('.tbt-tutor__document-enlarge')), gaps };
+      });
+      if (cert) {
+        const where = `${at} cert=${JSON.stringify(cert)}`;
+        assert.equal(cert.viewerBorder, 0, `Certificate viewer must have no border line ${where}`);
+        assert.equal(cert.enlargeBorder, 0, `Enlarge button must have no border line ${where}`);
+        for (const g of cert.gaps) {
+          assert.equal(g.border, 0, `Arrow buttons must have no border line ${where}`);
+          assert.ok(g.gap >= 8, `Arrow buttons must sit at least 8px away from the certificate ${where}`);
+        }
+      }
+      // Founder photo: as wide as its title bar, with the same gap under the bar as the Our Tutors cards.
+      const founder = await page.evaluate(() => {
+        const box = (selector) => document.querySelector(selector).getBoundingClientRect();
+        const bar = box('.tbt-founder-message .tbt-institutional-title-bar');
+        const img = box('.tbt-founder-message__image');
+        const tutorBar = box('.tbt-about-tutors .tbt-institutional-title-bar');
+        const card = box('.tbt-about-tutors .tbt-tutor');
+        return { barWidth: bar.width, imgWidth: img.width, barLeft: bar.left, imgLeft: img.left, gap: img.top - bar.bottom, tutorGap: card.top - tutorBar.bottom };
+      });
+      const fw = `${at} founder=${JSON.stringify(founder)}`;
+      assert.ok(Math.abs(founder.imgWidth - founder.barWidth) <= 1 && Math.abs(founder.imgLeft - founder.barLeft) <= 1, `Founder photo must be as wide as the title bar ${fw}`);
+      assert.ok(Math.abs(founder.gap - founder.tutorGap) <= 1, `Founder photo gap under the title bar must match the Our Tutors gap ${fw}`);
       console.log(`PASS about ${width}`);
     }
   } finally { await browser.close(); }

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] About certificate viewers lose their frame line and the arrow/enlarge button borders, and the arrows now sit beside the certificate instead of on top of it. The "A Message From The Founder" photo is now as wide as its title bar and sits 40px below it (28px on tablets and phones), the same gap as the Our Tutors cards. `tests/about-page-runtime.js` guards both.
+
 - [main-site] Restored the original About page look that the site standard had flattened: Montserrat instead of Poppins, the 65px hero heading, a 40px "SUCCESS TO US" headline and 22px reading text on desktop, and the hero photo back at its original 78% opacity (the standard's image fade-in was ending at 100% and darkening it; hero brightness now matches the 3 November crawl). The reading width stays the shared content width and the soft highlight colour is unchanged. `tests/standard-pages-runtime.js` allows these About values; new `tests/about-page-runtime.js` guards them.
 
 - [main-site] On Our Causes the "1. Planting Trees!" bar now uses the same 36px size as "2. SG Environmental Causes" (it was the 60px page heading), so both bars match. This is the one page where the standard h1 size is relaxed; `tests/standard-pages-runtime.js` expects 36px there and `tests/causes-page-runtime.js` checks the two bars match.
