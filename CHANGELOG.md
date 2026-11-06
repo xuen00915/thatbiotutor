@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Sec 3 mobile FAQ carousel replaces the two rows of dots with a single current / total counter between the arrow controls; desktop retains its dots.
+
 - [main-site] Sec 3 FAQ background matches the supplied warm off-white (#faf9f5); tutor profiles no longer lift or show shadows on hover; Book a Trial has no arrow.
 
 - [main-site] Sec 3 follow-up: shared pill style for More Testimonials without an arrow, extra breathing room before the practical heading, four tutor profiles per desktop row, and FAQ slider controls outside the artwork (below it on mobile).

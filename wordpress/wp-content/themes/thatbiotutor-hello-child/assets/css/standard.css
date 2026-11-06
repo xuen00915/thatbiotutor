@@ -818,3 +818,9 @@ body.tbt-site #main-content .tbt-sec3-page .tbt-faq-slider__control:is(:hover, :
 body.tbt-site #main-content .tbt-sec3-page .tbt-programme-faq { background: #faf9f5; }
 body.tbt-site #main-content .tbt-sec3-page .tbt-programme-tutors .tbt-tutor,
 body.tbt-site #main-content .tbt-sec3-page .tbt-programme-tutors .tbt-tutor:hover { transform: none; box-shadow: none; transition: none; }
+
+body.tbt-site #main-content .tbt-sec3-page .tbt-faq-slider__counter { display: none; }
+@media (max-width: 640px) {
+  body.tbt-site #main-content .tbt-sec3-page .tbt-faq-slider__dots { display: none; }
+  body.tbt-site #main-content .tbt-sec3-page .tbt-faq-slider__counter { display: flex; height: 44px; align-items: center; justify-content: center; margin: 16px 56px 0; color: #193b22; font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1; }
+}

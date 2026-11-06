@@ -196,7 +196,7 @@
           else slide.hidden = !active;
         });
         dots.forEach((dot, dotIndex) => dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false'));
-        if (status) status.textContent = `${index + 1} of ${slides.length}`;
+        if (status) status.textContent = `${index + 1}${status.getAttribute('data-carousel-status-separator') || ' of '}${slides.length}`;
       };
       const move = (delta) => show(carouselIndex(index, delta, slides.length));
       const previous = carousel.querySelector('[data-carousel-prev]');

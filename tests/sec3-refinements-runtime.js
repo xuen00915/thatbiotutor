@@ -52,7 +52,13 @@ const { chromium } = require('playwright');
    assert.equal(await slider.locator('[data-carousel-dot]').nth(1).getAttribute('aria-current'),'true');
    await slider.locator('[data-carousel-prev]').click();
    assert.equal(await slider.locator('[data-carousel-dot]').first().getAttribute('aria-current'),'true');
-   await slider.locator('[data-carousel-dot]').last().click();
+   if(width<=640) {
+    assert.equal(await slider.locator('[data-carousel-status]').count(),1,'Mobile slider has a page counter');
+    assert.equal(await slider.locator('[data-carousel-dot]').first().isVisible(),false,'Mobile dots are hidden');
+    assert.equal(await slider.locator('[data-carousel-status]').innerText(),'1 / 12');
+    await slider.locator('[data-carousel-prev]').click();
+    assert.equal(await slider.locator('[data-carousel-status]').innerText(),'12 / 12');
+   } else { await slider.locator('[data-carousel-dot]').last().click(); }
    assert.equal(await slider.locator('[data-carousel-dot]').last().getAttribute('aria-current'),'true');
    await page.waitForFunction(()=>[...document.querySelectorAll('.tbt-faq-slider img')].every(i=>i.complete&&i.naturalWidth>0),null,{timeout:30000});
    assert.ok(await slider.locator('img').evaluateAll(es=>es.every(e=>e.complete&&e.naturalWidth>0)),'Slider images load');
