@@ -210,3 +210,19 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page [data-review-panel] [data-testimonial-list] { padding: 2px 14px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page [data-review-panel] .tbt-testimonial blockquote { font-size: 17px; }
 }
+
+/* Every section shares the About Us content edges, including media and review panels. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__content {
+  width: min(var(--tbt-page), calc(100% - 2 * var(--tbt-gutter)));
+  padding-inline: 0;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-artwork, .tbt-testimonials-featured .tbt-video) {
+  width: 100%;
+  max-width: none;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page #class-of-2023 .tbt-testimonials-artwork--portrait {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 390px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page #class-of-2023 .tbt-testimonials-artwork--portrait { grid-template-columns: 1fr; }
+}

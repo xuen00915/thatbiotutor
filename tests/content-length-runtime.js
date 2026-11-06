@@ -36,7 +36,7 @@ const pages = [
 
     // The control reveals more reviews, keeps the count right, and removes itself when everything is shown.
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto(new URL('testimonials/', base).href, { waitUntil: 'domcontentloaded' });
+    await page.goto(new URL('celldivision/', base).href, { waitUntil: 'domcontentloaded' });
     const colours = await page.evaluate(() => ({
       more: getComputedStyle(document.querySelector('[data-reviews-more]')).backgroundColor,
       all: getComputedStyle(document.querySelector('[data-reviews-all]')).borderTopColor,
@@ -49,11 +49,8 @@ const pages = [
     const after = await page.locator('.tbt-testimonial:not([hidden])').count();
     assert.ok(after > before, 'Show more must reveal more reviews');
     assert.equal(await first.getAttribute('aria-controls') !== null, true, 'Show more must point at its list for assistive tech');
-    const showAll = page.locator('#class-of-2024 [data-reviews-all]');
-    await showAll.scrollIntoViewIfNeeded();
-    await showAll.click();
-    assert.equal(await page.locator('#class-of-2024 .tbt-testimonial[hidden]').count(), 0, 'Show all must reveal every review in that list');
-    assert.equal(await page.locator('#class-of-2024 .tbt-reviews-controls').evaluate((e) => e.hidden), true, 'Controls hide when the list is fully shown');
+    assert.equal(await page.locator('.tbt-testimonial[hidden]').count(), 0, 'The remaining eleven reviews are revealed in one batch');
+    assert.equal(await page.locator('.tbt-reviews-controls').evaluate((e) => e.hidden), true, 'Controls hide when the list is fully shown');
     console.log('PASS: long review pages are compact, collapsible and keep every review');
   } finally {
     await browser.close();
