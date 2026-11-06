@@ -21,7 +21,9 @@ body.tbt-site .site-header { display: block; width: 100%; max-width: none; margi
 .site-nav__submenu-toggle { min-width: 24px; min-height: 44px; border: 0; padding: 0 6px 0 0; background: transparent; color: inherit; cursor: pointer; }
 button.site-nav__submenu-toggle:hover, button.site-nav__submenu-toggle:focus, button.site-nav__submenu-toggle:active { background: transparent; color: #d64037; box-shadow: none; }
 button.site-nav__submenu-toggle:focus-visible { outline: 3px solid #43b43a; outline-offset: -3px; border-radius: 8px; }
-.site-nav__submenu-toggle > span[aria-hidden="true"] { display: block; font-size: 14px; transform: translateY(-1px); }
+.site-nav__submenu-toggle { display: inline-flex; align-items: center; justify-content: center; }
+.site-nav__chevron { display: block; width: 12px; height: 8px; transition: transform 200ms ease; }
+.site-nav__submenu-toggle[aria-expanded="true"] .site-nav__chevron, .site-nav__item--has-children:hover .site-nav__chevron, .site-nav__item--has-children:focus-within .site-nav__chevron { transform: rotate(180deg); }
 .site-nav__submenu { position: absolute; top: 100%; left: 0; z-index: 10; min-width: 260px; list-style: none; margin: 0; padding: 0; background: #fff; border: 1px solid #26334c; box-shadow: var(--tbt-shadow); }
 .site-nav__submenu-link { display: block; padding: 18px 26px; border-bottom: 1px solid var(--tbt-line); text-decoration: none; font-size: 1.15rem; }
 .js .site-nav__submenu[hidden] { display: none; }

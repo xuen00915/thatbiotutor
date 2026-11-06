@@ -499,6 +499,7 @@ function tbt_reference_content(): array
                     'notes_heading' => 'Free O Level Biology Notes Singapore',
                     'notes_audience' => 'For Pure / G3 Biology',
                     'notes_access_heading' => 'Simply Enter Your Email Below And A Copy Will Be Sent To You.',
+                    'notes_form_shortcode' => '',
                     'notes_access_copy' => "After submitting the form, you'll be automatically redirected to the homepage.",
                     'notes_fit_heading' => 'Hey Pure Bio Student, is this you?',
                     'notes_fit_answer' => "If you answered 'yes' to the above, these notes were made for you. I spent hundreds of hours making these concise notes so that students like you can have an easy time studying.",

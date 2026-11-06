@@ -50,6 +50,7 @@ final class NavigationTest
         $html = (string) ob_get_clean();
         $this->assertSame(1, substr_count($html, 'Results &amp; Testimonials'), 'Results & Testimonials must render once.');
         $this->assertSame(1, substr_count($html, 'data-submenu-toggle'), 'Only Classes may own a submenu control.');
+        $this->assertTrue(preg_match('/data-submenu-toggle[^>]*>.*?<svg[^>]*class="site-nav__chevron"/s', $html) === 1, 'The Classes dropdown control must show an SVG chevron arrow.');
         $this->assertSame(2, substr_count($html, 'site-nav__submenu-link'), 'Only Sec 3 and Sec 4 may appear in the Classes submenu.');
         $this->assertSame(1, substr_count($html, 'aria-current="page"'), 'Only the current top-level page must expose aria-current.');
         $this->assertTrue(str_contains($html, 'site-nav__link is-active'), 'Current navigation link must receive the shared active class.');

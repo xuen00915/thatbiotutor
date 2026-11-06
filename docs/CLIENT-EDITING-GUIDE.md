@@ -6,6 +6,8 @@ The public layout is protected by the ThatBioTutor child theme. Client-safe word
 
 Open **Pages**, select a page, and use its labelled “ThatBioTutor” field panel. Page groups cover Home, Classes, Sec 3, Sec 4, Results & Testimonials, Free Bio Notes, Cell Division, About, Contact, Our Causes, Tuition Recommendations, and IntensiveFix. Home also owns the shared logo, WhatsApp number/message, phone, address, hours, footer description, and copyright.
 
+The Free Bio Notes email form is ready for Contact Form 7: paste a form shortcode into the page's **Form Shortcode** field (steps in `docs/CONTACT-FORM-7.md`); until then a stand-in form with the same design is shown.
+
 Home has five fixed numbered hero slots, four fixed numbered result-image slots, and three fixed numbered classroom slots. Free Bio Notes has three fixed numbered slides. Cell Division has five fixed numbered Cell Division slides. IntensiveFix has ten fixed numbered programme slots plus one review image. Keep fixed numbered media in the approved order; do not rename, skip, or reorder files to change sequence.
 
 Upload raster images as WebP. Preserve the indicated landscape/portrait fit and the lower focal point on Home hero image 1. Do not paste Wix or other hotlink URLs into image fields.

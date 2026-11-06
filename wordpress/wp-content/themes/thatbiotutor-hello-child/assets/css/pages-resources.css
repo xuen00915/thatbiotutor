@@ -147,6 +147,48 @@
   font-style: italic;
 }
 .tbt-notes-hero .tbt-resource-button { margin-top: 34px; }
+
+/* Free Bio Notes rhythm: the "is this you?" title is a contained, centred panel like the other title bars,
+   and sections / dark blocks keep ~32px (20px on phones) of space on each side instead of 64px. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-resource-section { padding-block: 32px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit h2 {
+  display: flex;
+  width: 100%;
+  min-height: 70px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 24px;
+  padding: 12px 24px;
+  border-radius: 18px;
+  text-align: center;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit__answer { margin-top: 20px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section { padding-block: 24px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section:first-child { padding-top: 40px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section:last-child { padding-bottom: 48px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details h2 { margin-bottom: 12px; }
+
+@media (max-width: 768px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-resource-section { padding-block: 20px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit h2 { min-height: 56px; padding: 10px 16px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section { padding-block: 18px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section:first-child { padding-top: 28px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section:last-child { padding-bottom: 32px; }
+}
+
+
+/* Original look: Montserrat title, italic audience line with only "Pure / G3 Biology" in green, and a hero that
+   fits one screen (the slider shrinks with the window height instead of pushing DOWNLOAD below the fold). */
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://static.parastorage.com/tag-bundler/api/v1/fonts-cache/googlefont/woff2/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2") format("woff2"); }
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 700; font-display: swap; src: url("https://static.parastorage.com/tag-bundler/api/v1/fonts-cache/googlefont/woff2/s/montserrat/v14/JTURjIg1_i6t8kCHKm45_dJE3gnD_vx3rCs.woff2") format("woff2"); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero { padding: 24px 0 20px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero h1 { margin-bottom: 4px; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-size: clamp(28px, 5vw, 45px); font-weight: 700; line-height: 1.2; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-notes-hero__audience { margin-bottom: 16px; color: #fff; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-size: clamp(20px, 3vw, 26px) !important; font-style: italic; font-synthesis: style; font-weight: 400; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-notes-hero__audience span { color: var(--resource-green); font-family: inherit; font-style: inherit; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-proof { margin: 12px 0 0; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-weight: 700; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-button { margin-top: 20px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(240px, calc(100svh - 350px), 640px); width: min(100%, calc(var(--notes-slider-height) * 500 / 640)); max-width: 500px; }
+
 .tbt-notes-hero .tbt-resource-proof { color: var(--resource-green); }
 .tbt-resource-carousel--notes .tbt-resource-carousel__control,
 .tbt-resource-carousel--notes .tbt-resource-carousel__dots { opacity: 0; transition: opacity .15s ease; }
@@ -222,7 +264,55 @@
   object-fit: cover;
 }
 .tbt-notes-access-intro h2 { max-width: 660px; margin: 0 auto; font-weight: 700; }
-.tbt-resource-access-spacer { height: 510px; }
+.tbt-notes-form { width: min(100%, 560px); margin: 28px auto 32px; text-align: left; }
+/* Styles target Contact Form 7's own classes, so the stand-in form and the real plugin form look identical. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form { margin: 0; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form p { margin: 0 0 16px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .tbt-form__label { display: block; color: var(--resource-dark); font-size: 16px; font-weight: 700; line-height: 1.4; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form-control-wrap { display: block; margin-top: 8px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form-control:is(input[type="email"], input[type="text"]) {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 54px;
+  padding: 0 18px;
+  border: 2px solid #c9d8c4;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--resource-dark);
+  font: 400 17px/1.3 "Poppins", ui-sans-serif, system-ui, sans-serif;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form-control:is(input[type="email"], input[type="text"])::placeholder { color: #7c8a78; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form-control:is(input[type="email"], input[type="text"]):focus { border-color: #43b43a; outline: none; box-shadow: 0 0 0 4px rgba(67, 180, 58, .22); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-not-valid { border-color: #d64037 !important; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-not-valid-tip { display: block; margin-top: 6px; color: #b3261e; font-size: 14px; font-weight: 400; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 54px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 9999px;
+  background: #43b43a;
+  color: #fff;
+  font: 700 18px/1 "Poppins", ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: .02em;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(67, 180, 58, .28);
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:is(:hover, :focus-visible) { background: #2f8f27; transform: translateY(-1px); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:focus-visible { outline: 3px solid #0e371d; outline-offset: 3px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-spinner { margin: 8px auto 0; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-response-output { margin: 12px 0 0; padding: 12px 16px; border: 2px solid #c9d8c4; border-radius: 12px; font-size: 15px; line-height: 1.4; text-align: center; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form:not(.init):is(.sent, .failed, .invalid, .unaccepted, .spam, .aborted, .payment-required) .wpcf7-response-output { display: block; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form.sent .wpcf7-response-output { border-color: #43b43a; background: #f0f8ee; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form:is(.failed, .invalid, .unaccepted, .spam, .aborted) .wpcf7-response-output { border-color: #d64037; background: #fdf1f0; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form.init .wpcf7-response-output:empty, body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-response-output:empty { display: none; }
+@media (max-width: 768px) { .tbt-notes-form { margin: 20px auto 24px; } }
 .tbt-resource-access-instructions { text-align: left; }
 .tbt-resource-access-instructions p { margin-bottom: 22px; }
 
