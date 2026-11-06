@@ -175,7 +175,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   border: 0;
   border-bottom: 1px solid #e3ecdf;
   border-radius: 0;
-  background: transparent;
+  background: #fff;
   box-shadow: none;
   text-align: left;
   break-inside: auto;
