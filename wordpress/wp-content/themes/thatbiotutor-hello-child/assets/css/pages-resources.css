@@ -163,6 +163,12 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   text-align: center;
 }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit__answer { margin-top: 20px; }
+/* A DOWNLOAD button closes the last review section, centred under the reviews. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-end-button { display: flex; width: fit-content; margin: 32px auto 0; }
+
+/* The DOWNLOAD button under the dark text blocks is centred. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-download .tbt-resource-button { display: flex; width: fit-content; margin: 24px auto 0; }
+
 /* The four note benefits sit two to a row as cards (one per row on small phones). */
 @media (min-width: 641px) {
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; width: 100%; }
@@ -205,9 +211,9 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero h1 { margin-bottom: 4px; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-size: clamp(28px, 4.4vw, 45px); font-weight: 700; line-height: 1.2; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-notes-hero__audience { margin-bottom: 16px; color: #fff; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-size: clamp(20px, 3vw, 26px) !important; font-style: italic; font-synthesis: style; font-weight: 400; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-notes-hero__audience span { color: var(--resource-green); font-family: inherit; font-style: inherit; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-proof { margin: 12px 0 0; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-weight: 700; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-button { margin-top: 20px; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(160px, calc(100svh - 350px), 760px); width: min(100%, calc(var(--notes-slider-height) * 500 / 640)); max-width: 600px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-proof { margin: 14px 0 0; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-weight: 700; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-button { margin-top: 28px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(160px, calc(100svh - 250px), 760px); width: min(100%, calc(var(--notes-slider-height) * 500 / 640)); max-width: 600px; }
 /* The preview sits straight on the dark hero (no white card), with modest arrows and small dots. */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__viewport { background: transparent; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control { width: 44px; height: 44px; font-size: 16px; }
@@ -216,17 +222,6 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 @media (min-width: 769px) {
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control--previous { left: -56px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control--next { right: -56px; }
-}
-/* On wider screens the button and downloads count share one row, which frees height for a bigger tablet picture. */
-@media (min-width: 769px) {
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero { padding: 16px 0 14px; }
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-hero__inner { display: grid; grid-template-columns: auto auto; justify-content: center; align-items: center; column-gap: 28px; }
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-hero__inner > :is(h1, .tbt-notes-hero__audience) { grid-column: 1 / -1; }
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-hero__inner > .tbt-notes-hero__audience { margin-bottom: 8px; }
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-hero__inner > .tbt-resource-carousel { grid-column: 1 / -1; justify-self: center; }
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(160px, calc(100svh - 300px), 760px); }
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-button { margin-top: 14px; }
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-proof { margin: 14px 0 0; }
 }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__dots { bottom: 6px; gap: 0; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__dots button {

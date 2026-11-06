@@ -134,6 +134,7 @@ $tbt_notes_portrait = tbt_media('original_003');
         <div class="tbt-resource-shell">
             <h2>What Students Are Saying...</h2>
             <div data-testimonial-renderer><?php tbt_render_testimonials(['posts_per_page' => -1, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'notes-reviews-bottom', 'compare' => '=']]]); ?></div>
+            <a class="tbt-resource-button tbt-notes-end-button" href="#notes-download">DOWNLOAD</a>
         </div>
     </section>
 </article>

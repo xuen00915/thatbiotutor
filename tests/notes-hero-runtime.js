@@ -1,5 +1,5 @@
 // Free Bio Notes (/notes/): the hero (title, audience line, preview slider, DOWNLOAD button and downloads count)
-// fits the first screen, and its text uses the original Montserrat look with an italic audience line.
+// shows the title and the tablet picture in the first screen (the button and downloads count may sit below it, stacked and centred), and its text uses the original Montserrat look with an italic audience line.
 const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
 const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\/?$/, '/');
@@ -20,6 +20,11 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         const span = aud.querySelector('span');
         return {
           proofBottom: box('.tbt-notes-hero .tbt-resource-proof').bottom,
+          proofTop: box('.tbt-notes-hero .tbt-resource-proof').top,
+          proofLeft: box('.tbt-notes-hero .tbt-resource-proof').left,
+          proofCenter: (box('.tbt-notes-hero .tbt-resource-proof').left + box('.tbt-notes-hero .tbt-resource-proof').right) / 2,
+          buttonCenter: (box('.tbt-notes-hero .tbt-resource-button').left + box('.tbt-notes-hero .tbt-resource-button').right) / 2,
+          buttonRight: box('.tbt-notes-hero .tbt-resource-button').right,
           buttonBottom: box('.tbt-notes-hero .tbt-resource-button').bottom,
           sliderHeight: box('.tbt-resource-carousel--notes').height,
           sliderBottom: box('.tbt-resource-carousel--notes').bottom,
@@ -41,9 +46,10 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         };
       });
       const at = `at ${width}x${height}: ${JSON.stringify(m)}`;
-      assert.ok(m.proofBottom <= height, `The whole hero (down to the downloads count) must fit one screen ${at}`);
-      if (width >= 769 && height >= 600) assert.ok(m.sliderHeight >= Math.min(760, height - 300) - 2, `The tablet picture must use the free height of the screen ${at}`);
-      assert.ok(m.sliderBottom <= height && m.proofBottom <= height, `Title, picture and button must share one screen ${at}`);
+      if (width >= 769 && height >= 600) assert.ok(m.sliderHeight >= Math.min(760, height - 250) - 2, `The tablet picture must use the free height of the screen ${at}`);
+      assert.ok(m.sliderBottom <= height, `Title and tablet picture must share one screen ${at}`);
+      assert.ok(Math.abs(m.buttonCenter - m.viewportWidth / 2) <= 2 && Math.abs(m.proofCenter - m.viewportWidth / 2) <= 2, `Button and downloads count must be centred ${at}`);
+      assert.ok(m.proofTop >= m.buttonBottom - 1 && m.proofLeft < m.buttonRight, `Downloads count must stack under the button ${at}`);
       assert.ok(m.h1Right <= m.viewportWidth, `Title must not be cut off at the right edge ${at}`);
       assert.equal(m.sliderBg, 'rgba(0, 0, 0, 0)', `The slider must not sit on a white card ${at}`);
       assert.ok(m.arrow <= 44, `Slider arrows must not be oversized ${at}`);
