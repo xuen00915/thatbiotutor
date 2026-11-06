@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [fix-page] FastTrack pictures are larger and each is as tall as its own phrase, starting level with it; pictures on the IntensiveFix page can no longer be dragged (non-draggable images, cancelled dragstart, no touch-callout or selection).
+
 - [fix-page] IntensiveFix bridge text: bold "Sound familiar? Many TBT students started exactly here." with the grey line "But after our 8-week IntensiveFix, they’re telling us:" beneath it. The FastTrack heading follows the reference colours on the homepage and IntensiveFix (green eyebrow, white headline and lead-in, brand-green A1/A2).
 
 - [main-site] Restored the original About page look that the site standard had flattened: Montserrat instead of Poppins, the 65px hero heading, a 40px "SUCCESS TO US" headline and 22px reading text on desktop, and the hero photo back at its original 78% opacity (the standard's image fade-in was ending at 100% and darkening it; hero brightness now matches the 3 November crawl). The reading width stays the shared content width and the soft highlight colour is unchanged. `tests/standard-pages-runtime.js` allows these About values; new `tests/about-page-runtime.js` guards them.

@@ -26,10 +26,13 @@ const {chromium} = require('playwright');
     assert.equal(lines[0],'The One Missing Key to go','Homepage headline wraps like the original ('+JSON.stringify(lines)+')');
   }
   assert.deepEqual(await page.evaluate(()=>{const f=document.querySelector('[data-section=fasttrack]');const c=e=>getComputedStyle(e).color;return {eyebrow:c(f.querySelector('.tbt-home-eyebrow')),accent:c(f.querySelector('h2 span'))}}),{eyebrow:'rgb(67, 180, 58)',accent:'rgb(67, 180, 58)'},'Homepage FastTrack heading colours');
-  // FastTrack images share one large size.
-  const icons=await page.locator('.tbt-home-fasttrack__tbt-content img').evaluateAll(es=>es.map(e=>[Math.round(e.getBoundingClientRect().width),Math.round(e.getBoundingClientRect().height)]));
-  assert.ok(icons.length===5&&icons.every(([w,h])=>w===icons[0][0]&&h===icons[0][1]),'FastTrack images must be one size ('+JSON.stringify(icons)+')');
-  assert.ok(icons[0][0]>=(width>520?120:96),'FastTrack images must be large ('+icons[0][0]+'px)');
+  // FastTrack pictures: as tall as their own phrase and starting level with it.
+  const icons=await page.locator('.tbt-home-fasttrack__tbt-content').evaluateAll(es=>es.map(e=>{const i=e.querySelector('img').getBoundingClientRect();const p=e.querySelector('p').getBoundingClientRect();return {w:Math.round(i.width),h:Math.round(i.height),ph:Math.round(p.height),dTop:Math.round(Math.abs(i.top-p.top))}}));
+  assert.equal(icons.length,5);
+  assert.ok(icons.every(x=>x.dTop<=1),'FastTrack picture must start level with its phrase '+JSON.stringify(icons));
+  assert.ok(icons.every(x=>Math.abs(x.h-x.ph)<=2||x.h>=x.ph),'FastTrack picture must be as tall as its phrase '+JSON.stringify(icons));
+  assert.ok(icons.every(x=>x.w===icons[0].w),'FastTrack pictures share one width '+JSON.stringify(icons));
+  assert.ok(icons[0].w>=(width>520?128:112),'FastTrack pictures must be large ('+icons[0].w+'px)');
   // Google reviews: equal card heights and arrows clear of the cards.
   await page.locator('.tbt-google-reviews').scrollIntoViewIfNeeded();await page.waitForTimeout(400);
   const reviews=await page.evaluate(()=>{const track=document.querySelector('.tbt-google-reviews__track').getBoundingClientRect();const cards=[...document.querySelectorAll('.tbt-google-review')].map(e=>e.getBoundingClientRect()).filter(r=>r.left>=track.left-2&&r.right<=track.right+2);const arrows=[...document.querySelectorAll('.tbt-google-reviews__controls button')].map(e=>e.getBoundingClientRect()).filter(r=>r.width>0);const hit=(a,b)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;return {heights:[...new Set(cards.map(r=>Math.round(r.height)))],overlap:arrows.some(a=>cards.some(c=>hit(a,c))),n:cards.length}});
@@ -116,6 +119,11 @@ const {chromium} = require('playwright');
   const heroLines=()=>page.evaluate(()=>{const h=document.querySelector('.tbt-home-hero h1');const w=document.createTreeWalker(h,NodeFilter.SHOW_TEXT);const lines=new Map();let n;while((n=w.nextNode())){const re=/\S+/g;let m;while((m=re.exec(n.textContent))){const r=document.createRange();r.setStart(n,m.index);r.setEnd(n,m.index+m[0].length);const top=Math.round(r.getBoundingClientRect().top);lines.set(top,(lines.get(top)||[]).concat(m[0]))}}return [...lines.entries()].sort((a,b)=>a[0]-b[0]).map(e=>e[1].join(' '))});
   const ifLines=await heroLines();
   assert.deepEqual(ifLines,['Fix Your Entire Sec 3 Bio','Foundation Before the','Chaotic Sec 4 Year Begins','— In Just 4 DAYS'],'IntensiveFix headline wraps like the original');
+  // Pictures cannot be dragged on this page.
+  const drag=await page.evaluate(()=>{const imgs=[...document.querySelectorAll('main img, .site-header img, .site-footer img')];const dragSet=imgs.filter(i=>i.draggable===false).length;const ev=new Event('dragstart',{bubbles:true,cancelable:true});imgs[0].dispatchEvent(ev);return {total:imgs.length,dragSet,prevented:ev.defaultPrevented,css:getComputedStyle(imgs[0]).webkitUserDrag,select:getComputedStyle(imgs[0]).userSelect}});
+  assert.equal(drag.dragSet,drag.total,'Every picture on IntensiveFix must be non-draggable '+JSON.stringify(drag));
+  assert.equal(drag.prevented,true,'Drag start must be cancelled');
+  assert.equal(drag.css,'none');
   // Contact Us goes straight to the WhatsApp number.
   const contact=await page.locator('.tbt-landing-header__cta').evaluate(e=>({href:e.getAttribute('href'),target:e.getAttribute('target')}));
   assert.ok(contact.href.startsWith('https://wa.me/6587597182'),'Contact Us must open the WhatsApp number');

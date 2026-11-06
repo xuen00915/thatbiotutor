@@ -361,6 +361,16 @@
     });
   }
 
+  function initImageGuard(document) {
+    // Pictures on the IntensiveFix page cannot be picked up and dragged away.
+    if (!document.body || !document.body.classList.contains('page-template-page-intensivefix')) return;
+    const lock = (root) => root.querySelectorAll('img').forEach((image) => { image.draggable = false; });
+    lock(document);
+    document.addEventListener('dragstart', (event) => {
+      if (event.target && event.target.tagName === 'IMG') event.preventDefault();
+    });
+  }
+
   function initHeaderScroll(document, windowObject) {
     const header = document.querySelector('.tbt-landing-header');
     if (!header) return;
@@ -448,6 +458,7 @@
     initCountUps(document, windowObject);
     initCertificateLightbox(document);
     initFaqs(document, windowObject);
+    initImageGuard(document);
     initHeaderScroll(document, windowObject);
     initReviewDisclosure(document);
     initReveal(document, windowObject);
