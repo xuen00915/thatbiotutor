@@ -419,7 +419,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 body.tbt-site #main-content .tbt-testimonial blockquote p { margin-bottom: 0.7em; }
 
 /* Edge-to-edge pictures stay square where they meet the browser edge. */
-body.tbt-site #main-content :is([class*="background"], [class*="shade"], [class*="hero"]) :is(img, video) { border-radius: 0; }
+body.tbt-site #main-content :is([class*="background"], [class*="shade"], [class*="hero"]:not(.tbt-intensivefix-hero__graphics):not(.tbt-home-hero__carousel)) :is(img, video):not(.tbt-intensivefix__graphic) { border-radius: 0; }
 
 /* ---------- FAQ: hover keeps dark readable text ---------- */
 body.tbt-site .tbt-home-faq__item button:is(:hover, :focus, :focus-visible, :active) { color: var(--tbt-std-ink); }
