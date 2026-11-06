@@ -27,6 +27,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           fitToBenefits: h2Top('benefits') - bottomOf(sec('fit')),
           darkGaps: [['why-free', 'catch'], ['catch', 'download']].map(([a, b]) => h2Top(b) - bottomOf(sec(a))),
           cards: Array.from(document.querySelectorAll('.tbt-notes-benefit')).map((c) => { const r = c.getBoundingClientRect(); return { left: Math.round(r.left), right: Math.round(r.right), top: Math.round(r.top), bottom: Math.round(r.bottom) }; }),
+          downloadButton: (() => { const b = sec('download').querySelector('.tbt-resource-button').getBoundingClientRect(); const h = sec('download').querySelector('h2').getBoundingClientRect(); return { center: (b.left + b.right) / 2, shellCenter: h.left + h.width / 2 }; })(),
           darkHeads: Array.from(document.querySelectorAll('.tbt-notes-details h2')).map((h) => { const c = getComputedStyle(h); return { size: parseFloat(c.fontSize), weight: parseInt(c.fontWeight, 10) }; }),
           answerStyle: getComputedStyle(sec('fit').querySelector('.tbt-notes-fit__answer')).fontStyle,
           answerSynthesis: getComputedStyle(sec('fit').querySelector('.tbt-notes-fit__answer')).fontSynthesis,
@@ -40,6 +41,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.equal(m.textAlign, 'center', `Title must be centred in its panel ${at}`);
       assert.ok(m.fitToBenefits <= (width >= 769 ? 90 : 56), `Space between "is this you?" and "ThatBioTutor's Notes" is too long ${at}`);
       m.darkGaps.forEach((g) => assert.ok(g <= (width >= 769 ? 64 : 40), `Space between dark blocks is too long ${at}`));
+      assert.ok(Math.abs(m.downloadButton.center - m.downloadButton.shellCenter) <= 2, `The DOWNLOAD button in the dark block must be centred ${at}`);
       assert.equal(m.darkHeads.length, 3, `Three dark-block headings ${at}`);
       m.darkHeads.forEach((h) => assert.ok(h.weight <= 700 && h.size <= (width >= 769 ? 30 : 24), `Dark-block headings must be light, not extra bold at 36px ${at}`));
       assert.equal(m.answerStyle, 'italic', `The "If you answered yes" line must be italic ${at}`);
