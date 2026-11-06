@@ -50,6 +50,7 @@ final class IntensiveFixPageTest
         foreach (['“There\'s WAY too much to memorise... so many confusing terms”', '“I already wrote down a very detailed answer... how come I didn\'t get the points?”', '“School bio skim through the content too fast! I don\'t understand concepts deeply enough...”'] as $quote) {
             $this->assertTrue(str_contains($html, $quote), 'The three phrases under the slider must be the supplied ones.');
         }
+        $this->assertTrue(preg_match('~tbt-home-problem__bridge--strong[^>]*>Sound familiar\?[^<]*</p>\s*<p class="tbt-home-problem__bridge">[^<]+</p>~', $html) === 1, 'A grey line must sit directly under the "Sound familiar?" title.');
         $this->assertTrue(!str_contains($html, 'I flunked my EOYs'), 'The old EOY quotes are replaced by the supplied phrases.');
         $this->assertTrue(!str_contains($html, 'tbt-home-problem__proof') && !str_contains($html, 'curated_home_testimonial_'), 'The three off-topic testimonial cards must be deleted.');
         $this->assertSame(1, substr_count($html, 'data-media-key="intensivefix_student_reviews"'), 'Only one student-review graphic must replace the video.');

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [fix-page] Restored the grey bridge line under the IntensiveFix "Sound familiar?" title ("But after learning the hard way that it pays to fix your foundation early, they’re saying:"), as on the homepage.
+
 - [fix-page] IntensiveFix programme graphics now change every 3 seconds and have rounded corners on the pictures themselves (frame no longer letterboxes them); the three phrases under the slider are now the supplied "There's WAY too much to memorise..." quotes.
 
 - [main-site] Tidied the Our Causes page: removed the ~490px of dead space above the footer and gave the "1. Planting Trees!" bar breathing room above the first picture. New `tests/causes-page-runtime.js` guards the spacing and no horizontal overflow at five widths.

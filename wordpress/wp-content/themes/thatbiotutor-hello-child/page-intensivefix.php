@@ -56,6 +56,7 @@ $tbt_fasttrack_heading = '<strong>All IntensiveFix students will receive</strong
                 <blockquote>“School bio skim through the content too fast! I don't understand concepts deeply enough...”</blockquote>
             </div>
             <p class="tbt-home-problem__bridge tbt-home-problem__bridge--strong">Sound familiar? After our 2-week IntensiveFix, they’re telling us:</p>
+            <p class="tbt-home-problem__bridge">But after learning the hard way that it pays to fix your foundation early, they’re saying:</p>
             <div class="tbt-intensivefix-feedback"><?php tbt_render_page_image('intensivefix_student_reviews_image', 'intensivefix_student_reviews', 'tbt-intensivefix__reviews', ['loading' => 'lazy']); ?></div>
         </div>
     </section>
