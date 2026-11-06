@@ -22,20 +22,27 @@ const pages = [
         const tag = `${spec.route} @${width}`;
         const state = await page.evaluate(() => ({
           total: document.querySelectorAll('.tbt-testimonial').length,
-          visible: [...document.querySelectorAll('.tbt-testimonial')].filter((e) => !e.hidden && e.getBoundingClientRect().height > 0).length,
+          visible: [...document.querySelectorAll('.tbt-testimonial')].filter((e) => { const panel = e.closest('[data-review-panel] [data-testimonial-list]'); /* a scrolling panel clips what is below its height */ return !e.hidden && e.getBoundingClientRect().height > 0 && (!panel || e.getBoundingClientRect().top < panel.getBoundingClientRect().bottom - 1); }).length,
           height: document.documentElement.scrollHeight,
           buttons: [...document.querySelectorAll('[data-reviews-more]')].map((b) => b.textContent.trim()),
+          panels: document.querySelectorAll('[data-review-panel]').length, // review panels scroll on their own instead of using show-more buttons
         }));
         assert.ok(state.total >= spec.reviews, `${tag}: every review must stay on the page (${state.total} of at least ${spec.reviews})`);
         assert.ok(state.visible < state.total || spec.reviews <= 20, `${tag}: long lists must start collapsed`);
         assert.ok(state.height <= spec.maxHeight * (width < 800 ? 1.6 : 1), `${tag}: page is still ${state.height}px tall`);
-        if (spec.reviews > 20) assert.ok(state.buttons.length >= 1 && /more/i.test(state.buttons[0]), `${tag}: a "show more" control is required`);
+        if (spec.reviews > 20 && !state.panels) assert.ok(state.buttons.length >= 1 && /more/i.test(state.buttons[0]), `${tag}: a "show more" control is required`);
       }
     }
 
     // The control reveals more reviews, keeps the count right, and removes itself when everything is shown.
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(new URL('testimonials/', base).href, { waitUntil: 'domcontentloaded' });
+    const colours = await page.evaluate(() => ({
+      more: getComputedStyle(document.querySelector('[data-reviews-more]')).backgroundColor,
+      all: getComputedStyle(document.querySelector('[data-reviews-all]')).borderTopColor,
+    }));
+    assert.equal(colours.more, 'rgb(14, 55, 29)', 'Show more reviews is forest green, not the bright action green');
+    assert.equal(colours.all, 'rgb(14, 55, 29)', 'Show all reviews is outlined in forest green');
     const first = page.locator('[data-reviews-more]').first();
     const before = await page.locator('.tbt-testimonial:not([hidden])').count();
     await first.click();
