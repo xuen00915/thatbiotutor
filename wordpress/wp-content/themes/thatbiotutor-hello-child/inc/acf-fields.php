@@ -61,6 +61,7 @@ function tbt_acf_image(string $key, string $label, string $name, array $settings
 function tbt_acf_page_groups(): array
 {
     $reference = tbt_reference_content();
+    $seoDefaults = function_exists('tbt_page_metadata') ? tbt_page_metadata() : [];
     $groups = [];
 
     foreach (tbt_page_registry() as $pageKey => $page) {
@@ -150,6 +151,17 @@ function tbt_acf_page_groups(): array
                 'intensivefix_student_reviews_image'
             );
         }
+
+        $fields[] = tbt_acf_tab('field_tbt_' . $prefix . '_tab_seo', 'SEO');
+        $fields[] = tbt_acf_field('field_tbt_' . $prefix . '_seo_title', 'SEO title', 'tbt_' . $prefix . '_seo_title', 'text', [
+            'placeholder' => $seoDefaults[$pageKey]['title'] ?? '',
+            'instructions' => 'Optional override of the prepared page title. Leave blank to use the default. Include ThatBioTutor once if you want the brand in the title.',
+        ]);
+        $fields[] = tbt_acf_textarea('field_tbt_' . $prefix . '_seo_description', 'SEO description', 'tbt_' . $prefix . '_seo_description', [
+            'rows' => 3,
+            'placeholder' => $seoDefaults[$pageKey]['description'] ?? '',
+            'instructions' => 'Optional page-specific search description. Leave blank to use the prepared default. This also updates the social-share description.',
+        ]);
 
         $groups[] = [
             'key' => 'group_tbt_page_' . $prefix,

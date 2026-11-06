@@ -1,0 +1,24 @@
+# Page SEO titles and descriptions
+
+The theme supplies these defaults for all 12 public pages. Each page’s **ThatBioTutor → SEO** tab in the WordPress editor offers an optional SEO title and SEO description override. Empty overrides use these defaults; editing SEO does not change visible page headings or content.
+
+Open Graph titles and descriptions follow the same values. Canonical URLs use the installed WordPress site URL. WordPress adds the brand only once. Search engines may choose a different displayed title or snippet; these fields specify the preferred metadata.
+
+| Page | SEO title | Meta description |
+| --- | --- | --- |
+| / | Pure & G3 Biology Tuition Singapore \| ThatBioTutor | Specialist O-Level Pure and G3 Biology tuition in Singapore. Explore Sec 3 and Sec 4 classes, visual notes, practical sessions and student results. |
+| /classes/ | O-Level Biology Classes in Singapore \| ThatBioTutor | Explore Pure and G3 Biology classes for Sec 3 and Sec 4. See how ThatBioTutor teaches concepts, memory skills, exam answering and practical techniques. |
+| /sec-3-pure-g3-biology-tuition/ | Sec 3 Pure & G3 Biology Tuition \| ThatBioTutor | Build your Sec 3 Biology foundation with ThatBioTutor in Singapore. Explore concept lessons, visual notes, guided practice and practical sessions. |
+| /sec-4-pure-g3-biology-tuition/ | Sec 4 O-Level Biology Tuition Singapore \| ThatBioTutor | Prepare for O-Level Pure and G3 Biology with ThatBioTutor's Sec 4 programme. Explore syllabus revision, exam answering skills and practical training. |
+| /testimonials/ | Biology Tuition Results & Reviews \| ThatBioTutor | Read ThatBioTutor student reviews and watch their Biology learning stories. Browse O-Level results and testimonials from the Classes of 2021 to 2025. |
+| /notes/ | Free O-Level Pure & G3 Biology Notes \| ThatBioTutor | Request free O-Level Pure and G3 Biology notes from ThatBioTutor. Explore concise topic summaries and visual explanations to support your revision. |
+| /celldivision/ | Cell Division Crash Course Archive \| ThatBioTutor | Explore ThatBioTutor's archived 2023 Cell Division crash course, covering mitosis and meiosis. View course resources, lesson details and student feedback. |
+| /about/ | Meet Our Specialist Biology Tutors \| ThatBioTutor | Meet ThatBioTutor's specialist Biology tutors and founder. Learn about our teaching standards, mission and approach to supporting students in Singapore. |
+| /contact/ | Contact & Biology Tuition Enquiries \| ThatBioTutor | Contact ThatBioTutor about Pure and G3 Biology tuition in Singapore. Find our Bencoolen address, opening hours and WhatsApp details to enquire about classes. |
+| /trees/ | Tree Planting & Environmental Causes \| ThatBioTutor | Explore ThatBioTutor's tree-planting efforts and support for Singapore environmental causes. See how our community contributes beyond the Biology classroom. |
+| /tuitionrecs/ | Secondary & JC Tuition Recommendations \| ThatBioTutor | Browse ThatBioTutor's tuition recommendations for secondary school and JC subjects. Explore the recommended centres and guidance on arranging trial lessons. |
+| /intensivefix/ | IntensiveFix: Sec 3 Biology Revision \| ThatBioTutor | Explore ThatBioTutor's four-day IntensiveFix programme for Sec 3 Biology. Revisit key concepts and build a stronger foundation before starting Sec 4. |
+
+Guidance: [Google title links](https://developers.google.com/search/docs/appearance/title-link) and [Google snippets](https://developers.google.com/search/docs/appearance/snippet). Keep each page accurate and distinct; avoid keyword stuffing.
+
+The child theme owns this metadata. AIOS is a security plugin and does not replace these SEO fields. If a separate SEO plugin is added later, choose a single metadata owner to avoid duplicate output.

@@ -39,3 +39,7 @@ Developers can capture the reference/local visual matrix with `npm run visual:ca
 4. Keep external recommendation and environmental links current.
 5. Ask a developer for layout, navigation, responsive, metadata, redirect, or interaction changes; those are theme-owned.
 
+
+## SEO titles and descriptions
+
+Each protected page has an **SEO** tab in its ThatBioTutor fields. The placeholders show the prepared default title and description. Enter an override to change that page’s search and social-share metadata, or leave the fields empty to use the defaults. These fields do not change the visible page heading. See [SEO-METADATA.md](SEO-METADATA.md) for the complete page list.

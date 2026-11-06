@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Added distinct, page-specific SEO titles and descriptions for all 12 public pages, with optional ACF Free SEO overrides and matching Open Graph metadata. Removed duplicate brand suffixes and core canonical tags on protected pages. Documented the complete copy in `docs/SEO-METADATA.md` and included it in the WordPress handoff; added live metadata checks to CI.
+
 - [main-site] Prepared a native WordPress upload package: reproducible tracked-theme ZIP builder, CI download artifact and installation guide, plus an administrator-only, nonce-protected Appearance → ThatBioTutor Setup screen that preserves client edits. Documented separate AIOS installation and host-specific security/email steps. Corrected the Contact Form 7 radio field tag in the setup template and guide, and prevented the plugin from initializing the unconfigured fallback form with an invalid form ID. Added package-isolation and dashboard-authorization contracts.
 
 - [main-site] Reduced the desktop Classes dropdown from 260px to 180px wide, rounded its corners to 10px and tightened each link while retaining 44px touch targets. Mobile navigation is unchanged; the navigation runtime test covers the compact dimensions.

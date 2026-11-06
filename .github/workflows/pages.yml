@@ -98,6 +98,7 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:4173 node tests/testimonials-page-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/year-navigation-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/header-definition-runtime.js
+          TBT_RUNTIME_URL=http://localhost:4173 node tests/seo-metadata-runtime.js
 
       - name: Build WordPress upload package
         run: python3 scripts/build_wordpress_package.py --output "$RUNNER_TEMP/tbt-wordpress-install"

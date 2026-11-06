@@ -35,7 +35,7 @@ def build_package(root: pathlib.Path, output: pathlib.Path) -> pathlib.Path:
     guide = root / 'docs/WORDPRESS-INSTALL.md'
     if guide.is_file():
         (output / 'INSTALL-WORDPRESS.md').write_text(guide.read_text())
-    for name in ('CONTACT-FORM-7.md', 'CLIENT-EDITING-GUIDE.md'):
+    for name in ('CONTACT-FORM-7.md', 'CLIENT-EDITING-GUIDE.md', 'SEO-METADATA.md'):
         source = root / 'docs' / name
         if source.is_file():
             (output / 'docs').mkdir(exist_ok=True)

@@ -57,6 +57,8 @@ final class AcfFieldsTest
             $templates[] = $template;
             $fieldsByTemplate[$template] = array_column($group['fields'], null, 'name');
 
+            $seo = array_values(array_filter($group['fields'], static fn($field) => preg_match('/^tbt_.*_seo_(title|description)$/', $field['name'] ?? '')));
+            $this->assertSame(2, count($seo), 'Each page needs editable SEO title and description fields.');
             $types = array_column($group['fields'], 'type');
             $this->assertSame('message', $types[0] ?? null, "{$template} must begin with editing instructions.");
             $this->assertTrue(in_array('tab', $types, true), "{$template} must expose section tabs.");
