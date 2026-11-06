@@ -17,12 +17,12 @@
 .tbt-intensivefix-hero__graphics { padding-bottom: 24px; }
 
 .tbt-intensivefix-carousel { position: relative; width: min(100%, 820px); margin: 0 auto; touch-action: pan-y; }
-.tbt-intensivefix-carousel__viewport { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border: 0; border-radius: 18px; background: #fff; }
-.tbt-intensivefix-carousel figure { position: absolute; inset: 0; margin: 0; }
+.tbt-intensivefix-carousel__viewport { position: relative; aspect-ratio: 4 / 3; overflow: visible; border: 0; background: transparent; }
+.tbt-intensivefix-carousel figure { position: absolute; inset: 0; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; margin: 0; }
 /* Crossfade between graphics; slides stay rendered so there is no blank frame. */
 .tbt-intensivefix-carousel figure { opacity: 0; pointer-events: none; transition: opacity .6s ease; }
 .tbt-intensivefix-carousel figure.is-active { opacity: 1; pointer-events: auto; }
-.tbt-intensivefix__graphic { width: 100%; height: 100%; object-fit: contain; }
+.tbt-intensivefix__graphic { width: auto; height: auto; max-width: 100%; max-height: 100%; min-width: 0; min-height: 0; border-radius: 18px; object-fit: contain; }
 .tbt-intensivefix-carousel .tbt-home-carousel__control,
 .tbt-intensivefix-carousel .tbt-home-carousel__control:hover,
 .tbt-intensivefix-carousel .tbt-home-carousel__control:focus,

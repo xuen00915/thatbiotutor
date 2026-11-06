@@ -36,7 +36,7 @@ $tbt_fasttrack_heading = '<strong>All IntensiveFix students will receive</strong
             <?php if ($tbt_enrol_whatsapp !== '') : ?><a class="tbt-home-button tbt-intensivefix-hero__cta" href="<?php echo esc_url($tbt_enrol_whatsapp); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($tbt_field('intensivefix_cta_label')); ?></a><?php endif; ?>
         </div>
         <div class="tbt-home-container tbt-intensivefix-hero__graphics">
-            <div class="tbt-intensivefix-carousel" data-carousel data-carousel-fade data-carousel-autoplay="4500" aria-label="IntensiveFix programme graphics">
+            <div class="tbt-intensivefix-carousel" data-carousel data-carousel-fade data-carousel-autoplay="3000" aria-label="IntensiveFix programme graphics">
                 <div class="tbt-intensivefix-carousel__viewport">
                     <?php foreach (range(1, 10) as $tbt_index) : $tbt_key = sprintf('intensivefix_program_%02d', $tbt_index); ?><figure data-carousel-slide<?php echo $tbt_index === 1 ? ' class="is-active"' : ''; ?>><?php tbt_render_page_image(sprintf('intensivefix_program_image_%02d', $tbt_index), $tbt_key, 'tbt-intensivefix__graphic', ['loading' => 'eager']); ?></figure><?php endforeach; ?>
                 </div>
@@ -51,8 +51,8 @@ $tbt_fasttrack_heading = '<strong>All IntensiveFix students will receive</strong
     <section class="tbt-home-section tbt-home-problem" data-section="problem">
         <div class="tbt-home-container">
             <div class="tbt-home-problem__quotes">
-                <blockquote>“I flunked my EOYs and don't even know where to start.”</blockquote>
-                <blockquote>“I've been meaning to start revising since the June holidays... and now it's already December.”</blockquote>
+                <blockquote>“There's WAY too much to memorise... so many confusing terms”</blockquote>
+                <blockquote>“I already wrote down a very detailed answer... how come I didn't get the points?”</blockquote>
                 <blockquote>“School bio skim through the content too fast! I don't understand concepts deeply enough...”</blockquote>
             </div>
             <p class="tbt-home-problem__bridge tbt-home-problem__bridge--strong">Sound familiar? After our 2-week IntensiveFix, they’re telling us:</p>

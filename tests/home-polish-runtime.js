@@ -92,12 +92,17 @@ const {chromium} = require('playwright');
   // Smooth slider: crossfade (no hidden slides, so no blank flash) and automatic sliding.
   const fade=await page.evaluate(()=>{const c=document.querySelector('.tbt-intensivefix-carousel');const slides=[...c.querySelectorAll('[data-carousel-slide]')];return {fade:c.hasAttribute('data-carousel-fade'),autoplay:c.getAttribute('data-carousel-autoplay'),hidden:slides.filter(s=>s.hidden).length,active:slides.findIndex(s=>s.classList.contains('is-active')),transition:getComputedStyle(slides[1]).transitionProperty,lazy:slides.filter(s=>s.querySelector('img[loading=lazy]')).length}});
   assert.equal(fade.fade,true,'Programme slider must crossfade');
-  assert.ok(Number(fade.autoplay)>=3000,'Programme slider must auto slide');
+  assert.equal(Number(fade.autoplay),3000,'Programme slider changes every 3 seconds');
   assert.equal(fade.hidden,0,'No slide may be display:none (that causes the blank flash)');
   assert.equal(fade.lazy,0,'Slider images must preload so a switch never shows a blank frame');
   assert.match(fade.transition,/opacity/,'Slides must fade with an opacity transition');
+  const shape=await page.evaluate(()=>{const i=document.querySelector('.tbt-intensivefix-carousel figure.is-active img');const r=i.getBoundingClientRect();return {radius:parseFloat(getComputedStyle(i).borderTopLeftRadius),box:r.width/r.height,natural:i.naturalWidth/i.naturalHeight}});
+  const fit=await page.evaluate(()=>{const i=document.querySelector('.tbt-intensivefix-carousel figure.is-active img').getBoundingClientRect();const v=document.querySelector('.tbt-intensivefix-carousel__viewport').getBoundingClientRect();return {inside:i.left>=v.left-1&&i.right<=v.right+1&&i.top>=v.top-1&&i.bottom<=v.bottom+1,i:[Math.round(i.width),Math.round(i.height)],v:[Math.round(v.width),Math.round(v.height)]}});
+  assert.equal(fit.inside,true,'Programme graphic must sit fully inside its frame '+JSON.stringify(fit));
+  assert.ok(shape.radius>=16,'Programme graphics must have rounded corners on the picture itself ('+shape.radius+'px)');
+  assert.ok(Math.abs(shape.box-shape.natural)/shape.natural<0.03,'Rounded corners must follow the picture, not a letterboxed frame ('+JSON.stringify(shape)+')');
   await page.evaluate(()=>document.querySelector('.tbt-intensivefix-carousel').scrollIntoView({block:'center'}));
-  await page.mouse.move(5,5);await page.waitForTimeout(5600);
+  await page.mouse.move(5,5);await page.waitForTimeout(3700);
   assert.ok(await page.evaluate(()=>[...document.querySelectorAll('.tbt-intensivefix-carousel [data-carousel-slide]')].findIndex(s=>s.classList.contains('is-active'))>0),'Programme slider must advance by itself');
   // FastTrack title lead-in uses the green accent.
   assert.equal(await page.locator('.tbt-home-fasttrack h2 strong').evaluate(e=>getComputedStyle(e).color),'rgb(119, 207, 100)','FastTrack lead-in must be green like the A1/A2 accent');
