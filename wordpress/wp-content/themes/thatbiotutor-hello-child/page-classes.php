@@ -45,10 +45,10 @@ $tbt_heading = static function (string $heading): void {
     <section class="tbt-programme-section tbt-programme-struggles" data-section="struggles">
         <div class="tbt-programme-container"><p class="tbt-programme-kicker">Why students struggle</p><h2><?php echo esc_html($tbt_field('classes_struggle_heading')); ?></h2>
             <div class="tbt-struggle-list">
-                <article><h3>1. Too much content to memorize</h3><p>Pure Bio has 9 topics with hundreds of key terms, definitions and processes. Students try to brute-force memorise everything — and it does not work under exam conditions.</p></article>
-                <article><h3>2. Open-ended questions are unpredictable</h3><p>Students who understand the content still drop marks on Paper 2 because they do not know how to structure answers. OEQ marking is strict — and school rarely teaches answering technique.</p></article>
-                <article><h3>3. Topics feel disconnected</h3><p>Biology topics link to each other — but most students and even some tutors teach them in isolation. Without the bigger picture, students cannot answer application questions.</p></article>
-                <article><h3>4. Hands-on practice is limited</h3><p>Many students get little hands-on practice in school, making Paper 3 feel like a gamble. Our optional practical sessions cover commonly tested experiments, building the coordination and confidence to protect the full 20%.</p></article>
+                <article><h3>1. <span>Too much content</span> to memorize</h3><p>Pure Bio has 9 topics with hundreds of key terms, definitions and processes. Students try to brute-force memorise everything — and it does not work under exam conditions.</p></article>
+                <article><h3>2. Open-ended questions are <span>unpredictable</span></h3><p>Students who understand the content still drop marks on Paper 2 because they do not know how to structure answers. OEQ marking is strict — and school rarely teaches answering technique.</p></article>
+                <article><h3>3. Topics feel <span>disconnected</span></h3><p>Biology topics link to each other — but most students and even some tutors teach them in isolation. Without the bigger picture, students cannot answer application questions.</p></article>
+                <article><h3>4. Hands-on practice is <span>limited</span></h3><p>Many students get little hands-on practice in school, making Paper 3 feel like a gamble. Our optional practical sessions cover commonly tested experiments, building the coordination and confidence to protect the full 20%.</p></article>
             </div>
         </div>
     </section>
