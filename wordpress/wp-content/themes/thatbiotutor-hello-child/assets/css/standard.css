@@ -479,3 +479,7 @@ body.tbt-site .tbt-home-hero h1 {
   padding-inline: clamp(0px, calc((100% - 864px) / 2), 128px);
   text-wrap: wrap;
 }
+
+/* ---------- FastTrack heading colours (shared by the homepage and IntensiveFix) ---------- */
+body.tbt-site .tbt-home-fasttrack .tbt-home-eyebrow { color: var(--tbt-std-green-bright); }
+body.tbt-site .tbt-home-fasttrack h2 span { color: var(--tbt-std-green-bright); }

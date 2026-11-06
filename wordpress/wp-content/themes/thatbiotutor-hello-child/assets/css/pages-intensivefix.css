@@ -40,8 +40,8 @@
 .tbt-intensivefix-closing__ready strong { color: #fff; font-weight: 700; }
 .tbt-intensivefix-closing__cta { margin-top: 44px !important; }
 
-/* FastTrack title: bold lead-in in the same green as the A1/A2 accent. */
-.tbt-home-fasttrack h2 strong { color: #77cf64; font-weight: 800; }
+/* FastTrack title lead-in: bold, same white as the rest of the headline. */
+.tbt-home-fasttrack h2 strong { color: #fff; font-weight: 800; }
 
 /* Closing: the image column is larger and stretches to the full height of the text beside it. */
 .tbt-intensivefix-page .tbt-home-closing__inner { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); align-items: stretch; }

@@ -25,6 +25,7 @@ const {chromium} = require('playwright');
     const lines=await page.evaluate(()=>{const h=document.querySelector('.tbt-home-hero h1');const w=document.createTreeWalker(h,NodeFilter.SHOW_TEXT);const lines=new Map();let n;while((n=w.nextNode())){const re=/\S+/g;let m;while((m=re.exec(n.textContent))){const r=document.createRange();r.setStart(n,m.index);r.setEnd(n,m.index+m[0].length);const top=Math.round(r.getBoundingClientRect().top);lines.set(top,(lines.get(top)||[]).concat(m[0]))}}return [...lines.entries()].sort((a,b)=>a[0]-b[0]).map(e=>e[1].join(' '))});
     assert.equal(lines[0],'The One Missing Key to go','Homepage headline wraps like the original ('+JSON.stringify(lines)+')');
   }
+  assert.deepEqual(await page.evaluate(()=>{const f=document.querySelector('[data-section=fasttrack]');const c=e=>getComputedStyle(e).color;return {eyebrow:c(f.querySelector('.tbt-home-eyebrow')),accent:c(f.querySelector('h2 span'))}}),{eyebrow:'rgb(67, 180, 58)',accent:'rgb(67, 180, 58)'},'Homepage FastTrack heading colours');
   // FastTrack images share one large size.
   const icons=await page.locator('.tbt-home-fasttrack__tbt-content img').evaluateAll(es=>es.map(e=>[Math.round(e.getBoundingClientRect().width),Math.round(e.getBoundingClientRect().height)]));
   assert.ok(icons.length===5&&icons.every(([w,h])=>w===icons[0][0]&&h===icons[0][1]),'FastTrack images must be one size ('+JSON.stringify(icons)+')');
@@ -104,8 +105,8 @@ const {chromium} = require('playwright');
   await page.evaluate(()=>document.querySelector('.tbt-intensivefix-carousel').scrollIntoView({block:'center'}));
   await page.mouse.move(5,5);await page.waitForTimeout(3700);
   assert.ok(await page.evaluate(()=>[...document.querySelectorAll('.tbt-intensivefix-carousel [data-carousel-slide]')].findIndex(s=>s.classList.contains('is-active'))>0),'Programme slider must advance by itself');
-  // FastTrack title lead-in uses the green accent.
-  assert.equal(await page.locator('.tbt-home-fasttrack h2 strong').evaluate(e=>getComputedStyle(e).color),'rgb(119, 207, 100)','FastTrack lead-in must be green like the A1/A2 accent');
+  // FastTrack heading colours: green eyebrow, white headline, brand-green A1/A2.
+  assert.deepEqual(await page.evaluate(()=>{const f=document.querySelector('[data-section=fasttrack]');const c=e=>getComputedStyle(e).color;return {eyebrow:c(f.querySelector('.tbt-home-eyebrow')),strong:c(f.querySelector('h2 strong')),accent:c(f.querySelector('h2 span'))}}),{eyebrow:'rgb(67, 180, 58)',strong:'rgb(255, 255, 255)',accent:'rgb(67, 180, 58)'},'FastTrack heading must follow the reference colours');
   // Closing image is as tall as the text beside it.
   const closing=await page.evaluate(()=>{const f=document.querySelector('.tbt-home-closing figure').getBoundingClientRect();const d=document.querySelector('.tbt-home-closing__inner > div').getBoundingClientRect();return {f:f.height,d:d.height,fw:f.width}});
   assert.ok(Math.abs(closing.f-closing.d)<3,'Closing image and text must have the same height ('+JSON.stringify(closing)+')');
