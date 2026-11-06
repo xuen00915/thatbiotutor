@@ -1,7 +1,7 @@
 # Contact Form 7 — Free Bio Notes email form
 
 The Free Bio Notes page ("Simply Enter Your Email Below…") already has its form in place. Until Contact Form 7 is
-installed it shows a stand-in form (email field + "Send me the notes" button) that opens the visitor's email app. Once you
+installed it shows a stand-in form (first name, email, level of student, "I am a Parent" tick and a SUBMIT button) that opens the visitor's email app. Once you
 connect a real Contact Form 7 form, the stand-in is replaced and the design stays the same, because the theme styles
 Contact Form 7's own classes (`wpcf7-form`, `wpcf7-email`, `wpcf7-submit`, `wpcf7-not-valid-tip`, `wpcf7-response-output`).
 
@@ -16,10 +16,22 @@ Plugins → Add New → search **Contact Form 7** → Install → Activate.
 Contact → Add New. Title: `Free notes`. On the **Form** tab paste exactly:
 
 ```
-<label class="tbt-form__label">Your email address
-    [email* your-email autocomplete:email placeholder "Enter your best email address"]
+<label><span class="screen-reader-text">First name</span>
+    [text* first-name autocomplete:given-name placeholder "First Name *"]
 </label>
-[submit "Send me the notes"]
+
+<label><span class="screen-reader-text">Email address</span>
+    [email* your-email autocomplete:email placeholder "Email Address *"]
+</label>
+
+<fieldset class="tbt-form__fieldset">
+    <legend>Level of Student *</legend>
+    [radio* level-of-student use_label_element "Sec 4 G3/Pure Biology (In 2026)" "Sec 3 G3/Pure Biology (In 2026)" "Lower Sec, Potential Bio Student" "Other: Combined Bio/N Level/IP/IB/A Level/IGCSE"]
+</fieldset>
+
+[checkbox is-parent use_label_element "I am a Parent"]
+
+[submit "SUBMIT"]
 ```
 
 (The same text is returned by `tbt_cf7_notes_template()` in `inc/forms.php`.)
@@ -27,7 +39,14 @@ Contact → Add New. Title: `Free notes`. On the **Form** tab paste exactly:
 ## 3. Set up the emails (Mail tab)
 
 - **Mail** (goes to the team): To `keefe@thatbiotutor.com`, From `[_site_title] <wordpress@your-domain>`,
-  Reply-To `[your-email]`, Subject `Free notes request`, Message body `Please send the free notes to [your-email]`.
+  Reply-To `[your-email]`, Subject `Free notes request`, Message body:
+  ```
+  Please send the free notes to:
+  Name: [first-name]
+  Email: [your-email]
+  Level of student: [level-of-student]
+  Parent: [is-parent]
+  ```
 - **Mail (2)** (automatic reply to the student): tick *Use Mail (2)*, To `[your-email]`, Subject
   `Your free O Level Biology notes`, Message body: a short thank-you with the download link to the notes.
 - Messages tab: keep the defaults, or soften the wording ("Thanks! Check your inbox (and your Promotions folder).").

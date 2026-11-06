@@ -19,7 +19,7 @@
   font-family: Arial, Helvetica, sans-serif;
   color: var(--tbt-ink);
   background: var(--tbt-surface);
-  font-synthesis: none;
+  font-synthesis: style; /* italic text declared in CSS is drawn even when only upright faces are loaded; weights are never faked */
 }
 
 *, *::before, *::after { box-sizing: border-box; }

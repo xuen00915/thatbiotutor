@@ -42,6 +42,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       });
       const at = `at ${width}x${height}: ${JSON.stringify(m)}`;
       assert.ok(m.proofBottom <= height, `The whole hero (down to the downloads count) must fit one screen ${at}`);
+      if (width >= 769 && height >= 600) assert.ok(m.sliderHeight >= Math.min(760, height - 300) - 2, `The tablet picture must use the free height of the screen ${at}`);
       assert.ok(m.sliderBottom <= height && m.proofBottom <= height, `Title, picture and button must share one screen ${at}`);
       assert.ok(m.h1Right <= m.viewportWidth, `Title must not be cut off at the right edge ${at}`);
       assert.equal(m.sliderBg, 'rgba(0, 0, 0, 0)', `The slider must not sit on a white card ${at}`);
