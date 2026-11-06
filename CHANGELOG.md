@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] The review expand buttons ("Show 12 more reviews" / "Show all 211 reviews"), on every page that has them, are now forest green (filled and outlined) instead of the bright green used by DOWNLOAD and the other action buttons, so they no longer look alike; hover lightens to a mid green. `tests/notes-sections-runtime.js` guards it.
+
 - [main-site] Free Bio Notes: the closing DOWNLOAD button no longer sits right under the "Show 12 more / Show all 211 reviews" buttons (it looked like a third review button). It is now its own dark band after the reviews, with the line "Get the free notes and start studying smarter." and a centred DOWNLOAD button (still linking to the download block). `tests/notes-sections-runtime.js` guards it.
 
 - [fix-page] Classes page round 3: "Common questions" has a white background; section padding is 52px (40px on tablet/phone, was 64/48) and the "What makes our classes unlike any other" section now flows top to bottom instead of sitting in a tall fixed box, which removes the ~120px holes between its heading, picture and list; the FAQ questions no longer get cut off on phones (the parent theme's buttons never wrap) and show a green plus/minus icon, with no pink on hover; the WhatsApp help link has a taller tap area. `tests/classes-page-runtime.js` checks white FAQ, padding, biggest empty gap per section, FAQ fit and hover colour at 1440/1024/768/390/320.

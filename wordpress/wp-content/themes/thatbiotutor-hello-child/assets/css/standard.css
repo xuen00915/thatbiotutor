@@ -242,21 +242,21 @@ body.tbt-site #main-content .tbt-testimonial.is-revealed { animation: tbt-std-re
 .tbt-reviews-controls button {
   min-height: 48px;
   padding: 12px 28px;
-  border: 2px solid var(--tbt-std-green-bright);
+  border: 2px solid var(--tbt-std-forest); /* forest, so review buttons never look like the bright-green action buttons */
   border-radius: 9999px;
   background: transparent;
-  color: var(--tbt-std-green);
+  color: var(--tbt-std-forest);
   font: 700 1rem/1.4 var(--tbt-font);
   cursor: pointer;
   transition: background-color 0.25s var(--tbt-std-ease), color 0.25s var(--tbt-std-ease), transform 0.25s var(--tbt-std-ease);
 }
 
 .tbt-reviews-controls button.tbt-reviews-controls__more {
-  background: var(--tbt-std-green-bright);
+  background: var(--tbt-std-forest);
   color: #fff;
 }
 
-.tbt-reviews-controls button:is(:hover, :focus, :active) { background: var(--tbt-std-forest); border-color: var(--tbt-std-forest); color: #fff; }
+.tbt-reviews-controls button:is(:hover, :focus, :active) { background: #1f5c33; border-color: #1f5c33; color: #fff; }
 .tbt-reviews-controls[hidden], .tbt-reviews-controls button[hidden] { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
