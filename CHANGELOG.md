@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [fix-page] Phone and tablet pass over the whole IntensiveFix page (the shared sections also apply to the homepage): FAQ questions were cut off on phones with their plus icons pushed off-screen (the parent theme's buttons never wrap), so they now wrap inside their row; the closing photo has clear space above its heading; the Contact Us button text is 14px; the review link has a comfortable touch height (the footer keeps the original Inquire layout). `tests/home-polish-runtime.js` checks FAQ fit and the closing gap at 1440/768/390/320.
+
 - [fix-page] FastTrack icons made smaller again (42px wide on every screen, at most 48px tall) while still starting level with their phrase.
 - [main-site] About tutor cards: the certificate viewer column is now exactly as tall as that tutor's words (desktop) and the certificate picture fills it, so it is larger (it was a fixed 286px box); on phones the viewer is 340px tall. `tests/about-page-runtime.js` guards it.
 

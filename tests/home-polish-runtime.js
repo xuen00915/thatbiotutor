@@ -26,6 +26,14 @@ const {chromium} = require('playwright');
     assert.equal(lines[0],'The One Missing Key to go','Homepage headline wraps like the original ('+JSON.stringify(lines)+')');
   }
   assert.deepEqual(await page.evaluate(()=>{const f=document.querySelector('[data-section=fasttrack]');const c=e=>getComputedStyle(e).color;return {eyebrow:c(f.querySelector('.tbt-home-eyebrow')),accent:c(f.querySelector('h2 span'))}}),{eyebrow:'rgb(67, 180, 58)',accent:'rgb(67, 180, 58)'},'Homepage FastTrack heading colours');
+  // FAQ questions wrap inside their row and keep the plus icon on screen.
+  const faqFit=await page.locator('.tbt-home-faq__item button').evaluateAll(bs=>bs.map(b=>{const r=b.getBoundingClientRect();const t=b.querySelector('span').getBoundingClientRect();const i=b.querySelector('.tbt-home-faq__icon').getBoundingClientRect();return {text:t.right<=r.right+1,icon:i.right<=r.right+1&&i.right<=innerWidth}}));
+  assert.ok(faqFit.every(f=>f.text&&f.icon),'FAQ questions must wrap and keep their icon visible at '+width+'px '+JSON.stringify(faqFit.filter(f=>!f.text||!f.icon)));
+  // Phones and tablets: the closing photo has clear space above the heading, and footer columns are not cramped.
+  if (width<=768) {
+   const gap=await page.evaluate(()=>{const f=document.querySelector('.tbt-home-closing figure').getBoundingClientRect();const h=document.querySelector('.tbt-home-closing h2').getBoundingClientRect();return Math.round(h.top-f.bottom)});
+   assert.ok(gap>=20,'Closing photo must have space above its heading at '+width+'px ('+gap+'px)');
+  }
   // Pictures cannot be dragged on any page.
   const homeDrag=await page.evaluate(()=>{const imgs=[...document.images];const ev=new Event('dragstart',{bubbles:true,cancelable:true});imgs[0].dispatchEvent(ev);return {total:imgs.length,draggable:imgs.filter(i=>i.draggable!==false).length,prevented:ev.defaultPrevented,css:getComputedStyle(imgs[0]).webkitUserDrag}});
   assert.equal(homeDrag.draggable,0,'Homepage pictures must be non-draggable '+JSON.stringify(homeDrag));
