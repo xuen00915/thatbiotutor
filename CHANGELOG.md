@@ -6,6 +6,7 @@
 
 - [main-site] The header's Classes item now shows a clear SVG chevron drop-down arrow (it was a tiny thin text glyph), on desktop and in the phone menu; it turns over while the menu is open. `tests/nav-arrow-runtime.js` and `tests/navigation-test.php` guard it.
 
+- [fix-page] Phone and tablet pass over the whole IntensiveFix page (the shared sections also apply to the homepage): FAQ questions were cut off on phones with their plus icons pushed off-screen (the parent theme's buttons never wrap), so they now wrap inside their row; the closing photo has clear space above its heading; the Contact Us button text is 14px; the review link has a comfortable touch height (the footer keeps the original Inquire layout). `tests/home-polish-runtime.js` checks FAQ fit and the closing gap at 1440/768/390/320.
 - [main-site] About spacing tightened: about 56px between sections (it added up to ~200px) and 32px under each title bar on desktop; about 40px between sections and 20px under each title bar on phones, with smaller phone heroes, tutor cards and founder cards (17px text) so visitors scroll about 12% less. About is a third exception to the standard section padding in `tests/standard-pages-runtime.js`; `tests/about-page-runtime.js` guards the gaps.
 
 - [main-site] About: Ms Chelsea's LinkedIn link is now a LinkedIn-blue icon button ("LinkedIn" with the logo, 44px tall, labelled "Ms Chelsea on LinkedIn" for screen readers) instead of the raw address. Other profile links stay plain text links. `tests/tutors-test.php` guards it.

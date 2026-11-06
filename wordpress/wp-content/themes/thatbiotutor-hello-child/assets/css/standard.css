@@ -494,3 +494,26 @@ body.tbt-site img {
   -webkit-touch-callout: none;
   user-select: none;
 }
+
+/* ---------- Tablet and phone fit ---------- */
+/* FAQ questions wrap inside their row (the parent theme's buttons never wrap) and keep the plus icon on screen. */
+body.tbt-site .tbt-home-faq__item button {
+  grid-template-columns: minmax(0, 1fr) 24px;
+  white-space: normal;
+  text-align: left;
+}
+body.tbt-site .tbt-home-faq__item button > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+
+@media (max-width: 640px) {
+  body.tbt-site .tbt-home-faq__item button { gap: 12px; padding: 16px 18px; font-size: 16px; line-height: 24px; }
+  body.tbt-site .tbt-home-faq__answer p { padding: 18px; font-size: 16px; }
+  body.tbt-site .tbt-landing-header__cta { font-size: 14px; }
+  body.tbt-site .tbt-home-fasttrack__comparison strong { font-size: 13px; }
+}
+
+/* Comfortable touch targets for the small text links. */
+body.tbt-site .tbt-google-reviews__source { padding-block: 12px; font-size: 13px; }
+
+@media (max-width: 768px) {
+  body.tbt-site .tbt-home-closing figure { margin-bottom: 28px; }
+}
