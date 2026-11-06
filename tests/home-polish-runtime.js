@@ -36,8 +36,8 @@ const {chromium} = require('playwright');
   assert.equal(icons.length,5);
   assert.ok(icons.every(x=>x.dTop<=1),'FastTrack picture must start level with its phrase '+JSON.stringify(icons));
     assert.ok(icons.every(x=>x.w===icons[0].w),'FastTrack pictures share one width '+JSON.stringify(icons));
-  assert.ok(icons[0].w<=(width>520?96:76),'FastTrack pictures must be compact ('+icons[0].w+'px)');
-  assert.ok(icons.every(x=>x.h<=104),'FastTrack pictures must not tower over their phrase '+JSON.stringify(icons));
+  assert.ok(icons[0].w<=(width>520?64:52),'FastTrack pictures must be compact ('+icons[0].w+'px)');
+  assert.ok(icons.every(x=>x.h<=72),'FastTrack pictures must not tower over their phrase '+JSON.stringify(icons));
   // The artwork itself has no empty margin, so the visible icon starts level with the phrase.
   const margins=await page.locator('.tbt-home-fasttrack__tbt-content img').evaluateAll(es=>Promise.all(es.map(async i=>{i.loading='eager';await i.decode();const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;const x=c.getContext('2d');x.drawImage(i,0,0);const d=x.getImageData(0,0,c.width,c.height).data;let top=c.height,bottom=0,left=c.width,right=0;for(let y=0;y<c.height;y++)for(let xx=0;xx<c.width;xx++){if(d[(y*c.width+xx)*4+3]>10){if(y<top)top=y;if(y>bottom)bottom=y;if(xx<left)left=xx;if(xx>right)right=xx}}return {top:top/c.height,bottom:1-bottom/c.height,left:left/c.width,right:1-right/c.width}})));
   assert.ok(margins.every(m=>Math.max(m.top,m.bottom,m.left,m.right)<0.03),'FastTrack artwork must not carry empty margin '+JSON.stringify(margins));
