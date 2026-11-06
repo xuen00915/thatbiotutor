@@ -433,17 +433,17 @@ body.tbt-site .tbt-home-faq__item button:is(:hover, :focus, :focus-visible, :act
 /* ---------- FastTrack pictures: compact, starting level with their phrase ---------- */
 body.tbt-site .tbt-home-fasttrack__tbt-content { align-items: stretch; }
 body.tbt-site .tbt-home-fasttrack__tbt-content img {
-  width: 64px;
+  width: 42px;
   height: auto;
-  max-height: 72px;
-  flex: 0 0 64px;
+  max-height: 48px;
+  flex: 0 0 42px;
   align-self: flex-start;
   object-fit: contain;
   object-position: center top;
 }
 
 @media (max-width: 520px) {
-  body.tbt-site .tbt-home-fasttrack__tbt-content img { width: 52px; flex-basis: 52px; max-height: 60px; }
+  body.tbt-site .tbt-home-fasttrack__tbt-content img { width: 42px; flex-basis: 42px; max-height: 48px; }
 }
 
 /* ---------- Google reviews: equal cards, arrows in their own gutters ---------- */
