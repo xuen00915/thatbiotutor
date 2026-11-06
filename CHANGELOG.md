@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [fix-page] FastTrack icons made smaller (88px wide, 72px on phones, at most 96px tall) while still starting level with their phrase.
+
 - [fix-page] FastTrack icons now start level with the first line of their phrase: the five artwork files (content, memory, answering, practical, support) had 25-35% empty margin built in, which I trimmed so the visible icon begins at the top of the phrase (homepage and IntensiveFix). `tests/home-polish-runtime.js` checks the artwork has no empty margin. The founder section is back to its previous layout (the photo-balancing attempt cropped the photo too much).
 
 - [fix-page] Pictures can no longer be dragged on any page (it was only IntensiveFix, so the homepage FastTrack pictures still dragged). (The founder-photo balancing tried in this change cropped the photo too much and was reverted.)
