@@ -22,7 +22,7 @@ final class ClassesPagesTest
         $classes = $html['page-classes.php'];
         $this->assertSectionOrder($classes, ['hero', 'definition', 'struggles', 'solutions', 'difference', 'results', 'levels', 'faq'], 'Classes');
         foreach (['What exactly is O Level', 'Why do so many students struggle', 'How TBT solves each one', 'What makes our classes unlike any other', 'Choose your level below', 'Sec 3 Pure / G3 Biology Classes', 'Sec 4 Pure / G3 Biology Classes'] as $marker) {
-            $this->assertTrue(str_contains($classes, $marker), "Classes page must preserve {$marker}.");
+            $this->assertTrue(str_contains(html_entity_decode(strip_tags($classes), ENT_QUOTES), $marker), "Classes page must preserve {$marker}.");
         }
         $this->assertTrue(str_contains($classes, '/sec-3-pure-g3-biology-tuition/') && str_contains($classes, '/sec-4-pure-g3-biology-tuition/'), 'Classes level choices must link to distinct canonical pages.');
         $this->assertTrue(str_contains($classes, 'curated_heroes_classes_original'), 'Classes hero must use the captured public background.');
