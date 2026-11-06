@@ -430,16 +430,19 @@ body.tbt-site #main-content :is([class*="background"], [class*="shade"], [class*
 /* ---------- FAQ: hover keeps dark readable text ---------- */
 body.tbt-site .tbt-home-faq__item button:is(:hover, :focus, :focus-visible, :active) { color: var(--tbt-std-ink); }
 
-/* ---------- FastTrack pictures: one large size ---------- */
+/* ---------- FastTrack pictures: as tall as their phrase, starting level with it ---------- */
+body.tbt-site .tbt-home-fasttrack__tbt-content { align-items: stretch; }
 body.tbt-site .tbt-home-fasttrack__tbt-content img {
-  width: 128px;
-  height: 128px;
-  flex: 0 0 128px;
+  width: 144px;
+  height: auto;
+  flex: 0 0 144px;
+  align-self: stretch;
   object-fit: contain;
+  object-position: center top;
 }
 
 @media (max-width: 520px) {
-  body.tbt-site .tbt-home-fasttrack__tbt-content img { width: 104px; height: 104px; flex-basis: 104px; }
+  body.tbt-site .tbt-home-fasttrack__tbt-content img { width: 116px; flex-basis: 116px; }
 }
 
 /* ---------- Google reviews: equal cards, arrows in their own gutters ---------- */
@@ -483,3 +486,10 @@ body.tbt-site .tbt-home-hero h1 {
 /* ---------- FastTrack heading colours (shared by the homepage and IntensiveFix) ---------- */
 body.tbt-site .tbt-home-fasttrack .tbt-home-eyebrow { color: var(--tbt-std-green-bright); }
 body.tbt-site .tbt-home-fasttrack h2 span { color: var(--tbt-std-green-bright); }
+
+/* ---------- IntensiveFix: pictures cannot be dragged ---------- */
+body.tbt-site.page-template-page-intensivefix img {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
