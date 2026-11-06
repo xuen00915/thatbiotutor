@@ -55,12 +55,15 @@ function tbt_get_testimonials(array $args = []): array
 function tbt_render_testimonials(array $args = []): void
 {
     $records = tbt_get_testimonials($args);
+    $fallbackPortraits = is_array($args['fallback_portraits'] ?? null) ? $args['fallback_portraits'] : [];
     echo '<div class="tbt-testimonials" data-testimonial-list>';
     foreach ($records as $record) {
         $hasVideo = $record['video_url'] !== '';
         echo '<article class="tbt-testimonial' . ($hasVideo ? ' tbt-testimonial--video' : '') . '">';
         if ($record['portrait']['url'] !== '') {
             echo '<img class="tbt-testimonial__portrait" src="' . esc_url($record['portrait']['url']) . '" alt="' . esc_attr($record['portrait']['alt']) . '">';
+        } elseif (isset($fallbackPortraits[$record['name']]) && function_exists('tbt_render_media_image')) {
+            tbt_render_media_image((string) $fallbackPortraits[$record['name']], 'tbt-testimonial__portrait', ['loading' => 'lazy', 'alt' => '']);
         }
         if ($hasVideo) {
             echo '<div class="tbt-video tbt-video--testimonial"><iframe src="' . esc_url($record['video_url']) . '" title="' . esc_attr($record['name'] . ' video testimonial') . '" loading="lazy" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>';

@@ -110,7 +110,7 @@ final class ClassesPagesTest
             $this->assertSame(3, substr_count($programme, 'class="tbt-programme-proof"'), 'Programme hall of fame must render the three public grade-jump proof blocks.');
             preg_match_all('/<a class="tbt-programme-hall__action\s/', $programme, $hallActions);
             $this->assertSame(2, count($hallActions[0]), 'Programme hall of fame must retain both public conversion actions.');
-            $this->assertTrue(str_contains($programme, 'tbt-programme-numbers__background') && str_contains($programme, 'curated_heroes_classes_original'), 'Programme numbers must retain the public dark classroom-photo treatment.');
+            $this->assertTrue(str_contains($programme, 'tbt-programme-numbers__background') && (str_contains($programme, 'curated_heroes_classes_original') || str_contains($programme, 'original_009')), 'Programme numbers must retain the public classroom-photo treatment.');
             $this->assertTrue(substr_count($programme, 'class="tbt-inclusion-card') === 8, 'Programme inclusions must render all eight public benefits.');
         }
 
