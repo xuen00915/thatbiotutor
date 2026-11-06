@@ -17,6 +17,14 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.ok(box && box.width >= 12 && box.height >= 7, `Chevron must be clearly visible at ${width}px: ${JSON.stringify(box)}`);
       const stroke = await chevron.locator('path').evaluate((p) => getComputedStyle(p).stroke);
       assert.notEqual(stroke, 'none', `Chevron must be drawn with a stroke at ${width}px`);
+      if (width > 980) {
+        await page.locator('.site-nav__item--has-children').hover();
+        const menu = page.locator('.site-nav__submenu');
+        await menu.waitFor({state:'visible'});
+        const shape = await menu.evaluate(e=>({width:e.getBoundingClientRect().width,radius:parseFloat(getComputedStyle(e).borderTopLeftRadius),links:[...e.querySelectorAll('a')].map(a=>a.getBoundingClientRect().height)}));
+        assert.ok(shape.width <= 180 && shape.radius >= 10, 'Dropdown is compact with rounded corners');
+        assert.ok(shape.links.every(h=>h >=44 && h <=50), 'Compact dropdown preserves touch targets');
+      }
       console.log(`PASS nav arrow ${width}`);
     }
   } finally { await browser.close(); }

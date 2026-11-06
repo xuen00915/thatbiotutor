@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Reduced the desktop Classes dropdown from 260px to 180px wide, rounded its corners to 10px and tightened each link while retaining 44px touch targets. Mobile navigation is unchanged; the navigation runtime test covers the compact dimensions.
+
 - [main-site] Removed the standard header menu’s vertical divider lines. Testimonials now separates each new cohort’s results with 48px above (32px on phones/tablets), plus 32px below the portrait result artwork (24px on phones/tablets), without changing content or widths. Existing runtime tests guard both refinements.
 
 - [main-site] Testimonials: added a collapsed, accessible floating year navigator with active-year tracking, centred the student videos, and restored 58 source reviewer portraits with a Google Reviews heading per cohort; older reviews without source photos use initials. All 136 reviews retain their text, grades, media and sequence. Standard headers now place the logo at the left content edge and centre the desktop menu (IntensiveFix unchanged). Classes now places its definition image beside the paragraph and paired Sec 3 / Sec 4 topics. Responsive runtime contracts cover these changes.

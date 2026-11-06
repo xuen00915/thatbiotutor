@@ -134,3 +134,10 @@ body.tbt-site .site-footer { box-sizing: border-box; width: 100%; max-width: non
   .whatsapp-float { right: 20px; bottom: 20px; width: 52px; height: 52px; min-width: 52px; min-height: 52px; }
 }
 
+
+/* Compact desktop Classes dropdown; retain the mobile navigation layout. */
+@media (min-width: 981px) {
+  .site-nav__submenu { min-width: 180px; width: 180px; border-radius: 10px; overflow: hidden; }
+  .site-nav__submenu-link { min-height: 44px; padding: 10px 16px; font-size: 16px; line-height: 24px; }
+  .site-nav__submenu > li:last-child .site-nav__submenu-link { border-bottom: 0; }
+}
