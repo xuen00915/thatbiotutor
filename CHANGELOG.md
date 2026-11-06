@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [fix-page] Raised the shared content width from 944px to 1120px for the header, content and footer on every page (`--tbt-page`), keeping the 864px text measure for hero headlines. Widths now follow the one token instead of hard-coded values.
+
 - Bound the em dash in the IntensiveFix headline to the following word so it can never end a line.
 
 - The hero headlines on the homepage and IntensiveFix now use the original 864px text measure with normal wrapping inside the shared 944px container, so "Bio" stays with "Sec 3" on the IntensiveFix headline as on the original.

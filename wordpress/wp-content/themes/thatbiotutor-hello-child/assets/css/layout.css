@@ -33,16 +33,16 @@ body.tbt-site .site-header .site-header__inner {
   padding-inline: 0;
 }
 
-/* Every homepage section follows the 944px FastTrack card width, including the shared header and footer tracks. */
+/* Every Inquire-design section follows the shared content width (--tbt-page), including the header and footer tracks. */
 
 body.tbt-site .tbt-home-inquire .tbt-home-container,
 body.tbt-site .tbt-home-inquire .tbt-home-hero__carousel {
-  width: min(944px, calc(100% - 2 * var(--tbt-gutter)));
+  width: min(var(--tbt-page), calc(100% - 2 * var(--tbt-gutter)));
   max-width: none;
   margin-inline: auto;
   padding-inline: 0;
 }
 
 body.tbt-site:is(.home, .page-template-page-intensivefix) .site-footer__inner {
-  width: min(100%, 944px);
+  width: min(100%, var(--tbt-page));
 }

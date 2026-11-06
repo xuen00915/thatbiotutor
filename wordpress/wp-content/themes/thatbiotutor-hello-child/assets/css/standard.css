@@ -1,6 +1,6 @@
 /* ThatBioTutor shared design standard, loaded last on every page.
  *
- * One content width (--tbt-page, 944px), one font (Poppins), one type scale, one
+ * One content width (--tbt-page, 1120px), one font (Poppins), one type scale, one
  * set of brand colours, one button, one section rhythm and one set of touch targets
  * across the homepage, IntensiveFix, programme, results, notes, about, causes and
  * contact pages. Page stylesheets keep only what is unique to a page.
@@ -468,8 +468,8 @@ body.tbt-site .tbt-home-closing img { height: 100%; }
   body.tbt-site #main-content .tbt-causes-section__media--square { border-radius: 0 !important; }
 }
 
-/* ---------- Hero headline: original 864px text measure inside the shared 944px container ---------- */
+/* ---------- Hero headline: original 864px text measure inside the shared 1120px container ---------- */
 body.tbt-site .tbt-home-hero h1 {
-  padding-inline: clamp(0px, calc((100% - 864px) / 2), 40px);
+  padding-inline: clamp(0px, calc((100% - 864px) / 2), 128px);
   text-wrap: wrap;
 }
