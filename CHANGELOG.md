@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] About spacing tightened: about 56px between sections (it added up to ~200px) and 32px under each title bar on desktop; about 40px between sections and 20px under each title bar on phones, with smaller phone heroes, tutor cards and founder cards (17px text) so visitors scroll about 12% less. About is a third exception to the standard section padding in `tests/standard-pages-runtime.js`; `tests/about-page-runtime.js` guards the gaps.
+
 - [main-site] About: Ms Chelsea's LinkedIn link is now a LinkedIn-blue icon button ("LinkedIn" with the logo, 44px tall, labelled "Ms Chelsea on LinkedIn" for screen readers) instead of the raw address. Other profile links stay plain text links. `tests/tutors-test.php` guards it.
 
 - [main-site] About tutor cards: the certificate viewer column is now exactly as tall as that tutor's words (desktop) and the certificate picture fills it, so it is larger (it was a fixed 286px box); on phones the viewer is 340px tall. `tests/about-page-runtime.js` guards it.

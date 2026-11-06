@@ -132,6 +132,24 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           assert.ok(t.viewerHeight >= 320, `Certificate viewer must stay large on small screens ${tw}`);
         }
       }
+      // Compact rhythm: modest space between sections and between each title bar and its content.
+      const rhythm = await page.evaluate(() => {
+        const sections = ['mission', 'quality', 'tutors', 'founder', 'beliefs'].map((name) => document.querySelector(`.tbt-about-page [data-section="${name}"]`));
+        const bottomOf = (section) => Math.max(...Array.from(section.querySelectorAll('img, p, li, .tbt-tutor, .tbt-founder-card')).filter((e) => e.getBoundingClientRect().height > 0).map((e) => e.getBoundingClientRect().bottom));
+        const gaps = [];
+        for (let i = 1; i < sections.length; i += 1) gaps.push(Math.round(sections[i].querySelector('.tbt-institutional-title-bar').getBoundingClientRect().top - bottomOf(sections[i - 1])));
+        const barToContent = sections.map((section) => {
+          const bar = section.querySelector('.tbt-institutional-title-bar').getBoundingClientRect();
+          const next = Array.from(section.querySelectorAll('.tbt-reading-width > *, .tbt-tutors > *')).find((e) => e.getBoundingClientRect().height > 0 && e.getBoundingClientRect().top >= bar.bottom - 1);
+          return Math.round(next.getBoundingClientRect().top - bar.bottom);
+        });
+        return { gaps, barToContent };
+      });
+      const rw = `${at} rhythm=${JSON.stringify(rhythm)}`;
+      const maxGap = width >= 769 ? 64 : 44;
+      const maxBar = width >= 769 ? 40 : 28;
+      rhythm.gaps.forEach((g) => assert.ok(g <= maxGap, `Space between About sections must be at most ${maxGap}px ${rw}`));
+      rhythm.barToContent.forEach((g) => assert.ok(g <= maxBar, `Space under each title bar must be at most ${maxBar}px ${rw}`));
       console.log(`PASS about ${width}`);
     }
   } finally { await browser.close(); }
