@@ -100,13 +100,13 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:4173 node tests/header-definition-runtime.js
 
       - name: Build WordPress upload package
-        run: python3 scripts/build_wordpress_package.py
+        run: python3 scripts/build_wordpress_package.py --output "$RUNNER_TEMP/tbt-wordpress-install"
 
       - name: Upload WordPress installation package
         uses: actions/upload-artifact@v4
         with:
           name: thatbiotutor-wordpress-install
-          path: .artifacts/wordpress/
+          path: ${{ runner.temp }}/tbt-wordpress-install/
           if-no-files-found: error
           retention-days: 30
 
