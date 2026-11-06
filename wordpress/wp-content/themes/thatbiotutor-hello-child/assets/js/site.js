@@ -386,6 +386,11 @@
     windowObject.addEventListener('resize', () => { windowObject.clearTimeout(timer); timer = windowObject.setTimeout(size, 120); });
     windowObject.addEventListener('load', size);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(size);
+    if (typeof windowObject.ResizeObserver === 'function') {
+      // late-loading emoji or fonts can change the first reviews' height; re-measure when they do
+      const observer = new windowObject.ResizeObserver(() => { windowObject.clearTimeout(timer); timer = windowObject.setTimeout(size, 60); });
+      lists.forEach((list) => Array.from(list.querySelectorAll(':scope > .tbt-testimonial')).slice(0, 4).forEach((item) => observer.observe(item)));
+    }
   }
 
   function initImageGuard(document) {

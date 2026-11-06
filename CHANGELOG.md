@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Free Bio Notes review panel fix: the first review list was a flex column, so the panel's height limit squashed the reviews to ~38px and their text overlapped. Panel lists are now plain blocks whose reviews keep their full height (the panel opens at exactly four full reviews), and the panel re-measures if the first reviews change size later. `tests/review-panel-runtime.js` now also checks for squashed/overlapping reviews and a 1250px window.
+
 - [main-site] Free Bio Notes reviews now live in a card-style panel that scrolls on its own: both review sections hold every review, open on the first four (the script measures four reviews), keep the page still while you scroll inside (a scroll shadow shows when there is more, the panel is keyboard-focusable and labelled), and no longer use the "Show 12 more / Show all" buttons on this page. A plain centred DOWNLOAD button closes the last section (no extra phrase). Other pages keep their "Show more" buttons, now forest green. `tests/review-panel-runtime.js` guards the panel (and runs in CI).
 
 - [main-site] The review expand buttons ("Show 12 more reviews" / "Show all 211 reviews"), on every page that has them, are now forest green (filled and outlined) instead of the bright green used by DOWNLOAD and the other action buttons, so they no longer look alike; hover lightens to a mid green. `tests/notes-sections-runtime.js` guards it.

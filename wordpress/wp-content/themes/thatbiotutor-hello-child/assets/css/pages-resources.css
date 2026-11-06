@@ -165,6 +165,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit__answer { margin-top: 20px; }
 /* Reviews live in a panel that scrolls on its own: all reviews inside, opening on the first four (script sets the height). */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page [data-review-panel] [data-testimonial-list] {
+  display: block; /* a flex column would squash the reviews to fit the panel height */
   box-sizing: border-box;
   max-height: 640px; /* fallback until the script measures four reviews */
   padding: 4px 24px;
@@ -182,6 +183,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   scrollbar-color: #43b43a #eef5ea;
   scrollbar-width: thin;
 }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page [data-review-panel] [data-testimonial-list] > .tbt-testimonial { flex: none; min-height: auto; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page [data-review-panel] [data-testimonial-list]::-webkit-scrollbar { width: 10px; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page [data-review-panel] [data-testimonial-list]::-webkit-scrollbar-track { margin-block: 14px; border-radius: 9999px; background: #eef5ea; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page [data-review-panel] [data-testimonial-list]::-webkit-scrollbar-thumb { border-radius: 9999px; background: #43b43a; }
