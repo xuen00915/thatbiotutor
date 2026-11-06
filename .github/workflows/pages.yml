@@ -4,13 +4,17 @@ on:
   push:
     branches:
       - main
+      - fix/intensivefix
+      - site/main-website
   workflow_dispatch:
 
 permissions:
   contents: read
 
+# Every run builds the combined latest of main and both work branches, so a newer push
+# simply replaces an older run: the public link always shows everyone's latest work.
 concurrency:
-  group: pages-${{ github.ref }}
+  group: pages-latest
   cancel-in-progress: true
 
 jobs:
@@ -19,6 +23,23 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Combine main with both work branches
+        run: |
+          git config user.name "tbt-ci"
+          git config user.email "tbt-ci@users.noreply.github.com"
+          git checkout --detach origin/main
+          for branch in fix/intensivefix site/main-website; do
+            if git rev-parse --verify --quiet "origin/$branch" >/dev/null; then
+              git merge --no-edit "origin/$branch" || {
+                echo "::error::origin/$branch conflicts with the other work. Merge origin/main into $branch locally and resolve it."
+                exit 1
+              }
+            fi
+          done
+          git log --oneline -5
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
