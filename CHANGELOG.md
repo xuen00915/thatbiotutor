@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Free Bio Notes hero restored to the original look and made to fit one screen: Montserrat 45px title, italic "For Pure / G3 Biology" line with only the audience in green, and a preview slider that shrinks with the window height so the whole hero (DOWNLOAD button and downloads count included) sits in the first screen on laptops and phones. The Free Bio Notes title is a fourth documented exception in `tests/standard-pages-runtime.js`; `tests/notes-hero-runtime.js` guards it (and runs in CI).
+
 - [main-site] The header's Classes item now shows a clear SVG chevron drop-down arrow (it was a tiny thin text glyph), on desktop and in the phone menu; it turns over while the menu is open. `tests/nav-arrow-runtime.js` and `tests/navigation-test.php` guard it.
 
 - [main-site] About spacing tightened: about 56px between sections (it added up to ~200px) and 32px under each title bar on desktop; about 40px between sections and 20px under each title bar on phones, with smaller phone heroes, tutor cards and founder cards (17px text) so visitors scroll about 12% less. About is a third exception to the standard section padding in `tests/standard-pages-runtime.js`; `tests/about-page-runtime.js` guards the gaps.

@@ -11,7 +11,14 @@ $tbt_notes_portrait = tbt_media('original_003');
     <header class="tbt-resource-hero tbt-notes-hero" data-section="hero">
         <div class="tbt-resource-shell tbt-resource-hero__inner">
             <h1><?php echo esc_html($tbt_field('notes_heading')); ?></h1>
-            <p class="tbt-notes-hero__audience"><?php echo esc_html($tbt_field('notes_audience')); ?></p>
+            <p class="tbt-notes-hero__audience"><?php
+                $tbt_audience = $tbt_field('notes_audience');
+                if (preg_match('/^(For\s+)(.+)$/i', $tbt_audience, $tbt_parts) === 1) {
+                    echo esc_html($tbt_parts[1]) . '<span>' . esc_html($tbt_parts[2]) . '</span>';
+                } else {
+                    echo esc_html($tbt_audience);
+                }
+            ?></p>
             <div class="tbt-resource-carousel tbt-resource-carousel--notes" data-carousel data-carousel-autoplay="7000">
                 <div class="tbt-resource-carousel__viewport">
                     <?php foreach (range(1, 3) as $tbt_index) : $tbt_key = sprintf('curated_notes_notes_slide_%02d', $tbt_index); ?>
