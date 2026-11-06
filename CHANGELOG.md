@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Classes: centred the “Why students struggle” label and heading, and widened the heading to the full shared content width. The Classes runtime test checks centring and title width at five viewport sizes.
+
 - [main-site] Sec 4 now uses the finished Sec 3 presentation while retaining the original Sec 4 copy, three syllabus phases, eight topics, lesson points, reviews and 12 FAQs. Restored the original ADH lesson video, result tables, classroom statistics photo, review portraits, three practical photos and eight benefit icons. Moved the joining note inside Phase 3, joined the topics card, centered the option headings, highlighted the hero copy, and aligned widths, colours, tutor layout and controls with Sec 3.
 - [main-site] Testimonials sequence only: moved Isa, Michelle and Kwan Quan after Elena in Class of 2022 (22 entries), and placed Jasmine before Jolie in Class of 2021 (8 entries). Preserved all 136 records, text, grades, media and existing design; retained one Nicolas in 2023. Added full-cohort sequence/content-integrity contracts and the audit in `docs/TESTIMONIAL-SEQUENCE-AUDIT.md`, including unresolved source grade conflicts and pre-existing missing portraits.
 
