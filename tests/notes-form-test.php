@@ -35,6 +35,7 @@ $render = static function (): string { ob_start(); tbt_render_notes_form(); retu
 // 1. No shortcode set, no plugin: stand-in form with Contact Form 7 markup.
 $html = $render();
 $check(str_contains($html, 'data-tbt-form="fallback"'), 'Without a shortcode the stand-in form must render.');
+$check(!str_contains($html, 'class="tbt-notes-form wpcf7"'), 'The fallback must not trigger Contact Form 7 initialization without a real form ID.');
 foreach (['class="wpcf7-form"', 'wpcf7-form-control-wrap', 'wpcf7-email', 'wpcf7-submit', 'wpcf7-response-output'] as $needle) {
     $check(str_contains($html, $needle), "Stand-in form must use the Contact Form 7 class {$needle}.");
 }
@@ -77,12 +78,12 @@ $check($GLOBALS['tbt_form_shortcodes'] === [], 'Invalid shortcodes must never be
 
 // 5. The paste-in Contact Form 7 template matches the stand-in fields.
 $template = tbt_cf7_notes_template();
-foreach (['[text* first-name', '[email* your-email', '[radio* level-of-student', '[checkbox is-parent', '[submit "SUBMIT"]', 'Sec 4 G3/Pure Biology (In 2026)', 'I am a Parent'] as $needle) {
+foreach (['[text* first-name', '[email* your-email', '[radio level-of-student', '[checkbox is-parent', '[submit "SUBMIT"]', 'Sec 4 G3/Pure Biology (In 2026)', 'I am a Parent'] as $needle) {
     $check(str_contains($template, $needle), "The Contact Form 7 template must contain {$needle}.");
 }
 
 // 6. The setup guide exists and carries the exact template and the field name editors use.
 $guide = (string) @file_get_contents(dirname(__DIR__) . '/docs/CONTACT-FORM-7.md');
-$check(str_contains($guide, '[radio* level-of-student') && str_contains($guide, 'Form Shortcode') && str_contains($guide, 'Mail (2)'), 'docs/CONTACT-FORM-7.md must carry the template, the Form Shortcode field and the auto-reply setup.');
+$check(str_contains($guide, '[radio level-of-student') && str_contains($guide, 'Form Shortcode') && str_contains($guide, 'Mail (2)'), 'docs/CONTACT-FORM-7.md must carry the template, the Form Shortcode field and the auto-reply setup.');
 
 fwrite(STDOUT, "PASS: {$count} notes-form assertions\n");

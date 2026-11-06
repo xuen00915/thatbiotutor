@@ -33,7 +33,7 @@ function tbt_cf7_notes_template(): string
         . "</label>\n\n"
         . "<fieldset class=\"tbt-form__fieldset\">\n"
         . "    <legend>Level of Student *</legend>\n"
-        . "    [radio* level-of-student use_label_element " . $levels . "]\n"
+        . "    [radio level-of-student use_label_element " . $levels . "]\n"
         . "</fieldset>\n\n"
         . "[checkbox is-parent use_label_element \"I am a Parent\"]\n\n"
         . "[submit \"SUBMIT\"]";
@@ -67,7 +67,7 @@ function tbt_render_notes_form(): void
     }
 
     $mailto = 'mailto:keefe@thatbiotutor.com?subject=' . rawurlencode('Free O Level Biology Notes request');
-    echo '<div class="tbt-notes-form wpcf7" data-tbt-form="fallback" data-tbt-redirect="' . $redirect . '">';
+    echo '<div class="tbt-notes-form" data-tbt-form="fallback" data-tbt-redirect="' . $redirect . '">';
     echo '<form class="wpcf7-form" action="' . esc_attr($mailto) . '" method="post" enctype="text/plain">';
     echo '<p><label><span class="screen-reader-text">First name</span><span class="wpcf7-form-control-wrap" data-name="first-name"><input class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" type="text" name="first-name" autocomplete="given-name" placeholder="First Name *" required aria-required="true"></span></label></p>';
     echo '<p><label><span class="screen-reader-text">Email address</span><span class="wpcf7-form-control-wrap" data-name="your-email"><input class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required" type="email" name="your-email" autocomplete="email" placeholder="Email Address *" required aria-required="true"></span></label></p>';

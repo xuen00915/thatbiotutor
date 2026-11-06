@@ -13,6 +13,10 @@ scripts/verify-local.sh
 
 The setup command used inside WordPress is `wp tbt setup-site`. It is idempotent: it creates missing protected pages and seed records, reports slug collisions, and does not overwrite later client edits.
 
+## WordPress upload package
+
+See [WORDPRESS-INSTALL.md](WORDPRESS-INSTALL.md) for the theme ZIP, administrator-only dashboard setup and AIOS installation. Build with `python3 scripts/build_wordpress_package.py` after local verification. Third-party plugins are installed from WordPress.org, never bundled into the theme.
+
 ## Guarded staging deployment
 
 1. Create and verify a full database and uploads backup.

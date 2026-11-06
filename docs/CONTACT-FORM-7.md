@@ -26,7 +26,7 @@ Contact → Add New. Title: `Free notes`. On the **Form** tab paste exactly:
 
 <fieldset class="tbt-form__fieldset">
     <legend>Level of Student *</legend>
-    [radio* level-of-student use_label_element "Sec 4 G3/Pure Biology (In 2026)" "Sec 3 G3/Pure Biology (In 2026)" "Lower Sec, Potential Bio Student" "Other: Combined Bio/N Level/IP/IB/A Level/IGCSE"]
+    [radio level-of-student use_label_element "Sec 4 G3/Pure Biology (In 2026)" "Sec 3 G3/Pure Biology (In 2026)" "Lower Sec, Potential Bio Student" "Other: Combined Bio/N Level/IP/IB/A Level/IGCSE"]
 </fieldset>
 
 [checkbox is-parent use_label_element "I am a Parent"]

@@ -28,6 +28,7 @@ function tbt_theme_includes(): array
         'inc/results.php',
         'inc/forms.php',
         'inc/site-setup.php',
+        'inc/admin-setup.php',
         'inc/site-meta.php',
         'inc/security.php',
     ];

@@ -26,3 +26,7 @@ Page-family presentation is isolated in `pages-home.css`, `pages-programmes.css`
 
 See `docs/CLIENT-EDITING-GUIDE.md` for ACF Free editing and `docs/DEPLOYMENT.md` for guarded deployment. The child theme is the source of truth. No production hostname, live domain, DNS, or existing website is changed by this repository.
 
+
+## Upload to WordPress
+
+Run `python3 scripts/build_wordpress_package.py` after verification to create the uploadable child-theme ZIP in `.artifacts/wordpress/`. Follow [the WordPress installation guide](docs/WORDPRESS-INSTALL.md); the dashboard setup screen creates pages and content without requiring WP-CLI. AIOS is installed separately from WordPress.org.

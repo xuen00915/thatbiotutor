@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Prepared a native WordPress upload package: reproducible tracked-theme ZIP builder, CI download artifact and installation guide, plus an administrator-only, nonce-protected Appearance → ThatBioTutor Setup screen that preserves client edits. Documented separate AIOS installation and host-specific security/email steps. Corrected the Contact Form 7 radio field tag in the setup template and guide, and prevented the plugin from initializing the unconfigured fallback form with an invalid form ID. Added package-isolation and dashboard-authorization contracts.
+
 - [main-site] Reduced the desktop Classes dropdown from 260px to 180px wide, rounded its corners to 10px and tightened each link while retaining 44px touch targets. Mobile navigation is unchanged; the navigation runtime test covers the compact dimensions.
 
 - [main-site] Removed the standard header menu’s vertical divider lines. Testimonials now separates each new cohort’s results with 48px above (32px on phones/tablets), plus 32px below the portrait result artwork (24px on phones/tablets), without changing content or widths. Existing runtime tests guard both refinements.

@@ -99,6 +99,17 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:4173 node tests/year-navigation-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/header-definition-runtime.js
 
+      - name: Build WordPress upload package
+        run: python3 scripts/build_wordpress_package.py
+
+      - name: Upload WordPress installation package
+        uses: actions/upload-artifact@v4
+        with:
+          name: thatbiotutor-wordpress-install
+          path: .artifacts/wordpress/
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
