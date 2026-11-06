@@ -566,3 +566,48 @@ body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels__grid a span
 @media (max-width: 768px) {
   body.tbt-site .tbt-classes-page .tbt-solution-list { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ---------- Classes page: tighter rhythm, white FAQ, difference section in normal flow ---------- */
+body.tbt-site:not(.home) #main-content .tbt-classes-page .tbt-programme-section { min-height: 0; padding-block: 52px; }
+body.tbt-site:not(.home) #main-content .tbt-classes-page .tbt-programme-faq { background: #fff; }
+
+body.tbt-site .tbt-classes-page .tbt-programme-copy > p { margin-bottom: 36px; }
+body.tbt-site .tbt-classes-page .tbt-programme-definition__grid { gap: 24px; }
+body.tbt-site .tbt-classes-page .tbt-programme-levels__grid { margin-block: 36px 28px; }
+
+/* The difference section flows top to bottom instead of being positioned inside a tall fixed box. */
+body.tbt-site .tbt-classes-page .tbt-difference-layout { display: grid; min-height: 0; gap: 36px; padding-top: 24px; }
+body.tbt-site .tbt-classes-page .tbt-difference-layout > .tbt-programme-artwork { position: static; justify-self: center; width: min(100%, 440px); max-height: none; transform: none; }
+body.tbt-site .tbt-classes-page .tbt-difference-list { position: static; gap: 36px 56px; }
+body.tbt-site .tbt-classes-page .tbt-practical-feature { margin-top: 28px; }
+body.tbt-site .tbt-classes-page .tbt-programme-levels__help a { display: inline-block; padding-block: 10px; }
+
+@media (max-width: 768px) {
+  body.tbt-site:not(.home) #main-content .tbt-classes-page .tbt-programme-section { padding-block: 40px; }
+  body.tbt-site .tbt-classes-page .tbt-difference-layout { padding-top: 12px; }
+  body.tbt-site .tbt-classes-page .tbt-difference-list { gap: 28px; }
+}
+
+/* ---------- Programme FAQ (Classes, Sec 3, Sec 4): questions wrap, plus icon, no pink hover ---------- */
+body.tbt-site .tbt-programme-faq .tbt-faq [data-faq-button] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  white-space: normal;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+body.tbt-site .tbt-programme-faq .tbt-faq [data-faq-button]::after {
+  flex: 0 0 auto;
+  color: var(--tbt-std-green);
+  content: "+";
+  font-size: 1.6em;
+  font-weight: 500;
+  line-height: 1;
+}
+body.tbt-site .tbt-programme-faq .tbt-faq [data-faq-button][aria-expanded="true"]::after { content: "\2212"; }
+body.tbt-site .tbt-programme-faq .tbt-faq [data-faq-button]:is(:hover, :focus, :focus-visible, :active) {
+  background: transparent;
+  color: var(--tbt-std-ink);
+}
