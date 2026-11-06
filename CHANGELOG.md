@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] On Our Causes the "1. Planting Trees!" bar now uses the same 36px size as "2. SG Environmental Causes" (it was the 60px page heading), so both bars match. This is the one page where the standard h1 size is relaxed; `tests/standard-pages-runtime.js` expects 36px there and `tests/causes-page-runtime.js` checks the two bars match.
+
 - [fix-page] Restored the grey bridge line under the IntensiveFix "Sound familiar?" title ("But after learning the hard way that it pays to fix your foundation early, they’re saying:"), as on the homepage.
 
 - [fix-page] IntensiveFix programme graphics now change every 3 seconds and have rounded corners on the pictures themselves (frame no longer letterboxes them); the three phrases under the slider are now the supplied "There's WAY too much to memorise..." quotes.
