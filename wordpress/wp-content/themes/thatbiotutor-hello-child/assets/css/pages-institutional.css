@@ -279,6 +279,30 @@
   color: #116dff;
   text-decoration: underline;
 }
+.tbt-about-tutors .tbt-tutor__profile a.tbt-tutor__profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 18px 0 14px;
+  border-radius: 999px;
+  background: #0a66c2;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(10, 102, 194, .22);
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+.tbt-about-tutors .tbt-tutor__profile a.tbt-tutor__profile-link:hover,
+.tbt-about-tutors .tbt-tutor__profile a.tbt-tutor__profile-link:focus-visible {
+  background: #004182;
+  color: #fff;
+  transform: translateY(-1px);
+}
+.tbt-about-tutors .tbt-tutor__profile a.tbt-tutor__profile-link:focus-visible { outline: 3px solid #43b43a; outline-offset: 3px; }
+.tbt-about-tutors .tbt-tutor__profile-link svg { flex: none; }
 
 .tbt-about-tutors .tbt-tutor__documents {
   position: relative;
