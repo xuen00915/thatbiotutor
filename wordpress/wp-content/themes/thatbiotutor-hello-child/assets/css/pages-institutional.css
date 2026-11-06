@@ -718,6 +718,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality .tbt-reading-width > :is(p, ul) { grid-column: 1; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality ul { padding-left: 28px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-beliefs .tbt-reading-width { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); column-gap: 32px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality li { min-height: 0; margin: 0 0 16px; text-align: left; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality li:last-child { min-height: 0; margin-bottom: 0; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-beliefs .tbt-beliefs-grid { grid-column: 1; text-align: left; }
