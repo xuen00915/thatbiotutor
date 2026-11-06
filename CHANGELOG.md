@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Sec 3 follow-up: shared pill style for More Testimonials without an arrow, extra breathing room before the practical heading, four tutor profiles per desktop row, and FAQ slider controls outside the artwork (below it on mobile).
+
 - [main-site] Refined Sec 3 from supplied screenshots: padded natural-height class headers, single-line included benefits, compact black-outlined reviews with aligned portraits and bottom-aligned names, larger practical heading and smaller lesson card headings. Results, video, benefits, quality control and FAQ now fill the shared About Us content width. Added all 12 supplied FAQ graphics in order after the answers, with carousel navigation and responsive checks.
 - [main-site] Testimonials now uses the About Us content width and margins throughout: hero, featured video, every result graphic and yearly review panel. The page test compares all section widths directly with About Us at five screen sizes. Moved the legacy review-expansion interaction checks to Cell Division, which still uses those buttons.
 
