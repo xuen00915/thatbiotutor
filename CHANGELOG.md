@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- [fix-page] Pictures can no longer be dragged on any page (it was only IntensiveFix, so the homepage FastTrack pictures still dragged). The "About The Founder" photo is now exactly as tall as the text beside it and level with it, so the two sides balance (shared by the homepage and IntensiveFix).
+- [fix-page] Pictures can no longer be dragged on any page (it was only IntensiveFix, so the homepage FastTrack pictures still dragged). (The founder-photo balancing tried in this change cropped the photo too much and was reverted.)
 - [main-site] About: "Quality Teaching Only" and "What We Believe In" now show the words on the left and the photo on the right (desktop), with the photo exactly as tall as the words; they stack on tablets and phones. The founder's three answers sit in cards: questions 1 and 2 side by side, question 3 across the full width underneath (stacked on small screens). `tests/about-page-runtime.js` guards the layout.
 
 - [fix-page] FastTrack pictures are larger and each is as tall as its own phrase, starting level with it; pictures on the IntensiveFix page can no longer be dragged (non-draggable images, cancelled dragstart, no touch-callout or selection).

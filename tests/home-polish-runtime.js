@@ -31,11 +31,6 @@ const {chromium} = require('playwright');
   assert.equal(homeDrag.draggable,0,'Homepage pictures must be non-draggable '+JSON.stringify(homeDrag));
   assert.equal(homeDrag.prevented,true);
   assert.equal(homeDrag.css,'none');
-  // Founder photo and text are balanced: same height, photo flush with the text block.
-  if (width>980) {
-   const founder=await page.evaluate(()=>{const i=document.querySelector('.tbt-home-founder__inner');const f=i.querySelector('figure').getBoundingClientRect();const d=i.querySelector('div').getBoundingClientRect();return {fh:Math.round(f.height),dh:Math.round(d.height),ft:Math.round(f.top),dt:Math.round(d.top)}});
-   assert.ok(Math.abs(founder.fh-founder.dh)<=2&&Math.abs(founder.ft-founder.dt)<=2,'Founder photo and text must have the same height and top '+JSON.stringify(founder));
-  }
   // FastTrack pictures: as tall as their own phrase and starting level with it.
   const icons=await page.locator('.tbt-home-fasttrack__tbt-content').evaluateAll(es=>es.map(e=>{const i=e.querySelector('img').getBoundingClientRect();const p=e.querySelector('p').getBoundingClientRect();return {w:Math.round(i.width),h:Math.round(i.height),ph:Math.round(p.height),dTop:Math.round(Math.abs(i.top-p.top))}}));
   assert.equal(icons.length,5);
@@ -134,8 +129,6 @@ const {chromium} = require('playwright');
   assert.equal(drag.dragSet,drag.total,'Every picture on IntensiveFix must be non-draggable '+JSON.stringify(drag));
   assert.equal(drag.prevented,true,'Drag start must be cancelled');
   assert.equal(drag.css,'none');
-  const ifFounder=await page.evaluate(()=>{const i=document.querySelector('.tbt-home-founder__inner');const f=i.querySelector('figure').getBoundingClientRect();const d=i.querySelector('div').getBoundingClientRect();return {fh:Math.round(f.height),dh:Math.round(d.height),ft:Math.round(f.top),dt:Math.round(d.top)}});
-  assert.ok(Math.abs(ifFounder.fh-ifFounder.dh)<=2&&Math.abs(ifFounder.ft-ifFounder.dt)<=2,'IntensiveFix founder photo and text must be balanced '+JSON.stringify(ifFounder));
   // Contact Us goes straight to the WhatsApp number.
   const contact=await page.locator('.tbt-landing-header__cta').evaluate(e=>({href:e.getAttribute('href'),target:e.getAttribute('target')}));
   assert.ok(contact.href.startsWith('https://wa.me/6587597182'),'Contact Us must open the WhatsApp number');
