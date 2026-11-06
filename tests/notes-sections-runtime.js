@@ -28,7 +28,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           darkGaps: [['why-free', 'catch'], ['catch', 'download']].map(([a, b]) => h2Top(b) - bottomOf(sec(a))),
           cards: Array.from(document.querySelectorAll('.tbt-notes-benefit')).map((c) => { const r = c.getBoundingClientRect(); return { left: Math.round(r.left), right: Math.round(r.right), top: Math.round(r.top), bottom: Math.round(r.bottom) }; }),
           downloadButton: (() => { const b = sec('download').querySelector('.tbt-resource-button').getBoundingClientRect(); const h = sec('download').querySelector('h2').getBoundingClientRect(); return { center: (b.left + b.right) / 2, shellCenter: h.left + h.width / 2 }; })(),
-          endButton: (() => { const band = document.querySelector('.tbt-notes-page .tbt-notes-end-cta'); if (!band) return null; const b = band.querySelector('.tbt-resource-button'); const r = b.getBoundingClientRect(); const br = band.getBoundingClientRect(); const reviews = sec('reviews-bottom').getBoundingClientRect(); const bs = getComputedStyle(band); return { text: b.textContent.trim(), href: b.getAttribute('href'), center: (r.left + r.right) / 2, height: r.height, bandBg: bs.backgroundColor, bandLine: band.querySelector('p') ? band.querySelector('p').textContent.trim().length : 0, bandWidth: br.width, apartFromReviews: br.top - reviews.bottom, insideReviews: !!sec('reviews-bottom').querySelector('.tbt-notes-end-button') }; })(),
+          endButton: (() => { const sectionEl = sec('reviews-bottom'); const b = sectionEl.querySelector('.tbt-resource-button'); if (!b) return null; const r = b.getBoundingClientRect(); const panel = sectionEl.querySelector('[data-testimonial-list]').getBoundingClientRect(); return { text: b.textContent.trim(), href: b.getAttribute('href'), center: (r.left + r.right) / 2, height: r.height, below: r.top >= panel.bottom - 1, sectionBottomGap: sectionEl.getBoundingClientRect().bottom - r.bottom, band: !!document.querySelector('.tbt-notes-end-cta') }; })(),
           darkHeads: Array.from(document.querySelectorAll('.tbt-notes-details h2')).map((h) => { const c = getComputedStyle(h); return { size: parseFloat(c.fontSize), weight: parseInt(c.fontWeight, 10) }; }),
           answerStyle: getComputedStyle(sec('fit').querySelector('.tbt-notes-fit__answer')).fontStyle,
           answerSynthesis: getComputedStyle(sec('fit').querySelector('.tbt-notes-fit__answer')).fontSynthesis,
@@ -43,13 +43,11 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.ok(m.fitToBenefits <= (width >= 769 ? 90 : 56), `Space between "is this you?" and "ThatBioTutor's Notes" is too long ${at}`);
       m.darkGaps.forEach((g) => assert.ok(g <= (width >= 769 ? 64 : 40), `Space between dark blocks is too long ${at}`));
       assert.ok(Math.abs(m.downloadButton.center - m.downloadButton.shellCenter) <= 2, `The DOWNLOAD button in the dark block must be centred ${at}`);
-      assert.ok(m.endButton, `A closing DOWNLOAD band must follow the last review section ${at}`);
+      assert.ok(m.endButton, `A DOWNLOAD button must close the last review section ${at}`);
       assert.equal(m.endButton.text, 'DOWNLOAD', `Closing button text ${at}`);
       assert.ok(m.endButton.href.endsWith('#notes-download'), `Closing button must lead to the download block ${at}`); // the static export may prefix the page name
-      assert.ok(Math.abs(m.endButton.center - m.viewport / 2) <= 2 && m.endButton.height >= 44, `Closing button is centred and touch-sized ${at}`);
-      assert.ok(!m.endButton.insideReviews, `The closing button must not sit among the review buttons ${at}`);
-      assert.equal(m.endButton.bandBg, 'rgb(14, 55, 29)', `The closing call to action is its own dark band ${at}`);
-      assert.ok(m.endButton.bandLine > 10 && m.endButton.bandWidth >= m.viewport - 1 && m.endButton.apartFromReviews >= 0, `The band has a lead line, spans the page and follows the reviews ${at}`);
+      assert.ok(Math.abs(m.endButton.center - m.viewport / 2) <= 2 && m.endButton.below && m.endButton.height >= 44 && m.endButton.sectionBottomGap <= 90, `Closing button is centred, under the review panel and close to the footer ${at}`);
+      assert.equal(m.endButton.band, false, `No extra phrase band around the closing button ${at}`);
       assert.equal(m.darkHeads.length, 3, `Three dark-block headings ${at}`);
       m.darkHeads.forEach((h) => assert.ok(h.weight <= 700 && h.size <= (width >= 769 ? 30 : 24), `Dark-block headings must be light, not extra bold at 36px ${at}`));
       assert.equal(m.answerStyle, 'italic', `The "If you answered yes" line must be italic ${at}`);

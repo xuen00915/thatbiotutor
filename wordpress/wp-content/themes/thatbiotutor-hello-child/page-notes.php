@@ -42,7 +42,7 @@ $tbt_notes_portrait = tbt_media('original_003');
     <section class="tbt-resource-section tbt-resource-reviews tbt-resource-reviews--lead" data-section="reviews-top">
         <div class="tbt-resource-shell">
             <h2>What Students Are Saying...</h2>
-            <div data-testimonial-renderer><?php tbt_render_testimonials(['posts_per_page' => -1, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'notes-reviews', 'compare' => '=']]]); ?></div>
+            <div data-testimonial-renderer data-review-panel><?php tbt_render_testimonials(['posts_per_page' => -1, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'notes-reviews', 'compare' => '=']]]); ?></div>
         </div>
     </section>
 
@@ -133,15 +133,9 @@ $tbt_notes_portrait = tbt_media('original_003');
     <section class="tbt-resource-section tbt-resource-reviews" data-section="reviews-bottom">
         <div class="tbt-resource-shell">
             <h2>What Students Are Saying...</h2>
-            <div data-testimonial-renderer><?php tbt_render_testimonials(['posts_per_page' => -1, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'notes-reviews-bottom', 'compare' => '=']]]); ?></div>
-        </div>
-    </section>
-
-    <div class="tbt-notes-end-cta">
-        <div class="tbt-resource-shell">
-            <p>Get the free notes and start studying smarter.</p>
+            <div data-testimonial-renderer data-review-panel><?php tbt_render_testimonials(['posts_per_page' => -1, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'notes-reviews-bottom', 'compare' => '=']]]); ?></div>
             <a class="tbt-resource-button tbt-notes-end-button" href="#notes-download">DOWNLOAD</a>
         </div>
-    </div>
+    </section>
 </article>
 <?php get_footer(); ?>

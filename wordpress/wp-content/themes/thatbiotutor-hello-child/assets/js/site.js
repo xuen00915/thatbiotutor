@@ -326,6 +326,7 @@
     const initial = 4;
     const batch = 12;
     document.querySelectorAll('[data-testimonial-list]').forEach((list, listIndex) => {
+      if (list.closest('[data-review-panel]')) return; // panel lists show every review and scroll on their own
       const items = Array.from(list.querySelectorAll(':scope > .tbt-testimonial'));
       if (items.length <= initial + 2) return;
       if (!list.id) list.id = 'tbt-review-list-' + (listIndex + 1);
@@ -359,6 +360,32 @@
       all.addEventListener('click', () => reveal(items.length));
       refresh();
     });
+  }
+
+  function initReviewPanels(document, windowObject) {
+    // A review panel holds every review, scrolls on its own and opens at the height of its first four reviews.
+    const lists = Array.from(document.querySelectorAll('[data-review-panel] [data-testimonial-list]'));
+    if (!lists.length) return;
+    const visible = 4;
+    const size = () => lists.forEach((list) => {
+      const items = Array.from(list.querySelectorAll(':scope > .tbt-testimonial')).filter((item) => !item.hidden);
+      list.style.maxHeight = '';
+      if (items.length <= visible) return;
+      const style = windowObject.getComputedStyle(list);
+      const first = items[0].getBoundingClientRect();
+      const last = items[visible - 1].getBoundingClientRect();
+      list.style.maxHeight = Math.ceil(last.bottom - first.top + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth)) + 'px';
+    });
+    lists.forEach((list) => {
+      list.setAttribute('tabindex', '0');
+      list.setAttribute('role', 'region');
+      list.setAttribute('aria-label', 'Student reviews, scroll to read more');
+    });
+    size();
+    let timer = 0;
+    windowObject.addEventListener('resize', () => { windowObject.clearTimeout(timer); timer = windowObject.setTimeout(size, 120); });
+    windowObject.addEventListener('load', size);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(size);
   }
 
   function initImageGuard(document) {
@@ -469,6 +496,7 @@
     initFaqs(document, windowObject);
     initImageGuard(document);
     initFormRedirect(document, windowObject);
+    initReviewPanels(document, windowObject);
     initHeaderScroll(document, windowObject);
     initReviewDisclosure(document);
     initReveal(document, windowObject);
