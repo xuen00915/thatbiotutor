@@ -813,3 +813,8 @@ body.tbt-site #main-content .tbt-sec3-page .tbt-faq-slider__control--next { righ
 }
 
 body.tbt-site #main-content .tbt-sec3-page .tbt-faq-slider__control:is(:hover, :focus-visible) { background: #0b1b10; color: #fff; }
+
+/* Sec 3: warm reference FAQ background and static tutor profiles. */
+body.tbt-site #main-content .tbt-sec3-page .tbt-programme-faq { background: #faf9f5; }
+body.tbt-site #main-content .tbt-sec3-page .tbt-programme-tutors .tbt-tutor,
+body.tbt-site #main-content .tbt-sec3-page .tbt-programme-tutors .tbt-tutor:hover { transform: none; box-shadow: none; transition: none; }

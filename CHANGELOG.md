@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Sec 3 FAQ background matches the supplied warm off-white (#faf9f5); tutor profiles no longer lift or show shadows on hover; Book a Trial has no arrow.
+
 - [main-site] Sec 3 follow-up: shared pill style for More Testimonials without an arrow, extra breathing room before the practical heading, four tutor profiles per desktop row, and FAQ slider controls outside the artwork (below it on mobile).
 
 - [main-site] Refined Sec 3 from supplied screenshots: padded natural-height class headers, single-line included benefits, compact black-outlined reviews with aligned portraits and bottom-aligned names, larger practical heading and smaller lesson card headings. Results, video, benefits, quality control and FAQ now fill the shared About Us content width. Added all 12 supplied FAQ graphics in order after the answers, with carousel navigation and responsive checks.
