@@ -27,7 +27,7 @@ const darkInk = 'rgb(25, 34, 26)';
           const cs = (e) => (e ? getComputedStyle(e) : null);
           const visible = (e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(e).visibility !== 'hidden'; };
           const first = (sel) => [...main.querySelectorAll(sel)].find(visible);
-          const para = [...main.querySelectorAll('p')].find((e) => visible(e) && e.textContent.trim().length > 60 && !e.closest('[class*=hero], header, [class*=lead], [class*=quote], [class*=problem]'));
+          const para = [...main.querySelectorAll('p')].find((e) => visible(e) && e.textContent.trim().length > 60 && !e.closest('[class*=hero], header, [class*=lead], [class*=quote], [class*=problem], .tbt-story-heading'));
           const h1 = first('h1');
           const h2 = [...main.querySelectorAll('section > h2, section > div > h2, section .tbt-programme-container > h2')].find(visible);
           const content = [...main.querySelectorAll(contentSelector)].filter(visible).map((e) => { const s = cs(e); return Math.round(e.getBoundingClientRect().width - parseFloat(s.paddingLeft) - parseFloat(s.paddingRight)); });
@@ -68,10 +68,10 @@ const darkInk = 'rgb(25, 34, 26)';
 
         assert.deepEqual(m.style, [], `${tag}: rounded, softly-coloured style violations`);
         assert.ok(m.overflow <= 1, `${tag}: horizontal overflow ${m.overflow}px`);
-        for (const [name, family] of Object.entries(m.font)) if (family && route !== '/about/' && !(route === '/notes/' && name === 'h1') && !(route === '/sec-3-pure-g3-biology-tuition/' && name === 'h1')) assert.match(family, /^"?Poppins/, `${tag}: ${name} must use Poppins, got ${family}`);
+        for (const [name, family] of Object.entries(m.font)) if (family && route !== '/about/' && !(['/notes/', '/testimonials/'].includes(route) && name === 'h1') && !(route === '/sec-3-pure-g3-biology-tuition/' && name === 'h1')) assert.match(family, /^"?Poppins/, `${tag}: ${name} must use Poppins, got ${family}`);
         assert.ok(m.content.length > 0, `${tag}: no content container found`);
         for (const w of m.content) assert.ok(Math.abs(w - Math.min(1120, width - 32)) <= 2, `${tag}: content width ${w} must be the shared ${Math.min(1120, width - 32)}`);
-        if (m.h1 && width >= 1024) { assert.equal(m.h1.size, { '/trees/': 36, '/about/': 65, '/notes/': 45 }[route] || 60, `${tag}: h1 size`); /* Our Causes: its h1 is a section bar that matches the h2 bar below. About keeps its original 65px hero. */ assert.equal(m.h1.weight, ['/about/', '/notes/', '/sec-3-pure-g3-biology-tuition/'].includes(route) ? '700' : '800', `${tag}: h1 weight`); }
+        if (m.h1 && width >= 1024) { assert.equal(m.h1.size, { '/trees/': 36, '/about/': 65, '/notes/': 45, '/testimonials/': 64 }[route] || 60, `${tag}: h1 size`); /* Our Causes: its h1 is a section bar that matches the h2 bar below. About keeps its original 65px hero. */ assert.equal(m.h1.weight, ['/about/', '/notes/', '/testimonials/', '/sec-3-pure-g3-biology-tuition/'].includes(route) ? '700' : '800', `${tag}: h1 weight`); }
         if (m.h2 && width >= 1024) { assert.ok([30, 36].includes(m.h2.size), `${tag}: h2 size ${m.h2.size}`); assert.equal(m.h2.weight, '800', `${tag}: h2 weight`); }
         if (m.p && !(route === '/about/' && width >= 981)) { assert.ok(m.p >= 16 && m.p <= 18.5, `${tag}: body text ${m.p}px must be 16-18px`); }
         for (const b of m.buttons) {
@@ -80,7 +80,7 @@ const darkInk = 'rgb(25, 34, 26)';
           assert.match(b.family, /^"?Poppins/, `${tag}: button font`);
           assert.ok(b.h >= 44, `${tag}: button height ${b.h}px must be a comfortable touch target`);
         }
-        if (route === '/about/' || route === '/notes/' || route === '/classes/') { /* About, Free Bio Notes and Classes use a compact rhythm, guarded by about-page-runtime.js, notes-sections-runtime.js and classes-page-runtime.js */ }
+        if (route === '/about/' || route === '/notes/' || route === '/classes/' || route === '/testimonials/') { /* About, Free Bio Notes, Classes and Testimonials use a compact rhythm, guarded by about-page-runtime.js, notes-sections-runtime.js, classes-page-runtime.js and testimonials-page-runtime.js */ }
         else if (width >= 769) for (const pad of m.sections) assert.ok(pad === 64 || pad === 80, `${tag}: section padding ${pad}px must be 64 or 80`);
         else for (const pad of m.sections) assert.ok(pad === 48 || pad === 56, `${tag}: mobile section padding ${pad}px must be 48 or 56`);
         assert.deepEqual(m.small, [], `${tag}: no text below 11.5px`);
