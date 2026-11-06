@@ -113,6 +113,25 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.ok(layout.quality.imgTop >= layout.quality.textTop + layout.quality.textHeight - 1, `quality: photo stacks under the words on small screens ${lw}`);
         assert.ok(c2.top >= c1.bottom && c3.top >= c2.bottom, `Founder cards stack on small screens ${lw}`);
       }
+      // Tutor certificates: the viewer column is as tall as that tutor's words (desktop), and the picture is big.
+      const tutors = await page.evaluate(() => Array.from(document.querySelectorAll('.tbt-about-tutors .tbt-tutor--has-documents')).map((card) => {
+        const box = (selector) => card.querySelector(selector).getBoundingClientRect();
+        const details = box('.tbt-tutor__details');
+        const column = box('.tbt-tutor__certificates');
+        const viewer = box('.tbt-tutor__documents');
+        const img = Array.from(card.querySelectorAll('.tbt-tutor__document')).find((i) => i.getBoundingClientRect().width > 0).getBoundingClientRect();
+        return { detailsTop: details.top, detailsHeight: details.height, columnTop: column.top, columnHeight: column.height, viewerHeight: viewer.height, imgHeight: img.height };
+      }));
+      assert.ok(tutors.length >= 2, `Tutors with certificates must be on the page at ${width}px`);
+      for (const t of tutors) {
+        const tw = `${at} tutor=${JSON.stringify(t)}`;
+        if (width >= 1024) {
+          assert.ok(Math.abs(t.columnTop - t.detailsTop) <= 2 && Math.abs(t.columnHeight - t.detailsHeight) <= 2, `Certificates must be as tall as the tutor's words ${tw}`);
+          assert.ok(t.imgHeight >= 290, `Certificate picture must be large ${tw}`);
+        } else {
+          assert.ok(t.viewerHeight >= 320, `Certificate viewer must stay large on small screens ${tw}`);
+        }
+      }
       console.log(`PASS about ${width}`);
     }
   } finally { await browser.close(); }

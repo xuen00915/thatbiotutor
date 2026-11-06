@@ -203,7 +203,7 @@
 
 .tbt-about-tutors .tbt-tutor {
   display: grid;
-  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr) minmax(210px, 250px);
+  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr) minmax(280px, 32%);
   gap: clamp(24px, 3vw, 38px);
   align-items: start;
   box-sizing: border-box;
@@ -283,8 +283,9 @@
 .tbt-about-tutors .tbt-tutor__documents {
   position: relative;
   display: grid;
+  flex: 1;
   min-height: 286px;
-  place-items: center;
+  place-items: stretch;
   overflow: hidden;
   /* Room on both sides keeps the arrows beside the certificate, not on it. */
   padding-inline: 60px;
@@ -294,6 +295,9 @@
 }
 
 .tbt-about-tutors .tbt-tutor__certificates {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch; /* as tall as the tutor's words */
   min-width: 0;
 }
 
@@ -319,6 +323,7 @@
   position: relative;
   display: block;
   width: 100%;
+  height: 100%;
   padding: 0;
   border: 0;
   border-radius: 10px;
@@ -348,10 +353,12 @@
 }
 
 .tbt-about-tutors .tbt-tutor__document {
+  position: absolute; /* fills the viewer, which is as tall as the tutor's words */
+  inset: 0;
   display: block;
   width: 100%;
-  height: 286px;
-  padding: 12px 0;
+  height: 100%;
+  padding: 6px 0 22px;
   border-radius: 10px;
   box-sizing: border-box;
   object-fit: contain;
@@ -718,6 +725,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality .tbt-reading-width > :is(p, ul) { grid-column: 1; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality ul { padding-left: 28px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-beliefs .tbt-reading-width { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); column-gap: 32px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality li { min-height: 0; margin: 0 0 16px; text-align: left; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality li:last-child { min-height: 0; margin-bottom: 0; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-beliefs .tbt-beliefs-grid { grid-column: 1; text-align: left; }
@@ -869,6 +877,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   .tbt-about-tutors .tbt-tutor__details { padding-top: 0; }
   .tbt-about-tutors .tbt-tutor:not(.tbt-tutor--has-documents) .tbt-tutor__details { grid-column: auto; }
   .tbt-about-tutors .tbt-tutor__certificates { width: min(100%, 380px); margin-inline: auto; }
+  .tbt-about-tutors .tbt-tutor__documents { min-height: 340px; }
   .tbt-about-tutors .tbt-tutor h3 { text-align: center; }
   .tbt-about-tutors .tbt-tutor__qualifications li { font-size: 1.06rem; }
   .tbt-certificate-lightbox { width: calc(100% - 20px); height: calc(100dvh - 20px); border-radius: 12px; }
@@ -907,8 +916,6 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   .tbt-about-mission h3 { font-size: 1.55rem; }
   .tbt-about-tutors .tbt-tutor { padding: 24px 20px 28px; }
   .tbt-about-tutors .tbt-tutor__portrait { width: 170px; }
-  .tbt-about-tutors .tbt-tutor__documents { min-height: 250px; }
-  .tbt-about-tutors .tbt-tutor__document { height: 250px; }
   .tbt-founder-message__image { margin-block: 28px 40px; }
   .tbt-contact-content h1 { font-size: 3rem; }
   .tbt-contact-content p { font-size: 1.08rem; margin-bottom: 28px; }
