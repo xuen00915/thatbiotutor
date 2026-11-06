@@ -4212,6 +4212,186 @@
       "objectPosition": "50% 50%",
       "pages": ["testimonials"],
       "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "sec3_faq_01",
+      "source": "https://static.wixstatic.com/media/88989e_dd89b0c98ae848eea4d09ff1d7f3b2df~mv2.jpg/v1/fill/w_490,h_682,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/88989e_dd89b0c98ae848eea4d09ff1d7f3b2df~mv2.jpg",
+      "file": "files/sec3-faq-01-8822cb3297cd.webp",
+      "sha256": "8822cb3297cdfa3d9b64a320551b8210b9b1958232e7f50944acddc7f81cc049",
+      "alt": "ThatBioTutor frequently asked questions graphic 1",
+      "width": 490,
+      "height": 682,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "sec-3-pure-g3-biology-tuition"
+      ],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "sec3_faq_02",
+      "source": "https://static.wixstatic.com/media/88989e_9cb42f9112d74690aad975211bd2d2f3~mv2.jpg/v1/fill/w_490,h_682,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/88989e_9cb42f9112d74690aad975211bd2d2f3~mv2.jpg",
+      "file": "files/sec3-faq-02-2a31ee136fb0.webp",
+      "sha256": "2a31ee136fb075715fb00bf31f845f8afa5ae0e61f880dd2025c721a93bdb5ae",
+      "alt": "ThatBioTutor frequently asked questions graphic 2",
+      "width": 490,
+      "height": 682,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "sec-3-pure-g3-biology-tuition"
+      ],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "sec3_faq_03",
+      "source": "https://static.wixstatic.com/media/88989e_858031e4100f49f2bb2ded07e4500b65~mv2.jpg/v1/fill/w_490,h_682,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/88989e_858031e4100f49f2bb2ded07e4500b65~mv2.jpg",
+      "file": "files/sec3-faq-03-3837e3145bb3.webp",
+      "sha256": "3837e3145bb3ce75dc765f397e5c0b7b35d3924df7f29d8a245a64d2ffb61cd3",
+      "alt": "ThatBioTutor frequently asked questions graphic 3",
+      "width": 490,
+      "height": 682,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "sec-3-pure-g3-biology-tuition"
+      ],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "sec3_faq_04",
+      "source": "https://static.wixstatic.com/media/88989e_7ce75a79c5434be990f1d8b5edf4d911~mv2.jpg/v1/fill/w_490,h_682,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/88989e_7ce75a79c5434be990f1d8b5edf4d911~mv2.jpg",
+      "file": "files/sec3-faq-04-bbc2847da2c8.webp",
+      "sha256": "bbc2847da2c8029f17dbced972094327d2add0cfeaf704352dcf23c327272ff2",
+      "alt": "ThatBioTutor frequently asked questions graphic 4",
+      "width": 490,
+      "height": 682,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "sec-3-pure-g3-biology-tuition"
+      ],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "sec3_faq_05",
+      "source": "https://static.wixstatic.com/media/88989e_9ae9ebea503a44a8a9a028e151bb2c51~mv2.jpg/v1/fill/w_490,h_682,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/88989e_9ae9ebea503a44a8a9a028e151bb2c51~mv2.jpg",
+      "file": "files/sec3-faq-05-0537a3c8481f.webp",
+      "sha256": "0537a3c8481f47b0a64116a1550bcaca985ccf9e0c0dce95018c0ec13ea6d02a",
+      "alt": "ThatBioTutor frequently asked questions graphic 5",
+      "width": 490,
+      "height": 682,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "sec-3-pure-g3-biology-tuition"
+      ],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "sec3_faq_06",
+      "source": "https://static.wixstatic.com/media/88989e_fff56fb9364345b48ab47f9ab1ac5a4e~mv2.jpg/v1/fill/w_490,h_682,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/88989e_fff56fb9364345b48ab47f9ab1ac5a4e~mv2.jpg",
+      "file": "files/sec3-faq-06-d1822b22de7c.webp",
+      "sha256": "d1822b22de7caa0eeee0ea83eac217c53d6eed9f148971dc325c779e6c8268ae",
+      "alt": "ThatBioTutor frequently asked questions graphic 6",
+      "width": 490,
+      "height": 682,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "sec-3-pure-g3-biology-tuition"
+      ],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "sec3_faq_07",
+      "source": "https://static.wixstatic.com/media/88989e_a94cba4de8d549229e081077fd960e18~mv2.jpg/v1/fill/w_490,h_682,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/88989e_a94cba4de8d549229e081077fd960e18~mv2.jpg",
+      "file": "files/sec3-faq-07-a8c71f0b1191.webp",
+      "sha256": "a8c71f0b11917b6ed3498986a02d8d63e5e43878552413ac5c8a99e89caaaa25",
+      "alt": "ThatBioTutor frequently asked questions graphic 7",
+      "width": 490,
+      "height": 682,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "sec-3-pure-g3-biology-tuition"
+      ],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "sec3_faq_08",
+      "source": "https://static.wixstatic.com/media/88989e_b6ffd88c4bc54797bad67fb09ba5e5e8~mv2.jpg/v1/fill/w_490,h_682,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/88989e_b6ffd88c4bc54797bad67fb09ba5e5e8~mv2.jpg",
+      "file": "files/sec3-faq-08-00e291bb0a25.webp",
+      "sha256": "00e291bb0a25ab5d22dc7f69e8a0fbf9ca5588f2fef5c8508db608941d3ad3e9",
+      "alt": "ThatBioTutor frequently asked questions graphic 8",
+      "width": 490,
+      "height": 682,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "sec-3-pure-g3-biology-tuition"
+      ],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "sec3_faq_09",
+      "source": "https://static.wixstatic.com/media/88989e_b42ee68a2df149589cd2742055df508f~mv2.jpg/v1/fill/w_490,h_682,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/88989e_b42ee68a2df149589cd2742055df508f~mv2.jpg",
+      "file": "files/sec3-faq-09-c0b93477bc92.webp",
+      "sha256": "c0b93477bc92ed0b615847960aa4dd808df90f8e8dfd5d641ced619bfc7d844e",
+      "alt": "ThatBioTutor frequently asked questions graphic 9",
+      "width": 490,
+      "height": 682,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "sec-3-pure-g3-biology-tuition"
+      ],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "sec3_faq_10",
+      "source": "https://static.wixstatic.com/media/88989e_f7692ceb4b4343ceb1b93da2d43eb565~mv2.jpg/v1/fill/w_490,h_682,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/88989e_f7692ceb4b4343ceb1b93da2d43eb565~mv2.jpg",
+      "file": "files/sec3-faq-10-4fefa0d2a53f.webp",
+      "sha256": "4fefa0d2a53f640a9df375fe51310c1f722829e98fd2e94c3911fbafaacb63a6",
+      "alt": "ThatBioTutor frequently asked questions graphic 10",
+      "width": 490,
+      "height": 682,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "sec-3-pure-g3-biology-tuition"
+      ],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "sec3_faq_11",
+      "source": "https://static.wixstatic.com/media/88989e_9fa1614094c5488ba6b4f8da0212d67a~mv2.jpg/v1/fill/w_490,h_682,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/88989e_9fa1614094c5488ba6b4f8da0212d67a~mv2.jpg",
+      "file": "files/sec3-faq-11-222636309223.webp",
+      "sha256": "22263630922367358706c414829a4515de5a0357560dfbac39cb8da1cbd77b49",
+      "alt": "ThatBioTutor frequently asked questions graphic 11",
+      "width": 490,
+      "height": 682,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "sec-3-pure-g3-biology-tuition"
+      ],
+      "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "sec3_faq_12",
+      "source": "https://static.wixstatic.com/media/88989e_2d15e133e3094ea3bf174c3cb47873ad~mv2.jpg/v1/fill/w_490,h_682,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/88989e_2d15e133e3094ea3bf174c3cb47873ad~mv2.jpg",
+      "file": "files/sec3-faq-12-69fac7f15f17.webp",
+      "sha256": "69fac7f15f1771815d6369792d5126ebf96f36f87c8ea0b951a4d8288938a75d",
+      "alt": "ThatBioTutor frequently asked questions graphic 12",
+      "width": 490,
+      "height": 682,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "sec-3-pure-g3-biology-tuition"
+      ],
+      "licenseStatus": "public-site-capture"
     }
   ]
 }
