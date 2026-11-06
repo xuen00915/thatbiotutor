@@ -3,6 +3,7 @@
 ## Unreleased
 
 - [fix-page] FastTrack pictures are larger and each is as tall as its own phrase, starting level with it; pictures on the IntensiveFix page can no longer be dragged (non-draggable images, cancelled dragstart, no touch-callout or selection).
+- [main-site] About certificate viewers lose their frame line and the arrow/enlarge button borders, and the arrows now sit beside the certificate instead of on top of it. The "A Message From The Founder" photo is now as wide as its title bar and sits 40px below it (28px on tablets and phones), the same gap as the Our Tutors cards. `tests/about-page-runtime.js` guards both.
 
 - [fix-page] IntensiveFix bridge text: bold "Sound familiar? Many TBT students started exactly here." with the grey line "But after our 8-week IntensiveFix, they’re telling us:" beneath it. The FastTrack heading follows the reference colours on the homepage and IntensiveFix (green eyebrow, white headline and lead-in, brand-green A1/A2).
 

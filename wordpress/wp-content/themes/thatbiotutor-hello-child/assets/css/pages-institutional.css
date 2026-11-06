@@ -286,7 +286,9 @@
   min-height: 286px;
   place-items: center;
   overflow: hidden;
-  border: 1px solid rgba(148, 174, 74, 0.24);
+  /* Room on both sides keeps the arrows beside the certificate, not on it. */
+  padding-inline: 60px;
+  border: 0;
   border-radius: 12px;
   background: #fff;
 }
@@ -349,7 +351,7 @@
   display: block;
   width: 100%;
   height: 286px;
-  padding: 12px;
+  padding: 12px 0;
   border-radius: 10px;
   box-sizing: border-box;
   object-fit: contain;
@@ -370,7 +372,7 @@
   width: 38px;
   height: 38px;
   place-items: center;
-  border: 1px solid rgba(82, 98, 45, .3);
+  border: 0;
   border-radius: 10px;
   background: rgba(255, 255, 255, .94);
   color: #0e371d;
@@ -400,7 +402,7 @@
   place-items: center;
   padding: 0;
   transform: translateY(-50%);
-  border: 1px solid rgba(82, 98, 45, .26);
+  border: 0;
   border-radius: 9px;
   background: rgba(255, 255, 255, .92) !important;
   color: #0e371d !important;
@@ -441,8 +443,8 @@
   transform: translateY(-50%) scale(.96);
 }
 
-.tbt-about-tutors .tbt-tutor__document-control--previous { left: 10px; }
-.tbt-about-tutors .tbt-tutor__document-control--next { right: 10px; }
+.tbt-about-tutors .tbt-tutor__document-control--previous { left: 4px; }
+.tbt-about-tutors .tbt-tutor__document-control--next { right: 4px; }
 
 .tbt-about-tutors .tbt-tutor__document-dots {
   position: absolute;
@@ -721,6 +723,18 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-mission h3 { font-size: 40px; line-height: 1.4; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-reading-width :is(p, li) { font-size: 22px; line-height: 1.4; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality .tbt-reading-width :is(p, li) { line-height: 1.5; }
+}
+
+/* The founder photo is as wide as its title bar and sits the same distance below it as the Our Tutors cards (40px, 28px on tablets and phones). */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message__image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 979 / 411;
+  margin: 40px 0 65px;
+}
+
+@media (max-width: 768px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message__image { margin: 28px 0 40px; }
 }
 
 /* Causes. */
