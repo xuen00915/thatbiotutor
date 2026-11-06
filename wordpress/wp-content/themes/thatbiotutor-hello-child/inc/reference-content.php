@@ -331,6 +331,22 @@ function tbt_reference_content(): array
         ];
     }
 
+    // Correct cohort/order only; keep seed identities and all editable content/media intact.
+    // The original places these three written reviews after Elena, before Class of 2021.
+    $testimonialSequenceCorrections = [
+        'testimonial-2021-isa' => ['2022', 100],
+        'public-review-377d9ec80b6a4fcb84ec71b10071d2da586425c8' => ['2022', 101],
+        'public-review-4673edd9f5c246f540daabf89bebebba38986d29' => ['2022', 102],
+        'public-review-2980bfada2932df6ae38de554b8d2d4a40e96066' => ['2021', 300],
+        'testimonial-2021-jolie' => ['2021', 301],
+    ];
+    foreach ($testimonialRecords as &$testimonialRecord) {
+        if (isset($testimonialSequenceCorrections[$testimonialRecord['seed_key']])) {
+            [$testimonialRecord['fields']['tbt_display_group'], $testimonialRecord['menu_order']] = $testimonialSequenceCorrections[$testimonialRecord['seed_key']];
+        }
+    }
+    unset($testimonialRecord);
+
     $sharedClassFaqs = [
         ['Can my child try a lesson before committing?', "A: Yes — WhatsApp us to request a trial lesson. One of our staff will respond ASAP to arrange the details.<br><br>We're so confident your child will love the lesson that we offer a 100% money-back guarantee on the trial. If they didn't love it, just let us know and we'll refund you fully — no questions asked."],
         ['Face-to-face or online — which should my child choose?', 'A: Both formats cover the same content and use the same TBT methods. Face-to-face classes are at Burlington Square, S(189649). Online lessons are held on Zoom. Choose based on what suits your child better — your child can also switch between formats from week to week.'],
