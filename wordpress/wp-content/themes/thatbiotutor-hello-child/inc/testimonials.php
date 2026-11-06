@@ -56,14 +56,27 @@ function tbt_render_testimonials(array $args = []): void
 {
     $records = tbt_get_testimonials($args);
     $fallbackPortraits = is_array($args['fallback_portraits'] ?? null) ? $args['fallback_portraits'] : [];
+    $reviewPresentation = !empty($args['review_presentation']);
+    $reviewHeadingShown = false;
     echo '<div class="tbt-testimonials" data-testimonial-list>';
     foreach ($records as $record) {
         $hasVideo = $record['video_url'] !== '';
+        if ($reviewPresentation && !$hasVideo && !$reviewHeadingShown) {
+            echo '<h4 class="tbt-google-review-heading">';
+            tbt_render_media_image('original_010', 'tbt-google-review-heading__logo', ['alt' => 'Google Reviews', 'loading' => 'lazy']);
+            echo '</h4>';
+            $reviewHeadingShown = true;
+        }
         echo '<article class="tbt-testimonial' . ($hasVideo ? ' tbt-testimonial--video' : '') . '">';
         if ($record['portrait']['url'] !== '') {
             echo '<img class="tbt-testimonial__portrait" src="' . esc_url($record['portrait']['url']) . '" alt="' . esc_attr($record['portrait']['alt']) . '">';
         } elseif (isset($fallbackPortraits[$record['name']]) && function_exists('tbt_render_media_image')) {
             tbt_render_media_image((string) $fallbackPortraits[$record['name']], 'tbt-testimonial__portrait', ['loading' => 'lazy', 'alt' => '']);
+        } elseif ($reviewPresentation && !$hasVideo) {
+            $name = trim(explode('[', $record['name'])[0]);
+            $parts = preg_split('/\s+/u', $name) ?: [$name];
+            $initials = mb_substr($parts[0], 0, 1) . (count($parts) > 1 ? mb_substr(end($parts), 0, 1) : '');
+            echo '<span class="tbt-testimonial__initials" aria-hidden="true">' . esc_html(mb_strtoupper($initials)) . '</span>';
         }
         if ($hasVideo) {
             echo '<div class="tbt-video tbt-video--testimonial"><iframe src="' . esc_url($record['video_url']) . '" title="' . esc_attr($record['name'] . ' video testimonial') . '" loading="lazy" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>';

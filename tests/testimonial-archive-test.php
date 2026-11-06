@@ -69,7 +69,7 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         $template = (string) file_get_contents(dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/page-testimonials.php');
         preg_match_all('/data-section="([^"]+)"/', $template, $sections);
         $this->assertSame(['hero', 'featured', '2025', '2024', '2023', '2022', '2021'], $sections[1], 'Archive must follow the current public year-group order.');
-        $this->assertTrue(!str_contains($template, 'tbt-archive-jump'), 'Archive must not add locally invented year navigation.');
+        $this->assertTrue(str_contains($template, 'data-year-nav hidden') && str_contains($template, 'aria-expanded="false"'), 'Requested year navigation must start collapsed with an accessible disclosure.');
         foreach (['curated_heroes_testimonials_original', 'curated_testimonials_results_2025_01', 'curated_testimonials_results_2025_02', 'curated_testimonials_results_2024_reviews', 'curated_testimonials_results_2024_stats', 'curated_testimonials_results_2024_01', 'curated_testimonials_results_2024_02', 'curated_testimonials_results_2023_01', 'curated_testimonials_results_2023_02', 'curated_testimonials_results_2023_03', 'curated_testimonials_results_2022_01'] as $mediaKey) {
             $this->assertTrue(str_contains($template, $mediaKey), "Archive must render public media {$mediaKey}.");
         }

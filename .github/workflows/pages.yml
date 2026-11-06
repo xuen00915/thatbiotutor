@@ -96,6 +96,8 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:4173 node tests/notes-form-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/review-panel-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/testimonials-page-runtime.js
+          TBT_RUNTIME_URL=http://localhost:4173 node tests/year-navigation-runtime.js
+          TBT_RUNTIME_URL=http://localhost:4173 node tests/header-definition-runtime.js
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

@@ -46,3 +46,10 @@ body.tbt-site .tbt-home-inquire .tbt-home-hero__carousel {
 body.tbt-site:is(.home, .page-template-page-intensivefix) .site-footer__inner {
   width: min(100%, var(--tbt-page));
 }
+
+/* Shared navigation spans the content track; IntensiveFix keeps its landing header. */
+body.tbt-site .site-header:not(.tbt-landing-header) .site-brand { justify-self: start; }
+@media (min-width: 981px) {
+  body.tbt-site .site-header:not(.tbt-landing-header) .site-header__inner { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); justify-content: stretch; }
+  body.tbt-site .site-header:not(.tbt-landing-header) .site-nav { grid-column: 2; justify-self: center; align-self: center; }
+}

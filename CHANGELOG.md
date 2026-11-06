@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Testimonials: added a collapsed, accessible floating year navigator with active-year tracking, centred the student videos, and restored 58 source reviewer portraits with a Google Reviews heading per cohort; older reviews without source photos use initials. All 136 reviews retain their text, grades, media and sequence. Standard headers now place the logo at the left content edge and centre the desktop menu (IntensiveFix unchanged). Classes now places its definition image beside the paragraph and paired Sec 3 / Sec 4 topics. Responsive runtime contracts cover these changes.
+
 - [main-site] Classes: centred the “Why students struggle” label and heading, and widened the heading to the full shared content width. The Classes runtime test checks centring and title width at five viewport sizes.
 
 - [main-site] Sec 4 now uses the finished Sec 3 presentation while retaining the original Sec 4 copy, three syllabus phases, eight topics, lesson points, reviews and 12 FAQs. Restored the original ADH lesson video, result tables, classroom statistics photo, review portraits, three practical photos and eight benefit icons. Moved the joining note inside Phase 3, joined the topics card, centered the option headings, highlighted the hero copy, and aligned widths, colours, tutor layout and controls with Sec 3.

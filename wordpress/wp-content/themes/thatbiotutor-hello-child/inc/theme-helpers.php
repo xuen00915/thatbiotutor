@@ -330,6 +330,10 @@ function tbt_enqueue_assets(): void
         $path = TBT_THEME_DIR . '/assets/css/' . $name . '.css';
         wp_enqueue_style('tbt-' . $name, TBT_THEME_URI . '/assets/css/' . $name . '.css', [], is_file($path) ? (string) filemtime($path) : TBT_THEME_VERSION);
     }
+    if (function_exists('is_page') && is_page('testimonials')) {
+        $yearsScript = TBT_THEME_DIR . '/assets/js/testimonial-years.js';
+        wp_enqueue_script('tbt-testimonial-years', TBT_THEME_URI . '/assets/js/testimonial-years.js', [], is_file($yearsScript) ? (string) filemtime($yearsScript) : TBT_THEME_VERSION, true);
+    }
     $script = TBT_THEME_DIR . '/assets/js/site.js';
     wp_enqueue_script('tbt-site', TBT_THEME_URI . '/assets/js/site.js', [], is_file($script) ? (string) filemtime($script) : TBT_THEME_VERSION, true);
 }

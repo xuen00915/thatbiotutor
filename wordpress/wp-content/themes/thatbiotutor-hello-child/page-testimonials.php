@@ -8,8 +8,11 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
 $tbt_whatsapp = tbt_whatsapp_url('Hi ThatBioTutor, I would like to enquire about a trial lesson.');
 $tbt_reviews_heading = esc_html($tbt_field('testimonials_reviews_heading'));
 $tbt_reviews_heading = str_replace('Students Are Saying', '<span>Students Are Saying</span>', $tbt_reviews_heading);
+$tbt_review_portraits = json_decode((string) file_get_contents(get_stylesheet_directory() . '/assets/content/testimonial-review-portraits.json'), true) ?: [];
 $tbt_group_args = static fn (string $year): array => [
     'posts_per_page' => -1,
+    'review_presentation' => true,
+    'fallback_portraits' => $tbt_review_portraits[$year] ?? [],
     'meta_query' => [['key' => 'tbt_display_group', 'value' => $year, 'compare' => '=']],
 ];
 $tbt_growth_icon = static function (): void {
@@ -36,6 +39,17 @@ $tbt_story_heading = static function (bool $show_advice = true): void {
 };
 ?>
 <article class="tbt-testimonials-page">
+    <div class="tbt-year-nav" data-year-nav hidden>
+        <button class="tbt-year-nav__toggle" type="button" aria-expanded="false" aria-controls="tbt-year-links">
+            <span aria-hidden="true">☰</span> Years <span data-year-current>2025</span><span class="tbt-year-nav__chevron" aria-hidden="true">⌄</span>
+        </button>
+        <nav class="tbt-year-nav__panel" id="tbt-year-links" aria-label="Testimonial years" hidden>
+            <p class="tbt-year-nav__label">Jump to year</p>
+            <?php foreach (['2025', '2024', '2023', '2022', '2021'] as $tbt_year) : ?>
+                <a href="#class-of-<?php echo esc_attr($tbt_year); ?>"<?php echo $tbt_year === '2025' ? ' aria-current="location"' : ''; ?>>Class of <?php echo esc_html($tbt_year); ?></a>
+            <?php endforeach; ?>
+        </nav>
+    </div>
     <header class="tbt-testimonials-hero" data-section="hero">
         <div class="tbt-testimonials-hero__background"><?php tbt_render_media_image('curated_heroes_testimonials_original', '', ['loading' => 'eager']); ?></div>
         <div class="tbt-testimonials-hero__content"><h1><?php echo esc_html($tbt_field('testimonials_heading')); ?></h1><p class="tbt-testimonials-hero__stars" role="img" aria-label="Five out of five stars"><svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><linearGradient id="tbt-star-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe27a"/><stop offset="1" stop-color="#ffb81c"/></linearGradient></defs></svg><?php echo str_repeat($tbt_star, 5); // static inline SVG markup ?></p></div>

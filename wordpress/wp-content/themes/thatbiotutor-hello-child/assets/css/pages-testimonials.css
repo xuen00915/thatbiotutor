@@ -226,3 +226,34 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 @media (max-width: 390px) {
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page #class-of-2023 .tbt-testimonials-artwork--portrait { grid-template-columns: 1fr; }
 }
+
+/* Page-only year disclosure; keeps the existing content geometry intact. */
+body.tbt-site #main-content .tbt-year-nav { position: fixed; left: max(12px, env(safe-area-inset-left)); bottom: max(20px, env(safe-area-inset-bottom)); z-index: 850; width: 144px; }
+body.tbt-site #main-content .tbt-year-nav[hidden], body.tbt-site #main-content .tbt-year-nav [hidden] { display: none; }
+body.tbt-site #main-content .tbt-year-nav__toggle { display: flex; align-items: center; justify-content: center; gap: 7px; width: 144px; min-height: 44px; padding: 10px; border: 1px solid #d8e4cb; border-radius: 9px; background: #fff; color: #19221a; box-shadow: 0 4px 18px rgba(14,55,29,.12); font-size: 13px; font-weight: 600; line-height: 1.3; cursor: pointer; }
+body.tbt-site #main-content .tbt-year-nav__toggle:hover { background: #f0f8ee; color: #0e371d; }
+body.tbt-site #main-content .tbt-year-nav__chevron { transition: transform 160ms ease; }
+body.tbt-site #main-content .tbt-year-nav__toggle[aria-expanded="true"] .tbt-year-nav__chevron { transform: rotate(180deg); }
+body.tbt-site #main-content .tbt-year-nav__panel { position: absolute; left: 0; bottom: calc(100% + 8px); width: 192px; max-height: calc(100dvh - var(--tbt-header-height) - 88px); overflow-y: auto; padding: 10px; border: 1px solid #d8e4cb; border-radius: 9px; background: #fff; box-shadow: 0 6px 24px rgba(14,55,29,.14); animation: tbt-year-open 160ms ease both; }
+body.tbt-site #main-content .tbt-year-nav__label { margin: 4px 8px 8px; color: #4e5950; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+body.tbt-site #main-content .tbt-year-nav__panel a { display: flex; align-items: center; min-height: 44px; padding: 8px; border-radius: 6px; color: #19221a; font-size: 14px; text-decoration: none; }
+body.tbt-site #main-content .tbt-year-nav__panel a:hover, body.tbt-site #main-content .tbt-year-nav__panel a[aria-current] { background: #f0f8ee; color: #0e371d; }
+body.tbt-site #main-content .tbt-year-nav :is(button,a):focus-visible { outline: 2px solid #2f8a27; outline-offset: 2px; }
+@keyframes tbt-year-open { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+@media (min-width: 1440px) and (min-height: 600px) {
+  body.tbt-site #main-content .tbt-year-nav { top: 50%; bottom: auto; transform: translateY(-50%); }
+  body.tbt-site #main-content .tbt-year-nav__panel { top: calc(100% + 8px); bottom: auto; max-height: calc(50dvh - 56px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.tbt-site #main-content .tbt-year-nav__panel { animation: none; }
+  body.tbt-site #main-content .tbt-year-nav__chevron { transition: none; }
+}
+
+/* Original reviewer portraits and Google review label, scoped to this archive. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page [data-review-panel] .tbt-testimonial .tbt-video--testimonial { margin-inline: auto; justify-self: center; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page [data-review-panel] .tbt-testimonial__initials { grid-area: portrait; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: #edf5e8; color: #2f8a27; font-size: 16px; font-weight: 700; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-google-review-heading { display: flex; justify-content: center; margin: 24px 0 8px; padding: 0; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-google-review-heading__logo { width: 144px; height: 81px; object-fit: contain; border: 0; border-radius: 0; }
+@media (max-width: 559px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page [data-review-panel] [data-testimonial-list] > .tbt-testimonial { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "video video" "portrait name" "portrait stars" "result result" "quote quote"; }
+}

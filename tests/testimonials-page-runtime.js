@@ -44,6 +44,9 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           const moved = list.scrollTop > before.p && window.scrollY === before.y;
           list.scrollTop = 0;
           return {
+            videos: items.filter((item) => item.querySelector('iframe')).map((item) => { const v = box(item.querySelector('iframe')); const c = box(item); return Math.abs((v.left + v.right - c.left - c.right) / 2); }),
+            writtenAvatars: items.filter((item) => !item.querySelector('iframe')).every((item) => !!item.querySelector('.tbt-testimonial__portrait, .tbt-testimonial__initials')),
+            googleHeading: list.querySelectorAll('.tbt-google-review-heading').length,
             names: items.map((item) => item.querySelector('.tbt-testimonial__name').textContent.trim()),
             id: list.closest('section').id, total: items.length, hidden: items.filter((i) => i.hidden).length, panel: !!list.closest('[data-review-panel]'), overflowY: cs.overflowY,
             scrollable: list.scrollHeight > list.clientHeight + 20, stacked: new Set(lefts).size === 1 && new Set(tops).size === tops.length,
@@ -96,6 +99,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         const normalizeName = (name) => name.replace(/\s+/g, ' ').trim();
         assert.deepEqual(l.names.map(normalizeName), expectedSequences[l.id.replace('class-of-', '')].map((entry) => normalizeName(entry.name)), `Original cohort order and grades for ${l.id} ${at}`);
         const t = `${l.id} ${at}: ${JSON.stringify(l)}`;
+        assert.ok(l.videos.every(offset => offset <= 2), `Every video centres inside its review ${t}`);
+        assert.ok(l.writtenAvatars && l.googleHeading === 1, `Written reviews have a Google Reviews heading and commenter avatar ${t}`);
         assert.ok(l.panel && l.hidden === 0 && l.controls === 0, `Reviews live in a panel with none hidden and no show-more buttons ${t}`);
         assert.ok(l.stacked, `Reviews are stacked in one column, not a card grid ${t}`);
         assert.equal(l.squashed, 0, `Reviews keep their full height ${t}`);

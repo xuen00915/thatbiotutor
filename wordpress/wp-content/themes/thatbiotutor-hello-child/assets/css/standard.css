@@ -840,3 +840,13 @@ body.tbt-site #main-content .tbt-sec4-page .tbt-programme-tutors .tbt-tutor:nth-
 @media (max-width: 640px) {
   body.tbt-site #main-content .tbt-sec4-page .tbt-programme-testimonials .tbt-testimonial { min-height: 0; }
 }
+
+/* Classes definition: infographic left, introduction and two topic lists right. */
+body.tbt-site .tbt-classes-page .tbt-programme-definition__grid { grid-template-columns: minmax(0, .85fr) minmax(0, 1.65fr); gap: 32px; align-items: start; justify-items: stretch; text-align: left; }
+body.tbt-site .tbt-classes-page .tbt-programme-definition__grid > .tbt-programme-artwork { width: 100%; margin: 0; }
+body.tbt-site .tbt-classes-page .tbt-programme-copy { min-width: 0; width: 100%; }
+body.tbt-site .tbt-classes-page .tbt-programme-copy > p { max-width: none; margin: 0 0 28px; }
+body.tbt-site .tbt-classes-page .tbt-topic-columns { width: 100%; gap: 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+body.tbt-site .tbt-classes-page .tbt-topic-columns > div { min-width: 0; }
+@media (max-width: 980px) { body.tbt-site .tbt-classes-page .tbt-programme-definition__grid { grid-template-columns: minmax(0, 1fr); } body.tbt-site .tbt-classes-page .tbt-programme-definition__grid > .tbt-programme-artwork { width: min(100%, 380px); margin-inline: auto; } }
+@media (max-width: 559px) { body.tbt-site .tbt-classes-page .tbt-topic-columns { grid-template-columns: minmax(0, 1fr); } }
