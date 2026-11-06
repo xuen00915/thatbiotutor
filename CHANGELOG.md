@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Tidied the Our Causes page: removed the ~490px of dead space above the footer and gave the "1. Planting Trees!" bar breathing room above the first picture. New `tests/causes-page-runtime.js` guards the spacing and no horizontal overflow at five widths.
+
 - [fix-page] Raised the shared content width from 944px to 1120px for the header, content and footer on every page (`--tbt-page`), keeping the 864px text measure for hero headlines. Widths now follow the one token instead of hard-coded values.
 
 - Bound the em dash in the IntensiveFix headline to the following word so it can never end a line.
