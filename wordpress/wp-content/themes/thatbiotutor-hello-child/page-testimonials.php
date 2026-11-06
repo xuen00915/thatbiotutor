@@ -12,6 +12,20 @@ $tbt_group_args = static fn (string $year): array => [
     'posts_per_page' => -1,
     'meta_query' => [['key' => 'tbt_display_group', 'value' => $year, 'compare' => '=']],
 ];
+$tbt_growth_icon = static function (): void {
+    ?>
+    <svg class="tbt-testimonials-icon" viewBox="0 0 120 100" aria-hidden="true" focusable="false">
+        <rect x="6" y="52" width="20" height="40" rx="3" fill="#ff7a1a"/>
+        <rect x="34" y="44" width="20" height="48" rx="3" fill="#ff9d0a"/>
+        <rect x="62" y="30" width="20" height="62" rx="3" fill="#ffb300"/>
+        <rect x="90" y="14" width="20" height="78" rx="3" fill="#ffc400"/>
+        <path d="M4 40C30 40 60 28 96 7" fill="none" stroke="#17c964" stroke-width="7" stroke-linecap="round"/>
+        <path d="M82 6l22-3-4 22" fill="none" stroke="#17c964" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="2" y="92" width="112" height="6" rx="3" fill="#5a3b2e"/>
+    </svg>
+    <?php
+};
+$tbt_star = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.8l3.2 6.5 7.2 1-5.2 5.1 1.2 7.1L12 18.1l-6.4 3.4 1.2-7.1L1.6 9.3l7.2-1z" fill="url(#tbt-star-gold)" stroke="#e8a300" stroke-width="1" stroke-linejoin="round"/></svg>';
 $tbt_story_heading = static function (bool $show_advice = true): void {
     ?>
     <div class="tbt-story-heading">
@@ -24,7 +38,7 @@ $tbt_story_heading = static function (bool $show_advice = true): void {
 <article class="tbt-testimonials-page">
     <header class="tbt-testimonials-hero" data-section="hero">
         <div class="tbt-testimonials-hero__background"><?php tbt_render_media_image('curated_heroes_testimonials_original', '', ['loading' => 'eager']); ?></div>
-        <div class="tbt-testimonials-hero__content"><h1><?php echo esc_html($tbt_field('testimonials_heading')); ?></h1><p aria-label="Five out of five stars">⭐⭐⭐⭐⭐</p></div>
+        <div class="tbt-testimonials-hero__content"><h1><?php echo esc_html($tbt_field('testimonials_heading')); ?></h1><p class="tbt-testimonials-hero__stars" role="img" aria-label="Five out of five stars"><svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><linearGradient id="tbt-star-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe27a"/><stop offset="1" stop-color="#ffb81c"/></linearGradient></defs></svg><?php echo str_repeat($tbt_star, 5); // static inline SVG markup ?></p></div>
     </header>
 
     <section class="tbt-testimonials-featured" data-section="featured">
@@ -40,7 +54,7 @@ $tbt_story_heading = static function (bool $show_advice = true): void {
             <h2 class="screen-reader-text">Class of 2025</h2>
             <div class="tbt-testimonials-artwork tbt-testimonials-artwork--portrait"><?php tbt_render_media_image('curated_testimonials_results_2025_01', '', ['loading' => 'lazy']); ?><?php tbt_render_media_image('curated_testimonials_results_2025_02', '', ['loading' => 'lazy']); ?></div>
             <?php $tbt_story_heading(); ?>
-            <?php tbt_render_testimonials($tbt_group_args('2025')); ?>
+            <div data-review-panel><?php tbt_render_testimonials($tbt_group_args('2025')); ?></div>
         </div>
     </section>
 
@@ -52,7 +66,7 @@ $tbt_story_heading = static function (bool $show_advice = true): void {
         <div class="tbt-testimonials-artwork-band"><div class="tbt-testimonials-container"><div class="tbt-testimonials-artwork tbt-testimonials-artwork--landscape"><?php tbt_render_media_image('curated_testimonials_results_2024_01', '', ['loading' => 'lazy']); ?><?php tbt_render_media_image('curated_testimonials_results_2024_02', '', ['loading' => 'lazy']); ?></div></div></div>
         <div class="tbt-testimonials-container">
             <?php $tbt_story_heading(); ?>
-            <?php tbt_render_testimonials($tbt_group_args('2024')); ?>
+            <div data-review-panel><?php tbt_render_testimonials($tbt_group_args('2024')); ?></div>
         </div>
     </section>
 
@@ -64,18 +78,19 @@ $tbt_story_heading = static function (bool $show_advice = true): void {
         <div class="tbt-testimonials-artwork-band"><div class="tbt-testimonials-container"><div class="tbt-testimonials-artwork tbt-testimonials-artwork--landscape"><?php tbt_render_media_image('curated_testimonials_results_2023_03', '', ['loading' => 'lazy']); ?></div></div></div>
         <div class="tbt-testimonials-container">
             <?php $tbt_story_heading(); ?>
-            <?php tbt_render_testimonials($tbt_group_args('2023')); ?>
+            <div data-review-panel><?php tbt_render_testimonials($tbt_group_args('2023')); ?></div>
         </div>
     </section>
 
     <section class="tbt-testimonials-year" id="class-of-2022" data-section="2022" data-archive-group>
         <div class="tbt-testimonials-artwork-band tbt-testimonials-artwork-band--2022"><div class="tbt-testimonials-container">
             <h2>Class of 2022</h2>
+            <?php $tbt_growth_icon(); ?>
             <div class="tbt-testimonials-artwork tbt-testimonials-artwork--landscape"><?php tbt_render_media_image('curated_testimonials_results_2022_01', '', ['loading' => 'lazy']); ?></div>
         </div></div>
         <div class="tbt-testimonials-container">
             <?php $tbt_story_heading(); ?>
-            <?php tbt_render_testimonials($tbt_group_args('2022')); ?>
+            <div data-review-panel><?php tbt_render_testimonials($tbt_group_args('2022')); ?></div>
             <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-testimonials-button tbt-testimonials-button--archive" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">WhatsApp Us Now</a><?php endif; ?>
         </div>
     </section>
@@ -83,11 +98,12 @@ $tbt_story_heading = static function (bool $show_advice = true): void {
     <section class="tbt-testimonials-year" id="class-of-2021" data-section="2021" data-archive-group>
         <div class="tbt-testimonials-results-band"><div class="tbt-testimonials-container">
             <h2>Class of 2021</h2>
+            <?php $tbt_growth_icon(); ?>
             <p>100% of our Class of 2021 improved their grade<br>in 6 months or less</p>
         </div></div>
         <div class="tbt-testimonials-container">
             <?php $tbt_story_heading(false); ?>
-            <?php tbt_render_testimonials($tbt_group_args('2021')); ?>
+            <div data-review-panel><?php tbt_render_testimonials($tbt_group_args('2021')); ?></div>
             <?php if ($tbt_whatsapp !== '') : ?><a class="tbt-testimonials-button tbt-testimonials-button--archive" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer">WhatsApp Us Now</a><?php endif; ?>
         </div>
     </section>
