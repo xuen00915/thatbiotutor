@@ -80,7 +80,8 @@ const darkInk = 'rgb(25, 34, 26)';
           assert.match(b.family, /^"?Poppins/, `${tag}: button font`);
           assert.ok(b.h >= 44, `${tag}: button height ${b.h}px must be a comfortable touch target`);
         }
-        if (width >= 769) for (const pad of m.sections) assert.ok(pad === 64 || pad === 80, `${tag}: section padding ${pad}px must be 64 or 80`);
+        if (route === '/about/') { /* About uses a compact rhythm, guarded by about-page-runtime.js */ }
+        else if (width >= 769) for (const pad of m.sections) assert.ok(pad === 64 || pad === 80, `${tag}: section padding ${pad}px must be 64 or 80`);
         else for (const pad of m.sections) assert.ok(pad === 48 || pad === 56, `${tag}: mobile section padding ${pad}px must be 48 or 56`);
         assert.deepEqual(m.small, [], `${tag}: no text below 11.5px`);
         assert.deepEqual(m.taps, [], `${tag}: all buttons must be at least 40px in both directions`);

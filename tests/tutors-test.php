@@ -66,6 +66,8 @@ final class TutorsTest extends TbtContentTestCase
         $this->assertTrue(str_contains($aboutHtml, '<div class="tbt-tutor__details">'), 'About tutors must group names and credentials in a details column.');
         $this->assertTrue(str_contains($aboutHtml, 'class="tbt-tutor__portrait" src="https://example.test/chelsea.webp"'), 'Direct About portrait URLs must receive the shared portrait class.');
         $this->assertTrue(str_contains($aboutHtml, 'https://www.linkedin.com/in/xiang-ting-chee/'), 'About tutors must support the original public profile link.');
+        $this->assertTrue(str_contains($aboutHtml, 'class="tbt-tutor__profile-link"') && str_contains($aboutHtml, 'aria-label="Ms Chelsea on LinkedIn"') && str_contains($aboutHtml, '<svg'), 'A LinkedIn profile link must be an icon button with an accessible name.');
+        $this->assertTrue(!str_contains($aboutHtml, '>https://www.linkedin.com'), 'The raw LinkedIn address must not be shown as the link text.');
         $this->assertTrue(str_contains($aboutHtml, 'target="_blank"') && str_contains($aboutHtml, 'rel="noopener noreferrer"'), 'Tutor profile links must open safely.');
         $this->assertTrue(str_contains($aboutHtml, 'tbt-tutor--has-documents'), 'About tutors with certificates must opt into the three-column layout.');
         $this->assertTrue(str_contains($aboutHtml, '<aside class="tbt-tutor__certificates"'), 'About tutor certificates must render in a dedicated third column.');
