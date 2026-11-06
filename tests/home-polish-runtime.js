@@ -26,13 +26,21 @@ const {chromium} = require('playwright');
     assert.equal(lines[0],'The One Missing Key to go','Homepage headline wraps like the original ('+JSON.stringify(lines)+')');
   }
   assert.deepEqual(await page.evaluate(()=>{const f=document.querySelector('[data-section=fasttrack]');const c=e=>getComputedStyle(e).color;return {eyebrow:c(f.querySelector('.tbt-home-eyebrow')),accent:c(f.querySelector('h2 span'))}}),{eyebrow:'rgb(67, 180, 58)',accent:'rgb(67, 180, 58)'},'Homepage FastTrack heading colours');
+  // Pictures cannot be dragged on any page.
+  const homeDrag=await page.evaluate(()=>{const imgs=[...document.images];const ev=new Event('dragstart',{bubbles:true,cancelable:true});imgs[0].dispatchEvent(ev);return {total:imgs.length,draggable:imgs.filter(i=>i.draggable!==false).length,prevented:ev.defaultPrevented,css:getComputedStyle(imgs[0]).webkitUserDrag}});
+  assert.equal(homeDrag.draggable,0,'Homepage pictures must be non-draggable '+JSON.stringify(homeDrag));
+  assert.equal(homeDrag.prevented,true);
+  assert.equal(homeDrag.css,'none');
   // FastTrack pictures: as tall as their own phrase and starting level with it.
   const icons=await page.locator('.tbt-home-fasttrack__tbt-content').evaluateAll(es=>es.map(e=>{const i=e.querySelector('img').getBoundingClientRect();const p=e.querySelector('p').getBoundingClientRect();return {w:Math.round(i.width),h:Math.round(i.height),ph:Math.round(p.height),dTop:Math.round(Math.abs(i.top-p.top))}}));
   assert.equal(icons.length,5);
   assert.ok(icons.every(x=>x.dTop<=1),'FastTrack picture must start level with its phrase '+JSON.stringify(icons));
-  assert.ok(icons.every(x=>Math.abs(x.h-x.ph)<=2||x.h>=x.ph),'FastTrack picture must be as tall as its phrase '+JSON.stringify(icons));
-  assert.ok(icons.every(x=>x.w===icons[0].w),'FastTrack pictures share one width '+JSON.stringify(icons));
-  assert.ok(icons[0].w>=(width>520?128:112),'FastTrack pictures must be large ('+icons[0].w+'px)');
+    assert.ok(icons.every(x=>x.w===icons[0].w),'FastTrack pictures share one width '+JSON.stringify(icons));
+  assert.ok(icons[0].w<=(width>520?96:76),'FastTrack pictures must be compact ('+icons[0].w+'px)');
+  assert.ok(icons.every(x=>x.h<=104),'FastTrack pictures must not tower over their phrase '+JSON.stringify(icons));
+  // The artwork itself has no empty margin, so the visible icon starts level with the phrase.
+  const margins=await page.locator('.tbt-home-fasttrack__tbt-content img').evaluateAll(es=>Promise.all(es.map(async i=>{i.loading='eager';await i.decode();const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;const x=c.getContext('2d');x.drawImage(i,0,0);const d=x.getImageData(0,0,c.width,c.height).data;let top=c.height,bottom=0,left=c.width,right=0;for(let y=0;y<c.height;y++)for(let xx=0;xx<c.width;xx++){if(d[(y*c.width+xx)*4+3]>10){if(y<top)top=y;if(y>bottom)bottom=y;if(xx<left)left=xx;if(xx>right)right=xx}}return {top:top/c.height,bottom:1-bottom/c.height,left:left/c.width,right:1-right/c.width}})));
+  assert.ok(margins.every(m=>Math.max(m.top,m.bottom,m.left,m.right)<0.03),'FastTrack artwork must not carry empty margin '+JSON.stringify(margins));
   // Google reviews: equal card heights and arrows clear of the cards.
   await page.locator('.tbt-google-reviews').scrollIntoViewIfNeeded();await page.waitForTimeout(400);
   const reviews=await page.evaluate(()=>{const track=document.querySelector('.tbt-google-reviews__track').getBoundingClientRect();const cards=[...document.querySelectorAll('.tbt-google-review')].map(e=>e.getBoundingClientRect()).filter(r=>r.left>=track.left-2&&r.right<=track.right+2);const arrows=[...document.querySelectorAll('.tbt-google-reviews__controls button')].map(e=>e.getBoundingClientRect()).filter(r=>r.width>0);const hit=(a,b)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;return {heights:[...new Set(cards.map(r=>Math.round(r.height)))],overlap:arrows.some(a=>cards.some(c=>hit(a,c))),n:cards.length}});

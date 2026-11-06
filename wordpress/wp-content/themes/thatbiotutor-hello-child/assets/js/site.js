@@ -362,8 +362,8 @@
   }
 
   function initImageGuard(document) {
-    // Pictures on the IntensiveFix page cannot be picked up and dragged away.
-    if (!document.body || !document.body.classList.contains('page-template-page-intensivefix')) return;
+    // Pictures on every page cannot be picked up and dragged away.
+    if (!document.body) return;
     const lock = (root) => root.querySelectorAll('img').forEach((image) => { image.draggable = false; });
     lock(document);
     document.addEventListener('dragstart', (event) => {

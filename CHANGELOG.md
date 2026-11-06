@@ -3,6 +3,12 @@
 ## Unreleased
 
 - [main-site] About: "Quality Teaching Only" and "What We Believe In" now show the words on the left and the photo on the right (desktop), with the photo exactly as tall as the words; they stack on tablets and phones. The founder's three answers sit in cards: questions 1 and 2 side by side, question 3 across the full width underneath (stacked on small screens). On "What We Believe In" the photo sits closer to the words (a wider photo column). `tests/about-page-runtime.js` guards the layout.
+- [fix-page] FastTrack icons made smaller (88px wide, 72px on phones, at most 96px tall) while still starting level with their phrase.
+
+- [fix-page] FastTrack icons now start level with the first line of their phrase: the five artwork files (content, memory, answering, practical, support) had 25-35% empty margin built in, which I trimmed so the visible icon begins at the top of the phrase (homepage and IntensiveFix). `tests/home-polish-runtime.js` checks the artwork has no empty margin. The founder section is back to its previous layout (the photo-balancing attempt cropped the photo too much).
+
+- [fix-page] Pictures can no longer be dragged on any page (it was only IntensiveFix, so the homepage FastTrack pictures still dragged). (The founder-photo balancing tried in this change cropped the photo too much and was reverted.)
+- [main-site] About: "Quality Teaching Only" and "What We Believe In" now show the words on the left and the photo on the right (desktop), with the photo exactly as tall as the words; they stack on tablets and phones. The founder's three answers sit in cards: questions 1 and 2 side by side, question 3 across the full width underneath (stacked on small screens). `tests/about-page-runtime.js` guards the layout.
 
 - [fix-page] FastTrack pictures are larger and each is as tall as its own phrase, starting level with it; pictures on the IntensiveFix page can no longer be dragged (non-draggable images, cancelled dragstart, no touch-callout or selection).
 - [main-site] About certificate viewers lose their frame line and the arrow/enlarge button borders, and the arrows now sit beside the certificate instead of on top of it. The "A Message From The Founder" photo is now as wide as its title bar and sits 40px below it (28px on tablets and phones), the same gap as the Our Tutors cards. `tests/about-page-runtime.js` guards both.
