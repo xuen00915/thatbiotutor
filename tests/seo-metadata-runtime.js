@@ -13,6 +13,6 @@ for(const [key,[title,description]] of Object.entries(copy)){
  }
  assert.equal(await page.locator('link[rel="canonical"]').count(),1,`${key}: exactly one canonical`);
  const canonical=await page.locator('link[rel="canonical"]').getAttribute('href');
- assert.equal(new URL(canonical).pathname,new URL(key==='home'?'':key+'/',base).pathname,key);
+ assert.equal(new URL(canonical,page.url()).pathname.replace(/index\.html$/, ''),new URL(key==='home'?'':key+'/',base).pathname,key);
  console.log(`PASS SEO ${key}`);
 }}finally{await browser.close()}})().catch(e=>{console.error(e);process.exit(1)});
