@@ -38,9 +38,16 @@ $check(str_contains($html, 'data-tbt-form="fallback"'), 'Without a shortcode the
 foreach (['class="wpcf7-form"', 'wpcf7-form-control-wrap', 'wpcf7-email', 'wpcf7-submit', 'wpcf7-response-output'] as $needle) {
     $check(str_contains($html, $needle), "Stand-in form must use the Contact Form 7 class {$needle}.");
 }
-$check(preg_match('/<input[^>]+type="email"[^>]+name="your-email"|<input[^>]+name="your-email"[^>]+type="email"/', $html) === 1, 'Stand-in form needs an email input named your-email.');
-$check(str_contains($html, 'required') && str_contains($html, 'autocomplete="email"'), 'Email input must be required with autocomplete.');
-$check(preg_match('/<label[^>]*>.*<input[^>]+name="your-email"/s', $html) === 1, 'Email input must sit inside its label.');
+$check(preg_match('/<input[^>]+name="first-name"[^>]*>/', $html, $first) === 1 && str_contains($first[0], 'type="text"') && str_contains($first[0], 'required') && str_contains($first[0], 'placeholder="First Name *"'), 'Stand-in form needs a required First Name text input.');
+$check(preg_match('/<input[^>]+name="your-email"[^>]*>/', $html, $email) === 1 && str_contains($email[0], 'type="email"') && str_contains($email[0], 'required') && str_contains($email[0], 'autocomplete="email"') && str_contains($email[0], 'placeholder="Email Address *"'), 'Stand-in form needs a required Email Address input.');
+$check(preg_match('/<label[^>]*>.*<input[^>]+name="your-email"/s', $html) === 1 && preg_match('/<label[^>]*>.*<input[^>]+name="first-name"/s', $html) === 1, 'Text inputs must sit inside labels.');
+$check(preg_match_all('/<input[^>]+type="radio"[^>]+name="level-of-student"/', $html) === 4, 'Level of Student must offer four radio choices.');
+foreach (['Sec 4 G3/Pure Biology (In 2026)', 'Sec 3 G3/Pure Biology (In 2026)', 'Lower Sec, Potential Bio Student', 'Other: Combined Bio/N Level/IP/IB/A Level/IGCSE'] as $choice) {
+    $check(str_contains($html, 'value="' . $choice . '"'), "Level choice missing: {$choice}");
+}
+$check(str_contains($html, '<legend') && str_contains($html, 'Level of Student *'), 'The radio group needs a legend.');
+$check(preg_match('/<input[^>]+type="checkbox"[^>]+name="is-parent"/', $html) === 1 && str_contains($html, 'I am a Parent'), 'The form needs the I am a Parent checkbox.');
+$check(str_contains($html, 'value="SUBMIT"'), 'The submit button must say SUBMIT.');
 $check(str_contains($html, 'data-tbt-redirect="https://local.test/"'), 'The form must redirect to the homepage after sending.');
 $check($GLOBALS['tbt_form_shortcodes'] === [], 'No shortcode may run without a configured form.');
 
@@ -70,10 +77,12 @@ $check($GLOBALS['tbt_form_shortcodes'] === [], 'Invalid shortcodes must never be
 
 // 5. The paste-in Contact Form 7 template matches the stand-in fields.
 $template = tbt_cf7_notes_template();
-$check(str_contains($template, '[email* your-email') && str_contains($template, '[submit'), 'The Contact Form 7 template must define the email field and submit button.');
+foreach (['[text* first-name', '[email* your-email', '[radio* level-of-student', '[checkbox is-parent', '[submit "SUBMIT"]', 'Sec 4 G3/Pure Biology (In 2026)', 'I am a Parent'] as $needle) {
+    $check(str_contains($template, $needle), "The Contact Form 7 template must contain {$needle}.");
+}
 
 // 6. The setup guide exists and carries the exact template and the field name editors use.
 $guide = (string) @file_get_contents(dirname(__DIR__) . '/docs/CONTACT-FORM-7.md');
-$check(str_contains($guide, '[email* your-email autocomplete:email') && str_contains($guide, 'Form Shortcode') && str_contains($guide, 'Mail (2)'), 'docs/CONTACT-FORM-7.md must carry the template, the Form Shortcode field and the auto-reply setup.');
+$check(str_contains($guide, '[radio* level-of-student') && str_contains($guide, 'Form Shortcode') && str_contains($guide, 'Mail (2)'), 'docs/CONTACT-FORM-7.md must carry the template, the Form Shortcode field and the auto-reply setup.');
 
 fwrite(STDOUT, "PASS: {$count} notes-form assertions\n");

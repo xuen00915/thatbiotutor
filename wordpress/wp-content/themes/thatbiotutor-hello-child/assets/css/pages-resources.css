@@ -163,10 +163,30 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   text-align: center;
 }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit__answer { margin-top: 20px; }
+/* The four note benefits sit two to a row as cards (one per row on small phones). */
+@media (min-width: 641px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; width: 100%; }
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits article.tbt-notes-benefit {
+  box-sizing: border-box;
+  min-height: 0;
+  justify-content: flex-start;
+  padding: 24px 24px 28px;
+  border: 1px solid #d8e4cb;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(45, 58, 32, 0.08);
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media { display: grid; height: auto; margin-bottom: 14px; place-items: center; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media img { width: 200px; height: 200px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits__grid { gap: 20px; }
+@media (min-width: 641px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits__grid { gap: 28px; } }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section { padding-block: 24px; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section:first-child { padding-top: 40px; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section:last-child { padding-bottom: 48px; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details h2 { margin-bottom: 12px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details h2 { margin-bottom: 10px; font-size: 30px; font-weight: 700; line-height: 1.3; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details li { color: rgba(255, 255, 255, .9); line-height: 1.6; }
+@media (max-width: 768px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details h2 { font-size: 24px; } }
 
 @media (max-width: 768px) {
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-resource-section { padding-block: 20px; }
@@ -187,7 +207,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-notes-hero__audience span { color: var(--resource-green); font-family: inherit; font-style: inherit; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-proof { margin: 12px 0 0; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-weight: 700; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-button { margin-top: 20px; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(160px, calc(100svh - 350px), 640px); width: min(100%, calc(var(--notes-slider-height) * 500 / 640)); max-width: 500px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(160px, calc(100svh - 350px), 760px); width: min(100%, calc(var(--notes-slider-height) * 500 / 640)); max-width: 600px; }
 /* The preview sits straight on the dark hero (no white card), with modest arrows and small dots. */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__viewport { background: transparent; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control { width: 44px; height: 44px; font-size: 16px; }
@@ -196,6 +216,17 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 @media (min-width: 769px) {
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control--previous { left: -56px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control--next { right: -56px; }
+}
+/* On wider screens the button and downloads count share one row, which frees height for a bigger tablet picture. */
+@media (min-width: 769px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero { padding: 16px 0 14px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-hero__inner { display: grid; grid-template-columns: auto auto; justify-content: center; align-items: center; column-gap: 28px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-hero__inner > :is(h1, .tbt-notes-hero__audience) { grid-column: 1 / -1; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-hero__inner > .tbt-notes-hero__audience { margin-bottom: 8px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-hero__inner > .tbt-resource-carousel { grid-column: 1 / -1; justify-self: center; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(160px, calc(100svh - 300px), 760px); }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-button { margin-top: 14px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-proof { margin: 14px 0 0; }
 }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__dots { bottom: 6px; gap: 0; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__dots button {
@@ -282,41 +313,52 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   object-fit: cover;
 }
 .tbt-notes-access-intro h2 { max-width: 660px; margin: 0 auto; font-weight: 700; }
-.tbt-notes-form { width: min(100%, 560px); margin: 28px auto 32px; text-align: left; }
-/* Styles target Contact Form 7's own classes, so the stand-in form and the real plugin form look identical. */
+.tbt-notes-form { width: min(100%, 420px); margin: 24px auto 28px; text-align: left; font-family: "Montserrat", Arial, Helvetica, sans-serif; }
+/* Styles target Contact Form 7's own classes, so the stand-in form and the real plugin form look identical.
+   Look follows the original site's form: thin dark outlines, plain stacked choices, one centred pill button. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form, body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form { font-family: "Montserrat", Arial, Helvetica, sans-serif; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form { margin: 0; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form p { margin: 0 0 16px; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .tbt-form__label { display: block; color: var(--resource-dark); font-size: 16px; font-weight: 700; line-height: 1.4; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form-control-wrap { display: block; margin-top: 8px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form p { margin: 0 0 20px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form label { display: block; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form-control-wrap { display: block; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form-control:is(input[type="email"], input[type="text"]) {
   display: block;
   box-sizing: border-box;
   width: 100%;
-  min-height: 54px;
-  padding: 0 18px;
-  border: 2px solid #c9d8c4;
-  border-radius: 12px;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid #1a1a1a;
+  border-radius: 6px;
   background: #fff;
-  color: var(--resource-dark);
-  font: 400 17px/1.3 "Poppins", ui-sans-serif, system-ui, sans-serif;
+  color: #1a1a1a;
+  font: 400 16px/1.3 "Montserrat", Arial, Helvetica, sans-serif;
   transition: border-color 160ms ease, box-shadow 160ms ease;
 }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form-control:is(input[type="email"], input[type="text"])::placeholder { color: #7c8a78; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form-control:is(input[type="email"], input[type="text"]):focus { border-color: #43b43a; outline: none; box-shadow: 0 0 0 4px rgba(67, 180, 58, .22); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form-control:is(input[type="email"], input[type="text"])::placeholder { color: #1a1a1a; opacity: .85; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form-control:is(input[type="email"], input[type="text"]):focus { border-color: #43b43a; outline: none; box-shadow: 0 0 0 3px rgba(67, 180, 58, .25); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .tbt-form__fieldset { margin: 0 0 20px; padding: 0; border: 0; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .tbt-form__fieldset legend { margin: 0 0 6px; padding: 0; color: #1a1a1a; font-size: 16px; font-weight: 400; line-height: 1.4; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-list-item { display: block; margin: 0 0 4px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-list-item label { display: flex; align-items: flex-start; gap: 10px; padding: 3px 0; color: #1a1a1a; font-size: 18px; line-height: 1.3; cursor: pointer; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-list-item input { flex: none; width: 20px; height: 20px; margin: 1px 0 0; accent-color: #43b43a; cursor: pointer; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-list-item input:focus-visible { outline: 3px solid #0e371d; outline-offset: 2px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-checkbox { display: block; margin-top: 4px; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-not-valid { border-color: #d64037 !important; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-not-valid-tip { display: block; margin-top: 6px; color: #b3261e; font-size: 14px; font-weight: 400; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit {
   display: block;
   box-sizing: border-box;
-  width: 100%;
+  width: min(100%, 240px);
   min-height: 54px;
+  margin: 8px auto 0;
   padding: 0 28px;
   border: 0;
   border-radius: 9999px;
   background: #43b43a;
   color: #fff;
-  font: 700 18px/1 "Poppins", ui-sans-serif, system-ui, sans-serif;
+  font: 700 18px/1 "Montserrat", Arial, Helvetica, sans-serif;
   letter-spacing: .02em;
+  text-transform: uppercase;
   cursor: pointer;
   box-shadow: 0 8px 20px rgba(67, 180, 58, .28);
   transition: background-color 160ms ease, transform 160ms ease;
@@ -325,12 +367,11 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:focus-visible { outline: 3px solid #0e371d; outline-offset: 3px; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-spinner { margin: 8px auto 0; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-response-output { margin: 12px 0 0; padding: 12px 16px; border: 2px solid #c9d8c4; border-radius: 12px; font-size: 15px; line-height: 1.4; text-align: center; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form:not(.init):is(.sent, .failed, .invalid, .unaccepted, .spam, .aborted, .payment-required) .wpcf7-response-output { display: block; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-response-output { margin: 14px 0 0; padding: 12px 16px; border: 2px solid #c9d8c4; border-radius: 12px; font-size: 15px; line-height: 1.4; text-align: center; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form.sent .wpcf7-response-output { border-color: #43b43a; background: #f0f8ee; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form:is(.failed, .invalid, .unaccepted, .spam, .aborted) .wpcf7-response-output { border-color: #d64037; background: #fdf1f0; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form.init .wpcf7-response-output:empty, body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-response-output:empty { display: none; }
-@media (max-width: 768px) { .tbt-notes-form { margin: 20px auto 24px; } }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-response-output:empty { display: none; }
+@media (max-width: 768px) { .tbt-notes-form { margin: 20px auto 24px; } body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-list-item label { font-size: 17px; } }
 .tbt-resource-access-instructions { text-align: left; }
 .tbt-resource-access-instructions p { margin-bottom: 22px; }
 
