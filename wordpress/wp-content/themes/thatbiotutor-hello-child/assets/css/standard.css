@@ -535,3 +535,34 @@ body.tbt-site .tbt-classes-page .tbt-practical-photo { height: 280px; border-rad
 @media (max-width: 768px) {
   body.tbt-site .tbt-classes-page .tbt-practical-photo { height: 220px; }
 }
+
+/* ---------- Classes page: lighter hero, struggle list, shared widths, white results, clearer level cards ---------- */
+body.tbt-site .tbt-classes-page .tbt-programme-hero__shade { background: rgba(0, 0, 0, .3); }
+
+/* The topic lists are as wide as the paragraph above them. */
+body.tbt-site .tbt-classes-page .tbt-topic-columns { width: min(100%, 920px); gap: 58px; }
+
+/* "Why students struggle" is its own near-black block, so it reads apart from the green "How TBT solves" block. */
+body.tbt-site .tbt-classes-page .tbt-programme-struggles { background: #0d130f; }
+body.tbt-site .tbt-classes-page .tbt-programme-struggles > .tbt-programme-container > .tbt-programme-kicker { display: flex; justify-content: flex-start; }
+body.tbt-site .tbt-classes-page .tbt-programme-struggles > .tbt-programme-container > h2 { max-width: 930px; margin-inline: 0; text-align: left; }
+body.tbt-site .tbt-classes-page .tbt-struggle-list { gap: 40px; margin-top: 36px; }
+body.tbt-site .tbt-classes-page .tbt-struggle-list h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); font-style: italic; font-weight: 700; line-height: 1.25; }
+body.tbt-site .tbt-classes-page .tbt-struggle-list h3 span { color: #77cf64; }
+body.tbt-site .tbt-classes-page .tbt-struggle-list article:last-child h3 span { color: var(--tbt-std-green-bright); }
+body.tbt-site .tbt-classes-page .tbt-struggle-list p { max-width: none; font-size: 18px; }
+
+/* "How TBT solves each one" and "What makes our classes unlike any other" use the shared content width. */
+body.tbt-site .tbt-classes-page .tbt-solution-list { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+body.tbt-site .tbt-classes-page .tbt-practical-feature > p { max-width: 920px; }
+
+/* Results numbers are white. */
+body.tbt-site .tbt-classes-page .tbt-programme-stats strong { color: #fff; }
+
+/* Level cards: white card, dark text, green title and link (was green on pale green). */
+body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels__grid a { border: 1px solid #cfe3cb; background: #fff; color: #263029; }
+body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels__grid a span { color: #3a463d; }
+
+@media (max-width: 768px) {
+  body.tbt-site .tbt-classes-page .tbt-solution-list { grid-template-columns: minmax(0, 1fr); }
+}
