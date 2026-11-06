@@ -18,6 +18,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
     assert.ok(Math.abs(r.logoLeft-r.left)<2, `Logo aligns left on ${route} at ${width}`);
     if(width>980)assert.ok(Math.abs(r.navCentre-width/2)<2, `Desktop menu centres on ${route}`);
     assert.equal(r.overflow,0);
+    assert.ok(await page.locator('.site-nav__item').evaluateAll(items=>items.every(e=>parseFloat(getComputedStyle(e).borderLeftWidth)===0)), 'Header menu has no vertical dividers');
    }
    await page.goto(new URL('classes/',base).href);
    const r=await page.locator('[data-section="definition"]').evaluate(e=>{

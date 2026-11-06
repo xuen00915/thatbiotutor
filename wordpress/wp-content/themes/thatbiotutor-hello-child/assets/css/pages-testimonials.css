@@ -257,3 +257,11 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 @media (max-width: 559px) {
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page [data-review-panel] [data-testimonial-list] > .tbt-testimonial { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "video video" "portrait name" "portrait stars" "result result" "quote quote"; }
 }
+
+/* Give every new cohort's results a distinct section break. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year { padding-top: 48px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-artwork--portrait, #class-of-2023 .tbt-testimonials-artwork--portrait) { margin-bottom: 32px; }
+@media (max-width: 768px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year { padding-top: 32px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-artwork--portrait, #class-of-2023 .tbt-testimonials-artwork--portrait) { margin-bottom: 24px; }
+}

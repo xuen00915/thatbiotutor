@@ -17,6 +17,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       await page.goto(new URL('./testimonials/', base).href, { waitUntil: 'load' });
       await page.evaluate(() => document.fonts?.ready);
       await page.waitForTimeout(600);
+      const spacing = await page.locator('.tbt-testimonials-year').evaluateAll(sections => sections.map(e => ({top:parseFloat(getComputedStyle(e).paddingTop), artwork:[...e.querySelectorAll('.tbt-testimonials-artwork--portrait')].map(a=>parseFloat(getComputedStyle(a).marginBottom))})));
+      assert.ok(spacing.every(s=>s.top >= (width>768?48:32) && s.artwork.every(gap=>gap >=24)), 'Each year results section has clear spacing above and below its artwork');
       const m = await page.evaluate(() => {
         const q = (s, r = document) => r.querySelector(s);
         const box = (e) => e.getBoundingClientRect();
@@ -80,10 +82,10 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.equal(m.h1Align, 'right', `Hero title is right-aligned like the original ${at}`);
         assert.ok(m.h1Right >= m.viewport * 0.6 && Math.abs(m.starsRight - m.h1Right) <= 4, `Title and stars sit on the right with a shared right edge ${detail({ h1Right: m.h1Right, starsRight: m.starsRight })}`);
         assert.ok(m.heroHeight <= 460, `Hero should be about 449px tall ${detail({ h: m.heroHeight })}`);
-        assert.ok(m.featuredToArtwork <= 64 && m.artworkToStories <= 64, `Spacing around the 2025 result cards must be compact ${detail({ a: m.featuredToArtwork, b: m.artworkToStories })}`);
+        assert.ok(m.featuredToArtwork >= 48 && m.featuredToArtwork <= 96 && m.artworkToStories <= 64, `Spacing around the 2025 result cards must clearly separate the year ${detail({ a: m.featuredToArtwork, b: m.artworkToStories })}`);
         assert.ok(m.band2022Pad[0] <= 56 && m.band2022Pad[1] <= 56, `Class of 2022 band padding must be compact ${detail(m.band2022Pad)}`);
       } else {
-        assert.ok(m.featuredToArtwork <= 48 && m.artworkToStories <= 48, `Spacing around the 2025 result cards must be compact on phones ${detail({ a: m.featuredToArtwork, b: m.artworkToStories })}`);
+        assert.ok(m.featuredToArtwork >= 32 && m.featuredToArtwork <= 72 && m.artworkToStories <= 64, `Spacing around the 2025 result cards must clearly separate the year on phones ${detail({ a: m.featuredToArtwork, b: m.artworkToStories })}`);
       }
       assert.match(m.h3Font, /Helvetica|Arial/, `Student Stories heading uses the original Helvetica-style bold ${at}: ${m.h3Font}`);
       assert.ok(Number(m.h3Weight) >= 700 && m.h3Color !== m.h3SpanColor, `"Student" dark and "Stories!" green ${at}`);
