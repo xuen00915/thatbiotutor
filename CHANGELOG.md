@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [fix-page] Classes "What makes our classes unlike any other": big heading (up to 48px) with "unlike any other" in green, italic label, much less space down to the picture, and the picture sits above the four points again (it had dropped below them); "Real Practical Sessions. Real Practice." is up to 40px. `tests/classes-page-runtime.js` covers size, colour, spacing and the heading text.
+
 - [fix-page] Classes page round 3: "Common questions" has a white background; section padding is 52px (40px on tablet/phone, was 64/48) and the "What makes our classes unlike any other" section now flows top to bottom instead of sitting in a tall fixed box, which removes the ~120px holes between its heading, picture and list; the FAQ questions no longer get cut off on phones (the parent theme's buttons never wrap) and show a green plus/minus icon, with no pink on hover; the WhatsApp help link has a taller tap area. `tests/classes-page-runtime.js` checks white FAQ, padding, biggest empty gap per section, FAQ fit and hover colour at 1440/1024/768/390/320.
 - [main-site] Free Bio Notes: a centred DOWNLOAD button (linking to the "How do I download it?" block, like the other two) now closes the last "What Students Are Saying..." review section. `tests/notes-sections-runtime.js` guards it.
 

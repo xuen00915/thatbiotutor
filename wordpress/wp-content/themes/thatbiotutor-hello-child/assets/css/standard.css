@@ -577,7 +577,7 @@ body.tbt-site .tbt-classes-page .tbt-programme-levels__grid { margin-block: 36px
 
 /* The difference section flows top to bottom instead of being positioned inside a tall fixed box. */
 body.tbt-site .tbt-classes-page .tbt-difference-layout { display: grid; min-height: 0; gap: 36px; padding-top: 24px; }
-body.tbt-site .tbt-classes-page .tbt-difference-layout > .tbt-programme-artwork { position: static; justify-self: center; width: min(100%, 440px); max-height: none; transform: none; }
+body.tbt-site .tbt-classes-page .tbt-difference-layout > .tbt-programme-artwork { order: -1; position: static; justify-self: center; width: min(100%, 440px); max-height: none; transform: none; }
 body.tbt-site .tbt-classes-page .tbt-difference-list { position: static; gap: 36px 56px; }
 body.tbt-site .tbt-classes-page .tbt-practical-feature { margin-top: 28px; }
 body.tbt-site .tbt-classes-page .tbt-programme-levels__help a { display: inline-block; padding-block: 10px; }
@@ -611,3 +611,10 @@ body.tbt-site .tbt-programme-faq .tbt-faq [data-faq-button]:is(:hover, :focus, :
   background: transparent;
   color: var(--tbt-std-ink);
 }
+
+/* "What makes our classes unlike any other": big heading with green keywords, tight spacing to the picture. */
+body.tbt-site #main-content .tbt-classes-page .tbt-programme-difference > .tbt-programme-container > h2 { display: block; margin-bottom: 0; text-align: center; font-size: clamp(1.75rem, 4.2vw, 3rem); line-height: 1.15; }
+body.tbt-site .tbt-classes-page .tbt-programme-difference > .tbt-programme-container > h2 span { color: var(--tbt-std-green-bright); }
+body.tbt-site .tbt-classes-page .tbt-difference-layout { padding-top: 24px; gap: 28px; }
+body.tbt-site .tbt-classes-page .tbt-programme-difference .tbt-programme-kicker { margin-bottom: 12px; }
+body.tbt-site #main-content .tbt-classes-page .tbt-practical-feature > h3 { margin-bottom: 14px; font-size: clamp(1.625rem, 3.2vw, 2.5rem); line-height: 1.2; }
