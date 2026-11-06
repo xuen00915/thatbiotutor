@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] About: "Quality Teaching Only" and "What We Believe In" now show the words on the left and the photo on the right (desktop), with the photo exactly as tall as the words; they stack on tablets and phones. The founder's three answers sit in cards: questions 1 and 2 side by side, question 3 across the full width underneath (stacked on small screens). `tests/about-page-runtime.js` guards the layout.
+
 - [main-site] About certificate viewers lose their frame line and the arrow/enlarge button borders, and the arrows now sit beside the certificate instead of on top of it. The "A Message From The Founder" photo is now as wide as its title bar and sits 40px below it (28px on tablets and phones), the same gap as the Our Tutors cards. `tests/about-page-runtime.js` guards both.
 
 - [fix-page] IntensiveFix bridge text: bold "Sound familiar? Many TBT students started exactly here." with the grey line "But after our 8-week IntensiveFix, they’re telling us:" beneath it. The FastTrack heading follows the reference colours on the homepage and IntensiveFix (green eyebrow, white headline and lead-in, brand-green A1/A2).

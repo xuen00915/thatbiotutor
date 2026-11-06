@@ -612,37 +612,6 @@ html.tbt-lightbox-open { overflow: hidden; }
   object-position: 50% 54%;
 }
 
-.tbt-founder-message .tbt-reading-width > p {
-  margin: 0 0 30.8px;
-}
-
-.tbt-founder-message .tbt-reading-width > .tbt-founder-question {
-  margin-bottom: 0;
-  font-weight: 700;
-}
-
-.tbt-founder-message .tbt-reading-width > .tbt-founder-question:first-of-type { margin-bottom: 30.8px; }
-
-.tbt-founder-message .tbt-reading-width > .tbt-founder-answer--last {
-  margin-bottom: 92px;
-}
-
-.tbt-founder-message .tbt-founder-answer--lead::before,
-.tbt-founder-message .tbt-founder-question--third::after {
-  content: "";
-  display: block;
-  height: 30.8px;
-}
-
-.tbt-founder-message .tbt-reading-width > .tbt-founder-final-answer { margin-bottom: 0; }
-
-.tbt-founder-message .tbt-reading-width > .tbt-founder-signature {
-  margin-top: 61.6px;
-  margin-bottom: 0;
-  font-style: italic;
-  text-align: right;
-}
-
 .tbt-about-beliefs .tbt-reading-width { padding: 34px 0 2px; }
 .tbt-beliefs-grid { display: block; text-align: center; }
 .tbt-beliefs-grid article {
@@ -730,11 +699,76 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   width: 100%;
   height: auto;
   aspect-ratio: 979 / 411;
-  margin: 40px 0 65px;
+  margin: 40px 0;
 }
 
 @media (max-width: 768px) {
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message__image { margin: 28px 0 40px; }
+}
+
+/* Quality and Vision/Mission/Values: words on the left, photo on the right and exactly as tall as the words.
+   The photo is positioned inside its grid cell, so it follows the text height instead of setting it. */
+@media (min-width: 981px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page :is(.tbt-about-quality, .tbt-about-beliefs) .tbt-reading-width {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 40px;
+    align-items: start;
+  }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality .tbt-reading-width > :is(p, ul) { grid-column: 1; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality ul { padding-left: 28px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality li { min-height: 0; margin: 0 0 16px; text-align: left; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality li:last-child { min-height: 0; margin-bottom: 0; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-beliefs .tbt-beliefs-grid { grid-column: 1; text-align: left; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-beliefs .tbt-beliefs-grid article { margin: 0 0 24px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-beliefs .tbt-beliefs-grid article:last-child { margin-bottom: 0; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality__image,
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-beliefs__image {
+    position: absolute;
+    inset: 0;
+    grid-column: 2;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    aspect-ratio: auto;
+    border-radius: 18px;
+    object-fit: cover;
+  }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality__image { grid-row: 1 / 3; object-position: left top; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-beliefs__image { grid-row: 1; }
+}
+
+/* Founder answers sit in cards: questions 1 and 2 side by side, question 3 underneath. */
+.tbt-founder-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+.tbt-founder-card {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 34px;
+  border: 1px solid #d8e4cb;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(45, 58, 32, 0.08);
+}
+.tbt-founder-card--wide { grid-column: 1 / -1; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message .tbt-founder-card p {
+  margin: 0 0 18px;
+  font-size: 20px;
+  line-height: 1.5;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message .tbt-founder-card p:last-child { margin-bottom: 0; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message .tbt-founder-card .tbt-founder-question { margin-bottom: 20px; font-weight: 700; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message .tbt-founder-card .tbt-founder-signature { margin-top: 24px; font-style: italic; text-align: right; }
+
+@media (max-width: 980px) {
+  .tbt-founder-cards { grid-template-columns: 1fr; }
+  .tbt-founder-card { padding: 26px 22px; }
+  .tbt-about-quality__image, .tbt-about-beliefs__image { margin-top: 32px; }
 }
 
 /* Causes. */

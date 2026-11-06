@@ -74,19 +74,27 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
         <div class="tbt-institutional-title-bar"><h2><?php echo esc_html($tbt_field('about_founder_heading')); ?></h2></div>
         <div class="tbt-reading-width">
             <?php tbt_render_media_image('curated_about_founder_message', 'tbt-founder-message__image', ['loading' => 'lazy']); ?>
-            <p class="tbt-founder-question">Q: Why did you start ThatBioTutor?</p>
-            <p>A: Like many of you, I struggled with certain subjects throughout my school journey. I wanted to improve, but <u>didn't get enough help from my teachers.</u> Sometimes they're too busy, and other times… well, let's just say they weren't too enthusiastic about the subject themselves.</p>
-            <p>In JC, I took up Econs tuition when I realised my grades were falling. That was when I first experienced the power of <u>a truly capable tutor.</u> I learnt how to memorise content easier and how to answer questions better. The subject became so much easier... It even became one of my favourite!</p>
-            <p class="tbt-founder-answer--last">I want to give you that <u>transformative experience</u> as well. Many students are struggling with bio, and you might be too. But it doesn't have to be that way. I wish to change that by giving high quality lessons, taught in an enthusiastic and clear manner. Because you guys deserve the best.</p>
-            <p class="tbt-founder-question tbt-founder-question--second">Q: Why is it important that students who really want to do well can do so?</p>
-            <p class="tbt-founder-answer--lead">A: I’ve experienced what it’s like to always struggle in a subject. It made me feel inadequate, stupid and worthless. I don’t want them to feel that way.</p>
-            <p class="tbt-founder-answer--last">I want them to see that whatever they put their mind to, they can achieve. They can change and improve themselves, wherever their starting point may be. I want them to see that they are inherently highly capable people, increasing their self-confidence and self-worth.</p>
-            <p class="tbt-founder-question tbt-founder-question--third">Q: Why is it that students having high self-confidence important to you?</p>
-            <p>A: I came from a rocky childhood, and I’m not a psychologist, but I guess that was a big reason for my feelings of low self-worth during childhood.</p>
-            <p>I don’t want my students to feel that way too: that they’re not good enough, not smart enough, or they’re inadequate. I don’t want them to lead defeated lives.</p>
-            <p>What set me free of that was proving to myself that I can achieve whatever I set my mind to. Whether it was learning how to solve a Rubik’s cube in 15 seconds, building up my body and physique from the scrawny kid I was, or even building this tuition business… each event showed me that we humans are <u><em>capable of change and improvement.</em></u></p>
-            <p class="tbt-founder-final-answer">Through transforming their bio grades, I want my students to see that <u><em>they can achieve whatever they set their mind to.</em></u> I want them to leave our class having a higher self-esteem and confidence in themselves than before they entered.</p>
-            <p class="tbt-founder-signature">-Mr Keefe</p>
+            <div class="tbt-founder-cards">
+                <article class="tbt-founder-card">
+                    <p class="tbt-founder-question">Q: Why did you start ThatBioTutor?</p>
+                    <p>A: Like many of you, I struggled with certain subjects throughout my school journey. I wanted to improve, but <u>didn't get enough help from my teachers.</u> Sometimes they're too busy, and other times… well, let's just say they weren't too enthusiastic about the subject themselves.</p>
+                    <p>In JC, I took up Econs tuition when I realised my grades were falling. That was when I first experienced the power of <u>a truly capable tutor.</u> I learnt how to memorise content easier and how to answer questions better. The subject became so much easier... It even became one of my favourite!</p>
+                    <p class="tbt-founder-answer--last">I want to give you that <u>transformative experience</u> as well. Many students are struggling with bio, and you might be too. But it doesn't have to be that way. I wish to change that by giving high quality lessons, taught in an enthusiastic and clear manner. Because you guys deserve the best.</p>
+                </article>
+                <article class="tbt-founder-card">
+                    <p class="tbt-founder-question tbt-founder-question--second">Q: Why is it important that students who really want to do well can do so?</p>
+                    <p class="tbt-founder-answer--lead">A: I’ve experienced what it’s like to always struggle in a subject. It made me feel inadequate, stupid and worthless. I don’t want them to feel that way.</p>
+                    <p class="tbt-founder-answer--last">I want them to see that whatever they put their mind to, they can achieve. They can change and improve themselves, wherever their starting point may be. I want them to see that they are inherently highly capable people, increasing their self-confidence and self-worth.</p>
+                </article>
+                <article class="tbt-founder-card tbt-founder-card--wide">
+                    <p class="tbt-founder-question tbt-founder-question--third">Q: Why is it that students having high self-confidence important to you?</p>
+                    <p>A: I came from a rocky childhood, and I’m not a psychologist, but I guess that was a big reason for my feelings of low self-worth during childhood.</p>
+                    <p>I don’t want my students to feel that way too: that they’re not good enough, not smart enough, or they’re inadequate. I don’t want them to lead defeated lives.</p>
+                    <p>What set me free of that was proving to myself that I can achieve whatever I set my mind to. Whether it was learning how to solve a Rubik’s cube in 15 seconds, building up my body and physique from the scrawny kid I was, or even building this tuition business… each event showed me that we humans are <u><em>capable of change and improvement.</em></u></p>
+                    <p class="tbt-founder-final-answer">Through transforming their bio grades, I want my students to see that <u><em>they can achieve whatever they set their mind to.</em></u> I want them to leave our class having a higher self-esteem and confidence in themselves than before they entered.</p>
+                    <p class="tbt-founder-signature">-Mr Keefe</p>
+                </article>
+            </div>
         </div>
     </section>
 

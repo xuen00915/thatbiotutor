@@ -77,6 +77,42 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       const fw = `${at} founder=${JSON.stringify(founder)}`;
       assert.ok(Math.abs(founder.imgWidth - founder.barWidth) <= 1 && Math.abs(founder.imgLeft - founder.barLeft) <= 1, `Founder photo must be as wide as the title bar ${fw}`);
       assert.ok(Math.abs(founder.gap - founder.tutorGap) <= 1, `Founder photo gap under the title bar must match the Our Tutors gap ${fw}`);
+      // Quality and Vision/Mission/Values: words left, photo right, photo as tall as the words. Founder Q&A in cards.
+      const layout = await page.evaluate(() => {
+        const box = (el) => el.getBoundingClientRect();
+        const union = (els) => {
+          const rects = els.map(box);
+          return { left: Math.min(...rects.map((r) => r.left)), right: Math.max(...rects.map((r) => r.right)), top: Math.min(...rects.map((r) => r.top)), bottom: Math.max(...rects.map((r) => r.bottom)) };
+        };
+        const split = (section, textSelector, imageSelector) => {
+          const text = union(Array.from(document.querySelectorAll(`${section} ${textSelector}`)));
+          const img = box(document.querySelector(`${section} ${imageSelector}`));
+          return { textRight: text.right, textTop: text.top, textHeight: text.bottom - text.top, imgLeft: img.left, imgTop: img.top, imgHeight: img.height };
+        };
+        const cards = Array.from(document.querySelectorAll('.tbt-founder-message .tbt-founder-card')).map((c) => { const r = box(c); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom }; });
+        return {
+          quality: split('.tbt-about-quality', '.tbt-reading-width > p, .tbt-reading-width > ul', '.tbt-about-quality__image'),
+          beliefs: split('.tbt-about-beliefs', '.tbt-beliefs-grid', '.tbt-about-beliefs__image'),
+          cards,
+        };
+      });
+      const lw = `${at} layout=${JSON.stringify(layout)}`;
+      assert.equal(layout.cards.length, 3, `Founder answers must be three cards ${lw}`);
+      const [c1, c2, c3] = layout.cards;
+      if (width >= 1024) {
+        for (const key of ['quality', 'beliefs']) {
+          const l = layout[key];
+          assert.ok(l.imgLeft >= l.textRight, `${key}: photo must sit to the right of the words ${lw}`);
+          assert.ok(Math.abs(l.imgTop - l.textTop) <= 2, `${key}: photo must start level with the words ${lw}`);
+          assert.ok(Math.abs(l.imgHeight - l.textHeight) <= 2, `${key}: photo must be as tall as the words ${lw}`);
+        }
+        assert.ok(Math.abs(c1.top - c2.top) <= 1 && c2.left >= c1.right, `Founder questions 1 and 2 must sit side by side ${lw}`);
+        assert.ok(c3.top >= Math.max(c1.bottom, c2.bottom), `Founder question 3 must sit below them ${lw}`);
+        assert.ok(Math.abs(c3.left - c1.left) <= 1 && Math.abs(c3.right - c2.right) <= 1, `Founder question 3 card must span both columns ${lw}`);
+      } else {
+        assert.ok(layout.quality.imgTop >= layout.quality.textTop + layout.quality.textHeight - 1, `quality: photo stacks under the words on small screens ${lw}`);
+        assert.ok(c2.top >= c1.bottom && c3.top >= c2.bottom, `Founder cards stack on small screens ${lw}`);
+      }
       console.log(`PASS about ${width}`);
     }
   } finally { await browser.close(); }
