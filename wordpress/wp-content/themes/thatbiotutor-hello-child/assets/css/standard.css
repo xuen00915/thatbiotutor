@@ -487,8 +487,8 @@ body.tbt-site .tbt-home-hero h1 {
 body.tbt-site .tbt-home-fasttrack .tbt-home-eyebrow { color: var(--tbt-std-green-bright); }
 body.tbt-site .tbt-home-fasttrack h2 span { color: var(--tbt-std-green-bright); }
 
-/* ---------- IntensiveFix: pictures cannot be dragged ---------- */
-body.tbt-site.page-template-page-intensivefix img {
+/* ---------- Pictures cannot be dragged on any page ---------- */
+body.tbt-site img {
   -webkit-user-drag: none;
   -webkit-touch-callout: none;
   user-select: none;
