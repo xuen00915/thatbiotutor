@@ -42,7 +42,7 @@ $contracts = [
     [$sec4, 'sec4_heading', 'Sec 4 canonical field namespace'],
     [$classes, 'curated_heroes_classes_original', 'Classes hero media key'],
     [$sec3, 'curated_heroes_sec3_original', 'Sec 3 hero media key'],
-    [$sec4, 'curated_heroes_sec4_original', 'Sec 4 hero media key'],
+    [$sec4, 'original_057', 'Sec 4 hero media key'],
 ];
 
 foreach ($contracts as [$source, $needle, $label]) {

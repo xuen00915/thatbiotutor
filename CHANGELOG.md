@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Sec 4 now uses the finished Sec 3 presentation while retaining the original Sec 4 copy, three syllabus phases, eight topics, lesson points, reviews and 12 FAQs. Restored the original ADH lesson video, result tables, classroom statistics photo, review portraits, three practical photos and eight benefit icons. Moved the joining note inside Phase 3, joined the topics card, centered the option headings, highlighted the hero copy, and aligned widths, colours, tutor layout and controls with Sec 3.
+
 - [main-site] Sec 3 mobile FAQ carousel replaces the two rows of dots with a single current / total counter between the arrow controls; desktop retains its dots.
 
 - [main-site] Sec 3 FAQ background matches the supplied warm off-white (#faf9f5); tutor profiles no longer lift or show shadows on hover; Book a Trial has no arrow.

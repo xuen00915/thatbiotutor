@@ -76,7 +76,7 @@ final class ClassesPagesTest
         }
         $this->assertTrue(str_contains($sec3, 'data-faq-renderer="sec3"') && str_contains($sec4, 'data-faq-renderer="sec4"'), 'Each tuition page must use its own FAQ collection.');
         $this->assertTrue(str_contains($sec3, 'data-tutor-renderer') && str_contains($sec4, 'data-tutor-renderer'), 'Both tuition pages must use the shared tutor renderer.');
-        $this->assertTrue(str_contains($sec4, 'curated_heroes_sec4_original'), 'Sec 4 hero must use the captured public background.');
+        $this->assertTrue(str_contains($sec4, 'original_057'), 'Sec 4 hero must use the captured public background.');
         $this->assertTrue(substr_count($sec4, 'tbt-programme-hero__highlight') >= 3, 'Sec 4 hero must preserve the public green proof emphasis.');
         $this->assertTrue(str_contains($sec4, 'Aug – Nov') && str_contains($sec4, '69.21%'), 'Sec 4 must retain its O-Level intensive phase and recovery proof.');
         $this->assertTrue(str_contains($sec4, 'data-testimonial-cohort="sec4-featured"'), 'Sec 4 must render its three exact public featured reviews.');
