@@ -50,7 +50,7 @@ $tbt_notes_portrait = tbt_media('original_003');
         <div class="tbt-resource-shell tbt-resource-narrow">
             <img class="tbt-resource-access-portrait" data-resource-portrait="notes-access" data-media-key="original_003" src="<?php echo esc_url((string) $tbt_notes_portrait['url']); ?>" alt="Mr Keefe from ThatBioTutor" width="160" height="160" loading="lazy">
             <h2><?php echo esc_html($tbt_field('notes_access_heading')); ?></h2>
-            <div class="tbt-resource-access-spacer" aria-hidden="true"></div>
+            <?php tbt_render_notes_form(); ?>
             <div class="tbt-resource-access-instructions">
                 <p><strong>IMPORTANT:</strong> <?php echo esc_html($tbt_field('notes_access_copy')); ?></p>
                 <p>You'll then receive an email with our notes (on gmail, it might be found in your 'promotions' folder).</p>

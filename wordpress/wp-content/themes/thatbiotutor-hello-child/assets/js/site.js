@@ -450,6 +450,15 @@
     });
   }
 
+  /* A successful Contact Form 7 send on a form marked data-tbt-redirect returns visitors to that address. */
+  function initFormRedirect(document, windowObject) {
+    document.addEventListener('wpcf7mailsent', (event) => {
+      const holder = event.target && event.target.closest ? event.target.closest('[data-tbt-redirect]') : null;
+      const target = holder ? holder.getAttribute('data-tbt-redirect') : '';
+      if (target) windowObject.setTimeout(() => { windowObject.location.href = target; }, 1500);
+    });
+  }
+
   function init(document, windowObject) {
     document.documentElement.classList.remove('no-js');
     document.documentElement.classList.add('js');
@@ -459,6 +468,7 @@
     initCertificateLightbox(document);
     initFaqs(document, windowObject);
     initImageGuard(document);
+    initFormRedirect(document, windowObject);
     initHeaderScroll(document, windowObject);
     initReviewDisclosure(document);
     initReveal(document, windowObject);

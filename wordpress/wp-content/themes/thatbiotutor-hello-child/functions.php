@@ -26,6 +26,7 @@ function tbt_theme_includes(): array
         'inc/tutors.php',
         'inc/faqs.php',
         'inc/results.php',
+        'inc/forms.php',
         'inc/site-setup.php',
         'inc/site-meta.php',
         'inc/security.php',
