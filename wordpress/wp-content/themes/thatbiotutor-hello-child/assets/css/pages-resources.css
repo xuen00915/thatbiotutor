@@ -182,12 +182,30 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://static.parastorage.com/tag-bundler/api/v1/fonts-cache/googlefont/woff2/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2") format("woff2"); }
 @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 700; font-display: swap; src: url("https://static.parastorage.com/tag-bundler/api/v1/fonts-cache/googlefont/woff2/s/montserrat/v14/JTURjIg1_i6t8kCHKm45_dJE3gnD_vx3rCs.woff2") format("woff2"); }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero { padding: 24px 0 20px; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero h1 { margin-bottom: 4px; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-size: clamp(28px, 5vw, 45px); font-weight: 700; line-height: 1.2; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero h1 { margin-bottom: 4px; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-size: clamp(28px, 4.4vw, 45px); font-weight: 700; line-height: 1.2; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-notes-hero__audience { margin-bottom: 16px; color: #fff; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-size: clamp(20px, 3vw, 26px) !important; font-style: italic; font-synthesis: style; font-weight: 400; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-notes-hero__audience span { color: var(--resource-green); font-family: inherit; font-style: inherit; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-proof { margin: 12px 0 0; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-weight: 700; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-button { margin-top: 20px; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(240px, calc(100svh - 350px), 640px); width: min(100%, calc(var(--notes-slider-height) * 500 / 640)); max-width: 500px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(160px, calc(100svh - 350px), 640px); width: min(100%, calc(var(--notes-slider-height) * 500 / 640)); max-width: 500px; }
+/* The preview sits straight on the dark hero (no white card), with modest arrows and small dots. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__viewport { background: transparent; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control { width: 44px; height: 44px; font-size: 16px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control--previous { left: 10px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control--next { right: 10px; }
+@media (min-width: 769px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control--previous { left: -56px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control--next { right: -56px; }
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__dots { bottom: 6px; gap: 0; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__dots button {
+  display: grid; width: 32px; height: 32px; min-width: 32px; min-height: 32px; place-items: center;
+  border: 0; border-radius: 50%; background: transparent;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__dots button::before {
+  width: 10px; height: 10px; border: 1px solid rgba(255, 255, 255, .9); border-radius: 50%; background: rgba(255, 255, 255, .45); content: ""; box-sizing: border-box;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__dots button[aria-current="true"]::before { background: #fff; }
 
 .tbt-notes-hero .tbt-resource-proof { color: var(--resource-green); }
 .tbt-resource-carousel--notes .tbt-resource-carousel__control,
