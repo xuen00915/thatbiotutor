@@ -19,6 +19,8 @@ $tbt_stats[3] = ['display' => '8', 'target' => '8', 'label' => 'Lessons over 4 d
 
 // The headline keeps its red and green emphasis while staying a single editable field.
 $tbt_heading = esc_html($tbt_field('intensivefix_heading'));
+// Keep the dash with the words after it, as on the original headline.
+$tbt_heading = str_replace('— ', '—&nbsp;', $tbt_heading);
 $tbt_heading = preg_replace('/(Chaotic Sec 4 Year)/', '<span class="tbt-home-accent tbt-home-accent--red">$1</span>', $tbt_heading, 1) ?? $tbt_heading;
 $tbt_heading = preg_replace('/(4 DAYS)/', '<span class="tbt-home-accent">$1</span>', $tbt_heading, 1) ?? $tbt_heading;
 

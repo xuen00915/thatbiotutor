@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Bound the em dash in the IntensiveFix headline to the following word so it can never end a line.
+
 - The hero headlines on the homepage and IntensiveFix now use the original 864px text measure with normal wrapping inside the shared 944px container, so "Bio" stays with "Sec 3" on the IntensiveFix headline as on the original.
 
 - Dropdown menus now open on hover (desktop pointers) and the dropdown arrow never turns Hello's pink; the floating WhatsApp glow is smaller and gently pulses; FastTrack pictures share one larger size; Google review cards share one height with arrows in their own gutters (below the cards on phones); FAQ rows keep dark readable text on hover; the closing photo matches its text height on the homepage too; and edge-to-edge pictures keep square corners.
