@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [fix-page] FastTrack icons now start level with the first line of their phrase: the five artwork files (content, memory, answering, practical, support) had 25-35% empty margin built in, which I trimmed so the visible icon begins at the top of the phrase (homepage and IntensiveFix). `tests/home-polish-runtime.js` checks the artwork has no empty margin. The founder section is back to its previous layout (the photo-balancing attempt cropped the photo too much).
+
 - [fix-page] Pictures can no longer be dragged on any page (it was only IntensiveFix, so the homepage FastTrack pictures still dragged). (The founder-photo balancing tried in this change cropped the photo too much and was reverted.)
 - [main-site] About: "Quality Teaching Only" and "What We Believe In" now show the words on the left and the photo on the right (desktop), with the photo exactly as tall as the words; they stack on tablets and phones. The founder's three answers sit in cards: questions 1 and 2 side by side, question 3 across the full width underneath (stacked on small screens). `tests/about-page-runtime.js` guards the layout.
 
