@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [fix-page] Classes page (done in this tab while tab 2 was busy): the "Why students struggle" and "By the numbers" labels were dark green on dark green (contrast 1.9) and are now bright green; every section label and heading is centred (some were left-aligned); the "WhatsApp Us Now!" button is centred under its text; the three practical-session photos, which were hidden and left a ~300px blank gap, now show with rounded corners. New `tests/classes-page-runtime.js` (also in CI) checks label contrast, centring, photo visibility and no sideways scroll at 1440/1024/768/390/320.
+
 - [fix-page] Phone and tablet pass over the whole IntensiveFix page (the shared sections also apply to the homepage): FAQ questions were cut off on phones with their plus icons pushed off-screen (the parent theme's buttons never wrap), so they now wrap inside their row; the closing photo has clear space above its heading; the Contact Us button text is 14px; the review link has a comfortable touch height (the footer keeps the original Inquire layout). `tests/home-polish-runtime.js` checks FAQ fit and the closing gap at 1440/768/390/320.
 - [main-site] About spacing tightened: about 56px between sections (it added up to ~200px) and 32px under each title bar on desktop; about 40px between sections and 20px under each title bar on phones, with smaller phone heroes, tutor cards and founder cards (17px text) so visitors scroll about 12% less. About is a third exception to the standard section padding in `tests/standard-pages-runtime.js`; `tests/about-page-runtime.js` guards the gaps.
 
