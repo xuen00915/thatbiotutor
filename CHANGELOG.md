@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Testimonials sequence only: moved Isa, Michelle and Kwan Quan after Elena in Class of 2022 (22 entries), and placed Jasmine before Jolie in Class of 2021 (8 entries). Preserved all 136 records, text, grades, media and existing design; retained one Nicolas in 2023. Added full-cohort sequence/content-integrity contracts and the audit in `docs/TESTIMONIAL-SEQUENCE-AUDIT.md`, including unresolved source grade conflicts and pre-existing missing portraits.
+
 - [main-site] Sec 3 mobile FAQ carousel replaces the two rows of dots with a single current / total counter between the arrow controls; desktop retains its dots.
 
 - [main-site] Sec 3 FAQ background matches the supplied warm off-white (#faf9f5); tutor profiles no longer lift or show shadows on hover; Book a Trial has no arrow.

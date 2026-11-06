@@ -3,6 +3,7 @@
 // and every review list stacked in a panel that scrolls on its own and opens on four reviews.
 const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
+const expectedSequences = require('./fixtures/testimonial-sequence.json');
 const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\/?$/, '/');
 (async () => {
   const browser = await chromium.launch();
@@ -43,6 +44,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           const moved = list.scrollTop > before.p && window.scrollY === before.y;
           list.scrollTop = 0;
           return {
+            names: items.map((item) => item.querySelector('.tbt-testimonial__name').textContent.trim()),
             id: list.closest('section').id, total: items.length, hidden: items.filter((i) => i.hidden).length, panel: !!list.closest('[data-review-panel]'), overflowY: cs.overflowY,
             scrollable: list.scrollHeight > list.clientHeight + 20, stacked: new Set(lefts).size === 1 && new Set(tops).size === tops.length,
             fourthInside: items.length >= 4 ? rect(3).bottom <= lb.bottom + 1 : true, fifthVisible: items.length >= 5 ? Math.max(0, lb.bottom - rect(4).top) : 0, moved,
@@ -91,6 +93,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       }
       assert.equal(m.lists.length, 5, `All five yearly review panels must be present ${at}`);
       for (const l of m.lists) {
+        const normalizeName = (name) => name.replace(/\s+/g, ' ').trim();
+        assert.deepEqual(l.names.map(normalizeName), expectedSequences[l.id.replace('class-of-', '')].map((entry) => normalizeName(entry.name)), `Original cohort order and grades for ${l.id} ${at}`);
         const t = `${l.id} ${at}: ${JSON.stringify(l)}`;
         assert.ok(l.panel && l.hidden === 0 && l.controls === 0, `Reviews live in a panel with none hidden and no show-more buttons ${t}`);
         assert.ok(l.stacked, `Reviews are stacked in one column, not a card grid ${t}`);

@@ -32,7 +32,7 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         $groupCounts = array_count_values(array_map(static fn(array $r): string => (string)($r['fields']['tbt_display_group'] ?? ''), $records));
         $videoGroupCounts = array_count_values(array_map(static fn(array $r): string => (string)($r['fields']['tbt_display_group'] ?? ''), $videos));
         $this->assertSame(['2025' => 7, '2024' => 16, '2023' => 16, '2022' => 19, '2021' => 3], $videoGroupCounts, 'Video stories must preserve their live year archive mapping.');
-        foreach (['2025' => 16, '2024' => 65, '2023' => 25, '2022' => 19, '2021' => 11] as $year => $expectedCount) {
+        foreach (['2025' => 16, '2024' => 65, '2023' => 25, '2022' => 22, '2021' => 8] as $year => $expectedCount) {
             $this->assertSame($expectedCount, $groupCounts[$year] ?? 0, "Class of {$year} must preserve every live story and written review exactly once.");
         }
         $this->assertTrue(($groupCounts['2024'] ?? 0) >= 60, 'The long 2024 Results archive must not be truncated.');
