@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Free Bio Notes: the "Hey Pure Bio Student, is this you?" title is now a contained, centred rounded panel at the page content width (it ran edge to edge with off-centre text), and the sections around it and the dark "Why are you giving your notes for FREE? / What's the catch? / How do I download it?" blocks keep about 32px (20px on phones) of space instead of 64px, so each gap fell from ~128px to under 64px. `tests/notes-sections-runtime.js` guards it (and runs in CI). The blank 510px area under "Simply Enter Your Email Below" is untouched.
+
 - [main-site] Free Bio Notes hero restored to the original look and made to fit one screen: Montserrat 45px title, italic "For Pure / G3 Biology" line with only the audience in green, and a preview slider that shrinks with the window height so the whole hero (DOWNLOAD button and downloads count included) sits in the first screen on laptops and phones. The Free Bio Notes title is a fourth documented exception in `tests/standard-pages-runtime.js`; `tests/notes-hero-runtime.js` guards it (and runs in CI).
 
 - [main-site] The header's Classes item now shows a clear SVG chevron drop-down arrow (it was a tiny thin text glyph), on desktop and in the phone menu; it turns over while the menu is open. `tests/nav-arrow-runtime.js` and `tests/navigation-test.php` guard it.

@@ -148,6 +148,35 @@
 }
 .tbt-notes-hero .tbt-resource-button { margin-top: 34px; }
 
+/* Free Bio Notes rhythm: the "is this you?" title is a contained, centred panel like the other title bars,
+   and sections / dark blocks keep ~32px (20px on phones) of space on each side instead of 64px. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-resource-section { padding-block: 32px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit h2 {
+  display: flex;
+  width: 100%;
+  min-height: 70px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 24px;
+  padding: 12px 24px;
+  border-radius: 18px;
+  text-align: center;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit__answer { margin-top: 20px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section { padding-block: 24px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section:first-child { padding-top: 40px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section:last-child { padding-bottom: 48px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details h2 { margin-bottom: 12px; }
+
+@media (max-width: 768px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-resource-section { padding-block: 20px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit h2 { min-height: 56px; padding: 10px 16px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section { padding-block: 18px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section:first-child { padding-top: 28px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details .tbt-resource-section:last-child { padding-bottom: 32px; }
+}
+
+
 /* Original look: Montserrat title, italic audience line with only "Pure / G3 Biology" in green, and a hero that
    fits one screen (the slider shrinks with the window height instead of pushing DOWNLOAD below the fold). */
 @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://static.parastorage.com/tag-bundler/api/v1/fonts-cache/googlefont/woff2/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2") format("woff2"); }

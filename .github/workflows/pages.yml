@@ -88,6 +88,7 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:4173 node tests/about-page-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/nav-arrow-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/notes-hero-runtime.js
+          TBT_RUNTIME_URL=http://localhost:4173 node tests/notes-sections-runtime.js
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
