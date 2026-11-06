@@ -11,6 +11,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
     page.setDefaultTimeout(15000);
     for (const width of [1440, 1024, 768, 390, 320]) {
       await page.setViewportSize({ width, height: 900 });
+      await page.goto(new URL('./about/', base).href, { waitUntil: 'domcontentloaded' });
+      const aboutWidth = await page.locator('.tbt-about-mission .tbt-reading-width').evaluate((e) => e.getBoundingClientRect().width);
       await page.goto(new URL('./testimonials/', base).href, { waitUntil: 'load' });
       await page.evaluate(() => document.fonts?.ready);
       await page.waitForTimeout(600);
@@ -49,6 +51,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           };
         });
         return {
+          contentWidths: [...document.querySelectorAll('.tbt-testimonials-container, .tbt-testimonials-hero__content, .tbt-testimonials-artwork, .tbt-testimonials-featured .tbt-video, [data-review-panel]')].map((e) => ({ name: e.className || 'review panel', width: box(e).width, left: box(e).left })),
           viewport: document.documentElement.clientWidth, overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
           heroHeight: box(hero).height, h1Font: hcs.fontFamily, h1Weight: hcs.fontWeight, h1Align: hcs.textAlign, h1Right: box(h1).right, h1Left: box(h1).left,
           starCount: stars ? stars.querySelectorAll('svg:not([width="0"])').length : 0, starLabel: stars ? stars.getAttribute('aria-label') : null, starsRight: stars ? box(stars).right : 0,
@@ -61,6 +64,10 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       });
       const at = `at ${width}px`;
       const detail = (extra) => `${at}: ${JSON.stringify(extra)}`;
+      for (const content of m.contentWidths) {
+        assert.ok(Math.abs(content.width - aboutWidth) <= 1, `${content.name} must match About Us width ${aboutWidth}px ${detail(content)}`);
+        assert.ok(Math.abs(content.left - (width - aboutWidth) / 2) <= 1, `Content must share About Us margins ${detail(content)}`);
+      }
       assert.match(m.h1Font, /^"?Montserrat/, `Hero title must use Montserrat ${at}: ${m.h1Font}`);
       assert.ok(m.starCount === 5 && /five/i.test(m.starLabel || ''), `Hero needs five gold stars ${at}`);
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);
