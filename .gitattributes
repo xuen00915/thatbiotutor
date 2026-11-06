@@ -1,0 +1,2 @@
+# Both parallel sessions add entries at the top of the changelog; keep both sides.
+CHANGELOG.md merge=union
