@@ -163,6 +163,9 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   text-align: center;
 }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit__answer { margin-top: 20px; }
+/* A DOWNLOAD button closes the last review section, centred under the reviews. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-end-button { display: flex; width: fit-content; margin: 32px auto 0; }
+
 /* The DOWNLOAD button under the dark text blocks is centred. */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-download .tbt-resource-button { display: flex; width: fit-content; margin: 24px auto 0; }
 

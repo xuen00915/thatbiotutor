@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Free Bio Notes: a centred DOWNLOAD button (linking to the "How do I download it?" block, like the other two) now closes the last "What Students Are Saying..." review section. `tests/notes-sections-runtime.js` guards it.
+
 - [main-site] Free Bio Notes: the hero's DOWNLOAD button and "[7,000+ downloads]" are centred and stacked again (not side by side) and only the title and the tablet picture must share the first screen (the button may sit just below the fold; the picture still grows with the window, up to 760px tall); the DOWNLOAD button under "How do I download it?" is centred. `tests/notes-hero-runtime.js` and `tests/notes-sections-runtime.js` guard it.
 
 - [fix-page] Classes page round 2: lighter hero overlay (56% to 30% black); the Sec 3 / Sec 4 topic lists are as wide as the paragraph above them; "Why students struggle" has a left-aligned eyebrow and title, bigger italic headings with green keywords (Too much content / unpredictable / disconnected / limited) and its own near-black background so it no longer blends into "How TBT solves each one"; the four solution cards use the shared 1120px width in two columns; the practical text uses the same 920px measure as the paragraph above; the result numbers are white; the Sec 3 / Sec 4 level cards are white with dark text instead of green on pale green. `tests/classes-page-runtime.js` covers each.
