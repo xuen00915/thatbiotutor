@@ -708,6 +708,21 @@ html.tbt-lightbox-open { overflow: hidden; }
   line-height: 35px;
 }
 
+/* About keeps the original page look (Montserrat, big hero heading, 22px reading text, light hero photo).
+   The prefix outranks the shared standard, which would otherwise swap in Poppins and 18px text. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page,
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page * { font-family: "Montserrat", Arial, Helvetica, sans-serif; }
+/* The standard's image fade-in would end at full opacity and darken the hero photo. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-hero__image { animation: none; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-hero h1 { font-weight: 700; }
+
+@media (min-width: 981px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-hero h1 { font-size: 65px; line-height: 1.4; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-mission h3 { font-size: 40px; line-height: 1.4; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-reading-width :is(p, li) { font-size: 22px; line-height: 1.4; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality .tbt-reading-width :is(p, li) { line-height: 1.5; }
+}
+
 /* Causes. */
 .tbt-causes-page {
   background: #fff;

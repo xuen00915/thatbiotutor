@@ -426,7 +426,7 @@ const sizes = [
         const style = getComputedStyle(heading);
         return { family: style.fontFamily.toLowerCase(), size: style.fontSize, weight: style.fontWeight };
       });
-      if (!missionHeadingStyle.family.includes('poppins') || missionHeadingStyle.size !== '36px' || missionHeadingStyle.weight !== '800') {
+      if (!missionHeadingStyle.family.includes('montserrat') || missionHeadingStyle.size !== '36px' || missionHeadingStyle.weight !== '800') {
         throw new Error(`About mission heading typography is wrong: ${JSON.stringify(missionHeadingStyle)}`);
       }
       const beliefsImage = await page.locator('[data-section="beliefs"] img').boundingBox();
