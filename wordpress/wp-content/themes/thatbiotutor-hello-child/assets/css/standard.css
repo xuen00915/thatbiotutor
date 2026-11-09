@@ -872,7 +872,7 @@ body.tbt-site #main-content .tbt-faq-slider__control:active { scale: .95; }
 body.tbt-site #main-content .tbt-faq-slider__counter { font-variant-numeric: tabular-nums; }
 @media (hover: hover) {
  body.tbt-site #main-content .tbt-programme-button:hover { box-shadow: 0 6px 16px rgba(25, 59, 34, .18); }
- body.tbt-site #main-content .tbt-faq [data-faq-button]:hover { color: #287520; }
+ body.tbt-site #main-content .tbt-faq [data-faq-button]:hover { color: #19221a; }
  body.tbt-site #main-content .tbt-faq-slider__control:hover { background-color: #2d622e; }
 }
 @media (prefers-reduced-motion: reduce) {
