@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Polished Sec 3 and Sec 4 with a one-time outcome underline, tactile pill and carousel controls, explicit keyboard focus, and softly highlighted open FAQ answers with animated SVG chevrons. Preserved original copy, layouts, colours and still tutor profiles; reduced-motion users receive a static outcome highlight. Added keyboard and motion-preference browser coverage.
+
 - [main-site] Increased standard and IntensiveFix headers to a shared 80px height on desktop, tablet and mobile. Removed the narrower-screen height override and connected the landing header to the shared height setting; added browser checks for equal heights before and after scrolling.
 
 - [main-site] With the owner’s explicit approval for this scoped IntensiveFix change, made the final enrolment button fit tablet and phone widths with centred 16px text, 20px side padding and a 52px minimum tap height. Kept the label, destination and desktop styling unchanged. Added seven-width browser coverage.

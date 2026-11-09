@@ -91,6 +91,7 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:4173 node tests/sec3-page-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/sec3-refinements-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/sec4-page-runtime.js
+          TBT_RUNTIME_URL=http://localhost:4173 node tests/programme-polish-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/nav-arrow-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/notes-hero-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/notes-sections-runtime.js
