@@ -20,6 +20,12 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
     assert.equal(r.overflow,0);
     assert.ok(await page.locator('.site-nav__item').evaluateAll(items=>items.every(e=>parseFloat(getComputedStyle(e).borderLeftWidth)===0)), 'Header menu has no vertical dividers');
    }
+   for (const route of ['', 'classes/', 'testimonials/', 'intensivefix/']) {
+    await page.goto(new URL(route,base).href);
+    assert.equal(await page.locator('.site-header').evaluate(e=>e.getBoundingClientRect().height),80,`Shared 80px header on ${route} at ${width}`);
+    await page.evaluate(()=>window.scrollTo(0,600));
+    assert.equal(await page.locator('.site-header').evaluate(e=>e.getBoundingClientRect().height),80,`Scrolled header stays 80px on ${route} at ${width}`);
+   }
    await page.goto(new URL('classes/',base).href);
    const r=await page.locator('[data-section="definition"]').evaluate(e=>{
     const b=e=>e.getBoundingClientRect(),image=e.querySelector('.tbt-programme-artwork'),copy=e.querySelector('.tbt-programme-copy'),topics=e.querySelector('.tbt-topic-columns');

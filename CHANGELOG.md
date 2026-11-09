@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Increased standard and IntensiveFix headers to a shared 80px height on desktop, tablet and mobile. Removed the narrower-screen height override and connected the landing header to the shared height setting; added browser checks for equal heights before and after scrolling.
+
 - [main-site] With the owner’s explicit approval for this scoped IntensiveFix change, made the final enrolment button fit tablet and phone widths with centred 16px text, 20px side padding and a 52px minimum tap height. Kept the label, destination and desktop styling unchanged. Added seven-width browser coverage.
 
 - [main-site] Added distinct, page-specific SEO titles and descriptions for all 12 public pages, with optional ACF Free SEO overrides and matching Open Graph metadata. Removed duplicate brand suffixes and core canonical tags on protected pages. Documented the complete copy in `docs/SEO-METADATA.md` and included it in the WordPress handoff; added live metadata checks to CI.

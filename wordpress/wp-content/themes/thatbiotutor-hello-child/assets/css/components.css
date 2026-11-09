@@ -114,7 +114,6 @@ body.tbt-site .site-footer { box-sizing: border-box; width: 100%; max-width: non
 [data-carousel-dot], [data-carousel-dot]:hover, [data-carousel-dot]:focus { box-shadow: none; }
 
 @media (max-width: 980px) {
-  :root { --tbt-header-height: 65px; }
   .site-header__inner { grid-template-columns: 1fr auto; padding-inline: 18px; }
   .site-brand { justify-self: start; padding: 0; }
   .site-brand__logo { width: 60px; height: 60px; }

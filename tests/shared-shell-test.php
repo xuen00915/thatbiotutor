@@ -74,7 +74,7 @@ final class SharedShellTest
         $base = (string) file_get_contents($theme . '/assets/css/base.css');
         $components = (string) file_get_contents($theme . '/assets/css/components.css');
         $this->assertTrue(str_contains($base, 'body.tbt-site') && str_contains($base, 'Arial, Helvetica, sans-serif'), 'Body typography must override the Hello Elementor default.');
-        $this->assertTrue(str_contains($base, '--tbt-header-height: 65px'), 'Desktop header height must match the 65px reference shell.');
+        $this->assertTrue(str_contains($base, '--tbt-header-height: 80px'), 'Shared header height must use the requested 80px shell.');
         $this->assertTrue(str_contains($components, 'width: min(100%, 980px)'), 'Desktop header content must use the measured 980px reference width.');
         $this->assertTrue(str_contains($components, 'width: 65px') && str_contains($components, 'height: 65px'), 'Desktop logo must match the 65px reference geometry.');
         $this->assertTrue(str_contains($components, '.site-footer__inner') && str_contains($components, 'grid-template-columns'), 'Site-wide footer must define the responsive information grid.');
