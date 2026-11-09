@@ -61,3 +61,18 @@
 @media (max-width: 320px) {
   .tbt-intensivefix-hero__limited { font-size: 1.1rem; }
 }
+
+/* Keep the closing action comfortably sized on tablets and phones. */
+@media (max-width: 1024px) {
+  .tbt-intensivefix-closing__cta .tbt-home-button {
+    width: 100%;
+    max-width: 420px;
+    min-height: 52px;
+    padding: 14px 20px;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    white-space: normal;
+    box-sizing: border-box;
+  }
+}
