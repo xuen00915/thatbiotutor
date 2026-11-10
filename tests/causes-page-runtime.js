@@ -20,6 +20,10 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           bar: box('[data-section="planting"] .tbt-institutional-title-bar'),
           square: box('.tbt-causes-section__media--square'),
           giving: box('.tbt-causes-section__media--giving'),
+          squareX: (() => { const r = document.querySelector('.tbt-causes-section__media--square').getBoundingClientRect(); return { left: r.left, right: r.right }; })(),
+          copyX: (() => { const r = document.querySelector('[data-section="planting"] .tbt-causes-copy').getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top + scrollY, bottom: r.bottom + scrollY }; })(),
+          align: ['h2', 'p'].map((tag) => getComputedStyle(document.querySelector(`[data-section="planting"] .tbt-causes-copy ${tag}`)).textAlign),
+          record: box('.tbt-causes-section__media--record'),
           footer: box('.site-footer'),
           barH1: box('[data-section="planting"] .tbt-institutional-title-bar h1').height,
           overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
@@ -27,6 +31,14 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       });
       const at = `at ${width}px: ${JSON.stringify(m)}`;
       assert.ok(m.square.top - m.bar.bottom >= 24, `Title bar must have breathing room above the first picture ${at}`);
+      assert.ok(m.align.every((a) => a === 'left' || a === 'start'), `Planting heading and paragraphs must share one left alignment ${at}`);
+      if (width > 980) {
+        assert.ok(m.squareX.right <= m.copyX.left, `Planting picture must sit beside the text on desktop ${at}`);
+        assert.ok(m.copyX.top >= m.square.top && m.copyX.bottom <= m.square.bottom, `Text must sit within the picture's height ${at}`);
+        assert.ok(m.record.top >= Math.max(m.square.bottom, m.copyX.bottom) - 1, `Donor-search picture sits below the side-by-side block ${at}`);
+      } else {
+        assert.ok(m.copyX.top >= m.square.bottom, `Planting picture stacks above the text on narrower screens ${at}`);
+      }
       assert.ok(m.footer.top - m.giving.bottom <= 180, `Dead space between the last picture and the footer ${at}`);
       assert.equal(m.h1, m.h2, `Both title bars must use the same text size ${at}`);
       assert.ok(m.barH1 <= m.bar.height + 1, `Title text must fit its bar ${at}`);

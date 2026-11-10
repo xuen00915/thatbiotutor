@@ -12,11 +12,11 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
     await page.evaluate(()=>document.fonts.ready);
     const r = await page.evaluate(()=>{
      const b=e=>e.getBoundingClientRect(), inner=b(document.querySelector('.site-header__inner')),logo=b(document.querySelector('.site-brand__logo')),nav=b(document.querySelector('.site-nav'));
-     return {w:inner.width,left:inner.left,logoLeft:logo.left,navCentre:(nav.left+nav.right)/2,overflow:document.documentElement.scrollWidth-innerWidth};
+     return {w:inner.width,left:inner.left,right:inner.right,logoLeft:logo.left,navRight:nav.right,overflow:document.documentElement.scrollWidth-innerWidth};
     });
     assert.ok(Math.abs(r.w-Math.min(1120,width-32))<2, 'Header matches shared content width');
     assert.ok(Math.abs(r.logoLeft-r.left)<2, `Logo aligns left on ${route} at ${width}`);
-    if(width>980)assert.ok(Math.abs(r.navCentre-width/2)<2, `Desktop menu centres on ${route}`);
+    if(width>980)assert.ok(Math.abs(r.navRight-r.right)<2, `Desktop menu aligns right on ${route} at ${width}`);
     assert.equal(r.overflow,0);
     assert.ok(await page.locator('.site-nav__item').evaluateAll(items=>items.every(e=>parseFloat(getComputedStyle(e).borderLeftWidth)===0)), 'Header menu has no vertical dividers');
    }
