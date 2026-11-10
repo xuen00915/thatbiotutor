@@ -325,6 +325,7 @@
 .tbt-home-problem__proof figcaption strong { font-size: 16px; line-height: 24px; }
 .tbt-home-problem__proof figcaption small { color: #687168; font-size: 14px; line-height: 20px; }
 
+.tbt-home-section.tbt-home-stats { padding-top: 16px; }
 .tbt-home-stats h2 { margin-bottom: 42px; font-size: 30px; line-height: 36px; text-align: center; }
 .tbt-home-stats__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
 .tbt-home-stat { padding: 30px 24px; border-radius: 18px; background: #f0f8ee; }

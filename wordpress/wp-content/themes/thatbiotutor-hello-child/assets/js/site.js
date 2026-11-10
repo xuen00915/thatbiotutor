@@ -77,11 +77,14 @@
       if (counter.getAttribute('data-count-complete') === 'true') return;
       const target = Number(counter.getAttribute('data-count-target') || 0);
       const display = counter.getAttribute('data-count-display') || String(target);
-      const duration = animate ? 1200 : 0;
-      const start = windowObject.performance && typeof windowObject.performance.now === 'function' ? windowObject.performance.now() : 0;
+      const duration = animate ? 2200 : 0;
+      let start = null;
       const step = (time) => {
-        const progress = duration === 0 ? 1 : Math.min(1, (time - start) / duration);
-        const eased = 1 - Math.pow(1 - progress, 3);
+        // Start the clock on the first painted frame so the count never jumps ahead.
+        if (start === null) start = time;
+        const progress = duration === 0 ? 1 : Math.min(1, Math.max(0, (time - start) / duration));
+        // Gentle ease-in-out: no abrupt burst at the start or a long stall at the end.
+        const eased = progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
         counter.textContent = formatCountUpValue(target * eased, display);
         if (progress < 1 && typeof windowObject.requestAnimationFrame === 'function') windowObject.requestAnimationFrame(step);
         else {
@@ -90,7 +93,7 @@
         }
       };
       if (duration > 0 && typeof windowObject.requestAnimationFrame === 'function') windowObject.requestAnimationFrame(step);
-      else step(start);
+      else step(0);
     };
     const reduceMotion = prefersReducedMotion(windowObject.matchMedia && windowObject.matchMedia.bind(windowObject));
     if (reduceMotion || typeof windowObject.IntersectionObserver !== 'function') {
