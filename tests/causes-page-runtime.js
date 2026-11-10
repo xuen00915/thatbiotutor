@@ -21,7 +21,9 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           square: box('.tbt-causes-section__media--square'),
           giving: box('.tbt-causes-section__media--giving'),
           squareX: (() => { const r = document.querySelector('.tbt-causes-section__media--square').getBoundingClientRect(); return { left: r.left, right: r.right }; })(),
-          copyX: (() => { const r = document.querySelector('[data-section="planting"] .tbt-causes-copy').getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top + scrollY, bottom: r.bottom + scrollY }; })(),
+          copyX: (() => { const r = document.querySelector('[data-section="planting"] .tbt-causes-copy').getBoundingClientRect(); return { left: r.left, right: r.right, width: r.width, top: r.top + scrollY, bottom: r.bottom + scrollY }; })(),
+          planGap: document.querySelector('[data-section="sg-causes"] .tbt-institutional-title-bar').getBoundingClientRect().top - document.querySelector('[data-section="planting"] .tbt-causes-copy').getBoundingClientRect().bottom,
+          planPara: (() => { const r = document.querySelector('[data-section="planting"] .tbt-causes-copy p').getBoundingClientRect(); return { width: r.width, centre: (r.left + r.right) / 2 }; })(),
           align: ['h2', 'p'].map((tag) => getComputedStyle(document.querySelector(`[data-section="planting"] .tbt-causes-copy ${tag}`)).textAlign),
           givingX: (() => { const r = document.querySelector('.tbt-causes-section__media--giving').getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top + scrollY, bottom: r.bottom + scrollY }; })(),
           sgCopy: (() => { const r = document.querySelector('[data-section="sg-causes"] .tbt-causes-copy').getBoundingClientRect(); return { left: r.left, top: r.top + scrollY, bottom: r.bottom + scrollY }; })(),
@@ -35,7 +37,9 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       });
       const at = `at ${width}px: ${JSON.stringify(m)}`;
       assert.ok(m.square.top - m.bar.bottom >= 24, `Title bar must have breathing room above the first picture ${at}`);
-      assert.ok(m.align.every((a) => a === 'left' || a === 'start'), `Planting heading and paragraphs must share one left alignment ${at}`);
+      assert.ok(m.align.every((a) => (width > 980 ? a === 'center' : a === 'left' || a === 'start')), `Planting text is centred under the two pictures on desktop and left-aligned on narrow screens ${at}`);
+      assert.ok(m.planGap <= 72, `Gap between the Planting text and the next title bar must stay tight ${at}`);
+      if (width > 980) assert.ok(m.planPara.width <= 880 && Math.abs(m.planPara.centre - width / 2) <= 2, `Centred Planting paragraphs keep a readable width ${at}`);
       if (width > 980) {
         assert.ok(m.squareX.right <= m.recordX.left, `Planet picture and donor-search picture must share one row on desktop ${at}`);
         assert.ok(Math.abs(m.square.top - m.record.top) <= 2 && Math.abs(m.square.bottom - m.record.bottom) <= 2, `The two pictures must have the same top and height ${at}`);

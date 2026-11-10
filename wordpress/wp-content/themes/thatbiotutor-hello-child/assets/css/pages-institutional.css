@@ -898,6 +898,10 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site #main-content .tbt-causes-feature .tbt-causes-section__media--square,
   body.tbt-site #main-content .tbt-causes-feature .tbt-causes-section__media--square :is(img, video) { border-radius: var(--tbt-std-radius, 24px) !important; }
 }
+/* Planting Trees ends tightly: the next section's title bar supplies the spacing. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-section[data-section="planting"] { padding-bottom: 0; }
+body.tbt-site #main-content .tbt-causes-section[data-section="planting"] .tbt-causes-copy { padding-bottom: 0; }
+body.tbt-site #main-content .tbt-causes-section[data-section="planting"] .tbt-causes-copy p:last-child { margin-bottom: 0; }
 /* Causes sections: picture beside the copy on desktop, everything left-aligned; Planting's donor-search picture runs below both. */
 @media (min-width: 981px) {
   body.tbt-site #main-content .tbt-causes-feature {
@@ -911,7 +915,9 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site #main-content .tbt-causes-section[data-section="planting"] > .tbt-causes-feature { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3028fr); column-gap: 24px; }
   body.tbt-site #main-content .tbt-causes-feature > .tbt-causes-section__media--square { width: 100%; height: auto; aspect-ratio: 1; margin: 32px 0 0; }
   body.tbt-site #main-content .tbt-causes-feature > .tbt-causes-section__media--record { width: 100%; margin: 32px 0 0; }
-  body.tbt-site #main-content .tbt-causes-section[data-section="planting"] .tbt-causes-feature > .tbt-causes-copy { grid-column: 1 / -1; align-self: start; margin-top: 32px; }
+  body.tbt-site #main-content .tbt-causes-section[data-section="planting"] .tbt-causes-feature > .tbt-causes-copy { grid-column: 1 / -1; align-self: start; justify-self: stretch; width: auto; margin-top: 32px; text-align: center; }
+  body.tbt-site #main-content .tbt-causes-section[data-section="planting"] .tbt-causes-copy :is(h2, p) { text-align: center; }
+  body.tbt-site #main-content .tbt-causes-section[data-section="planting"] .tbt-causes-copy p { max-width: 860px; margin-inline: auto; }
   body.tbt-site #main-content .tbt-causes-feature > .tbt-causes-section__media--giving { width: 100%; margin: 32px 0 0; }
   body.tbt-site #main-content .tbt-causes-section[data-section="sg-causes"] .tbt-causes-feature .tbt-causes-copy p { font-size: 1.15rem; line-height: 1.6; margin-bottom: 24px; }
   body.tbt-site #main-content .tbt-causes-feature .tbt-causes-copy h2 { font-size: 1.6rem; line-height: 1.3; }
