@@ -850,3 +850,57 @@ body.tbt-site .tbt-classes-page .tbt-topic-columns { width: 100%; gap: 24px; gri
 body.tbt-site .tbt-classes-page .tbt-topic-columns > div { min-width: 0; }
 @media (max-width: 980px) { body.tbt-site .tbt-classes-page .tbt-programme-definition__grid { grid-template-columns: minmax(0, 1fr); } body.tbt-site .tbt-classes-page .tbt-programme-definition__grid > .tbt-programme-artwork { width: min(100%, 380px); margin-inline: auto; } }
 @media (max-width: 559px) { body.tbt-site .tbt-classes-page .tbt-topic-columns { grid-template-columns: minmax(0, 1fr); } }
+
+/* Programme polish: a marker stroke on the outcome, then quiet interaction feedback. */
+body.tbt-site #main-content ::selection { background: #c8e9b6; color: #193b22; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero__highlight { background-image: linear-gradient(currentColor, currentColor); background-repeat: no-repeat; background-position: left bottom; background-size: 100% 2px; animation: tbt-outcome-marker 700ms cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes tbt-outcome-marker { from { background-size: 0% 2px; } to { background-size: 100% 2px; } }
+body.tbt-site #main-content .tbt-programme-button { transition: background-color 180ms ease-out, box-shadow 180ms ease-out, transform 120ms ease-out; }
+body.tbt-site #main-content .tbt-programme-button:active { transform: scale(.98); }
+body.tbt-site #main-content :is(a, button):focus-visible { outline: 3px solid #368626; outline-offset: 5px; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero :is(a, button):focus-visible { outline-color: #b9ec98; }
+body.tbt-site #main-content .tbt-programme-option-heading a { text-underline-offset: .2em; text-decoration-thickness: 1px; }
+body.tbt-site #main-content .tbt-programme-option-heading a:hover { text-decoration-thickness: 2px; }
+body.tbt-site #main-content .tbt-faq { transition: background-color 180ms ease-out; }
+body.tbt-site #main-content .tbt-faq:has([aria-expanded="true"]) { background-color: #eef6ea; }
+body.tbt-site #main-content .tbt-faq [data-faq-button] { padding-inline: 16px; }
+body.tbt-site #main-content .tbt-faq__answer { padding-inline: 16px; }
+body.tbt-site #main-content .tbt-faq [data-faq-button]::after { content: ""; width: 24px; height: 24px; background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat; transition: transform 180ms ease-out; }
+body.tbt-site #main-content .tbt-faq [data-faq-button][aria-expanded="true"]::after { content: ""; transform: rotate(180deg); }
+body.tbt-site #main-content .tbt-faq-slider__control { transition: background-color 180ms ease-out, transform 120ms ease-out; }
+body.tbt-site #main-content .tbt-faq-slider__control:active { scale: .95; }
+body.tbt-site #main-content .tbt-faq-slider__counter { font-variant-numeric: tabular-nums; }
+@media (hover: hover) {
+ body.tbt-site #main-content .tbt-programme-button:hover { box-shadow: 0 6px 16px rgba(25, 59, 34, .18); }
+ body.tbt-site #main-content .tbt-faq [data-faq-button]:hover { color: #19221a; }
+ body.tbt-site #main-content .tbt-faq-slider__control:hover { background-color: #2d622e; }
+}
+@media (prefers-reduced-motion: reduce) {
+ body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero__highlight { animation: none; }
+ body.tbt-site #main-content .tbt-programme-button:active { transform: none; }
+ body.tbt-site #main-content .tbt-faq-slider__control:active { scale: none; }
+ body.tbt-site #main-content .tbt-faq [data-faq-button]::after { transition: none; }
+}
+
+/* Site-wide interaction language; geometry and page-specific presentation stay intact. */
+body.tbt-site::selection, body.tbt-site ::selection { background: #c8e9b6; color: #193b22; }
+body.tbt-site :is(a[href], button, input, select, textarea, summary):focus-visible { outline: 3px solid #368626; outline-offset: 5px; }
+body.tbt-site .site-footer :is(a, button):focus-visible { outline-color: #b9ec98; }
+body.tbt-site .site-nav__link { text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 2px; text-underline-offset: 7px; transition: color 180ms ease-out, text-decoration-color 180ms ease-out; }
+body.tbt-site .site-nav__link:is(:hover, :focus-visible, [aria-current="page"]) { text-decoration-color: currentColor; }
+body.tbt-site #main-content :is(.tbt-home-button, .tbt-button, .tbt-programme-button, .tbt-testimonials-button, .tbt-resource-button, .tbt-institutional-button, .wpcf7-submit) { transition: background-color 180ms ease-out, box-shadow 180ms ease-out, transform 120ms ease-out; }
+body.tbt-site #main-content :is(.tbt-home-button, .tbt-button, .tbt-programme-button, .tbt-testimonials-button, .tbt-resource-button, .tbt-institutional-button, .wpcf7-submit):active { transform: scale(.98); }
+body.tbt-site #main-content :is(input, textarea, select) { caret-color: #2f8a27; accent-color: #2f8a27; transition: border-color 180ms ease-out, background-color 180ms ease-out; }
+body.tbt-site #main-content :is(input[type="text"], input[type="email"], textarea, select):focus { background-color: #f0f8ee; }
+body.tbt-site #main-content :is(button, input):disabled { cursor: not-allowed; opacity: .6; }
+body.tbt-site .tbt-home-faq__item:has([aria-expanded="true"]) { background-color: #eef6ea; }
+body.tbt-site .tbt-home-faq__item { transition: background-color 180ms ease-out; }
+body.tbt-site #main-content :is([data-carousel-prev], [data-carousel-next], [data-review-prev], [data-review-next]) { transition: background-color 180ms ease-out, box-shadow 180ms ease-out; }
+body.tbt-site #main-content :is([data-carousel-prev], [data-carousel-next], [data-review-prev], [data-review-next]):active { box-shadow: inset 0 2px 5px rgba(14,55,29,.25); }
+@media (hover: hover) {
+ body.tbt-site #main-content :is(.tbt-home-button, .tbt-button, .tbt-programme-button, .tbt-testimonials-button, .tbt-resource-button, .tbt-institutional-button, .wpcf7-submit):hover { transform: none; box-shadow: 0 6px 16px rgba(25,59,34,.18); }
+}
+@media (prefers-reduced-motion: reduce) {
+ body.tbt-site #main-content :is(.tbt-home-button, .tbt-button, .tbt-programme-button, .tbt-testimonials-button, .tbt-resource-button, .tbt-institutional-button, .wpcf7-submit):active { transform: none; }
+ body.tbt-site .site-nav__link { transition: color 100ms linear; }
+}

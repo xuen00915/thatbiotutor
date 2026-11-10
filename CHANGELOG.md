@@ -5,6 +5,9 @@
 - [main-site] Our Causes, section 1 (Planting Trees): on desktop the planet picture now sits beside the text with the donor-search picture centred below; heading and paragraphs are all left-aligned (the heading was centred over left-aligned paragraphs). Phones and tablets keep the stacked order. The donor-search picture moved out of the text container in `page-trees.php`; wording, images and links are unchanged.
 
 - [main-site] Aligned the shared desktop header menu to the right edge of the content track (logo stays left) instead of centring it. Mobile menu and the IntensiveFix landing header are unchanged; the header browser test now checks the menu's right edge instead of its centre.
+- [main-site] Extended the programme polish across all public pages through shared CSS: consistent tactile buttons, navigation underlines, keyboard focus, branded selection and form caret/focus states, highlighted open FAQs and carousel feedback. Preserved page content, geometry and still tutor cards; applied reduced-motion alternatives. Added desktop/mobile coverage for all 12 routes.
+
+- [main-site] Polished Sec 3 and Sec 4 with a one-time outcome underline, tactile pill and carousel controls, explicit keyboard focus, and softly highlighted open FAQ answers with animated SVG chevrons. Preserved original copy, layouts, colours and still tutor profiles; reduced-motion users receive a static outcome highlight. Added keyboard and motion-preference browser coverage.
 
 - [main-site] Increased standard and IntensiveFix headers to a shared 80px height on desktop, tablet and mobile. Removed the narrower-screen height override and connected the landing header to the shared height setting; added browser checks for equal heights before and after scrolling.
 
