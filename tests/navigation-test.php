@@ -54,6 +54,8 @@ final class NavigationTest
         $this->assertSame(2, substr_count($html, 'site-nav__submenu-link'), 'Only Sec 3 and Sec 4 may appear in the Classes submenu.');
         $this->assertSame(1, substr_count($html, 'aria-current="page"'), 'Only the current top-level page must expose aria-current.');
         $this->assertTrue(str_contains($html, 'site-nav__link is-active'), 'Current navigation link must receive the shared active class.');
+        $this->assertSame(1, substr_count($html, 'site-nav__link--circled'), 'Only the Free Bio Notes link may carry the hand-drawn circle.');
+        $this->assertTrue(preg_match('/class="site-nav__link[^"]*site-nav__link--circled"[^>]*>Free Bio Notes</', $html) === 1, 'The circle belongs on the Free Bio Notes link.');
         $this->assertTrue(str_contains($html, 'https://local.test/classes/'), 'Navigation routes must derive from home_url.');
         $this->assertTrue(!str_contains($html, 'thatbiotutor.com'), 'Rendered navigation must not hardcode a production hostname.');
 

@@ -39,6 +39,21 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
    assert.ok(Math.abs(r.topics.w-r.copy.w)<2,'Topics fill copy column');
    if(width>=560)assert.ok(Math.abs(r.cols[0].y-r.cols[1].y)<2&&r.cols[0].right<r.cols[1].x,'Topic lists side by side');
   }
+  // Free Bio Notes wears a hand-drawn red circle on desktop; the menu spacing and header height do not change.
+  for (const width of [1440, 1024]) {
+   await page.setViewportSize({width,height:900});
+   for (const route of ['', 'classes/', 'notes/']) {
+    await page.goto(new URL(route,base).href);
+    const c = await page.locator('.site-nav__link--circled').evaluate(e=>{const a=getComputedStyle(e,'::after'),r=e.getBoundingClientRect();return {text:e.textContent.trim(),bg:a.backgroundImage,content:a.content,pos:a.position,pe:a.pointerEvents,w:parseFloat(a.width),h:parseFloat(a.height),linkW:r.width,linkH:r.height,overflow:document.documentElement.scrollWidth-innerWidth}});
+    assert.equal(c.text,'Free Bio Notes');
+    assert.ok(/url\(.*svg/.test(c.bg),`Circle is a vector drawing on ${route} at ${width}`);
+    assert.ok(/(%23|#)(c|b|d)[0-9a-f]{2,5}/i.test(decodeURIComponent(c.bg)) && /red|c8|c0|b8|d[0-9a-f]/i.test(decodeURIComponent(c.bg)),'Circle is red');
+    assert.equal(c.pos,'absolute'); assert.equal(c.pe,'none','Circle never blocks the click');
+    assert.ok(c.w>=c.linkW && c.h>=28 && c.h<=c.linkH,`Circle surrounds the label on ${route} at ${width}`);
+    assert.equal(c.overflow,0);
+   }
+  }
+  await page.setViewportSize({width:1440,height:900});
   await page.goto(new URL('intensivefix/',base).href);
   assert.equal(await page.locator('.tbt-landing-header__cta').count(),1,'IntensiveFix keeps its separate header');
   console.log('PASS shared header alignment and Classes definition layout');

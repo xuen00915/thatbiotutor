@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Header: "Free Bio Notes" now wears a hand-drawn red double-stroke circle on desktop to draw attention to the free resource. It is a decorative inline vector (no image file, no pointer events), shown on every page; the link gets a `site-nav__link--circled` class and 20px side padding on desktop. The mobile menu list is unchanged. Added PHP and browser checks for the class, the circle and header height/overflow.
+
 - [main-site] Our Causes, section 1: on desktop the heading and paragraphs under the two pictures are now centred (paragraphs capped at 860px for readable lines; phones and tablets stay left-aligned), and the empty space below the text was cut from 128px to 64px on desktop and from 96px to 48px on tablets and phones. Wording, images and links are unchanged.
 
 - [main-site] Our Causes, section 1 (Planting Trees): on desktop the planet picture and the donor-search picture now share one row at the same height, with the heading and paragraphs underneath both. Phones and tablets stack planet picture, donor-search picture, then text. Wording, images and links are unchanged; the browser test now expects the new picture sizes.
