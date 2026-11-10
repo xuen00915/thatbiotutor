@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Our Causes, section 2 (SG Environmental Causes): on desktop the Giving.sg picture now sits beside the wording, matching section 1; on phones and tablets the order stays text first, picture last. Wording, images and links are unchanged; the browser test now expects the 550px-wide picture.
+
 - [main-site] Our Causes, section 1 (Planting Trees): on desktop the planet picture now sits beside the text with the donor-search picture centred below; heading and paragraphs are all left-aligned (the heading was centred over left-aligned paragraphs). Phones and tablets keep the stacked order. The donor-search picture moved out of the text container in `page-trees.php`; wording, images and links are unchanged.
 
 - [main-site] Aligned the shared desktop header menu to the right edge of the content track (logo stays left) instead of centring it. Mobile menu and the IntensiveFix landing header are unchanged; the header browser test now checks the menu's right edge instead of its centre.

@@ -21,10 +21,12 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
     </section>
     <section class="tbt-causes-section" data-section="sg-causes">
         <div class="tbt-institutional-title-bar"><h2><?php echo esc_html($tbt_field('trees_secondary_heading')); ?></h2></div>
-        <div class="tbt-institutional-shell tbt-causes-copy">
+        <div class="tbt-institutional-shell tbt-causes-feature">
+        <div class="tbt-causes-section__media tbt-causes-section__media--giving"><?php tbt_render_media_image('curated_causes_giving_sg', '', ['loading' => 'lazy']); ?></div>
+        <div class="tbt-causes-copy">
             <p>From 2026 onwards, ThatBioTutor will be focusing our giving efforts on causes <strong>closer to home.</strong></p>
             <p>Each year, <strong>our students will vote</strong> on the environmental cause on <a href="https://www.giving.sg/search?tags=%5B5%5D" target="_blank" rel="noopener noreferrer">Giving.sg</a> that matters most to them, and we’ll make a lump-sum donation to the chosen cause.</p>
-            <div class="tbt-causes-section__media tbt-causes-section__media--giving"><?php tbt_render_media_image('curated_causes_giving_sg', '', ['loading' => 'lazy']); ?></div>
+        </div>
         </div>
     </section>
 </article>

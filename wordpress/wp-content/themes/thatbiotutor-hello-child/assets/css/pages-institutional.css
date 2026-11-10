@@ -889,13 +889,16 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 @media (max-width: 980px) {
   .tbt-causes-section[data-section="planting"] > .tbt-causes-section__media--record { width: min(654px, calc(100% - 2 * var(--tbt-gutter, 16px))); margin-top: 0; }
   .tbt-causes-feature { display: block; }
+  /* SG causes keeps its original small-screen order: text first, picture last. */
+  .tbt-causes-section[data-section="sg-causes"] .tbt-causes-feature { display: flex; flex-direction: column; }
+  .tbt-causes-section[data-section="sg-causes"] .tbt-causes-feature > .tbt-causes-section__media--giving { order: 2; }
 }
 @media (max-width: 640px) {
   /* The picture is inset inside the shared content width, so it keeps the soft corners. */
   body.tbt-site #main-content .tbt-causes-feature .tbt-causes-section__media--square,
   body.tbt-site #main-content .tbt-causes-feature .tbt-causes-section__media--square :is(img, video) { border-radius: var(--tbt-std-radius, 24px) !important; }
 }
-/* Planting Trees: planet picture beside the copy on desktop, everything left-aligned; the donor-search picture runs below both. */
+/* Causes sections: picture beside the copy on desktop, everything left-aligned; Planting's donor-search picture runs below both. */
 @media (min-width: 981px) {
   body.tbt-site #main-content .tbt-causes-feature {
     display: grid;
@@ -905,6 +908,8 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   }
   body.tbt-site #main-content .tbt-causes-feature > .tbt-causes-copy { align-self: center; margin: 32px 0 0; padding: 0; }
   body.tbt-site #main-content .tbt-causes-section[data-section="planting"] > .tbt-causes-section__media--record { width: 654px; margin: 16px auto 0; }
+  body.tbt-site #main-content .tbt-causes-feature > .tbt-causes-section__media--giving { width: 100%; margin: 32px 0 0; }
+  body.tbt-site #main-content .tbt-causes-section[data-section="sg-causes"] .tbt-causes-feature .tbt-causes-copy p { font-size: 1.15rem; line-height: 1.6; margin-bottom: 24px; }
   body.tbt-site #main-content .tbt-causes-feature .tbt-causes-copy h2 { font-size: 1.6rem; line-height: 1.3; }
   body.tbt-site #main-content .tbt-causes-feature .tbt-causes-copy p { font-size: 1.15rem; line-height: 1.6; }
 }

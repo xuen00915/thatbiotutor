@@ -473,7 +473,7 @@ const sizes = [
       const expectedCausesImages = [
         { y: 135, width: 550, height: 550 },
         { y: 975, width: 654, height: 502 },
-        { y: 1793, width: 719, height: 589 },
+        { y: 1793, width: 550, height: 450.5 },
       ];
       for (const [index, expected] of expectedCausesImages.entries()) {
         const actual = causesImages[index];
