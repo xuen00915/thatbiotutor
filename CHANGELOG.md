@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- [main-site] Homepage: reduced the space between the header and the hero title (top padding 96px to 48px, and 64px to 32px on phones up to 520px), so the title now sits about 48px closer. The rule is scoped to the homepage; IntensiveFix keeps its own hero spacing. Added a browser check for the header-to-title gap.
+- [main-site] Homepage: reduced the space between the header and the hero title (top padding 96px to 24px, and 64px to 16px on phones up to 520px), so the title now sits about 72px closer. The rule is scoped to the homepage; IntensiveFix keeps its own hero spacing. Added a browser check for the header-to-title gap.
 
 - [main-site] Header: "Free Bio Notes" now wears a hand-drawn red double-stroke circle on desktop to draw attention to the free resource. It is a decorative inline vector (no image file, no pointer events), shown on every page; the link gets a `site-nav__link--circled` class and 20px side padding on desktop. The mobile menu list is unchanged. Added PHP and browser checks for the class, the circle and header height/overflow.
 

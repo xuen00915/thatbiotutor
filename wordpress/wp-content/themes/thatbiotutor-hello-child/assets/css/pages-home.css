@@ -629,7 +629,7 @@
 }
 
 /* Homepage only: the hero title sits closer to the header (IntensiveFix keeps its own spacing). */
-body.tbt-site.home .tbt-home-hero__copy { padding-top: 48px; }
+body.tbt-site.home .tbt-home-hero__copy { padding-top: 24px; }
 @media (max-width: 520px) {
-  body.tbt-site.home .tbt-home-hero__copy { padding-top: 32px; }
+  body.tbt-site.home .tbt-home-hero__copy { padding-top: 16px; }
 }
