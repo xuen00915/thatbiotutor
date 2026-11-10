@@ -471,8 +471,8 @@ const sizes = [
       }));
       if (!causesBar || Math.abs(causesBar.height - 70) > 14) throw new Error(`Causes title bar geometry is wrong: ${JSON.stringify(causesBar)}`);
       const expectedCausesImages = [
-        { y: 135, width: 550, height: 550 },
-        { y: 975, width: 654, height: 502 },
+        { y: 135, width: 476, height: 476 },
+        { y: 975, width: 620, height: 476 },
         { y: 1793, width: 550, height: 450.5 },
       ];
       for (const [index, expected] of expectedCausesImages.entries()) {

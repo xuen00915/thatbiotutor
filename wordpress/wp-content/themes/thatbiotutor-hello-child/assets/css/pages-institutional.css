@@ -887,7 +887,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   margin: 34px auto 0;
 }
 @media (max-width: 980px) {
-  .tbt-causes-section[data-section="planting"] > .tbt-causes-section__media--record { width: min(654px, calc(100% - 2 * var(--tbt-gutter, 16px))); margin-top: 0; }
+  .tbt-causes-feature > .tbt-causes-section__media--record { width: min(654px, 100%); margin: 24px auto 0; }
   .tbt-causes-feature { display: block; }
   /* SG causes keeps its original small-screen order: text first, picture last. */
   .tbt-causes-section[data-section="sg-causes"] .tbt-causes-feature { display: flex; flex-direction: column; }
@@ -907,7 +907,11 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
     align-items: start;
   }
   body.tbt-site #main-content .tbt-causes-feature > .tbt-causes-copy { align-self: center; margin: 32px 0 0; padding: 0; }
-  body.tbt-site #main-content .tbt-causes-section[data-section="planting"] > .tbt-causes-section__media--record { width: 654px; margin: 16px auto 0; }
+  /* Planting Trees: both pictures share one row at the same height (the columns follow their aspect ratios), the text spans underneath. */
+  body.tbt-site #main-content .tbt-causes-section[data-section="planting"] > .tbt-causes-feature { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3028fr); column-gap: 24px; }
+  body.tbt-site #main-content .tbt-causes-feature > .tbt-causes-section__media--square { width: 100%; height: auto; aspect-ratio: 1; margin: 32px 0 0; }
+  body.tbt-site #main-content .tbt-causes-feature > .tbt-causes-section__media--record { width: 100%; margin: 32px 0 0; }
+  body.tbt-site #main-content .tbt-causes-section[data-section="planting"] .tbt-causes-feature > .tbt-causes-copy { grid-column: 1 / -1; align-self: start; margin-top: 32px; }
   body.tbt-site #main-content .tbt-causes-feature > .tbt-causes-section__media--giving { width: 100%; margin: 32px 0 0; }
   body.tbt-site #main-content .tbt-causes-section[data-section="sg-causes"] .tbt-causes-feature .tbt-causes-copy p { font-size: 1.15rem; line-height: 1.6; margin-bottom: 24px; }
   body.tbt-site #main-content .tbt-causes-feature .tbt-causes-copy h2 { font-size: 1.6rem; line-height: 1.3; }

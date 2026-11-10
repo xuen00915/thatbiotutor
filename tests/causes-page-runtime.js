@@ -27,6 +27,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           sgCopy: (() => { const r = document.querySelector('[data-section="sg-causes"] .tbt-causes-copy').getBoundingClientRect(); return { left: r.left, top: r.top + scrollY, bottom: r.bottom + scrollY }; })(),
           sgAlign: [...document.querySelectorAll('[data-section="sg-causes"] .tbt-causes-copy p')].map((e) => getComputedStyle(e).textAlign),
           record: box('.tbt-causes-section__media--record'),
+          recordX: (() => { const r = document.querySelector('.tbt-causes-section__media--record').getBoundingClientRect(); return { left: r.left, right: r.right }; })(),
           footer: box('.site-footer'),
           barH1: box('[data-section="planting"] .tbt-institutional-title-bar h1').height,
           overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
@@ -36,11 +37,11 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.ok(m.square.top - m.bar.bottom >= 24, `Title bar must have breathing room above the first picture ${at}`);
       assert.ok(m.align.every((a) => a === 'left' || a === 'start'), `Planting heading and paragraphs must share one left alignment ${at}`);
       if (width > 980) {
-        assert.ok(m.squareX.right <= m.copyX.left, `Planting picture must sit beside the text on desktop ${at}`);
-        assert.ok(m.copyX.top >= m.square.top && m.copyX.bottom <= m.square.bottom, `Text must sit within the picture's height ${at}`);
-        assert.ok(m.record.top >= Math.max(m.square.bottom, m.copyX.bottom) - 1, `Donor-search picture sits below the side-by-side block ${at}`);
+        assert.ok(m.squareX.right <= m.recordX.left, `Planet picture and donor-search picture must share one row on desktop ${at}`);
+        assert.ok(Math.abs(m.square.top - m.record.top) <= 2 && Math.abs(m.square.bottom - m.record.bottom) <= 2, `The two pictures must have the same top and height ${at}`);
+        assert.ok(m.copyX.top >= Math.max(m.square.bottom, m.record.bottom) - 1, `Planting text must sit under both pictures ${at}`);
       } else {
-        assert.ok(m.copyX.top >= m.square.bottom, `Planting picture stacks above the text on narrower screens ${at}`);
+        assert.ok(m.record.top >= m.square.bottom - 1 && m.copyX.top >= m.record.bottom - 1, `Narrow screens stack planet, donor-search, then text ${at}`);
       }
       assert.ok(m.sgAlign.every((a) => a === 'left' || a === 'start'), `SG causes paragraphs stay left-aligned ${at}`);
       if (width > 980) {

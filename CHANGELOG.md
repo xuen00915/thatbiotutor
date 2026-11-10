@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Our Causes, section 1 (Planting Trees): on desktop the planet picture and the donor-search picture now share one row at the same height, with the heading and paragraphs underneath both. Phones and tablets stack planet picture, donor-search picture, then text. Wording, images and links are unchanged; the browser test now expects the new picture sizes.
+
 - [main-site] Our Causes, section 2 (SG Environmental Causes): on desktop the Giving.sg picture now sits beside the wording, matching section 1; on phones and tablets the order stays text first, picture last. Wording, images and links are unchanged; the browser test now expects the 550px-wide picture.
 
 - [main-site] Our Causes, section 1 (Planting Trees): on desktop the planet picture now sits beside the text with the donor-search picture centred below; heading and paragraphs are all left-aligned (the heading was centred over left-aligned paragraphs). Phones and tablets keep the stacked order. The donor-search picture moved out of the text container in `page-trees.php`; wording, images and links are unchanged.
