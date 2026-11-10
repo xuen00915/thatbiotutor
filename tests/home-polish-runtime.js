@@ -7,6 +7,8 @@ const {chromium} = require('playwright');
  for(const width of [1440,768,390,320]) {
   await page.setViewportSize({width,height:900});
   await page.goto(process.env.TBT_RUNTIME_URL || 'http://localhost:8888/',{waitUntil:'domcontentloaded'});
+  const heroGap=await page.evaluate(()=>document.querySelector('.tbt-home-hero .tbt-home-kicker').getBoundingClientRect().top-document.querySelector('.site-header').getBoundingClientRect().bottom);
+  assert.ok(heroGap>=24&&heroGap<=(width>767?56:40),`Homepage hero title sits close to the header (${heroGap}px) at ${width}`);
   for(const selector of ['.tbt-home-stats__photos figure','.tbt-home-tutors__grid article']) {
    const boxes=await page.locator(selector).evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect();return {y:r.y,h:r.height}}));
    const columns=width>980?4:2;

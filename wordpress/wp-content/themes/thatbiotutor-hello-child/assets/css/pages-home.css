@@ -627,3 +627,9 @@
   .tbt-google-reviews__track { grid-auto-columns: 100%; }
   .tbt-google-review { padding-inline: 16px; }
 }
+
+/* Homepage only: the hero title sits closer to the header (IntensiveFix keeps its own spacing). */
+body.tbt-site.home .tbt-home-hero__copy { padding-top: 48px; }
+@media (max-width: 520px) {
+  body.tbt-site.home .tbt-home-hero__copy { padding-top: 32px; }
+}
