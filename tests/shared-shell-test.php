@@ -64,6 +64,8 @@ final class SharedShellTest
         $this->assertTrue(str_contains($html, 'class="site-footer__copyright"'), 'Footer copyright must be visible rather than screen-reader-only.');
         $this->assertSame(1, substr_count($html, 'data-whatsapp-float'), 'Shared shell must contain one floating WhatsApp control.');
         $this->assertSame(1, substr_count($html, 'data-menu-toggle'), 'Shared shell must contain one mobile-menu toggle.');
+        $this->assertSame(1, substr_count($html, 'class="site-header__cta"'), 'Shared header must show one Contact Us call-to-action button on every page.');
+        $this->assertTrue(preg_match('/class="site-header__cta" href="https:\/\/wa\.me\/[^"]*"[^>]*>Contact Us</', $html) === 1, 'The header Contact Us button must open WhatsApp.');
         $this->assertTrue(str_contains($html, 'curated_shared_tbt_logo') || str_contains($html, '/files/b3d1102b6adcca4d05893ead7b492b4f.webp'), 'Header must use the approved original logo asset.');
         $this->assertTrue(str_contains($html, 'https://wa.me/6587597182'), 'Floating control must use the safe WhatsApp URL.');
         $this->assertTrue(str_contains($html, 'class="whatsapp-float__icon"'), 'Floating control must use an icon instead of a WA text placeholder.');
@@ -81,7 +83,7 @@ final class SharedShellTest
         $this->assertTrue(str_contains($components, 'position: sticky'), 'Header CSS must keep the header sticky.');
         $this->assertTrue(preg_match('/site-nav[^}]*:hover[^}]*#[dD][0-9a-fA-F]{5}|site-nav[^}]*:hover[^}]*red/s', $components) === 1, 'Navigation hover state must be red.');
         $this->assertTrue(preg_match('/\.site-header__inner \{[^}]*grid-template-columns: 136px auto;[^}]*justify-content: center;/', $components) === 1, 'Desktop header logo and navigation must be centered as one group.');
-        $this->assertTrue(str_contains($components, '.site-nav__link[aria-current="page"]') && str_contains($components, '#8de15e'), 'Current-page navigation state must use the original green.');
+        $this->assertTrue(str_contains($components, '.site-nav__link[aria-current="page"]') && !str_contains($components, '#8de15e') && preg_match('/\.site-nav__link\.is-active \{ color: var\(--tbt-green-text, #2f8a27\)/', $components) === 1, 'Current-page navigation state must use the same green as the page text, not the old lime.');
         $this->assertTrue(str_contains($components, 'min-width: 44px') && str_contains($components, 'min-height: 44px'), 'Interactive controls must be at least 44×44 CSS pixels.');
         $this->assertTrue(str_contains($base, 'prefers-reduced-motion'), 'Base CSS must respect reduced motion.');
         $pages = (string) file_get_contents($theme . '/assets/css/pages.css');

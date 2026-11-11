@@ -12,6 +12,7 @@ $tbt_is_intensivefix = function_exists('is_page') && is_page('intensivefix');
 $tbt_landing = $tbt_is_intensivefix;
 $tbt_landing_cta_href = tbt_whatsapp_url('Hi ThatBioTutor, I would like to find out more about IntensiveFix.');
 $tbt_landing_cta_label = 'Contact Us';
+$tbt_header_cta_href = tbt_whatsapp_url();
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -36,6 +37,7 @@ $tbt_landing_cta_label = 'Contact Us';
         <?php if ($tbt_landing) : ?>
             <?php if ($tbt_landing_cta_href !== '') : ?><a class="tbt-landing-header__cta" href="<?php echo esc_url($tbt_landing_cta_href); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($tbt_landing_cta_label); ?></a><?php endif; ?>
         <?php else : ?>
+            <?php if ($tbt_header_cta_href !== '') : ?><a class="site-header__cta" href="<?php echo esc_url($tbt_header_cta_href); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($tbt_landing_cta_label); ?></a><?php endif; ?>
             <button class="site-header__menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-navigation">
                 <span class="screen-reader-text">Open navigation</span>
                 <span class="site-header__menu-icon" aria-hidden="true"></span>

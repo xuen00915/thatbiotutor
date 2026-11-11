@@ -1,22 +1,38 @@
 const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
 const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\/?$/, '/');
+const ctaSizes = {};
 (async () => {
  const browser = await chromium.launch();
  try {
   const page = await browser.newPage();
   for (const width of [1440, 1024, 768, 390, 320]) {
    await page.setViewportSize({width,height:900});
-   for (const route of ['classes/', 'about/', '', 'sec-4-pure-g3-biology-tuition/', 'testimonials/']) {
+   for (const route of ['classes/', 'about/', '', 'sec-3-pure-g3-biology-tuition/', 'sec-4-pure-g3-biology-tuition/', 'testimonials/', 'notes/', 'trees/', 'contact/']) {
     await page.goto(new URL(route, base).href, {waitUntil:'domcontentloaded'});
     await page.evaluate(()=>document.fonts.ready);
     const r = await page.evaluate(()=>{
      const b=e=>e.getBoundingClientRect(), inner=b(document.querySelector('.site-header__inner')),logo=b(document.querySelector('.site-brand__logo')),nav=b(document.querySelector('.site-nav'));
-     return {w:inner.width,left:inner.left,right:inner.right,logoLeft:logo.left,navRight:nav.right,overflow:document.documentElement.scrollWidth-innerWidth};
+     const header=b(document.querySelector('.site-header')),cta=document.querySelector('.site-header .site-header__cta'),toggle=b(document.querySelector('.site-header__menu-toggle'));
+     const c=cta?b(cta):null,cs=cta?getComputedStyle(cta):null;
+     return {w:inner.width,left:inner.left,right:inner.right,logoLeft:logo.left,logoRight:logo.right,navRight:nav.right,navLeft:nav.left,overflow:document.documentElement.scrollWidth-innerWidth,
+      cta:c&&{count:document.querySelectorAll('.site-header .site-header__cta').length,text:cta.textContent.trim(),href:cta.getAttribute('href'),target:cta.getAttribute('target'),left:c.left,right:c.right,width:c.width,height:c.height,midY:(c.top+c.bottom)/2,bg:cs.backgroundColor,radius:cs.borderTopLeftRadius,color:cs.color},
+      headerMidY:(header.top+header.bottom)/2,toggle:{left:toggle.left,visible:toggle.width>0}};
     });
     assert.ok(Math.abs(r.w-Math.min(1120,width-32))<2, 'Header matches shared content width');
     assert.ok(Math.abs(r.logoLeft-r.left)<2, `Logo aligns left on ${route} at ${width}`);
-    if(width>980)assert.ok(Math.abs(r.navRight-r.right)<2, `Desktop menu aligns right on ${route} at ${width}`);
+    // Contact Us is the call to action: the same green pill, top right, on every page.
+    assert.ok(r.cta,`Contact Us button exists on ${route} at ${width}`);
+    assert.equal(r.cta.count,1,`Exactly one header Contact Us button on ${route} at ${width}`);
+    assert.equal(r.cta.text,'Contact Us');
+    assert.ok(/^https:\/\/wa\.me\//.test(r.cta.href)&&r.cta.target==='_blank',`Contact Us opens WhatsApp in a new tab on ${route}`);
+    assert.ok(r.cta.left>=r.logoRight&&r.cta.right<=r.right+1,`Contact Us sits inside the header on ${route} at ${width}: ${JSON.stringify(r.cta)}`);
+    assert.ok(Math.abs(r.cta.midY-r.headerMidY)<=3&&r.cta.height>=36&&r.cta.height<=48,`Contact Us is vertically centred in the header on ${route} at ${width}`);
+    assert.equal(r.cta.bg,'rgb(67, 180, 58)','Contact Us uses the site green'); assert.equal(r.cta.color,'rgb(255, 255, 255)');
+    assert.ok(parseFloat(r.cta.radius)>=18,'Contact Us is a pill');
+    if(width>980){assert.ok(Math.abs(r.cta.right-r.right)<2,`Contact Us is the right-most header item on ${route} at ${width}`);assert.ok(r.navRight<=r.cta.left,`Menu sits left of Contact Us on ${route} at ${width}`);assert.ok(r.navLeft>=r.logoRight,`Menu does not collide with the logo on ${route} at ${width}`);}
+    else{assert.ok(r.toggle.visible&&r.cta.right<=r.toggle.left,`Contact Us sits left of the menu button on ${route} at ${width}`);}
+    ctaSizes[width]??=r.cta; assert.ok(Math.abs(ctaSizes[width].width-r.cta.width)<1&&Math.abs(ctaSizes[width].left-r.cta.left)<1,`Contact Us is identical across pages (${route} at ${width})`);
     assert.equal(r.overflow,0);
     assert.ok(await page.locator('.site-nav__item').evaluateAll(items=>items.every(e=>parseFloat(getComputedStyle(e).borderLeftWidth)===0)), 'Header menu has no vertical dividers');
    }

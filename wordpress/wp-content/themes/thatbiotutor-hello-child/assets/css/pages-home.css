@@ -199,7 +199,7 @@
 .tbt-home-hero__slide img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .tbt-home-hero__slide img { object-fit: cover; object-position: 50% 50%; }
 .tbt-home-hero__slide:nth-child(1) img { object-position: 50% 58%; }
-.tbt-home-hero__slide:nth-child(2) img { object-position: 50% 45%; }
+.tbt-home-hero__slide:nth-child(2) img { object-position: 50% 28%; } /* keeps the teacher's whole head in the wide crop */
 .tbt-home-hero__slide:nth-child(4) img { object-position: 50% 47%; }
 .tbt-home-hero__slide:nth-child(5) img { object-position: 50% 56%; }
 .tbt-home-hero__slide { opacity: 0; pointer-events: none; transition: opacity .6s ease; }
@@ -359,7 +359,8 @@
 .tbt-home-fasttrack h2,
 .tbt-home-fasttrack h3,
 .tbt-home-fasttrack p { color: #fff; }
-.tbt-home-fasttrack h2 span { color: #77cf64; }
+.tbt-home-fasttrack .tbt-home-eyebrow, .tbt-home-guarantee .tbt-home-eyebrow, .tbt-home-closing .tbt-home-eyebrow { color: var(--tbt-green-on-dark, #8fe17e); }
+.tbt-home-fasttrack h2 span { color: var(--tbt-green-on-dark, #8fe17e); }
 .tbt-home-fasttrack .tbt-home-lead { color: #c7d3c7; }
 .tbt-home-fasttrack > .tbt-home-container > h2,
 .tbt-home-fasttrack > .tbt-home-container > .tbt-home-eyebrow,
@@ -391,7 +392,7 @@
 .tbt-home-fasttrack__tbt-content { display: flex; align-items: flex-start; gap: 16px; margin-top: 12px; }
 .tbt-home-fasttrack__tbt-content img { width: 112px; height: 80px; flex: 0 0 112px; object-fit: contain; }
 .tbt-home-fasttrack__close { margin: 46px auto 0 !important; color: #dce6dc !important; font-size: 20px; line-height: 1.6; text-align: center; }
-.tbt-home-fasttrack__close strong { color: #8fe17e; }
+.tbt-home-fasttrack__close strong { color: var(--tbt-green-on-dark, #8fe17e); }
 
 .tbt-home-proof > .tbt-home-container > h2 { text-align: center; }
 .tbt-home-proof__videos { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
@@ -440,7 +441,7 @@
 .tbt-home-guarantee h2,
 .tbt-home-guarantee p { color: #fff; }
 .tbt-home-guarantee h2 { text-align: center; }
-.tbt-home-guarantee h2 span { color: #8fe17e; }
+.tbt-home-guarantee h2 span { color: var(--tbt-green-on-dark, #8fe17e); }
 .tbt-home-guarantee__inner > div:last-child > p:not(.tbt-home-eyebrow) { max-width: none; margin: 28px auto 30px !important; text-align: center; color: #d6e0d6; font-size: clamp(1rem, 1.8vw, 1.25rem); line-height: 1.7; }
 
 .tbt-home-fit__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }

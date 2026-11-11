@@ -2,6 +2,7 @@
   --tbt-green: #43b43a;
   --tbt-green-dark: #0e371d;
   --tbt-green-text: #2f8a27;
+  --tbt-green-on-dark: #8fe17e; /* the one light green for green text on dark green sections */
   --tbt-body: #4e5950;
   --tbt-font: Poppins, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
   --tbt-section: 64px;

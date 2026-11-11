@@ -39,7 +39,7 @@ const {chromium} = require('playwright');
    assert.deepEqual(r.topicNames,['Infectious Diseases','Nutrition in Plants','Transport in Plants','Organisms and Their Environment','Molecular Genetics','Reproduction in Plants','Reproduction in Humans','Inheritance']);
    assert.ok(r.results[0].src.includes('73bc1256792c12554d50dc9a124a1b4a')&&r.results[1].src.includes('d94e6ef92d16a8621101f7bd961b5da3'),'Use Sec 4 original results');
    assert.ok(r.results.length===2&&r.results.every(e=>e.ratio>1.5&&Math.abs(e.ratio-e.rendered)<.05),'Original result tables, uncropped');
-   assert.ok(r.stats.photo>3);assert.equal(r.stats.color,'rgb(141, 225, 94)');assert.deepEqual(r.stats.values,['98','912+','69.21%','2.3','91%','1 in 2']);
+   assert.ok(r.stats.photo>3);assert.equal(r.stats.color,'rgb(143, 225, 126)');assert.deepEqual(r.stats.values,['98','912+','69.21%','2.3','91%','1 in 2']);
    assert.deepEqual(r.reviews.map(e=>e.name),['Yong Zheng, Sec 4 in 2024','Gwen, Sec 4 in 2024','Aryan, Sec 4 in 2024']);assert.ok(r.reviews.every(e=>e.photo&&e.top<=25&&e.border==='rgb(0, 0, 0)'&&e.align==='center'));
    assert.ok(r.video&&r.video.src.includes('/embed/e8F2G0P4dEA')&&Math.abs(r.video.ratio-16/9)<.05&&r.video.gap<80,'Original ADH lesson video');
    assert.deepEqual(r.lessonTitles,['Concept first','Memory shortcuts','OEQ practice and exam skills','Kahoot review']);assert.equal(r.photos,3);assert.equal(r.icons,8);assert.ok(r.practical>=28&&r.small<=20);
