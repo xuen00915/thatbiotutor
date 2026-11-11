@@ -36,7 +36,7 @@ button.site-nav__submenu-toggle:focus-visible { outline: 3px solid #43b43a; outl
 .site-nav__submenu-toggle[aria-expanded="true"] .site-nav__chevron, .site-nav__item--has-children:hover .site-nav__chevron, .site-nav__item--has-children:focus-within .site-nav__chevron { transform: rotate(180deg); }
 .site-nav__submenu { position: absolute; top: 100%; left: 0; z-index: 10; min-width: 260px; list-style: none; margin: 0; padding: 0; background: #fff; border: 1px solid #dbe6d6; border-radius: 12px; box-shadow: 0 12px 28px rgba(14, 55, 29, .12); }
 .site-nav__submenu-link { display: block; padding: 18px 26px; border-bottom: 1px solid #e6eee1; text-decoration: none; font-family: Futura, "Trebuchet MS", Arial, sans-serif; font-size: 1.15rem; font-weight: 400; color: var(--tbt-ink); transition: color 160ms ease, background 160ms ease; }
-.site-nav__submenu-link:hover, .site-nav__submenu-link:focus-visible { background: #eef6ea; color: var(--tbt-green-text, #2f8a27); }
+.site-nav__submenu-link:hover, .site-nav__submenu-link:focus-visible, .site-nav__submenu-link.is-active, .site-nav__submenu-link[aria-current="page"] { background: #eef6ea; color: var(--tbt-green-text, #2f8a27); }
 .js .site-nav__submenu[hidden] { display: none; }
 
 .site-footer {
@@ -114,7 +114,7 @@ body.tbt-site .site-footer { box-sizing: border-box; width: 100%; max-width: non
   100% { box-shadow: 0 0 0 4px rgba(67, 180, 58, .22), 0 0 0 12px rgba(67, 180, 58, 0); }
 }
 @media (prefers-reduced-motion: reduce) { .whatsapp-float { animation: none; } }
-.whatsapp-float__icon { width: 32px; height: 32px; }
+.whatsapp-float__icon { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 .whatsapp-float__notification { position: absolute; top: -1px; right: -1px; width: 12px; height: 12px; border-radius: 50%; background: #e53935; }
 
 .tbt-video { position: relative; aspect-ratio: 16 / 9; width: 100%; overflow: hidden; }

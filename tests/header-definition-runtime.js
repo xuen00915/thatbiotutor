@@ -71,7 +71,9 @@ const ctaSizes = {};
   }
   await page.setViewportSize({width:1440,height:900});
   await page.goto(new URL('intensivefix/',base).href);
-  assert.equal(await page.locator('.tbt-landing-header__cta').count(),1,'IntensiveFix keeps its separate header');
+  assert.equal(await page.locator('.site-header.tbt-landing-header').count(),0,'IntensiveFix uses the shared header');
+  assert.equal(await page.locator('.site-header .site-nav .site-nav__link').count()>=5,true,'IntensiveFix shows the same website menu as every page');
+  assert.equal(await page.locator('.site-header__cta').count(),1,'IntensiveFix shows one Contact Us button');
   console.log('PASS shared header alignment and Classes definition layout');
  } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});

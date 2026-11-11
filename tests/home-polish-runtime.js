@@ -103,9 +103,9 @@ const {chromium} = require('playwright');
   await page.setViewportSize({width:1440,height:900});
   const base=(process.env.TBT_RUNTIME_URL || 'http://localhost:8888/').replace(/\/?$/,'/');
   await page.goto(new URL('intensivefix/',base).href,{waitUntil:'domcontentloaded'});
-  assert.equal(await page.locator('.site-header.tbt-landing-header .site-brand__wordmark').count(),1,'IntensiveFix keeps the Inquire header with the wordmark');
-  assert.equal((await page.locator('.tbt-landing-header__cta').textContent()).trim(),'Contact Us','IntensiveFix header button must read Contact Us');
-  assert.equal(await page.locator('.site-header .site-nav').count(),0,'IntensiveFix header has no menu');
+  assert.equal(await page.locator('.site-header.tbt-landing-header').count(),0,'IntensiveFix uses the shared menu header');
+  assert.equal((await page.locator('.site-header__cta').textContent()).trim(),'Contact Us','IntensiveFix header button must read Contact Us');
+  assert.equal(await page.locator('.site-header .site-nav .site-nav__link').count()>=5,true,'IntensiveFix header shows the website menu');
   assert.equal(await page.locator('.tbt-intensivefix-carousel__viewport').evaluate(e=>getComputedStyle(e).borderTopWidth),'0px','Programme graphics must have no border line');
   await page.locator('.tbt-intensivefix-carousel .tbt-home-carousel__control--next').click();
   await page.mouse.move(0,0);await page.waitForTimeout(500);
@@ -143,7 +143,7 @@ const {chromium} = require('playwright');
   assert.equal(drag.prevented,true,'Drag start must be cancelled');
   assert.equal(drag.css,'none');
   // Contact Us goes straight to the WhatsApp number.
-  const contact=await page.locator('.tbt-landing-header__cta').evaluate(e=>({href:e.getAttribute('href'),target:e.getAttribute('target')}));
+  const contact=await page.locator('.site-header__cta').evaluate(e=>({href:e.getAttribute('href'),target:e.getAttribute('target')}));
   assert.ok(contact.href.startsWith('https://wa.me/6587597182'),'Contact Us must open the WhatsApp number');
   assert.equal(contact.target,'_blank');
   // Floating WhatsApp button: light-green disc, white glyph, red dot, two translucent rings.

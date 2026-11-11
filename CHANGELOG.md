@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- [main-site] The Classes dropdown now highlights the page you are on (Sec 3 or Sec 4 gets `aria-current="page"`, the site green text and the light-green tint). Slider dots no longer flash the parent theme's red-pink when hovered, focused or clicked (homepage, IntensiveFix, Free Bio Notes and Cell Division sliders keep their own colours).
+
+- [main-site] IntensiveFix now uses the same shared header and website menu as every other page (the separate Contact Us-only landing header is gone); its Contact Us button still opens WhatsApp with the IntensiveFix message. The floating WhatsApp button now uses the supplied logo (`assets/icons/whatsapp-logo.png`, ring and phone filled white). Updated the header contract/runtime tests.
+
 - [main-site] Client feedback round: (1) every page now has the green "Contact Us" button at the top right of the header (same WhatsApp link as the IntensiveFix header button; on phones it sits beside the menu button). (2) The Classes dropdown now matches the menu: same font and ink colour, soft green-grey border, 12px rounded corners, soft shadow and a light-green hover. (3) The selected menu item is now the site green (#2f8a27, same as the green text on the pages) instead of the light lime. (4) Green text on dark green sections is one shared light green (`--tbt-green-on-dark`, #8fe17e, the "Full Refund" colour) on the homepage, IntensiveFix, Classes, Sec 3, Sec 4, Free Bio Notes, Cell Division and the footer headings. (5) The homepage slider keeps the teacher's whole head in view (photo 2 now crops lower down the picture).
 
 - [main-site] Track-record section: cut the gap above "Here's the track record:" (16px top padding instead of 80px) and smoothed the stat count-up (2.2s ease-in-out timed from the first painted frame instead of a front-loaded 1.2s cubic ease-out). Reduced-motion users still see final values immediately.

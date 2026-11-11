@@ -112,8 +112,8 @@ final class HomePageTest
         $this->assertTrue(substr_count($html, '.webp') >= 24, 'Home media must resolve to the local WebP library.');
 
         $headerSource = (string) file_get_contents(TBT_THEME_DIR . '/header.php');
-        $this->assertTrue(str_contains($headerSource, 'tbt-landing-header') && str_contains($headerSource, "is_page('intensivefix')") && !str_contains($headerSource, 'is_front_page'), 'Only IntensiveFix may use the Inquire landing header; the homepage uses the shared menu header.');
-        $this->assertTrue(str_contains($headerSource, 'site-brand__wordmark') && str_contains($headerSource, 'tbt-landing-header__cta'), 'Landing header must show the ThatBioTutor wordmark and a booking button.');
+        $this->assertTrue(!str_contains($headerSource, 'tbt-landing-header') && !str_contains($headerSource, 'is_front_page'), 'Every page, IntensiveFix included, must use the shared menu header.');
+        $this->assertTrue(str_contains($headerSource, "is_page('intensivefix')") && preg_match("/tbt_landing_cta_href = tbt_whatsapp_url\(/", $headerSource) === 1 && str_contains($headerSource, '_blank'), 'IntensiveFix Contact Us must open WhatsApp with the IntensiveFix message in a new tab.');
         $this->assertTrue(preg_match("/tbt_landing_cta_href = tbt_whatsapp_url\(/", $headerSource) === 1 && str_contains($headerSource, '_blank'), 'Contact Us must open the WhatsApp number in a new tab.');
         $this->assertTrue(str_contains($headerSource, "'Contact Us'") && !str_contains($headerSource, 'Book My Trial Lesson') && !str_contains($headerSource, 'Secure My Spot'), 'Top right button must be Contact Us throughout the website.');
         $this->assertTrue(str_contains($headerSource, 'tbt_render_navigation'), 'Other pages must keep the primary navigation header.');
