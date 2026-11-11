@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Image sliders: every slider now has 18px rounded corners (the homepage hero slider and the About page certificate slider were square / 12px; the others already matched). Covered by a test across all pages at desktop and phone width.
+
 - [main-site] Header (all pages, IntensiveFix included): on desktop the menu is now centred in the header, with the logo on the left and the Contact Us button on the right.
 
 - [main-site] IntensiveFix, from the client's review comments: the problem bridge now reads "Sound familiar? After The IntensiveFix Program, They're Telling Us:" (the "Many TBT students started exactly here" and "But after our 8-week IntensiveFix" lines are deleted), and the About The Founder, FAQ and Life inside a TBT classroom sections are removed from this page only (the homepage keeps them via the shared `inquire-sections-end.php` skip list). Edited at the user's request outside the usual page ownership; `tests/intensivefix-page-test.php` updated to match.

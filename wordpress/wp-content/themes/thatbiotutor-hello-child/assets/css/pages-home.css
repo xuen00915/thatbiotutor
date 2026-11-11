@@ -191,6 +191,7 @@
   min-height: 0;
   aspect-ratio: 3 / 1;
   overflow: hidden;
+  border-radius: 18px;
   background: #e8eee1;
 }
 

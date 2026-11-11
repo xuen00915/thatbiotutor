@@ -122,6 +122,20 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
         }
       }
     }
+    // 6. Every image slider has rounded corners (18px) on the shape that actually clips it.
+    for (const width of [1440, 390]) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const route of ['', 'intensivefix/', 'classes/', 'sec-3-pure-g3-biology-tuition/', 'sec-4-pure-g3-biology-tuition/', 'testimonials/', 'notes/', 'about/', 'trees/', 'celldivision/', 'tuitionrecs/']) {
+        await page.goto(new URL(route, base).href, { waitUntil: 'load' });
+        const sliders = await page.evaluate(() => [...document.querySelectorAll('[data-carousel]')].map((c) => {
+          const cs = (e) => getComputedStyle(e); const clips = (e) => cs(e).overflow !== 'visible';
+          const vp = c.querySelector('[class*="viewport"]'); const img = c.querySelector('img');
+          const radius = clips(c) ? cs(c).borderTopLeftRadius : vp && clips(vp) ? cs(vp).borderTopLeftRadius : img ? cs(img).borderTopLeftRadius : '0px';
+          return { name: String(c.className).split(' ')[0], radius: parseFloat(radius) };
+        }));
+        for (const sl of sliders) assert.ok(sl.radius >= 18, `Slider ${sl.name} on /${route} at ${width} needs 18px rounded corners, has ${sl.radius}px`);
+      }
+    }
     console.log('PASS site feedback contract');
   } finally { await browser.close(); }
 })().catch((e) => { console.error(e.message); process.exit(1); });
