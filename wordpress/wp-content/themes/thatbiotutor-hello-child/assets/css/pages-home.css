@@ -262,6 +262,9 @@
 }
 
 .tbt-home-carousel__dots button[aria-current="true"] { width: 6px; border-radius: 50%; background: var(--tbt-home-green); }
+/* The parent theme paints focused/hovered buttons red-pink; slider dots keep their own colours. */
+.tbt-home-hero__carousel .tbt-home-carousel__dots button:not([aria-current="true"]):is(:hover, :focus, :active) { background: #fff; }
+.tbt-intensivefix-carousel .tbt-home-carousel__dots button:not([aria-current="true"]):is(:hover, :focus, :active) { background: #c6d6c1; }
 
 .tbt-home-problem,
 .tbt-home-stats,

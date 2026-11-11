@@ -43,6 +43,23 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
     assert.equal(hov.color, MENU_GREEN, 'Hovered dropdown item turns site green');
     assert.equal(hov.bg, 'rgb(238, 246, 234)', 'Hovered dropdown item gets a light green tint');
 
+    // 2b. The dropdown highlights the page you are on.
+    for (const [route, current, other] of [['sec-3-pure-g3-biology-tuition/', 'Sec 3', 'Sec 4'], ['sec-4-pure-g3-biology-tuition/', 'Sec 4', 'Sec 3']]) {
+      await page.goto(new URL(route, base).href);
+      await page.hover('.site-nav__item--has-children');
+      await page.mouse.move(5, 400);
+      await page.evaluate(() => document.querySelector('.site-nav__submenu').removeAttribute('hidden'));
+      const st = await page.evaluate(() => [...document.querySelectorAll('.site-nav__submenu-link')].map((e) => ({ text: e.textContent.trim(), aria: e.getAttribute('aria-current'), color: getComputedStyle(e).color, bg: getComputedStyle(e).backgroundColor, weight: getComputedStyle(e).fontWeight })));
+      const cur = st.find((x) => x.text === current); const oth = st.find((x) => x.text === other);
+      assert.equal(cur.aria, 'page', `${current} is marked as the current page in the dropdown`);
+      assert.equal(cur.color, MENU_GREEN, `${current} shows in site green when current`);
+      assert.equal(cur.bg, 'rgb(238, 246, 234)', `${current} keeps the light green tint when current`);
+      assert.equal(oth.aria, null, `${other} is not marked current`);
+      assert.notEqual(oth.bg, 'rgb(238, 246, 234)', `${other} is not highlighted`);
+    }
+    await page.goto(new URL('classes/', base).href);
+    assert.equal(await page.locator('.site-nav__submenu-link[aria-current]').count(), 0, 'No dropdown item is current on the Classes overview');
+
     // 3. Green text on dark green is one light green everywhere.
     for (const width of [1440, 390]) {
       await page.setViewportSize({ width, height: 900 });
@@ -83,6 +100,27 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       });
       assert.ok(m.windowTopFrac <= 0.24 - 0.04, `Teacher's hair line (24% down the photo) needs headroom at ${width}: ${JSON.stringify(m)}`);
       assert.ok(m.windowBottomFrac >= 0.34, `Teacher's chin (34% down the photo) stays in view at ${width}: ${JSON.stringify(m)}`);
+    }
+    // 5. Slider dots never turn the parent theme's red-pink on hover, focus or click.
+    await page.setViewportSize({ width: 1440, height: 900 });
+    for (const route of ['', 'intensivefix/', 'notes/', 'about/', 'celldivision/']) {
+      await page.goto(new URL(route, base).href, { waitUntil: 'load' });
+      await page.evaluate(() => document.querySelectorAll('.tbt-resource-carousel__dots').forEach((e) => { e.style.opacity = '1'; }));
+      const dots = page.locator('[data-carousel-dot]');
+      const n = await dots.count();
+      for (let i = 0; i < n; i++) {
+        const dot = dots.nth(i);
+        if (!(await dot.isVisible())) continue;
+        await dot.scrollIntoViewIfNeeded();
+        for (const action of ['hover', 'focus', 'press']) {
+          if (action === 'press') { await dot.hover(); await page.mouse.down(); } else await dot[action]();
+          await page.waitForTimeout(450);
+          const bg = await dot.evaluate((e) => getComputedStyle(e).backgroundColor);
+          const [r, g, b] = bg.match(/[\d.]+/g).map(Number);
+          assert.ok(!(r > g + 60 && b > g + 20), `Dot ${i + 1} on /${route} must not turn pink on ${action}: ${bg}`);
+          if (action === 'press') await page.mouse.up();
+        }
+      }
     }
     console.log('PASS site feedback contract');
   } finally { await browser.close(); }

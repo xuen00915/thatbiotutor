@@ -173,7 +173,8 @@ function tbt_render_navigation(string $class = 'site-nav__list'): void
             echo '<button class="site-nav__submenu-toggle" type="button" data-submenu-toggle aria-expanded="false" aria-controls="' . esc_attr($submenuId) . '"><span class="screen-reader-text">' . esc_html('Open ' . $item['label'] . ' submenu') . '</span><svg class="site-nav__chevron" viewBox="0 0 12 8" width="12" height="8" aria-hidden="true" focusable="false"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
             echo '<ul class="site-nav__submenu" id="' . esc_attr($submenuId) . '" data-submenu>';
             foreach ($children as $child) {
-                echo '<li><a class="site-nav__submenu-link" href="' . esc_url(home_url((string) $child['path'])) . '">' . esc_html((string) $child['label']) . '</a></li>';
+                $childIsCurrent = function_exists('is_page') && is_page(trim((string) $child['path'], '/'));
+                echo '<li><a class="site-nav__submenu-link' . ($childIsCurrent ? ' is-active' : '') . '" href="' . esc_url(home_url((string) $child['path'])) . '"' . ($childIsCurrent ? ' aria-current="page"' : '') . '>' . esc_html((string) $child['label']) . '</a></li>';
             }
             echo '</ul>';
         }

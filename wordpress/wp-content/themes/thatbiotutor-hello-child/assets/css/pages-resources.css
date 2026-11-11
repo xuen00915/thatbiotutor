@@ -130,7 +130,9 @@
   background: rgba(255, 255, 255, .55);
   cursor: pointer;
 }
+.tbt-resource-carousel__dots button:is(:hover, :focus, :active) { background: rgba(255, 255, 255, .55); box-shadow: none; }
 .tbt-resource-carousel__dots button[aria-current="true"] { background: #fff; }
+.tbt-resource-carousel__dots button[aria-current="true"]:is(:hover, :focus, :active) { background: #fff; }
 
 /* Free Notes. */
 .tbt-notes-hero {
