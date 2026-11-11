@@ -47,11 +47,11 @@ body.tbt-site:is(.home, .page-template-page-intensivefix) .site-footer__inner {
   width: min(100%, var(--tbt-page));
 }
 
-/* Shared navigation spans the content track with the logo left and the menu right; IntensiveFix keeps its landing header. */
+/* Shared navigation spans the content track: logo left, menu centred, Contact Us right; IntensiveFix uses the same header. */
 body.tbt-site .site-header:not(.tbt-landing-header) .site-brand { justify-self: start; }
 @media (min-width: 981px) {
-  body.tbt-site .site-header:not(.tbt-landing-header) .site-header__inner { grid-template-columns: auto minmax(0, 1fr) auto; justify-content: stretch; column-gap: 8px; }
-  body.tbt-site .site-header:not(.tbt-landing-header) .site-brand { grid-column: 1; grid-row: 1; }
-  body.tbt-site .site-header:not(.tbt-landing-header) .site-nav { grid-column: 2; grid-row: 1; justify-self: end; align-self: center; }
+  body.tbt-site .site-header:not(.tbt-landing-header) .site-header__inner { grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr); justify-content: stretch; column-gap: 8px; }
+  body.tbt-site .site-header:not(.tbt-landing-header) .site-brand { grid-column: 1; grid-row: 1; justify-self: start; }
+  body.tbt-site .site-header:not(.tbt-landing-header) .site-nav { grid-column: 2; grid-row: 1; justify-self: center; align-self: center; }
   body.tbt-site .site-header:not(.tbt-landing-header) .site-header__cta { grid-column: 3; grid-row: 1; justify-self: end; }
 }

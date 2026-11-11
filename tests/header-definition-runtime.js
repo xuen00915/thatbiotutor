@@ -8,7 +8,7 @@ const ctaSizes = {};
   const page = await browser.newPage();
   for (const width of [1440, 1024, 768, 390, 320]) {
    await page.setViewportSize({width,height:900});
-   for (const route of ['classes/', 'about/', '', 'sec-3-pure-g3-biology-tuition/', 'sec-4-pure-g3-biology-tuition/', 'testimonials/', 'notes/', 'trees/', 'contact/']) {
+   for (const route of ['classes/', 'about/', '', 'sec-3-pure-g3-biology-tuition/', 'sec-4-pure-g3-biology-tuition/', 'testimonials/', 'notes/', 'trees/', 'contact/', 'intensivefix/']) {
     await page.goto(new URL(route, base).href, {waitUntil:'domcontentloaded'});
     await page.evaluate(()=>document.fonts.ready);
     const r = await page.evaluate(()=>{
@@ -30,7 +30,7 @@ const ctaSizes = {};
     assert.ok(Math.abs(r.cta.midY-r.headerMidY)<=3&&r.cta.height>=36&&r.cta.height<=48,`Contact Us is vertically centred in the header on ${route} at ${width}`);
     assert.equal(r.cta.bg,'rgb(67, 180, 58)','Contact Us uses the site green'); assert.equal(r.cta.color,'rgb(255, 255, 255)');
     assert.ok(parseFloat(r.cta.radius)>=18,'Contact Us is a pill');
-    if(width>980){assert.ok(Math.abs(r.cta.right-r.right)<2,`Contact Us is the right-most header item on ${route} at ${width}`);assert.ok(r.navRight<=r.cta.left,`Menu sits left of Contact Us on ${route} at ${width}`);assert.ok(r.navLeft>=r.logoRight,`Menu does not collide with the logo on ${route} at ${width}`);}
+    if(width>980){assert.ok(Math.abs(r.cta.right-r.right)<2,`Contact Us is the right-most header item on ${route} at ${width}`);assert.ok(Math.abs((r.navLeft+r.navRight)/2-(r.left+r.right)/2)<=2,`Menu is centred in the header on ${route} at ${width}`);assert.ok(r.navRight<=r.cta.left,`Menu sits left of Contact Us on ${route} at ${width}`);assert.ok(r.navLeft>=r.logoRight,`Menu does not collide with the logo on ${route} at ${width}`);}
     else{assert.ok(r.toggle.visible&&r.cta.right<=r.toggle.left,`Contact Us sits left of the menu button on ${route} at ${width}`);}
     ctaSizes[width]??=r.cta; assert.ok(Math.abs(ctaSizes[width].width-r.cta.width)<1&&Math.abs(ctaSizes[width].left-r.cta.left)<1,`Contact Us is identical across pages (${route} at ${width})`);
     assert.equal(r.overflow,0);
