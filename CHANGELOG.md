@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] IntensiveFix, from the client's review comments: the problem bridge now reads "Sound familiar? After The IntensiveFix Program, They're Telling Us:" (the "Many TBT students started exactly here" and "But after our 8-week IntensiveFix" lines are deleted), and the About The Founder, FAQ and Life inside a TBT classroom sections are removed from this page only (the homepage keeps them via the shared `inquire-sections-end.php` skip list). Edited at the user's request outside the usual page ownership; `tests/intensivefix-page-test.php` updated to match.
+
 - [main-site] The Classes dropdown now highlights the page you are on (Sec 3 or Sec 4 gets `aria-current="page"`, the site green text and the light-green tint). Slider dots no longer flash the parent theme's red-pink when hovered, focused or clicked (homepage, IntensiveFix, Free Bio Notes and Cell Division sliders keep their own colours).
 
 - [main-site] IntensiveFix now uses the same shared header and website menu as every other page (the separate Contact Us-only landing header is gone); its Contact Us button still opens WhatsApp with the IntensiveFix message. The floating WhatsApp button now uses the supplied logo (`assets/icons/whatsapp-logo.png`, ring and phone filled white). Updated the header contract/runtime tests.

@@ -3,6 +3,7 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+$tbt_inquire_end_skip = isset($tbt_inquire_end_skip) && is_array($tbt_inquire_end_skip) ? $tbt_inquire_end_skip : [];
 ?>
     <section class="tbt-home-section tbt-home-fit" data-section="fit">
         <div class="tbt-home-container tbt-home-fit__grid">
@@ -11,13 +12,16 @@ if (!defined('ABSPATH')) {
         </div>
     </section>
 
+    <?php if (!in_array('founder', $tbt_inquire_end_skip, true)) : ?>
     <section class="tbt-home-section tbt-home-founder" data-section="founder">
         <div class="tbt-home-container tbt-home-founder__inner">
             <figure><?php $tbt_media_image('curated_home_founder_standing', '', 'loading="lazy"'); ?></figure>
             <div><h2>About The Founder</h2><p>I was a GEP student, went through Raffles Institution, and was offered a scholarship by NUS to study Life Sciences. On paper, that probably sounds like someone who never struggled in school.</p><p>In JC, my grades started slipping and I finally took Econs tuition. That's when I understood what a genuinely good tutor could do: help me memorise smarter and answer questions in a way that actually scores.</p><p>That inspired me to build ThatBioTutor, because I wanted other students to have that same experience with Biology. That feeling of trying hard and still not getting anywhere is exactly why I built the <strong>FastTrack System</strong>.</p></div>
         </div>
     </section>
+    <?php endif; ?>
 
+    <?php if (!in_array('faq', $tbt_inquire_end_skip, true)) : ?>
     <section class="tbt-home-section tbt-home-faq" data-section="faq">
         <div class="tbt-home-container">
             <h2>FAQ</h2>
@@ -28,11 +32,14 @@ if (!defined('ABSPATH')) {
             </div>
         </div>
     </section>
+    <?php endif; ?>
 
+    <?php if (!in_array('classroom', $tbt_inquire_end_skip, true)) : ?>
     <section class="tbt-home-section tbt-home-classroom" data-section="classroom">
         <div class="tbt-home-container">
             <h2>Life inside a TBT classroom</h2>
             <div class="tbt-home-classroom__grid"><?php foreach (range(1, 3) as $tbt_index) : ?><figure><?php $tbt_media_image(sprintf('home_classroom_%02d', $tbt_index), '', 'loading="lazy"'); ?></figure><?php endforeach; ?></div>
         </div>
     </section>
+    <?php endif; ?>
 

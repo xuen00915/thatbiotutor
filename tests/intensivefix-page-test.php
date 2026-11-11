@@ -16,14 +16,14 @@ final class IntensiveFixPageTest
         $html = tbt_test_render_template('page-intensivefix.php');
         $this->assertSame(1, substr_count($html, '<h1'), 'IntensiveFix must render exactly one H1.');
         // Client change list (Google Doc table): sections after FastTrack are skipped, jumping to "This is for".
-        $sections = ['hero', 'problem', 'track-record', 'fasttrack', 'fit', 'founder', 'faq', 'classroom', 'closing'];
+        $sections = ['hero', 'problem', 'track-record', 'fasttrack', 'fit', 'closing'];
         $last = -1;
         foreach ($sections as $section) {
             $position = strpos($html, 'data-section="' . $section . '"');
             $this->assertTrue($position !== false && $position > $last, "IntensiveFix section {$section} must exist in the client's order.");
             $last = (int) $position;
         }
-        foreach (['proof', 'tutors', 'quality', 'practical', 'guarantee', 'details', 'analysis'] as $skipped) {
+        foreach (['proof', 'tutors', 'quality', 'practical', 'guarantee', 'details', 'analysis', 'founder', 'faq', 'classroom'] as $skipped) {
             $this->assertTrue(!str_contains($html, 'data-section="' . $skipped . '"'), "Section {$skipped} must be skipped per the client change list.");
         }
         $this->assertTrue(str_contains($html, 'tbt-home-inquire') && str_contains($html, 'tbt-intensivefix-page'), 'IntensiveFix must use the Inquire section system.');
@@ -49,7 +49,8 @@ final class IntensiveFixPageTest
         foreach (['“There\'s WAY too much to memorise... so many confusing terms”', '“I already wrote down a very detailed answer... how come I didn\'t get the points?”', '“School bio skim through the content too fast! I don\'t understand concepts deeply enough...”'] as $quote) {
             $this->assertTrue(str_contains($html, $quote), 'The three phrases under the slider must be the supplied ones.');
         }
-        $this->assertTrue(preg_match('~tbt-home-problem__bridge--strong[^>]*>Sound familiar\? Many TBT students started exactly here\.</p>\s*<p class="tbt-home-problem__bridge">But after our 8-week IntensiveFix, they(?:’|&#039;|\')re telling us:</p>~', $html) === 1, 'Bold title with the grey "But after our 8-week IntensiveFix" line beneath it.');
+        $this->assertTrue(preg_match('~tbt-home-problem__bridge--strong[^>]*>Sound familiar\? After The IntensiveFix Program, They(?:’|&#039;|\')re Telling Us:</p>~', $html) === 1, 'Bridge must read "Sound familiar? After The IntensiveFix Program, They’re Telling Us:" with the old second line deleted.');
+        $this->assertTrue(!str_contains($html, 'Many TBT students started exactly here') && !str_contains($html, 'But after our 8-week IntensiveFix'), 'The red-marked bridge wording must be gone.');
         $this->assertTrue(!str_contains($html, 'I flunked my EOYs'), 'The old EOY quotes are replaced by the supplied phrases.');
         $this->assertTrue(!str_contains($html, 'tbt-home-problem__proof') && !str_contains($html, 'curated_home_testimonial_'), 'The three off-topic testimonial cards must be deleted.');
         $this->assertSame(1, substr_count($html, 'data-media-key="intensivefix_student_reviews"'), 'Only one student-review graphic must replace the video.');

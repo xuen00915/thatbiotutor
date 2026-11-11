@@ -55,8 +55,7 @@ $tbt_fasttrack_heading = '<strong>All IntensiveFix students will receive</strong
                 <blockquote>“I already wrote down a very detailed answer... how come I didn't get the points?”</blockquote>
                 <blockquote>“School bio skim through the content too fast! I don't understand concepts deeply enough...”</blockquote>
             </div>
-            <p class="tbt-home-problem__bridge tbt-home-problem__bridge--strong">Sound familiar? Many TBT students started exactly here.</p>
-            <p class="tbt-home-problem__bridge">But after our 8-week IntensiveFix, they’re telling us:</p>
+            <p class="tbt-home-problem__bridge tbt-home-problem__bridge--strong">Sound familiar? After The IntensiveFix Program, They’re Telling Us:</p>
             <div class="tbt-intensivefix-feedback"><?php tbt_render_page_image('intensivefix_student_reviews_image', 'intensivefix_student_reviews', 'tbt-intensivefix__reviews', ['loading' => 'lazy']); ?></div>
         </div>
     </section>
@@ -83,7 +82,7 @@ $tbt_fasttrack_heading = '<strong>All IntensiveFix students will receive</strong
 
     <?php require TBT_THEME_DIR . '/template-parts/inquire-section-fasttrack.php'; ?>
 
-    <?php require TBT_THEME_DIR . '/template-parts/inquire-sections-end.php'; ?>
+    <?php $tbt_inquire_end_skip = ['founder', 'faq', 'classroom']; require TBT_THEME_DIR . '/template-parts/inquire-sections-end.php'; ?>
 
     <section class="tbt-home-section tbt-home-closing" data-section="closing">
         <div class="tbt-home-container tbt-home-closing__inner">
