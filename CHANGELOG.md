@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] IntensiveFix: the video under "Here's how we make that happen." is replaced with https://www.youtube.com/watch?v=V4dj5XYEcow; the page test now expects the new video.
+
 - [main-site] Image sliders: every slider now has 18px rounded corners (the homepage hero slider and the About page certificate slider were square / 12px; the others already matched). Covered by a test across all pages at desktop and phone width.
 
 - [main-site] Header (all pages, IntensiveFix included): on desktop the menu is now centred in the header, with the logo on the left and the Contact Us button on the right.
