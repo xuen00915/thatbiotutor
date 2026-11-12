@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
             <h2>Don't just take our word for it.</h2>
             <div class="tbt-home-proof__videos">
                 <div class="tbt-home-video"><iframe src="https://www.youtube-nocookie.com/embed/Vkzlr16AGvo" title="ThatBioTutor student testimonial" loading="lazy" allowfullscreen></iframe></div>
-                <div class="tbt-home-video"><iframe src="https://www.youtube-nocookie.com/embed/RJxR3ONbylQ" title="Alicia's ThatBioTutor testimonial" loading="lazy" allowfullscreen></iframe></div>
+                <div class="tbt-home-video"><iframe src="https://www.youtube-nocookie.com/embed/V4dj5XYEcow" title="Gwen's ThatBioTutor testimonial" loading="lazy" allowfullscreen></iframe></div>
             </div>
             <p class="tbt-home-proof__schools-copy">Trusted by students from <strong>98 schools</strong> across Singapore.</p>
             <div class="tbt-home-proof__crests" aria-label="Schools attended by ThatBioTutor students">

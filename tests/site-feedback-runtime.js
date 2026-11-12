@@ -136,6 +136,14 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
         for (const sl of sliders) assert.ok(sl.radius >= 18, `Slider ${sl.name} on /${route} at ${width} needs 18px rounded corners, has ${sl.radius}px`);
       }
     }
+    // 7. Home "Don't just take our word for it": second video is Gwen's Story; first video unchanged.
+    await page.goto(new URL('', base).href, { waitUntil: 'load' });
+    const vids = await page.locator('[data-section="proof"] .tbt-home-video iframe').evaluateAll((els) => els.map((e) => ({ src: e.getAttribute('src'), title: e.getAttribute('title') })));
+    assert.equal(vids.length, 2, 'Proof section keeps two videos');
+    assert.ok(vids[0].src.includes('/embed/Vkzlr16AGvo'), 'First proof video is unchanged');
+    assert.ok(/^https:\/\/www\.youtube-nocookie\.com\/embed\/V4dj5XYEcow(\?|$)/.test(vids[1].src), `Second proof video is the new YouTube video: ${vids[1].src}`);
+    assert.ok(!vids.some((v) => v.src.includes('RJxR3ONbylQ')), "Alicia's video is no longer in the proof section");
+    assert.ok(/Gwen/.test(vids[1].title), 'Second video has a matching title');
     console.log('PASS site feedback contract');
   } finally { await browser.close(); }
 })().catch((e) => { console.error(e.message); process.exit(1); });
