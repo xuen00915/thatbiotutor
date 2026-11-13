@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Videos, as instructed by the owner: the IntensiveFix "Here's how we make that happen." video is https://youtu.be/bwMcGJcP0ts; the homepage section of the same name keeps the original video (q_IPfEdODqI). Earlier reverts of these video swaps are intentional history; this is the final intended state.
+
 - [main-site] Videos restored to the originals: IntensiveFix "Here's how we make that happen." plays the original "The missing key to Biology improvement" video again, and the homepage "Don't just take our word for it" second video is Alicia's Story again.
 
 - [main-site] Image sliders: every slider now has 18px rounded corners (the homepage hero slider and the About page certificate slider were square / 12px; the others already matched). Covered by a test across all pages at desktop and phone width.

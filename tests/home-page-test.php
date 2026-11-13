@@ -111,6 +111,7 @@ final class HomePageTest
         $this->assertTrue(!preg_match('~https?://static\.wixstatic\.com~', $html), 'Home must not hotlink Wix media.');
         $this->assertTrue(substr_count($html, '.webp') >= 24, 'Home media must resolve to the local WebP library.');
 
+        $this->assertTrue(str_contains($html, 'youtube-nocookie.com/embed/q_IPfEdODqI') && !str_contains($html, 'bwMcGJcP0ts'), "Homepage 'Here's how we make that happen' must keep the original video; the IntensiveFix video is separate.");
         $headerSource = (string) file_get_contents(TBT_THEME_DIR . '/header.php');
         $this->assertTrue(!str_contains($headerSource, 'tbt-landing-header') && !str_contains($headerSource, 'is_front_page'), 'Every page, IntensiveFix included, must use the shared menu header.');
         $this->assertTrue(str_contains($headerSource, "is_page('intensivefix')") && preg_match("/tbt_landing_cta_href = tbt_whatsapp_url\(/", $headerSource) === 1 && str_contains($headerSource, '_blank'), 'IntensiveFix Contact Us must open WhatsApp with the IntensiveFix message in a new tab.');

@@ -59,7 +59,7 @@ final class IntensiveFixPageTest
         foreach (range(1, 4) as $index) {
             $this->assertSame(1, substr_count($html, 'data-media-key="' . sprintf('home_number_%02d', $index) . '"'), 'Track-record images must match the homepage images.');
         }
-        $this->assertTrue(str_contains($html, 'youtube-nocookie.com/embed/q_IPfEdODqI'), 'The current video link stays until Mr Keefe supplies the new one.');
+        $this->assertTrue(str_contains($html, 'youtube-nocookie.com/embed/bwMcGJcP0ts') && !str_contains($html, 'q_IPfEdODqI'), 'The IntensiveFix track-record video must be the supplied bwMcGJcP0ts video (the homepage keeps the original).');
         // FastTrack heading.
         $this->assertTrue(str_contains($html, 'All IntensiveFix students will receive</strong> ThatBioTutor'), 'FastTrack title must start with the IntensiveFix line.');
         $this->assertTrue(str_contains($html, 'curated_shared_fasttrack_content') && str_contains($html, 'curated_shared_fasttrack_memory') && str_contains($html, 'curated_shared_fasttrack_answering'), 'IntensiveFix must explain the shared FastTrack system.');
