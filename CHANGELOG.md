@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] IntensiveFix: the track-record video is now https://youtu.be/bwMcGJcP0ts (replacing V4dj5XYEcow, which stays on the homepage); the page test expects the new video.
+
 - [main-site] IntensiveFix: the video under "Here's how we make that happen." is replaced with https://www.youtube.com/watch?v=V4dj5XYEcow; the page test now expects the new video.
 
 - [main-site] Homepage "Don't just take our word for it": the second video (Alicia's Story) is replaced with https://www.youtube.com/watch?v=V4dj5XYEcow (Gwen's Story). The first video is unchanged, and Alicia's video stays on the Results & Testimonials page.
