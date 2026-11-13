@@ -4,7 +4,7 @@
 
 - [main-site] Free Bio Notes: every DOWNLOAD button (hero, benefits, "How do I download it?" and closing) now scrolls to the email form section (`#notes-form`); the one that opened the Contact page no longer does.
 
-- [main-site] About and Our Causes: the smaller section titles keep their rounded dark-green bar again (white text, light-green accent word); only the page titles on Contact, Tuition Recommendations and Our Causes are plain centred titles.
+- [main-site] About and Our Causes: the smaller section titles keep their rounded dark-green bar again (white text, light-green accent word); only the page titles on Contact and Tuition Recommendations are plain centred titles. On Our Causes, "1. Planting Trees!" is a section title bar like "2. SG Environmental Causes" (same bar, same size), not a page title.
 
 - [main-site] "Real Practical Sessions. Real Practice.": the paragraph now uses the full 1120px content width and the block has 72px of space above it (56px on phones) on Classes, Sec 3 and Sec 4.
 

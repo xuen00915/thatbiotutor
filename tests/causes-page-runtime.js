@@ -55,7 +55,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.ok(m.givingX.top >= m.sgCopy.bottom - 1, `Giving.sg picture stacks below the text on narrower screens ${at}`);
       }
       assert.ok(m.footer.top - m.giving.bottom <= 180, `Dead space between the last picture and the footer ${at}`);
-      assert.ok(m.h1 === (width <= 520 ? 36 : 60) && m.h2 === (width <= 520 ? 30 : 36), `Page title uses the shared 60px (36px on phones) and the section title the shared 36px (30px on phones) ${at}`);
+      assert.equal(m.h1, m.h2, `Both title bars (1. Planting Trees! and 2. SG Environmental Causes) use the same text size ${at}`);
       assert.ok(m.barH1 <= m.bar.height + 1, `Title text must fit its bar ${at}`);
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);
       console.log(`PASS causes ${width}`);

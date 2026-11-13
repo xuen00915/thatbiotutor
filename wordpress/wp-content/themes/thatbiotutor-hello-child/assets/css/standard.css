@@ -952,7 +952,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is
 
 /* Page titles on Contact, Tuition Recommendations and Our Causes: a centred title with a green accent word, no dark bar.
  * The smaller section titles on About and Our Causes keep their rounded dark-green bar (white text, light-green accent). */
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar:has(> h1) {
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar:has(> h1):not(.tbt-causes-page *) {
   display: block;
   width: min(var(--tbt-page), calc(100% - 2 * var(--tbt-gutter)));
   min-height: 0;
@@ -963,7 +963,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   color: var(--tbt-ink);
   text-align: center;
 }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar > h1 {
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-page:not(.tbt-causes-page) .tbt-institutional-title-bar > h1 {
   margin: 0 auto;
   padding: 0;
   color: var(--tbt-ink) !important;
@@ -984,7 +984,7 @@ body.tbt-site .site-main { flex: 1 0 auto; }
 body.tbt-site .site-footer { flex-shrink: 0; }
 
 /* Space above the first title of a page (the title has no bar). */
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-page > section:first-child > .tbt-institutional-title-bar:has(> h1):first-child { margin-top: 56px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-page > section:first-child > .tbt-institutional-title-bar:has(> h1):first-child:not(.tbt-causes-page *) { margin-top: 56px; }
 
 
 /* Free Bio Notes: the title now uses the shared 60px size, so the preview slider is a little shorter to keep the title and tablet in the first screen. */
@@ -998,3 +998,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 body.tbt-site #main-content :is(.tbt-classes-page, .tbt-sec3-page, .tbt-sec4-page) .tbt-practical-feature { margin-top: 72px; }
 body.tbt-site #main-content :is(.tbt-classes-page, .tbt-sec3-page, .tbt-sec4-page) .tbt-practical-feature > p { max-width: none; }
 @media (max-width: 520px) { body.tbt-site #main-content :is(.tbt-classes-page, .tbt-sec3-page, .tbt-sec4-page) .tbt-practical-feature { margin-top: 56px; } }
+
+/* Our Causes: "1. Planting Trees!" is a section title like "2. SG Environmental Causes" - the same rounded dark-green bar and the same size. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-page .tbt-institutional-title-bar > h1 { color: #fff !important; font-size: var(--tbt-u-h2) !important; line-height: 1.25 !important; text-align: center; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-page .tbt-institutional-title-bar > h1 span { color: var(--tbt-green-on-dark); }

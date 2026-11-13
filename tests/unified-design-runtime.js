@@ -58,7 +58,7 @@ const INK = 'rgb(25, 34, 26)', GREEN = 'rgb(47, 138, 39)', LIGHT_GREEN = 'rgb(14
         // 2. headings: one style
         const h1s = r.h.filter((h) => h.tag === 'H1');
         t.ok(h1s.length >= 1, `Page title on ${at}`);
-        for (const h of h1s) { t.equal(h.size, homeH1, `H1 matches the homepage size on ${at}: ${h.size}px (${h.text})`); t.equal(h.weight, '800', `H1 weight on ${at} (${h.text})`); }
+        for (const h of h1s) { t.equal(h.size, route === 'trees/' ? stdH2 : homeH1, `H1 matches the homepage size (Our Causes: the section-title size) on ${at}: ${h.size}px (${h.text})`); t.equal(h.weight, '800', `H1 weight on ${at} (${h.text})`); }
         for (const h of r.h.filter((x) => x.tag === 'H2')) {
           t.equal(h.weight, '800', `H2 weight on ${at}: ${h.weight} (${h.text})`);
           t.ok(Math.abs(h.size - stdH2) < 0.6 || h.size <= 26, `H2 size on ${at}: ${h.size}px (${h.text})`);
@@ -79,7 +79,7 @@ const INK = 'rgb(25, 34, 26)', GREEN = 'rgb(47, 138, 39)', LIGHT_GREEN = 'rgb(14
     // 5. Page titles on Contact, Tuition Recommendations and Our Causes follow the homepage title treatment (centred, green accent word, no dark bar; no added copy).
     for (const width of [1440, 390]) {
       await page.setViewportSize({ width, height: 900 });
-      for (const route of ['contact/', 'tuitionrecs/', 'trees/']) {
+      for (const route of ['contact/', 'tuitionrecs/']) {
         await page.goto(new URL(route, base).href, { waitUntil: 'load' });
         await page.evaluate(() => document.fonts.ready);
         const tt = await page.evaluate(() => {
@@ -97,11 +97,11 @@ const INK = 'rgb(25, 34, 26)', GREEN = 'rgb(47, 138, 39)', LIGHT_GREEN = 'rgb(14
       }
     }
     // 6. About and Our Causes: the smaller section titles keep their rounded dark-green bar with white centred text.
-    for (const [route, sel] of [['about/', '.tbt-institutional-title-bar:has(> h2)'], ['trees/', '.tbt-institutional-title-bar:has(> h2)']]) {
+    for (const [route, sel] of [['about/', '.tbt-institutional-title-bar:has(> h2)'], ['trees/', '.tbt-institutional-title-bar']]) {
       for (const width of [1440, 390]) {
         await page.setViewportSize({ width, height: 900 });
         await page.goto(new URL(route, base).href, { waitUntil: 'load' });
-        const bars = await page.locator(sel).evaluateAll((els) => els.map((e) => { const h = e.querySelector('h2'); return { bg: getComputedStyle(e).backgroundColor, radius: parseFloat(getComputedStyle(e).borderTopLeftRadius), color: getComputedStyle(h).color, align: getComputedStyle(h).textAlign, width: Math.round(e.getBoundingClientRect().width) }; }));
+        const bars = await page.locator(sel).evaluateAll((els) => els.map((e) => { const h = e.querySelector('h1, h2'); return { bg: getComputedStyle(e).backgroundColor, radius: parseFloat(getComputedStyle(e).borderTopLeftRadius), color: getComputedStyle(h).color, align: getComputedStyle(h).textAlign, width: Math.round(e.getBoundingClientRect().width) }; }));
         t.ok(bars.length >= 1, `${route} has section title bars`);
         for (const b of bars) {
           t.equal(b.bg, FOREST, `${route} section titles are on the dark-green bar at ${width}: ${b.bg}`);

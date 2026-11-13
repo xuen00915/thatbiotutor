@@ -472,7 +472,7 @@ const sizes = [
         const rect = image.getBoundingClientRect();
         return { y: rect.y, width: rect.width, height: rect.height, fit: getComputedStyle(image).objectFit };
       }));
-      if (!causesBar || causesBar.height < 60 || causesBar.height > 150 /* 60px title, no dark bar */) throw new Error(`Causes title bar geometry is wrong: ${JSON.stringify(causesBar)}`);
+      if (!causesBar || Math.abs(causesBar.height - 70) > 14) throw new Error(`Causes title bar geometry is wrong: ${JSON.stringify(causesBar)}`);
       const expectedCausesImages = [
         { y: 135, width: 476, height: 476 },
         { y: 975, width: 620, height: 476 },
