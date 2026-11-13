@@ -113,7 +113,7 @@ $tbt_story_heading = static function (bool $show_advice = true): void {
         <div class="tbt-testimonials-results-band"><div class="tbt-testimonials-container">
             <h2>Class of 2021</h2>
             <?php $tbt_growth_icon(); ?>
-            <p>100% of our Class of 2021 improved their grade<br>in 6 months or less</p>
+            <p>100% of our Class of 2021 improved their grade in 6 months or less</p>
         </div></div>
         <div class="tbt-testimonials-container">
             <?php $tbt_story_heading(false); ?>

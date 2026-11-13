@@ -94,7 +94,7 @@ final class TestimonialArchiveTest extends TbtContentTestCase
                 "Class of {$year} must keep its visible heading inside the public dark results band."
             );
         }
-        $this->assertTrue(str_contains($template, '100% of our Class of 2021 improved their grade<br>in 6 months or less'), 'Class of 2021 results summary must remain visible live text.');
+        $this->assertTrue(str_contains($template, '100% of our Class of 2021 improved their grade in 6 months or less'), 'Class of 2021 results summary must remain visible live text.');
         $this->assertSame(3, substr_count($template, 'class="tbt-testimonials-artwork-band'), 'The 2024, 2023, and 2022 result artwork must sit in full-width dark bands.');
 
         $css = (string) file_get_contents(dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/assets/css/pages-testimonials.css');

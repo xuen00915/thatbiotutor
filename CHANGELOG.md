@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Results & Testimonials, Class of 2021: "100% of our Class of 2021 improved their grade in 6 months or less" is now one row on desktop and tablet (the forced line break is gone) and uses the full 1120px content width; on phones it wraps naturally. Covered by `tests/site-feedback-runtime.js`.
+
 - [main-site] Footer: shorter on every page - 184px on desktop and tablet (was 268px) and 330px on phones (was 414px) - by reducing the top and bottom padding from 48px to 28px and the gap above the copyright line from 40px to 20px. Content and columns are unchanged. Covered by `tests/site-feedback-runtime.js`.
 
 - [main-site] One green for every green button: the floating WhatsApp button is now the brand green #43b43a (its icon image was a green gradient, so the supplied logo was recoloured to flat #43b43a with the white logo unchanged) instead of #58b947, and every green button now darkens to the same #3a9f32 on hover (the header Contact Us and homepage buttons used #4fa53d, the Free Bio Notes form button #2f8f27). Covered by `tests/site-feedback-runtime.js`.

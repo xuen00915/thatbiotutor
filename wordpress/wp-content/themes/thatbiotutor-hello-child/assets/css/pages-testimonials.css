@@ -265,3 +265,9 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year { padding-top: 32px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-artwork--portrait, #class-of-2023 .tbt-testimonials-artwork--portrait) { margin-bottom: 24px; }
 }
+
+/* Class of 2021 summary: one row on tablet and desktop, across the full content width (it wraps naturally on phones). */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-results-band p { width: 100%; max-width: none; text-align: center; }
+@media (min-width: 600px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-results-band p { font-size: clamp(14px, 2.4vw, 20px); white-space: nowrap; }
+}

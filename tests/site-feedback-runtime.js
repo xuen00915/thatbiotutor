@@ -230,6 +230,18 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       assert.ok(f.inside && f.overflow === 0, `Footer content fits inside the footer at ${vw}`);
     }
     await page.setViewportSize({ width: 1440, height: 900 });
+    // 14. Results & Testimonials, Class of 2021: "100% of our Class of 2021 improved their grade in 6 months or less" is one row on tablet and desktop and uses the full content width.
+    for (const vw of [1440, 1024, 768, 600, 390]) {
+      await page.setViewportSize({ width: vw, height: 900 });
+      await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+      await page.evaluate(() => document.fonts.ready);
+      const r = await page.locator('#class-of-2021 .tbt-testimonials-results-band p').evaluate((e) => { const b = e.getBoundingClientRect(), s = getComputedStyle(e), c = e.closest('.tbt-testimonials-container').getBoundingClientRect(); const range = document.createRange(); range.selectNodeContents(e); return { rows: new Set([...range.getClientRects()].map((q) => Math.round(q.top))).size, w: b.width, cw: c.width, hasBr: !!e.querySelector('br'), text: e.textContent.replace(/\s+/g, ' ').trim(), size: parseFloat(s.fontSize) }; });
+      assert.equal(r.text, '100% of our Class of 2021 improved their grade in 6 months or less', 'The phrase is unchanged');
+      assert.ok(!r.hasBr, 'No forced line break');
+      assert.ok(Math.abs(r.w - r.cw) <= 1, `The phrase uses the full content width at ${vw}: ${r.w} of ${r.cw}`);
+      if (vw >= 600) assert.equal(r.rows, 1, `The phrase is one row at ${vw} (${r.rows} rows, ${r.size}px)`);
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
     console.log('PASS site feedback contract');
   } finally { await browser.close(); }
 })().catch((e) => { console.error(e.message); process.exit(1); });
