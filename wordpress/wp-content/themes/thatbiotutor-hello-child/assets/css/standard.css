@@ -853,10 +853,9 @@ body.tbt-site .tbt-classes-page .tbt-topic-columns > div { min-width: 0; }
 @media (max-width: 980px) { body.tbt-site .tbt-classes-page .tbt-programme-definition__grid { grid-template-columns: minmax(0, 1fr); } body.tbt-site .tbt-classes-page .tbt-programme-definition__grid > .tbt-programme-artwork { width: min(100%, 380px); margin-inline: auto; } }
 @media (max-width: 559px) { body.tbt-site .tbt-classes-page .tbt-topic-columns { grid-template-columns: minmax(0, 1fr); } }
 
-/* Programme polish: a marker stroke on the outcome, then quiet interaction feedback. */
+/* Programme polish: quiet interaction feedback. */
 body.tbt-site #main-content ::selection { background: #c8e9b6; color: #193b22; }
-body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero__highlight { background-image: linear-gradient(currentColor, currentColor); background-repeat: no-repeat; background-position: left bottom; background-size: 100% 2px; animation: tbt-outcome-marker 700ms cubic-bezier(.16, 1, .3, 1) both; }
-@keyframes tbt-outcome-marker { from { background-size: 0% 2px; } to { background-size: 100% 2px; } }
+/* The hero's green phrases are plain coloured words (no underline or marker stroke). */
 body.tbt-site #main-content .tbt-programme-button { transition: background-color 180ms ease-out, box-shadow 180ms ease-out, transform 120ms ease-out; }
 body.tbt-site #main-content .tbt-programme-button:active { transform: scale(.98); }
 body.tbt-site #main-content :is(a, button):focus-visible { outline: 3px solid #368626; outline-offset: 5px; }
@@ -878,7 +877,6 @@ body.tbt-site #main-content .tbt-faq-slider__counter { font-variant-numeric: tab
  body.tbt-site #main-content .tbt-faq-slider__control:hover { background-color: #2d622e; }
 }
 @media (prefers-reduced-motion: reduce) {
- body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero__highlight { animation: none; }
  body.tbt-site #main-content .tbt-programme-button:active { transform: none; }
  body.tbt-site #main-content .tbt-faq-slider__control:active { scale: none; }
  body.tbt-site #main-content .tbt-faq [data-faq-button]::after { transition: none; }

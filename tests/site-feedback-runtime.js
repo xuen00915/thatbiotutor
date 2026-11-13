@@ -156,6 +156,16 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       assert.equal(crests[0].fit, 'contain', 'Crests are never cropped or stretched');
     }
     await page.setViewportSize({ width: 1440, height: 900 });
+    // 9. Sec 3 and Sec 4 hero: the green phrases are not underlined (no text-decoration, border or marker stroke).
+    for (const [vw, route] of [[1440, 'sec-3-pure-g3-biology-tuition/'], [1440, 'sec-4-pure-g3-biology-tuition/'], [390, 'sec-3-pure-g3-biology-tuition/'], [390, 'sec-4-pure-g3-biology-tuition/']]) {
+      await page.setViewportSize({ width: vw, height: 900 });
+      await page.goto(new URL(route, base).href, { waitUntil: 'load' });
+      await page.waitForTimeout(900);
+      const marks = await page.locator('.tbt-programme-hero :is(h1, p) *').evaluateAll((els) => els.map((e) => { const s = getComputedStyle(e); return { text: e.textContent.trim().slice(0, 24), line: s.textDecorationLine, border: s.borderBottomWidth, image: s.backgroundImage, shadow: s.boxShadow }; }));
+      assert.ok(marks.length >= 2, `Hero has green phrases on ${route}`);
+      for (const m of marks) assert.ok(m.line === 'none' && m.border === '0px' && m.image === 'none' && m.shadow === 'none', `Hero phrase "${m.text}" is not underlined on ${route} at ${vw}: ${JSON.stringify(m)}`);
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
     console.log('PASS site feedback contract');
   } finally { await browser.close(); }
 })().catch((e) => { console.error(e.message); process.exit(1); });
