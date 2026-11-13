@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Results & Testimonials year menu: each year now shows its headline result under the title, taken from that year's own result pictures (2025: 86% scored B3 and above, 46% scored A1/A2; 2024: 94% As and Bs, 62% A1/A2; 2023: 92% As and Bs, 69% A1/A2; 2022: 64% scored A1/A2 (Distinction); 2021: 100% improved their grade in 6 months or less). The panel is wider (up to 272px, and never wider than the screen allows beside the WhatsApp button) and the current year has a green accent bar. Covered by `tests/site-feedback-runtime.js`.
+
 - [main-site] Results & Testimonials: the dark-green blocks behind the result pictures are removed. Each year (2025, 2024, 2023, 2022) now opens with a green "Class of YYYY" panel (content width, rounded, white title; 2022 keeps its growth chart) above its pictures, which sit on the white page. Class of 2021 keeps its green panel with the growth chart and summary. This replaces the previous change that narrowed the full-width bands. Covered by `tests/site-feedback-runtime.js`.
 
 - [main-site] Results & Testimonials: the dark-green "Class of ..." bands (the 2024, 2023 and 2022 artwork bands and the 2021 results band) are now as wide as the shared 1120px content width, centred with 18px rounded corners, instead of running edge to edge. Covered by `tests/site-feedback-runtime.js`.

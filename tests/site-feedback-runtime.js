@@ -255,7 +255,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
         let last = -1, still = 0;
         for (let i = 0; i < 60 && still < 8; i++) { await page.waitForTimeout(100); const y = await page.evaluate(() => Math.round(scrollY)); still = y === last ? still + 1 : 0; last = y; }
         await page.waitForTimeout(300);
-        const r = await page.evaluate((y) => { document.querySelectorAll('.tbt-test-shift').forEach((e) => e.remove()); return ({ label: document.querySelector('[data-year-current]').textContent, current: document.querySelector('[data-year-nav] [aria-current="location"]')?.textContent, top: document.querySelector('#class-of-' + y).getBoundingClientRect().top, header: document.querySelector('.site-header').getBoundingClientRect().bottom }); }, year);
+        const r = await page.evaluate((y) => { document.querySelectorAll('.tbt-test-shift').forEach((e) => e.remove()); return ({ label: document.querySelector('[data-year-current]').textContent, current: document.querySelector('[data-year-nav] [aria-current="location"] .tbt-year-nav__title')?.textContent, top: document.querySelector('#class-of-' + y).getBoundingClientRect().top, header: document.querySelector('.site-header').getBoundingClientRect().bottom }); }, year);
         assert.equal(r.label, year, `Year menu label shows ${year} after choosing it at ${vw} (shows ${r.label})`);
         assert.equal(r.current, `Class of ${year}`, `Year menu highlights ${year} at ${vw}`);
         assert.ok(r.top >= r.header - 2 && r.top <= r.header + 40, `The ${year} section sits just under the header at ${vw}: ${r.top} vs header ${r.header}`);
@@ -290,6 +290,25 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       const bands = await page.locator('.tbt-testimonials-artwork-band').evaluateAll((els) => els.map((e) => getComputedStyle(e).backgroundColor));
       assert.ok(bands.length >= 3 && bands.every((c) => c === 'rgba(0, 0, 0, 0)'), `No dark-green block behind the result pictures at ${vw}: ${bands.join(' | ')}`);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0, `No sideways scroll at ${vw}`);
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
+    // 17. The year menu has more detail: each year shows its headline result under the title (taken from that year's own result pictures).
+    const wantSummary = { '2025': /86%.*B3.*46%.*A1\/A2/, '2024': /94%.*As and Bs.*62%.*A1\/A2/, '2023': /92%.*As and Bs.*69%.*A1\/A2/, '2022': /64%.*A1\/A2/, '2021': /100%.*improved.*6 months/ };
+    for (const vw of [1440, 768, 390, 320]) {
+      await page.setViewportSize({ width: vw, height: 900 });
+      await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+      await page.locator('[data-year-nav] button').click();
+      const rows = await page.locator('[data-year-nav] nav a').evaluateAll((els) => els.map((e) => ({ year: e.hash.replace('#class-of-', ''), title: e.querySelector('.tbt-year-nav__title')?.textContent.trim(), summary: e.querySelector('.tbt-year-nav__summary')?.textContent.replace(/\s+/g, ' ').trim(), h: e.getBoundingClientRect().height, sumSize: parseFloat(getComputedStyle(e.querySelector('.tbt-year-nav__summary') || e).fontSize) })));
+      assert.equal(rows.length, 5, 'Five years in the menu');
+      for (const r of rows) {
+        assert.equal(r.title, `Class of ${r.year}`, `Menu title for ${r.year} at ${vw}`);
+        assert.ok(r.summary && wantSummary[r.year].test(r.summary), `Menu shows the ${r.year} headline result at ${vw}: "${r.summary}"`);
+        assert.ok(r.h >= 44 && r.sumSize >= 12, `Menu row for ${r.year} is touch-sized and readable at ${vw}: ${r.h}px / ${r.sumSize}px`);
+      }
+      const g = await page.evaluate(() => { const p = document.querySelector('[data-year-nav] nav').getBoundingClientRect(), w = document.querySelector('.whatsapp-float').getBoundingClientRect(); return { l: p.left, r: p.right, t: p.top, b: p.bottom, waL: w.left, waT: w.top, waB: w.bottom, vw: innerWidth, vh: innerHeight, overflow: document.documentElement.scrollWidth - innerWidth }; });
+      assert.ok(g.l >= 0 && g.r <= g.vw && g.t >= 0 && g.b <= g.vh, `Menu panel fits the screen at ${vw}: ${JSON.stringify(g)}`);
+      assert.ok(g.r <= g.waL || g.b <= g.waT || g.t >= g.waB, `Menu panel does not cover the WhatsApp button at ${vw}`);
+      assert.equal(g.overflow, 0, `No sideways scroll at ${vw}`);
     }
     await page.setViewportSize({ width: 1440, height: 900 });
     console.log('PASS site feedback contract');

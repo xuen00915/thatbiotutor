@@ -45,8 +45,20 @@ $tbt_story_heading = static function (bool $show_advice = true): void {
         </button>
         <nav class="tbt-year-nav__panel" id="tbt-year-links" aria-label="Testimonial years" hidden>
             <p class="tbt-year-nav__label">Jump to year</p>
-            <?php foreach (['2025', '2024', '2023', '2022', '2021'] as $tbt_year) : ?>
-                <a href="#class-of-<?php echo esc_attr($tbt_year); ?>"<?php echo $tbt_year === '2025' ? ' aria-current="location"' : ''; ?>>Class of <?php echo esc_html($tbt_year); ?></a>
+            <?php
+            // Headline result of each class, as shown in that year's own result pictures further down the page.
+            $tbt_year_results = [
+                '2025' => '86% scored B3 and above · 46% scored A1/A2',
+                '2024' => '94% scored As and Bs · 62% scored A1/A2',
+                '2023' => '92% scored As and Bs · 69% scored A1/A2',
+                '2022' => '64% scored A1/A2 (Distinction)',
+                '2021' => '100% improved their grade in 6 months or less',
+            ];
+            foreach ($tbt_year_results as $tbt_year => $tbt_year_summary) : $tbt_year = (string) $tbt_year; ?>
+                <a href="#class-of-<?php echo esc_attr($tbt_year); ?>"<?php echo $tbt_year === '2025' ? ' aria-current="location"' : ''; ?>>
+                    <span class="tbt-year-nav__title">Class of <?php echo esc_html($tbt_year); ?></span>
+                    <span class="tbt-year-nav__summary"><?php foreach (explode(' · ', $tbt_year_summary) as $tbt_year_line) : ?><span><?php echo esc_html($tbt_year_line); ?></span> <?php endforeach; ?></span>
+                </a>
             <?php endforeach; ?>
         </nav>
     </div>

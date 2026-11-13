@@ -25,7 +25,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
         const wa = document.querySelector('.whatsapp-float').getBoundingClientRect();
         return { left: panel.left, right: panel.right, top: panel.top, bottom: panel.bottom, buttonTop: button.top, width: panel.width, waLeft: wa.left, z: +getComputedStyle(e).zIndex, headerZ: +getComputedStyle(document.querySelector('.site-header')).zIndex, overflow: document.documentElement.scrollWidth - innerWidth };
       });
-      assert.ok(geometry.width >= 180 && geometry.width <= 200);
+      assert.ok(geometry.width >= 232 && geometry.width <= 272, `Year panel is wide enough for the detail lines: ${geometry.width}`);
       assert.ok(geometry.left >= 0 && geometry.right <= width && geometry.top >= 0 && geometry.bottom <= 900);
       assert.equal(geometry.overflow, 0);
       assert.ok(geometry.z < geometry.headerZ, 'Keep primary navigation above year panel');
@@ -39,7 +39,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       await nav.locator('a[href$="#class-of-2022"]').click();
       await page.waitForFunction(() => document.querySelector('[data-year-current]').textContent === '2022');
       assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
-      assert.equal(await nav.locator('[aria-current="location"]').textContent(), 'Class of 2022');
+      assert.equal(await nav.locator('[aria-current="location"] .tbt-year-nav__title').textContent(), 'Class of 2022');
       const top = await page.locator('#class-of-2022').evaluate(e => ({ top: e.getBoundingClientRect().top, header: document.querySelector('.site-header').getBoundingClientRect().bottom }));
       assert.ok(top.top >= top.header && top.top <= top.header + 24, 'Selected year clears sticky header');
       // Manual scrolling updates the current year, including while inside a long section.
