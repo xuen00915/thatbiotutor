@@ -2,7 +2,7 @@
 (() => {
   const root = document.querySelector('[data-year-nav]');
   if (!root) return;
-  const toggle = root.querySelector('button');
+  const toggle = root.querySelector('.tbt-year-nav__toggle');
   const panel = root.querySelector('nav');
   const current = root.querySelector('[data-year-current]');
   const links = Array.from(panel.querySelectorAll('a.tbt-year-nav__year'));
@@ -23,7 +23,21 @@
     panel.hidden = true;
     if (restoreFocus) toggle.focus({ preventScroll: true });
   };
+  // Every year can be opened and closed on its own; the year you are reading opens by itself unless you closed it.
+  const setOpen = (group, open) => {
+    group.dataset.open = String(open);
+    const button = group.querySelector('.tbt-year-nav__sections-toggle');
+    if (button) button.setAttribute('aria-expanded', String(open));
+  };
+  panel.querySelectorAll('.tbt-year-nav__sections-toggle').forEach(button => button.addEventListener('click', () => {
+    const group = button.closest('.tbt-year-nav__group');
+    const open = group.dataset.open !== 'true';
+    setOpen(group, open);
+    group.dataset.userClosed = String(!open);
+  }));
   const activate = (index) => {
+    const group = links[index].closest('.tbt-year-nav__group');
+    if (group && group.dataset.userClosed !== 'true' && group.dataset.open !== 'true') setOpen(group, true);
     current.textContent = sections[index].dataset.section;
     links.forEach((link, i) => {
       if (i === index) link.setAttribute('aria-current', 'location');

@@ -12,7 +12,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
       const nav = page.locator('[data-year-nav]');
       assert.equal(await nav.count(), 1, 'One floating year navigator');
-      const toggle = nav.locator('button');
+      const toggle = nav.locator('button.tbt-year-nav__toggle');
       const panel = nav.locator('nav');
       assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
       assert.equal(await panel.isVisible(), false);
@@ -53,9 +53,9 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       await page.waitForURL(url => !url.pathname.includes('testimonials'));
       assert.equal(await page.locator('[data-year-nav]').count(), 0, 'Navigator exists only on Testimonials');
       await page.goto(new URL('testimonials/', base).href);
-      await page.locator('[data-year-nav] button').click();
+      await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
       await page.locator('.tbt-testimonials-hero h1').click();
-      assert.equal(await page.locator('[data-year-nav] button').getAttribute('aria-expanded'), 'false', 'Outside click closes panel');
+      assert.equal(await page.locator('[data-year-nav] button.tbt-year-nav__toggle').getAttribute('aria-expanded'), 'false', 'Outside click closes panel');
       console.log(`PASS year navigation ${width}`);
     }
     assert.deepEqual(errors, []);

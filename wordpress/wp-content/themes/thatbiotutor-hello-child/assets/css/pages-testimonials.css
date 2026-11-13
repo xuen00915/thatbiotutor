@@ -297,18 +297,23 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-artwork-band .tbt-testimonials-artwork { margin-top: 0; }
 
 /* Year menu with more detail: a title and the class's headline result under it. */
-body.tbt-site #main-content .tbt-year-nav__panel { width: min(272px, calc(100vw - 88px)); }
+body.tbt-site #main-content .tbt-year-nav__panel { width: min(232px, calc(100vw - 88px)); }
 body.tbt-site #main-content .tbt-year-nav__panel a { flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; padding: 10px 12px; }
 body.tbt-site #main-content .tbt-year-nav__title { color: #19221a; font-size: 15px; font-weight: 700; line-height: 1.3; }
-body.tbt-site #main-content .tbt-year-nav__summary { color: #4e5950; font-size: 12px; font-weight: 400; line-height: 1.4; }
 body.tbt-site #main-content .tbt-year-nav__panel a:is(:hover, [aria-current]) .tbt-year-nav__title { color: #2f8a27; }
 body.tbt-site #main-content .tbt-year-nav__panel a[aria-current] { box-shadow: inset 3px 0 0 #43b43a; }
-body.tbt-site #main-content .tbt-year-nav__summary > span { display: block; }
 
 /* Year groups: the current year expands to list what the class has on the page (poster, table, stories, Google reviews). */
 body.tbt-site #main-content .tbt-year-nav__group + .tbt-year-nav__group { margin-top: 2px; }
 body.tbt-site #main-content .tbt-year-nav__sections { display: none; margin: 2px 0 6px 14px; padding: 0 0 0 10px; border-left: 2px solid #d8e4cb; list-style: none; }
-body.tbt-site #main-content .tbt-year-nav__group:has(> a[aria-current]) .tbt-year-nav__sections { display: block; }
+body.tbt-site #main-content .tbt-year-nav__group[data-open="true"] .tbt-year-nav__sections { display: block; }
+body.tbt-site #main-content .tbt-year-nav__row { display: flex; align-items: stretch; gap: 2px; }
+body.tbt-site #main-content .tbt-year-nav__row > a.tbt-year-nav__year { flex: 1 1 auto; min-width: 0; }
+body.tbt-site #main-content .tbt-year-nav__sections-toggle { display: grid; flex: 0 0 44px; width: 44px; min-height: 44px; place-items: center; padding: 0; border: 0; border-radius: 6px; background: transparent; color: #2f8a27; font-size: 18px; line-height: 1; cursor: pointer; }
+body.tbt-site #main-content .tbt-year-nav__sections-toggle:hover { background: #f0f8ee; color: #0e371d; }
+body.tbt-site #main-content .tbt-year-nav__sections-toggle span { display: block; transition: transform 160ms ease; }
+body.tbt-site #main-content .tbt-year-nav__sections-toggle[aria-expanded="true"] span { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) { body.tbt-site #main-content .tbt-year-nav__sections-toggle span { transition: none; } }
 body.tbt-site #main-content .tbt-year-nav__sections li[hidden] { display: none; }
 body.tbt-site #main-content .tbt-year-nav__panel a.tbt-year-nav__section { display: flex; flex-direction: row; align-items: center; justify-content: flex-start; text-align: left; min-height: 44px; padding: 6px 10px; border-radius: 6px; color: #2f8a27; font-size: 14px; font-weight: 500; box-shadow: none; }
 body.tbt-site #main-content .tbt-year-nav__panel a.tbt-year-nav__section:hover { background: #f0f8ee; color: #0e371d; }

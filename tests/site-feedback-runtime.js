@@ -247,7 +247,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
       for (const year of ['2023', '2021', '2022', '2024', '2023']) {
-        await page.locator('[data-year-nav] button').click();
+        await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
         await page.locator(`[data-year-nav] a[href$="#class-of-${year}"]`).click();
         // Lazy images above the target load while it scrolls and push the section down a little; the label must still be the chosen year.
         await page.waitForTimeout(250);
@@ -264,7 +264,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
     // ...and once the reader scrolls on with the wheel, the label follows the page again.
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
-    await page.locator('[data-year-nav] button').click();
+    await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
     await page.locator('[data-year-nav] a[href$="#class-of-2023"]').click();
     await page.waitForTimeout(2500);
     assert.equal(await page.locator('[data-year-current]').textContent(), '2023');
@@ -292,18 +292,17 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0, `No sideways scroll at ${vw}`);
     }
     await page.setViewportSize({ width: 1440, height: 900 });
-    // 17. The year menu has more detail: each year shows its headline result under the title (taken from that year's own result pictures).
-    const wantSummary = { '2025': /86%.*B3.*46%.*A1\/A2/, '2024': /94%.*As and Bs.*62%.*A1\/A2/, '2023': /92%.*As and Bs.*69%.*A1\/A2/, '2022': /64%.*A1\/A2/, '2021': /100%.*improved.*6 months/ };
+    // 17. The year menu is a clean list of years (no result descriptions under the titles) that fits the screen and stays clear of the WhatsApp button.
     for (const vw of [1440, 768, 390, 320]) {
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
-      await page.locator('[data-year-nav] button').click();
-      const rows = await page.locator('[data-year-nav] nav a.tbt-year-nav__year').evaluateAll((els) => els.map((e) => ({ year: e.hash.replace('#class-of-', ''), title: e.querySelector('.tbt-year-nav__title')?.textContent.trim(), summary: e.querySelector('.tbt-year-nav__summary')?.textContent.replace(/\s+/g, ' ').trim(), h: e.getBoundingClientRect().height, sumSize: parseFloat(getComputedStyle(e.querySelector('.tbt-year-nav__summary') || e).fontSize) })));
+      await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
+      const rows = await page.locator('[data-year-nav] nav a.tbt-year-nav__year').evaluateAll((els) => els.map((e) => ({ year: e.hash.replace('#class-of-', ''), text: e.textContent.replace(/\s+/g, ' ').trim(), h: e.getBoundingClientRect().height, summaries: e.querySelectorAll('.tbt-year-nav__summary').length })));
       assert.equal(rows.length, 5, 'Five years in the menu');
       for (const r of rows) {
-        assert.equal(r.title, `Class of ${r.year}`, `Menu title for ${r.year} at ${vw}`);
-        assert.ok(r.summary && wantSummary[r.year].test(r.summary), `Menu shows the ${r.year} headline result at ${vw}: "${r.summary}"`);
-        assert.ok(r.h >= 44 && r.sumSize >= 12, `Menu row for ${r.year} is touch-sized and readable at ${vw}: ${r.h}px / ${r.sumSize}px`);
+        assert.equal(r.text, `Class of ${r.year}`, `Menu row for ${r.year} is just its title at ${vw}: "${r.text}"`);
+        assert.equal(r.summaries, 0, `No result description under ${r.year} at ${vw}`);
+        assert.ok(r.h >= 44, `Menu row for ${r.year} is touch-sized at ${vw}: ${r.h}px`);
       }
       const g = await page.evaluate(() => { const p = document.querySelector('[data-year-nav] nav').getBoundingClientRect(), w = document.querySelector('.whatsapp-float').getBoundingClientRect(); return { l: p.left, r: p.right, t: p.top, b: p.bottom, waL: w.left, waT: w.top, waB: w.bottom, vw: innerWidth, vh: innerHeight, overflow: document.documentElement.scrollWidth - innerWidth }; });
       assert.ok(g.l >= 0 && g.r <= g.vw && g.t >= 0 && g.b <= g.vh, `Menu panel fits the screen at ${vw}: ${JSON.stringify(g)}`);
@@ -318,29 +317,43 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
     for (const vw of [1440, 390]) {
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+      // Every year can be opened and closed on its own, wherever the reader is on the page.
+      await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+      await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
+      const visibleLabels = (year) => page.locator(`[data-year-nav] .tbt-year-nav__group:has(a.tbt-year-nav__year[href$="#class-of-${year}"]) a.tbt-year-nav__section`).evaluateAll((els) => els.filter((e) => e.getClientRects().length).map((e) => ({ text: e.textContent.trim(), h: e.getBoundingClientRect().height })));
+      const sectionToggle = (year) => page.locator(`[data-year-nav] .tbt-year-nav__group:has(a.tbt-year-nav__year[href$="#class-of-${year}"]) button.tbt-year-nav__sections-toggle`);
+      assert.deepEqual((await visibleLabels('2025')).map((x) => x.text), expectSections['2025'], `The current year starts open at ${vw}`);
+      for (const year of ['2024', '2023', '2022', '2021']) assert.equal((await visibleLabels(year)).length, 0, `${year} starts collapsed at ${vw}`);
       for (const [year, labels] of Object.entries(expectSections)) {
-        await page.locator('[data-year-nav] button').click();
-        await page.locator(`[data-year-nav] a.tbt-year-nav__year[href$="#class-of-${year}"]`).click();
-        await page.waitForTimeout(1800);
-        await page.locator('[data-year-nav] button').click();
-        const group = page.locator(`[data-year-nav] .tbt-year-nav__group:has(a[href$="#class-of-${year}"])`);
-        const shown = await group.locator('a.tbt-year-nav__section').evaluateAll((els) => els.filter((e) => e.getClientRects().length).map((e) => ({ text: e.textContent.trim(), h: e.getBoundingClientRect().height })));
-        assert.deepEqual(shown.map((x) => x.text), labels, `Menu lists the ${year} sections at ${vw}: ${JSON.stringify(shown)}`);
+        const toggle = sectionToggle(year);
+        assert.equal(await toggle.count(), 1, `${year} has its own open/close button at ${vw}`);
+        const before = (await visibleLabels(year)).length > 0;
+        assert.equal(await toggle.getAttribute('aria-expanded'), String(before), `${year} button state matches at ${vw}`);
+        if (before) { await toggle.click(); assert.equal((await visibleLabels(year)).length, 0, `${year} collapses at ${vw}`); assert.equal(await toggle.getAttribute('aria-expanded'), 'false'); }
+        await toggle.click();
+        const shown = await visibleLabels(year);
+        assert.deepEqual(shown.map((x) => x.text), labels, `${year} opens and lists its sections at ${vw}: ${JSON.stringify(shown)}`);
         assert.ok(shown.every((x) => x.h >= 44), `Section links are touch-sized at ${vw}`);
-        const others = await page.locator(`[data-year-nav] .tbt-year-nav__group:not(:has(a[href$="#class-of-${year}"])) a.tbt-year-nav__section`).evaluateAll((els) => els.filter((e) => e.getClientRects().length).length);
-        assert.equal(others, 0, `Only the current year shows its sections at ${vw}`);
-        await page.keyboard.press('Escape');
+        assert.equal(await toggle.getAttribute('aria-expanded'), 'true', `${year} button reports open at ${vw}`);
+        const box = await toggle.boundingBox(); assert.ok(box.width >= 44 && box.height >= 44, `${year} open/close button is touch-sized at ${vw}`);
       }
+      // All five can be open together, then closed one by one.
+      for (const year of Object.keys(expectSections)) assert.ok((await visibleLabels(year)).length > 0, `${year} stays open while the others are open at ${vw}`);
+      await sectionToggle('2023').click();
+      assert.equal((await visibleLabels('2023')).length, 0, `Closing 2023 leaves the others open at ${vw}`);
+      assert.ok((await visibleLabels('2022')).length > 0 && (await visibleLabels('2025')).length > 0);
+      await page.keyboard.press('Escape');
+      await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
       for (const [year, label] of [['2024', 'Results table'], ['2023', 'Google reviews'], ['2025', 'Student stories'], ['2022', 'Results table'], ['2021', 'Student stories']]) {
-        await page.locator('[data-year-nav] button').click();
+        await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
         await page.locator(`[data-year-nav] a.tbt-year-nav__year[href$="#class-of-${year}"]`).click();
         await page.waitForTimeout(1800);
-        await page.locator('[data-year-nav] button').click();
+        await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
         await page.locator(`[data-year-nav] .tbt-year-nav__group:has(a[href$="#class-of-${year}"]) a.tbt-year-nav__section`, { hasText: label }).click();
         let last = -1, still = 0;
         for (let i = 0; i < 60 && still < 8; i++) { await page.waitForTimeout(100); const y = await page.evaluate(() => Math.round(scrollY)); still = y === last ? still + 1 : 0; last = y; }
         await page.waitForTimeout(300);
-        const r = await page.evaluate(([y, id]) => { const t = document.getElementById(`class-of-${y}-${id}`); const b = t.getBoundingClientRect(); return { label: document.querySelector('[data-year-current]').textContent, top: b.top, header: document.querySelector('.site-header').getBoundingClientRect().bottom, open: document.querySelector('[data-year-nav] button').getAttribute('aria-expanded') }; }, [year, idFor[label]]);
+        const r = await page.evaluate(([y, id]) => { const t = document.getElementById(`class-of-${y}-${id}`); const b = t.getBoundingClientRect(); return { label: document.querySelector('[data-year-current]').textContent, top: b.top, header: document.querySelector('.site-header').getBoundingClientRect().bottom, open: document.querySelector('[data-year-nav] button.tbt-year-nav__toggle').getAttribute('aria-expanded') }; }, [year, idFor[label]]);
         assert.equal(r.label, year, `Jumping to ${year} ${label} keeps the ${year} label at ${vw}`);
         assert.ok(r.top >= r.header - 2 && r.top <= r.header + 60, `${year} ${label} lands just under the header at ${vw}: ${r.top} vs ${r.header}`);
         assert.equal(r.open, 'false', 'The menu closes after jumping');
@@ -349,4 +362,4 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
     await page.setViewportSize({ width: 1440, height: 900 });
     console.log('PASS site feedback contract');
   } finally { await browser.close(); }
-})().catch((e) => { console.error(e.message); process.exit(1); });
+})().catch((e) => { console.error(process.env.TBT_STACK ? e.stack : e.message); process.exit(1); });

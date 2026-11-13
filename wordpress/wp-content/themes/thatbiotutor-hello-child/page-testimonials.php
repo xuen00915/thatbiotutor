@@ -46,14 +46,6 @@ $tbt_story_heading = static function (bool $show_advice = true, string $year = '
         <nav class="tbt-year-nav__panel" id="tbt-year-links" aria-label="Testimonial years" hidden>
             <p class="tbt-year-nav__label">Jump to year</p>
             <?php
-            // Headline result of each class, as shown in that year's own result pictures further down the page.
-            $tbt_year_results = [
-                '2025' => '86% scored B3 and above · 46% scored A1/A2',
-                '2024' => '94% scored As and Bs · 62% scored A1/A2',
-                '2023' => '92% scored As and Bs · 69% scored A1/A2',
-                '2022' => '64% scored A1/A2 (Distinction)',
-                '2021' => '100% improved their grade in 6 months or less',
-            ];
             // What each class has on the page, in page order (ids are on the matching parts below).
             $tbt_year_sections = [
                 '2025' => ['poster' => 'Result poster', 'stories' => 'Student stories', 'google-reviews' => 'Google reviews'],
@@ -62,14 +54,16 @@ $tbt_story_heading = static function (bool $show_advice = true, string $year = '
                 '2022' => ['table' => 'Results table', 'stories' => 'Student stories', 'google-reviews' => 'Google reviews'],
                 '2021' => ['stories' => 'Student stories', 'google-reviews' => 'Google reviews'],
             ];
-            foreach ($tbt_year_results as $tbt_year => $tbt_year_summary) : $tbt_year = (string) $tbt_year; ?>
-                <div class="tbt-year-nav__group">
-                    <a class="tbt-year-nav__year" href="#class-of-<?php echo esc_attr($tbt_year); ?>"<?php echo $tbt_year === '2025' ? ' aria-current="location"' : ''; ?>>
-                        <span class="tbt-year-nav__title">Class of <?php echo esc_html($tbt_year); ?></span>
-                        <span class="tbt-year-nav__summary"><?php foreach (explode(' · ', $tbt_year_summary) as $tbt_year_line) : ?><span><?php echo esc_html($tbt_year_line); ?></span> <?php endforeach; ?></span>
-                    </a>
-                    <ul class="tbt-year-nav__sections">
-                        <?php foreach ($tbt_year_sections[$tbt_year] as $tbt_part => $tbt_part_label) : ?>
+            foreach ($tbt_year_sections as $tbt_year => $tbt_year_parts) : $tbt_year = (string) $tbt_year; ?>
+                <div class="tbt-year-nav__group" data-open="<?php echo $tbt_year === '2025' ? 'true' : 'false'; ?>">
+                    <div class="tbt-year-nav__row">
+                        <a class="tbt-year-nav__year" href="#class-of-<?php echo esc_attr($tbt_year); ?>"<?php echo $tbt_year === '2025' ? ' aria-current="location"' : ''; ?>>
+                            <span class="tbt-year-nav__title">Class of <?php echo esc_html($tbt_year); ?></span>
+                        </a>
+                        <button class="tbt-year-nav__sections-toggle" type="button" aria-expanded="<?php echo $tbt_year === '2025' ? 'true' : 'false'; ?>" aria-controls="tbt-year-sections-<?php echo esc_attr($tbt_year); ?>" aria-label="Class of <?php echo esc_attr($tbt_year); ?>: show or hide its sections"><span aria-hidden="true">⌄</span></button>
+                    </div>
+                    <ul class="tbt-year-nav__sections" id="tbt-year-sections-<?php echo esc_attr($tbt_year); ?>">
+                        <?php foreach ($tbt_year_parts as $tbt_part => $tbt_part_label) : ?>
                             <li><a class="tbt-year-nav__section" href="#class-of-<?php echo esc_attr($tbt_year . '-' . $tbt_part); ?>"><?php echo esc_html($tbt_part_label); ?></a></li>
                         <?php endforeach; ?>
                     </ul>
