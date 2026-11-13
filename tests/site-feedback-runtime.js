@@ -166,6 +166,32 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       for (const m of marks) assert.ok(m.line === 'none' && m.border === '0px' && m.image === 'none' && m.shadow === 'none', `Hero phrase "${m.text}" is not underlined on ${route} at ${vw}: ${JSON.stringify(m)}`);
     }
     await page.setViewportSize({ width: 1440, height: 900 });
+    // 10. Free Bio Notes: every DOWNLOAD button leads to the email form section (never to the Contact page).
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(new URL('notes/', base).href, { waitUntil: 'load' });
+    const dl = await page.locator('#main-content a.tbt-resource-button').evaluateAll((els) => els.filter((e) => /download/i.test(e.textContent)).map((e) => e.getAttribute('href')));
+    assert.ok(dl.length >= 4, `Free Bio Notes has its DOWNLOAD buttons: ${dl.length}`);
+    for (const href of dl) assert.ok(/#notes-form$/.test(href), `Every DOWNLOAD button leads to the form section, not ${href}`);
+    assert.equal(await page.locator('#notes-form form').count(), 1, 'The #notes-form section contains the email form');
+    for (const i of [0, dl.length - 1]) {
+      await page.goto(new URL('notes/', base).href, { waitUntil: 'load' });
+      const btn = page.locator('#main-content a.tbt-resource-button', { hasText: /download/i }).nth(i);
+      await btn.scrollIntoViewIfNeeded(); await btn.click(); await page.waitForTimeout(1600);
+      const box = await page.locator('#notes-form form').boundingBox();
+      assert.ok(box && box.y >= 0 && box.y < 900, `Clicking DOWNLOAD #${i} brings the form into view (form top ${box && box.y})`);
+      assert.ok(/#notes-form$/.test(page.url()) && !/contact/.test(page.url()), `Stays on the notes page: ${page.url()}`);
+    }
+    // 11. "Real Practical Sessions. Real Practice." uses the full content width and has room above it (Classes, Sec 3, Sec 4).
+    for (const vw of [1440, 390]) {
+      await page.setViewportSize({ width: vw, height: 900 });
+      for (const route of ['classes/', 'sec-3-pure-g3-biology-tuition/', 'sec-4-pure-g3-biology-tuition/']) {
+        await page.goto(new URL(route, base).href, { waitUntil: 'load' });
+        const f = await page.locator('.tbt-practical-feature').evaluate((e) => { const r = e.getBoundingClientRect(), p = e.querySelector('p').getBoundingClientRect(), prev = e.previousElementSibling.getBoundingClientRect(); return { fw: r.width, pw: p.width, gap: r.top - prev.bottom }; });
+        assert.ok(Math.abs(f.pw - f.fw) <= 1, `Practical-sessions text uses the full content width on ${route} at ${vw}: ${f.pw} of ${f.fw}`);
+        assert.ok(f.gap >= (vw > 520 ? 72 : 56) - 1, `Practical-sessions block has padding above it on ${route} at ${vw}: ${f.gap}px`);
+      }
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
     console.log('PASS site feedback contract');
   } finally { await browser.close(); }
 })().catch((e) => { console.error(e.message); process.exit(1); });

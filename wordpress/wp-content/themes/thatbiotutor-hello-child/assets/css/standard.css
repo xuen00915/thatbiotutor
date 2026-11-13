@@ -940,7 +940,8 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content h3 
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-story-heading h3 { font-size: var(--tbt-u-h2) !important; }
 
 /* Accent words in the new page and section titles: brand green on light backgrounds, the light green on the dark photo heroes. */
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-institutional-title-bar, .tbt-contact-content) :is(h1, h2) span { color: var(--tbt-green-text); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-institutional-title-bar > h1, .tbt-contact-content h1) span { color: var(--tbt-green-text); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar > h2 span { color: var(--tbt-green-on-dark); }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-programme-hero h1 em, .tbt-programme-hero h1 .tbt-programme-hero__line--green, .tbt-about-hero h1 strong) { color: var(--tbt-green-on-dark); }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-hero h1 span { color: #fff; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page h3 { color: var(--tbt-ink); }
@@ -949,9 +950,9 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 /* Dark panels and the "Class of ..." bands use the same heading style as the template. */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-notes-details, .tbt-testimonials-artwork-band--2022, .tbt-testimonials-results-band) h2 { color: #fff !important; text-align: center; }
 
-/* Page titles on Contact, Tuition Recommendations and Our Causes (and the section titles on About and Our Causes):
- * a centred title with a green accent word, no dark bar. */
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar {
+/* Page titles on Contact, Tuition Recommendations and Our Causes: a centred title with a green accent word, no dark bar.
+ * The smaller section titles on About and Our Causes keep their rounded dark-green bar (white text, light-green accent). */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar:has(> h1) {
   display: block;
   width: min(var(--tbt-page), calc(100% - 2 * var(--tbt-gutter)));
   min-height: 0;
@@ -962,13 +963,14 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   color: var(--tbt-ink);
   text-align: center;
 }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar :is(h1, h2) {
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar > h1 {
   margin: 0 auto;
   padding: 0;
   color: var(--tbt-ink) !important;
   text-align: center;
   text-wrap: balance;
 }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar > h2 { color: #fff !important; text-align: center; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-contact-content h1 {
   margin: 0 0 24px;
   color: var(--tbt-ink);
@@ -981,12 +983,18 @@ body.tbt-site { display: flex; flex-direction: column; min-height: 100vh; }
 body.tbt-site .site-main { flex: 1 0 auto; }
 body.tbt-site .site-footer { flex-shrink: 0; }
 
-/* Space above the first title of a page, and above About's first section (it follows the photo hero). */
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-page > section:first-child > .tbt-institutional-title-bar:first-child,
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-mission > .tbt-institutional-title-bar { margin-top: 56px; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-section + .tbt-institutional-section > .tbt-institutional-title-bar,
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-section + .tbt-causes-section > .tbt-institutional-title-bar { margin-top: 0; }
+/* Space above the first title of a page (the title has no bar). */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-page > section:first-child > .tbt-institutional-title-bar:has(> h1):first-child { margin-top: 56px; }
+
 
 /* Free Bio Notes: the title now uses the shared 60px size, so the preview slider is a little shorter to keep the title and tablet in the first screen. */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(160px, calc(100svh - 250px), 760px); }
 @media (max-width: 1199px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(160px, calc(100svh - 345px), 760px); } }
+
+/* Free Bio Notes: DOWNLOAD buttons scroll to the email form, leaving room for the sticky header. */
+#notes-form { scroll-margin-top: 96px; }
+
+/* "Real Practical Sessions. Real Practice.": full content width and room above it, the same on Classes, Sec 3 and Sec 4. */
+body.tbt-site #main-content :is(.tbt-classes-page, .tbt-sec3-page, .tbt-sec4-page) .tbt-practical-feature { margin-top: 72px; }
+body.tbt-site #main-content :is(.tbt-classes-page, .tbt-sec3-page, .tbt-sec4-page) .tbt-practical-feature > p { max-width: none; }
+@media (max-width: 520px) { body.tbt-site #main-content :is(.tbt-classes-page, .tbt-sec3-page, .tbt-sec4-page) .tbt-practical-feature { margin-top: 56px; } }

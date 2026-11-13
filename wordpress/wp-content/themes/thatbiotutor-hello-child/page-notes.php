@@ -34,7 +34,7 @@ $tbt_notes_portrait = tbt_media('original_003');
                 </div>
                 <p class="screen-reader-text" data-carousel-status aria-live="polite">1 of 3</p>
             </div>
-            <a class="tbt-resource-button" href="#notes-download">DOWNLOAD</a>
+            <a class="tbt-resource-button" href="#notes-form">DOWNLOAD</a>
             <p class="tbt-resource-proof">[7,000+ downloads]</p>
         </div>
     </header>
@@ -46,7 +46,7 @@ $tbt_notes_portrait = tbt_media('original_003');
         </div>
     </section>
 
-    <section class="tbt-resource-section tbt-notes-access-intro" data-section="access-intro">
+    <section class="tbt-resource-section tbt-notes-access-intro" id="notes-form" data-section="access-intro">
         <div class="tbt-resource-shell tbt-resource-narrow">
             <img class="tbt-resource-access-portrait" data-resource-portrait="notes-access" data-media-key="original_003" src="<?php echo esc_url((string) $tbt_notes_portrait['url']); ?>" alt="Mr Keefe from ThatBioTutor" width="160" height="160" loading="lazy">
             <h2><?php echo esc_html($tbt_field('notes_access_heading')); ?></h2>
@@ -92,7 +92,7 @@ $tbt_notes_portrait = tbt_media('original_003');
                     </article>
                 <?php endforeach; ?>
             </div>
-            <a class="tbt-resource-button" href="#notes-download">DOWNLOAD</a>
+            <a class="tbt-resource-button" href="#notes-form">DOWNLOAD</a>
         </div>
     </section>
 
@@ -125,7 +125,7 @@ $tbt_notes_portrait = tbt_media('original_003');
                     <li><?php echo esc_html($tbt_field('notes_download_copy')); ?></li>
                     <li>(This is to make sure you're a real person, and if I update the notes in future, I'll send you the updated version automatically!)</li>
                 </ul>
-                <a class="tbt-resource-button" href="<?php echo esc_url(home_url('/contact/')); ?>">DOWNLOAD</a>
+                <a class="tbt-resource-button" href="#notes-form">DOWNLOAD</a>
             </div>
         </section>
     </div>
@@ -134,7 +134,7 @@ $tbt_notes_portrait = tbt_media('original_003');
         <div class="tbt-resource-shell">
             <h2>What Students Are Saying...</h2>
             <div data-testimonial-renderer data-review-panel><?php tbt_render_testimonials(['posts_per_page' => -1, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'notes-reviews-bottom', 'compare' => '=']]]); ?></div>
-            <a class="tbt-resource-button tbt-notes-end-button" href="#notes-download">DOWNLOAD</a>
+            <a class="tbt-resource-button tbt-notes-end-button" href="#notes-form">DOWNLOAD</a>
         </div>
     </section>
 </article>

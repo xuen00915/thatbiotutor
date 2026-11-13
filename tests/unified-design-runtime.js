@@ -96,13 +96,21 @@ const INK = 'rgb(25, 34, 26)', GREEN = 'rgb(47, 138, 39)', LIGHT_GREEN = 'rgb(14
         t.ok(tt.top >= 40, `Title has breathing room under the header on ${at}: ${tt.top}px`);
       }
     }
-    // 6. About: section headings are centred titles like the homepage, not dark bars.
-    for (const width of [1440, 390]) {
-      await page.setViewportSize({ width, height: 900 });
-      await page.goto(new URL('about/', base).href, { waitUntil: 'load' });
-      const bars = await page.locator('.tbt-institutional-title-bar').evaluateAll((els) => els.map((e) => ({ bg: getComputedStyle(e).backgroundColor, align: getComputedStyle(e.querySelector('h2')).textAlign })));
-      t.ok(bars.length >= 4);
-      for (const b of bars) { t.ok(b.bg === 'rgba(0, 0, 0, 0)', `About section headings are not dark bars at ${width}: ${b.bg}`); t.equal(b.align, 'center'); }
+    // 6. About and Our Causes: the smaller section titles keep their rounded dark-green bar with white centred text.
+    for (const [route, sel] of [['about/', '.tbt-institutional-title-bar:has(> h2)'], ['trees/', '.tbt-institutional-title-bar:has(> h2)']]) {
+      for (const width of [1440, 390]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(new URL(route, base).href, { waitUntil: 'load' });
+        const bars = await page.locator(sel).evaluateAll((els) => els.map((e) => { const h = e.querySelector('h2'); return { bg: getComputedStyle(e).backgroundColor, radius: parseFloat(getComputedStyle(e).borderTopLeftRadius), color: getComputedStyle(h).color, align: getComputedStyle(h).textAlign, width: Math.round(e.getBoundingClientRect().width) }; }));
+        t.ok(bars.length >= 1, `${route} has section title bars`);
+        for (const b of bars) {
+          t.equal(b.bg, FOREST, `${route} section titles are on the dark-green bar at ${width}: ${b.bg}`);
+          t.ok(b.radius >= 18, `${route} title bar is rounded at ${width}`);
+          t.equal(b.color, 'rgb(255, 255, 255)', `${route} title bar text is white at ${width}`);
+          t.equal(b.align, 'center', `${route} title bar text is centred at ${width}`);
+          t.ok(Math.abs(b.width - Math.min(1120, width - 32)) <= 2, `${route} title bar uses the shared content width at ${width}: ${b.width}`);
+        }
+      }
     }
     // 7. Short pages: the footer sits at the bottom of the screen, no white strip beneath it.
     await page.setViewportSize({ width: 1440, height: 900 });

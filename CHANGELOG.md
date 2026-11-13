@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- [main-site] Free Bio Notes: every DOWNLOAD button (hero, benefits, "How do I download it?" and closing) now scrolls to the email form section (`#notes-form`); the one that opened the Contact page no longer does.
+
+- [main-site] About and Our Causes: the smaller section titles keep their rounded dark-green bar again (white text, light-green accent word); only the page titles on Contact, Tuition Recommendations and Our Causes are plain centred titles.
+
+- [main-site] "Real Practical Sessions. Real Practice.": the paragraph now uses the full 1120px content width and the block has 72px of space above it (56px on phones) on Classes, Sec 3 and Sec 4.
+
 - [main-site] Sec 3 and Sec 4 hero: the green phrases ("Start of Sec 3.", "Now!", "B4", "A", ...) are no longer underlined by the animated marker stroke; they stay light green. Covered by `tests/site-feedback-runtime.js`.
 
 - [main-site] One design across the site, using the homepage and IntensiveFix as the template: every page now uses Poppins everywhere (the Montserrat and Helvetica titles on Sec 3, Sec 4, Results & Testimonials, Free Bio Notes and About are gone); every page title is Poppins 800 at 60px (36px on phones) and every section heading Poppins 800 at 36px (30px on phones); all dark bands and panel headers use the same forest green #0e371d (Sec 3 / Sec 4 teal and the near-black Classes band are replaced); green text on light backgrounds is always #2f8a27 and on dark backgrounds #8fe17e; body text is the site ink, never pure black. Contact, Tuition Recommendations and Our Causes now open with a centred title with a green accent word and no dark bar (no new wording was added); About and Our Causes section headings follow the same style instead of dark bars. Short pages (Tuition Recommendations, Contact) no longer show a white strip under the footer. Content width stays the shared 1120px. Covered by `tests/unified-design-runtime.js`; the older per-page tests that asserted the previous "original look" (Montserrat, 45-65px titles, teal panels, dark title bars) were updated to the new design.
