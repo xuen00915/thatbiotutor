@@ -192,6 +192,35 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       }
     }
     await page.setViewportSize({ width: 1440, height: 900 });
+    // 12. One green for every green button: same colour at rest and the same darker green on hover; the floating WhatsApp button too.
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const BRAND = 'rgb(67, 180, 58)', HOVER = 'rgb(58, 159, 50)';
+    const buttonSets = [['', ['.site-header__cta', '.tbt-home-button']], ['intensivefix/', ['.tbt-home-button']], ['classes/', ['.tbt-programme-button']], ['sec-3-pure-g3-biology-tuition/', ['.tbt-programme-hall__action', '.tbt-programme-text-link']], ['testimonials/', ['.tbt-testimonials-button']], ['notes/', ['.tbt-resource-button', '.tbt-notes-form .wpcf7-submit']], ['contact/', ['.tbt-institutional-button']]];
+    for (const [route, sels] of buttonSets) {
+      await page.goto(new URL(route, base).href, { waitUntil: 'load' });
+      for (const sel of sels) {
+        const el = page.locator(sel).first();
+        await el.scrollIntoViewIfNeeded();
+        assert.equal(await el.evaluate((e) => getComputedStyle(e).backgroundColor), BRAND, `${sel} on /${route} is the brand green at rest`);
+        await el.hover(); await page.waitForTimeout(550);
+        assert.equal(await el.evaluate((e) => getComputedStyle(e).backgroundColor), HOVER, `${sel} on /${route} uses the shared hover green`);
+        await page.mouse.move(0, 0);
+      }
+    }
+    for (const [route, state] of [['', 'rest'], ['', 'hover']]) {
+      await page.goto(new URL(route, base).href, { waitUntil: 'load' });
+      const wa = page.locator('.whatsapp-float');
+      await page.addStyleTag({ content: '.whatsapp-float{animation:none!important;box-shadow:none!important}' });
+      if (state === 'hover') { await wa.hover(); await page.waitForTimeout(500); }
+      const shot = (await wa.screenshot()).toString('base64');
+      const got = await page.evaluate(async (b64) => {
+        const bmp = await createImageBitmap(await (await fetch('data:image/png;base64,' + b64)).blob());
+        const c = document.createElement('canvas'); c.width = bmp.width; c.height = bmp.height; const g = c.getContext('2d'); g.drawImage(bmp, 0, 0);
+        return [...g.getImageData(Math.round(bmp.width * 0.12), Math.round(bmp.height * 0.5), 1, 1).data].slice(0, 3);
+      }, shot);
+      const want = state === 'rest' ? [67, 180, 58] : [58, 159, 50];
+      assert.ok(got.every((v, k) => Math.abs(v - want[k]) <= 8), `WhatsApp button ${state} colour is ${want} (got ${got})`);
+    }
     console.log('PASS site feedback contract');
   } finally { await browser.close(); }
 })().catch((e) => { console.error(e.message); process.exit(1); });

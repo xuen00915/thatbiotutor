@@ -386,7 +386,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   box-shadow: 0 8px 20px rgba(67, 180, 58, .28);
   transition: background-color 160ms ease, transform 160ms ease;
 }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:is(:hover, :focus-visible) { background: #2f8f27; transform: translateY(-1px); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:is(:hover, :focus-visible) { background: #3a9f32; transform: translateY(-1px); }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:focus-visible { outline: 3px solid #0e371d; outline-offset: 3px; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-spinner { margin: 8px auto 0; }

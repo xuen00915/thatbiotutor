@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] One green for every green button: the floating WhatsApp button is now the brand green #43b43a (its icon image was a green gradient, so the supplied logo was recoloured to flat #43b43a with the white logo unchanged) instead of #58b947, and every green button now darkens to the same #3a9f32 on hover (the header Contact Us and homepage buttons used #4fa53d, the Free Bio Notes form button #2f8f27). Covered by `tests/site-feedback-runtime.js`.
+
 - [main-site] Free Bio Notes: every DOWNLOAD button (hero, benefits, "How do I download it?" and closing) now scrolls to the email form section (`#notes-form`); the one that opened the Contact page no longer does.
 
 - [main-site] About and Our Causes: the smaller section titles keep their rounded dark-green bar again (white text, light-green accent word); only the page titles on Contact and Tuition Recommendations are plain centred titles. On Our Causes, "1. Planting Trees!" is a section title bar like "2. SG Environmental Causes" (same bar, same size), not a page title.

@@ -50,7 +50,7 @@
 }
 .tbt-landing-header__cta:hover,
 .tbt-landing-header__cta:focus,
-.tbt-landing-header__cta:active { background: #4fa53d; color: #fff; box-shadow: 0 13px 28px rgba(54, 106, 47, .26); }
+.tbt-landing-header__cta:active { background: #3a9f32; color: #fff; box-shadow: 0 13px 28px rgba(54, 106, 47, .26); }
 
 @media (max-width: 520px) {
   .tbt-landing-header .site-brand__wordmark { font-size: 16px; }
@@ -81,7 +81,7 @@
 }
 
 .tbt-home-button:hover {
-  background: #4fa53d;
+  background: #3a9f32;
   box-shadow: 0 13px 28px rgba(54, 106, 47, .26);
   color: #fff;
   transform: translateY(-2px);

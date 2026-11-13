@@ -20,7 +20,7 @@ body.tbt-site .site-header { display: block; width: 100%; max-width: none; margi
 .site-nav__link--circled { position: relative; }
 /* Contact Us: the same green pill on every page, top right. */
 .site-header__cta { display: inline-flex; align-items: center; justify-content: center; align-self: center; min-height: 41px; padding: 10px 20px; border-radius: 9999px; background: #43b43a; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1); color: #fff; font: 600 14px/21px Poppins, ui-sans-serif, system-ui, sans-serif; text-align: center; text-decoration: none; white-space: nowrap; transition: background 160ms ease, box-shadow 160ms ease; }
-.site-header__cta:hover, .site-header__cta:focus, .site-header__cta:active { background: #4fa53d; color: #fff; box-shadow: 0 13px 28px rgba(54, 106, 47, .26); }
+.site-header__cta:hover, .site-header__cta:focus, .site-header__cta:active { background: #3a9f32; color: #fff; box-shadow: 0 13px 28px rgba(54, 106, 47, .26); }
 .site-header__cta:focus-visible { outline: 3px solid #0e371d; outline-offset: 3px; }
 @media (min-width: 981px) {
   .site-nav__link--circled { padding-inline: 20px; }
@@ -106,8 +106,9 @@ body.tbt-site .site-footer { box-sizing: border-box; width: 100%; max-width: non
   line-height: 16px;
   text-align: center;
 }
-.whatsapp-float { position: fixed; right: 28px; bottom: 28px; z-index: 900; display: grid; width: 56px; height: 56px; min-width: 56px; min-height: 56px; place-items: center; border: 0; border-radius: 50%; background: #58b947; color: #fff; text-decoration: none; box-shadow: 0 0 0 4px rgba(67, 180, 58, .22); animation: tbt-whatsapp-glow 2.6s ease-out infinite; transition: transform 180ms ease; }
+.whatsapp-float { position: fixed; right: 28px; bottom: 28px; z-index: 900; display: grid; width: 56px; height: 56px; min-width: 56px; min-height: 56px; place-items: center; border: 0; border-radius: 50%; background: #43b43a; color: #fff; text-decoration: none; box-shadow: 0 0 0 4px rgba(67, 180, 58, .22); animation: tbt-whatsapp-glow 2.6s ease-out infinite; transition: transform 180ms ease; }
 .whatsapp-float:hover, .whatsapp-float:focus-visible { color: #fff; transform: scale(1.06); }
+.whatsapp-float:hover .whatsapp-float__icon, .whatsapp-float:focus-visible .whatsapp-float__icon { filter: brightness(.88); } /* the shared hover green, #3a9f32 */
 @keyframes tbt-whatsapp-glow {
   0% { box-shadow: 0 0 0 4px rgba(67, 180, 58, .35), 0 0 0 4px rgba(67, 180, 58, .18); }
   70% { box-shadow: 0 0 0 4px rgba(67, 180, 58, .18), 0 0 0 12px rgba(67, 180, 58, 0); }
