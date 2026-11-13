@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Results & Testimonials year menu: choosing a year (for example 2023) scrolls to it and the menu label now keeps showing that year. Before, images loading above it nudged the section a few pixels after the scroll and the label flipped back to the previous year (2024). The label now holds the chosen year (and corrects any drift) until the reader scrolls on, then follows the page again; scroll-tracking also uses a more forgiving line below the header. Covered by `tests/site-feedback-runtime.js` and `tests/year-navigation-runtime.js`.
+
 - [main-site] Results & Testimonials, Class of 2021: "100% of our Class of 2021 improved their grade in 6 months or less" is now one row on desktop and tablet (the forced line break is gone) and uses the full 1120px content width; on phones it wraps naturally. Covered by `tests/site-feedback-runtime.js`.
 
 - [main-site] Footer: shorter on every page - 184px on desktop and tablet (was 268px) and 330px on phones (was 414px) - by reducing the top and bottom padding from 48px to 28px and the gap above the copyright line from 40px to 20px. Content and columns are unchanged. Covered by `tests/site-feedback-runtime.js`.

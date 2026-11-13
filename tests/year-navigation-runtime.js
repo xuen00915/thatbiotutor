@@ -43,7 +43,9 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       const top = await page.locator('#class-of-2022').evaluate(e => ({ top: e.getBoundingClientRect().top, header: document.querySelector('.site-header').getBoundingClientRect().bottom }));
       assert.ok(top.top >= top.header && top.top <= top.header + 24, 'Selected year clears sticky header');
       // Manual scrolling updates the current year, including while inside a long section.
-      await page.locator('#class-of-2024').evaluate(e => window.scrollTo(0, e.getBoundingClientRect().top + scrollY + 200));
+      const manualDelta = await page.locator('#class-of-2024').evaluate(e => e.getBoundingClientRect().top + 200);
+      await page.mouse.move(width / 2, 450);
+      await page.mouse.wheel(0, manualDelta); // a reader scrolling with the wheel
       await page.waitForFunction(() => document.querySelector('[data-year-current]').textContent === '2024');
       await toggle.click();
       await page.locator('.site-brand').click();

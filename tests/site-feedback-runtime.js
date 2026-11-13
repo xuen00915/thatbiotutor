@@ -242,6 +242,36 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       if (vw >= 600) assert.equal(r.rows, 1, `The phrase is one row at ${vw} (${r.rows} rows, ${r.size}px)`);
     }
     await page.setViewportSize({ width: 1440, height: 900 });
+    // 15. Results & Testimonials year menu: choosing a year scrolls to it AND the menu label shows that year once the smooth scroll ends.
+    for (const vw of [1440, 390]) {
+      await page.setViewportSize({ width: vw, height: 900 });
+      await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+      for (const year of ['2023', '2021', '2022', '2024', '2023']) {
+        await page.locator('[data-year-nav] button').click();
+        await page.locator(`[data-year-nav] a[href$="#class-of-${year}"]`).click();
+        // Lazy images above the target load while it scrolls and push the section down a little; the label must still be the chosen year.
+        await page.waitForTimeout(250);
+        await page.evaluate(() => { const sp = document.createElement('div'); sp.className = 'tbt-test-shift'; sp.style.height = '36px'; document.querySelector('#class-of-2025, .tbt-testimonials-hero').insertAdjacentElement('afterend', sp); });
+        let last = -1, still = 0;
+        for (let i = 0; i < 60 && still < 8; i++) { await page.waitForTimeout(100); const y = await page.evaluate(() => Math.round(scrollY)); still = y === last ? still + 1 : 0; last = y; }
+        await page.waitForTimeout(300);
+        const r = await page.evaluate((y) => { document.querySelectorAll('.tbt-test-shift').forEach((e) => e.remove()); return ({ label: document.querySelector('[data-year-current]').textContent, current: document.querySelector('[data-year-nav] [aria-current="location"]')?.textContent, top: document.querySelector('#class-of-' + y).getBoundingClientRect().top, header: document.querySelector('.site-header').getBoundingClientRect().bottom }); }, year);
+        assert.equal(r.label, year, `Year menu label shows ${year} after choosing it at ${vw} (shows ${r.label})`);
+        assert.equal(r.current, `Class of ${year}`, `Year menu highlights ${year} at ${vw}`);
+        assert.ok(r.top >= r.header - 2 && r.top <= r.header + 40, `The ${year} section sits just under the header at ${vw}: ${r.top} vs header ${r.header}`);
+      }
+    }
+    // ...and once the reader scrolls on with the wheel, the label follows the page again.
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+    await page.locator('[data-year-nav] button').click();
+    await page.locator('[data-year-nav] a[href$="#class-of-2023"]').click();
+    await page.waitForTimeout(2500);
+    assert.equal(await page.locator('[data-year-current]').textContent(), '2023');
+    const toNext = await page.locator('#class-of-2022').evaluate((e) => e.getBoundingClientRect().top + 200);
+    await page.mouse.move(700, 450); await page.mouse.wheel(0, toNext); await page.waitForTimeout(1200);
+    assert.equal(await page.locator('[data-year-current]').textContent(), '2022', 'Scrolling on with the wheel updates the year label');
+    await page.setViewportSize({ width: 1440, height: 900 });
     console.log('PASS site feedback contract');
   } finally { await browser.close(); }
 })().catch((e) => { console.error(e.message); process.exit(1); });
