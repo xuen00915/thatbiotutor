@@ -998,3 +998,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-mission > .tbt-institutional-title-bar { margin-top: 56px; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-section + .tbt-institutional-section > .tbt-institutional-title-bar,
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-section + .tbt-causes-section > .tbt-institutional-title-bar { margin-top: 0; }
+
+/* Free Bio Notes: the title now uses the shared 60px size, so the preview slider is a little shorter to keep the title and tablet in the first screen. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(160px, calc(100svh - 250px), 760px); }
+@media (max-width: 1199px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(160px, calc(100svh - 345px), 760px); } }

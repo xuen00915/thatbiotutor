@@ -46,7 +46,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         };
       });
       const at = `at ${width}x${height}: ${JSON.stringify(m)}`;
-      if (width >= 769 && height >= 600) assert.ok(m.sliderHeight >= Math.min(760, height - 250) - 2, `The tablet picture must use the free height of the screen ${at}`);
+      if (width >= 1200 && height >= 600) assert.ok(m.sliderHeight >= Math.min(760, height - 250) - 2, `The tablet picture must use the free height of the screen ${at}`);
       assert.ok(m.sliderBottom <= height, `Title and tablet picture must share one screen ${at}`);
       assert.ok(Math.abs(m.buttonCenter - m.viewportWidth / 2) <= 2 && Math.abs(m.proofCenter - m.viewportWidth / 2) <= 2, `Button and downloads count must be centred ${at}`);
       assert.ok(m.proofTop >= m.buttonBottom - 1 && m.proofLeft < m.buttonRight, `Downloads count must stack under the button ${at}`);
