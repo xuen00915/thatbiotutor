@@ -1,5 +1,5 @@
 // Free Bio Notes (/notes/): the hero (title, audience line, preview slider, DOWNLOAD button and downloads count)
-// shows the title and the tablet picture in the first screen (the button and downloads count may sit below it, stacked and centred), and its text uses the original Montserrat look with an italic audience line.
+// shows the title and the tablet picture in the first screen (the button and downloads count may sit below it, stacked and centred), and its text uses the original Poppins look with an italic audience line.
 const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
 const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\/?$/, '/');
@@ -55,9 +55,9 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.ok(m.arrow <= 44, `Slider arrows must not be oversized ${at}`);
       assert.ok(m.dotBox <= 32 && m.dotDraw <= 12, `Slider dots must stay small ${at}`);
       assert.ok(m.sliderHeight >= (height < 560 ? 150 : 240), `The preview slider must stay readable ${at}`);
-      assert.match(m.h1Font, /^"?Montserrat/, `Title must use Montserrat ${at}`);
-      assert.match(m.audFont, /^"?Montserrat/, `Audience line must use Montserrat ${at}`);
-      assert.match(m.spanFont, /^"?Montserrat/, `Green part of the audience line must use Montserrat ${at}`);
+      assert.match(m.h1Font, /^"?Poppins/, `Title must use Poppins ${at}`);
+      assert.match(m.audFont, /^"?Poppins/, `Audience line must use Poppins ${at}`);
+      assert.match(m.spanFont, /^"?Poppins/, `Green part of the audience line must use Poppins ${at}`);
       assert.ok(m.synthesis.includes('style'), `Italic must actually be drawn (font synthesis for style) ${at}`);
       assert.equal(m.audStyle, 'italic', `Audience line must be italic ${at}`);
       assert.ok(m.spanColor && m.spanColor !== m.audColor, `Only "Pure / G3 Biology" is green ${at}`);

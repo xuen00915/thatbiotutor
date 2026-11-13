@@ -5,7 +5,7 @@ final class InstitutionalPagesTest{
  private int $n=0;
  public function run():void{
   $files=['page-about.php','page-contact.php','page-trees.php','page-tuitionrecs.php'];$out=[];
-  foreach($files as $f){$this->ok(is_file(TBT_THEME_DIR.'/'.$f),"{$f} must exist");$out[$f]=html_entity_decode(tbt_test_render_template($f));$this->same(1,substr_count($out[$f],'<h1'),"{$f} must have one H1");}
+  foreach($files as $f){$this->ok(is_file(TBT_THEME_DIR.'/'.$f),"{$f} must exist");$out[$f]=html_entity_decode(preg_replace('~</?span>~','',tbt_test_render_template($f))); /* titles wrap their last word in a span for the green accent; the text itself is unchanged */$this->same(1,substr_count($out[$f],'<h1'),"{$f} must have one H1");}
   $about=$out['page-about.php'];foreach(['About ThatBioTutor','Our Mission','SUCCESS TO US = TRULY HELPING STUDENTS.','Quality Teaching Only','Our Tutors','A Message From The Founder','Why did you start ThatBioTutor?','What We Believe In','Vision','Mission','Values'] as $m)$this->ok(str_contains($about,$m),"About must contain {$m}");
   preg_match_all('/data-section="([^"]+)"/',$about,$aboutSections);$this->same(['hero','mission','quality','tutors','founder','beliefs'],$aboutSections[1],'About sections must follow the public order');
   foreach(['curated_heroes_about_original','curated_about_lesson_feedback','curated_about_chelsea_certificate','curated_about_chelsea_credentials','curated_about_keefe_certificate','curated_about_founder_message','curated_about_beliefs'] as $key)$this->ok(str_contains($about,$key),"About must use {$key}");

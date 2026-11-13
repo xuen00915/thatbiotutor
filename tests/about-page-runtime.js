@@ -1,4 +1,4 @@
-// About (/about/) keeps the original page look: Montserrat, 65px hero heading,
+// About (/about/) keeps the original page look: Poppins, 65px hero heading,
 // a light 78% hero photo, a 321px hero and 22px reading text (width stays the shared content width).
 const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
@@ -29,14 +29,14 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       });
       const at = `at ${width}px: ${JSON.stringify(m)}`;
       assert.ok(Math.abs(m.imageOpacity - 0.78) < 0.02, `Hero photo must stay at 78% opacity ${at}`);
-      assert.match(m.heroFont, /^"?Montserrat/, `Hero heading must use Montserrat ${at}`);
+      assert.match(m.heroFont, /^"?Poppins/, `Hero heading must use Poppins ${at}`);
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);
       if (width >= 1024) {
         assert.ok(Math.abs(m.heroHeight - 321) <= 1, `Hero must be 321px tall ${at}`);
-        assert.equal(m.heroSize, 65, `Hero heading must be 65px ${at}`);
+        assert.equal(m.heroSize, 60, `Hero heading must be the shared 60px page-title size ${at}`);
         assert.equal(m.h3Size, 40, `Mission headline must be 40px ${at}`);
         assert.equal(m.pSize, 22, `Reading text must be 22px ${at}`);
-        assert.match(m.pFont, /^"?Montserrat/, `Reading text must use Montserrat ${at}`);
+        assert.match(m.pFont, /^"?Poppins/, `Reading text must use Poppins ${at}`);
       } else {
         assert.ok(m.pSize >= 16, `Reading text must stay comfortable on small screens ${at}`);
       }

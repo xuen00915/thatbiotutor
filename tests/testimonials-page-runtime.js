@@ -1,4 +1,4 @@
-// Results & Testimonials (/testimonials/): original-style hero (Montserrat title right-aligned over the plant photo with five gold stars),
+// Results & Testimonials (/testimonials/): original-style hero (Poppins title right-aligned over the plant photo with five gold stars),
 // compact spacing, original "Student Stories!" heading, a growth-chart icon on the Class of 2022 / 2021 headings,
 // and every review list stacked in a panel that scrolls on its own and opens on four reviews.
 const assert = require('node:assert/strict');
@@ -75,7 +75,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.ok(Math.abs(content.width - aboutWidth) <= 1, `${content.name} must match About Us width ${aboutWidth}px ${detail(content)}`);
         assert.ok(Math.abs(content.left - (width - aboutWidth) / 2) <= 1, `Content must share About Us margins ${detail(content)}`);
       }
-      assert.match(m.h1Font, /^"?Montserrat/, `Hero title must use Montserrat ${at}: ${m.h1Font}`);
+      assert.match(m.h1Font, /^"?Poppins/, `Hero title must use Poppins ${at}: ${m.h1Font}`);
       assert.ok(m.starCount === 5 && /five/i.test(m.starLabel || ''), `Hero needs five gold stars ${at}`);
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);
       if (width >= 769) {
@@ -89,11 +89,11 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       }
       assert.match(m.h3Font, /Helvetica|Arial/, `Student Stories heading uses the original Helvetica-style bold ${at}: ${m.h3Font}`);
       assert.ok(Number(m.h3Weight) >= 700 && m.h3Color !== m.h3SpanColor, `"Student" dark and "Stories!" green ${at}`);
-      assert.match(m.subFont, /^"?Montserrat/, `Student Stories subtitle uses Montserrat ${at}`);
+      assert.match(m.subFont, /^"?Poppins/, `Student Stories subtitle uses Poppins ${at}`);
       assert.equal(m.subStyle, 'italic', `Student Stories subtitle is italic ${at}`);
       for (const [name, icon] of [['2022', m.icon2022], ['2021', m.icon2021]]) {
         assert.ok(icon && icon.w >= 56 && icon.below, `Class of ${name} needs the growth-chart icon under its title ${at}`);
-        assert.match(icon.fontFamily, /^"?Montserrat/, `Class of ${name} title uses Montserrat ${at}`);
+        assert.match(icon.fontFamily, /^"?Poppins/, `Class of ${name} title uses Poppins ${at}`);
         assert.ok(Number(icon.weight) >= 700 && icon.color === 'rgb(255, 255, 255)', `Class of ${name} title is white and bold ${at}`);
       }
       assert.equal(m.lists.length, 5, `All five yearly review panels must be present ${at}`);

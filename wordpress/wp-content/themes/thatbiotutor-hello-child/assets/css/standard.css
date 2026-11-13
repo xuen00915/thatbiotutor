@@ -545,7 +545,7 @@ body.tbt-site .tbt-classes-page .tbt-programme-hero__shade { background: rgba(0,
 body.tbt-site .tbt-classes-page .tbt-topic-columns { width: min(100%, 920px); gap: 58px; }
 
 /* "Why students struggle" is its own near-black block, so it reads apart from the green "How TBT solves" block. */
-body.tbt-site .tbt-classes-page .tbt-programme-struggles { background: #0d130f; }
+body.tbt-site .tbt-classes-page .tbt-programme-struggles { background: var(--tbt-std-forest); }
 body.tbt-site .tbt-classes-page .tbt-programme-struggles > .tbt-programme-container > .tbt-programme-kicker { display: flex; justify-content: center; }
 body.tbt-site .tbt-classes-page .tbt-programme-struggles > .tbt-programme-container > h2 { width: 100%; max-width: none; margin-inline: auto; text-align: center; }
 body.tbt-site .tbt-classes-page .tbt-struggle-list { gap: 40px; margin-top: 36px; }
@@ -630,16 +630,16 @@ body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero h1 .tbt-pr
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero__lead span { color: var(--tbt-green-on-dark, #8fe17e); }
 
 /* Class options: teal header bars, check marks with bold keywords. */
-body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__grid article { background: linear-gradient(#085d49 0 80px, #fff 80px); }
+body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__grid article { background: linear-gradient(var(--tbt-std-forest) 0 80px, #fff 80px); }
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__grid li { position: relative; padding-left: 24px; }
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__grid li::first-letter { color: inherit; }
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__grid li::before { position: absolute; left: 0; color: #2f8a27; content: "\2713"; font-weight: 700; }
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__grid li strong { color: #19221a; font-weight: 700; }
-body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__included { background: #085d49; }
+body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__included { background: var(--tbt-std-forest); }
 
 /* What we cover and Everything your child gets use the original teal. */
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-cover,
-body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-inclusions-section { background: #085d49; }
+body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-inclusions-section { background: var(--tbt-std-forest); }
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-phase strong,
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-exam strong { color: #19221a; font-weight: 700; }
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-topics { grid-auto-flow: column; grid-template-rows: repeat(5, auto); }
@@ -755,7 +755,7 @@ body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) :is(.tbt-program
 
 /* Sec 3 screenshot refinements: natural-height option headers and shared content edges. */
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__grid article { padding: 0 30px 28px; overflow: hidden; background: #fff; }
-body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-option-heading { margin-inline: -30px; padding: 24px 30px; background: #085d49; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-option-heading { margin-inline: -30px; padding: 24px 30px; background: var(--tbt-std-forest); }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-option-heading h3 { margin: 0 0 8px; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-option-heading b { display: block; line-height: 1.5; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__included { grid-template-columns: repeat(4, max-content); justify-content: space-between; gap: 18px 12px; }
@@ -771,11 +771,11 @@ body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-t
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials .tbt-testimonial::before { position: absolute; top: 12px; left: 14px; content: "❝"; color: #2eaf2b; font: 700 40px/1 Georgia, serif; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials img.tbt-testimonial__portrait { clip-path: circle(42%); transform: scale(1.2); flex: 0 0 60px; width: 60px; height: 60px; margin: 0 auto 4px; border-radius: 50%; object-fit: cover; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials .tbt-testimonial__stars { margin: 0; font-size: 26px; line-height: 1; letter-spacing: -2px; }
-body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials .tbt-testimonial__result { margin: 3px 0 0; color: #000; font-size: 26px; line-height: 1.2; font-weight: 700; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials .tbt-testimonial__result { margin: 3px 0 0; color: var(--tbt-std-ink); font-size: 26px; line-height: 1.2; font-weight: 700; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials blockquote { width: 100%; margin: 20px 0 28px; padding: 0; border: 0; }
-body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials blockquote p { margin: 0 0 20px; color: #000; font-size: 15px; line-height: 1.4; text-align: center; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials blockquote p { margin: 0 0 20px; color: var(--tbt-std-ink); font-size: 15px; line-height: 1.4; text-align: center; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials blockquote p:last-child { margin-bottom: 0; }
-body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials .tbt-testimonial__name { margin: auto 0 0; color: #2eaf2b; font-size: 15px; line-height: 1.4; font-style: italic; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials .tbt-testimonial__name { margin: auto 0 0; color: var(--tbt-green-text); font-size: 15px; line-height: 1.4; font-style: italic; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider { width: min(100%, 490px); margin: 48px auto 0; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__viewport { aspect-ratio: 490 / 682; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__control { width: 44px; height: 44px; padding: 0; border: 1px solid rgba(255, 255, 255, .8); border-radius: 50%; background: #193b22; color: #fff; font-size: 30px; line-height: 1; }
@@ -906,3 +906,95 @@ body.tbt-site #main-content :is([data-carousel-prev], [data-carousel-next], [dat
  body.tbt-site #main-content :is(.tbt-home-button, .tbt-button, .tbt-programme-button, .tbt-testimonials-button, .tbt-resource-button, .tbt-institutional-button, .wpcf7-submit):active { transform: none; }
  body.tbt-site .site-nav__link { transition: color 100ms linear; }
 }
+
+/* ======================================================================
+ * Unified design: the homepage and IntensiveFix are the template.
+ * Every other page uses the same font family (Poppins), the same page-title
+ * and section-heading style, the same text colours, the same dark green for
+ * dark bands, and the same page-title treatment (green eyebrow, centred
+ * title, green accent word). Declared with !important on purpose so the
+ * older per-page "original look" rules (Montserrat, 45-65px titles, teal
+ * panels, dark title bars) can no longer drift from the template.
+ * ====================================================================== */
+:root { --tbt-u-h1: 60px; --tbt-u-h2: 36px; }
+@media (max-width: 520px) { :root { --tbt-u-h1: 36px; --tbt-u-h2: 30px; } }
+
+/* One font family. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content,
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content *,
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content *::before,
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content *::after { font-family: var(--tbt-font) !important; }
+
+/* One page-title and section-heading style (same size, weight and colour on every page). */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content h1 {
+  font-size: var(--tbt-u-h1) !important;
+  font-weight: 800 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.01em !important;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content h2:not(.tbt-programme-topics-card h2):not(.tbt-programme-exam h2) {
+  font-size: var(--tbt-u-h2) !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+  letter-spacing: normal !important;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content h3 { font-weight: 800 !important; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-story-heading h3 { font-size: var(--tbt-u-h2) !important; }
+
+/* Accent words in the new page and section titles: brand green on light backgrounds, the light green on the dark photo heroes. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-institutional-title-bar, .tbt-contact-content) :is(h1, h2) span { color: var(--tbt-green-text); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-programme-hero h1 em, .tbt-programme-hero h1 .tbt-programme-hero__line--green, .tbt-about-hero h1 strong) { color: var(--tbt-green-on-dark); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-hero h1 span { color: #fff; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page h3 { color: var(--tbt-ink); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page :is(h3, h4) a, body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-beliefs h3 { color: var(--tbt-green-text); }
+
+/* Dark panels and the "Class of ..." bands use the same heading style as the template. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-notes-details, .tbt-testimonials-artwork-band--2022, .tbt-testimonials-results-band) h2 { color: #fff !important; text-align: center; }
+
+/* Page titles on Contact, Tuition Recommendations and Our Causes (and the section titles on About and Our Causes):
+ * a green all-caps eyebrow, a centred title with a green accent word, no dark bar. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar {
+  display: block;
+  width: min(var(--tbt-page), calc(100% - 2 * var(--tbt-gutter)));
+  min-height: 0;
+  margin: 0 auto;
+  padding: 0 0 28px;
+  border-radius: 0;
+  background: transparent;
+  color: var(--tbt-ink);
+  text-align: center;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar :is(h1, h2) {
+  margin: 0 auto;
+  padding: 0;
+  color: var(--tbt-ink) !important;
+  text-align: center;
+  text-wrap: balance;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-page-eyebrow {
+  margin: 0 0 12px;
+  color: var(--tbt-green-text);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: .025em;
+  line-height: 24px;
+  text-align: center;
+  text-transform: uppercase;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-contact-content h1 {
+  margin: 0 0 24px;
+  color: var(--tbt-ink);
+  text-align: center;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-contact-content { padding-top: 56px; }
+
+/* Short pages: the footer sits at the bottom of the screen (no white strip beneath it). */
+body.tbt-site { display: flex; flex-direction: column; min-height: 100vh; }
+body.tbt-site .site-main { flex: 1 0 auto; }
+body.tbt-site .site-footer { flex-shrink: 0; }
+
+/* Space above the first title of a page, and above About's first section (it follows the photo hero). */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-page > section:first-child > .tbt-institutional-title-bar:first-child,
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-mission > .tbt-institutional-title-bar { margin-top: 56px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-section + .tbt-institutional-section > .tbt-institutional-title-bar,
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-section + .tbt-causes-section > .tbt-institutional-title-bar { margin-top: 0; }

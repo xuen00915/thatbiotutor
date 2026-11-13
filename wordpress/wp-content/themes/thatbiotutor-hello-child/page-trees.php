@@ -8,7 +8,7 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
 ?>
 <article class="tbt-institutional-page tbt-causes-page">
     <section class="tbt-causes-section" data-section="planting">
-        <div class="tbt-institutional-title-bar"><h1><?php echo esc_html($tbt_field('trees_primary_heading')); ?></h1></div>
+        <div class="tbt-institutional-title-bar"><p class="tbt-page-eyebrow">Giving back</p><h1><?php echo tbt_accent_heading($tbt_field('trees_primary_heading')); ?></h1></div>
         <div class="tbt-institutional-shell tbt-causes-feature">
         <div class="tbt-causes-section__media tbt-causes-section__media--square"><?php tbt_render_media_image('curated_causes_team_trees', '', ['loading' => 'eager']); ?></div>
         <div class="tbt-causes-section__media tbt-causes-section__media--record"><?php tbt_render_media_image('curated_causes_trees_planted', '', ['loading' => 'lazy']); ?></div>
@@ -20,7 +20,7 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
         </div>
     </section>
     <section class="tbt-causes-section" data-section="sg-causes">
-        <div class="tbt-institutional-title-bar"><h2><?php echo esc_html($tbt_field('trees_secondary_heading')); ?></h2></div>
+        <div class="tbt-institutional-title-bar"><h2><?php echo tbt_accent_heading($tbt_field('trees_secondary_heading')); ?></h2></div>
         <div class="tbt-institutional-shell tbt-causes-feature">
         <div class="tbt-causes-section__media tbt-causes-section__media--giving"><?php tbt_render_media_image('curated_causes_giving_sg', '', ['loading' => 'lazy']); ?></div>
         <div class="tbt-causes-copy">

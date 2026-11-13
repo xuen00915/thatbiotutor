@@ -51,8 +51,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.ok(m.parentLabel, `I am a Parent checkbox with its label ${at}`);
       assert.equal(m.submitText, 'SUBMIT', `Submit button text ${at}`);
       assert.ok(m.submitCentered, `Submit button is centred under the fields ${at}`);
-      assert.match(m.inputFont, /^"?Montserrat/, `Form uses Montserrat like the original ${at}`);
-      assert.ok(m.submitHeight >= 44 && m.submitBg === 'rgb(67, 180, 58)' && /^"?Montserrat/.test(m.submitFont), `Submit must be a brand-green touch-sized button ${at}`);
+      assert.match(m.inputFont, /^"?Poppins/, `Form uses Poppins like the original ${at}`);
+      assert.ok(m.submitHeight >= 44 && m.submitBg === 'rgb(67, 180, 58)' && /^"?Poppins/.test(m.submitFont), `Submit must be a brand-green touch-sized button ${at}`);
       assert.ok(m.label && m.required, `Email field needs a visible label and required flag ${at}`);
       assert.ok(m.focusRing, `Email field needs a visible focus style ${at}`);
       assert.ok(m.formTop >= m.headingBottom && m.formBottom <= m.instructionsTop, `Form sits between the heading and the instructions ${at}`);

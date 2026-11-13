@@ -949,7 +949,7 @@ body.tbt-site #main-content .tbt-causes-section[data-section="planting"] .tbt-ca
   font-size: 20px;
   line-height: 28px;
 }
-.tbt-recommendations-copy strong { color: #20af23; }
+.tbt-recommendations-copy strong { color: var(--tbt-green-text); }
 
 @media (min-width: 1440px) {
   .tbt-institutional-shell,

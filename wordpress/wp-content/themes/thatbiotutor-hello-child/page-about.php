@@ -13,7 +13,7 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
     </header>
 
     <section class="tbt-institutional-section tbt-about-mission" data-section="mission">
-        <div class="tbt-institutional-title-bar"><h2><?php echo esc_html($tbt_field('about_mission_heading')); ?></h2></div>
+        <div class="tbt-institutional-title-bar"><h2><?php echo tbt_accent_heading($tbt_field('about_mission_heading')); ?></h2></div>
         <div class="tbt-reading-width">
             <h3 aria-label="SUCCESS TO US = TRULY HELPING STUDENTS.">SUCCESS TO US = <mark>TRULY HELPING STUDENTS.</mark></h3>
             <p>There is a <strong>severe need</strong> among <u>O Level Pure/G3 Biology</u> students in the country.</p>
@@ -27,7 +27,7 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
     </section>
 
     <section class="tbt-institutional-section tbt-about-quality" data-section="quality">
-        <div class="tbt-institutional-title-bar"><h2><?php echo esc_html($tbt_field('about_quality_heading')); ?></h2></div>
+        <div class="tbt-institutional-title-bar"><h2><?php echo tbt_accent_heading($tbt_field('about_quality_heading')); ?></h2></div>
         <div class="tbt-reading-width">
             <p><strong>Quality in teaching is our upmost priority,</strong> which we ensure in the following ways:</p>
             <ul><li>All tutors at TBT go through <mark>rigorous screening and testing</mark> that can take up to a month, before ever teaching their first formal class.</li><li><mark>A tutors' coaching session</mark> is held weekly, where tutors are mentored by the founder (Mr Keefe).</li><li>Every single class ends with an <u>after-lesson feedback form</u>, for students to give feedback and point out any errors. During our weekly tutors' coaching session, we <mark>review and act upon the feedback weekly</mark> to make sure every class is better than the last.</li></ul>
@@ -36,7 +36,7 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
     </section>
 
     <section class="tbt-institutional-section tbt-about-tutors" data-section="tutors" data-tutor-media="curated_about_tutor_chelsea curated_about_tutor_jamie curated_about_tutor_keefe curated_about_tutor_ng curated_about_chelsea_certificate curated_about_chelsea_credentials curated_about_keefe_certificate">
-        <div class="tbt-institutional-title-bar"><h2><?php echo esc_html($tbt_field('about_tutors_heading')); ?></h2></div>
+        <div class="tbt-institutional-title-bar"><h2><?php echo tbt_accent_heading($tbt_field('about_tutors_heading')); ?></h2></div>
         <?php
         tbt_render_tutors([
             'variant' => 'about',
@@ -71,7 +71,7 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
     </section>
 
     <section class="tbt-institutional-section tbt-founder-message" data-section="founder">
-        <div class="tbt-institutional-title-bar"><h2><?php echo esc_html($tbt_field('about_founder_heading')); ?></h2></div>
+        <div class="tbt-institutional-title-bar"><h2><?php echo tbt_accent_heading($tbt_field('about_founder_heading')); ?></h2></div>
         <div class="tbt-reading-width">
             <?php tbt_render_media_image('curated_about_founder_message', 'tbt-founder-message__image', ['loading' => 'lazy']); ?>
             <div class="tbt-founder-cards">
@@ -98,6 +98,6 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
         </div>
     </section>
 
-    <section class="tbt-institutional-section tbt-about-beliefs" data-section="beliefs"><div class="tbt-institutional-title-bar"><h2><?php echo esc_html($tbt_field('about_beliefs_heading')); ?></h2></div><div class="tbt-reading-width"><div class="tbt-beliefs-grid"><article><h3>Vision</h3><p>To provide high quality biology education to students who genuinely want to improve, but can't because they're not getting the help they need from school. Our slots will be highly sought-after, our tutors passionate, and the causes we support meaningful.</p></article><article><h3>Mission</h3><p>Empower students to realise their inherent worth by showing them they can conquer biology... and by treating them like royalty.</p></article><article><h3>Values</h3><p>Obsessive greatness. Speed is king. Always do right by the customer.</p></article></div><?php tbt_render_media_image('curated_about_beliefs', 'tbt-about-beliefs__image', ['loading' => 'lazy']); ?></div></section>
+    <section class="tbt-institutional-section tbt-about-beliefs" data-section="beliefs"><div class="tbt-institutional-title-bar"><h2><?php echo tbt_accent_heading($tbt_field('about_beliefs_heading')); ?></h2></div><div class="tbt-reading-width"><div class="tbt-beliefs-grid"><article><h3>Vision</h3><p>To provide high quality biology education to students who genuinely want to improve, but can't because they're not getting the help they need from school. Our slots will be highly sought-after, our tutors passionate, and the causes we support meaningful.</p></article><article><h3>Mission</h3><p>Empower students to realise their inherent worth by showing them they can conquer biology... and by treating them like royalty.</p></article><article><h3>Values</h3><p>Obsessive greatness. Speed is king. Always do right by the customer.</p></article></div><?php tbt_render_media_image('curated_about_beliefs', 'tbt-about-beliefs__image', ['loading' => 'lazy']); ?></div></section>
 </article>
 <?php get_footer(); ?>

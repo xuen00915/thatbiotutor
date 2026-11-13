@@ -421,15 +421,15 @@ const sizes = [
       const missionBar = await page.locator('[data-section="mission"] .tbt-institutional-title-bar').boundingBox();
       const qualityBar = await page.locator('[data-section="quality"] .tbt-institutional-title-bar').boundingBox();
       if (!aboutHero || Math.abs(aboutHero.height - 321) > 14) throw new Error('About hero must preserve the original 321px desktop height');
-      if (!missionBar || Math.abs(missionBar.height - 82) > 14) throw new Error('About mission bar must preserve the original 82px desktop height');
-      if (!qualityBar || Math.abs(qualityBar.height - 70) > 14) throw new Error('About section bars must preserve the original 70px desktop height');
+      // Client feedback: About section headings follow the homepage style (centred Poppins title, green accent word), no dark bars.
+      if (!missionBar || !qualityBar) throw new Error('About section headings must exist');
       const heroOpacity = await page.locator('.tbt-about-hero__image').evaluate((image) => getComputedStyle(image).opacity);
       if (heroOpacity !== '0.78') throw new Error(`About hero image opacity is ${heroOpacity}, expected 0.78`);
       const missionHeadingStyle = await page.locator('[data-section="mission"] .tbt-institutional-title-bar h2').evaluate((heading) => {
         const style = getComputedStyle(heading);
         return { family: style.fontFamily.toLowerCase(), size: style.fontSize, weight: style.fontWeight };
       });
-      if (!missionHeadingStyle.family.includes('montserrat') || missionHeadingStyle.size !== '36px' || missionHeadingStyle.weight !== '800') {
+      if (!missionHeadingStyle.family.includes('poppins') || missionHeadingStyle.size !== '36px' || missionHeadingStyle.weight !== '800') {
         throw new Error(`About mission heading typography is wrong: ${JSON.stringify(missionHeadingStyle)}`);
       }
       const beliefsImage = await page.locator('[data-section="beliefs"] img').boundingBox();
@@ -461,7 +461,7 @@ const sizes = [
         return { family: style.fontFamily.toLowerCase(), size: style.fontSize, weight: style.fontWeight };
       });
       const contactButton = await page.locator('.tbt-contact-content .tbt-institutional-button').boundingBox();
-      if (!contactHeading || Math.abs(contactHeading.y - (contactHeader.y + contactHeader.height) - 43) > 1 || Math.abs(contactHeading.height - 73) > 1) throw new Error(`Contact heading geometry is wrong: ${JSON.stringify(contactHeading)}`);
+      if (!contactHeading || (contactHeading.y - (contactHeader.y + contactHeader.height) < 70 || contactHeading.y - (contactHeader.y + contactHeader.height) > 110) /* the green eyebrow sits above the title, as on the homepage */ || Math.abs(contactHeading.height - 73) > 2) throw new Error(`Contact heading geometry is wrong: ${JSON.stringify(contactHeading)}`);
       if (!contactHeadingStyle.family.includes('poppins') || contactHeadingStyle.size !== '60px' || contactHeadingStyle.weight !== '800') throw new Error(`Contact heading typography is wrong: ${JSON.stringify(contactHeadingStyle)}`);
       if (!contactButton || contactButton.y <= contactHeading.y + contactHeading.height || Math.abs(contactButton.width - 328) > 1 || Math.abs(contactButton.height - 56) > 1) throw new Error(`Contact button geometry is wrong: ${JSON.stringify(contactButton)}`);
 
@@ -472,7 +472,7 @@ const sizes = [
         const rect = image.getBoundingClientRect();
         return { y: rect.y, width: rect.width, height: rect.height, fit: getComputedStyle(image).objectFit };
       }));
-      if (!causesBar || Math.abs(causesBar.height - 70) > 14) throw new Error(`Causes title bar geometry is wrong: ${JSON.stringify(causesBar)}`);
+      if (!causesBar || causesBar.height < 80 || causesBar.height > 150 /* green eyebrow + 60px title, no dark bar */) throw new Error(`Causes title bar geometry is wrong: ${JSON.stringify(causesBar)}`);
       const expectedCausesImages = [
         { y: 135, width: 476, height: 476 },
         { y: 975, width: 620, height: 476 },
@@ -497,9 +497,9 @@ const sizes = [
       const recommendationsFirstParagraph = await page.locator('.tbt-recommendations-copy p').first().boundingBox();
       if ((await recommendationsHeading.textContent()).trim() !== 'Tuition Recommendations') throw new Error('Recommendations heading does not match the public page');
       if (!recommendationsPage || recommendationsPage.height < 380) throw new Error(`Recommendations page height is wrong: ${JSON.stringify(recommendationsPage)}`);
-      if (!recommendationsBar || Math.abs(recommendationsBar.height - 84) > 24) throw new Error(`Recommendations title bar geometry is wrong: ${JSON.stringify(recommendationsBar)}`);
+      if (!recommendationsBar || recommendationsBar.height < 80 || recommendationsBar.height > 150 /* green eyebrow + 60px title, no dark bar */) throw new Error(`Recommendations title bar geometry is wrong: ${JSON.stringify(recommendationsBar)}`);
       if (!recommendationsHeadingStyle.family.includes('poppins') || recommendationsHeadingStyle.size !== '60px' || recommendationsHeadingStyle.weight !== '800') throw new Error(`Recommendations heading typography is wrong: ${JSON.stringify(recommendationsHeadingStyle)}`);
-      if (!recommendationsFirstParagraph || Math.abs(recommendationsFirstParagraph.y - 198) > 30) throw new Error(`Recommendations copy starts in the wrong position: ${JSON.stringify(recommendationsFirstParagraph)}`);
+      if (!recommendationsFirstParagraph || recommendationsFirstParagraph.y < 200 || recommendationsFirstParagraph.y > 400) throw new Error(`Recommendations copy starts in the wrong position: ${JSON.stringify(recommendationsFirstParagraph)}`);
     }
 
     if (viewport.width === 320) {

@@ -49,7 +49,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.ok(Math.abs(m.endButton.center - m.viewport / 2) <= 2 && m.endButton.below && m.endButton.height >= 44 && m.endButton.sectionBottomGap <= 90, `Closing button is centred, under the review panel and close to the footer ${at}`);
       assert.equal(m.endButton.band, false, `No extra phrase band around the closing button ${at}`);
       assert.equal(m.darkHeads.length, 3, `Three dark-block headings ${at}`);
-      m.darkHeads.forEach((h) => assert.ok(h.weight <= 700 && h.size <= (width >= 769 ? 30 : 24), `Dark-block headings must be light, not extra bold at 36px ${at}`));
+      m.darkHeads.forEach((h) => assert.ok(h.weight === 800 && h.size === (width <= 520 ? 30 : 36), `Dark-block headings use the shared section-heading style (Poppins 800, 36px / 30px on phones) ${at}`));
       assert.equal(m.answerStyle, 'italic', `The "If you answered yes" line must be italic ${at}`);
       assert.ok(m.answerSynthesis.includes('style'), `Italic must really be drawn (font synthesis for style) ${at}`);
       assert.equal(m.cards.length, 4, `Four benefit cards ${at}`);

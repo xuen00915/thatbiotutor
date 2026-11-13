@@ -59,7 +59,7 @@ const {chromium} = require('playwright');
    assert.equal(r.overflow,0,'No sideways scroll at '+width+'px');
    const d=r.design;
    assert.ok(d.faq.length===5&&d.faq.every(f=>f.fits&&f.ws==='normal'&&f.icon!=='none'&&f.icon!=='normal'),'FAQ questions must wrap, fit and show a plus icon at '+width+'px '+JSON.stringify(d.faq));
-   const minH=width>=1024?40:width>=768?32:26;
+   const minH=width<=520?30:36; /* the shared section-heading size */
    assert.ok(d.diff.size>=minH&&d.diff.span==='rgb(143, 225, 126)','TBT difference heading must be large with green keywords at '+width+'px '+JSON.stringify(d.diff));
    assert.ok(d.diff.gap<=36,'Less space between the difference heading and its picture ('+d.diff.gap+'px)');
    assert.equal(d.diff.kickerItalic,'italic');
@@ -76,7 +76,7 @@ const {chromium} = require('playwright');
    assert.equal(d.h2Align,'center','Struggle title must be centred at '+width+'px');
    assert.ok(Math.abs(d.struggleTitleWidth-d.struggleContainerWidth)<=2,'Struggle title must use the full shared content width at '+width+'px');
    assert.ok(d.h3.length===4&&d.h3.every(h=>h.italic==='italic'&&h.spans.length>=1&&h.spans.every(c=>c!=='rgb(255, 255, 255)')),'Struggle headings must be italic with green keywords '+JSON.stringify(d.h3));
-   assert.notEqual(d.strBg,d.solBg,'Struggle and How-TBT-solves sections need different backgrounds');
+   assert.ok(d.strBg==='rgb(14, 55, 29)'&&d.solBg==='rgb(14, 55, 29)','Struggle and How-TBT-solves sections both use the shared dark green');
    assert.ok(Math.abs(d.solW-d.solContW)<=2,'How TBT solves cards must use the shared content width ('+d.solW+' vs '+d.solContW+')');
    assert.ok(Math.abs(d.diffW-d.diffContW)<=2,'TBT difference must use the shared content width ('+d.diffW+' vs '+d.diffContW+')');
    assert.ok(d.stats.every(c=>c==='rgb(255, 255, 255)'),'Result numbers must be white '+JSON.stringify(d.stats));

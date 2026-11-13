@@ -9,7 +9,7 @@ $tbt_recommendations_url = 'https://docs.google.com/document/d/1Wwn8kzMaT59326gp
 ?>
 <article class="tbt-institutional-page tbt-recommendations-page">
     <section data-section="recommendations">
-        <div class="tbt-institutional-title-bar"><h1><?php echo esc_html($tbt_field('tuitionrecs_heading')); ?></h1></div>
+        <div class="tbt-institutional-title-bar"><p class="tbt-page-eyebrow">Secondary school + JC</p><h1><?php echo tbt_accent_heading($tbt_field('tuitionrecs_heading')); ?></h1></div>
         <div class="tbt-institutional-shell tbt-recommendations-copy">
             <p>By popular request, I have compiled some secondary school + JC tuition recommendations <a href="<?php echo esc_url($tbt_recommendations_url); ?>" target="_blank" rel="noopener noreferrer"><u>here</u></a>!</p>
             <p>1. For all these recommendations, <strong>I advise you to go for trial lesson</strong> for one/more centres to <u>find the best one for you.</u></p>

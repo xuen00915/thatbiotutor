@@ -33,7 +33,7 @@ const {chromium} = require('playwright');
     };
    });
    assert.match(r.hero.image,/cb930409307ab6ba74e509232acff7c5/,'Use the uncropped original Sec 4 hero');assert.equal(r.hero.shade,'rgba(0, 0, 0, 0)','Original hero is already darkened');
-   assert.match(r.hero.font,/^"?Montserrat/);assert.equal(r.hero.weight,'700');assert.equal(r.hero.label,'none');assert.ok(r.hero.accents>=7);assert.match(r.hero.text,/From B4 or worse to A in O Levels/);
+   assert.match(r.hero.font,/^"?Poppins/);assert.equal(r.hero.weight,'800');assert.equal(r.hero.label,'none');assert.ok(r.hero.accents>=7);assert.match(r.hero.text,/From B4 or worse to A in O Levels/);
    assert.equal(r.options.length,12);assert.ok(r.options.every(e=>e.bold&&e.tick));assert.equal(r.centered,'center');
    assert.equal(r.phases,3);assert.ok(r.joinInLast,'Joining note belongs inside Phase 3');assert.match(r.phase3,/O Level and prelim questions/);assert.ok(r.topics);
    assert.deepEqual(r.topicNames,['Infectious Diseases','Nutrition in Plants','Transport in Plants','Organisms and Their Environment','Molecular Genetics','Reproduction in Plants','Reproduction in Humans','Inheritance']);

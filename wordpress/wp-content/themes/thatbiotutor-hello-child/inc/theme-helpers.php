@@ -292,6 +292,16 @@ function tbt_render_page_image(string $fieldName, string $fallbackKey, string $c
     echo ' src="' . esc_url((string) $image['url']) . '" alt="' . esc_attr((string) ($image['alt'] ?: ($fallback['alt'] ?? ''))) . '" width="' . esc_attr((string) ($image['width'] ?? 0)) . '" height="' . esc_attr((string) ($image['height'] ?? 0)) . '">';
 }
 
+/** Page and section titles: the last word is wrapped in a span so the stylesheet can colour it green (the homepage title style). */
+function tbt_accent_heading(string $text): string
+{
+    $text = trim($text);
+    if (preg_match('/^(.*?)(\S+?)([\s[:punct:]]*)$/us', $text, $m) !== 1 || $m[2] === '') {
+        return esc_html($text);
+    }
+    return esc_html($m[1]) . '<span>' . esc_html($m[2]) . '</span>' . esc_html($m[3]);
+}
+
 /** Enqueue the protected local design system and progressive interactions. */
 function tbt_enqueue_assets(): void
 {
