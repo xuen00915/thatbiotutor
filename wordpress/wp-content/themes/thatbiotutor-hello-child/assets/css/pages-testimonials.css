@@ -271,3 +271,12 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 @media (min-width: 600px) {
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-results-band p { font-size: clamp(14px, 2.4vw, 20px); white-space: nowrap; }
 }
+
+/* The dark-green "Class of ..." bands are as wide as the shared content width (rounded, centred) instead of running edge to edge. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-artwork-band, .tbt-testimonials-results-band) {
+  width: min(var(--tbt-page, 1120px), calc(100% - 32px));
+  margin-inline: auto;
+  border-radius: 18px;
+}
+/* Inside a band the content container fills the band (the band itself is already the content width). */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-artwork-band, .tbt-testimonials-results-band) > .tbt-testimonials-container { width: 100%; }

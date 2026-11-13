@@ -272,6 +272,21 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
     await page.mouse.move(700, 450); await page.mouse.wheel(0, toNext); await page.waitForTimeout(1200);
     assert.equal(await page.locator('[data-year-current]').textContent(), '2022', 'Scrolling on with the wheel updates the year label');
     await page.setViewportSize({ width: 1440, height: 900 });
+    // 16. Results & Testimonials: the dark-green bands are no wider than the shared content width (rounded, centred), not full-bleed.
+    for (const vw of [1440, 1024, 768, 390, 320]) {
+      await page.setViewportSize({ width: vw, height: 900 });
+      await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+      const bands = await page.locator('.tbt-testimonials-artwork-band, .tbt-testimonials-results-band').evaluateAll((els) => els.map((e) => { const r = e.getBoundingClientRect(), s = getComputedStyle(e); return { w: Math.round(r.width), centre: Math.round(r.left + r.width / 2), bg: s.backgroundColor, radius: parseFloat(s.borderTopLeftRadius), cls: e.className.split(' ').pop() }; }));
+      assert.ok(bands.length >= 4, `Dark-green bands present at ${vw}`);
+      for (const b of bands) {
+        assert.ok(Math.abs(b.w - Math.min(1120, vw - 32)) <= 2, `Band ${b.cls} uses the content width at ${vw}: ${b.w}px`);
+        assert.ok(Math.abs(b.centre - vw / 2) <= 2, `Band ${b.cls} is centred at ${vw}`);
+        assert.equal(b.bg, 'rgb(14, 55, 29)', `Band ${b.cls} keeps the dark green`);
+        assert.ok(b.radius >= 18, `Band ${b.cls} has rounded corners at ${vw}: ${b.radius}px`);
+      }
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0, `No sideways scroll at ${vw}`);
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
     console.log('PASS site feedback contract');
   } finally { await browser.close(); }
 })().catch((e) => { console.error(e.message); process.exit(1); });

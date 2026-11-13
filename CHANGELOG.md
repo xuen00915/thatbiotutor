@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Results & Testimonials: the dark-green "Class of ..." bands (the 2024, 2023 and 2022 artwork bands and the 2021 results band) are now as wide as the shared 1120px content width, centred with 18px rounded corners, instead of running edge to edge. Covered by `tests/site-feedback-runtime.js`.
+
 - [main-site] Results & Testimonials year menu: choosing a year (for example 2023) scrolls to it and the menu label now keeps showing that year. Before, images loading above it nudged the section a few pixels after the scroll and the label flipped back to the previous year (2024). The label now holds the chosen year (and corrects any drift) until the reader scrolls on, then follows the page again; scroll-tracking also uses a more forgiving line below the header. Covered by `tests/site-feedback-runtime.js` and `tests/year-navigation-runtime.js`.
 
 - [main-site] Results & Testimonials, Class of 2021: "100% of our Class of 2021 improved their grade in 6 months or less" is now one row on desktop and tablet (the forced line break is gone) and uses the full 1120px content width; on phones it wraps naturally. Covered by `tests/site-feedback-runtime.js`.
