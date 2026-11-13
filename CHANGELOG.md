@@ -2,9 +2,7 @@
 
 ## Unreleased
 
-- [main-site] IntensiveFix: the track-record video is now https://youtu.be/bwMcGJcP0ts (replacing V4dj5XYEcow, which stays on the homepage); the page test expects the new video.
-
-- [main-site] IntensiveFix: the video under "Here's how we make that happen." is replaced with https://www.youtube.com/watch?v=V4dj5XYEcow; the page test now expects the new video.
+- [main-site] Videos restored to the originals: IntensiveFix "Here's how we make that happen." plays the original "The missing key to Biology improvement" video again, and the homepage "Don't just take our word for it" second video is Alicia's Story again.
 
 - [main-site] Image sliders: every slider now has 18px rounded corners (the homepage hero slider and the About page certificate slider were square / 12px; the others already matched). Covered by a test across all pages at desktop and phone width.
 
