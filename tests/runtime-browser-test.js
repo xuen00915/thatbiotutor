@@ -461,7 +461,7 @@ const sizes = [
         return { family: style.fontFamily.toLowerCase(), size: style.fontSize, weight: style.fontWeight };
       });
       const contactButton = await page.locator('.tbt-contact-content .tbt-institutional-button').boundingBox();
-      if (!contactHeading || (contactHeading.y - (contactHeader.y + contactHeader.height) < 70 || contactHeading.y - (contactHeader.y + contactHeader.height) > 110) /* the green eyebrow sits above the title, as on the homepage */ || Math.abs(contactHeading.height - 73) > 2) throw new Error(`Contact heading geometry is wrong: ${JSON.stringify(contactHeading)}`);
+      if (!contactHeading || (contactHeading.y - (contactHeader.y + contactHeader.height) < 40 || contactHeading.y - (contactHeader.y + contactHeader.height) > 70) || Math.abs(contactHeading.height - 73) > 2) throw new Error(`Contact heading geometry is wrong: ${JSON.stringify(contactHeading)}`);
       if (!contactHeadingStyle.family.includes('poppins') || contactHeadingStyle.size !== '60px' || contactHeadingStyle.weight !== '800') throw new Error(`Contact heading typography is wrong: ${JSON.stringify(contactHeadingStyle)}`);
       if (!contactButton || contactButton.y <= contactHeading.y + contactHeading.height || Math.abs(contactButton.width - 328) > 1 || Math.abs(contactButton.height - 56) > 1) throw new Error(`Contact button geometry is wrong: ${JSON.stringify(contactButton)}`);
 
@@ -472,7 +472,7 @@ const sizes = [
         const rect = image.getBoundingClientRect();
         return { y: rect.y, width: rect.width, height: rect.height, fit: getComputedStyle(image).objectFit };
       }));
-      if (!causesBar || causesBar.height < 80 || causesBar.height > 150 /* green eyebrow + 60px title, no dark bar */) throw new Error(`Causes title bar geometry is wrong: ${JSON.stringify(causesBar)}`);
+      if (!causesBar || causesBar.height < 60 || causesBar.height > 150 /* 60px title, no dark bar */) throw new Error(`Causes title bar geometry is wrong: ${JSON.stringify(causesBar)}`);
       const expectedCausesImages = [
         { y: 135, width: 476, height: 476 },
         { y: 975, width: 620, height: 476 },
@@ -497,7 +497,7 @@ const sizes = [
       const recommendationsFirstParagraph = await page.locator('.tbt-recommendations-copy p').first().boundingBox();
       if ((await recommendationsHeading.textContent()).trim() !== 'Tuition Recommendations') throw new Error('Recommendations heading does not match the public page');
       if (!recommendationsPage || recommendationsPage.height < 380) throw new Error(`Recommendations page height is wrong: ${JSON.stringify(recommendationsPage)}`);
-      if (!recommendationsBar || recommendationsBar.height < 80 || recommendationsBar.height > 150 /* green eyebrow + 60px title, no dark bar */) throw new Error(`Recommendations title bar geometry is wrong: ${JSON.stringify(recommendationsBar)}`);
+      if (!recommendationsBar || recommendationsBar.height < 60 || recommendationsBar.height > 150 /* 60px title, no dark bar */) throw new Error(`Recommendations title bar geometry is wrong: ${JSON.stringify(recommendationsBar)}`);
       if (!recommendationsHeadingStyle.family.includes('poppins') || recommendationsHeadingStyle.size !== '60px' || recommendationsHeadingStyle.weight !== '800') throw new Error(`Recommendations heading typography is wrong: ${JSON.stringify(recommendationsHeadingStyle)}`);
       if (!recommendationsFirstParagraph || recommendationsFirstParagraph.y < 200 || recommendationsFirstParagraph.y > 400) throw new Error(`Recommendations copy starts in the wrong position: ${JSON.stringify(recommendationsFirstParagraph)}`);
     }

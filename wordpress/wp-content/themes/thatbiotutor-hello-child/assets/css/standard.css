@@ -952,7 +952,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-notes-details, .tbt-testimonials-artwork-band--2022, .tbt-testimonials-results-band) h2 { color: #fff !important; text-align: center; }
 
 /* Page titles on Contact, Tuition Recommendations and Our Causes (and the section titles on About and Our Causes):
- * a green all-caps eyebrow, a centred title with a green accent word, no dark bar. */
+ * a centred title with a green accent word, no dark bar. */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-institutional-title-bar {
   display: block;
   width: min(var(--tbt-page), calc(100% - 2 * var(--tbt-gutter)));
@@ -970,16 +970,6 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   color: var(--tbt-ink) !important;
   text-align: center;
   text-wrap: balance;
-}
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-page-eyebrow {
-  margin: 0 0 12px;
-  color: var(--tbt-green-text);
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: .025em;
-  line-height: 24px;
-  text-align: center;
-  text-transform: uppercase;
 }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-contact-content h1 {
   margin: 0 0 24px;

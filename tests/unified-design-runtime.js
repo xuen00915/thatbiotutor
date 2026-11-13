@@ -76,25 +76,24 @@ const INK = 'rgb(25, 34, 26)', GREEN = 'rgb(47, 138, 39)', LIGHT_GREEN = 'rgb(14
         
       }
     }
-    // 5. Page titles on Contact, Tuition Recommendations and Our Causes follow the homepage title treatment.
+    // 5. Page titles on Contact, Tuition Recommendations and Our Causes follow the homepage title treatment (centred, green accent word, no dark bar; no added copy).
     for (const width of [1440, 390]) {
       await page.setViewportSize({ width, height: 900 });
       for (const route of ['contact/', 'tuitionrecs/', 'trees/']) {
         await page.goto(new URL(route, base).href, { waitUntil: 'load' });
         await page.evaluate(() => document.fonts.ready);
         const tt = await page.evaluate(() => {
-          const h1 = document.querySelector('#main-content h1'); const s = getComputedStyle(h1); const eb = document.querySelector('#main-content .tbt-page-eyebrow');
+          const h1 = document.querySelector('#main-content h1'); const s = getComputedStyle(h1);
           const hb = document.querySelector('.site-header').getBoundingClientRect().bottom; const accent = h1.querySelector('span');
           const bar = h1.closest('.tbt-institutional-title-bar');
-          return { align: s.textAlign, bg: bar ? getComputedStyle(bar).backgroundColor : 'none', ebText: eb && eb.textContent.trim(), ebColor: eb && getComputedStyle(eb).color, ebCase: eb && getComputedStyle(eb).textTransform, ebBeforeH1: !!eb && !!(eb.compareDocumentPosition(h1) & Node.DOCUMENT_POSITION_FOLLOWING), accent: accent && getComputedStyle(accent).color, color: s.color, top: h1.getBoundingClientRect().top - hb, ebTop: eb ? eb.getBoundingClientRect().top - hb : null };
+          return { align: s.textAlign, bg: bar ? getComputedStyle(bar).backgroundColor : 'none', accent: accent && getComputedStyle(accent).color, color: s.color, top: h1.getBoundingClientRect().top - hb };
         });
         const at = `${route} at ${width}`;
         t.equal(tt.align, 'center', `Title is centred on ${at}`);
         t.ok(tt.bg === 'none' || tt.bg === 'rgba(0, 0, 0, 0)', `Title is not on a dark bar on ${at}: ${tt.bg}`);
-        t.ok(tt.ebText && tt.ebBeforeH1 && tt.ebCase === 'uppercase' && tt.ebColor === GREEN, `Green all-caps eyebrow above the title on ${at}: ${JSON.stringify({ t: tt.ebText, c: tt.ebColor, u: tt.ebCase })}`);
         t.equal(tt.accent, GREEN, `Title has a green accent word on ${at}`);
         t.equal(tt.color, INK, `Title is the site ink on ${at}`);
-        t.ok(tt.ebTop >= 24, `Eyebrow has breathing room under the header on ${at}: ${tt.ebTop}px`);
+        t.ok(tt.top >= 40, `Title has breathing room under the header on ${at}: ${tt.top}px`);
       }
     }
     // 6. About: section headings are centred titles like the homepage, not dark bars.
