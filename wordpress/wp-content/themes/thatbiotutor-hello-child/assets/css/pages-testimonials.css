@@ -280,3 +280,18 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 }
 /* Inside a band the content container fills the band (the band itself is already the content width). */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-artwork-band, .tbt-testimonials-results-band) > .tbt-testimonials-container { width: 100%; }
+
+/* Each year opens with a green "Class of ..." panel (content width, rounded) above its result pictures; nothing green sits behind the pictures. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year-panel {
+  width: 100%;
+  margin: 48px auto 32px;
+  padding: 28px 24px;
+  border-radius: 18px;
+  background: #0e371d;
+  color: #fff;
+  text-align: center;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year-panel h2 { margin: 0; color: #fff !important; text-align: center; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year-panel .tbt-testimonials-icon { margin-top: 12px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-artwork-band { padding: 0; background: transparent; border-radius: 0; margin-block: 0 40px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-artwork-band .tbt-testimonials-artwork { margin-top: 0; }

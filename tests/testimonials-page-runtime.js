@@ -31,7 +31,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         const sub = q('p', stories);
         const artwork = q('#class-of-2025 .tbt-testimonials-artwork');
         const featuredButton = q('.tbt-testimonials-featured .tbt-testimonials-button');
-        const band2022 = q('#class-of-2022 .tbt-testimonials-artwork-band');
+        const band2022 = q('#class-of-2022 .tbt-testimonials-year-panel'); // the green Class of 2022 panel (title + growth chart)
         const band2021 = q('#class-of-2021 .tbt-testimonials-results-band');
         const iconInfo = (band) => { const icon = q('svg.tbt-testimonials-icon', band); const title = q('h2', band); return icon ? { w: box(icon).width, below: box(icon).top >= box(title).bottom - 1, fontFamily: getComputedStyle(title).fontFamily, weight: getComputedStyle(title).fontWeight, color: getComputedStyle(title).color } : null; };
         const lists = Array.from(document.querySelectorAll('.tbt-testimonials-year [data-testimonial-list]')).map((list) => {
@@ -82,10 +82,10 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.equal(m.h1Align, 'right', `Hero title is right-aligned like the original ${at}`);
         assert.ok(m.h1Right >= m.viewport * 0.6 && Math.abs(m.starsRight - m.h1Right) <= 4, `Title and stars sit on the right with a shared right edge ${detail({ h1Right: m.h1Right, starsRight: m.starsRight })}`);
         assert.ok(m.heroHeight <= 460, `Hero should be about 449px tall ${detail({ h: m.heroHeight })}`);
-        assert.ok(m.featuredToArtwork >= 48 && m.featuredToArtwork <= 96 && m.artworkToStories <= 64, `Spacing around the 2025 result cards must clearly separate the year ${detail({ a: m.featuredToArtwork, b: m.artworkToStories })}`);
+        assert.ok(m.featuredToArtwork >= 48 && m.featuredToArtwork <= 300 /* includes the green Class of 2025 panel */ && m.artworkToStories <= 64, `Spacing around the 2025 result cards must clearly separate the year ${detail({ a: m.featuredToArtwork, b: m.artworkToStories })}`);
         assert.ok(m.band2022Pad[0] <= 56 && m.band2022Pad[1] <= 56, `Class of 2022 band padding must be compact ${detail(m.band2022Pad)}`);
       } else {
-        assert.ok(m.featuredToArtwork >= 32 && m.featuredToArtwork <= 72 && m.artworkToStories <= 64, `Spacing around the 2025 result cards must clearly separate the year on phones ${detail({ a: m.featuredToArtwork, b: m.artworkToStories })}`);
+        assert.ok(m.featuredToArtwork >= 32 && m.featuredToArtwork <= 300 && m.artworkToStories <= 64, `Spacing around the 2025 result cards must clearly separate the year on phones ${detail({ a: m.featuredToArtwork, b: m.artworkToStories })}`);
       }
       assert.match(m.h3Font, /Helvetica|Arial/, `Student Stories heading uses the original Helvetica-style bold ${at}: ${m.h3Font}`);
       assert.ok(Number(m.h3Weight) >= 700 && m.h3Color !== m.h3SpanColor, `"Student" dark and "Stories!" green ${at}`);

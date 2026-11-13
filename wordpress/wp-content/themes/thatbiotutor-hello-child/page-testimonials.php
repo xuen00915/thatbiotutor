@@ -65,7 +65,7 @@ $tbt_story_heading = static function (bool $show_advice = true): void {
 
     <section class="tbt-testimonials-year" id="class-of-2025" data-section="2025" data-archive-group>
         <div class="tbt-testimonials-container">
-            <h2 class="screen-reader-text">Class of 2025</h2>
+            <div class="tbt-testimonials-year-panel"><h2>Class of 2025</h2></div>
             <div class="tbt-testimonials-artwork tbt-testimonials-artwork--portrait"><?php tbt_render_media_image('curated_testimonials_results_2025_01', '', ['loading' => 'lazy']); ?><?php tbt_render_media_image('curated_testimonials_results_2025_02', '', ['loading' => 'lazy']); ?></div>
             <?php $tbt_story_heading(); ?>
             <div data-review-panel><?php tbt_render_testimonials($tbt_group_args('2025')); ?></div>
@@ -74,7 +74,7 @@ $tbt_story_heading = static function (bool $show_advice = true): void {
 
     <section class="tbt-testimonials-year" id="class-of-2024" data-section="2024" data-archive-group>
         <div class="tbt-testimonials-container">
-            <h2 class="screen-reader-text">Class of 2024</h2>
+            <div class="tbt-testimonials-year-panel"><h2>Class of 2024</h2></div>
             <div class="tbt-testimonials-artwork tbt-testimonials-artwork--portrait"><?php tbt_render_media_image('curated_testimonials_results_2024_reviews', '', ['loading' => 'lazy']); ?><?php tbt_render_media_image('curated_testimonials_results_2024_stats', '', ['loading' => 'lazy']); ?></div>
         </div>
         <div class="tbt-testimonials-artwork-band"><div class="tbt-testimonials-container"><div class="tbt-testimonials-artwork tbt-testimonials-artwork--landscape"><?php tbt_render_media_image('curated_testimonials_results_2024_01', '', ['loading' => 'lazy']); ?><?php tbt_render_media_image('curated_testimonials_results_2024_02', '', ['loading' => 'lazy']); ?></div></div></div>
@@ -86,7 +86,7 @@ $tbt_story_heading = static function (bool $show_advice = true): void {
 
     <section class="tbt-testimonials-year" id="class-of-2023" data-section="2023" data-archive-group>
         <div class="tbt-testimonials-container">
-            <h2 class="screen-reader-text">Class of 2023</h2>
+            <div class="tbt-testimonials-year-panel"><h2>Class of 2023</h2></div>
             <div class="tbt-testimonials-artwork tbt-testimonials-artwork--portrait"><?php tbt_render_media_image('curated_testimonials_results_2023_01', '', ['loading' => 'lazy']); ?><?php tbt_render_media_image('curated_testimonials_results_2023_02', '', ['loading' => 'lazy']); ?></div>
         </div>
         <div class="tbt-testimonials-artwork-band"><div class="tbt-testimonials-container"><div class="tbt-testimonials-artwork tbt-testimonials-artwork--landscape"><?php tbt_render_media_image('curated_testimonials_results_2023_03', '', ['loading' => 'lazy']); ?></div></div></div>
@@ -97,9 +97,8 @@ $tbt_story_heading = static function (bool $show_advice = true): void {
     </section>
 
     <section class="tbt-testimonials-year" id="class-of-2022" data-section="2022" data-archive-group>
+        <div class="tbt-testimonials-container"><div class="tbt-testimonials-year-panel"><h2>Class of 2022</h2><?php $tbt_growth_icon(); ?></div></div>
         <div class="tbt-testimonials-artwork-band tbt-testimonials-artwork-band--2022"><div class="tbt-testimonials-container">
-            <h2>Class of 2022</h2>
-            <?php $tbt_growth_icon(); ?>
             <div class="tbt-testimonials-artwork tbt-testimonials-artwork--landscape"><?php tbt_render_media_image('curated_testimonials_results_2022_01', '', ['loading' => 'lazy']); ?></div>
         </div></div>
         <div class="tbt-testimonials-container">

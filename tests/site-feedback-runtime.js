@@ -272,18 +272,23 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
     await page.mouse.move(700, 450); await page.mouse.wheel(0, toNext); await page.waitForTimeout(1200);
     assert.equal(await page.locator('[data-year-current]').textContent(), '2022', 'Scrolling on with the wheel updates the year label');
     await page.setViewportSize({ width: 1440, height: 900 });
-    // 16. Results & Testimonials: the dark-green bands are no wider than the shared content width (rounded, centred), not full-bleed.
+    // 16. Results & Testimonials: no dark-green block behind the result pictures; instead every year starts with a green "Class of YYYY" panel
+    //     (content width, rounded, centred) above its pictures. 2021 keeps its green panel with the growth chart and summary.
     for (const vw of [1440, 1024, 768, 390, 320]) {
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
-      const bands = await page.locator('.tbt-testimonials-artwork-band, .tbt-testimonials-results-band').evaluateAll((els) => els.map((e) => { const r = e.getBoundingClientRect(), s = getComputedStyle(e); return { w: Math.round(r.width), centre: Math.round(r.left + r.width / 2), bg: s.backgroundColor, radius: parseFloat(s.borderTopLeftRadius), cls: e.className.split(' ').pop() }; }));
-      assert.ok(bands.length >= 4, `Dark-green bands present at ${vw}`);
-      for (const b of bands) {
-        assert.ok(Math.abs(b.w - Math.min(1120, vw - 32)) <= 2, `Band ${b.cls} uses the content width at ${vw}: ${b.w}px`);
-        assert.ok(Math.abs(b.centre - vw / 2) <= 2, `Band ${b.cls} is centred at ${vw}`);
-        assert.equal(b.bg, 'rgb(14, 55, 29)', `Band ${b.cls} keeps the dark green`);
-        assert.ok(b.radius >= 18, `Band ${b.cls} has rounded corners at ${vw}: ${b.radius}px`);
+      for (const year of ['2025', '2024', '2023', '2022', '2021']) {
+        const sel = year === '2021' ? `#class-of-${year} .tbt-testimonials-results-band` : `#class-of-${year} .tbt-testimonials-year-panel`;
+        const r = await page.locator(sel).evaluate((e, y) => { const b = e.getBoundingClientRect(), st = getComputedStyle(e), h = e.querySelector('h2'); const img = document.querySelector(`#class-of-${y} .tbt-testimonials-artwork img`); const ib = img && img.getBoundingClientRect(); return { w: Math.round(b.width), centre: Math.round(b.left + b.width / 2), bg: st.backgroundColor, radius: parseFloat(st.borderTopLeftRadius), text: h && h.textContent.trim(), hv: h && h.getBoundingClientRect().height > 10, colour: h && getComputedStyle(h).color, above: ib ? b.bottom <= ib.top + 1 : true }; }, year);
+        assert.equal(r.text, `Class of ${year}`, `${year} has a visible green panel title at ${vw}`);
+        assert.ok(r.hv && r.colour === 'rgb(255, 255, 255)', `${year} panel title is visible white text at ${vw}`);
+        assert.equal(r.bg, 'rgb(14, 55, 29)', `${year} panel is the dark green at ${vw}`);
+        assert.ok(Math.abs(r.w - Math.min(1120, vw - 32)) <= 2 && Math.abs(r.centre - vw / 2) <= 2, `${year} panel uses the content width at ${vw}: ${r.w}px`);
+        assert.ok(r.radius >= 18, `${year} panel is rounded at ${vw}`);
+        assert.ok(r.above, `${year} panel sits above its result pictures at ${vw}`);
       }
+      const bands = await page.locator('.tbt-testimonials-artwork-band').evaluateAll((els) => els.map((e) => getComputedStyle(e).backgroundColor));
+      assert.ok(bands.length >= 3 && bands.every((c) => c === 'rgba(0, 0, 0, 0)'), `No dark-green block behind the result pictures at ${vw}: ${bands.join(' | ')}`);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0, `No sideways scroll at ${vw}`);
     }
     await page.setViewportSize({ width: 1440, height: 900 });

@@ -84,8 +84,8 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         $this->assertSame(2, substr_count($template, '>WhatsApp Us Now<'), 'The two lower archive calls to action must use the public label.');
         foreach (['2025', '2024', '2023'] as $year) {
             $this->assertTrue(
-                preg_match('/<h2 class="screen-reader-text">Class of ' . $year . '<\/h2>/', $template) === 1,
-                "Class of {$year} must remain semantic without adding a visible heading absent from the public composition."
+                preg_match('/<div class="tbt-testimonials-year-panel"><h2>Class of ' . $year . '<\/h2><\/div>/', $template) === 1,
+                "Class of {$year} opens with the visible green year panel (client request: a green panel above each year's result pictures)."
             );
         }
         foreach (['2022', '2021'] as $year) {
@@ -95,12 +95,12 @@ final class TestimonialArchiveTest extends TbtContentTestCase
             );
         }
         $this->assertTrue(str_contains($template, '100% of our Class of 2021 improved their grade in 6 months or less'), 'Class of 2021 results summary must remain visible live text.');
-        $this->assertSame(3, substr_count($template, 'class="tbt-testimonials-artwork-band'), 'The 2024, 2023, and 2022 result artwork must sit in full-width dark bands.');
+        $this->assertSame(3, substr_count($template, 'class="tbt-testimonials-artwork-band'), 'The 2024, 2023, and 2022 result artwork keeps its own band wrapper (no green behind it; the green year panels sit above).');
 
         $css = (string) file_get_contents(dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/assets/css/pages-testimonials.css');
         $this->assertTrue(
-            preg_match('/\.tbt-testimonials-artwork-band\s*\{[^}]*background:\s*#0e371d;[^}]*\}/s', $css) === 1,
-            'Result artwork bands must use the shared brand forest field.'
+            preg_match('/\.tbt-testimonials-year-panel\s*\{[^}]*background:\s*#0e371d;[^}]*\}/s', $css) === 1,
+            'The green Class of ... year panels must use the shared brand forest field.'
         );
         $this->assertTrue(
             preg_match('/\.tbt-testimonials-year \.tbt-testimonial\s*\{[^}]*text-align:\s*center;[^}]*\}/s', $css) === 1,
