@@ -5,10 +5,17 @@
   const toggle = root.querySelector('button');
   const panel = root.querySelector('nav');
   const current = root.querySelector('[data-year-current]');
-  const links = Array.from(panel.querySelectorAll('a'));
+  const links = Array.from(panel.querySelectorAll('a.tbt-year-nav__year'));
   const sections = links.map(link => document.querySelector(link.hash));
   const header = document.querySelector('[data-site-header]');
   if (sections.some(section => !section)) return;
+  // The Google reviews heading is rendered by the shared testimonial list: give each year's first one an id for the menu.
+  sections.forEach(section => {
+    const heading = section.querySelector('.tbt-google-review-heading');
+    if (heading && !heading.id) heading.id = `${section.id}-google-reviews`;
+  });
+  const partLinks = Array.from(panel.querySelectorAll('a.tbt-year-nav__section'));
+  partLinks.forEach(link => { if (!document.getElementById(link.hash.slice(1))) link.closest('li').hidden = true; });
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const headerHeight = () => header ? header.getBoundingClientRect().height : 0;
   const close = (restoreFocus = false) => {
@@ -40,24 +47,43 @@
   // After choosing a year the menu keeps that year while the page scrolls there (and while lazy images above
   // nudge the section by a few pixels); it hands control back to scroll-tracking once the reader scrolls on.
   let lock = null;
+  let lockEl = null;
   let minDistance = Infinity;
   let settleTimer;
-  const targetTop = (i) => sections[i].getBoundingClientRect().top + window.scrollY - headerHeight() - 12;
+  const targetTop = (el) => el.getBoundingClientRect().top + window.scrollY - headerHeight() - 12;
   const settle = () => {
     if (lock === null) return;
-    const drift = sections[lock].getBoundingClientRect().top - (headerHeight() + 12);
-    if (Math.abs(drift) > 6) window.scrollTo({ top: targetTop(lock), behavior: 'instant' });
+    const drift = lockEl.getBoundingClientRect().top - (headerHeight() + 12);
+    if (Math.abs(drift) > 6) window.scrollTo({ top: targetTop(lockEl), behavior: 'instant' });
   };
-  links.forEach((link, index) => link.addEventListener('click', event => {
-    event.preventDefault();
+  const jump = (link, index, element) => {
     lock = index;
+    lockEl = element;
     minDistance = Infinity;
-    window.scrollTo({ top: targetTop(index), behavior: reduced.matches ? 'instant' : 'smooth' });
+    window.scrollTo({ top: targetTop(element), behavior: reduced.matches ? 'instant' : 'smooth' });
     activate(index);
     window.history.replaceState(null, '', link.hash);
     close(true);
     window.clearTimeout(settleTimer);
     settleTimer = window.setTimeout(settle, 400);
+  };
+  links.forEach((link, index) => link.addEventListener('click', event => {
+    event.preventDefault();
+    jump(link, index, sections[index]);
+  }));
+  partLinks.forEach(link => link.addEventListener('click', event => {
+    event.preventDefault();
+    const element = document.getElementById(link.hash.slice(1));
+    const index = links.findIndex(year => year.closest('.tbt-year-nav__group').contains(link));
+    if (!element || index < 0) return;
+    // Reviews live in a scrolling list: scroll that list to the part first, then bring the list under the header.
+    const scroller = element.closest('[data-testimonial-list]');
+    if (scroller && scroller.scrollHeight > scroller.clientHeight) {
+      scroller.scrollTop += element.getBoundingClientRect().top - scroller.getBoundingClientRect().top - 8;
+      jump(link, index, scroller);
+    } else {
+      jump(link, index, element);
+    }
   }));
   const sync = () => {
     if (lock !== null) return;
@@ -80,7 +106,7 @@
   window.addEventListener('scroll', () => {
     if (lock !== null) {
       window.clearTimeout(settleTimer);
-      const distance = Math.abs(window.scrollY - targetTop(lock));
+      const distance = Math.abs(window.scrollY - targetTop(lockEl));
       if (distance < minDistance) minDistance = distance;
       // Moving away from the chosen year by more than a screen-edge's worth means the reader has scrolled on.
       if (distance - minDistance > 120) lock = null;

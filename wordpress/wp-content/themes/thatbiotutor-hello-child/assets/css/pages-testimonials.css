@@ -304,3 +304,11 @@ body.tbt-site #main-content .tbt-year-nav__summary { color: #4e5950; font-size: 
 body.tbt-site #main-content .tbt-year-nav__panel a:is(:hover, [aria-current]) .tbt-year-nav__title { color: #2f8a27; }
 body.tbt-site #main-content .tbt-year-nav__panel a[aria-current] { box-shadow: inset 3px 0 0 #43b43a; }
 body.tbt-site #main-content .tbt-year-nav__summary > span { display: block; }
+
+/* Year groups: the current year expands to list what the class has on the page (poster, table, stories, Google reviews). */
+body.tbt-site #main-content .tbt-year-nav__group + .tbt-year-nav__group { margin-top: 2px; }
+body.tbt-site #main-content .tbt-year-nav__sections { display: none; margin: 2px 0 6px 14px; padding: 0 0 0 10px; border-left: 2px solid #d8e4cb; list-style: none; }
+body.tbt-site #main-content .tbt-year-nav__group:has(> a[aria-current]) .tbt-year-nav__sections { display: block; }
+body.tbt-site #main-content .tbt-year-nav__sections li[hidden] { display: none; }
+body.tbt-site #main-content .tbt-year-nav__panel a.tbt-year-nav__section { display: flex; flex-direction: row; align-items: center; justify-content: flex-start; text-align: left; min-height: 44px; padding: 6px 10px; border-radius: 6px; color: #2f8a27; font-size: 14px; font-weight: 500; box-shadow: none; }
+body.tbt-site #main-content .tbt-year-nav__panel a.tbt-year-nav__section:hover { background: #f0f8ee; color: #0e371d; }

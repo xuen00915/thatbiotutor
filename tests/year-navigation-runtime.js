@@ -16,7 +16,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       const panel = nav.locator('nav');
       assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
       assert.equal(await panel.isVisible(), false);
-      assert.equal(await nav.locator('a').count(), 5);
+      assert.equal(await nav.locator('a.tbt-year-nav__year').count(), 5);
+      assert.ok(await nav.locator('a.tbt-year-nav__section').count() >= 14, 'Each year lists the parts of its section');
       await toggle.click();
       assert.equal(await panel.isVisible(), true);
       const geometry = await nav.evaluate(e => {
@@ -36,7 +37,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       await toggle.press('Enter');
       await page.keyboard.press('Tab');
       assert.equal(await nav.locator('a').first().evaluate(e => e === document.activeElement), true, 'Year links are keyboard reachable');
-      await nav.locator('a[href$="#class-of-2022"]').click();
+      await nav.locator('a.tbt-year-nav__year[href$="#class-of-2022"]').click();
       await page.waitForFunction(() => document.querySelector('[data-year-current]').textContent === '2022');
       assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
       assert.equal(await nav.locator('[aria-current="location"] .tbt-year-nav__title').textContent(), 'Class of 2022');
