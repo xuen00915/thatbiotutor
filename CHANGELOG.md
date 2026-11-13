@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Homepage "Trusted by students from 98 schools": the scrolling school crests are larger (about 167px boxes, six across on desktop, four on tablet, three on phones, up from about 100px) and every crest now sits in an identical square box, never cropped or stretched.
+
 - [main-site] Homepage "Don't just take our word for it": the second video (Alicia's Story) is replaced with https://www.youtube.com/watch?v=V4dj5XYEcow (Gwen's Story). The first video and the Results & Testimonials page are unchanged.
 
 - [main-site] Videos, as instructed by the owner: the IntensiveFix "Here's how we make that happen." video is https://youtu.be/bwMcGJcP0ts; the homepage section of the same name keeps the original video (q_IPfEdODqI). Earlier reverts of these video swaps are intentional history; this is the final intended state.
