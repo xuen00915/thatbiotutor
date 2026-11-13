@@ -261,11 +261,13 @@ const sizes = [
     if (homeScale.fasttrack.columnBackgrounds[0] !== 'rgba(0, 0, 0, 0)' || homeScale.fasttrack.columnBackgrounds[1] !== 'rgba(240, 248, 238, 0.6)' || homeScale.fasttrack.mediaCount !== 5) throw new Error(`Home FastTrack comparison content differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.fasttrack)}`);
     const expectedProofColumns = viewport.width < 768 ? 1 : 2;
     const expectedSchoolsTypography = viewport.width <= 520 ? { size: 20, line: 28 } : { size: 24, line: 32 };
-    // Client feedback: the school crests are larger (6 across on desktop, 4 on tablet, 3 on phones), all in identical square boxes.
+    // Client feedback: the school crests are larger (7 across on desktop, 5 on tablet, 3 on phones), all in identical square boxes.
     const expectedCrestWidth = viewport.width >= 1025
-      ? (expectedFeatureContentWidth - (5 * 24)) / 6
+      ? (expectedFeatureContentWidth - (6 * 24)) / 7
+      : viewport.width >= 901
+        ? (expectedFeatureContentWidth - (5 * 20)) / 6
       : viewport.width >= 768
-        ? (expectedFeatureContentWidth - (3 * 20)) / 4
+        ? (expectedFeatureContentWidth - (4 * 20)) / 5
         : (expectedFeatureContentWidth - 20) / 3;
     if (homeScale.proof.containerWidth !== expectedFeatureContainerWidth || homeScale.proof.containerPadding !== 0 || homeScale.proof.videoWidth !== expectedFeatureContentWidth || homeScale.proof.videoColumns !== expectedProofColumns || homeScale.proof.videoGap !== 24) throw new Error(`Home proof layout differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.proof)}`);
     if (homeScale.proof.eyebrowCount !== 0 || homeScale.proof.schoolsSize !== expectedSchoolsTypography.size || homeScale.proof.schoolsLineHeight !== expectedSchoolsTypography.line) throw new Error(`Home proof typography differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.proof)}`);

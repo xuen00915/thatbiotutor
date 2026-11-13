@@ -145,14 +145,14 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
     assert.ok(!vids.some((v) => v.src.includes('RJxR3ONbylQ')), "Alicia's video is no longer in the proof section");
     assert.ok(/Gwen/.test(vids[1].title), 'Second video has a matching title');
     // 8. Home "Trusted by students from 98 schools": large crests, every crest in an identical square box.
-    for (const [vw, minBox] of [[1440, 150], [1024, 150], [768, 150], [390, 105], [320, 85]]) {
+    for (const [vw, minBox] of [[1440, 130], [1024, 130], [768, 115], [390, 100], [320, 80]]) {
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('', base).href, { waitUntil: 'load' });
       const crests = await page.locator('.tbt-home-proof__crests img').evaluateAll((els) => els.map((e) => { const r = e.getBoundingClientRect(); return { w: Math.round(r.width * 10) / 10, h: Math.round(r.height * 10) / 10, fit: getComputedStyle(e).objectFit }; }));
       assert.ok(crests.length >= 12, `School crests present at ${vw}`);
       assert.ok(crests.every((c) => c.w === crests[0].w && c.h === crests[0].h), `All school crests are the same size at ${vw}: ${JSON.stringify(crests.slice(0, 3))}`);
       assert.ok(Math.abs(crests[0].w - crests[0].h) <= 1, `School crests sit in square boxes at ${vw}`);
-      assert.ok(crests[0].w >= minBox, `School crests are large at ${vw}: ${crests[0].w}px (needs >= ${minBox})`);
+      assert.ok(crests[0].w >= minBox && crests[0].w <= minBox + 30, `School crests are a comfortable size at ${vw}: ${crests[0].w}px (needs ${minBox}-${minBox + 30}px)`);
       assert.equal(crests[0].fit, 'contain', 'Crests are never cropped or stretched');
     }
     await page.setViewportSize({ width: 1440, height: 900 });

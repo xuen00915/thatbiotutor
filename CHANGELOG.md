@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- [main-site] Homepage "Trusted by students from 98 schools": the scrolling school crests are larger (about 167px boxes, six across on desktop, four on tablet, three on phones, up from about 100px) and every crest now sits in an identical square box, never cropped or stretched.
+- [main-site] Homepage "Trusted by students from 98 schools": the scrolling school crests are larger (about 140px boxes, seven across on desktop, five or six on tablet, three on phones, up from about 100px) and every crest now sits in an identical square box, never cropped or stretched.
 
 - [main-site] Homepage "Don't just take our word for it": the second video (Alicia's Story) is replaced with https://www.youtube.com/watch?v=V4dj5XYEcow (Gwen's Story). The first video and the Results & Testimonials page are unchanged.
 
