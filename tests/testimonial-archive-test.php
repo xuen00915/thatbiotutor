@@ -7,6 +7,8 @@ $inc = dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child
 require_once $inc . 'reference-content.php';
 require_once $inc . 'content-types.php';
 require_once $inc . 'testimonials.php';
+require_once $inc . 'acf-fields.php';
+require_once $inc . 'class-years.php';
 
 final class TestimonialArchiveTest extends TbtContentTestCase
 {
@@ -66,36 +68,40 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         $this->assertTrue(!str_contains($html, 'overflow:'), 'Archive renderer must not create nested content scrolling.');
         $this->assertTrue(str_contains($html, 'Anisatusyifa') && str_contains($html, 'Jezelle'), 'Unicode-safe Notes review names must survive output.');
 
-        $template = (string) file_get_contents(dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/page-testimonials.php');
+        $theme = dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/';
+        $template = (string) file_get_contents($theme . 'page-testimonials.php');
+        $declared = (string) file_get_contents($theme . 'inc/content/testimonials.php');
+        $years = tbt_reference_content()['records']['class_years'] ?? [];
         preg_match_all('/data-section="([^"]+)"/', $template, $sections);
-        $this->assertSame(['hero', 'featured', '2025', '2024', '2023', '2022', '2021'], $sections[1], 'Archive must follow the current public year-group order.');
+        $this->assertSame(['hero', 'featured'], array_slice($sections[1], 0, 2), 'Archive opens with the hero and the featured video.');
+        $this->assertTrue(str_contains($template, 'foreach ($tbt_years as $tbt_item)') && str_contains($template, 'data-section="<?php echo esc_attr($tbt_year); ?>"'), 'Each class year section must come from a Class Year record, not from the template.');
+        $order = array_map(static fn (array $r): string => $r['fields']['tbt_year_value'], $years);
+        $this->assertSame(['2025', '2024', '2023', '2022', '2021'], $order, 'Archive must follow the current public year-group order (newest first).');
         $this->assertTrue(str_contains($template, 'data-year-nav hidden') && str_contains($template, 'aria-expanded="false"'), 'Requested year navigation must start collapsed with an accessible disclosure.');
-        foreach (['curated_heroes_testimonials_original', 'curated_testimonials_results_2025_01', 'curated_testimonials_results_2025_02', 'curated_testimonials_results_2024_reviews', 'curated_testimonials_results_2024_stats', 'curated_testimonials_results_2024_01', 'curated_testimonials_results_2024_02', 'curated_testimonials_results_2023_01', 'curated_testimonials_results_2023_02', 'curated_testimonials_results_2023_03', 'curated_testimonials_results_2022_01'] as $mediaKey) {
-            $this->assertTrue(str_contains($template, $mediaKey), "Archive must render public media {$mediaKey}.");
+        $this->assertTrue(str_contains($template, 'tbt_class_year_menu_parts') && str_contains($template, 'foreach ($tbt_years as $tbt_index => $tbt_item)'), 'The year menu must be built from the same Class Year records as the sections.');
+        $bundled = array_merge(...array_map(static fn (array $m): array => array_merge($m['poster'], $m['table']), array_values(tbt_class_year_default_media())));
+        foreach (['curated_testimonials_results_2025_01', 'curated_testimonials_results_2025_02', 'curated_testimonials_results_2024_reviews', 'curated_testimonials_results_2024_stats', 'curated_testimonials_results_2024_01', 'curated_testimonials_results_2024_02', 'curated_testimonials_results_2023_01', 'curated_testimonials_results_2023_02', 'curated_testimonials_results_2023_03', 'curated_testimonials_results_2022_01'] as $mediaKey) {
+            $this->assertTrue(in_array($mediaKey, $bundled, true), "Archive must render public media {$mediaKey}.");
         }
-        $this->assertTrue(str_contains($template, 'ThatBioTutor Exposed: What Students Are Saying'), 'Archive must retain the public featured video title.');
+        $this->assertTrue(str_contains($declared, 'curated_heroes_testimonials_original'), 'Archive must render the public hero picture.');
+        $this->assertTrue(str_contains($declared, 'ThatBioTutor Exposed: What Students Are Saying'), 'Archive must retain the public featured video title.');
         $this->assertTrue(str_contains($template, 'scrolling="no"'), 'Featured archive video must explicitly disable iframe scrolling.');
 
         $this->assertTrue(
             str_contains($template, "'<span>Students Are Saying</span>'"),
             'Featured heading must preserve the public green emphasis without turning the heading into artwork.'
         );
-        $this->assertSame(3, substr_count($template, 'class="tbt-testimonials-button'), 'Archive must expose the public top, pre-2021, and closing WhatsApp calls to action.');
-        $this->assertSame(2, substr_count($template, '>WhatsApp Us Now<'), 'The two lower archive calls to action must use the public label.');
-        foreach (['2025', '2024', '2023'] as $year) {
-            $this->assertTrue(
-                preg_match('/<div class="tbt-testimonials-year-panel"><h2>Class of ' . $year . '<\/h2><\/div>/', $template) === 1,
-                "Class of {$year} opens with the visible green year panel (client request: a green panel above each year's result pictures)."
-            );
+        $this->assertSame(2, substr_count($template, 'class="tbt-testimonials-button'), 'Archive keeps the featured call to action and the optional end-of-year call to action.');
+        $withButton = array_values(array_filter($years, static fn (array $r): bool => $r['fields']['tbt_year_whatsapp_button'] === '1'));
+        $this->assertSame(['2022', '2021'], array_map(static fn (array $r): string => $r['fields']['tbt_year_value'], $withButton), 'The two lower archive calls to action stay on 2022 and 2021.');
+        $this->assertTrue(str_contains($declared, "'WhatsApp Us Now'"), 'The lower archive calls to action must use the public label.');
+        $this->assertTrue(str_contains($template, 'tbt-testimonials-year-panel"><h2>'), 'A year opens with the visible green year panel (client request: a green panel above each year\'s result pictures).');
+        foreach ($years as $record) {
+            $this->assertSame('Class of ' . $record['fields']['tbt_year_value'], $record['fields']['tbt_year_heading'], 'Each seeded year keeps its visible Class of YYYY heading.');
         }
-        foreach (['2022', '2021'] as $year) {
-            $this->assertTrue(
-                preg_match('/<h2>Class of ' . $year . '<\/h2>/', $template) === 1,
-                "Class of {$year} must keep its visible heading inside the public dark results band."
-            );
-        }
-        $this->assertTrue(str_contains($template, '100% of our Class of 2021 improved their grade in 6 months or less'), 'Class of 2021 results summary must remain visible live text.');
-        $this->assertSame(3, substr_count($template, 'class="tbt-testimonials-artwork-band'), 'The 2024, 2023, and 2022 result artwork keeps its own band wrapper (no green behind it; the green year panels sit above).');
+        $this->assertTrue(str_contains(json_encode($years), '100% of our Class of 2021 improved their grade in 6 months or less'), 'Class of 2021 results summary must remain visible live text.');
+        $this->assertSame(1, substr_count($template, 'class="tbt-testimonials-artwork-band'), 'Result artwork keeps its own band wrapper (no green behind it; the green year panels sit above).');
+        $this->assertSame(['2024', '2023', '2022'], array_map('strval', array_keys(array_filter(tbt_class_year_default_media(), static fn (array $m): bool => $m['table'] !== []))), 'The 2024, 2023, and 2022 years keep their wide result tables.');
 
         $css = (string) file_get_contents(dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child/assets/css/pages-testimonials.css');
         $this->assertTrue(

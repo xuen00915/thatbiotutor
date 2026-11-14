@@ -12,6 +12,27 @@ Home has five fixed numbered hero slots, four fixed numbered result-image slots,
 
 Upload raster images as WebP. Preserve the indicated landscape/portrait fit and the lower focal point on Home hero image 1. Do not paste Wix or other hotlink URLs into image fields.
 
+## How editing works
+
+Open **Pages**, then the page you want. The page opens on a clear screen with a short guide and a **ThatBioTutor** panel made of **tabs**; each tab is one section of the page (for example *Our Mission*, *Message From The Founder*). Change the words, pictures and links, then press **Update**.
+
+- **Formatted text boxes** have a short toolbar: **Bold**, *Italic*, <u>Underline</u>, **Highlight** (the green marker used on the About page), link and bullet list. Press Enter for a new paragraph. Anything that could break the layout (headings, colours, scripts, embedded frames) is removed automatically.
+- **Links**: select the words, click the link button and type the address. For a page on this site just type its path, for example `/classes/` or `/#faq`. Links to other sites should be set to open in a new tab; they are always opened safely.
+- **Pictures** that you leave empty keep their current image; upload a new one to replace it. Use WebP or JPG.
+- **Plain text boxes** keep their line breaks; leave a question or card empty to hide it.
+- The page layout, colours, menu and footer are managed by the theme, so they cannot be broken from the edit screen.
+
+### Adding a new class year (Results & Testimonials)
+
+1. **Class Years → Add Class Year**. Enter the year (for example `2026`) and the green panel heading ("Class of 2026").
+2. Upload the result poster pictures (tall) and results table pictures (wide), if there are any. Optional: a one-line result headline, the growth-chart icon, and a WhatsApp button at the end of the year.
+3. Add the students' stories under **Testimonials → Add Testimonial** and set **Display group / year** to the same year.
+4. **Publish.** The page and the year menu update automatically, newest year first. To retire a year, move its record to Draft.
+
+### Tutors (About Us)
+
+Under **Tutors**: display name, qualifications (one per line), LinkedIn link, portrait and up to three certificates. Use the Order number to change who appears first, and Draft to hide a tutor.
+
 ## Repeated content
 
 - **Testimonials**: edit student name, quote, rating, optional local portrait, optional YouTube URL, and display group. Use Draft to hide an unfinished item.

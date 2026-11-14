@@ -10,22 +10,20 @@ $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, 
     <section class="tbt-causes-section" data-section="planting">
         <div class="tbt-institutional-title-bar"><h1><?php echo tbt_accent_heading($tbt_field('trees_primary_heading')); ?></h1></div>
         <div class="tbt-institutional-shell tbt-causes-feature">
-        <div class="tbt-causes-section__media tbt-causes-section__media--square"><?php tbt_render_media_image('curated_causes_team_trees', '', ['loading' => 'eager']); ?></div>
-        <div class="tbt-causes-section__media tbt-causes-section__media--record"><?php tbt_render_media_image('curated_causes_trees_planted', '', ['loading' => 'lazy']); ?></div>
+        <div class="tbt-causes-section__media tbt-causes-section__media--square"><?php tbt_render_content_image('trees_team_image', '', ['loading' => 'eager']); ?></div>
+        <div class="tbt-causes-section__media tbt-causes-section__media--record"><?php tbt_render_content_image('trees_planted_image', '', ['loading' => 'lazy']); ?></div>
         <div class="tbt-causes-copy">
-            <h2><em>Learning Biology isn't enough. We need to Protect it.</em></h2>
-            <p>Up till 2025, ThatBioTutor donated a portion of its profits to <strong>global reforestation</strong> efforts through <a href="https://teamtrees.org/search?q=thatbiotutor" target="_blank" rel="noopener noreferrer">teamtrees.org</a>, <strong>which partners with Arbor Day Foundation.</strong></p>
-            <p>In total, TBT has planted <strong><u>1982 trees</u></strong>, which you can see on their website <a href="https://teamtrees.org/search?q=thatbiotutor" target="_blank" rel="noopener noreferrer">here</a>.</p>
+            <?php if ($tbt_field('trees_planting_subheading') !== '') : ?><h2><em><?php echo esc_html($tbt_field('trees_planting_subheading')); ?></em></h2><?php endif; ?>
+            <?php echo tbt_rich($tbt_field('trees_planting_body')); ?>
         </div>
         </div>
     </section>
     <section class="tbt-causes-section" data-section="sg-causes">
         <div class="tbt-institutional-title-bar"><h2><?php echo tbt_accent_heading($tbt_field('trees_secondary_heading')); ?></h2></div>
         <div class="tbt-institutional-shell tbt-causes-feature">
-        <div class="tbt-causes-section__media tbt-causes-section__media--giving"><?php tbt_render_media_image('curated_causes_giving_sg', '', ['loading' => 'lazy']); ?></div>
+        <div class="tbt-causes-section__media tbt-causes-section__media--giving"><?php tbt_render_content_image('trees_giving_image', '', ['loading' => 'lazy']); ?></div>
         <div class="tbt-causes-copy">
-            <p>From 2026 onwards, ThatBioTutor will be focusing our giving efforts on causes <strong>closer to home.</strong></p>
-            <p>Each year, <strong>our students will vote</strong> on the environmental cause on <a href="https://www.giving.sg/search?tags=%5B5%5D" target="_blank" rel="noopener noreferrer">Giving.sg</a> that matters most to them, and we’ll make a lump-sum donation to the chosen cause.</p>
+            <?php echo tbt_rich($tbt_field('trees_sg_body')); ?>
         </div>
         </div>
     </section>

@@ -47,6 +47,54 @@ function tbt_acf_url(string $key, string $label, string $name, array $settings =
     return tbt_acf_field($key, $label, $name, 'url', $settings);
 }
 
+/** Build a formatted-text field with the client-safe toolbar (bold, italic, underline, highlight, links, lists). */
+function tbt_acf_wysiwyg(string $key, string $label, string $name, array $settings = []): array
+{
+    return tbt_acf_field($key, $label, $name, 'wysiwyg', array_merge([
+        'tabs' => 'visual',
+        'toolbar' => 'thatbiotutor', // ACF slugifies the toolbar name registered in tbt_editor_toolbars()
+        'media_upload' => 0,
+        'delay' => 0,
+    ], $settings));
+}
+
+/** Build the ACF fields for one declared page-content section: a tab, an optional note, then its fields. */
+function tbt_acf_section_fields(string $prefix, array $section): array
+{
+    $fields = [tbt_acf_tab('field_tbt_' . $prefix . '_tab_' . $section['key'], (string) $section['title'])];
+    if (($section['intro'] ?? '') !== '') {
+        $fields[] = tbt_acf_field('field_tbt_' . $prefix . '_note_' . $section['key'], 'About this section', '', 'message', [
+            'message' => (string) $section['intro'],
+            'new_lines' => 'wpautop',
+            'esc_html' => 0,
+        ]);
+    }
+    foreach ($section['fields'] as $declared) {
+        $name = (string) $declared['name'];
+        $key = tbt_reference_field_key((string) ($section['page'] ?? ''), $name);
+        $settings = ['instructions' => (string) ($declared['help'] ?? '')];
+        $label = (string) $declared['label'];
+        switch ($declared['type']) {
+            case 'wysiwyg':
+                $fields[] = tbt_acf_wysiwyg($key, $label, $name, $settings);
+                break;
+            case 'textarea':
+                $fields[] = tbt_acf_textarea($key, $label, $name, $settings);
+                break;
+            case 'url':
+                $fields[] = tbt_acf_url($key, $label, $name, $settings);
+                break;
+            case 'image':
+                $settings['instructions'] = trim(($settings['instructions'] !== '' ? $settings['instructions'] . ' ' : '') . 'Leave empty to keep the current picture. Upload a new image to replace it.');
+                $fields[] = tbt_acf_image($key, $label, $name, $settings);
+                break;
+            default:
+                $fields[] = tbt_acf_field($key, $label, $name, 'text', $settings);
+        }
+    }
+    return $fields;
+}
+
 /** Build an image field that returns the full ACF image array. */
 function tbt_acf_image(string $key, string $label, string $name, array $settings = []): array
 {
@@ -81,7 +129,11 @@ function tbt_acf_page_groups(): array
             tbt_acf_tab('field_tbt_' . $prefix . '_tab_content', 'Page content'),
         ];
 
+        $managed = tbt_page_content_fields($pageKey);
         foreach (($reference['pages'][$pageKey]['fields'] ?? []) as $name => $value) {
+            if (isset($managed[(string) $name])) {
+                continue;
+            }
             $label = ucwords(str_replace('_', ' ', (string) preg_replace('/^' . preg_quote($prefix, '/') . '_?/', '', (string) $name)));
             $constructor = is_string($value) && (str_contains($value, "\n") || strlen($value) > 110)
                 ? 'tbt_acf_textarea'
@@ -90,6 +142,13 @@ function tbt_acf_page_groups(): array
             $fields[] = $constructor !== null
                 ? $constructor($key, $label, (string) $name)
                 : tbt_acf_field($key, $label, (string) $name);
+        }
+
+        foreach (tbt_page_content_sections($pageKey) as $section) {
+            $section['page'] = $pageKey;
+            foreach (tbt_acf_section_fields($prefix, $section) as $sectionField) {
+                $fields[] = $sectionField;
+            }
         }
 
         if ($pageKey === 'home') {

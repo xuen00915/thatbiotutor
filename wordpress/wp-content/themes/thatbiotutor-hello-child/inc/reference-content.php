@@ -6,6 +6,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+require_once __DIR__ . '/page-content.php';
+
 /**
  * Return protected page routes in public navigation/setup order.
  *
@@ -414,8 +416,16 @@ function tbt_reference_content(): array
         'fields' => ['tbt_result_student' => 'Cayden Zhu', 'tbt_result_before' => '65%', 'tbt_result_after' => '85%', 'tbt_result_year' => '2025'],
     ]];
 
-    return [
-        'version' => '2026-11-04.5',
+    $classYearRecords = [
+            ['seed_key' => 'class-year-2025', 'title' => 'Class of 2025', 'menu_order' => 10, 'source' => $crawlSource('/testimonials'), 'fields' => ['tbt_year_value' => '2025', 'tbt_year_heading' => 'Class of 2025', 'tbt_year_summary' => '', 'tbt_year_growth_icon' => '0', 'tbt_year_show_advice' => '1', 'tbt_year_whatsapp_button' => '0']],
+            ['seed_key' => 'class-year-2024', 'title' => 'Class of 2024', 'menu_order' => 20, 'source' => $crawlSource('/testimonials'), 'fields' => ['tbt_year_value' => '2024', 'tbt_year_heading' => 'Class of 2024', 'tbt_year_summary' => '', 'tbt_year_growth_icon' => '0', 'tbt_year_show_advice' => '1', 'tbt_year_whatsapp_button' => '0']],
+            ['seed_key' => 'class-year-2023', 'title' => 'Class of 2023', 'menu_order' => 30, 'source' => $crawlSource('/testimonials'), 'fields' => ['tbt_year_value' => '2023', 'tbt_year_heading' => 'Class of 2023', 'tbt_year_summary' => '', 'tbt_year_growth_icon' => '0', 'tbt_year_show_advice' => '1', 'tbt_year_whatsapp_button' => '0']],
+            ['seed_key' => 'class-year-2022', 'title' => 'Class of 2022', 'menu_order' => 40, 'source' => $crawlSource('/testimonials'), 'fields' => ['tbt_year_value' => '2022', 'tbt_year_heading' => 'Class of 2022', 'tbt_year_summary' => '', 'tbt_year_growth_icon' => '1', 'tbt_year_show_advice' => '1', 'tbt_year_whatsapp_button' => '1']],
+            ['seed_key' => 'class-year-2021', 'title' => 'Class of 2021', 'menu_order' => 50, 'source' => $crawlSource('/testimonials'), 'fields' => ['tbt_year_value' => '2021', 'tbt_year_heading' => 'Class of 2021', 'tbt_year_summary' => '100% of our Class of 2021 improved their grade in 6 months or less', 'tbt_year_growth_icon' => '1', 'tbt_year_show_advice' => '0', 'tbt_year_whatsapp_button' => '1']],
+    ];
+
+    $content = [
+        'version' => '2026-11-14.1',
         'source_date' => '2026-11-03',
         'navigation' => [
             ['label' => 'Home', 'path' => '/'],
@@ -544,7 +554,6 @@ function tbt_reference_content(): array
                 'source' => $crawlSource('/contact'),
                 'fields' => [
                     'contact_heading' => 'Contact.',
-                    'contact_intro' => 'If you have a question, please read our FAQs first!',
                 ],
             ],
             'trees' => [
@@ -593,6 +602,7 @@ function tbt_reference_content(): array
         ],
         'records' => [
             'testimonials' => $testimonialRecords,
+            'class_years' => $classYearRecords,
             'faqs' => $faqRecords,
             'results' => $resultRecords,
             'tutors' => [
@@ -602,6 +612,9 @@ function tbt_reference_content(): array
                     'menu_order' => 10,
                     'source' => $crawlSource('/about'),
                     'fields' => [
+                        'tbt_tutor_display_name' => 'Ms Chelsea',
+                        'tbt_tutor_qualifications' => "Graduated with Honours (Highest Distinction) degree in Biological Sciences from Nanyang Technological University\nAchieved 'A' in A Level H2 Biology\n87.5/90 RP in A Levels\nDistinction in O Level Biology",
+                        'tbt_tutor_profile_url' => 'https://www.linkedin.com/in/xiang-ting-chee/',
                         'tbt_tutor_role' => 'Biology Tutor',
                         'tbt_tutor_short_bio' => 'Patient, encouraging, and focused on helping students understand Biology clearly.',
                     ],
@@ -612,6 +625,8 @@ function tbt_reference_content(): array
                     'menu_order' => 20,
                     'source' => $crawlSource('/about'),
                     'fields' => [
+                        'tbt_tutor_display_name' => 'Ms Jamie',
+                        'tbt_tutor_qualifications' => "Enrolled into National Junior College's Integrated Programme\nAchieved A for H2 Biology in A Levels\nUndergraduate in NUS, majoring in Life Sciences with a double minor in Computer Science and Bioinformatics",
                         'tbt_tutor_role' => 'Biology Tutor',
                         'tbt_tutor_short_bio' => 'Builds student confidence through clear explanations and guided practice.',
                     ],
@@ -622,6 +637,8 @@ function tbt_reference_content(): array
                     'menu_order' => 30,
                     'source' => $crawlSource('/about'),
                     'fields' => [
+                        'tbt_tutor_display_name' => 'Mr Keefe (Founder)',
+                        'tbt_tutor_qualifications' => "Enrolled into Gifted Education Programme (GEP) from Primary 4 to 6\nEnrolled into Raffles Institution's Integrated Programme (IP) from Secondary 1 to 4, with a GPA of 3.65/4.0\nEnrolled into Raffles Academy (RA) Biology in Secondary 3 to 4\nAttained all 'A's in the GCE A-Levels, achieving 90 Rank Points\nFormer NUS Merit Scholar",
                         'tbt_tutor_role' => 'Founder',
                         'tbt_tutor_short_bio' => 'Founder of ThatBioTutor and specialist in making content-heavy Biology easier to understand and remember.',
                     ],
@@ -632,6 +649,8 @@ function tbt_reference_content(): array
                     'menu_order' => 40,
                     'source' => $crawlSource('/about'),
                     'fields' => [
+                        'tbt_tutor_display_name' => 'Ms Ng (Ex-MOE Teacher & Syllabus Reviewer)',
+                        'tbt_tutor_qualifications' => "Ex-MOE biology teacher with 11+ years of Singapore school experience — reviewing our syllabus to match exactly what the O Level exams test.\nNominated for Outstanding Youth Educators Award (OYEA) 2022\nMerit in Post-Graduate Diploma in Education at NIE\nBachelor of Science Majoring in Life Science at NUS",
                         'tbt_tutor_role' => 'Ex-MOE Teacher & Syllabus Reviewer',
                         'tbt_tutor_short_bio' => 'Ex-MOE biology teacher with 11+ years of Singapore school experience — reviewing our syllabus to match exactly what the O Level exams test.',
                     ],
@@ -639,5 +658,13 @@ function tbt_reference_content(): array
             ],
         ],
     ];
-}
 
+    // Page copy declared in inc/content/*.php is seeded with the page's other approved fields.
+    foreach (array_keys($content['pages']) as $pageKey) {
+        foreach (tbt_page_content_defaults((string) $pageKey) as $name => $value) {
+            $content['pages'][$pageKey]['fields'][$name] = $value;
+        }
+    }
+
+    return $content;
+}

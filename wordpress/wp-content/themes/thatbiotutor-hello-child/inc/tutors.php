@@ -6,6 +6,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/** Read one tutor field (falls back to the approved reference record until the client saves it). */
+function tbt_tutor_field(int $postId, string $name): mixed
+{
+    return tbt_record_field($postId, 'tutors', $name);
+}
+
 /** Return normalized, published tutor records. */
 function tbt_get_tutors(array $args = []): array
 {
@@ -22,6 +28,13 @@ function tbt_get_tutors(array $args = []): array
             'long_bio' => (string) tbt_structured_meta((int) $post->ID, 'tbt_tutor_long_bio', ''),
             'sections' => (string) tbt_structured_meta((int) $post->ID, 'tbt_tutor_sections', ''),
             'portrait' => $portrait ?? ['url' => '', 'alt' => '', 'width' => 0, 'height' => 0],
+            'display_name' => trim((string) tbt_tutor_field((int) $post->ID, 'tbt_tutor_display_name')),
+            'qualifications' => array_values(array_filter(array_map('trim', preg_split('/\R/', (string) tbt_tutor_field((int) $post->ID, 'tbt_tutor_qualifications')) ?: []), static fn (string $line): bool => $line !== '')),
+            'profile_url' => trim((string) tbt_tutor_field((int) $post->ID, 'tbt_tutor_profile_url')),
+            'certificates' => array_map(
+                static fn (int $slot): ?array => function_exists('tbt_normalize_image') ? tbt_normalize_image(tbt_structured_meta((int) $post->ID, 'tbt_tutor_certificate_' . $slot, '')) : null,
+                [1, 2, 3]
+            ),
         ];
     }
     return $records;
@@ -42,10 +55,22 @@ function tbt_render_tutors(array $args = []): void
         $documentKeys = $variant === 'about' && isset($supplementalMedia[$tutor['name']]) && is_array($supplementalMedia[$tutor['name']])
             ? array_values(array_filter($supplementalMedia[$tutor['name']], 'is_string'))
             : [];
-        $hasDocuments = $documentKeys !== [] && function_exists('tbt_render_media_image');
+        // Certificates uploaded on the tutor record replace the bundled one in the same position; extra uploads add slides.
+        $documents = [];
+        if ($variant === 'about') {
+            foreach (range(0, max(count($documentKeys), 3) - 1) as $slot) {
+                $uploaded = $tutor['certificates'][$slot] ?? null;
+                if (is_array($uploaded)) {
+                    $documents[] = ['image' => $uploaded, 'key' => (string) ($documentKeys[$slot] ?? '')];
+                } elseif (isset($documentKeys[$slot])) {
+                    $documents[] = ['key' => (string) $documentKeys[$slot]];
+                }
+            }
+        }
+        $hasDocuments = $documents !== [] && function_exists('tbt_render_media_image');
         echo '<article class="tbt-tutor' . ($variant === 'about' ? ' tbt-tutor--about' : '') . ($hasDocuments ? ' tbt-tutor--has-documents' : '') . '">';
         if ($variant === 'about') {
-            $displayName = (string) ($displayNames[$tutor['name']] ?? $tutor['name']);
+            $displayName = $tutor['display_name'] !== '' ? $tutor['display_name'] : (string) ($displayNames[$tutor['name']] ?? $tutor['name']);
             echo '<div class="tbt-tutor__visual">';
             if ($tutor['portrait']['url'] !== '') {
                 echo '<img class="tbt-tutor__portrait" src="' . esc_url($tutor['portrait']['url']) . '" alt="' . esc_attr($tutor['portrait']['alt'] ?: $tutor['name']) . '">';
@@ -54,15 +79,16 @@ function tbt_render_tutors(array $args = []): void
             }
             echo '</div><div class="tbt-tutor__details">';
             echo '<h3>' . esc_html($displayName) . ($showRoles && $tutor['role'] !== '' ? '<small>' . esc_html($tutor['role']) . '</small>' : '') . '</h3>';
-            if (isset($qualifications[$tutor['name']]) && is_array($qualifications[$tutor['name']])) {
+            $qualificationLines = $tutor['qualifications'] !== [] ? $tutor['qualifications'] : (isset($qualifications[$tutor['name']]) && is_array($qualifications[$tutor['name']]) ? $qualifications[$tutor['name']] : []);
+            if ($qualificationLines !== []) {
                 echo '<ul class="tbt-tutor__qualifications">';
-                foreach ($qualifications[$tutor['name']] as $qualification) {
+                foreach ($qualificationLines as $qualification) {
                     echo '<li>' . esc_html((string) $qualification) . '</li>';
                 }
                 echo '</ul>';
             }
-            if (isset($profileLinks[$tutor['name']]) && (string) $profileLinks[$tutor['name']] !== '') {
-                $profileUrl = (string) $profileLinks[$tutor['name']];
+            $profileUrl = $tutor['profile_url'] !== '' ? $tutor['profile_url'] : (string) ($profileLinks[$tutor['name']] ?? '');
+            if ($profileUrl !== '') {
                 if (stripos((string) parse_url($profileUrl, PHP_URL_HOST), 'linkedin.com') !== false) {
                     echo '<p class="tbt-tutor__profile"><a class="tbt-tutor__profile-link" href="' . esc_url($profileUrl) . '" target="_blank" rel="noopener noreferrer" aria-label="' . esc_attr($tutor['name'] . ' on LinkedIn') . '">'
                         . '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>'
@@ -73,22 +99,26 @@ function tbt_render_tutors(array $args = []): void
             }
             echo '</div>';
             if ($hasDocuments) {
-                $documentCount = count($documentKeys);
+                $documentCount = count($documents);
                 $isCarousel = $documentCount > 1;
                 echo '<aside class="tbt-tutor__certificates" aria-label="' . esc_attr($displayName . ' certificates') . '">';
                 echo '<h4>Certificates</h4>';
                 echo '<div class="tbt-tutor__documents"' . ($isCarousel ? ' data-carousel data-carousel-autoplay="4500"' : '') . '>';
-                foreach ($documentKeys as $index => $mediaKey) {
+                foreach ($documents as $index => $document) {
                     echo '<figure class="tbt-tutor__document-slide"' . ($isCarousel ? ' data-carousel-slide' . ($index > 0 ? ' hidden' : '') : '') . '>';
                     echo '<button class="tbt-tutor__document-trigger" type="button" data-certificate-lightbox-trigger aria-haspopup="dialog" aria-label="' . esc_attr('Enlarge certificate ' . ($index + 1) . ' for ' . $displayName) . '">';
-                    tbt_render_media_image($mediaKey, 'tbt-tutor__document', ['loading' => 'eager']);
+                    if (isset($document['image'])) {
+                        echo '<img data-media-key="' . esc_attr($document['key']) . '" class="tbt-tutor__document" loading="eager" src="' . esc_url($document['image']['url']) . '" alt="' . esc_attr($document['image']['alt'] ?: $displayName . ' certificate') . '" width="' . esc_attr((string) $document['image']['width']) . '" height="' . esc_attr((string) $document['image']['height']) . '">';
+                    } else {
+                        tbt_render_media_image($document['key'], 'tbt-tutor__document', ['loading' => 'eager']);
+                    }
                     echo '<span class="tbt-tutor__document-enlarge" aria-hidden="true">&#x26F6;</span></button></figure>';
                 }
                 if ($isCarousel) {
                     echo '<button class="tbt-tutor__document-control tbt-tutor__document-control--previous" type="button" data-carousel-prev aria-label="Previous certificate"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>';
                     echo '<button class="tbt-tutor__document-control tbt-tutor__document-control--next" type="button" data-carousel-next aria-label="Next certificate"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>';
                     echo '<div class="tbt-tutor__document-dots">';
-                    foreach ($documentKeys as $index => $_mediaKey) {
+                    foreach ($documents as $index => $_document) {
                         echo '<button type="button" data-carousel-dot aria-label="Show certificate ' . esc_attr((string) ($index + 1)) . '"></button>';
                     }
                     echo '</div><p class="screen-reader-text" data-carousel-status aria-live="polite">1 of ' . esc_html((string) $documentCount) . '</p>';

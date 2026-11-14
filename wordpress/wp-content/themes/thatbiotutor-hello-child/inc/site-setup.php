@@ -167,6 +167,7 @@ function tbt_seed_reference_records(bool $refreshApproved = false): array|WP_Err
     $collections = [
         'tutors' => 'tbt_tutor',
         'testimonials' => 'tbt_testimonial',
+        'class_years' => 'tbt_class_year',
         'faqs' => 'tbt_faq',
         'results' => 'tbt_result',
     ];

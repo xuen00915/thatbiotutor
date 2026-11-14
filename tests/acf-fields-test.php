@@ -43,7 +43,7 @@ final class AcfFieldsTest
         $registry = tbt_page_registry();
         $this->assertSame(count($registry), count($groups), 'Every protected page template must have one field group.');
 
-        $allowedTypes = ['message', 'tab', 'text', 'textarea', 'url', 'image', 'number', 'true_false', 'select'];
+        $allowedTypes = ['message', 'tab', 'text', 'textarea', 'wysiwyg', 'url', 'image', 'number', 'true_false', 'select']; // wysiwyg is ACF Free (formatted text)
         $proTypes = ['repeater', 'gallery', 'clone', 'flexible_content'];
         $allKeys = [];
         $allNames = [];
