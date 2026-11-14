@@ -29,6 +29,25 @@ Elementor and Elementor Pro are not needed to render this site. The parent theme
 
 Setup does not import accounts, install plugins, change the domain/DNS or enable search indexing. Do not import the GitHub Pages HTML into WordPress.
 
+## What the client can edit
+
+After setup, every page opens in WordPress on a clear edit screen: a short guide, then a **ThatBioTutor** panel with one tab per section of the page. All words, pictures, videos and links on Home, Classes, Sec 3, Sec 4, Results & Testimonials, Free Bio Notes, Cell Division, About Us, Our Causes, Contact and Tuition Recommendations are fields. Repeated content has its own place in the left-hand menu: **Class Years** (a new class year is one record), **Testimonials**, **Tutors**, **FAQs** and **Results**. The Home page also owns the shared logo, WhatsApp number, phone, address, hours and footer text.
+
+Not editable from the edit screen, by design: page layout, colours, the menu, the footer layout and the Google reviews snapshot strip (a copy of the public Google reviews). IntensiveFix is maintained separately by the developer. See `docs/CLIENT-EDITING-GUIDE.md` for the client's step-by-step guide.
+
+Pressing **Update** on a page never changes the page by itself: an automated test presses Update on every page and checks that nothing visible changes.
+
+## Import checklist (fresh WordPress)
+
+1. Install and activate **Hello Elementor** (parent theme) and **Advanced Custom Fields** (free).
+2. Upload and activate `thatbiotutor-hello-child.zip`.
+3. **Appearance → ThatBioTutor Setup → Set up ThatBioTutor pages and content.** One click creates the 12 pages, the 136 testimonials, tutors, FAQs and class years, fills every field with the approved text, and makes Home the front page. It can be run again safely: it never overwrites what the client has edited.
+4. **Settings → Permalinks → Save**, then check Site Title, timezone and HTTPS.
+5. Open Home, Classes, About Us and Results & Testimonials on a phone and a computer, and the WhatsApp button.
+6. Optional: connect the Free Bio Notes form (Contact Form 7, below) and install AIOS (below).
+
+This exact sequence was rehearsed on a brand-new WordPress and the 12 pages matched the reference site; the same checks run in CI on every push.
+
 ## AIOS security plugin
 
 Install **All-In-One Security (AIOS) – Security and Firewall**, by **Team Updraft**, from **Plugins → Add New**. Its directory slug is `all-in-one-wp-security-and-firewall`:
