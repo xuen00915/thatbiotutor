@@ -110,7 +110,50 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     await pub.reload();
     assert.equal(await pub.locator('.tbt-home-kicker').textContent(), kickerOriginal, 'The restored Home text is back.');
 
+    // 7. Pressing Update on a page without changing anything must never change what visitors see. WordPress saves every
+    //    empty field as a blank, so any content that only had a built-in default would otherwise disappear on first save.
+    await page.goto(`${base}/wp-admin/edit.php?post_type=page&post_status=publish&orderby=title&order=asc`);
+    const rows = await page.locator('#the-list tr.iedit').evaluateAll((trs) => trs.map((tr) => ({
+      title: tr.querySelector('a.row-title')?.textContent.trim() || '',
+      edit: tr.querySelector('a.row-title')?.href || '',
+      view: tr.querySelector('.row-actions .view a')?.href || '',
+    })).filter((r) => r.edit && r.view));
+    const signature = async (url) => {
+      await pub.goto(url, { waitUntil: 'load' });
+      return pub.evaluate(() => {
+        const copy = document.body.cloneNode(true);
+        copy.querySelectorAll('script, style, noscript').forEach((e) => e.remove());
+        copy.querySelectorAll('br').forEach((br) => br.replaceWith(' ')); // a saved line break gains a newline; it looks the same
+        return {
+          text: copy.textContent.replace(/\s+/g, ' ').trim(),
+          images: [...document.images].map((i) => i.getAttribute('src')).join('|'),
+          links: [...document.querySelectorAll('a[href]')].map((a) => a.getAttribute('href')).join('|'),
+          header: !!document.querySelector('.site-header__cta') && !!document.querySelector('.site-brand__logo'),
+          footer: document.querySelector('.site-footer')?.textContent.replace(/\s+/g, ' ').trim(),
+        };
+      });
+    };
+    let protectedPages = 0;
+    for (const row of rows) {
+      await page.goto(row.edit, { waitUntil: 'load' });
+      if (!(await page.locator('.tbt-page-guide').count())) continue; // a page the client created: normal editor, not ours
+      protectedPages++;
+      const before = await signature(row.view);
+      await page.waitForSelector('#publish');
+      await save();
+      const after = await signature(row.view);
+      for (const key of ['text', 'images', 'links', 'footer']) {
+        if (after[key] !== before[key]) {
+          let i = 0; while (i < before[key].length && before[key][i] === after[key][i]) i++;
+          assert.fail(`Pressing Update on "${row.title}" without changes changed its ${key} at character ${i}: before "…${before[key].slice(Math.max(0, i - 40), i + 60)}…" after "…${after[key].slice(Math.max(0, i - 40), i + 60)}…"`);
+        }
+      }
+      assert.deepEqual(after, before, `Pressing Update on "${row.title}" without changes must not change the page (${row.view}).`);
+      assert.ok(after.header, `The header logo and Contact Us button must survive saving "${row.title}".`);
+    }
+    assert.ok(protectedPages >= 12, `All twelve protected pages must be covered, covered ${protectedPages}.`);
+
     assert.deepEqual(errors, [], 'No script errors in the editor: ' + errors.join('; '));
-    console.log('PASS admin editing: edit screen, formatting buttons, save, new class year, Home text');
+    console.log('PASS admin editing: edit screen, formatting buttons, save, new class year, Home text, saving every page changes nothing');
   } finally { await browser.close(); }
 })().catch((e) => { console.error(process.env.TBT_STACK ? e.stack : e.message); process.exit(1); });

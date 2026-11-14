@@ -248,6 +248,22 @@ function tbt_setup_site(bool $refreshApproved = false): array|WP_Error
         }
     }
 
+    // The shared site details (WhatsApp number, address, hours, footer text...) live on the Home page. Store them so the
+    // fields show what the site uses; otherwise saving the Home page would store blanks over the built-in defaults.
+    foreach ((array) ($reference['shared'] ?? []) as $sharedName => $sharedValue) {
+        if ($sharedName === 'source' || !is_scalar($sharedValue)) {
+            continue;
+        }
+        $updated = tbt_update_seeded_field(
+            (int) $pageIds['home'],
+            'field_tbt_home_shared_' . $sharedName,
+            'home_shared_' . $sharedName,
+            (string) $sharedValue,
+            $refreshApproved
+        );
+        $updated ? $seeded++ : $preserved++;
+    }
+
     update_option('show_on_front', 'page');
     update_option('page_on_front', $pageIds['home']);
 

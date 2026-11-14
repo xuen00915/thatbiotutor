@@ -3,13 +3,14 @@
 declare(strict_types=1);
 if (!defined('ABSPATH')) { exit; }
 get_header();
-$tbt_cell_portrait = tbt_media('original_056');
+$tbt_defaults = tbt_reference_content()['pages']['celldivision']['fields'];
+$tbt_field = static fn (string $name): string => (string) tbt_page_field($name, $tbt_defaults[$name] ?? '');
 ?>
 <article class="tbt-resource-page tbt-cell-page">
     <header class="tbt-resource-hero tbt-cell-hero" data-section="hero">
         <div class="tbt-resource-shell tbt-resource-hero__inner">
-            <h1>Free <span>Cell Division</span> Crash Course</h1>
-            <p class="tbt-cell-hero__notice">Only For 2023 Sec 4 Pure Bio Students!</p>
+            <h1><?php echo tbt_heading_html($tbt_field('celldivision_title')); ?></h1>
+            <p class="tbt-cell-hero__notice"><?php echo esc_html($tbt_field('celldivision_notice')); ?></p>
             <div class="tbt-resource-carousel tbt-resource-carousel--cell" data-carousel data-carousel-autoplay="7000">
                 <div class="tbt-resource-carousel__viewport">
                     <?php foreach (range(1, 5) as $tbt_index) : $tbt_key = sprintf('curated_celldivision_slide_%02d', $tbt_index); ?>
@@ -25,83 +26,65 @@ $tbt_cell_portrait = tbt_media('original_056');
                 </div>
                 <p class="screen-reader-text" data-carousel-status aria-live="polite">1 of 5</p>
             </div>
-            <a class="tbt-resource-button" href="#cell-access">GET ACCESS</a>
-            <p class="tbt-resource-proof">[100+ Students Have Gotten Theirs]</p>
+            <a class="tbt-resource-button" href="#cell-access"><?php echo esc_html($tbt_field('celldivision_button_label')); ?></a>
+            <?php if ($tbt_field('celldivision_proof_line') !== '') : ?><p class="tbt-resource-proof"><?php echo esc_html($tbt_field('celldivision_proof_line')); ?></p><?php endif; ?>
         </div>
     </header>
 
     <section class="tbt-resource-section tbt-cell-problems" data-section="problems">
         <div class="tbt-resource-shell tbt-resource-narrow">
-            <h2>Do you <strong>HATE</strong> cell division because:</h2>
-            <ul class="tbt-cell-problem-list">
-                <li>SO much <strong>tedious</strong> content, can't <strong>memorise!</strong></li>
-                <li>Your school <strong>rushed</strong> through it, leaving you with many doubts</li>
-                <li>You feel <strong>lost</strong> as you never got a good foundation</li>
-            </ul>
-            <h3>Maybe it's these <strong>CONTENT</strong> issues:</h3>
-            <ul class="tbt-cell-content-list">
-                <li>Identifying <strong>mitosis/meiosis</strong> stages</li>
-                <li><strong>Confused</strong> about changes in amount of DNA and number of chromosomes</li>
-                <li>Don't understand <strong>crossing over, independent assortment</strong></li>
-                <li>So many <strong>difficult terms</strong></li>
-            </ul>
-            <p class="tbt-cell-problems__answer"><em>If you answered 'yes' to the above, this crash course is for you. I've cut out clips from my lessons on important cell division concepts - so you can quickly go through them as a "crash course" and fix your doubts ASAP.</em></p>
+            <h2><?php echo tbt_rich_inline($tbt_field('celldivision_problems_heading')); ?></h2>
+            <?php echo tbt_rich_attrs(tbt_rich($tbt_field('celldivision_problems_list')), 'ul', 'class="tbt-cell-problem-list"'); ?>
+            <h3><?php echo tbt_rich_inline($tbt_field('celldivision_content_heading')); ?></h3>
+            <?php echo tbt_rich_attrs(tbt_rich($tbt_field('celldivision_content_list')), 'ul', 'class="tbt-cell-content-list"'); ?>
+            <p class="tbt-cell-problems__answer"><?php echo tbt_rich_inline($tbt_field('celldivision_answer')); ?></p>
         </div>
     </section>
 
     <section class="tbt-resource-section tbt-cell-features" data-section="features">
         <div class="tbt-resource-shell">
             <div class="tbt-cell-features__grid">
-                <?php
-                $tbt_features = [
-                    ['curated_celldivision_replayable_video', 'Convenient.', 'Easy to watch. Infinitely re-playable.'],
-                    ['curated_celldivision_analogy', 'Fun analogies', 'For you to easily understand those “super hard” concepts like independent assortment.'],
-                    ['curated_celldivision_memory_shortcuts', 'Memory shortcuts', 'Includes my very own memory shortcuts for you to memorise faster and recall easier in exams.'],
-                ];
-                foreach ($tbt_features as [$tbt_media_key, $tbt_title, $tbt_copy]) :
-                ?>
+                <?php foreach ([1, 2, 3] as $tbt_n) : ?>
                     <article class="tbt-cell-feature">
-                        <?php tbt_render_media_image($tbt_media_key, '', ['loading' => 'lazy']); ?>
-                        <h3><?php echo esc_html($tbt_title); ?></h3>
-                        <p><?php echo esc_html($tbt_copy); ?></p>
+                        <?php tbt_render_content_image('celldivision_feature_' . $tbt_n . '_image', '', ['loading' => 'lazy']); ?>
+                        <h3><?php echo esc_html($tbt_field('celldivision_feature_' . $tbt_n . '_title')); ?></h3>
+                        <p><?php echo esc_html($tbt_field('celldivision_feature_' . $tbt_n . '_text')); ?></p>
                     </article>
                 <?php endforeach; ?>
             </div>
-            <a class="tbt-resource-button" href="#cell-access">GIMME MINE</a>
+            <a class="tbt-resource-button" href="#cell-access"><?php echo esc_html($tbt_field('celldivision_features_button')); ?></a>
         </div>
     </section>
 
     <section class="tbt-resource-section tbt-cell-important" data-section="important">
         <div class="tbt-resource-shell tbt-resource-narrow">
-            <h2>IMPORTANT:</h2>
-            <ul><li>This will <strong>expire in 2023</strong> and is only for Sec 4 Pure Bio students taking Os in 2023.</li></ul>
-            <p class="tbt-resource-disclosure">This historical 2023 resource page is retained from the original ThatBioTutor website; no current enrolment claim is implied.</p>
-            <h3>How do I <span>access</span> it?</h3>
-            <ul><li>Enter your favourite <strong>email address</strong> below and a copy will be sent to you<br>(This is to make sure you're a real person)</li></ul>
+            <h2><?php echo esc_html($tbt_field('celldivision_important_heading')); ?></h2>
+            <?php echo tbt_rich($tbt_field('celldivision_important_list')); ?>
+            <p class="tbt-resource-disclosure"><?php echo esc_html($tbt_field('celldivision_disclosure')); ?></p>
+            <h3><?php echo tbt_heading_html($tbt_field('celldivision_access_heading')); ?></h3>
+            <?php echo tbt_rich($tbt_field('celldivision_access_list')); ?>
         </div>
     </section>
 
     <section class="tbt-cell-access" id="cell-access" data-section="access">
         <div class="tbt-resource-section tbt-cell-access__promise">
             <div class="tbt-resource-shell tbt-resource-narrow">
-                <img class="tbt-resource-access-portrait" data-resource-portrait="cell-access" data-media-key="original_056" src="<?php echo esc_url((string) $tbt_cell_portrait['url']); ?>" alt="Mr Keefe from ThatBioTutor" width="160" height="160" loading="lazy">
-                <h3>Simply Enter Your Email Below And A Copy Will Be Sent To You.</h3>
-                <a class="tbt-resource-button" href="<?php echo esc_url(home_url('/contact/')); ?>">CONTACT THATBIOTUTOR</a>
+                <?php tbt_render_content_image('celldivision_portrait_image', 'tbt-resource-access-portrait', ['data-resource-portrait' => 'cell-access', 'loading' => 'lazy']); ?>
+                <h3><?php echo esc_html($tbt_field('celldivision_promise')); ?></h3>
+                <a class="tbt-resource-button" href="<?php echo esc_url(home_url('/contact/')); ?>"><?php echo esc_html($tbt_field('celldivision_contact_button')); ?></a>
             </div>
         </div>
         <div class="tbt-resource-section tbt-cell-access__instructions">
             <div class="tbt-resource-shell tbt-resource-narrow">
-                <p><strong>IMPORTANT:</strong> After successfully submitting the form, you'll be automatically redirected to the homepage.</p>
-                <p>You'll then receive an email (on gmail, it might be found in your 'promotions' folder).</p>
-                <p>Can't press the submit button/Having issues receiving it? Email keefe@thatbiotutor.com, and I'll help you out ASAP.</p>
+                <?php echo tbt_rich($tbt_field('celldivision_instructions')); ?>
             </div>
         </div>
     </section>
 
     <section class="tbt-resource-section tbt-resource-reviews tbt-cell-reviews" data-section="reviews">
         <div class="tbt-resource-shell">
-            <h2>What Students Are Saying About The Crash Course:</h2>
-            <p class="tbt-cell-reviews__link"><a href="<?php echo esc_url(home_url('/contact/')); ?>">Click here to leave your review!</a></p>
+            <h2><?php echo esc_html($tbt_field('celldivision_reviews_heading')); ?></h2>
+            <p class="tbt-cell-reviews__link"><a href="<?php echo esc_url(home_url('/contact/')); ?>"><?php echo esc_html($tbt_field('celldivision_reviews_link')); ?></a></p>
             <div data-testimonial-renderer><?php tbt_render_testimonials(['posts_per_page' => -1, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'celldivision-reviews', 'compare' => '=']]]); ?></div>
         </div>
     </section>

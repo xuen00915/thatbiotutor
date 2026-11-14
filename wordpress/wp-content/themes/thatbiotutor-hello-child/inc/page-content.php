@@ -186,6 +186,11 @@ function tbt_rich(string $html): string
     $html = function_exists('wp_kses')
         ? wp_kses($html, tbt_rich_allowed_html())
         : strip_tags($html, '<p><br><strong><b><em><i><u><mark><sup><sub><ul><ol><li><a>');
+    // Text the client has saved is typographically processed by WordPress (curly quotes); do the same to the built-in
+    // defaults so a page looks identical before and after its first save.
+    if (function_exists('wptexturize')) {
+        $html = wptexturize($html);
+    }
     // A link typed as /classes/ or /#faq follows the site wherever WordPress is installed.
     $html = (string) preg_replace_callback('~href="/(?!/)([^"]*)"~', static fn (array $m): string => 'href="' . esc_url(home_url('/' . $m[1])) . '"', $html);
     // Links that open a new tab are always opened safely.

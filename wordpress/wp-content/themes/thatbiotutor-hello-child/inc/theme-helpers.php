@@ -115,11 +115,9 @@ function tbt_normalize_image(mixed $value): ?array
 /** Return a safe normalized image, falling back to an approved local asset. */
 function tbt_page_image(string $name, string $fallback, int $post_id = 0): array
 {
+    // A picture field left empty (WordPress saves every empty field as "") means "keep the bundled picture".
     $value = tbt_page_field($name, null, $post_id);
-    if ($value === '' || $value === false) {
-        return ['url' => '', 'alt' => '', 'width' => 0, 'height' => 0];
-    }
-    $normalized = tbt_normalize_image($value);
+    $normalized = ($value === '' || $value === false || $value === null) ? null : tbt_normalize_image($value);
     if ($normalized !== null) {
         return $normalized;
     }

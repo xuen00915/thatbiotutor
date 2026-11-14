@@ -122,10 +122,12 @@ final class ThemeHelpersTest
         $this->assertSame(0, $missing['width'], 'String fallback has no invented width.');
         $this->assertSame(0, $missing['height'], 'String fallback has no invented height.');
 
+        // WordPress saves every untouched empty picture field as a blank, indistinguishable from one the client cleared,
+        // so a blank picture field must keep the bundled picture: otherwise pressing Update would remove pictures.
         $blank = tbt_page_image('empty', $fallback, 7);
-        $this->assertSame('', $blank['url'], 'An intentionally cleared image must not restore the fallback image.');
+        $this->assertSame($fallback, $blank['url'], 'An empty picture field keeps the bundled picture.');
         $cleared = tbt_page_image('cleared_image', $fallback, 7);
-        $this->assertSame('', $cleared['url'], 'An ACF image cleared to false must not restore the fallback image.');
+        $this->assertSame($fallback, $cleared['url'], 'An ACF picture field cleared to false keeps the bundled picture.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} theme-helper assertions\n");
     }
