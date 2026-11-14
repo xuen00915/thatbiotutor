@@ -43,7 +43,7 @@ final class HomePageTest
         ], $sectionMatches[1], 'Home sections must follow the Inquire landing-page order.');
 
         $this->assertTrue(str_contains($html, 'The One Missing Key to go from'), 'Home must use the Inquire hero headline.');
-        $this->assertTrue(str_contains($html, "If a student doesn't absolutely love the $95 trial lesson"), 'Hero must state the trial refund promise.');
+        $this->assertTrue(str_contains(html_entity_decode($html, ENT_QUOTES), "If a student doesn't absolutely love the $95 trial lesson"), 'Hero must state the trial refund promise.');
         $this->assertTrue(str_contains($html, '>Book My Trial Lesson<'), 'Hero must use the approved primary CTA label.');
 
         preg_match('/<section[^>]+data-section="hero".*?<\/section>/s', $html, $heroMatch);

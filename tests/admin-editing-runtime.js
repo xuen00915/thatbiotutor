@@ -89,7 +89,28 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     await pub.reload();
     assert.equal(await pub.locator('#class-of-2099').count(), 0, 'Deleting the year removes its section.');
 
+    // 6. Home: a plain text field and the red/green title accents reach the public page, then are restored.
+    const homeEdit = await editLink('Home');
+    await page.goto(homeEdit);
+    await page.waitForSelector('.acf-tab-button:visible');
+    await page.locator('.acf-tab-button:visible', { hasText: 'Top of the page' }).first().click();
+    const kicker = page.locator('.acf-field[data-name="home_specialist_line"] input');
+    const kickerOriginal = await kicker.inputValue();
+    const kickerStamp = 'Client kicker ' + Date.now();
+    await kicker.fill(kickerStamp);
+    await save();
+    await pub.goto(base + '/');
+    assert.ok((await pub.locator('.tbt-home-kicker').textContent()).includes(kickerStamp), 'An edited Home text must reach the public page.');
+    assert.equal(await pub.locator('.tbt-home-hero h1 .tbt-home-accent--red').count(), 1, 'The Home title keeps its red accent word.');
+    await page.goto(homeEdit);
+    await page.waitForSelector('.acf-tab-button:visible');
+    await page.locator('.acf-tab-button:visible', { hasText: 'Top of the page' }).first().click();
+    await page.locator('.acf-field[data-name="home_specialist_line"] input').fill(kickerOriginal);
+    await save();
+    await pub.reload();
+    assert.equal(await pub.locator('.tbt-home-kicker').textContent(), kickerOriginal, 'The restored Home text is back.');
+
     assert.deepEqual(errors, [], 'No script errors in the editor: ' + errors.join('; '));
-    console.log('PASS admin editing: edit screen, formatting buttons, save, new class year');
+    console.log('PASS admin editing: edit screen, formatting buttons, save, new class year, Home text');
   } finally { await browser.close(); }
-})().catch((e) => { console.error(e.message); process.exit(1); });
+})().catch((e) => { console.error(process.env.TBT_STACK ? e.stack : e.message); process.exit(1); });

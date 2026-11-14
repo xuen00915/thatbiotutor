@@ -72,7 +72,32 @@ function tbt_protected_page_guide(): void
     <?php
 }
 
+/**
+ * WordPress re-validates a page's template whenever it is saved and resets one it does not list (front-page.php is
+ * not a selectable template) to "default". Put each protected page's approved template back after every save.
+ */
+function tbt_keep_protected_page_template(int $postId): void
+{
+    if ((string) get_post_meta($postId, '_tbt_reference_page', true) !== '1') {
+        return;
+    }
+    $slug = (string) get_post_field('post_name', $postId);
+    foreach (tbt_page_registry() as $page) {
+        if ($page['slug'] === $slug && (string) get_post_meta($postId, '_wp_page_template', true) !== $page['template']) {
+            update_post_meta($postId, '_wp_page_template', $page['template']);
+        }
+    }
+}
+
+/** Styles for the ThatBioTutor edit screens. */
+function tbt_admin_editor_styles(): void
+{
+    wp_enqueue_style('tbt-admin-editor', TBT_THEME_URI . '/assets/css/admin-editor.css', [], TBT_THEME_VERSION);
+}
+
 if (function_exists('add_filter') && function_exists('add_action')) {
+    add_action('admin_enqueue_scripts', 'tbt_admin_editor_styles');
     add_filter('use_block_editor_for_post', 'tbt_protected_pages_use_classic_editor', 10, 2);
     add_action('load-post.php', 'tbt_protected_page_screen');
+    add_action('wp_after_insert_post', 'tbt_keep_protected_page_template', 99);
 }

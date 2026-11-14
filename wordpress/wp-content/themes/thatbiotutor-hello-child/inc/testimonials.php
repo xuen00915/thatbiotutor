@@ -6,21 +6,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/** Convert a supported YouTube URL to its privacy-enhanced embed URL. */
-function tbt_testimonial_embed_url(string $url): string
-{
-    $patterns = [
-        '~youtube\.com/watch\?[^#]*v=([A-Za-z0-9_-]{6,})~',
-        '~youtu\.be/([A-Za-z0-9_-]{6,})~',
-        '~youtube(?:-nocookie)?\.com/embed/([A-Za-z0-9_-]{6,})~',
-    ];
-    foreach ($patterns as $pattern) {
-        if (preg_match($pattern, $url, $matches) === 1) {
-            return 'https://www.youtube-nocookie.com/embed/' . $matches[1];
-        }
-    }
-    return '';
-}
+require_once __DIR__ . '/page-content.php'; // tbt_testimonial_embed_url()
 
 /** Return normalized, published testimonial records. */
 function tbt_get_testimonials(array $args = []): array

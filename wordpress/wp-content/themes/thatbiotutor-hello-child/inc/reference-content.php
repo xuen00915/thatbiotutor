@@ -368,21 +368,7 @@ function tbt_reference_content(): array
         return $faqs;
     };
     $faqCollections = [
-        'home' => [
-            ['Do you teach physical lessons?', 'Yes! Starting 2024, you choose between coming online or physically.'],
-            ['Do you have hands-on practical sessions?', 'Yes, our hands-on practical sessions cover the most commonly tested experiments, so students walk into Paper 3 with the hand-eye coordination and confidence to protect the full 20% of their grade.'],
-            ['Other than weekly lessons, what are the other perks of being a student here?', 'There are a plethora of benefits, including notes, flashcards, lesson clips, extra practice papers, week-long WhatsApp help, snacks when you come for physical lessons... just to name a few!<br><br>All these extra perks and resources are free of charge for our students. For more details please watch the video here.'],
-            ['Do I need to turn on my mic/camera during online lessons?', 'It is not compulsory, though we encourage students to respond to questions their tutor poses to the class via the zoom chat!'],
-            ['Is there a lot of homework?', "The weekly homework consists of a few questions, and is highly manageable (We don't believe in overloading students with homework when they already have enough from school).<br><br>Homework is also not compulsory to do, although if you do it, you can claim Homework Points for rewards! (e.g. Bubble Tea, Starbucks Gift Card)"],
-            ['How many students are there in a class?', "The cap for physical class will be around 20-25 students. Don't be daunted by the numbers, try it out yourself in a trial lesson, and see why so many students still love our classes.<br><br>We're so confident your child will love the lesson that we offer a 100% money-back guarantee on the trial. If they didn't love it, just let us know and we'll refund you fully — no questions asked."],
-            ['What levels do you teach?', 'We teach only O Level Pure/G3 Biology, so we can truly specialise and develop the best lessons, teaching methods and resources for our students.<br><br>Sec 3s, classes open for you March of each year!'],
-            ['Do you teach combined bio?', 'At the moment, only Pure Bio.'],
-            ['Do you teach 1-1 tuition?', 'Unfortunately, we have too many students to afford the time to teach 1-1. Good news: Our students can ask us questions 1-1 on WhatsApp, all week long!'],
-            ['But what if I can’t ask all the questions I want in a group class?', 'Our students never face this problem because they get week-long WhatsApp help.<br><br>We even take the time to voice message them explanations if the question is more complex.'],
-            ['Are all the classes taught by Mr Keefe?', 'No, as we have a small and elite team of tutors who each take classes of their own.<br><br>Rest assured that no matter which timeslot you go to, the content and methods taught is the same across tutors, as we standardise it for every lesson.'],
-            ['Can I try just one lesson?', "Yes! To request for a trial lesson, drop us a WhatsApp message— one of our friendly staff will respond ASAP!<br><br>We're so confident you will love the lesson that we offer a 100% money-back guarantee on the trial. If you didn't love it, just let us know and we'll refund you fully — no questions asked."],
-            ['Can I know more about the class fees and lesson timeslots?', 'Because we offer several class options tailored to different needs, fees may vary.<br>Our team will also provide the most updated timeslot availability through WhatsApp.<br><br>To know more, drop us a message — one of our friendly staff will respond ASAP!'],
-        ],
+        'home' => tbt_home_faq_defaults(),
         'classes' => [
             ['What is the difference between Pure Biology and Combined Science?', 'A: Pure Biology is a full subject (Syllabus 6093) with 3 papers (It will be renamed to G3 Biology starting 2027). Combined Science shares exam papers with another subject. Pure Bio carries more weight in the L1R5/L1R4 score and is required for certain post-secondary courses.'],
             ['Is Pure Biology harder than Combined Science?', 'A: Yes — Pure / G3 Bio covers more content and has stricter marking. But with the right study approach and answering technique, it is very manageable. Despite most TBT students starting below B4, a large majority of TBT students end up scoring B3 or higher.'],
@@ -460,22 +446,7 @@ function tbt_reference_content(): array
         'pages' => [
             'home' => [
                 'source' => $crawlSource('/'),
-                'fields' => [
-                    'home_heading' => "The AVERAGE TBT Student Makes A 2.3 Grade Jump (~C5 to A2)",
-                    'home_specialist_line' => "ThatBioTutor | Singapore's ONLY 'O' Level Pure/G3 Bio Specialist",
-                    'home_primary_cta_label' => 'Find Out More',
-                    'home_missing_key_heading' => 'The 1 MISSING KEY To Go From FAIL to A1, While Cutting Down Study Time By 90%',
-                    'home_fasttrack_heading' => 'Our FastTrack System 🚀',
-                    'home_trust_heading' => 'Why You Can Trust In TBT:',
-                    'home_testimonials_heading' => 'What Students Are Saying About ThatBioTutor:',
-                    'home_schools_heading' => 'Schools We Have Taught Students From:',
-                    'home_advantage_heading' => 'The TBT Advantage',
-                    'home_experience_heading' => 'Sneak Peek Into The TBT Experience:',
-                    'home_causes_heading' => 'Save The Planet With Us!',
-                    'home_tutors_heading' => 'Our Tutors',
-                    'home_faq_heading' => 'Frequently Asked Questions',
-                    'home_closing_heading' => 'Ready to make Biology click?',
-                ],
+                'fields' => [], // declared in inc/content/home.php
             ],
             'classes' => [
                 'source' => $crawlSource('/classes'),
@@ -529,7 +500,6 @@ function tbt_reference_content(): array
                     'notes_access_copy' => "After submitting the form, you'll be automatically redirected to the homepage.",
                     'notes_fit_heading' => 'Hey Pure Bio Student, is this you?',
                     'notes_fit_answer' => "If you answered 'yes' to the above, these notes were made for you. I spent hundreds of hours making these concise notes so that students like you can have an easy time studying.",
-                    'notes_download_heading' => 'How do I download it?',
                     'notes_download_copy' => 'Enter your best email address below and a copy will be sent to you',
                 ],
             ],

@@ -5,9 +5,11 @@ declare(strict_types=1);
 $theme = dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child';
 $css = (string) @file_get_contents($theme . '/assets/css/pages-programmes.css');
 $intensive = (string) @file_get_contents($theme . '/page-intensivefix.php');
-$classes = (string) @file_get_contents($theme . '/page-classes.php');
-$sec3 = (string) @file_get_contents($theme . '/page-sec-3.php');
-$sec4 = (string) @file_get_contents($theme . '/page-sec-4.php');
+$classes = (string) @file_get_contents($theme . '/page-classes.php') . (string) @file_get_contents($theme . '/inc/content/classes.php'); // copy and pictures are declared in the content file
+// Sec 3 and Sec 4 share one renderer and one field declaration (inc/programme-pages.php); their templates are thin wrappers.
+$programme = (string) @file_get_contents($theme . '/inc/programme-pages.php');
+$sec3 = (string) @file_get_contents($theme . '/page-sec-3.php') . $programme . (string) @file_get_contents($theme . '/inc/reference-content.php');
+$sec4 = (string) @file_get_contents($theme . '/page-sec-4.php') . $programme . (string) @file_get_contents($theme . '/inc/reference-content.php');
 
 $contracts = [
     [$css, '.tbt-programme-hero', 'full-width programme hero'],

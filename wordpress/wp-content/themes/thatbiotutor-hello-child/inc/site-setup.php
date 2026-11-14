@@ -160,6 +160,32 @@ function tbt_upsert_seed_record(string $postType, array $record, bool $refreshAp
     return $postId;
 }
 
+/**
+ * Move seeded records that are no longer part of the approved content to Draft, so an older seed (for example a
+ * retired FAQ) cannot keep showing on the site. Records the client has edited are left exactly as they are.
+ */
+function tbt_retire_stale_seed_records(string $postType, array $approvedKeys): void
+{
+    $seeded = get_posts([
+        'post_type' => $postType,
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'meta_query' => [['key' => '_tbt_reference_record', 'value' => '1', 'compare' => '=']],
+        'no_found_rows' => true,
+    ]);
+    foreach ($seeded as $post) {
+        $seedKey = (string) get_post_meta((int) $post->ID, '_tbt_seed_key', true);
+        if ($seedKey === '' || in_array($seedKey, $approvedKeys, true)) {
+            continue;
+        }
+        $titleUnedited = hash_equals((string) get_post_meta((int) $post->ID, '_tbt_seed_hash_core_post_title', true), tbt_seed_value_hash((string) $post->post_title));
+        $contentUnedited = hash_equals((string) get_post_meta((int) $post->ID, '_tbt_seed_hash_core_post_content', true), tbt_seed_value_hash((string) $post->post_content));
+        if ($titleUnedited && $contentUnedited) {
+            wp_update_post(['ID' => (int) $post->ID, 'post_status' => 'draft']);
+        }
+    }
+}
+
 /** Seed all approved repeated-content records without deleting client records. */
 function tbt_seed_reference_records(bool $refreshApproved = false): array|WP_Error
 {
@@ -175,13 +201,16 @@ function tbt_seed_reference_records(bool $refreshApproved = false): array|WP_Err
 
     foreach ($collections as $collection => $postType) {
         $ids[$collection] = [];
+        $approvedKeys = [];
         foreach (($reference['records'][$collection] ?? []) as $record) {
             $postId = tbt_upsert_seed_record($postType, $record, $refreshApproved);
             if (is_wp_error($postId)) {
                 return $postId;
             }
             $ids[$collection][] = $postId;
+            $approvedKeys[] = (string) ($record['seed_key'] ?? '');
         }
+        tbt_retire_stale_seed_records($postType, $approvedKeys);
     }
 
     return $ids;

@@ -29,6 +29,14 @@ Open **Pages**, then the page you want. The page opens on a clear screen with a 
 3. Add the students' stories under **Testimonials → Add Testimonial** and set **Display group / year** to the same year.
 4. **Publish.** The page and the year menu update automatically, newest year first. To retire a year, move its record to Draft.
 
+### Home page and shared sections
+
+The Home page tabs follow the page from top to bottom (*Top of the page*, *Student worries and stories*, *Track record*, *FastTrack system* and so on). The title uses two marker buttons: **Highlight** for green words and **Red** for the red word. Sections that also appear on the IntensiveFix page (FastTrack, proof, tutors, quality control, practical sessions, who it is for, founder, FAQ, classroom photos) are edited here once and update both pages. The FAQ is edited under **FAQs** (collection `home`).
+
+### Classes, Sec 3 and Sec 4
+
+Each section of these pages has its own tab. Cards come in numbered sets (for example *Problem 1 … Problem 4*): leave a card's title and text empty to hide it. Sec 3 and Sec 4 share one layout, so they always look alike; only their words, dates, topics and pictures differ.
+
 ### Tutors (About Us)
 
 Under **Tutors**: display name, qualifications (one per line), LinkedIn link, portrait and up to three certificates. Use the Order number to change who appears first, and Draft to hide a tutor.

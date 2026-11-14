@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) { exit; }
 get_header();
 $tbt_defaults = tbt_reference_content()['pages']['notes']['fields'];
 $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, $tbt_defaults[$name] ?? '');
-$tbt_notes_portrait = tbt_media('original_003');
+$tbt_button = esc_html($tbt_field('notes_button_label'));
 ?>
 <article class="tbt-resource-page tbt-notes-page">
     <header class="tbt-resource-hero tbt-notes-hero" data-section="hero">
@@ -34,27 +34,26 @@ $tbt_notes_portrait = tbt_media('original_003');
                 </div>
                 <p class="screen-reader-text" data-carousel-status aria-live="polite">1 of 3</p>
             </div>
-            <a class="tbt-resource-button" href="#notes-form">DOWNLOAD</a>
-            <p class="tbt-resource-proof">[7,000+ downloads]</p>
+            <a class="tbt-resource-button" href="#notes-form"><?php echo $tbt_button; ?></a>
+            <?php if ($tbt_field('notes_proof_line') !== '') : ?><p class="tbt-resource-proof"><?php echo esc_html($tbt_field('notes_proof_line')); ?></p><?php endif; ?>
         </div>
     </header>
 
     <section class="tbt-resource-section tbt-resource-reviews tbt-resource-reviews--lead" data-section="reviews-top">
         <div class="tbt-resource-shell">
-            <h2>What Students Are Saying...</h2>
+            <h2><?php echo esc_html($tbt_field('notes_reviews_heading')); ?></h2>
             <div data-testimonial-renderer data-review-panel><?php tbt_render_testimonials(['posts_per_page' => -1, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'notes-reviews', 'compare' => '=']]]); ?></div>
         </div>
     </section>
 
     <section class="tbt-resource-section tbt-notes-access-intro" id="notes-form" data-section="access-intro">
         <div class="tbt-resource-shell tbt-resource-narrow">
-            <img class="tbt-resource-access-portrait" data-resource-portrait="notes-access" data-media-key="original_003" src="<?php echo esc_url((string) $tbt_notes_portrait['url']); ?>" alt="Mr Keefe from ThatBioTutor" width="160" height="160" loading="lazy">
+            <?php tbt_render_content_image('notes_portrait_image', 'tbt-resource-access-portrait', ['data-resource-portrait' => 'notes-access', 'loading' => 'lazy']); ?>
             <h2><?php echo esc_html($tbt_field('notes_access_heading')); ?></h2>
             <?php tbt_render_notes_form(); ?>
             <div class="tbt-resource-access-instructions">
                 <p><strong>IMPORTANT:</strong> <?php echo esc_html($tbt_field('notes_access_copy')); ?></p>
-                <p>You'll then receive an email with our notes (on gmail, it might be found in your 'promotions' folder).</p>
-                <p>Can't press the submit button/Having issues receiving it? Email <a href="mailto:keefe@thatbiotutor.com">keefe@thatbiotutor.com</a>, and I'll help you out ASAP.</p>
+                <?php echo tbt_rich($tbt_field('notes_access_note')); ?>
             </div>
         </div>
     </section>
@@ -62,79 +61,58 @@ $tbt_notes_portrait = tbt_media('original_003');
     <section class="tbt-resource-section tbt-notes-fit" data-section="fit">
         <div class="tbt-resource-shell tbt-resource-narrow">
             <h2><?php echo esc_html($tbt_field('notes_fit_heading')); ?></h2>
-            <ul class="tbt-notes-pain-list">
-                <li>Your school notes/textbook is <strong>thick and confusing</strong></li>
-                <li>You're not sure what is the most important content to <strong>focus on</strong></li>
-                <li>You wish there were ways to <strong>memorise</strong> content faster and easier</li>
-                <li>You wish you knew what the <strong>commonly tested questions</strong> are, and how to answer them with <strong>full marks</strong></li>
-                <li>You really want to <strong>improve</strong> in bio fast</li>
-            </ul>
+            <?php echo tbt_rich_attrs(tbt_rich($tbt_field('notes_fit_list')), 'ul', 'class="tbt-notes-pain-list"'); ?>
             <p class="tbt-notes-fit__answer"><?php echo esc_html($tbt_field('notes_fit_answer')); ?></p>
         </div>
     </section>
 
     <section class="tbt-resource-section tbt-notes-benefits" data-section="benefits">
         <div class="tbt-resource-shell">
-            <h2>ThatBioTutor's Notes</h2>
+            <h2><?php echo esc_html($tbt_field('notes_benefits_heading')); ?></h2>
             <div class="tbt-notes-benefits__grid">
-                <?php
-                $tbt_benefits = [
-                    'concise' => "Concise notes which cuts out the clutter, so you know what's important to <strong>focus on</strong>",
-                    'memory' => 'Includes our very own <strong>memory shortcuts</strong> for you to memorise faster and recall easier in exams.',
-                    'questions' => "I've looked through many papers and assessment books to draw out the <strong>commonly asked questions</strong> for each topic! Now you'll know which MCQs + OEQs are important to study for.",
-                    'reviewed' => '<strong>Ex-MOE Teacher Reviewed:</strong> Our syllabus and notes have been reviewed by an Ex-MOE teacher of 11 years.',
-                ];
-                foreach ($tbt_benefits as $tbt_key => $tbt_copy) :
-                ?>
+                <?php foreach ([1, 2, 3, 4] as $tbt_n) : $tbt_benefit = $tbt_field('notes_benefit_' . $tbt_n . '_text'); ?>
                     <article class="tbt-notes-benefit" data-notes-benefit>
-                        <div class="tbt-notes-benefit__media"><?php tbt_render_media_image('curated_notes_notes_benefit_' . $tbt_key, '', ['loading' => 'lazy']); ?></div>
-                        <p><?php echo wp_kses_post($tbt_copy); ?></p>
+                        <div class="tbt-notes-benefit__media"><?php tbt_render_content_image('notes_benefit_' . $tbt_n . '_image', '', ['loading' => 'lazy']); ?></div>
+                        <p><?php echo tbt_rich_inline($tbt_benefit); ?></p>
                     </article>
                 <?php endforeach; ?>
             </div>
-            <a class="tbt-resource-button" href="#notes-form">DOWNLOAD</a>
+            <a class="tbt-resource-button" href="#notes-form"><?php echo $tbt_button; ?></a>
         </div>
     </section>
 
     <div class="tbt-notes-details">
         <section class="tbt-resource-section tbt-resource-faq-block" data-section="why-free">
             <div class="tbt-resource-shell tbt-resource-narrow">
-                <h2>Why are you giving your notes for <span>FREE</span>?</h2>
-                <ul>
-                    <li>I get tons of messages requesting for notes, so this must be a big need in the community. A lot of you are <strong>needlessly struggling</strong> in this subject, and I don't want you to be one of them.</li>
-                    <li>If you are, maybe you're not getting the quality of <strong>teaching and materials</strong> you need. It shouldn't be this way, because bio is an easy subject, and you deserve to score well in it.</li>
-                    <li>I was in your position before, and I wished someone gave me notes like these to make my life <strong>easier</strong>. Now I get to make it a reality for you, and that brings me lots of joy.</li>
-                </ul>
+                <h2><?php echo tbt_heading_html($tbt_field('notes_why_heading')); ?></h2>
+                <?php echo tbt_rich($tbt_field('notes_why_list')); ?>
             </div>
         </section>
 
         <section class="tbt-resource-section tbt-resource-faq-block" data-section="catch">
             <div class="tbt-resource-shell tbt-resource-narrow">
-                <h2>This sounds <span>too good to be true</span>. What's the catch?</h2>
-                <ul>
-                    <li>I do this because I'd like to earn your trust, by giving you results in advance.</li>
-                    <li>I want you to know that this is the <strong>real deal</strong>. It's my hope that those of you who want bio tuition will choose TBT when looking for bio tuition :)</li>
-                </ul>
+                <h2><?php echo tbt_heading_html($tbt_field('notes_catch_heading')); ?></h2>
+                <?php echo tbt_rich($tbt_field('notes_catch_list')); ?>
             </div>
         </section>
 
         <section class="tbt-resource-section tbt-notes-download" id="notes-download" data-section="download">
             <div class="tbt-resource-shell tbt-resource-narrow">
-                <h2>How do I <span>download</span> it?</h2>
+                <h2><?php echo tbt_heading_html($tbt_field('notes_download_heading')); ?></h2>
                 <ul>
                     <li><?php echo esc_html($tbt_field('notes_download_copy')); ?></li>
-                    <li>(This is to make sure you're a real person, and if I update the notes in future, I'll send you the updated version automatically!)</li>
+                    <li><?php echo esc_html($tbt_field('notes_download_note')); ?></li>
                 </ul>
-                <a class="tbt-resource-button" href="#notes-form">DOWNLOAD</a>
+                <a class="tbt-resource-button" href="#notes-form"><?php echo $tbt_button; ?></a>
             </div>
         </section>
     </div>
 
     <section class="tbt-resource-section tbt-resource-reviews" data-section="reviews-bottom">
         <div class="tbt-resource-shell">
-            <h2>What Students Are Saying...</h2>
+            <h2><?php echo esc_html($tbt_field('notes_reviews_heading')); ?></h2>
             <div data-testimonial-renderer data-review-panel><?php tbt_render_testimonials(['posts_per_page' => -1, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'notes-reviews-bottom', 'compare' => '=']]]); ?></div>
-            <a class="tbt-resource-button tbt-notes-end-button" href="#notes-form">DOWNLOAD</a>
+            <a class="tbt-resource-button tbt-notes-end-button" href="#notes-form"><?php echo $tbt_button; ?></a>
         </div>
     </section>
 </article>

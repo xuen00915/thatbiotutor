@@ -71,8 +71,11 @@ final class PageContentTest
 
                     // The page must read the field, otherwise editing it would silently do nothing.
                     $dynamicPrefix = preg_replace('/\d+(?:_[a-z]+)?$/', '', $name);
+                    $sharedRenderer = in_array($pageKey, ['sec-3-pure-g3-biology-tuition', 'sec-4-pure-g3-biology-tuition'], true); // proven field by field in programme-pages-test.php
                     $this->assertTrue(
-                        str_contains($template, "'{$name}'") || ($dynamicPrefix !== $name && str_contains($template, "'{$dynamicPrefix}'")) || $this->readByModule($name),
+                        $sharedRenderer ||
+                        ($pageKey === 'home' && $field['type'] === 'image' && tbt_home_image_field((string) $field['fallback']) === $name) || // shared sections find Home pictures by their bundled key
+                        str_contains($template, "'{$name}'") || ($dynamicPrefix !== $name && str_contains($template, "'{$dynamicPrefix}'")) || $this->readByModule($name) || ($dynamicPrefix !== $name && $this->readByModule($dynamicPrefix)),
                         "{$pageKey}: field {$name} is declared but its template never reads it."
                     );
 
@@ -82,7 +85,8 @@ final class PageContentTest
                         $this->assertTrue(is_string($field['default']), "{$name} must carry an approved default.");
                     }
                     if ($field['type'] === 'wysiwyg') {
-                        $this->assertTrue($field['default'] !== '', "{$name} must ship its approved text.");
+                        $optional = str_contains((string) $field['label'] . (string) $field['help'], 'optional') || str_contains((string) $field['help'], 'to hide');
+                        $this->assertTrue($field['default'] !== '' || $optional, "{$name} must ship its approved text (or be marked optional).");
                         preg_match_all('~</?([a-z0-9]+)~i', $field['default'], $tags);
                         foreach (array_unique($tags[1]) as $tag) {
                             $this->assertTrue(isset(tbt_rich_allowed_html()[strtolower($tag)]), "{$name} default uses <{$tag}>, which the sanitiser would remove.");
@@ -117,7 +121,8 @@ final class PageContentTest
     private function readByModule(string $name): bool
     {
         static $source = null;
-        $source ??= (string) file_get_contents(TBT_THEME_DIR . '/inc/class-years.php') . (string) file_get_contents(TBT_THEME_DIR . '/inc/tutors.php');
+        $source ??= (string) file_get_contents(TBT_THEME_DIR . '/inc/class-years.php') . (string) file_get_contents(TBT_THEME_DIR . '/inc/tutors.php')
+            . implode('', array_map(static fn (string $f): string => (string) file_get_contents($f), glob(TBT_THEME_DIR . '/template-parts/*.php') ?: [])); // Home's shared sections
         return str_contains($source, "'{$name}'");
     }
 

@@ -95,6 +95,10 @@ final class AcfFieldsTest
             $this->assertTrue(isset($home[sprintf('home_classroom_image_%02d', $index)]), "Home classroom image slot {$index} must exist.");
         }
 
+        // WordPress resets front-page.php (not a selectable template) to "default" on every save, so the Home panel must also match the front page.
+        $homeLocations = array_values(array_filter($groups, static fn (array $g): bool => ($g['location'][0][0]['value'] ?? '') === 'front-page.php'))[0]['location'] ?? [];
+        $this->assertTrue(in_array('front_page', array_map(static fn (array $or): string => (string) ($or[0]['value'] ?? ''), $homeLocations), true), 'The Home field group must also match the front page so it survives WordPress resetting its template.');
+
         $notes = $fieldsByTemplate['page-notes.php'] ?? [];
         foreach (range(1, 3) as $index) {
             $this->assertTrue(isset($notes[sprintf('notes_slider_image_%02d', $index)]), "Notes slider image slot {$index} must exist.");

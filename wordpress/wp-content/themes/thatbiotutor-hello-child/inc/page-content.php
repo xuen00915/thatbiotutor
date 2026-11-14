@@ -37,6 +37,48 @@ function tbt_f_rich(string $name, string $label, string $default = '', string $h
     return ['name' => $name, 'label' => $label, 'type' => 'wysiwyg', 'default' => $default, 'help' => $help];
 }
 
+/** A single line of formatted text (a card title or heading): bold, italic, underline, green Highlight and links. */
+function tbt_f_inline(string $name, string $label, string $default = '', string $help = ''): array
+{
+    return ['name' => $name, 'label' => $label, 'type' => 'wysiwyg', 'inline' => true, 'default' => $default, 'help' => $help];
+}
+
+/**
+ * A numbered group of cards, each with a title and a text. $cards is a list of [title, text] defaults.
+ * $titleKind is 'text' or 'inline'; $textKind is 'text', 'area', 'inline' or 'rich'. Leave a card's title and
+ * text empty to hide that card.
+ *
+ * @return list<array<string,mixed>>
+ */
+function tbt_f_cards(string $prefix, string $noun, array $cards, string $titleKind = 'text', string $textKind = 'inline', string $titleLabel = 'title', string $textLabel = 'text'): array
+{
+    $make = static fn (string $kind, string $name, string $label, string $default): array => match ($kind) {
+        'inline' => tbt_f_inline($name, $label, $default),
+        'rich' => tbt_f_rich($name, $label, $default),
+        'area' => tbt_f_area($name, $label, $default),
+        default => tbt_f_text($name, $label, $default),
+    };
+    $fields = [];
+    foreach (array_values($cards) as $index => $card) {
+        $n = $index + 1;
+        $fields[] = $make($titleKind, "{$prefix}_{$n}_title", "{$noun} {$n} — {$titleLabel}", (string) ($card[0] ?? ''));
+        $fields[] = $make($textKind, "{$prefix}_{$n}_text", "{$noun} {$n} — {$textLabel}", (string) ($card[1] ?? ''));
+    }
+    return $fields;
+}
+
+/** A numbered row of value + label pairs (statistics). $items is a list of [value, label] defaults. */
+function tbt_f_stats(string $prefix, string $noun, array $items): array
+{
+    $fields = [];
+    foreach (array_values($items) as $index => $item) {
+        $n = $index + 1;
+        $fields[] = tbt_f_text("{$prefix}_{$n}_value", "{$noun} {$n} — number", (string) $item[0]);
+        $fields[] = tbt_f_text("{$prefix}_{$n}_label", "{$noun} {$n} — label", (string) $item[1]);
+    }
+    return $fields;
+}
+
 /** A link (URL) field. */
 function tbt_f_url(string $name, string $label, string $default = '', string $help = ''): array
 {
@@ -44,9 +86,9 @@ function tbt_f_url(string $name, string $label, string $default = '', string $he
 }
 
 /** A picture field. Left empty it shows the bundled picture identified by $fallbackKey. */
-function tbt_f_image(string $name, string $label, string $fallbackKey, string $help = ''): array
+function tbt_f_image(string $name, string $label, string $fallbackKey, string $help = '', string $alt = ''): array
 {
-    return ['name' => $name, 'label' => $label, 'type' => 'image', 'default' => '', 'fallback' => $fallbackKey, 'help' => $help];
+    return ['name' => $name, 'label' => $label, 'type' => 'image', 'default' => '', 'fallback' => $fallbackKey, 'help' => $help, 'alt' => $alt];
 }
 
 /** A named group of fields that becomes one tab in the page's edit screen. */
@@ -129,9 +171,10 @@ function tbt_page_content_definition(string $name): ?array
 function tbt_rich_allowed_html(): array
 {
     return [
-        'p' => [], 'br' => [], 'strong' => [], 'b' => [], 'em' => [], 'i' => [], 'u' => [], 'mark' => [],
-        'sup' => [], 'sub' => [], 'ul' => [], 'ol' => [], 'li' => [],
+        'p' => [], 'br' => [], 'strong' => [], 'b' => [], 'em' => [], 'i' => [], 'u' => [],
+        'sup' => [], 'sub' => [], 'ul' => [], 'ol' => ['start' => true], 'li' => [],
         'a' => ['href' => true, 'target' => true, 'rel' => true, 'title' => true],
+        'mark' => ['data-tone' => true],
     ];
 }
 
@@ -156,6 +199,27 @@ function tbt_rich(string $html): string
 function tbt_rich_inline(string $html): string
 {
     return trim((string) preg_replace('~</?p>~i', '', tbt_rich($html)));
+}
+
+/** A heading with green accent words: the Highlight in the editor becomes the accent span the design styles. */
+function tbt_heading_html(string $html): string
+{
+    return str_replace('</mark>', '</span>', (string) preg_replace('~<mark[^>]*>~i', '<span>', tbt_rich_inline($html)));
+}
+
+/** A heading whose Highlight words get one class and whose red words ("Red" button) get another (the Home title). */
+function tbt_accent_marks(string $html, string $greenClass, string $redClass): string
+{
+    $html = tbt_rich_inline($html);
+    $html = str_replace('<mark data-tone="red">', '<span class="' . esc_attr($redClass) . '">', $html);
+    $html = str_replace('<mark>', '<span class="' . esc_attr($greenClass) . '">', $html);
+    return str_replace('</mark>', '</span>', $html);
+}
+
+/** Add attributes to every opening <$tag> of formatted text, e.g. a class on its lists. */
+function tbt_rich_attrs(string $html, string $tag, string $attributes): string
+{
+    return (string) preg_replace('~<' . preg_quote($tag, '~') . '(\s[^>]*)?>~i', '<' . $tag . ' ' . $attributes . '>', $html);
 }
 
 /** Wrap the last whitespace-separated word, with its punctuation, in the accent span (e.g. "Student <span>Stories!</span>"). */
@@ -185,23 +249,39 @@ function tbt_render_content_image(string $name, string $class = '', array $attri
     $key = (string) ($definition['fallback'] ?? '');
     $value = tbt_page_field($name, null, $postId);
     $custom = ($value !== null && $value !== '' && $value !== false && $value !== []) ? tbt_normalize_image($value) : null;
-    if ($custom === null) {
-        if ($key !== '') {
-            tbt_render_media_image($key, $class, $attributes);
-        }
+    $bundled = $key !== '' ? tbt_media($key) : [];
+    if ($custom === null && (string) ($bundled['url'] ?? '') === '') {
         return;
     }
-    $fallback = $key !== '' ? tbt_media($key) : [];
+    $source = $custom ?? $bundled;
+    // The client's picture alt text wins, then the page's own description, then the bundled picture's.
+    $alt = (string) (($custom['alt'] ?? '') !== '' ? $custom['alt'] : (($definition['alt'] ?? '') !== '' ? $definition['alt'] : ($bundled['alt'] ?? '')));
     echo '<img data-media-key="' . esc_attr($key) . '"';
     if ($class !== '') {
         echo ' class="' . esc_attr($class) . '"';
     }
     foreach ($attributes as $attribute => $attributeValue) {
-        if (preg_match('/^(?:data-[a-z0-9-]+|aria-[a-z0-9-]+|loading)$/', (string) $attribute) === 1) {
+        if (preg_match('/^(?:data-[a-z0-9-]+|aria-[a-z0-9-]+|loading|fetchpriority)$/', (string) $attribute) === 1) {
             echo ' ' . esc_attr((string) $attribute) . '="' . esc_attr((string) $attributeValue) . '"';
         }
     }
-    echo ' src="' . esc_url((string) $custom['url']) . '" alt="' . esc_attr((string) ($custom['alt'] !== '' ? $custom['alt'] : ($fallback['alt'] ?? ''))) . '" width="' . esc_attr((string) $custom['width']) . '" height="' . esc_attr((string) $custom['height']) . '">';
+    echo ' src="' . esc_url((string) $source['url']) . '" alt="' . esc_attr($alt) . '" width="' . esc_attr((string) ($source['width'] ?? 0)) . '" height="' . esc_attr((string) ($source['height'] ?? 0)) . '">';
+}
+
+/** Convert a supported YouTube URL to its privacy-enhanced embed URL. */
+function tbt_testimonial_embed_url(string $url): string
+{
+    $patterns = [
+        '~youtube\.com/watch\?[^#]*v=([A-Za-z0-9_-]{6,})~',
+        '~youtu\.be/([A-Za-z0-9_-]{6,})~',
+        '~youtube(?:-nocookie)?\.com/embed/([A-Za-z0-9_-]{6,})~',
+    ];
+    foreach ($patterns as $pattern) {
+        if (preg_match($pattern, $url, $matches) === 1) {
+            return 'https://www.youtube-nocookie.com/embed/' . $matches[1];
+        }
+    }
+    return '';
 }
 
 /** Return a content link: the client's value, or the declared default; empty when neither is set. */
@@ -215,7 +295,7 @@ function tbt_content_url(string $name, string $default = ''): string
 /** Give the formatted-text editor a clean, client-safe toolbar and keep underline/highlight as plain tags. */
 function tbt_editor_toolbars(array $toolbars): array
 {
-    $toolbars['ThatBioTutor'] = [1 => ['bold', 'italic', 'underline', 'tbt_highlight', 'link', 'unlink', 'bullist', 'numlist', 'removeformat', 'undo', 'redo']];
+    $toolbars['ThatBioTutor'] = [1 => ['bold', 'italic', 'underline', 'tbt_highlight', 'tbt_red', 'link', 'unlink', 'bullist', 'numlist', 'removeformat', 'undo', 'redo']];
     return $toolbars;
 }
 
@@ -233,12 +313,22 @@ function tbt_editor_settings(array $settings, string $editorId = ''): array
         return $settings;
     }
     $settings['extended_valid_elements'] = 'mark,u';
-    $settings['content_style'] = ($settings['content_style'] ?? '') . ' mark{background:#bff0b0;color:inherit;padding:0 2px}';
+    $settings['content_style'] = ($settings['content_style'] ?? '') . ' mark{background:#bff0b0;color:inherit;padding:0 2px} mark[data-tone=red]{background:#ffc9c9}';
     return $settings;
 }
 
+/** Typed text such as ":)" stays exactly as typed instead of turning into an emoji. */
+function tbt_keep_typed_text(): void
+{
+    remove_filter('acf_the_content', 'convert_smilies', 20);
+}
+
 if (function_exists('add_filter')) {
+    add_action('acf/init', 'tbt_keep_typed_text');
     add_filter('acf/fields/wysiwyg/toolbars', 'tbt_editor_toolbars');
     add_filter('mce_external_plugins', 'tbt_editor_plugins');
     add_filter('tiny_mce_before_init', 'tbt_editor_settings', 10, 2);
 }
+
+require_once __DIR__ . '/programme-pages.php';
+require_once __DIR__ . '/home-page.php';

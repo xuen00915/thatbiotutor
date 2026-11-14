@@ -76,6 +76,10 @@ function tbt_acf_section_fields(string $prefix, array $section): array
         $label = (string) $declared['label'];
         switch ($declared['type']) {
             case 'wysiwyg':
+                if (!empty($declared['inline'])) {
+                    $settings['wrapper'] = ['width' => '', 'class' => 'tbt-inline-rich', 'id' => ''];
+                    $settings['instructions'] = trim($settings['instructions'] . ' One line; Highlight marks words in green.');
+                }
                 $fields[] = tbt_acf_wysiwyg($key, $label, $name, $settings);
                 break;
             case 'textarea':
@@ -152,22 +156,6 @@ function tbt_acf_page_groups(): array
         }
 
         if ($pageKey === 'home') {
-            $fields[] = tbt_acf_tab('field_tbt_home_tab_hero_media', 'Hero media');
-            foreach (range(1, 5) as $index) {
-                $name = sprintf('home_hero_image_%02d', $index);
-                $fields[] = tbt_acf_image('field_tbt_' . $name, 'Hero image ' . $index, $name, [
-                    'instructions' => $index === 1 ? 'Current public group photograph. Use a landscape WebP and keep the approved lower focal point.' : 'Landscape WebP in the approved carousel order.',
-                ]);
-            }
-            foreach (range(1, 4) as $index) {
-                $name = sprintf('home_number_image_%02d', $index);
-                $fields[] = tbt_acf_image('field_tbt_' . $name, 'Number-section image ' . $index, $name);
-            }
-            foreach (range(1, 3) as $index) {
-                $name = sprintf('home_classroom_image_%02d', $index);
-                $fields[] = tbt_acf_image('field_tbt_' . $name, 'Classroom image ' . $index, $name);
-            }
-
             $fields[] = tbt_acf_tab('field_tbt_home_tab_shared', 'Shared site details');
             $fields[] = tbt_acf_image('field_tbt_home_shared_logo', 'Site logo', 'home_shared_logo');
             $fields[] = tbt_acf_field('field_tbt_home_shared_whatsapp_number', 'WhatsApp number', 'home_shared_whatsapp_number');
@@ -226,11 +214,17 @@ function tbt_acf_page_groups(): array
             'key' => 'group_tbt_page_' . $prefix,
             'title' => 'ThatBioTutor — ' . $page['title'],
             'fields' => $fields,
-            'location' => [[[
+            // The front page also matches by page type: WordPress resets front-page.php (not a selectable template) to
+            // "default" whenever the page is saved, which would otherwise hide this panel after the first Update.
+            'location' => array_merge([[[
                 'param' => 'page_template',
                 'operator' => '==',
                 'value' => $page['template'],
-            ]]],
+            ]]], $pageKey === 'home' ? [[[
+                'param' => 'page_type',
+                'operator' => '==',
+                'value' => 'front_page',
+            ]]] : []),
             'menu_order' => 0,
             'position' => 'normal',
             'style' => 'default',

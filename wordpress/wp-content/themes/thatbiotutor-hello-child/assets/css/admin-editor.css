@@ -1,0 +1,4 @@
+/* ThatBioTutor edit screens: keep one-line formatted fields small. */
+.tbt-inline-rich .wp-editor-container .mce-edit-area iframe { height: 64px !important; min-height: 64px !important; }
+.tbt-inline-rich .wp-editor-container textarea.wp-editor-area { height: 64px !important; min-height: 64px !important; }
+.tbt-inline-rich .mce-statusbar { display: none; }

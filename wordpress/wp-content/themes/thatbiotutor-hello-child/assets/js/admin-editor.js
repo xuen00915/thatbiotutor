@@ -5,7 +5,13 @@
   tinymce.PluginManager.add('tbt_highlight', function (editor) {
     editor.on('init', function () {
       editor.formatter.register('tbt_highlight', { inline: 'mark' });
+      editor.formatter.register('tbt_red', { inline: 'mark', attributes: { 'data-tone': 'red' } });
       editor.formatter.register('underline', { inline: 'u', exact: true });
+    });
+    editor.addButton('tbt_red', {
+      text: 'Red',
+      tooltip: 'Highlight in red (Home title only)',
+      onclick: function () { editor.formatter.toggle('tbt_red'); }
     });
     editor.addButton('tbt_highlight', {
       text: 'Highlight',
