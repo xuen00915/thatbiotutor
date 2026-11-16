@@ -317,3 +317,8 @@ body.tbt-site #main-content .tbt-year-nav__sections-toggle[aria-expanded="true"]
 body.tbt-site #main-content .tbt-year-nav__sections li[hidden] { display: none; }
 body.tbt-site #main-content .tbt-year-nav__panel a.tbt-year-nav__section { display: flex; flex-direction: row; align-items: center; justify-content: flex-start; text-align: left; min-height: 44px; padding: 6px 10px; border-radius: 6px; color: #2f8a27; font-size: 14px; font-weight: 500; box-shadow: none; }
 body.tbt-site #main-content .tbt-year-nav__panel a.tbt-year-nav__section:hover { background: #f0f8ee; color: #0e371d; }
+
+/* The first year follows the featured video's WhatsApp button closely: its section padding and the panel's own top margin were stacking into ~120px of empty space. */
+body.tbt-site #main-content .tbt-testimonials-featured + .tbt-testimonials-year { padding-top: 0; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-featured + .tbt-testimonials-year .tbt-testimonials-year-panel { margin-top: 0; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-featured { padding-bottom: 12px; }

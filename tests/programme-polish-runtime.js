@@ -14,11 +14,11 @@ const { chromium } = require('playwright');
     await page.keyboard.press('Enter');
     await page.waitForTimeout(400);
     assert.equal(await button.getAttribute('aria-expanded'),'true');
-    assert.equal(await button.evaluate(e=>getComputedStyle(e.closest('.tbt-faq')).backgroundColor),'rgb(238, 246, 234)','Open answer has a quiet green reading surface');
+    assert.equal(await button.evaluate(e=>getComputedStyle(e.closest('.tbt-home-faq__item')).backgroundColor),'rgb(238, 246, 234)','Open answer has a quiet green reading surface');
     await page.keyboard.press('Enter');
-    await page.waitForFunction(() => document.querySelector('[data-faq-panel]').hidden);
+    await page.waitForFunction(() => document.querySelector('.tbt-programme-faq .tbt-home-faq__answer').hidden);
     assert.equal(await button.getAttribute('aria-expanded'),'false');
-    assert.ok(await page.locator('[data-faq-panel]').first().evaluate(e=>e.hidden));
+    assert.ok(await page.locator('.tbt-programme-faq .tbt-home-faq__answer').first().evaluate(e=>e.hidden));
     if(reducedMotion==='reduce') assert.equal(await page.locator('.tbt-programme-hero__highlight').first().evaluate(e=>getComputedStyle(e).animationName),'none');
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
    }

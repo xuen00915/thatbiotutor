@@ -1002,3 +1002,19 @@ body.tbt-site #main-content :is(.tbt-classes-page, .tbt-sec3-page, .tbt-sec4-pag
 /* Our Causes: "1. Planting Trees!" is a section title like "2. SG Environmental Causes" - the same rounded dark-green bar and the same size. */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-page .tbt-institutional-title-bar > h1 { color: #fff !important; font-size: var(--tbt-u-h2) !important; line-height: 1.25 !important; text-align: center; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-page .tbt-institutional-title-bar > h1 span { color: var(--tbt-green-on-dark); }
+
+/* Sec 3 / Sec 4 FAQ: the same numbered accordion as the Home page (list frame, plus/minus icon, answer panel). */
+body.tbt-site .tbt-programme-faq .tbt-home-faq__list { max-width: none; margin: 0 auto; overflow: hidden; border: 1px solid #d9dcd9; border-radius: 18px; background: #fff; text-align: left; }
+body.tbt-site .tbt-programme-faq .tbt-home-faq__item + .tbt-home-faq__item { border-top: 1px solid #dcdfdc; }
+body.tbt-site .tbt-programme-faq .tbt-home-faq__item h3 { margin: 0; }
+body.tbt-site .tbt-programme-faq .tbt-home-faq__item button { display: grid; width: 100%; padding: 18px 26px; border: 0; background: transparent; color: #19221a; cursor: pointer; font-size: 18px; font-weight: 600; line-height: 28px; align-items: center; gap: 16px; text-align: left; box-shadow: none; }
+body.tbt-site .tbt-programme-faq .tbt-home-faq__item button:is(:hover, :focus-visible) { background: #edf5e8; }
+body.tbt-site .tbt-programme-faq .tbt-home-faq__icon { position: relative; display: block; width: 18px; height: 18px; justify-self: center; }
+body.tbt-site .tbt-programme-faq .tbt-home-faq__icon::before,
+body.tbt-site .tbt-programme-faq .tbt-home-faq__icon::after { position: absolute; top: 50%; left: 0; width: 100%; height: 3px; margin-top: -1.5px; border-radius: 2px; background: #2f8a27; content: ""; transition: transform .3s ease, background-color .3s ease, opacity .3s ease; }
+body.tbt-site .tbt-programme-faq .tbt-home-faq__icon::after { transform: rotate(90deg); }
+body.tbt-site .tbt-programme-faq .tbt-home-faq__item button[aria-expanded="true"] .tbt-home-faq__icon::before { background: #19221a; }
+body.tbt-site .tbt-programme-faq .tbt-home-faq__item button[aria-expanded="true"] .tbt-home-faq__icon::after { background: #19221a; opacity: 0; transform: rotate(0deg) scaleX(0); }
+body.tbt-site .tbt-programme-faq .tbt-home-faq__answer { padding: 0; border-top: 2px solid #e3e6e3; }
+body.tbt-site .tbt-programme-faq .tbt-home-faq__answer p { margin: 0; padding: 24px 26px; color: #19221a; font-size: 18px; line-height: 1.65; text-align: left; }
+@media (max-width: 640px) { body.tbt-site .tbt-programme-faq .tbt-home-faq__answer p { padding: 18px; font-size: 16px; } }

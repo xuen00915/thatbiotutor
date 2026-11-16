@@ -359,6 +359,28 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
         assert.equal(r.open, 'false', 'The menu closes after jumping');
       }
     }
+    // 19. The WhatsApp button and the first year's green panel are close together (client: too much empty space above Class of 2025).
+    for (const [vw, max] of [[1440, 64], [390, 56]]) {
+      await page.setViewportSize({ width: vw, height: 900 });
+      await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+      const gap = await page.evaluate(() => Math.round(document.querySelector('.tbt-testimonials-year-panel').getBoundingClientRect().top - document.querySelector('.tbt-testimonials-featured .tbt-testimonials-button').getBoundingClientRect().bottom));
+      assert.ok(gap >= 32 && gap <= max, `Space between the WhatsApp button and the first year panel at ${vw}: ${gap}px (wanted 32-${max})`);
+    }
+    // 20. Sec 3 and Sec 4 FAQs use the Home-page accordion: numbered rows, plus/minus icon, green open row.
+    for (const route of ['sec-3-pure-g3-biology-tuition/', 'sec-4-pure-g3-biology-tuition/']) {
+      await page.goto(new URL(route, base).href, { waitUntil: 'load' });
+      const first = page.locator('.tbt-programme-faq [data-faq-button]').first();
+      assert.ok(/^1\. /.test((await first.textContent()).trim()), `${route} FAQ rows are numbered`);
+      assert.equal(await page.locator('.tbt-programme-faq .tbt-home-faq__item .tbt-home-faq__icon').count() > 0, true, `${route} FAQ rows have the plus/minus icon`);
+      await first.scrollIntoViewIfNeeded();
+      await first.click();
+      await page.waitForTimeout(500);
+      assert.equal(await first.getAttribute('aria-expanded'), 'true', `${route} FAQ opens`);
+      const open = await page.locator('.tbt-programme-faq .tbt-home-faq__item').first().evaluate((e) => getComputedStyle(e).backgroundColor);
+      assert.equal(open, 'rgb(238, 246, 234)', `${route} the open FAQ row is light green like Home: ${open}`);
+      const list = await page.locator('.tbt-programme-faq .tbt-home-faq__list').evaluate((e) => { const c = getComputedStyle(e); return { radius: c.borderTopLeftRadius, border: c.borderTopWidth }; });
+      assert.deepEqual(list, { radius: '18px', border: '1px' }, `${route} FAQ list is the framed rounded list`);
+    }
     await page.setViewportSize({ width: 1440, height: 900 });
     console.log('PASS site feedback contract');
   } finally { await browser.close(); }

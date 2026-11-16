@@ -25,10 +25,10 @@ const { chromium } = require('playwright');
      button:{text:q('.tbt-programme-text-link').textContent.trim(),radius:parseFloat(cs(q('.tbt-programme-text-link')).borderTopLeftRadius)},practicalGap:box(q('.tbt-practical-feature')).top-box(q('.tbt-programme-lesson__grid')).bottom,
      practical:parseFloat(cs(q('.tbt-practical-feature > h3')).fontSize),
      headings:qa('.tbt-programme-lesson__grid h3').map(e=>parseFloat(cs(e).fontSize)),
-     widths:qa('.tbt-programme-container, .tbt-programme-hall__grid, .tbt-programme-proofs, .tbt-programme-lesson__video, .tbt-programme-inclusions, .tbt-programme-quality, .tbt-programme-faq .tbt-faqs').map(e=>box(e).width),
+     widths:qa('.tbt-programme-container, .tbt-programme-hall__grid, .tbt-programme-proofs, .tbt-programme-lesson__video, .tbt-programme-inclusions, .tbt-programme-quality, .tbt-programme-faq .tbt-home-faq__list').map(e=>box(e).width),
      tutors:qa('.tbt-programme-tutors .tbt-tutor').map(e=>({x:Math.round(box(e).left),y:Math.round(box(e).top)})),
      slides:qa('.tbt-faq-slider [data-carousel-slide]').length,
-     after:!!(q('.tbt-faqs').compareDocumentPosition(q('.tbt-faq-slider')) & Node.DOCUMENT_POSITION_FOLLOWING),
+     after:!!(q('.tbt-home-faq__list').compareDocumentPosition(q('.tbt-faq-slider')) & Node.DOCUMENT_POSITION_FOLLOWING),
      overflow:document.documentElement.scrollWidth-innerWidth
     };
    });

@@ -27,8 +27,8 @@ const {chromium} = require('playwright');
      lessonTitles:qa('.tbt-programme-lesson__grid h3').map(e=>e.textContent),photos:qa('.tbt-practical-photo').filter(e=>b(e).height>=200&&cs(e.parentElement).visibility!=='hidden').length,
      icons:qa('.tbt-inclusion-icon img').length,practical:parseFloat(cs(q('.tbt-practical-feature h3')).fontSize),small:parseFloat(cs(q('.tbt-programme-lesson__grid h3')).fontSize),
      tutors:qa('.tbt-programme-tutors .tbt-tutor').map(e=>Math.round(b(e).left)),
-     faqCount:qa('.tbt-faq').length,faq:cs(q('.tbt-programme-faq')).backgroundColor,
-     widths:qa('.tbt-programme-container, .tbt-programme-hall__grid, .tbt-programme-lesson__video, .tbt-programme-inclusions, .tbt-programme-faq .tbt-faqs').map(e=>b(e).width),
+     faqCount:qa('.tbt-home-faq__item').length,faq:cs(q('.tbt-programme-faq')).backgroundColor,
+     widths:qa('.tbt-programme-container, .tbt-programme-hall__grid, .tbt-programme-lesson__video, .tbt-programme-inclusions, .tbt-programme-faq .tbt-home-faq__list').map(e=>b(e).width),
      overflow:document.documentElement.scrollWidth-innerWidth
     };
    });
