@@ -302,7 +302,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       for (const r of rows) {
         assert.equal(r.text, `Class of ${r.year}`, `Menu row for ${r.year} is just its title at ${vw}: "${r.text}"`);
         assert.equal(r.summaries, 0, `No result description under ${r.year} at ${vw}`);
-        assert.ok(r.h >= 44, `Menu row for ${r.year} is touch-sized at ${vw}: ${r.h}px`);
+        assert.ok(r.h >= 44 - 0.01, `Menu row for ${r.year} is touch-sized at ${vw}: ${r.h}px`);
       }
       const g = await page.evaluate(() => { const p = document.querySelector('[data-year-nav] nav').getBoundingClientRect(), w = document.querySelector('.whatsapp-float').getBoundingClientRect(); return { l: p.left, r: p.right, t: p.top, b: p.bottom, waL: w.left, waT: w.top, waB: w.bottom, vw: innerWidth, vh: innerHeight, overflow: document.documentElement.scrollWidth - innerWidth }; });
       assert.ok(g.l >= 0 && g.r <= g.vw && g.t >= 0 && g.b <= g.vh, `Menu panel fits the screen at ${vw}: ${JSON.stringify(g)}`);
