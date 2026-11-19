@@ -71,7 +71,7 @@ const darkInk = 'rgb(25, 34, 26)';
         for (const [name, family] of Object.entries(m.font)) if (family) assert.match(family, /^"?Poppins/, `${tag}: ${name} must use Poppins, got ${family}`);
         assert.ok(m.content.length > 0, `${tag}: no content container found`);
         for (const w of m.content) assert.ok(Math.abs(w - Math.min(1120, width - 32)) <= 2, `${tag}: content width ${w} must be the shared ${Math.min(1120, width - 32)}`);
-        if (m.h1 && width >= 1024) { assert.ok(/sec-[34]-pure/.test(route) ? (route.includes('sec-3-') ? Math.abs(m.h1.size - Math.min(60, width * .042)) < .1 : m.h1.size >= 27 && m.h1.size <= 38) : m.h1.size === (route === '/trees/' ? 36 : 60), `${tag}: h1 size (one page-title size on every page, the same as the homepage; Our Causes' h1 is a section-title bar; Sec 3 scales up to 60px and Sec 4 keeps its smaller title)`); assert.equal(m.h1.weight, '800', `${tag}: h1 weight`); }
+        if (m.h1 && width >= 1024) { assert.ok(/sec-[34]-pure/.test(route) ? (Math.abs(m.h1.size - Math.min(60, width * .042)) < .1) : m.h1.size === (route === '/trees/' ? 36 : 60), `${tag}: h1 size (one page-title size on every page, the same as the homepage; Our Causes' h1 is a section-title bar; Sec 3 and Sec 4 scale together up to 60px)`); assert.equal(m.h1.weight, '800', `${tag}: h1 weight`); }
         if (m.h2 && width >= 1024) { assert.ok([30, 36].includes(m.h2.size), `${tag}: h2 size ${m.h2.size}`); assert.equal(m.h2.weight, '800', `${tag}: h2 weight`); }
         if (m.p && !(route === '/about/' && width >= 981)) { assert.ok(m.p >= 16 && m.p <= 18.5, `${tag}: body text ${m.p}px must be 16-18px`); }
         for (const b of m.buttons) {
