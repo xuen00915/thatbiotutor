@@ -11,7 +11,8 @@ return [
     'sections' => [
         tbt_f_section('hero', 'Top section', [
             tbt_f_text('notes_button_label', 'Download button text (used on every button)', 'DOWNLOAD'),
-            tbt_f_text('notes_proof_line', 'Line under the button', '[7,000+ downloads]'),
+            tbt_f_inline('notes_hero_lead', 'Paragraph under the "For Pure / G3 Biology" line', 'Why struggle with heavy textbooks? Get our <strong>FREE High Quality</strong>, visually stunning, curated notes designed to skip the grind. Accurate to 2027 syllabus. Includes <strong>60+ memory shortcuts.</strong>', 'Use Bold for the words shown in green.'),
+            tbt_f_text('notes_proof_line', 'Line under the button', 'Join over 10,000+ students who have downloaded.'),
         ], 'The page title and the "For Pure / G3 Biology" line are in the Page content tab; the three preview pictures are in the Notes slider tab.'),
 
         tbt_f_section('reviews', 'Student reviews', [
@@ -22,8 +23,9 @@ return [
             tbt_f_image('notes_portrait_image', 'Photo above the form', 'original_003', '', 'Mr Keefe from ThatBioTutor'),
             tbt_f_rich('notes_access_note', 'Text under the form', <<<'HTML'
 <p>You'll then receive an email with our notes (on gmail, it might be found in your 'promotions' folder).</p>
-<p>Can't press the submit button/Having issues receiving it? Email <a href="mailto:keefe@thatbiotutor.com">keefe@thatbiotutor.com</a>, and I'll help you out ASAP.</p>
-HTML, 'The form itself and the "IMPORTANT" line are in the Page content tab.'),
+<p>By submitting, you agree to receive promotional emails from us. You can opt out anytime.</p>
+<p>Can't press the submit button or having issues receiving it? Email <a href="mailto:keefe@thatbiotutor.com">keefe@thatbiotutor.com</a>, and our friendly staff will help you out ASAP.</p>
+HTML, 'Shown in a light-green box with an icon on each row: the first paragraph continues the "IMPORTANT" line (that line is in the Page content tab); the second and third paragraphs are the next two rows.'),
         ]),
 
         tbt_f_section('fit', 'Is this you?', [
@@ -50,6 +52,11 @@ HTML),
             tbt_f_image('notes_benefit_4_image', 'Card 4 — picture', 'curated_notes_notes_benefit_reviewed'),
             tbt_f_inline('notes_benefit_4_text', 'Card 4 — text', '<strong>Ex-MOE Teacher Reviewed:</strong> Our syllabus and notes have been reviewed by an Ex-MOE teacher of 11 years.'),
         ])),
+
+        tbt_f_section('details', 'Your questions, answered', [
+            tbt_f_inline('notes_details_heading', 'Heading above the three boxes', 'Your Questions, <mark>Answered</mark>'),
+            tbt_f_text('notes_details_intro', 'Line under the heading', "Here's why I'm giving away my notes for free, and how you can get them."),
+        ], 'The three boxes below are the "Why free?", "What is the catch?" and "How to download" tabs.'),
 
         tbt_f_section('why-free', 'Why free?', [
             tbt_f_inline('notes_why_heading', 'Heading', 'Why are you giving your notes for <mark>FREE</mark>?'),

@@ -12,7 +12,7 @@ $GLOBALS['tbt_shell_fields'] = [99 => [
     'home_shared_phone' => '+65 8759 7182',
     'home_shared_address' => "175 Bencoolen St\n#01-45\nSingapore 189649",
     'home_shared_map_url' => 'https://maps.example/thatbiotutor',
-    'home_shared_opening_hours' => "Friday – Thursday\n11am – 9:30pm\n(open all 7 days)",
+    'home_shared_opening_hours' => "Friday – Thursday\n11am – 9:30pm\n(open for online enquiries all 7 days)",
     'home_shared_footer_description' => "Singapore's only O Level Pure/G3 Biology specialist.",
     'home_shared_copyright' => 'ThatBioTutor. All rights reserved.',
 ]];
@@ -57,7 +57,7 @@ final class SharedShellTest
         $this->assertSame(1, substr_count($html, '<footer class="site-footer"'), 'Shared shell must contain one footer.');
         $this->assertSame(1, substr_count($html, 'class="site-footer__inner"'), 'Shared footer must contain one structured information grid.');
         $this->assertTrue(str_contains($html, 'class="site-footer__brand"') && str_contains($html, '>ThatBioTutor</span>'), 'Shared footer must display the approved logo and brand name.');
-        foreach (['VISIT', 'WHATSAPP', 'HOURS', '175 Bencoolen St', '#01-45', 'Singapore 189649', '8759 7182', 'Friday – Thursday', '11am – 9:30pm', '(open all 7 days)'] as $footerText) {
+        foreach (['VISIT', 'WHATSAPP', 'HOURS', '175 Bencoolen St', '#01-45', 'Singapore 189649', '8759 7182', 'Friday – Thursday', '11am – 9:30pm', '(open for online enquiries all 7 days)'] as $footerText) {
             $this->assertTrue(str_contains($html, $footerText), "Shared footer must display {$footerText}.");
         }
         $this->assertTrue(str_contains($html, 'href="https://wa.me/6587597182'), 'Footer WhatsApp number must be an actionable safe link.');

@@ -71,13 +71,13 @@ function tbt_render_tutors(array $args = []): void
         echo '<article class="tbt-tutor' . ($variant === 'about' ? ' tbt-tutor--about' : '') . ($hasDocuments ? ' tbt-tutor--has-documents' : '') . '">';
         if ($variant === 'about') {
             $displayName = $tutor['display_name'] !== '' ? $tutor['display_name'] : (string) ($displayNames[$tutor['name']] ?? $tutor['name']);
-            echo '<div class="tbt-tutor__visual">';
+            echo '<div class="tbt-tutor__visual"><span class="tbt-tutor__frame">'; // one ring around the picture
             if ($tutor['portrait']['url'] !== '') {
                 echo '<img class="tbt-tutor__portrait" src="' . esc_url($tutor['portrait']['url']) . '" alt="' . esc_attr($tutor['portrait']['alt'] ?: $tutor['name']) . '">';
             } elseif (isset($fallbackPortraits[$tutor['name']]) && function_exists('tbt_render_media_image')) {
                 tbt_render_media_image((string) $fallbackPortraits[$tutor['name']], 'tbt-tutor__portrait', ['loading' => 'eager']);
             }
-            echo '</div><div class="tbt-tutor__details">';
+            echo '</span></div><div class="tbt-tutor__details">';
             echo '<h3>' . esc_html($displayName) . ($showRoles && $tutor['role'] !== '' ? '<small>' . esc_html($tutor['role']) . '</small>' : '') . '</h3>';
             $qualificationLines = $tutor['qualifications'] !== [] ? $tutor['qualifications'] : (isset($qualifications[$tutor['name']]) && is_array($qualifications[$tutor['name']]) ? $qualifications[$tutor['name']] : []);
             if ($qualificationLines !== []) {

@@ -35,7 +35,7 @@ return [
 
         tbt_f_section('solutions', 'How TBT solves them', tbt_f_cards('classes_solution', 'Solution', [
             ['Problem 1 — Too much content', '<strong>TBT FastTrack System</strong> — memory shortcuts and mnemonics built into every lesson. Students learn how to remember, not just what to remember.'],
-            ['Problem 2 — OEQ technique', 'TBT teaches the <strong>FIRED method</strong> — a structured answering framework that earns full marks consistently. Practised with real past-year questions in every lesson.'],
+            ['Problem 2 — OEQ technique', 'TBT teaches <strong>proven OEQ answering techniques</strong> — a structured answering framework that earns full marks consistently. Practised with real past-year questions in every lesson.'],
             ['Problem 3 — Seeing the big picture', "TBT's lessons are built to show how topics connect. Students develop integrated understanding that application questions test — not just topic-by-topic recall."],
             ['Problem 4 — Limited practical experience', '<strong>TBT Optional Practical Sessions</strong> — optional hands-on sessions covering commonly tested experiments. Students build the coordination, familiarity and confidence needed to handle Paper 3 setups and protect the full 20%.'],
         ], 'text', 'inline'), 'The heading is in the Page content tab.'),
@@ -45,7 +45,7 @@ return [
         ], tbt_f_cards('classes_diff', 'Point', [
             ['In-depth understanding — not just memorisation', 'At TBT, concepts are taught in-depth so students understand each topic deeply — how and why biological processes work. This is what makes the difference in application questions.'],
             ['Memory shortcuts built into every topic', 'Mr. Keefe and the TBT team have developed mnemonics and memory hacks for every major topic. Students remember content without brute-force repetition.'],
-            ['OEQ answering technique — the FIRED method', 'Every Paper 2 answer is structured using a tested framework. Students know exactly what to write — and what to leave out — to earn full marks.'],
+            ['OEQ answering technique', 'Every Paper 2 answer is structured using a tested framework. Students know exactly what to write — and what to leave out — to earn full marks.'],
             ['Ex-MOE teacher reviewed content', 'All TBT notes have been reviewed by Ms Ng, an ex-MOE teacher with 11 years of experience. Notes are constantly updated for syllabus accuracy.'],
         ], 'text', 'inline'), [
             tbt_f_image('classes_difference_image', 'Picture beside the points', 'curated_classes_fasttrack_study_prep'),

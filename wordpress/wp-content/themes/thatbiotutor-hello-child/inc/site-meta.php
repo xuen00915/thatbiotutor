@@ -110,7 +110,17 @@ function tbt_redirect_legacy_routes(): void
     exit;
 }
 
+/** The circular TBT logo is the browser-tab (favicon) and home-screen icon on every page. */
+function tbt_render_favicon(): void
+{
+    $base = TBT_THEME_URI . '/assets/icons/';
+    echo '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url($base . 'favicon-32.png') . '">' . "\n";
+    echo '<link rel="icon" type="image/png" sizes="192x192" href="' . esc_url($base . 'favicon-192.png') . '">' . "\n";
+    echo '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url($base . 'apple-touch-icon.png') . '">' . "\n";
+}
+
 if (function_exists('add_action')) {
+    add_action('wp_head', 'tbt_render_favicon', 1);
     add_action('wp_head', 'tbt_render_meta_tags', 2);
     add_action('template_redirect', 'tbt_redirect_legacy_routes', 1);
 }

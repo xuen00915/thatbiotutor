@@ -14,6 +14,7 @@ function esc_url(string $value): string { return htmlspecialchars($value, ENT_QU
 function esc_html(string $value): string { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
 function esc_attr(string $value): string { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
 function wp_kses_post(string $value): string { return strip_tags($value, '<p><br><strong><em><b><i><a><ul><ol><li>'); }
+function wp_kses(string $html, array $allowed): string { return strip_tags($html, '<' . implode('><', array_keys($allowed)) . '>'); }
 function get_header(): void { echo '<header data-test-header></header><main>'; }
 function get_footer(): void { echo '</main><footer data-test-footer></footer>'; }
 function tbt_render_testimonials(array $args = []): void { echo '<div data-testimonial-renderer></div>'; }

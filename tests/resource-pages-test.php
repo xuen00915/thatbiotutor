@@ -21,13 +21,13 @@ final class ResourcePagesTest
         $this->assertSame(['hero', 'reviews-top', 'access-intro', 'fit', 'benefits', 'why-free', 'catch', 'download', 'reviews-bottom'], $noteSections[1], 'Notes sections must follow the public page order.');
         $notesText = strip_tags($notes);
         $last = -1;
-        foreach (['Free O Level Biology Notes Singapore', 'For Pure / G3 Biology', 'What Students Are Saying...', 'Hey Pure Bio Student, is this you?', "ThatBioTutor's Notes", 'Why are you giving your notes for FREE?', "This sounds too good to be true. What's the catch?", 'How do I download it?'] as $marker) {
+        foreach (['Free O Level Biology Notes Singapore', 'For Pure / G3 Biology', 'What Students Are Saying...', 'Hey G3/Pure Bio Student, Is This You?', "ThatBioTutor's Notes", 'Why are you giving your notes for FREE?', "This sounds too good to be true. What's the catch?", 'How do I download it?'] as $marker) {
             $position = strpos($notesText, $marker, $last + 1); $this->assertTrue($position !== false, "Notes must contain {$marker}."); $this->assertTrue($position > $last, "Notes section {$marker} must stay in original order."); $last = $position;
         }
         $this->assertSame(3, substr_count($notes, 'data-carousel-slide'), 'Notes hero must include three slides.');
         $this->assertTrue(str_contains($notes, 'data-carousel-prev') && str_contains($notes, 'data-carousel-next') && str_contains($notes, 'data-carousel-status'), 'Notes slider must have accessible controls and status.');
         $this->assertSame(4, substr_count($notes, 'data-notes-benefit'), 'Notes must explain four benefits.');
-        $this->assertTrue(str_contains($notes, '7,000+ downloads'), 'Notes must preserve its download-count proof.');
+        $this->assertTrue(str_contains($notes, 'Join over 10,000+ students who have downloaded.'), 'Notes must show its download-count proof line.');
         $this->assertTrue(str_contains($notes, 'id="notes-download"'), 'Download CTA must resolve to the disclosed access section.');
         $this->assertTrue(str_contains($notes, 'data-testimonial-renderer'), 'Notes must render its complete editable review collection.');
         $this->assertTrue(str_contains($notes, 'data-resource-portrait="notes-access"'), 'Notes access area must preserve the public Mr Keefe portrait.');

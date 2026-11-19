@@ -220,6 +220,7 @@
 
 .tbt-about-tutors .tbt-tutor__details {
   min-width: 0;
+  align-self: stretch; /* as tall as the certificates beside it, with or without a profile link */
   padding-top: 8px;
 }
 
@@ -237,16 +238,26 @@
   text-wrap: balance;
 }
 
-.tbt-about-tutors .tbt-tutor__portrait {
+/* One ring only: the frame draws it and hides the second ring that is baked into the bundled portraits. */
+.tbt-about-tutors .tbt-tutor__frame {
   display: block;
+  box-sizing: border-box;
   width: min(220px, 100%);
-  height: auto;
   aspect-ratio: 1;
   margin: 0 auto;
-  border: 5px solid #fff;
+  overflow: hidden;
+  border: 5px solid rgba(148, 174, 74, 0.9);
+  border-radius: 50%;
+  background: #fff;
+}
+.tbt-about-tutors .tbt-tutor__portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 0 0 3px rgba(148, 174, 74, 0.82);
+  transform: scale(1.1);
 }
 
 .tbt-about-tutors .tbt-tutor__qualifications {
@@ -308,7 +319,7 @@
   position: relative;
   display: grid;
   flex: 1;
-  min-height: 286px;
+  min-height: 300px;
   place-items: stretch;
   overflow: hidden;
   /* Room on both sides keeps the arrows beside the certificate, not on it. */
@@ -794,7 +805,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   line-height: 1.5;
 }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message .tbt-founder-card p:last-child { margin-bottom: 0; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message .tbt-founder-card .tbt-founder-question { margin-bottom: 20px; font-weight: 700; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message .tbt-founder-card .tbt-founder-question { margin-bottom: 20px; color: #2f8a27; font-size: 28px; font-weight: 800; line-height: 1.2; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message .tbt-founder-card .tbt-founder-signature { margin-top: 24px; font-style: italic; text-align: right; }
 
 @media (max-width: 980px) {
@@ -838,7 +849,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-card { padding: 20px 16px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message .tbt-founder-card p { margin-bottom: 12px; font-size: 17px; line-height: 1.45; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message .tbt-founder-card p:last-child { margin-bottom: 0; }
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message .tbt-founder-card .tbt-founder-question { margin-bottom: 14px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-message .tbt-founder-card .tbt-founder-question { margin-bottom: 14px; font-size: 22px; }
 }
 
 /* Causes. */
@@ -1014,7 +1025,7 @@ body.tbt-site #main-content .tbt-causes-section[data-section="planting"] .tbt-ca
   .tbt-about-beliefs .tbt-reading-width { padding-block: 52px; }
   .tbt-about-mission h3 { font-size: 1.55rem; }
   .tbt-about-tutors .tbt-tutor { padding: 24px 20px 28px; }
-  .tbt-about-tutors .tbt-tutor__portrait { width: 170px; }
+  .tbt-about-tutors .tbt-tutor__frame { width: 170px; }
   .tbt-founder-message__image { margin-block: 28px 40px; }
   .tbt-contact-content h1 { font-size: 3rem; }
   .tbt-contact-content p { font-size: 1.08rem; margin-bottom: 28px; }

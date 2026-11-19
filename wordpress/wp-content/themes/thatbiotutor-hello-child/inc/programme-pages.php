@@ -24,7 +24,7 @@ function tbt_programme_level(string $level): array
     $shared = [
         'options' => $options,
         'included' => "TBT Notes + Flashcards\nWeek-Long WhatsApp Support\nCAQ Model Answers\nExtra Practice Papers",
-        'exam_list' => '<ul><li><strong>Answering skills</strong> — FIRED method for full marks in OEQs</li><li><strong>Data-based questions</strong> — how to interpret graphs and tables</li><li><strong>Application questions</strong> — linking topics to unseen scenarios</li><li><strong>Paper 3 practical</strong> — technique, table drawing, graph plotting</li><li><strong>Time management</strong> — which questions to prioritize and when to move on</li><li><strong>Past year paper (TYS) practice</strong> — topic by topic throughout the year</li></ul>',
+        'exam_list' => '<ul><li><strong>Answering skills</strong> — for full marks in OEQs</li><li><strong>Data-based questions</strong> — how to interpret graphs and tables</li><li><strong>Application questions</strong> — linking topics to unseen scenarios</li><li><strong>Paper 3 practical (theory paper)</strong> — technique, table drawing, graph plotting</li><li><strong>Time management</strong> — which questions to prioritize and when to move on</li><li><strong>Past year paper (TYS) practice</strong> — topic by topic throughout the year</li></ul>',
         'exam_note' => '<strong>Exam technique</strong> is not a separate module — it is <strong>embedded in every lesson</strong> from the first class.',
         'hall_text' => '<strong>69.21%</strong> of TBT students started at <strong>B4 or lower.</strong> These are some of the biggest jumps.',
         'proofs' => [['F9 → A1', 'Biggest jump on record'], ['E8 → A1', 'Biggest jump in 3 months'], ['C5 → A2', 'Average grade jump']],
@@ -72,7 +72,7 @@ function tbt_programme_level(string $level): array
             'lesson_cards' => [
                 ['In-depth understanding — not just memorisation', 'At TBT, concepts are taught in-depth so students understand each topic deeply — how and why biological processes work. This is what makes the difference in application questions.'],
                 ['Memory shortcuts built into every topic', 'Mr. Keefe and the TBT team have developed mnemonics and memory hacks for every major topic. Students remember content without brute-force repetition.'],
-                ['OEQ answering technique — the FIRED method', 'Every Paper 2 answer is structured using a tested framework. Students know exactly what to write — and what to leave out — to earn full marks.'],
+                ['OEQ answering technique', 'Every Paper 2 answer is structured using a tested framework. Students know exactly what to write — and what to leave out — to earn full marks.'],
                 ['Ex-MOE teacher reviewed content', 'All TBT notes have been reviewed by Ms Ng, an ex-MOE teacher with 11 years of experience. Notes are constantly updated for syllabus accuracy.'],
             ],
             'inclusions_line2' => 'as a <mark>TBT Sec 3 student</mark>',
@@ -107,7 +107,7 @@ function tbt_programme_level(string $level): array
             'lesson_cards' => [
                 ['Concept first', 'Topic is explained with in-depth understanding — not just skimming through content. Students are asked questions throughout to keep them engaged.'],
                 ['Memory shortcuts', 'Mnemonics and memory hacks introduced every topic. Students have a much easier time memorising chunks of bio content.'],
-                ['OEQ practice and exam skills', 'Past year questions attempted and gone through in class. FIRED method applied to every answer.'],
+                ['OEQ practice and exam skills', 'Past year questions attempted and gone through in class. OEQ techniques applied to every answer.'],
                 ['Kahoot review', 'End-of-lesson review game every lesson. Motivates students to pay attention during class — and students really look forward to it.'],
             ],
             'inclusions_line2' => 'as a <mark>TBT Sec 4 student</mark>',
@@ -260,6 +260,29 @@ function tbt_programme_hero_lead(string $level, string $lead): string
     return str_replace($accents, array_map(static fn (string $a): string => '<span>' . $a . '</span>', $accents), esc_html($lead)); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped first, only accent spans are added.
 }
 
+/** "F9 → A1": the grade the student ended on (after the arrow) is shown in green. */
+function tbt_programme_grade_html(string $value): string
+{
+    $parts = preg_split('/\s*→\s*/u', $value, 2) ?: [$value];
+    if (count($parts) < 2 || trim($parts[1]) === '') {
+        return esc_html($value);
+    }
+    return esc_html(trim($parts[0])) . ' → <span class="tbt-programme-grade">' . esc_html(trim($parts[1])) . '</span>';
+}
+
+/** The four small classroom photos from the Home page's track-record section (edited once, on Home). */
+function tbt_programme_photo_strip(): void
+{
+    $homeId = function_exists('get_option') ? (int) get_option('page_on_front', 0) : 0;
+    echo '<div class="tbt-programme-photos">';
+    foreach (range(1, 4) as $i) {
+        echo '<figure>';
+        tbt_render_content_image(sprintf('home_number_image_%02d', $i), '', ['loading' => 'lazy'], $homeId);
+        echo '</figure>';
+    }
+    echo '</div>';
+}
+
 /** Render one programme page's article. */
 function tbt_render_programme_page(string $level): void
 {
@@ -289,7 +312,7 @@ function tbt_render_programme_page(string $level): void
         </div>
     </header>
 
-    <section class="tbt-programme-section tbt-programme-options" data-section="options"><div class="tbt-programme-container"><p class="tbt-programme-kicker"><?php echo esc_html($f('options_kicker')); ?></p><h2><?php echo tbt_heading_html($f('options_heading')); ?></h2><p><?php echo esc_html($f('options_intro')); ?></p><div class="tbt-programme-options__grid">
+    <section class="tbt-programme-section tbt-programme-options" data-section="options"><div class="tbt-programme-container"><p class="tbt-programme-kicker"><?php echo esc_html($f('options_kicker')); ?></p><h2><?php echo tbt_heading_html($f('options_heading')); ?></h2><p><?php echo esc_html($f('options_intro')); ?></p><?php tbt_programme_photo_strip(); ?><div class="tbt-programme-options__grid">
         <?php foreach ([1, 2] as $i) : ?><article><header class="tbt-programme-option-heading"><h3><?php echo esc_html($f("option_{$i}_title")); ?></h3><b><?php echo esc_html($f("option_{$i}_sub")); ?></b></header><?php echo tbt_rich($f("option_{$i}_body")); ?></article><?php endforeach; ?>
     </div><div class="tbt-programme-options__included"><strong><?php echo esc_html($f('included_label')); ?></strong><?php foreach (preg_split('/\R/', $f('included_items')) ?: [] as $item) : if (trim($item) === '') { continue; } ?><span class="tbt-tick"><?php echo esc_html(trim($item)); ?></span><?php endforeach; ?></div></div></section>
 
@@ -297,7 +320,7 @@ function tbt_render_programme_page(string $level): void
         <?php foreach ([1, 2, 3] as $i) : $title = $f("phase_{$i}_title"); $ticks = $f("phase_{$i}_ticks"); if ($title === '' && trim($ticks) === '') { continue; } ?><article class="tbt-programme-phase"><h3><?php echo tbt_heading_html($title); ?></h3><?php echo tbt_rich_attrs(tbt_rich($ticks), 'p', 'class="tbt-tick"'); ?><?php if (trim($f("phase_{$i}_note")) !== '') : ?><p class="tbt-programme-join-note"><?php echo tbt_rich_inline($f("phase_{$i}_note")); ?></p><?php endif; ?></article><?php endforeach; ?>
     </div><div class="tbt-programme-topics-card"><h2><?php echo esc_html($f('topics_heading')); ?></h2><?php echo tbt_rich_attrs(tbt_rich($f('topics_list')), 'ol', 'class="tbt-programme-topics"' . ($d['topics_start'] > 0 ? ' start="' . (int) $d['topics_start'] . '"' : '')); ?></div><div class="tbt-programme-exam"><h2><?php echo esc_html($f('exam_heading')); ?></h2><?php echo tbt_rich($f('exam_list')); ?><p><?php echo tbt_rich_inline($f('exam_note')); ?></p></div></div></section>
 
-    <section class="tbt-programme-section tbt-programme-hall" data-section="hall"><div class="tbt-programme-container"><h2><small><?php echo esc_html($f('hall_small')); ?></small><span><?php echo esc_html($f('hall_title')); ?></span></h2><p><?php echo tbt_rich_inline($f('hall_text')); ?></p><div class="tbt-programme-hall__grid"><?php foreach ([1, 2] as $i) { tbt_render_content_image("{$p}_hall_image_{$i}", 'tbt-programme-track', ['loading' => 'lazy', 'data-track-record' => (string) $i]); } ?></div><div class="tbt-programme-proofs"><?php foreach ([1, 2, 3] as $i) : ?><div class="tbt-programme-proof"><strong><?php echo esc_html($f("proof_{$i}_value")); ?></strong><span><?php echo esc_html($f("proof_{$i}_label")); ?></span></div><?php endforeach; ?></div><?php if ($tbt_whatsapp !== '') : ?><div class="tbt-programme-hall__actions"><?php $tbt_button($f('hall_button_1'), 'tbt-programme-hall__action'); $tbt_button($f('hall_button_2'), 'tbt-programme-hall__action'); ?></div><?php endif; ?></div></section>
+    <section class="tbt-programme-section tbt-programme-hall" data-section="hall"><div class="tbt-programme-container"><h2><small><?php echo esc_html($f('hall_small')); ?></small><span><?php echo esc_html($f('hall_title')); ?></span></h2><p><?php echo tbt_rich_inline($f('hall_text')); ?></p><div class="tbt-programme-hall__grid"><?php foreach ([1, 2] as $i) { tbt_render_content_image("{$p}_hall_image_{$i}", 'tbt-programme-track', ['loading' => 'lazy', 'data-track-record' => (string) $i]); } ?></div><div class="tbt-programme-proofs"><?php foreach ([1, 2, 3] as $i) : ?><div class="tbt-programme-proof"><strong><?php echo tbt_programme_grade_html($f("proof_{$i}_value")); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped inside. ?></strong><span><?php echo esc_html($f("proof_{$i}_label")); ?></span></div><?php endforeach; ?></div><?php if ($tbt_whatsapp !== '') : ?><div class="tbt-programme-hall__actions"><?php $tbt_button($f('hall_button_1'), 'tbt-programme-hall__action'); $tbt_button($f('hall_button_2'), 'tbt-programme-hall__action'); ?></div><?php endif; ?></div></section>
 
     <section class="tbt-programme-section tbt-programme-numbers" data-section="stats"><div class="tbt-programme-numbers__background"><?php tbt_render_content_image("{$p}_numbers_image", '', ['loading' => 'lazy']); ?></div><div class="tbt-programme-numbers__shade" aria-hidden="true"></div><div class="tbt-programme-container"><h2><?php echo esc_html($f('numbers_heading')); ?></h2><div class="tbt-programme-stats"><?php foreach ([1, 2, 3, 4, 5, 6] as $i) : if ($f("number_{$i}_value") === '' && $f("number_{$i}_label") === '') { continue; } ?><div><strong><?php echo esc_html($f("number_{$i}_value")); ?></strong><span><?php echo esc_html($f("number_{$i}_label")); ?></span></div><?php endforeach; ?></div></div></section>
 

@@ -2,12 +2,6 @@
 .tbt-testimonials-page, .tbt-testimonials-page * { box-sizing: border-box; }
 .tbt-testimonials-container { width: min(calc(100% - 40px), 980px); margin-inline: auto; }
 
-.tbt-testimonials-hero { position: relative; min-height: 449px; overflow: hidden; color: #fff; }
-.tbt-testimonials-hero__background { position: absolute; inset: 0; }
-.tbt-testimonials-hero__background img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.tbt-testimonials-hero__content { position: relative; display: grid; width: min(calc(100% - 40px), 980px); min-height: 449px; align-content: center; justify-items: center; margin-inline: auto; padding-left: 500px; text-align: center; }
-.tbt-testimonials-hero h1 { margin: 0; color: #fff; font-size: clamp(3.3rem, 5.5vw, 5rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.18; text-shadow: 0 3px 7px rgba(0,0,0,.3); }
-.tbt-testimonials-hero p { margin: 48px 0 0; color: #ffd34c; font-size: 3.25rem; letter-spacing: 2px; line-height: 1; filter: drop-shadow(0 1px 1px #9c6a00); }
 
 .tbt-testimonials-featured { padding: 44px 0 77px; text-align: center; }
 .tbt-testimonials-featured h2 { margin: 0 0 30px; color: #19221a; font-size: clamp(2rem, 3.2vw, 2.375rem); font-weight: 800; line-height: 1.2; }
@@ -65,10 +59,6 @@
 
 @media (max-width: 768px) {
   .tbt-testimonials-container { width: min(calc(100% - 34px), 680px); }
-  .tbt-testimonials-hero { min-height: 430px; }
-  .tbt-testimonials-hero__content { width: min(calc(100% - 34px), 680px); min-height: 430px; justify-items: end; padding-left: 44%; }
-  .tbt-testimonials-hero h1 { font-size: clamp(2.7rem, 8vw, 4rem); }
-  .tbt-testimonials-hero p { margin-top: 34px; font-size: 2.5rem; }
   .tbt-testimonials-artwork-band { padding-block: 52px; }
   .tbt-testimonials-artwork-band--2022 .tbt-testimonials-artwork { margin-top: 90px; }
   .tbt-testimonials-year .tbt-testimonials { gap: 40px; }
@@ -77,11 +67,6 @@
 
 @media (max-width: 390px) {
   .tbt-testimonials-container { width: calc(100% - 28px); }
-  .tbt-testimonials-hero { min-height: 360px; }
-  .tbt-testimonials-hero__background img { object-position: 38% 50%; }
-  .tbt-testimonials-hero__content { min-height: 360px; justify-items: center; padding: 74px 0 20px; }
-  .tbt-testimonials-hero h1 { max-width: 290px; font-size: 2.65rem; }
-  .tbt-testimonials-hero p { margin-top: 28px; font-size: 2rem; }
   .tbt-testimonials-featured { padding: 38px 0 52px; }
   .tbt-testimonials-featured h2 { font-size: 1.9rem; }
   .tbt-testimonials-button { min-height: 58px; }
@@ -98,19 +83,12 @@
 }
 
 @media (max-width: 320px) {
-  .tbt-testimonials-hero h1 { font-size: 2.3rem; }
 }
 
 /* ---------- Original look, compact rhythm, stacked review panels ---------- */
 @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://static.parastorage.com/tag-bundler/api/v1/fonts-cache/googlefont/woff2/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2") format("woff2"); }
 @font-face { font-family: "Montserrat"; font-style: normal; font-weight: 700; font-display: swap; src: url("https://static.parastorage.com/tag-bundler/api/v1/fonts-cache/googlefont/woff2/s/montserrat/v14/JTURjIg1_i6t8kCHKm45_dJE3gnD_vx3rCs.woff2") format("woff2"); }
 
-/* Hero: Montserrat title and five gold stars on the right, over the plant photo (as on the original site). */
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero { min-height: 449px; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__content { display: block; min-height: 449px; padding: 90px 8% 0 0; text-align: right; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero h1 { max-width: 560px; margin: 0 0 0 auto; font-family: "Montserrat", Arial, Helvetica, sans-serif; font-size: 64px; font-weight: 700; letter-spacing: 0; line-height: 1.3; text-align: right; text-shadow: 0 2px 8px rgba(0, 0, 0, .35); }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__stars { display: flex; justify-content: flex-end; gap: 6px; margin: 44px 0 0 auto; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .35)); }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__stars svg:not([width="0"]) { display: block; width: 46px; height: 46px; }
 
 /* Spacing: the page was mostly empty space; sections now follow their content. */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-featured, .tbt-testimonials-year) { padding-block: 0; }
@@ -193,11 +171,6 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page [data-review-panel] .tbt-testimonial blockquote p:last-child { margin-bottom: 0; }
 
 @media (max-width: 768px) {
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero { min-height: 340px; }
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__content { min-height: 340px; padding: 64px 6% 0 0; }
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero h1 { max-width: none; font-size: clamp(34px, 9vw, 52px); }
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__stars { margin-top: 28px; }
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__stars svg:not([width="0"]) { width: 34px; height: 34px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-featured { padding: 28px 0 20px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-artwork-band, body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page #class-of-2023 .tbt-testimonials-artwork-band { padding: 26px 0; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-artwork-band--2022 { padding: 24px 0 28px; }
@@ -212,10 +185,6 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 }
 
 /* Every section shares the About Us content edges, including media and review panels. */
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__content {
-  width: min(var(--tbt-page), calc(100% - 2 * var(--tbt-gutter)));
-  padding-inline: 0;
-}
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-artwork, .tbt-testimonials-featured .tbt-video) {
   width: 100%;
   max-width: none;
@@ -322,3 +291,87 @@ body.tbt-site #main-content .tbt-year-nav__panel a.tbt-year-nav__section:hover {
 body.tbt-site #main-content .tbt-testimonials-featured + .tbt-testimonials-year { padding-top: 0; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-featured + .tbt-testimonials-year .tbt-testimonials-year-panel { margin-top: 0; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-featured { padding-bottom: 12px; }
+
+/* ---------- Hero: dark-green gradient banner, headline on the left, rounded photo on the right ---------- */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+  padding: 64px 0;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(143, 225, 126, .14), transparent 34%),
+    linear-gradient(135deg, #0e371d 0%, #17502b 56%, #0e371d 100%);
+  color: #fff;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__content {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+  align-items: center;
+  gap: 56px;
+  min-height: 0;
+  padding: 0;
+  text-align: left;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero h1 {
+  max-width: none;
+  margin: 0;
+  color: #fff;
+  font-family: Poppins, Arial, sans-serif;
+  font-size: 60px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.1;
+  text-align: left;
+  text-shadow: none;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero h1 span { display: block; color: #8fe17e; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__lead {
+  max-width: 560px;
+  margin: 32px 0 0;
+  color: #f3efdf;
+  font-size: clamp(20px, 2.3vw, 28px);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0;
+  filter: none;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__lead strong { display: block; color: #8fe17e; font-weight: 700; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__rating {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 36px 0 0;
+  color: #e9eddf;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0;
+  filter: none;
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__stars { display: inline-flex; gap: 3px; margin: 0; filter: none; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__stars svg:not([width="0"]) { display: block; width: 24px; height: 24px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__photo {
+  position: relative;
+  justify-self: end;
+  width: min(100%, 440px);
+  margin: 0;
+  aspect-ratio: 1 / 1.06;
+  overflow: hidden;
+  border: 10px solid #fff;
+  border-radius: 56px;
+  background: #fff;
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, .65);
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__photo img { display: block; width: 100%; height: 100%; border-radius: 0; object-fit: cover; object-position: 50% 62%; }
+
+@media (max-width: 860px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero { padding: 44px 0 52px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__content { grid-template-columns: 1fr; gap: 36px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__photo { justify-self: center; width: min(100%, 360px); border-width: 8px; border-radius: 44px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__rating { margin-top: 26px; font-size: 16px; }
+}
+@media (max-width: 520px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero h1 { font-size: 36px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__stars svg:not([width="0"]) { width: 20px; height: 20px; }
+}

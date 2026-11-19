@@ -1,4 +1,4 @@
-// Results & Testimonials (/testimonials/): original-style hero (Poppins title right-aligned over the plant photo with five gold stars),
+// Results & Testimonials (/testimonials/): green banner hero (Poppins title and five gold stars on the left, rounded photo on the right),
 // compact spacing, original "Student Stories!" heading, a growth-chart icon on the Class of 2022 / 2021 headings,
 // and every review list stacked in a panel that scrolls on its own and opens on four reviews.
 const assert = require('node:assert/strict');
@@ -61,7 +61,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           contentWidths: [...document.querySelectorAll('.tbt-testimonials-container, .tbt-testimonials-hero__content, .tbt-testimonials-artwork, .tbt-testimonials-featured .tbt-video, [data-review-panel]')].map((e) => ({ name: e.className || 'review panel', width: box(e).width, left: box(e).left })),
           viewport: document.documentElement.clientWidth, overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
           heroHeight: box(hero).height, h1Font: hcs.fontFamily, h1Weight: hcs.fontWeight, h1Align: hcs.textAlign, h1Right: box(h1).right, h1Left: box(h1).left,
-          starCount: stars ? stars.querySelectorAll('svg:not([width="0"])').length : 0, starLabel: stars ? stars.getAttribute('aria-label') : null, starsRight: stars ? box(stars).right : 0,
+          photoLeft: box(q('.tbt-testimonials-hero__photo')).left, starCount: stars ? stars.querySelectorAll('svg:not([width="0"])').length : 0, starLabel: stars ? stars.getAttribute('aria-label') : null, starsRight: stars ? box(stars).right : 0,
           h3Font: getComputedStyle(h3).fontFamily, h3Weight: getComputedStyle(h3).fontWeight, h3Color: getComputedStyle(h3).color, h3SpanColor: getComputedStyle(q('span', h3)).color,
           subFont: getComputedStyle(sub).fontFamily, subStyle: getComputedStyle(sub).fontStyle,
           featuredToArtwork: box(artwork).top - box(featuredButton).bottom, artworkToStories: box(h3).top - box(artwork).bottom,
@@ -79,9 +79,9 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.ok(m.starCount === 5 && /five/i.test(m.starLabel || ''), `Hero needs five gold stars ${at}`);
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);
       if (width >= 769) {
-        assert.equal(m.h1Align, 'right', `Hero title is right-aligned like the original ${at}`);
-        assert.ok(m.h1Right >= m.viewport * 0.6 && Math.abs(m.starsRight - m.h1Right) <= 4, `Title and stars sit on the right with a shared right edge ${detail({ h1Right: m.h1Right, starsRight: m.starsRight })}`);
-        assert.ok(m.heroHeight <= 460, `Hero should be about 449px tall ${detail({ h: m.heroHeight })}`);
+        assert.equal(m.h1Align, 'left', `Hero title is left-aligned beside the photo ${at}`);
+        assert.ok(m.h1Left < m.viewport / 2 && m.photoLeft > m.viewport / 2 - 40 && m.photoLeft >= m.h1Right - 4, `Title and stars sit on the left, the rounded photo on the right ${detail({ h1Left: m.h1Left, h1Right: m.h1Right, photoLeft: m.photoLeft })}`);
+        assert.ok(m.heroHeight <= 600 && m.heroHeight >= 380, `Hero banner height is moderate ${detail({ h: m.heroHeight })}`);
         assert.ok(m.featuredToArtwork >= 48 && m.featuredToArtwork <= 300 /* includes the green Class of 2025 panel */ && m.artworkToStories <= 64, `Spacing around the 2025 result cards must clearly separate the year ${detail({ a: m.featuredToArtwork, b: m.artworkToStories })}`);
         assert.ok(m.band2022Pad[0] <= 56 && m.band2022Pad[1] <= 56, `Class of 2022 band padding must be compact ${detail(m.band2022Pad)}`);
       } else {

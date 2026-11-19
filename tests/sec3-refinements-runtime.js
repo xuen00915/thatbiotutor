@@ -39,7 +39,7 @@ const { chromium } = require('playwright');
    assert.ok(r.headers.every(n=>n>=20),'Space below option subtitle');
    assert.ok(r.included.every(e=>e.height<=e.line+1),'Each benefit stays on one line');
    if(width>=1024) assert.ok(r.included.every(e=>Math.abs(e.y-r.included[0].y)<1),'All four benefits share one desktop row');
-   assert.ok(r.cards.every(c=>c.radius==='4px'&&c.border==='rgb(0, 0, 0)'&&c.portraitTop<=25&&c.portraitWidth===60&&c.nameBottom<=40&&c.quoteSize<=16&&c.textAlign==='center'&&c.shadow==='none'),'Review cards match reference '+JSON.stringify(r.cards.map(({quote,...c})=>c)));
+   assert.ok(r.cards.every(c=>c.radius==='24px'&&c.border!=='rgb(0, 0, 0)'&&c.portraitTop<=25&&c.portraitWidth===60&&c.nameBottom<=40&&c.quoteSize<=16&&c.textAlign==='center'&&c.shadow!=='none'),'Review cards match reference '+JSON.stringify(r.cards.map(({quote,...c})=>c)));
    assert.ok(r.practical>=28 && r.headings.every(n=>n<=20&&n<r.practical),'Practical title larger than lesson card headings');
    assert.ok(r.widths.every(w=>Math.abs(w-aboutWidth)<2),'Every section uses About Us content width '+JSON.stringify({aboutWidth,widths:r.widths}));
    assert.equal(new Set(r.tutors.map(t=>t.x)).size,width>=1024?4:width>=641?2:1,'Responsive tutor columns');

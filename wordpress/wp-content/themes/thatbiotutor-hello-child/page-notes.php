@@ -5,20 +5,21 @@ if (!defined('ABSPATH')) { exit; }
 get_header();
 $tbt_defaults = tbt_reference_content()['pages']['notes']['fields'];
 $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, $tbt_defaults[$name] ?? '');
-$tbt_button = esc_html($tbt_field('notes_button_label'));
+$tbt_icon_download = '<svg class="tbt-resource-button__icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M12 3v11m0 0 4.5-4.5M12 14 7.5 9.5M5 17v1.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+$tbt_button = esc_html($tbt_field('notes_button_label')) . $tbt_icon_download; // the icon is static markup
+$tbt_heading = esc_html($tbt_field('notes_heading'));
+$tbt_heading = str_replace('Biology Notes', '<span>Biology Notes</span>', $tbt_heading);
 ?>
 <article class="tbt-resource-page tbt-notes-page">
     <header class="tbt-resource-hero tbt-notes-hero" data-section="hero">
-        <div class="tbt-resource-shell tbt-resource-hero__inner">
-            <h1><?php echo esc_html($tbt_field('notes_heading')); ?></h1>
-            <p class="tbt-notes-hero__audience"><?php
-                $tbt_audience = $tbt_field('notes_audience');
-                if (preg_match('/^(For\s+)(.+)$/i', $tbt_audience, $tbt_parts) === 1) {
-                    echo esc_html($tbt_parts[1]) . '<span>' . esc_html($tbt_parts[2]) . '</span>';
-                } else {
-                    echo esc_html($tbt_audience);
-                }
-            ?></p>
+        <div class="tbt-resource-shell tbt-notes-hero__inner">
+            <div class="tbt-notes-hero__copy">
+                <h1><?php echo wp_kses($tbt_heading, ['span' => []]); ?></h1>
+                <p class="tbt-notes-hero__audience"><?php echo esc_html($tbt_field('notes_audience')); ?></p>
+                <?php if ($tbt_field('notes_hero_lead') !== '') : ?><p class="tbt-notes-hero__lead"><?php echo tbt_rich_inline($tbt_field('notes_hero_lead')); ?></p><?php endif; ?>
+                <a class="tbt-resource-button tbt-notes-hero__download" href="#notes-form"><?php echo $tbt_button; // escaped label plus static icon ?></a>
+                <?php if ($tbt_field('notes_proof_line') !== '') : ?><p class="tbt-resource-proof"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M12 4v9m0 0 3.5-3.5M12 13 8.5 9.5M5 16v2.5h14V16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><?php echo esc_html($tbt_field('notes_proof_line')); ?></p><?php endif; ?>
+            </div>
             <div class="tbt-resource-carousel tbt-resource-carousel--notes" data-carousel data-carousel-autoplay="7000">
                 <div class="tbt-resource-carousel__viewport">
                     <?php foreach (range(1, 3) as $tbt_index) : $tbt_key = sprintf('curated_notes_notes_slide_%02d', $tbt_index); ?>
@@ -34,8 +35,6 @@ $tbt_button = esc_html($tbt_field('notes_button_label'));
                 </div>
                 <p class="screen-reader-text" data-carousel-status aria-live="polite">1 of 3</p>
             </div>
-            <a class="tbt-resource-button" href="#notes-form"><?php echo $tbt_button; ?></a>
-            <?php if ($tbt_field('notes_proof_line') !== '') : ?><p class="tbt-resource-proof"><?php echo esc_html($tbt_field('notes_proof_line')); ?></p><?php endif; ?>
         </div>
     </header>
 
@@ -51,9 +50,21 @@ $tbt_button = esc_html($tbt_field('notes_button_label'));
             <?php tbt_render_content_image('notes_portrait_image', 'tbt-resource-access-portrait', ['data-resource-portrait' => 'notes-access', 'loading' => 'lazy']); ?>
             <h2><?php echo esc_html($tbt_field('notes_access_heading')); ?></h2>
             <?php tbt_render_notes_form(); ?>
+            <?php
+            $tbt_note_rows = [];
+            if (preg_match_all('~<p>(.*?)</p>~s', tbt_rich($tbt_field('notes_access_note')), $tbt_note_found) > 0) { $tbt_note_rows = $tbt_note_found[1]; }
+            $tbt_first_row = '<strong>IMPORTANT:</strong> ' . esc_html($tbt_field('notes_access_copy')) . (isset($tbt_note_rows[0]) ? '<br>' . $tbt_note_rows[0] : '');
+            $tbt_rows = array_merge([[$tbt_first_row, 'redirect']], array_map(static fn (string $row, int $i): array => [$row, $i === 0 ? 'mail' : 'help'], array_slice($tbt_note_rows, 1), array_keys(array_slice($tbt_note_rows, 1))));
+            $tbt_row_icons = [
+                'redirect' => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 8.5h18M9 21l-2.5-2.5L9 16M7 18.5h8a3 3 0 0 0 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+                'mail' => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+                'help' => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.6M12 16.6v.2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+            ];
+            ?>
             <div class="tbt-resource-access-instructions">
-                <p><strong>IMPORTANT:</strong> <?php echo esc_html($tbt_field('notes_access_copy')); ?></p>
-                <?php echo tbt_rich($tbt_field('notes_access_note')); ?>
+                <?php foreach ($tbt_rows as [$tbt_row_html, $tbt_row_icon]) : ?>
+                    <div class="tbt-access-row"><span class="tbt-access-row__icon"><?php echo $tbt_row_icons[$tbt_row_icon]; // static icon markup ?></span><p><?php echo wp_kses($tbt_row_html, ['strong' => [], 'br' => [], 'a' => ['href' => [], 'target' => [], 'rel' => []], 'em' => [], 'u' => []]); ?></p></div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
@@ -62,7 +73,8 @@ $tbt_button = esc_html($tbt_field('notes_button_label'));
         <div class="tbt-resource-shell tbt-resource-narrow">
             <h2><?php echo esc_html($tbt_field('notes_fit_heading')); ?></h2>
             <?php echo tbt_rich_attrs(tbt_rich($tbt_field('notes_fit_list')), 'ul', 'class="tbt-notes-pain-list"'); ?>
-            <p class="tbt-notes-fit__answer"><?php echo esc_html($tbt_field('notes_fit_answer')); ?></p>
+            <?php $tbt_answer = $tbt_field('notes_fit_answer'); $tbt_answer_split = preg_match('/^(.+?[.!?])\s+(.+)$/su', $tbt_answer, $tbt_answer_parts) === 1; ?>
+            <p class="tbt-notes-fit__answer"><?php echo $tbt_answer_split ? '<strong>' . esc_html($tbt_answer_parts[1]) . '</strong><span>' . esc_html($tbt_answer_parts[2]) . '</span>' : esc_html($tbt_answer); // escaped parts ?></p>
         </div>
     </section>
 
@@ -82,30 +94,35 @@ $tbt_button = esc_html($tbt_field('notes_button_label'));
     </section>
 
     <div class="tbt-notes-details">
-        <section class="tbt-resource-section tbt-resource-faq-block" data-section="why-free">
-            <div class="tbt-resource-shell tbt-resource-narrow">
-                <h2><?php echo tbt_heading_html($tbt_field('notes_why_heading')); ?></h2>
-                <?php echo tbt_rich($tbt_field('notes_why_list')); ?>
+        <div class="tbt-resource-shell">
+            <header class="tbt-notes-details__intro">
+                <h2><?php echo tbt_heading_html($tbt_field('notes_details_heading')); ?></h2>
+                <?php if ($tbt_field('notes_details_intro') !== '') : ?><p><?php echo esc_html($tbt_field('notes_details_intro')); ?></p><?php endif; ?>
+            </header>
+            <div class="tbt-notes-details__grid">
+                <section class="tbt-notes-card" data-section="why-free">
+                    <span class="tbt-notes-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path d="M8 20h32v22H8zM6 14h36v6H6zM24 14v28M24 14c-2-6-9-9-11-5s4 5 11 5c7 0 13-1 11-5s-9-1-11 5z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <h3><?php echo tbt_heading_html($tbt_field('notes_why_heading')); ?></h3>
+                    <?php echo tbt_rich($tbt_field('notes_why_list')); ?>
+                </section>
+                <section class="tbt-notes-card" data-section="catch">
+                    <span class="tbt-notes-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path d="M4 22l8-7 8 2 6-3 8 6 6 2v8l-6 2-8 8-6-3-6 3-6-5-4-2zM20 17l6 4c2 1 2 3 0 4l-3 1M14 32l5 4M22 36l4 3M30 35l4-3" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <h3><?php echo tbt_heading_html($tbt_field('notes_catch_heading')); ?></h3>
+                    <?php echo tbt_rich($tbt_field('notes_catch_list')); ?>
+                </section>
+                <section class="tbt-notes-card tbt-notes-card--wide tbt-notes-download" id="notes-download" data-section="download">
+                    <span class="tbt-notes-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path d="M24 6v24m0 0 9-9m-9 9-9-9M8 30v8a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4v-8" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="tbt-notes-card__body">
+                        <h3><?php echo tbt_heading_html($tbt_field('notes_download_heading')); ?></h3>
+                        <ul>
+                            <li><?php echo esc_html($tbt_field('notes_download_copy')); ?></li>
+                            <li><?php echo esc_html($tbt_field('notes_download_note')); ?></li>
+                        </ul>
+                        <a class="tbt-resource-button" href="#notes-form"><?php echo $tbt_button; // escaped label plus static icon ?></a>
+                    </div>
+                </section>
             </div>
-        </section>
-
-        <section class="tbt-resource-section tbt-resource-faq-block" data-section="catch">
-            <div class="tbt-resource-shell tbt-resource-narrow">
-                <h2><?php echo tbt_heading_html($tbt_field('notes_catch_heading')); ?></h2>
-                <?php echo tbt_rich($tbt_field('notes_catch_list')); ?>
-            </div>
-        </section>
-
-        <section class="tbt-resource-section tbt-notes-download" id="notes-download" data-section="download">
-            <div class="tbt-resource-shell tbt-resource-narrow">
-                <h2><?php echo tbt_heading_html($tbt_field('notes_download_heading')); ?></h2>
-                <ul>
-                    <li><?php echo esc_html($tbt_field('notes_download_copy')); ?></li>
-                    <li><?php echo esc_html($tbt_field('notes_download_note')); ?></li>
-                </ul>
-                <a class="tbt-resource-button" href="#notes-form"><?php echo $tbt_button; ?></a>
-            </div>
-        </section>
+        </div>
     </div>
 
     <section class="tbt-resource-section tbt-resource-reviews" data-section="reviews-bottom">

@@ -65,8 +65,14 @@ $tbt_years = tbt_get_class_years();
         </nav>
     </div>
     <header class="tbt-testimonials-hero" data-section="hero">
-        <div class="tbt-testimonials-hero__background"><?php tbt_render_content_image('testimonials_hero_image', '', ['loading' => 'eager']); ?></div>
-        <div class="tbt-testimonials-hero__content"><h1><?php echo esc_html($tbt_field('testimonials_heading')); ?></h1><p class="tbt-testimonials-hero__stars" role="img" aria-label="Five out of five stars"><svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><linearGradient id="tbt-star-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe27a"/><stop offset="1" stop-color="#ffb81c"/></linearGradient></defs></svg><?php echo str_repeat($tbt_star, 5); // static inline SVG markup ?></p></div>
+        <div class="tbt-testimonials-hero__content">
+            <div class="tbt-testimonials-hero__copy">
+                <h1><?php echo tbt_accent_last_word($tbt_field('testimonials_heading')); ?></h1>
+                <?php if ($tbt_field('testimonials_hero_lead') !== '') : ?><p class="tbt-testimonials-hero__lead"><?php echo tbt_rich_inline($tbt_field('testimonials_hero_lead')); ?></p><?php endif; ?>
+                <p class="tbt-testimonials-hero__rating"><span class="tbt-testimonials-hero__stars" role="img" aria-label="Five out of five stars"><svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><linearGradient id="tbt-star-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe27a"/><stop offset="1" stop-color="#ffb81c"/></linearGradient></defs></svg><?php echo str_repeat($tbt_star, 5); // static inline SVG markup ?></span><?php if ($tbt_field('testimonials_hero_rating') !== '') : ?><span class="tbt-testimonials-hero__score"><?php echo esc_html($tbt_field('testimonials_hero_rating')); ?></span><?php endif; ?></p>
+            </div>
+            <figure class="tbt-testimonials-hero__photo"><?php tbt_render_content_image('testimonials_hero_image', '', ['loading' => 'eager']); ?></figure>
+        </div>
     </header>
 
     <section class="tbt-testimonials-featured" data-section="featured">

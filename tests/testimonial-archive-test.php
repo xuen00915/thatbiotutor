@@ -83,7 +83,7 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         foreach (['curated_testimonials_results_2025_01', 'curated_testimonials_results_2025_02', 'curated_testimonials_results_2024_reviews', 'curated_testimonials_results_2024_stats', 'curated_testimonials_results_2024_01', 'curated_testimonials_results_2024_02', 'curated_testimonials_results_2023_01', 'curated_testimonials_results_2023_02', 'curated_testimonials_results_2023_03', 'curated_testimonials_results_2022_01'] as $mediaKey) {
             $this->assertTrue(in_array($mediaKey, $bundled, true), "Archive must render public media {$mediaKey}.");
         }
-        $this->assertTrue(str_contains($declared, 'curated_heroes_testimonials_original'), 'Archive must render the public hero picture.');
+        $this->assertTrue(str_contains($declared, 'curated_home_hero_03'), 'Archive must render its banner picture (the rounded classroom photo).');
         $this->assertTrue(str_contains($declared, 'ThatBioTutor Exposed: What Students Are Saying'), 'Archive must retain the public featured video title.');
         $this->assertTrue(str_contains($template, 'scrolling="no"'), 'Featured archive video must explicitly disable iframe scrolling.');
 
@@ -94,7 +94,7 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         $this->assertSame(2, substr_count($template, 'class="tbt-testimonials-button'), 'Archive keeps the featured call to action and the optional end-of-year call to action.');
         $withButton = array_values(array_filter($years, static fn (array $r): bool => $r['fields']['tbt_year_whatsapp_button'] === '1'));
         $this->assertSame(['2022', '2021'], array_map(static fn (array $r): string => $r['fields']['tbt_year_value'], $withButton), 'The two lower archive calls to action stay on 2022 and 2021.');
-        $this->assertTrue(str_contains($declared, "'WhatsApp Us Now'"), 'The lower archive calls to action must use the public label.');
+        $this->assertTrue(str_contains($declared, "'Transform My Grade Now'"), 'The lower archive calls to action must use the Transform My Grade Now label.');
         $this->assertTrue(str_contains($template, 'tbt-testimonials-year-panel"><h2>'), 'A year opens with the visible green year panel (client request: a green panel above each year\'s result pictures).');
         foreach ($years as $record) {
             $this->assertSame('Class of ' . $record['fields']['tbt_year_value'], $record['fields']['tbt_year_heading'], 'Each seeded year keeps its visible Class of YYYY heading.');

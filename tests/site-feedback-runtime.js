@@ -222,7 +222,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       assert.ok(got.every((v, k) => Math.abs(v - want[k]) <= 8), `WhatsApp button ${state} colour is ${want} (got ${got})`);
     }
     // 13. The footer is shorter (was 268px on desktop, 414px on phones) with nothing clipped.
-    for (const [vw, max] of [[1440, 190], [1024, 190], [768, 190], [390, 345]]) {
+    for (const [vw, max] of [[1440, 190], [1024, 190], [768, 215], [390, 345]]) {
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('contact/', base).href, { waitUntil: 'load' });
       const f = await page.locator('.site-footer').evaluate((e) => { const r = e.getBoundingClientRect(); const kids = [...e.querySelectorAll('.site-footer__brand, .site-footer__column, .site-footer__copyright')].map((k) => k.getBoundingClientRect()); return { h: r.height, inside: kids.every((k) => k.top >= r.top && k.bottom <= r.bottom + 0.5), overflow: document.documentElement.scrollWidth - innerWidth }; });

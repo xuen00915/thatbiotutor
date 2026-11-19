@@ -37,7 +37,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       });
       const at = `at ${width}px: ${JSON.stringify(m)}`;
       assert.ok(m.square.top - m.bar.bottom >= 24, `Title bar must have breathing room above the first picture ${at}`);
-      assert.ok(m.align.every((a) => (width > 980 ? a === 'center' : a === 'left' || a === 'start')), `Planting text is centred under the two pictures on desktop and left-aligned on narrow screens ${at}`);
+      assert.ok(m.align.every((a) => a === 'center'), `Planting text sits centred in its green panel under the two pictures at every width ${at}`);
       assert.ok(m.planGap <= 72, `Gap between the Planting text and the next title bar must stay tight ${at}`);
       if (width > 980) assert.ok(m.planPara.width <= 880 && Math.abs(m.planPara.centre - width / 2) <= 2, `Centred Planting paragraphs keep a readable width ${at}`);
       if (width > 980) {
