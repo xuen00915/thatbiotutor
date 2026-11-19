@@ -80,7 +80,7 @@ const {chromium} = require('playwright');
    assert.ok(Math.abs(d.solW-d.solContW)<=2,'How TBT solves cards must use the shared content width ('+d.solW+' vs '+d.solContW+')');
    assert.ok(Math.abs(d.diffW-d.diffContW)<=2,'TBT difference must use the shared content width ('+d.diffW+' vs '+d.diffContW+')');
    assert.ok(d.stats.every(c=>c==='rgb(47, 138, 39)'),'Result numbers are the site green on the light panel '+JSON.stringify(d.stats));
-   assert.ok(d.level.bg==='rgb(255, 255, 255)'&&d.level.ratio>=7&&d.level.text!==d.level.title,'Level cards need a white card and dark text, not green on green '+JSON.stringify(d.level));
+   assert.ok(d.level.bg==='rgb(238, 247, 234)'&&d.level.ratio>=7&&d.level.text!==d.level.title,'Level cards need a pale-green card and contrasting dark text '+JSON.stringify(d.level));
   }
   await page.setViewportSize({width:1440,height:900});
   await page.goto(new URL('classes/',base).href,{waitUntil:'load'});

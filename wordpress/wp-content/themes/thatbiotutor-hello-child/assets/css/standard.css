@@ -561,8 +561,8 @@ body.tbt-site .tbt-classes-page .tbt-practical-feature > p { max-width: 920px; }
 /* Results numbers are white. */
 body.tbt-site .tbt-classes-page .tbt-programme-stats strong { color: #fff; }
 
-/* Level cards: white card, dark text, green title and link (was green on pale green). */
-body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels__grid a { border: 1px solid #cfe3cb; background: #fff; color: #263029; }
+/* Level cards: pale-green card, dark text, green title and link. */
+body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels__grid a { border: 1px solid #cfe3cb; background: #eef7ea; color: #263029; }
 body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels__grid a span { color: #3a463d; }
 
 @media (max-width: 768px) {
@@ -1205,17 +1205,6 @@ body.tbt-site #main-content .tbt-notes-page .tbt-notes-pain-list, body.tbt-site 
 body.tbt-site #main-content .tbt-notes-page .tbt-notes-pain-list { padding-inline: 24px; }
 body.tbt-site #main-content .tbt-notes-page .tbt-notes-fit__answer { padding-inline: 24px; text-align: left; }
 
-/* "ThatBioTutor's Notes": smaller icons so the title, the four cards and the button fit one screen. */
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits { min-height: 0; padding-block: 28px 36px; }
-body.tbt-site #main-content .tbt-notes-page .tbt-notes-benefits h2 { margin-bottom: 16px; }
-body.tbt-site #main-content .tbt-notes-page .tbt-notes-benefits__grid { gap: 16px; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits article.tbt-notes-benefit { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 18px; align-items: center; min-height: 0; padding: 14px 22px; text-align: left; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media { width: 92px; height: 92px; margin: 0; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media img { display: block; width: 100%; height: 100%; object-fit: contain; }
-body.tbt-site #main-content .tbt-notes-page .tbt-notes-benefit p { margin: 0; font-size: 17px; line-height: 1.5; text-align: left; }
-body.tbt-site #main-content .tbt-notes-page .tbt-notes-benefits .tbt-resource-button { margin-top: 20px; }
-@media (max-width: 640px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits article.tbt-notes-benefit { grid-template-columns: 76px minmax(0, 1fr); gap: 14px; padding: 14px 16px; } body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media { width: 76px; height: 76px; } }
-
 /* "Your Questions, Answered": white cards and dark-green icon tiles, so the greens no longer blur together. */
 body.tbt-site #main-content .tbt-notes-page .tbt-notes-card { background: #fff; }
 body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__icon { background: #0e371d; color: #8fe17e; }
@@ -1230,3 +1219,7 @@ body.tbt-site #main-content .tbt-about-page .tbt-founder-card::before { position
 /* Our Causes: the panel text uses the full panel width. */
 body.tbt-site #main-content .tbt-causes-page .tbt-causes-section[data-section="planting"] .tbt-causes-copy p { max-width: none; }
 @media (max-width: 768px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit { padding-bottom: 16px; } }
+
+/* Screenshot feedback: white level-selection section and a larger Sec 3 hero. */
+body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels { background: #fff; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-sec3-page .tbt-programme-hero h1 { font-size: clamp(32px, 4.2vw, 60px) !important; line-height: 1.15; }

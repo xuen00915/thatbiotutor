@@ -88,6 +88,7 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:4173 node tests/causes-page-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/about-page-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/classes-page-runtime.js
+          TBT_RUNTIME_URL=http://localhost:4173 node tests/screenshot-feedback-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/sec3-page-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/sec3-refinements-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/sec4-page-runtime.js
