@@ -58,7 +58,7 @@ const {chromium} = require('playwright');
    assert.ok(r.ctaOff<=8,'WhatsApp button must be centred ('+width+'px) '+r.ctaOff);
    assert.equal(r.overflow,0,'No sideways scroll at '+width+'px');
    const d=r.design;
-   assert.ok(d.faq.length===5&&d.faq.every(f=>f.fits&&f.ws==='normal'&&f.icon!=='none'&&f.icon!=='normal'),'FAQ questions must wrap, fit and show a plus icon at '+width+'px '+JSON.stringify(d.faq));
+   assert.ok(d.faq.length===5&&d.faq.every(f=>f.fits&&f.ws==='normal'),'FAQ questions (the same accordion as the other pages) must wrap and fit at '+width+'px '+JSON.stringify(d.faq));
    const minH=width<=520?30:36; /* the shared section-heading size */
    assert.ok(d.diff.size>=minH&&d.diff.span==='rgb(143, 225, 126)','TBT difference heading must be large with green keywords at '+width+'px '+JSON.stringify(d.diff));
    assert.ok(d.diff.gap<=36,'Less space between the difference heading and its picture ('+d.diff.gap+'px)');
@@ -79,7 +79,7 @@ const {chromium} = require('playwright');
    assert.ok(d.strBg==='rgb(14, 55, 29)'&&d.solBg==='rgb(14, 55, 29)','Struggle and How-TBT-solves sections both use the shared dark green');
    assert.ok(Math.abs(d.solW-d.solContW)<=2,'How TBT solves cards must use the shared content width ('+d.solW+' vs '+d.solContW+')');
    assert.ok(Math.abs(d.diffW-d.diffContW)<=2,'TBT difference must use the shared content width ('+d.diffW+' vs '+d.diffContW+')');
-   assert.ok(d.stats.every(c=>c==='rgb(255, 255, 255)'),'Result numbers must be white '+JSON.stringify(d.stats));
+   assert.ok(d.stats.every(c=>c==='rgb(47, 138, 39)'),'Result numbers are the site green on the light panel '+JSON.stringify(d.stats));
    assert.ok(d.level.bg==='rgb(255, 255, 255)'&&d.level.ratio>=7&&d.level.text!==d.level.title,'Level cards need a white card and dark text, not green on green '+JSON.stringify(d.level));
   }
   await page.setViewportSize({width:1440,height:900});
@@ -87,7 +87,7 @@ const {chromium} = require('playwright');
   const btn=page.locator('.tbt-programme-faq [data-faq-button]').first();
   await btn.scrollIntoViewIfNeeded();await btn.hover();await page.waitForTimeout(400);
   const hov=await btn.evaluate(e=>{const c=getComputedStyle(e);return {bg:c.backgroundColor,color:c.color}});
-  assert.equal(hov.bg,'rgba(0, 0, 0, 0)','FAQ question must not get a coloured background on hover '+JSON.stringify(hov));
+  assert.equal(hov.bg,'rgb(237, 245, 232)','FAQ question gets the same light-green hover as the other pages\' accordion '+JSON.stringify(hov));
   assert.equal(hov.color,'rgb(25, 34, 26)','FAQ question must stay dark on hover (no pink) '+JSON.stringify(hov));
   console.log('PASS: classes page runtime');
  } finally { await browser.close(); }

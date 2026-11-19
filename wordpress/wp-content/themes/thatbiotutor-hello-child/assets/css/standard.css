@@ -740,7 +740,7 @@ body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider { position: re
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__viewport { position: relative; aspect-ratio: 4 / 5; }
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider figure { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .6s ease; pointer-events: none; }
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider figure.is-active { opacity: 1; pointer-events: auto; }
-body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__image { width: 100%; height: 100%; border-radius: 18px; object-fit: contain; }
+body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__image { width: 100%; height: 100%; border-radius: 24px; object-fit: cover; }
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__control { position: absolute; top: calc(50% - 22px); display: grid; width: 44px; height: 44px; place-items: center; border: 0; background: transparent; color: #fff; cursor: pointer; font-size: 34px; line-height: 1; }
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__control:is(:hover, :focus, :active) { background: transparent; color: #fff; }
 body.tbt-site :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__control--previous { left: 4px; }
@@ -777,7 +777,7 @@ body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-t
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials blockquote p:last-child { margin-bottom: 0; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials .tbt-testimonial__name { margin: auto 0 0; color: var(--tbt-green-text); font-size: 15px; line-height: 1.4; font-style: italic; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider { width: min(100%, 490px); margin: 48px auto 0; }
-body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__viewport { aspect-ratio: 490 / 682; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__viewport { aspect-ratio: 4 / 5; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__control { width: 44px; height: 44px; padding: 0; border: 1px solid rgba(255, 255, 255, .8); border-radius: 50%; background: #193b22; color: #fff; font-size: 30px; line-height: 1; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__dots { gap: 4px; flex-wrap: wrap; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__dots button { position: relative; width: 20px; height: 32px; background: transparent; }
@@ -1169,3 +1169,64 @@ body.tbt-site #main-content .tbt-notes-page .tbt-notes-fit__answer { max-width: 
   /* Phones: the three columns share the width by need, so the longer HOURS line wraps once instead of five times. */
   body.tbt-site .site-footer__inner { grid-template-columns: minmax(0, 1.15fr) minmax(0, .75fr) minmax(0, 1.5fr); column-gap: 14px; }
 }
+
+/* =====================================================================
+ * Client feedback, 19 November (second round).
+ * ===================================================================== */
+/* Classes: the "By the numbers" panel uses the site's own green on a light card, not the teal. */
+body.tbt-site .tbt-classes-page .tbt-programme-stats { border: 0; border-radius: 24px; background: #eef7ea; box-shadow: 0 24px 48px -28px rgba(0, 0, 0, .6); }
+body.tbt-site .tbt-classes-page .tbt-programme-stats strong { color: #2f8a27; }
+body.tbt-site .tbt-classes-page .tbt-programme-stats span { color: var(--tbt-std-ink); }
+
+/* Sec 3 / Sec 4 title: "Start of Sec 3." stays together on one line, so "Sec 3." is never alone on a row. */
+/* The shared page-title rule is !important, so the Sec 3 / Sec 4 override has to be as well (the client asked for a smaller title here). */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero h1 { max-width: 1100px; font-size: clamp(27px, 2.9vw, 38px) !important; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero__highlight { white-space: nowrap; }
+
+/* The grade a student ended on is green in the testimonial cards too. */
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-testimonials .tbt-testimonial__after { color: #2f8a27; }
+
+/* Results & Testimonials hero: a bigger photo so the banner does not feel empty. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero { padding: 48px 0; }
+@media (min-width: 861px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__content { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; } }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__photo { width: min(100%, 540px); aspect-ratio: 1.22 / 1; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__photo img { object-position: 62% 40%; }
+@media (max-width: 860px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__photo { width: min(100%, 420px); aspect-ratio: 1.15 / 1; } }
+
+/* Free Bio Notes hero: a bigger tablet on a soft glow, tighter padding. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero { padding: 44px 0; }
+@media (min-width: 901px) { body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero__inner { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; } }
+body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero__lead { max-width: 560px; font-size: 20px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(380px, calc(100svh - 150px), 700px); width: min(100%, calc(var(--notes-slider-height) * 500 / 640)); max-width: 547px; background: radial-gradient(ellipse at 50% 50%, rgba(143, 225, 126, .22), transparent 66%); }
+
+/* "Is this you?" uses the standard content width, like every other section. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit h2 { width: 100%; max-width: none; }
+body.tbt-site #main-content .tbt-notes-page .tbt-notes-pain-list, body.tbt-site #main-content .tbt-notes-page .tbt-notes-fit__answer { max-width: none; }
+body.tbt-site #main-content .tbt-notes-page .tbt-notes-pain-list { padding-inline: 24px; }
+body.tbt-site #main-content .tbt-notes-page .tbt-notes-fit__answer { padding-inline: 24px; text-align: left; }
+
+/* "ThatBioTutor's Notes": smaller icons so the title, the four cards and the button fit one screen. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits { min-height: 0; padding-block: 28px 36px; }
+body.tbt-site #main-content .tbt-notes-page .tbt-notes-benefits h2 { margin-bottom: 16px; }
+body.tbt-site #main-content .tbt-notes-page .tbt-notes-benefits__grid { gap: 16px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits article.tbt-notes-benefit { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 18px; align-items: center; min-height: 0; padding: 14px 22px; text-align: left; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media { width: 92px; height: 92px; margin: 0; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+body.tbt-site #main-content .tbt-notes-page .tbt-notes-benefit p { margin: 0; font-size: 17px; line-height: 1.5; text-align: left; }
+body.tbt-site #main-content .tbt-notes-page .tbt-notes-benefits .tbt-resource-button { margin-top: 20px; }
+@media (max-width: 640px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits article.tbt-notes-benefit { grid-template-columns: 76px minmax(0, 1fr); gap: 14px; padding: 14px 16px; } body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media { width: 76px; height: 76px; } }
+
+/* "Your Questions, Answered": white cards and dark-green icon tiles, so the greens no longer blur together. */
+body.tbt-site #main-content .tbt-notes-page .tbt-notes-card { background: #fff; }
+body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__icon { background: #0e371d; color: #8fe17e; }
+body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__icon img { display: block; width: 46px; height: 46px; object-fit: contain; }
+@media (max-width: 860px) { body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__icon img { width: 36px; height: 36px; } }
+
+/* About: founder question cards use the same premium card as the testimonials (rounded, cream outline, deep shadow, green quote mark). */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-card { position: relative; padding: 64px 36px 36px; border: 1px solid #e3e6d2; border-radius: 24px; background: #fff; box-shadow: 0 24px 48px -28px rgba(14, 55, 29, .45); }
+body.tbt-site #main-content .tbt-about-page .tbt-founder-card::before { position: absolute; top: 22px; left: 32px; color: #2eaf2b; content: "\275D"; font: 700 40px/1 Georgia, serif; }
+@media (max-width: 640px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-founder-card { padding: 56px 20px 24px; } body.tbt-site #main-content .tbt-about-page .tbt-founder-card::before { left: 20px; } }
+
+/* Our Causes: the panel text uses the full panel width. */
+body.tbt-site #main-content .tbt-causes-page .tbt-causes-section[data-section="planting"] .tbt-causes-copy p { max-width: none; }
+@media (max-width: 768px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-fit { padding-bottom: 16px; } }

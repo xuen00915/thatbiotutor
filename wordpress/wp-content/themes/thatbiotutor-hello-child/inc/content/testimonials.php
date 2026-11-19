@@ -12,7 +12,7 @@ return [
         tbt_f_section('hero', 'Top banner', [
             tbt_f_inline('testimonials_hero_lead', 'Line under the title', 'The AVERAGE student at TBT <strong>jumps 2.3 Grades (~C5 to A2)</strong>', 'Use Bold for the part shown in green. Leave empty to hide the line.'),
             tbt_f_text('testimonials_hero_rating', 'Rating next to the five stars', '5.0 (161+ Google Reviews)', 'Leave empty to show only the stars.'),
-            tbt_f_image('testimonials_hero_image', 'Banner picture (shown in a rounded frame)', 'curated_home_hero_03'),
+            tbt_f_image('testimonials_hero_image', 'Banner picture (shown in a rounded frame)', 'curated_testimonials_hero_selfie'),
         ], 'The page title is edited in the Page content tab.'),
 
         tbt_f_section('featured', 'Featured video', [

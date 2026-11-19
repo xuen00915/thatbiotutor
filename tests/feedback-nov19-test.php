@@ -39,6 +39,14 @@ final class FeedbackNov19Test
         $this->assertTrue(str_contains($css, 'border: 1px solid #e3e6d2; border-radius: 24px'), 'Programme testimonial cards use the premium rounded card.');
         $this->assertTrue(!str_contains($css, 'border: 1px solid #000 !important'), 'The flat black card border is gone.');
 
+        // Round two (same day): Classes FAQ accordion, green testimonial grades, selfie hero, handshake icon, standard widths.
+        $this->assertTrue(str_contains((string) file_get_contents(TBT_THEME_DIR . '/page-classes.php'), "tbt_render_faqs('classes', 'accordion')"), 'The Classes FAQ uses the same accordion as the other pages.');
+        $this->assertTrue(str_contains((string) file_get_contents(TBT_THEME_DIR . '/inc/testimonials.php'), 'tbt-testimonial__after'), 'The grade a student ended on is wrapped so it can be green in the testimonial cards.');
+        $this->assertTrue(str_contains($css, '.tbt-testimonial__after { color: #2f8a27; }'), 'Testimonial card final grades are green.');
+        $this->assertTrue(str_contains((string) file_get_contents(TBT_THEME_DIR . '/inc/content/testimonials.php'), 'curated_testimonials_hero_selfie') && str_contains((string) file_get_contents(TBT_THEME_DIR . '/page-notes.php'), 'curated_notes_icon_handshake'), 'The Testimonials hero uses the supplied selfie and the notes card uses the supplied handshake icon.');
+        $this->assertTrue(str_contains($css, '.tbt-faq-slider__image { width: 100%; height: 100%; border-radius: 24px; object-fit: cover; }'), 'The FAQ graphics are cropped into rounded corners.');
+        $this->assertTrue(str_contains($css, '.tbt-classes-page .tbt-programme-stats { border: 0; border-radius: 24px; background: #eef7ea;'), 'The Classes numbers panel is a light card, not teal.');
+
         // Footer hours on every page.
         $this->assertTrue(str_contains((string) (tbt_reference_content()['shared']['opening_hours'] ?? ''), '(open for online enquiries all 7 days)'), 'The opening hours must say the centre answers online enquiries.');
 

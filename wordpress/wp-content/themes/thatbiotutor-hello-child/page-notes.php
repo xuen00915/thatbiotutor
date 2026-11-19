@@ -106,7 +106,7 @@ $tbt_heading = str_replace('Biology Notes', '<span>Biology Notes</span>', $tbt_h
                     <?php echo tbt_rich($tbt_field('notes_why_list')); ?>
                 </section>
                 <section class="tbt-notes-card" data-section="catch">
-                    <span class="tbt-notes-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path d="M4 22l8-7 8 2 6-3 8 6 6 2v8l-6 2-8 8-6-3-6 3-6-5-4-2zM20 17l6 4c2 1 2 3 0 4l-3 1M14 32l5 4M22 36l4 3M30 35l4-3" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="tbt-notes-card__icon" aria-hidden="true"><?php tbt_render_media_image('curated_notes_icon_handshake', '', ['loading' => 'lazy']); ?></span>
                     <h3><?php echo tbt_heading_html($tbt_field('notes_catch_heading')); ?></h3>
                     <?php echo tbt_rich($tbt_field('notes_catch_list')); ?>
                 </section>

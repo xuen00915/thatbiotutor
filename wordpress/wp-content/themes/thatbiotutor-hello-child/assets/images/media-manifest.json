@@ -4470,6 +4470,36 @@
         "sec-3-pure-g3-biology-tuition"
       ],
       "licenseStatus": "public-site-capture"
+    },
+    {
+      "key": "curated_testimonials_hero_selfie",
+      "source": "provenance://testimonials-hero-selfie.png",
+      "file": "files/515d4fb5bdc2c9bba576835e690a0be9.webp",
+      "sha256": "fb73ba53d41277fafce741d7830ba9684ff56a5cfb1624172e8faff51cc1ae83",
+      "alt": "Mr Keefe and three TBT students enjoying bubble tea in the classroom",
+      "width": 1600,
+      "height": 1200,
+      "fit": "cover",
+      "objectPosition": "62% 40%",
+      "pages": [
+        "testimonials"
+      ],
+      "licenseStatus": "site-owned"
+    },
+    {
+      "key": "curated_notes_icon_handshake",
+      "source": "provenance://handshake-icon.png",
+      "file": "files/7a65b4778a9436068444e707e4e9501e.webp",
+      "sha256": "3dbf603e96ea5381f414b8a1743e6d11eeecffa6732427951481476f349b3e4e",
+      "alt": "Handshake icon",
+      "width": 256,
+      "height": 256,
+      "fit": "contain",
+      "objectPosition": "50% 50%",
+      "pages": [
+        "notes"
+      ],
+      "licenseStatus": "site-owned"
     }
   ]
 }

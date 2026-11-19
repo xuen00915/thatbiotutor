@@ -71,7 +71,7 @@ function tbt_render_testimonials(array $args = []): void
             echo '<div class="tbt-testimonial__stars" aria-label="' . esc_attr((string) $record['rating'] . ' out of 5 stars') . '">' . esc_html(str_repeat('★', $record['rating'])) . '</div>';
         }
         if ($record['quote'] !== '' && $record['before'] !== '' && $record['after'] !== '') {
-            echo '<p class="tbt-testimonial__result">' . esc_html($record['before'] . ' → ' . $record['after']) . '</p>';
+            echo '<p class="tbt-testimonial__result">' . esc_html((string) $record['before']) . ' → <span class="tbt-testimonial__after">' . esc_html((string) $record['after']) . '</span></p>';
         }
         if ($record['quote'] !== '') {
             $paragraphs = preg_split('/\n\s*\n+/u', trim((string) $record['quote'])) ?: [(string) $record['quote']];

@@ -207,7 +207,7 @@
   gap: clamp(24px, 3vw, 38px);
   align-items: start;
   box-sizing: border-box;
-  padding: 34px;
+  padding: 24px 30px;
   border: 1px solid #d8e4cb;
   border-radius: 18px;
   background: #fff;
@@ -238,17 +238,12 @@
   text-wrap: balance;
 }
 
-/* One ring only: the frame draws it and hides the second ring that is baked into the bundled portraits. */
+/* One ring only: the bundled portraits already carry their own thin ring, exactly as on the Sec 3 team circles. */
 .tbt-about-tutors .tbt-tutor__frame {
   display: block;
-  box-sizing: border-box;
   width: min(220px, 100%);
   aspect-ratio: 1;
   margin: 0 auto;
-  overflow: hidden;
-  border: 5px solid rgba(148, 174, 74, 0.9);
-  border-radius: 50%;
-  background: #fff;
 }
 .tbt-about-tutors .tbt-tutor__portrait {
   display: block;
@@ -257,7 +252,6 @@
   border: 0;
   border-radius: 50%;
   object-fit: cover;
-  transform: scale(1.1);
 }
 
 .tbt-about-tutors .tbt-tutor__qualifications {

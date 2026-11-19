@@ -83,7 +83,7 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         foreach (['curated_testimonials_results_2025_01', 'curated_testimonials_results_2025_02', 'curated_testimonials_results_2024_reviews', 'curated_testimonials_results_2024_stats', 'curated_testimonials_results_2024_01', 'curated_testimonials_results_2024_02', 'curated_testimonials_results_2023_01', 'curated_testimonials_results_2023_02', 'curated_testimonials_results_2023_03', 'curated_testimonials_results_2022_01'] as $mediaKey) {
             $this->assertTrue(in_array($mediaKey, $bundled, true), "Archive must render public media {$mediaKey}.");
         }
-        $this->assertTrue(str_contains($declared, 'curated_home_hero_03'), 'Archive must render its banner picture (the rounded classroom photo).');
+        $this->assertTrue(str_contains($declared, 'curated_testimonials_hero_selfie'), 'Archive must render its banner picture (the rounded classroom selfie).');
         $this->assertTrue(str_contains($declared, 'ThatBioTutor Exposed: What Students Are Saying'), 'Archive must retain the public featured video title.');
         $this->assertTrue(str_contains($template, 'scrolling="no"'), 'Featured archive video must explicitly disable iframe scrolling.');
 
