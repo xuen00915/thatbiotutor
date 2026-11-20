@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Tightened mobile Notes hero gaps, reduced benefit icons to 100px, aligned download bullets with the other cards, and shortened the larger-screen FAQ bottom padding. Audited all twelve pages for mobile image scale; reduced Cell Division icons, About tutor portraits and tall decorative photos while retaining readable educational artwork.
+
 - [main-site] Made the Sec 3 and Sec 4 team sections compact on phones: two columns, portraits capped at 132px, smaller names and tighter spacing.
 
 - [main-site] Standardised Vision, Mission and Values paragraphs to 18px regular Poppins with 1.6 line spacing on all devices, retaining bold green labels.

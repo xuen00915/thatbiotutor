@@ -22,12 +22,14 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         const shell = sec('reviews-top').querySelector('h2').getBoundingClientRect();
         const cs = getComputedStyle(bar);
         return {
+          mobile: (()=>{const b=s=>document.querySelector(s).getBoundingClientRect();const lead=b('.tbt-notes-hero__lead'),button=b('.tbt-notes-hero .tbt-resource-button'),proof=b('.tbt-notes-hero .tbt-resource-proof'),slider=b('.tbt-notes-hero [data-carousel]');return {leadGap:button.top-lead.bottom,previewGap:slider.top-proof.bottom,icons:[...document.querySelectorAll('.tbt-notes-benefit__media img')].map(e=>e.getBoundingClientRect().width),listLeft:b('[data-section="download"] ul').left,otherListLeft:b('[data-section="why-free"] ul').left};})(),
+          bottomGap: document.querySelector('.tbt-notes-details').getBoundingClientRect().bottom-sec('download').getBoundingClientRect().bottom,
           viewport: document.documentElement.clientWidth,
           barLeft: br.left, barWidth: br.width, shellWidth: shell.width, radius: parseFloat(cs.borderTopLeftRadius), textAlign: cs.textAlign,
           fitToBenefits: h2Top('benefits') - bottomOf(sec('fit')),
           cardRects: ['why-free', 'catch', 'download'].map((name) => { const r = sec(name).getBoundingClientRect(); return { left: Math.round(r.left), right: Math.round(r.right), top: Math.round(r.top), bottom: Math.round(r.bottom) }; }),
           cards: Array.from(document.querySelectorAll('.tbt-notes-benefit')).map((c) => { const r = c.getBoundingClientRect(); return { left: Math.round(r.left), right: Math.round(r.right), top: Math.round(r.top), bottom: Math.round(r.bottom) }; }),
-          downloadButton: (() => { const b = sec('download').querySelector('.tbt-resource-button').getBoundingClientRect(); const h = sec('download').querySelector('.tbt-notes-card__body').getBoundingClientRect(); return { center: (b.left + b.right) / 2, shellCenter: h.left + h.width / 2 }; })(),
+          downloadButton: (() => { const b = sec('download').querySelector('.tbt-resource-button').getBoundingClientRect(); const h = sec('download').querySelector('.tbt-notes-card__body ul').getBoundingClientRect(); return { center: (b.left + b.right) / 2, shellCenter: h.left + h.width / 2 }; })(),
           endButton: (() => { const sectionEl = sec('reviews-bottom'); const b = sectionEl.querySelector('.tbt-resource-button'); if (!b) return null; const r = b.getBoundingClientRect(); const panel = sectionEl.querySelector('[data-testimonial-list]').getBoundingClientRect(); return { text: b.textContent.trim(), href: b.getAttribute('href'), center: (r.left + r.right) / 2, height: r.height, below: r.top >= panel.bottom - 1, sectionBottomGap: sectionEl.getBoundingClientRect().bottom - r.bottom, band: !!document.querySelector('.tbt-notes-end-cta') }; })(),
           darkHeads: Array.from(document.querySelectorAll('.tbt-notes-details h2')).map((h) => { const c = getComputedStyle(h); return { size: parseFloat(c.fontSize), weight: parseInt(c.fontWeight, 10) }; }),
           cardHeads: Array.from(document.querySelectorAll('.tbt-notes-details h3')).map((h) => parseInt(getComputedStyle(h).fontWeight, 10)),
@@ -38,6 +40,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         };
       });
       const at = `at ${width}px: ${JSON.stringify(m)}`;
+      if(width<=640){assert.ok(m.mobile.leadGap<=24,`Compact hero CTA gap ${at}`);assert.ok(m.mobile.previewGap<=28,`Compact hero preview gap ${at}`);assert.ok(m.mobile.icons.every(w=>w<=100),`Compact feature icons ${at}`);assert.ok(Math.abs(m.mobile.listLeft-m.mobile.otherListLeft)<=1,`Download bullets align with other cards ${at}`);}
+      if(width>=768)assert.ok(m.bottomGap<=40,`Compact bottom section spacing ${at}`);
       assert.ok(m.barLeft >= 8 && m.barWidth <= m.viewport - 16, `Title panel must not run edge to edge ${at}`);
       assert.ok(m.barWidth <= m.shellWidth + 1 && Math.abs(m.barLeft + m.barWidth / 2 - m.viewport / 2) <= 2, `Title panel is centred and no wider than the page content ${at}`);
       assert.ok(m.radius >= 16, `Title panel must have rounded corners like the other title bars ${at}`);

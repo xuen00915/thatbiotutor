@@ -1318,3 +1318,25 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 
 /* Vision, Mission and Values use the standard body-copy scale. */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-beliefs .tbt-beliefs-grid p { font-size: 18px; line-height: 1.6; font-weight: 400; }
+
+/* Notes: compact mobile spacing and full-width download instructions. */
+@media (max-width: 640px) {
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero__lead { margin-bottom: 0; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-button { margin-top: 20px; }
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero__inner { gap: 20px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media img { width: 100px; height: 100px; }
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__body { display: contents; }
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__body h3 { grid-column: 2; }
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__body ul { grid-column: 1 / -1; margin-top: 22px; }
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__body .tbt-resource-button { grid-column: 1 / -1; }
+  body.tbt-site #main-content .tbt-cell-feature img { width: 100px; height: 100px; }
+  body.tbt-site #main-content .tbt-about-page .tbt-tutor__frame { width: 132px; height: 132px; margin-inline: auto; }
+  body.tbt-site #main-content .tbt-home-founder figure { width: min(100%, 220px); margin-inline: auto; }
+  body.tbt-site #main-content .tbt-home-founder img { min-height: 0; height: auto; max-height: 330px; object-fit: contain; }
+  body.tbt-site #main-content .tbt-home-classroom__grid figure { max-height: 300px; }
+  body.tbt-site #main-content .tbt-about-page .tbt-about-beliefs__image { width: auto; max-width: 100%; height: 300px; aspect-ratio: auto; object-fit: contain; margin-inline: auto; }
+}
+@media (min-width: 641px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details { padding-bottom: 32px; }
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-card--wide { padding-bottom: 24px; }
+}

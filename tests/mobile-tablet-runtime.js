@@ -50,6 +50,8 @@ const assert = require('node:assert/strict');
     }));
     assert.deepEqual(clipped,[],`${route} at ${width}: content and controls fit the viewport`);
     if(width===412) {
+     const oversized=await page.locator('.tbt-notes-benefit__media img,.tbt-cell-feature img,.tbt-programme-tutors .tbt-tutor img,.tbt-about-page .tbt-tutor__frame,.tbt-home-founder img,.tbt-about-beliefs__image').evaluateAll(es=>es.filter(e=>{const r=e.getBoundingClientRect();return r.height>330||((e.closest('.tbt-notes-benefit__media,.tbt-cell-feature'))&&r.width>100)||((e.matches('.tbt-tutor__frame')||e.closest('.tbt-programme-tutors'))&&r.width>132)}).map(e=>e.className||e.alt));
+     assert.deepEqual(oversized,[],`${route}: decorative mobile images stay compact`);
      const menu=page.locator('[data-menu-toggle]');await menu.click();assert.equal(await menu.getAttribute('aria-expanded'),'true');
      await page.keyboard.press('Escape');assert.equal(await menu.getAttribute('aria-expanded'),'false');
     }
