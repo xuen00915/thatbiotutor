@@ -1225,3 +1225,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is
 
 /* Founder answers: coloured emphasis replaces underlining. */
 body.tbt-site #main-content .tbt-about-page .tbt-founder-card u { color: #2f8a27; text-decoration: none; font-weight: 600; }
+
+/* Both programme formats: keep every tick attached to and centred on its phrase. */
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__included .tbt-tick { display: flex; align-items: center; gap: 8px; padding-left: 0; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__included .tbt-tick::before { position: static; flex: 0 0 18px; }
