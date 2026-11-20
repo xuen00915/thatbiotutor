@@ -10,6 +10,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
     for (const [route, width] of [['', 1440], ['about/', 1024], ['classes/', 390], ['about/', 320]]) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(new URL(route, base).href, { waitUntil: 'load' });
+      await page.evaluate(()=>document.fonts.ready);
       if (width < 981) await page.locator('[data-menu-toggle]').click();
       const chevron = page.locator('.site-nav [data-submenu-toggle] svg.site-nav__chevron');
       assert.equal(await chevron.count(), 1, `Classes needs an SVG chevron at ${width}px`);
@@ -21,9 +22,10 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         await page.locator('.site-nav__item--has-children').hover();
         const menu = page.locator('.site-nav__submenu');
         await menu.waitFor({state:'visible'});
+        await menu.evaluate(e=>Promise.all(e.getAnimations({subtree:true}).map(a=>a.finished.catch(()=>{}))));
         const shape = await menu.evaluate(e=>({width:e.getBoundingClientRect().width,radius:parseFloat(getComputedStyle(e).borderTopLeftRadius),links:[...e.querySelectorAll('a')].map(a=>a.getBoundingClientRect().height)}));
         assert.ok(shape.width <= 180 && shape.radius >= 10, 'Dropdown is compact with rounded corners');
-        assert.ok(shape.links.every(h=>h >=44 && h <=50), 'Compact dropdown preserves touch targets');
+        assert.ok(shape.links.every(h=>h >=44 && h <=50), 'Compact dropdown preserves touch targets: '+JSON.stringify(shape));
       }
       console.log(`PASS nav arrow ${width}`);
     }
