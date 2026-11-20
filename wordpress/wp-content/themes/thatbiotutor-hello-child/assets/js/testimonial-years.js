@@ -74,7 +74,7 @@
   let lockEl = null;
   let minDistance = Infinity;
   let settleTimer;
-  const targetClearance = (el) => headerHeight() + 12 + (el.matches('.tbt-testimonials-year') ? 0 : (el.closest('.tbt-testimonials-year')?.querySelector('.tbt-testimonials-year-panel')?.getBoundingClientRect().height || 0) + 8);
+  const targetClearance = () => headerHeight() + 12;
   const targetTop = (el) => el.getBoundingClientRect().top + window.scrollY - targetClearance(el);
   const settle = () => {
     if (lock === null) return;

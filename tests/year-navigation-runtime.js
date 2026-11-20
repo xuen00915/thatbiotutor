@@ -50,8 +50,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       assert.ok(spacing.every(gap=>gap<=32),'All year titles use compact top spacing');
       await page.evaluate(()=>window.scrollBy(0,400));
       const sticky = await page.locator('#class-of-2022 .tbt-testimonials-year-panel').evaluate(e=>({top:e.getBoundingClientRect().top,position:getComputedStyle(e).position,clearance:(innerWidth<=1180?document.querySelector('[data-year-nav]'):document.querySelector('.site-header')).getBoundingClientRect().bottom}));
-      assert.equal(sticky.position,'sticky','Year title remains pinned within its year');
-      assert.ok(sticky.top>=sticky.clearance&&sticky.top<=sticky.clearance+24,'Pinned year stays below navigation');
+      assert.equal(sticky.position,'static','Year titles scroll naturally with their content');
+      assert.ok(sticky.top<sticky.clearance-200,'Year title leaves the upper screen when scrolling down');
       // Manual scrolling updates the current year, including while inside a long section.
       const manualDelta = await page.locator('#class-of-2024').evaluate(e => e.getBoundingClientRect().top + 200);
       await page.mouse.move(width / 2, 450);

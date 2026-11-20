@@ -342,9 +342,9 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
         let last = -1, still = 0;
         for (let i = 0; i < 60 && still < 8; i++) { await page.waitForTimeout(100); const y = await page.evaluate(() => Math.round(scrollY)); still = y === last ? still + 1 : 0; last = y; }
         await page.waitForTimeout(300);
-        const r = await page.evaluate(([y, id]) => { const t = document.getElementById(`class-of-${y}-${id}`); const b = t.getBoundingClientRect(); return { label: document.querySelector('[data-year-current]').textContent, top: b.top, header: document.querySelector(`#class-of-${y} .tbt-testimonials-year-panel`).getBoundingClientRect().bottom, open: document.querySelector('[data-year-nav] button.tbt-year-nav__toggle').getAttribute('aria-expanded') }; }, [year, idFor[label]]);
+        const r = await page.evaluate(([y, id]) => { const t = document.getElementById(`class-of-${y}-${id}`); const b = t.getBoundingClientRect(); return { label: document.querySelector('[data-year-current]').textContent, top: b.top, header: innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom, open: document.querySelector('[data-year-nav] button.tbt-year-nav__toggle').getAttribute('aria-expanded') }; }, [year, idFor[label]]);
         assert.equal(r.label, year, `Jumping to ${year} ${label} keeps the ${year} label at ${vw}`);
-        assert.ok(r.top >= r.header - 2 && r.top <= r.header + 60, `${year} ${label} lands below the sticky year title at ${vw}: ${r.top} vs ${r.header}`);
+        assert.ok(r.top >= r.header - 2 && r.top <= r.header + 60, `${year} ${label} lands below the header at ${vw}: ${r.top} vs ${r.header}`);
         assert.equal(r.open, 'false', 'The menu closes after jumping');
       }
     }
