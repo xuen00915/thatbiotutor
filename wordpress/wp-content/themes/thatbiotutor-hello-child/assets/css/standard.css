@@ -1275,3 +1275,8 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 @media (min-width: 521px) and (max-width: 700px) {
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-recommendations-page h1 { font-size: clamp(36px, 6vw, 42px) !important; }
 }
+
+/* Touch layouts expose Notes controls without requiring hover. */
+@media (max-width: 1180px), (hover: none) {
+  body.tbt-site #main-content .tbt-notes-hero .tbt-resource-carousel--notes :is(.tbt-resource-carousel__control, .tbt-resource-carousel__dots) { opacity: 1; }
+}

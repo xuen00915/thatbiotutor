@@ -10,7 +10,10 @@ const assert = require('node:assert/strict');
    await page.goto(`${base}/notes/`);await page.evaluate(()=>document.fonts.ready);
    const hero=await page.locator('.tbt-notes-hero').evaluate(e=>{const box=s=>e.querySelector(s).getBoundingClientRect();return{heading:box('h1').toJSON(),proof:box('.tbt-resource-proof').toJSON(),slider:box('[data-carousel]').toJSON(),controls:[...e.querySelectorAll('[data-carousel-prev],[data-carousel-next]')].map(a=>a.getBoundingClientRect().toJSON())}});
    assert.ok(hero.controls.every(r=>r.left>=8&&r.right<=width-8),`Notes arrows fit at ${width}`);
-   if(width<=1180)assert.ok(hero.slider.top>=hero.proof.bottom,`Tablet hero stacks cleanly at ${width}`);
+   if(width<=1180) {
+    assert.ok(hero.slider.top>=hero.proof.bottom,`Tablet hero stacks cleanly at ${width}`);
+    assert.ok(await page.locator('.tbt-notes-hero [data-carousel-next]').evaluate(e=>+getComputedStyle(e).opacity===1), `Touch controls are visible without hover at ${width}`);
+   }
    await page.locator('.tbt-notes-hero [data-carousel-next]').click();
    assert.match(await page.locator('.tbt-notes-hero [data-carousel-status]').textContent(),/2 of 3/);
    await page.goto(`${base}/trees/`);
