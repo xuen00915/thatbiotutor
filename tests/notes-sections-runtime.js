@@ -72,6 +72,19 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.ok(c2.top >= c1.bottom - 1 && c3.top >= c2.bottom - 1 && c4.top >= c3.bottom - 1, `Benefit cards stack on small phones ${at}`);
       }
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);
+      const skips=page.locator('.tbt-notes-skip-reviews');
+      assert.equal(await skips.count(),2,'Both testimonial sections provide a skip link');
+      for(let i=0;i<2;i++) {
+        assert.equal(await skips.nth(i).isVisible(),width<=640,'Skip links appear only on phones');
+        if(width<=640) {
+          await page.emulateMedia({reducedMotion:'reduce'});
+          const href=await skips.nth(i).getAttribute('href');
+          await skips.nth(i).click();
+          await page.waitForFunction(hash=>location.hash===hash,href);
+          const target=await page.locator(href).boundingBox();
+          assert.ok(target.y>=80&&target.y<900,'Skip lands past testimonials with target visible below header');
+        }
+      }
       console.log(`PASS notes sections ${width}`);
     }
   } finally { await browser.close(); }

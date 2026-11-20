@@ -646,3 +646,16 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   .tbt-resource-carousel--notes .tbt-resource-carousel__control,
   .tbt-resource-carousel--notes .tbt-resource-carousel__dots { transition: none; }
 }
+
+/* Let phone readers bypass each long testimonial group. */
+.tbt-notes-skip-reviews { display: none; }
+#notes-reviews-end { scroll-margin-top: 96px; }
+@media (max-width: 640px) {
+  body.tbt-site #main-content .tbt-notes-skip-reviews {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: fit-content; min-height: 44px; margin: 0 auto 24px; padding: 10px 20px;
+    border: 1px solid #2f8a27; border-radius: 999px; background: #eef6ea;
+    color: #216b21; font-size: 15px; font-weight: 600; line-height: 1.4; text-decoration: none;
+  }
+  body.tbt-site #main-content .tbt-notes-skip-reviews:focus-visible { outline: 3px solid #0e371d; outline-offset: 3px; }
+}

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Added mobile-only “Skip testimonials” links above both Free Bio Notes review groups. They jump past the reviews to the form or final download button, with header clearance and native keyboard-accessible anchors.
+
 - [main-site] Restored all shared practical galleries to one full-width photo per row on phones.
 
 - [main-site] Reduced mobile homepage gaps above the classroom and practical-session headings by tightening the adjoining sections’ padding.
