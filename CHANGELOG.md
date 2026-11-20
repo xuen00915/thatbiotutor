@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Enlarged the Notes “Your Questions, Answered” title to 48px on desktop, 36px on smaller tablets and 32px on phones for stronger visual prominence.
+
 - [main-site] Aligned the About teaching-quality bullet text with its introductory paragraph on phones and removed justified word spacing.
 
 - [main-site] Moved Sec 3 and Sec 4 team names below their profile pictures on every device, with consistent spacing and top-aligned labels.

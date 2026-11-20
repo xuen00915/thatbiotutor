@@ -58,7 +58,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.ok(Math.abs(m.endButton.center - m.viewport / 2) <= 2 && m.endButton.below && m.endButton.height >= 44 && m.endButton.sectionBottomGap <= 90, `Closing button is centred, under the review panel and close to the footer ${at}`);
       assert.equal(m.endButton.band, false, `No extra phrase band around the closing button ${at}`);
       assert.equal(m.darkHeads.length, 1, `One "Your Questions, Answered" heading above the cards ${at}`);
-      m.darkHeads.forEach((h) => assert.ok(h.weight === 800 && h.size === (width <= 520 ? 30 : 36), `The heading uses the shared section-heading style (Poppins 800, 36px / 30px on phones) ${at}`));
+      m.darkHeads.forEach((h) => assert.ok(h.weight === 800 && h.size === (width <= 520 ? 32 : width <= 768 ? 36 : 48), `The Questions heading uses prominent responsive sizing (48px desktop, 36px tablet, 32px phone) ${at}`));
       assert.equal(m.cardHeads.length, 3, `Three card headings ${at}`);
       m.cardHeads.forEach((w) => assert.ok(w >= 700, `Card headings are bold ${at}`));
       assert.equal(m.answerStyle, 'normal', `The "If you answered yes" block is no longer italic ${at}`);

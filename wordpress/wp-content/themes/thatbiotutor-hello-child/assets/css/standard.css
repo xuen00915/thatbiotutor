@@ -1378,3 +1378,8 @@ body.tbt-site #main-content .tbt-causes-page .tbt-causes-section[data-section="s
 @media (pointer: coarse) {
   body.tbt-site .whatsapp-float { --tbt-contact-clearance: 48px; }
 }
+
+/* Give the Notes questions title the requested stronger visual prominence. */
+body.tbt-site #main-content .tbt-notes-details__intro h2 { --tbt-u-h2: 48px; }
+@media (max-width: 768px) { body.tbt-site #main-content .tbt-notes-details__intro h2 { --tbt-u-h2: 36px; } }
+@media (max-width: 520px) { body.tbt-site #main-content .tbt-notes-details__intro h2 { --tbt-u-h2: 32px; } }

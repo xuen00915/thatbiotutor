@@ -61,6 +61,7 @@ const INK = 'rgb(25, 34, 26)', GREEN = 'rgb(47, 138, 39)', LIGHT_GREEN = 'rgb(14
         for (const h of h1s) { if (/^sec-[34]-pure/.test(route)) { t.ok(Math.abs(h.size - Math.max(32, Math.min(60, width * .042))) < .1, `Programme titles use the approved responsive size on ${at}: ${h.size}px`); t.equal(h.weight, '800', `H1 weight on ${at} (${h.text})`); continue; } t.equal(h.size, route === 'trees/' ? (width <= 640 ? 26 : stdH2) : homeH1, `H1 matches the homepage size (Our Causes: 26px mobile, section-title size on larger screens) on ${at}: ${h.size}px (${h.text})`); t.equal(h.weight, '800', `H1 weight on ${at} (${h.text})`); }
         for (const h of r.h.filter((x) => x.tag === 'H2')) {
           t.equal(h.weight, '800', `H2 weight on ${at}: ${h.weight} (${h.text})`);
+          if (h.text.startsWith('Your Questions, Answered')) { t.equal(h.size, width <= 520 ? 32 : width <= 768 ? 36 : 48, 'Notes questions title uses the approved prominent sizing'); continue; }
           t.ok(Math.abs(h.size - stdH2) < 0.6 || h.size <= 26, `H2 size on ${at}: ${h.size}px (${h.text})`);
         }
         for (const h of r.h.filter((x) => x.tag === 'H3')) t.ok(Number(h.weight) >= 700, `H3 weight on ${at}: ${h.weight} (${h.text})`);
