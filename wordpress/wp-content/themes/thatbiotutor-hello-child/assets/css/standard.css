@@ -1234,7 +1234,7 @@ body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-o
 body.tbt-site #main-content [data-carousel-fade] [data-carousel-slide] { opacity: 0; pointer-events: none; transition: opacity .6s ease-in-out; }
 body.tbt-site #main-content [data-carousel-fade] [data-carousel-slide].is-active { opacity: 1; pointer-events: auto; }
 @media (prefers-reduced-motion: reduce) {
-  body.tbt-site #main-content [data-carousel-fade] [data-carousel-slide] { transition: none; }
+  body.tbt-site #main-content [data-carousel-fade] [data-carousel-slide] { transition-duration: 0s !important; }
 }
 
 /* Ticked phrases: align the icon with the first line, keeping wrapped text together. */
