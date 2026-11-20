@@ -41,7 +41,7 @@ $tbt_heading = str_replace('Biology Notes', '<span>Biology Notes</span>', $tbt_h
     <section class="tbt-resource-section tbt-resource-reviews tbt-resource-reviews--lead" data-section="reviews-top">
         <div class="tbt-resource-shell">
             <h2><?php echo esc_html($tbt_field('notes_reviews_heading')); ?></h2>
-            <a class="tbt-notes-skip-reviews" href="#notes-form">Skip testimonials <span aria-hidden="true">↓</span></a>
+            <a class="tbt-notes-skip-reviews" href="#notes-form">Scroll to next section</a>
             <div data-testimonial-renderer data-review-panel><?php tbt_render_testimonials(['posts_per_page' => -1, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'notes-reviews', 'compare' => '=']]]); ?></div>
         </div>
     </section>
@@ -129,7 +129,7 @@ $tbt_heading = str_replace('Biology Notes', '<span>Biology Notes</span>', $tbt_h
     <section class="tbt-resource-section tbt-resource-reviews" data-section="reviews-bottom">
         <div class="tbt-resource-shell">
             <h2><?php echo esc_html($tbt_field('notes_reviews_heading')); ?></h2>
-            <a class="tbt-notes-skip-reviews" href="#notes-reviews-end">Skip testimonials <span aria-hidden="true">↓</span></a>
+            <a class="tbt-notes-skip-reviews" href="#notes-reviews-end">Scroll to next section</a>
             <div data-testimonial-renderer data-review-panel><?php tbt_render_testimonials(['posts_per_page' => -1, 'meta_query' => [['key' => 'tbt_display_group', 'value' => 'notes-reviews-bottom', 'compare' => '=']]]); ?></div>
             <a id="notes-reviews-end" class="tbt-resource-button tbt-notes-end-button" href="#notes-form"><?php echo $tbt_button; ?></a>
         </div>

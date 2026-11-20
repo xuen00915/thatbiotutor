@@ -74,6 +74,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);
       const skips=page.locator('.tbt-notes-skip-reviews');
       assert.equal(await skips.count(),2,'Both testimonial sections provide a skip link');
+      assert.deepEqual(await skips.allTextContents(),['Scroll to next section','Scroll to next section'],'Scroll buttons use the requested wording without arrows');
       for(let i=0;i<2;i++) {
         assert.equal(await skips.nth(i).isVisible(),width<=640,'Skip links appear only on phones');
         if(width<=640) {
