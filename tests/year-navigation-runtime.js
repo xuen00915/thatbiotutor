@@ -46,6 +46,12 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       assert.equal(await nav.locator('[data-open="true"] .tbt-year-nav__title').textContent(),'Class of 2022');
       const top = await page.locator('#class-of-2022').evaluate(e => ({ top: e.getBoundingClientRect().top, header: innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom }));
       assert.ok(top.top >= top.header && top.top <= top.header + 24, 'Selected year clears sticky header');
+      const spacing = await page.locator('.tbt-testimonials-year').evaluateAll(es=>es.map(e=>parseFloat(getComputedStyle(e).paddingTop)+parseFloat(getComputedStyle(e.querySelector('.tbt-testimonials-year-panel')).marginTop)));
+      assert.ok(spacing.every(gap=>gap<=32),'All year titles use compact top spacing');
+      await page.evaluate(()=>window.scrollBy(0,400));
+      const sticky = await page.locator('#class-of-2022 .tbt-testimonials-year-panel').evaluate(e=>({top:e.getBoundingClientRect().top,position:getComputedStyle(e).position,clearance:(innerWidth<=1180?document.querySelector('[data-year-nav]'):document.querySelector('.site-header')).getBoundingClientRect().bottom}));
+      assert.equal(sticky.position,'sticky','Year title remains pinned within its year');
+      assert.ok(sticky.top>=sticky.clearance&&sticky.top<=sticky.clearance+24,'Pinned year stays below navigation');
       // Manual scrolling updates the current year, including while inside a long section.
       const manualDelta = await page.locator('#class-of-2024').evaluate(e => e.getBoundingClientRect().top + 200);
       await page.mouse.move(width / 2, 450);

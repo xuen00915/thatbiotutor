@@ -74,10 +74,11 @@
   let lockEl = null;
   let minDistance = Infinity;
   let settleTimer;
-  const targetTop = (el) => el.getBoundingClientRect().top + window.scrollY - headerHeight() - 12;
+  const targetClearance = (el) => headerHeight() + 12 + (el.matches('.tbt-testimonials-year') ? 0 : (el.closest('.tbt-testimonials-year')?.querySelector('.tbt-testimonials-year-panel')?.getBoundingClientRect().height || 0) + 8);
+  const targetTop = (el) => el.getBoundingClientRect().top + window.scrollY - targetClearance(el);
   const settle = () => {
     if (lock === null) return;
-    const drift = lockEl.getBoundingClientRect().top - (headerHeight() + 12);
+    const drift = lockEl.getBoundingClientRect().top - targetClearance(lockEl);
     if (Math.abs(drift) > 6) window.scrollTo({ top: targetTop(lockEl), behavior: 'instant' });
   };
   const jump = (link, index, element) => {

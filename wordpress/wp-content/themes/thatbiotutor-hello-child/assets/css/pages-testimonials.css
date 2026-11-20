@@ -228,10 +228,10 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 }
 
 /* Give every new cohort's results a distinct section break. */
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year { padding-top: 48px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year { padding-top: 24px; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-artwork--portrait, #class-of-2023 .tbt-testimonials-artwork--portrait) { margin-bottom: 32px; }
 @media (max-width: 768px) {
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year { padding-top: 32px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year { padding-top: 20px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-artwork--portrait, #class-of-2023 .tbt-testimonials-artwork--portrait) { margin-bottom: 24px; }
 }
 
@@ -252,9 +252,10 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 
 /* Each year opens with a green "Class of ..." panel (content width, rounded) above its result pictures; nothing green sits behind the pictures. */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year-panel {
-  width: 100%;
-  margin: 48px auto 32px;
-  padding: 28px 24px;
+  position: sticky; top: calc(var(--tbt-header-height) + 8px); z-index: 20;
+  width: min(var(--tbt-page, 1120px), calc(100% - 2 * var(--tbt-gutter)));
+  margin: 0 auto 24px;
+  padding: 16px 24px;
   border-radius: 18px;
   background: #0e371d;
   color: #fff;
@@ -382,4 +383,9 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site #main-content .tbt-year-nav { top: calc(var(--tbt-header-height) + 8px); bottom: auto; left: var(--tbt-gutter); width: calc(100% - 2 * var(--tbt-gutter)); transform: none; }
   body.tbt-site #main-content .tbt-year-nav__toggle { width: 100%; justify-content: center; }
   body.tbt-site #main-content .tbt-year-nav__panel { top: calc(100% + 8px); bottom: auto; max-width: 100%; max-height: calc(100dvh - var(--tbt-header-height) - 150px); }
+}
+
+/* Keep the active year below the header and the mobile/tablet year selector. */
+@media (max-width: 1180px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year-panel { top: calc(var(--tbt-header-height) + 60px); }
 }

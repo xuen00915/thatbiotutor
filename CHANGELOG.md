@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Reduced spacing above all class-year banners and made each title sticky within its full year section, below the header/year selector. Subsection navigation clears the sticky banner.
+
 - [main-site] Sized both mobile Notes review panels to their first three reviews, keeping all remaining reviews accessible through native scrolling without additional buttons. Larger screens retain four-review panels.
 
 - [main-site] Removed both Notes testimonial skip buttons and their floating behaviour, compacted the mobile closing Download button, and removed the separate GetResponse signup link. Provider-owned Submit colours and footer strip still require GetResponse editor access.

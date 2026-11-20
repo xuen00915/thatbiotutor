@@ -75,8 +75,8 @@ $tbt_years = tbt_get_class_years();
         $tbt_open = false; // whether a width container is currently open ?>
     <section class="tbt-testimonials-year" id="class-of-<?php echo esc_attr($tbt_year); ?>" data-section="<?php echo esc_attr($tbt_year); ?>" data-archive-group>
         <?php $tbt_open = true; ?>
+        <div class="tbt-testimonials-year-panel"><h2><?php echo esc_html($tbt_item['heading']); ?></h2></div>
         <div class="tbt-testimonials-container">
-            <div class="tbt-testimonials-year-panel"><h2><?php echo esc_html($tbt_item['heading']); ?></h2></div>
         <?php if ($tbt_item['posters'] !== []) : if (!$tbt_open) { $tbt_open = true; echo '<div class="tbt-testimonials-container">'; } ?>
             <div class="tbt-testimonials-artwork tbt-testimonials-artwork--portrait" id="class-of-<?php echo esc_attr($tbt_year); ?>-poster"><?php tbt_render_class_year_pictures($tbt_item['posters']); ?></div>
         <?php endif; ?>
