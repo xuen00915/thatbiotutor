@@ -14,19 +14,6 @@ $tbt_group_args = static fn (string $year): array => [
     'fallback_portraits' => $tbt_review_portraits[$year] ?? [],
     'meta_query' => [['key' => 'tbt_display_group', 'value' => $year, 'compare' => '=']],
 ];
-$tbt_growth_icon = static function (): void {
-    ?>
-    <svg class="tbt-testimonials-icon" viewBox="0 0 120 100" aria-hidden="true" focusable="false">
-        <rect x="6" y="52" width="20" height="40" rx="3" fill="#ff7a1a"/>
-        <rect x="34" y="44" width="20" height="48" rx="3" fill="#ff9d0a"/>
-        <rect x="62" y="30" width="20" height="62" rx="3" fill="#ffb300"/>
-        <rect x="90" y="14" width="20" height="78" rx="3" fill="#ffc400"/>
-        <path d="M4 40C30 40 60 28 96 7" fill="none" stroke="#17c964" stroke-width="7" stroke-linecap="round"/>
-        <path d="M82 6l22-3-4 22" fill="none" stroke="#17c964" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-        <rect x="2" y="92" width="112" height="6" rx="3" fill="#5a3b2e"/>
-    </svg>
-    <?php
-};
 $tbt_star = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.8l3.2 6.5 7.2 1-5.2 5.1 1.2 7.1L12 18.1l-6.4 3.4 1.2-7.1L1.6 9.3l7.2-1z" fill="url(#tbt-star-gold)" stroke="#e8a300" stroke-width="1" stroke-linejoin="round"/></svg>';
 $tbt_story_heading = static function (bool $show_advice, string $year) use ($tbt_field): void {
     ?>
@@ -87,16 +74,9 @@ $tbt_years = tbt_get_class_years();
         $tbt_year = $tbt_item['year'];
         $tbt_open = false; // whether a width container is currently open ?>
     <section class="tbt-testimonials-year" id="class-of-<?php echo esc_attr($tbt_year); ?>" data-section="<?php echo esc_attr($tbt_year); ?>" data-archive-group>
-        <?php if ($tbt_item['summary'] !== '') : ?>
-        <div class="tbt-testimonials-results-band"><div class="tbt-testimonials-container">
-            <h2><?php echo esc_html($tbt_item['heading']); ?></h2>
-            <?php if ($tbt_item['growth_icon']) { $tbt_growth_icon(); } ?>
-            <p><?php echo esc_html($tbt_item['summary']); ?></p>
-        </div></div>
-        <?php else : $tbt_open = true; ?>
+        <?php $tbt_open = true; ?>
         <div class="tbt-testimonials-container">
-            <div class="tbt-testimonials-year-panel"><h2><?php echo esc_html($tbt_item['heading']); ?></h2><?php if ($tbt_item['growth_icon']) { $tbt_growth_icon(); } ?></div>
-        <?php endif; ?>
+            <div class="tbt-testimonials-year-panel"><h2><?php echo esc_html($tbt_item['heading']); ?></h2></div>
         <?php if ($tbt_item['posters'] !== []) : if (!$tbt_open) { $tbt_open = true; echo '<div class="tbt-testimonials-container">'; } ?>
             <div class="tbt-testimonials-artwork tbt-testimonials-artwork--portrait" id="class-of-<?php echo esc_attr($tbt_year); ?>-poster"><?php tbt_render_class_year_pictures($tbt_item['posters']); ?></div>
         <?php endif; ?>

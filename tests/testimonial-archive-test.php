@@ -99,7 +99,7 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         foreach ($years as $record) {
             $this->assertSame('Class of ' . $record['fields']['tbt_year_value'], $record['fields']['tbt_year_heading'], 'Each seeded year keeps its visible Class of YYYY heading.');
         }
-        $this->assertTrue(str_contains(json_encode($years), '100% of our Class of 2021 improved their grade in 6 months or less'), 'Class of 2021 results summary must remain visible live text.');
+        $this->assertTrue(str_contains(json_encode($years), '100% of our Class of 2021 improved their grade in 6 months or less'), 'Class of 2021 historical summary remains stored in editor data.');
         $this->assertSame(1, substr_count($template, 'class="tbt-testimonials-artwork-band'), 'Result artwork keeps its own band wrapper (no green behind it; the green year panels sit above).');
         $this->assertSame(['2024', '2023', '2022'], array_map('strval', array_keys(array_filter(tbt_class_year_default_media(), static fn (array $m): bool => $m['table'] !== []))), 'The 2024, 2023, and 2022 years keep their wide result tables.');
 
@@ -129,10 +129,6 @@ final class TestimonialArchiveTest extends TbtContentTestCase
         $this->assertTrue(
             preg_match('/\.tbt-testimonials-artwork-band--2022 \.tbt-testimonials-artwork\s*\{[^}]*margin-top:\s*213px;[^}]*\}/s', $css) === 1,
             'Class of 2022 artwork must retain the vertical footprint of the public result badge above it.'
-        );
-        $this->assertTrue(
-            preg_match('/\.tbt-testimonials-results-band p\s*\{[^}]*margin:\s*182px 0 0;[^}]*\}/s', $css) === 1,
-            'Class of 2021 summary must keep the public 349px result-band height.'
         );
         $this->assertTrue(
             preg_match('/\.tbt-story-heading h3\s*\{[^}]*font-weight:\s*700;[^}]*\}/s', $css) === 1,

@@ -1129,13 +1129,12 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 body.tbt-site #main-content .tbt-notes-page .tbt-notes-card--wide { align-items: start; }
 body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__body { grid-column: 2; }
 body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__body ul { margin: 14px 0 0; padding-left: 22px; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-card__body .tbt-resource-button { display: flex; width: fit-content; margin: 26px auto 0; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-download > .tbt-resource-button { display: flex; grid-column: 1 / -1; justify-self: center; width: fit-content; margin: 26px auto 0; }
 @media (max-width: 860px) {
   body.tbt-site #main-content .tbt-notes-page .tbt-notes-details__grid { grid-template-columns: 1fr; gap: 20px; }
   body.tbt-site #main-content .tbt-notes-page .tbt-notes-card { grid-template-columns: 60px minmax(0, 1fr); padding: 26px 22px; gap: 0 16px; }
   body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__icon { width: 60px; height: 60px; border-radius: 16px; }
   body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__icon svg { width: 34px; height: 34px; }
-  body.tbt-site #main-content .tbt-notes-page .tbt-notes-card--wide .tbt-notes-card__body .tbt-resource-button { width: 100%; }
 }
 
 /* =====================================================================
@@ -1328,7 +1327,6 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__body { display: contents; }
   body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__body h3 { grid-column: 2; }
   body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__body ul { grid-column: 1 / -1; margin-top: 22px; }
-  body.tbt-site #main-content .tbt-notes-page .tbt-notes-card__body .tbt-resource-button { grid-column: 1 / -1; }
   body.tbt-site #main-content .tbt-cell-feature img { width: 100px; height: 100px; }
   body.tbt-site #main-content .tbt-about-page .tbt-tutor__frame { width: 132px; height: 132px; margin-inline: auto; }
   body.tbt-site #main-content .tbt-home-founder figure { width: min(100%, 220px); margin-inline: auto; }

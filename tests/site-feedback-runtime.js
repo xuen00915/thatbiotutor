@@ -230,18 +230,6 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       assert.ok(f.inside && f.overflow === 0, `Footer content fits inside the footer at ${vw}`);
     }
     await page.setViewportSize({ width: 1440, height: 900 });
-    // 14. Results & Testimonials, Class of 2021: "100% of our Class of 2021 improved their grade in 6 months or less" is one row on tablet and desktop and uses the full content width.
-    for (const vw of [1440, 1024, 768, 600, 390]) {
-      await page.setViewportSize({ width: vw, height: 900 });
-      await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
-      await page.evaluate(() => document.fonts.ready);
-      const r = await page.locator('#class-of-2021 .tbt-testimonials-results-band p').evaluate((e) => { const b = e.getBoundingClientRect(), s = getComputedStyle(e), c = e.closest('.tbt-testimonials-container').getBoundingClientRect(); const range = document.createRange(); range.selectNodeContents(e); return { rows: new Set([...range.getClientRects()].map((q) => Math.round(q.top))).size, w: b.width, cw: c.width, hasBr: !!e.querySelector('br'), text: e.textContent.replace(/\s+/g, ' ').trim(), size: parseFloat(s.fontSize) }; });
-      assert.equal(r.text, '100% of our Class of 2021 improved their grade in 6 months or less', 'The phrase is unchanged');
-      assert.ok(!r.hasBr, 'No forced line break');
-      assert.ok(Math.abs(r.w - r.cw) <= 1, `The phrase uses the full content width at ${vw}: ${r.w} of ${r.cw}`);
-      if (vw >= 600) assert.equal(r.rows, 1, `The phrase is one row at ${vw} (${r.rows} rows, ${r.size}px)`);
-    }
-    await page.setViewportSize({ width: 1440, height: 900 });
     // 15. Results & Testimonials year menu: choosing a year scrolls to it AND the menu label shows that year once the smooth scroll ends.
     for (const vw of [1440, 390]) {
       await page.setViewportSize({ width: vw, height: 900 });
@@ -273,12 +261,13 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
     assert.equal(await page.locator('[data-year-current]').textContent(), '2022', 'Scrolling on with the wheel updates the year label');
     await page.setViewportSize({ width: 1440, height: 900 });
     // 16. Results & Testimonials: no dark-green block behind the result pictures; instead every year starts with a green "Class of YYYY" panel
-    //     (content width, rounded, centred) above its pictures. 2021 keeps its green panel with the growth chart and summary.
+    //     (content width, rounded, centred) above its pictures. All years use the same title-only banner.
     for (const vw of [1440, 1024, 768, 390, 320]) {
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
       for (const year of ['2025', '2024', '2023', '2022', '2021']) {
-        const sel = year === '2021' ? `#class-of-${year} .tbt-testimonials-results-band` : `#class-of-${year} .tbt-testimonials-year-panel`;
+        const sel = `#class-of-${year} .tbt-testimonials-year-panel`;
+        assert.equal(await page.locator(sel + ' svg, ' + sel + ' p').count(),0,'Banners contain only the year title');
         const r = await page.locator(sel).evaluate((e, y) => { const b = e.getBoundingClientRect(), st = getComputedStyle(e), h = e.querySelector('h2'); const img = document.querySelector(`#class-of-${y} .tbt-testimonials-artwork img`); const ib = img && img.getBoundingClientRect(); return { w: Math.round(b.width), centre: Math.round(b.left + b.width / 2), bg: st.backgroundColor, radius: parseFloat(st.borderTopLeftRadius), text: h && h.textContent.trim(), hv: h && h.getBoundingClientRect().height > 10, colour: h && getComputedStyle(h).color, above: ib ? b.bottom <= ib.top + 1 : true }; }, year);
         assert.equal(r.text, `Class of ${year}`, `${year} has a visible green panel title at ${vw}`);
         assert.ok(r.hv && r.colour === 'rgb(255, 255, 255)', `${year} panel title is visible white text at ${vw}`);

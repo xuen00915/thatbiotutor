@@ -119,8 +119,8 @@ $tbt_heading = str_replace('Biology Notes', '<span>Biology Notes</span>', $tbt_h
                             <li><?php echo esc_html($tbt_field('notes_download_copy')); ?></li>
                             <li><?php echo esc_html($tbt_field('notes_download_note')); ?></li>
                         </ul>
-                        <a class="tbt-resource-button" href="#notes-form"><?php echo $tbt_button; // escaped label plus static icon ?></a>
                     </div>
+                        <a class="tbt-resource-button" href="#notes-form"><?php echo $tbt_button; // escaped label plus static icon ?></a>
                 </section>
             </div>
         </div>

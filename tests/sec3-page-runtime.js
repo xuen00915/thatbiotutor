@@ -71,7 +71,7 @@ const {chromium} = require('playwright');
    assert.ok(r.icons.length===8&&r.icons.every(Boolean),'Every "Everything your child gets" card needs its icon');
    assert.ok(r.tutors.roles===0&&r.tutors.nameBelow&&r.tutors.names.some(n=>/\(Founder\)/.test(n))&&r.tutors.names.some(n=>/Ex-MOE/.test(n))&&r.tutors.qItalic==='italic','Tutors show photo then name only, quality box italic '+JSON.stringify(r.tutors));
    assert.ok(r.lessonFonts.every(f=>f==='Poppins'),'Lesson and card titles use the original Poppins '+JSON.stringify(r.lessonFonts));
-   assert.ok(r.faqSlider,'FAQ needs the image slider');
+   assert.equal(r.faqSlider,false,'FAQ graphics slider is removed');
    assert.equal(r.iframeAttr,'960','Video iframe carries its own size');
    assert.equal(r.topicsRadius,'0px','Topics list must join the title above without a notch');
    assert.ok(r.accents.every(c=>c==='rgb(143, 225, 126)'),'Headings on dark sections use the original light green '+JSON.stringify(r.accents));

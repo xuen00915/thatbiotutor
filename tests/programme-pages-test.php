@@ -23,6 +23,9 @@ final class ProgrammePagesTest
             $text = $this->squash($html);
             $checked = 0;
             foreach (tbt_page_content_fields($pageKey) as $name => $field) {
+                if (str_starts_with($name, 'sec3_faq_image_')) {
+                    continue; // Retained editor data for the retired graphic carousel.
+                }
                 if ($field['type'] === 'image') {
                     $this->assertTrue(str_contains($html, 'data-media-key="' . $field['fallback'] . '"'), "{$name}: the bundled picture {$field['fallback']} must render.");
                     $checked++;
@@ -58,7 +61,7 @@ final class ProgrammePagesTest
         // The pages differ only in their data.
         $this->assertTrue(str_contains($rendered['sec3'], 'tbt-sec3-page') && str_contains($rendered['sec4'], 'tbt-sec4-page'), 'Each page keeps its own body class.');
         $this->assertTrue(str_contains($rendered['sec3'], 'data-testimonial-cohort="sec3-featured"') && str_contains($rendered['sec4'], 'data-testimonial-cohort="sec4-featured"'), 'Each page shows its own featured testimonials.');
-        $this->assertTrue(str_contains($rendered['sec3'], 'tbt-faq-slider') && !str_contains($rendered['sec4'], 'tbt-faq-slider'), 'Only Sec 3 carries the FAQ graphics slider.');
+        $this->assertTrue(!str_contains($rendered['sec3'], 'tbt-faq-slider') && !str_contains($rendered['sec4'], 'tbt-faq-slider'), 'Programme pages omit the retired FAQ graphics slider.');
         $this->assertTrue(!str_contains($rendered['sec3'], 'Phase 3') && str_contains($rendered['sec4'], 'Phase 3'), 'Sec 3 has two phases, Sec 4 has three.');
         $this->assertTrue(str_contains($rendered['sec4'], '<ol class="tbt-programme-topics" start="11">') && str_contains($rendered['sec3'], '<ol class="tbt-programme-topics">'), 'Sec 4 topics continue from 11.');
         $this->assertSame(8, substr_count($rendered['sec3'], 'class="tbt-inclusion-card'), 'Eight inclusion cards.');

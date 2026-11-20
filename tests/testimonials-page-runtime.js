@@ -32,8 +32,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         const artwork = q('#class-of-2025 .tbt-testimonials-artwork');
         const featuredButton = q('.tbt-testimonials-featured .tbt-testimonials-button');
         const band2022 = q('#class-of-2022 .tbt-testimonials-year-panel'); // the green Class of 2022 panel (title + growth chart)
-        const band2021 = q('#class-of-2021 .tbt-testimonials-results-band');
-        const iconInfo = (band) => { const icon = q('svg.tbt-testimonials-icon', band); const title = q('h2', band); return icon ? { w: box(icon).width, below: box(icon).top >= box(title).bottom - 1, fontFamily: getComputedStyle(title).fontFamily, weight: getComputedStyle(title).fontWeight, color: getComputedStyle(title).color } : null; };
+        const band2021 = q('#class-of-2021 .tbt-testimonials-year-panel');
+        const iconInfo = (band) => { const title = q('h2', band); return { icons: band.querySelectorAll('svg').length, size: getComputedStyle(title).fontSize, referenceSize: getComputedStyle(q('#class-of-2023 h2')).fontSize, fontFamily: getComputedStyle(title).fontFamily, weight: getComputedStyle(title).fontWeight, color: getComputedStyle(title).color }; };
         const lists = Array.from(document.querySelectorAll('.tbt-testimonials-year [data-testimonial-list]')).map((list) => {
           const items = Array.from(list.querySelectorAll(':scope > .tbt-testimonial'));
           const cs = getComputedStyle(list);
@@ -92,7 +92,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.match(m.subFont, /^"?Poppins/, `Student Stories subtitle uses Poppins ${at}`);
       assert.equal(m.subStyle, 'italic', `Student Stories subtitle is italic ${at}`);
       for (const [name, icon] of [['2022', m.icon2022], ['2021', m.icon2021]]) {
-        assert.ok(icon && icon.w >= 56 && icon.below, `Class of ${name} needs the growth-chart icon under its title ${at}`);
+        assert.equal(icon.icons,0, `Class of ${name} omits the growth chart ${at}`);
+        assert.equal(icon.size,icon.referenceSize, `Class of ${name} matches newer banner typography ${at}`);
         assert.match(icon.fontFamily, /^"?Poppins/, `Class of ${name} title uses Poppins ${at}`);
         assert.ok(Number(icon.weight) >= 700 && icon.color === 'rgb(255, 255, 255)', `Class of ${name} title is white and bold ${at}`);
       }
