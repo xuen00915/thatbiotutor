@@ -364,11 +364,11 @@
   }
 
   function initReviewPanels(document, windowObject) {
-    // A review panel holds every review, scrolls on its own and opens at the height of its first four reviews.
+    // Panels retain every review; Notes shows three at a time on phones and four on larger screens.
     const lists = Array.from(document.querySelectorAll('[data-review-panel] [data-testimonial-list]'));
     if (!lists.length) return;
-    const visible = 4;
     const size = () => lists.forEach((list) => {
+      const visible = list.closest('.tbt-notes-page') && windowObject.innerWidth <= 640 ? 3 : 4;
       const items = Array.from(list.querySelectorAll(':scope > .tbt-testimonial')).filter((item) => !item.hidden);
       list.style.maxHeight = '';
       if (items.length <= visible) return;

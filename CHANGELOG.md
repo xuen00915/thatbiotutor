@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Sized both mobile Notes review panels to their first three reviews, keeping all remaining reviews accessible through native scrolling without additional buttons. Larger screens retain four-review panels.
+
 - [main-site] Removed both Notes testimonial skip buttons and their floating behaviour, compacted the mobile closing Download button, and removed the separate GetResponse signup link. Provider-owned Submit colours and footer strip still require GetResponse editor access.
 
 - [main-site] Made the mobile Notes testimonial skip a compact floating button on the left, visible only while reading its testimonial section, with safe-area clearance and the existing next-section destinations.
