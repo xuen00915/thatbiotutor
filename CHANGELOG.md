@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Made the Sec 3 and Sec 4 team sections compact on phones: two columns, portraits capped at 132px, smaller names and tighter spacing.
+
 - [main-site] Standardised Vision, Mission and Values paragraphs to 18px regular Poppins with 1.6 line spacing on all devices, retaining bold green labels.
 
 - [main-site] Extended the centred soft-green SG Environmental Causes text panel to desktop and tablet. Reduced both Causes title bars to 26px on phones; verified matching panels and title sizes across nine widths.

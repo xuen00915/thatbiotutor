@@ -807,8 +807,9 @@ body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider_
 }
 @media (max-width: 640px) {
   body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-practical-feature { margin-top: 56px; }
-  body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-tutors .tbt-tutors { grid-template-columns: minmax(0, 1fr); gap: 36px; }
-  body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-tutors .tbt-tutor h3 { min-height: 0; }
+  body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-tutors .tbt-tutors { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
+  body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-tutors .tbt-tutor h3 { min-height: 62px; font-size: 16px; margin-bottom: 10px; }
+  body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-tutors .tbt-tutor img { width: min(100%, 132px); }
   body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider { padding-inline: 0; }
   body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__control { top: auto; bottom: 0; }
   body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-faq-slider__dots { display: grid; grid-template-columns: repeat(6, 20px); min-height: 64px; padding-inline: 48px; align-content: center; }
