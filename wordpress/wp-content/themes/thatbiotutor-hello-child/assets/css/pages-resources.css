@@ -661,3 +661,8 @@ body.tbt-site #main-content .tbt-notes-form__embed { width: 100%; height: 540px;
 @media (max-width: 640px) { body.tbt-site #main-content .tbt-notes-form__embed { height: 640px; } }
 
 @media (max-width: 360px) { body.tbt-site #main-content .tbt-notes-form__embed { height: 680px; } }
+
+/* Long reviews must not make the phone panel taller than its surrounding screen. */
+@media (max-width: 640px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page [data-review-panel] [data-testimonial-list] { max-height: min(480px, 60svh); }
+}

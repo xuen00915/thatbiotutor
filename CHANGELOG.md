@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Capped both mobile Notes testimonial panels at 60% of the small viewport height (maximum 480px), so long reviews cannot expand the section beyond a compact reading area. Full text remains available by scrolling inside.
+
 - [main-site] Reduced spacing above all class-year banners and made each title sticky within its full year section, below the header/year selector. Subsection navigation clears the sticky banner.
 
 - [main-site] Sized both mobile Notes review panels to their first three reviews, keeping all remaining reviews accessible through native scrolling without additional buttons. Larger screens retain four-review panels.

@@ -7,8 +7,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
   try {
     const page = await browser.newPage();
     page.setDefaultTimeout(10000);
-    for (const width of [1440, 1250, 768, 390, 320]) {
-      await page.setViewportSize({ width, height: 900 });
+    for (const [width, height] of [[1440,900], [1250,900], [768,900], [390,900], [320,900], [390,640], [320,568]]) {
+      await page.setViewportSize({ width, height });
       await page.goto(new URL('./notes/', base).href, { waitUntil: 'load' });
       await page.evaluate(() => document.fonts?.ready);
       await page.waitForTimeout(500);
@@ -44,7 +44,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.ok(['auto', 'scroll'].includes(m.overflowY) && m.scrollable, `Panel must scroll on its own ${at}`);
         assert.ok(m.total >= 5 && m.hidden === 0, `Every review stays in the panel, none hidden ${at}`);
         assert.equal(m.controls, 0, `No show-more buttons beside the panel ${at}`);
-        assert.ok(m.firstTopInside && m.lastBottomInside && m.nextVisible <= 12, `The panel opens on the requested number of reviews ${at}`);
+        assert.ok(m.firstTopInside && (width<=640 || m.lastBottomInside) && m.nextVisible <= 12, `The panel opens on at most the requested number of reviews ${at}`);
+        if(width<=640) assert.ok(m.panelHeight<=480&&m.panelHeight<=height*0.6+1,'Mobile panels stay within a compact viewport limit');
         assert.ok(m.movedPanel && !m.movedPage, `Scrolling the panel must not scroll the page ${at}`);
         assert.ok(m.tabindex === '0' && m.role === 'region' && m.label, `Panel must be keyboard-scrollable and labelled ${at}`);
         assert.ok(m.panelLeft >= 0 && m.panelRight <= m.viewport && m.border !== '0px' && m.radius >= 12, `Panel looks like a card inside the page ${at}`);

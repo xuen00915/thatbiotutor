@@ -364,18 +364,20 @@
   }
 
   function initReviewPanels(document, windowObject) {
-    // Panels retain every review; Notes shows three at a time on phones and four on larger screens.
+    // Notes panels show up to three reviews on phones, capped to the viewport; other panels show four.
     const lists = Array.from(document.querySelectorAll('[data-review-panel] [data-testimonial-list]'));
     if (!lists.length) return;
     const size = () => lists.forEach((list) => {
-      const visible = list.closest('.tbt-notes-page') && windowObject.innerWidth <= 640 ? 3 : 4;
+      const mobileNotes = list.closest('.tbt-notes-page') && windowObject.innerWidth <= 640;
+      const visible = mobileNotes ? 3 : 4;
       const items = Array.from(list.querySelectorAll(':scope > .tbt-testimonial')).filter((item) => !item.hidden);
       list.style.maxHeight = '';
       if (items.length <= visible) return;
       const style = windowObject.getComputedStyle(list);
       const first = items[0].getBoundingClientRect();
       const last = items[visible - 1].getBoundingClientRect();
-      list.style.maxHeight = Math.ceil(last.bottom - first.top + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth)) + 'px';
+      const measured = Math.ceil(last.bottom - first.top + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth));
+      list.style.maxHeight = mobileNotes ? `min(${measured}px, 480px, 60svh)` : `${measured}px`;
     });
     lists.forEach((list) => {
       list.setAttribute('tabindex', '0');
