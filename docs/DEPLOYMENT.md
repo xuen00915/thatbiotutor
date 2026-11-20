@@ -76,3 +76,5 @@ Original iframe URLs, titles and dimensions remain tested; local scripts, images
 fonts are never intercepted. These suites do not test YouTube playback. Set
 `TBT_LIVE_EMBEDS=1` to include live players when diagnosing an integration issue.
 This isolation is loaded only in runner subprocesses, never in the website.
+
+The GetResponse signup document is also isolated in layout-runner subprocesses. The form-container test verifies its exact provider URL and fallback link. Verify the live provider form separately without creating a test subscriber; `TBT_LIVE_EMBEDS=1` enables both real provider and video frames.

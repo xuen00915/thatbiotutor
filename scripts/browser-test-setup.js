@@ -9,9 +9,9 @@ function isYouTubeEmbed(value) {
 async function prepareContext(context) {
   if (contexts.has(context) || process.env.TBT_LIVE_EMBEDS === '1') return;
   contexts.add(context);
-  await context.route(url => isYouTubeEmbed(url.href), route => {
+  await context.route(url => isYouTubeEmbed(url.href) || url.href === 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.com/', route => {
     if (route.request().resourceType() !== 'document') return route.continue();
-    return route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>Video embed layout fixture</title>' });
+    return route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>Third-party embed layout fixture</title>' });
   });
 }
 const launch = chromium.launch.bind(chromium);

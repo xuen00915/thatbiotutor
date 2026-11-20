@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Replaced the Notes mailto/Contact Form 7 fallback with the client-supplied live GetResponse form, in a responsive titled iframe with a direct-link fallback. GetResponse owns subscription processing, email automation and success redirects; its homepage redirect remains a provider configuration step.
+
 - [main-site] Accelerated Pages verification with a bounded three-worker browser suite, longest tests first, preserving all 29 suites and separate WordPress editing checks. Cached headless Chromium, added a browser probe before OS dependency installation, and published per-suite logs/timings. Isolated third-party YouTube player documents in layout tests while retaining source/geometry checks, with a live-embed opt-in. Documented targeted local and static-export checks.
 
 - [main-site] Renamed both mobile Notes testimonial skip buttons to “Scroll to next section” and removed their arrows.

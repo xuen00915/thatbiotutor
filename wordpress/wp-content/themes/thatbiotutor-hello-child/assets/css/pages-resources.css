@@ -659,3 +659,11 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   }
   body.tbt-site #main-content .tbt-notes-skip-reviews:focus-visible { outline: 3px solid #0e371d; outline-offset: 3px; }
 }
+
+/* The provider owns the form fields and submission flow inside this responsive frame. */
+body.tbt-site #main-content .tbt-notes-form--getresponse { width: min(100%, 720px); margin: 24px auto 28px; }
+body.tbt-site #main-content .tbt-notes-form__embed { width: 100%; height: 540px; border: 0; background: #fff; }
+body.tbt-site #main-content .tbt-notes-form__alternative { margin: 12px 0 0; font-size: 14px; text-align: center; }
+@media (max-width: 640px) { body.tbt-site #main-content .tbt-notes-form__embed { height: 640px; } }
+
+@media (max-width: 360px) { body.tbt-site #main-content .tbt-notes-form__embed { height: 680px; } }

@@ -195,7 +195,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
     // 12. One green for every green button: same colour at rest and the same darker green on hover; the floating WhatsApp button too.
     await page.setViewportSize({ width: 1440, height: 900 });
     const BRAND = 'rgb(67, 180, 58)', HOVER = 'rgb(58, 159, 50)';
-    const buttonSets = [['', ['.site-header__cta', '.tbt-home-button']], ['intensivefix/', ['.tbt-home-button']], ['classes/', ['.tbt-programme-button']], ['sec-3-pure-g3-biology-tuition/', ['.tbt-programme-hall__action', '.tbt-programme-text-link']], ['testimonials/', ['.tbt-testimonials-button']], ['notes/', ['.tbt-resource-button', '.tbt-notes-form .wpcf7-submit']], ['contact/', ['.tbt-institutional-button']]];
+    const buttonSets = [['', ['.site-header__cta', '.tbt-home-button']], ['intensivefix/', ['.tbt-home-button']], ['classes/', ['.tbt-programme-button']], ['sec-3-pure-g3-biology-tuition/', ['.tbt-programme-hall__action', '.tbt-programme-text-link']], ['testimonials/', ['.tbt-testimonials-button']], ['notes/', ['.tbt-resource-button']], ['contact/', ['.tbt-institutional-button']]];
     for (const [route, sels] of buttonSets) {
       await page.goto(new URL(route, base).href, { waitUntil: 'load' });
       for (const sel of sels) {

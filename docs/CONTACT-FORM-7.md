@@ -1,3 +1,5 @@
+> Legacy setup: Free Bio Notes now uses the client’s GetResponse form. See [GetResponse setup](GETRESPONSE-FORM.md).
+
 # Contact Form 7 — Free Bio Notes email form
 
 The Free Bio Notes page ("Simply Enter Your Email Below…") already has its form in place. Until Contact Form 7 is
