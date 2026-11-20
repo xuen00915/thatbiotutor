@@ -1340,3 +1340,13 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-details { padding-bottom: 32px; }
   body.tbt-site #main-content .tbt-notes-page .tbt-notes-card--wide { padding-bottom: 24px; }
 }
+
+/* Matching SG Causes columns and a smaller Notes benefit-icon scale. */
+@media (min-width: 981px) {
+  body.tbt-site #main-content .tbt-causes-section[data-section="sg-causes"] .tbt-causes-feature { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-page .tbt-causes-section[data-section="sg-causes"] .tbt-causes-copy { align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media img { width: 120px; height: 120px; }
+@media (max-width: 640px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media img { width: 80px; height: 80px; }
+}

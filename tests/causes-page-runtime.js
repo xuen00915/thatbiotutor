@@ -27,7 +27,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           planPara: (() => { const r = document.querySelector('[data-section="planting"] .tbt-causes-copy p').getBoundingClientRect(); return { width: r.width, centre: (r.left + r.right) / 2 }; })(),
           align: ['h2', 'p'].map((tag) => getComputedStyle(document.querySelector(`[data-section="planting"] .tbt-causes-copy ${tag}`)).textAlign),
           givingX: (() => { const r = document.querySelector('.tbt-causes-section__media--giving').getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top + scrollY, bottom: r.bottom + scrollY }; })(),
-          sgCopy: (() => { const r = document.querySelector('[data-section="sg-causes"] .tbt-causes-copy').getBoundingClientRect(); return { left: r.left, top: r.top + scrollY, bottom: r.bottom + scrollY }; })(),
+          sgCopy: (() => { const r = document.querySelector('[data-section="sg-causes"] .tbt-causes-copy').getBoundingClientRect(); return { left: r.left, width: r.width, top: r.top + scrollY, bottom: r.bottom + scrollY }; })(),
           sgAlign: [...document.querySelectorAll('[data-section="sg-causes"] .tbt-causes-copy p')].map((e) => getComputedStyle(e).textAlign),
           record: box('.tbt-causes-section__media--record'),
           recordX: (() => { const r = document.querySelector('.tbt-causes-section__media--record').getBoundingClientRect(); return { left: r.left, right: r.right }; })(),
@@ -52,7 +52,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.ok(m.sgAlign.every((a) => a === 'center'), `SG causes paragraphs follow the responsive alignment ${at}`);
       if (width > 980) {
         assert.ok(m.givingX.right <= m.sgCopy.left, `Giving.sg picture must sit beside the text on desktop ${at}`);
-        assert.ok(m.sgCopy.top >= m.givingX.top - 1 && m.sgCopy.bottom <= m.givingX.bottom + 1, `SG text must sit within the picture's height ${at}`);
+        assert.ok(Math.abs(m.sgCopy.top-m.givingX.top)<=1 && Math.abs(m.sgCopy.bottom-m.givingX.bottom)<=1 && Math.abs(m.sgCopy.width-(m.givingX.right-m.givingX.left))<=1, `SG panel and image must have matching width and height ${at}`);
       } else {
         assert.ok(m.givingX.top >= m.sgCopy.bottom - 1, `Giving.sg picture stacks below the text on narrower screens ${at}`);
       }
