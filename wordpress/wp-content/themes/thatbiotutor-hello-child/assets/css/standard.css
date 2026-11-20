@@ -1229,3 +1229,10 @@ body.tbt-site #main-content .tbt-about-page .tbt-founder-card u { color: #2f8a27
 /* Both programme formats: keep every tick attached to and centred on its phrase. */
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__included .tbt-tick { display: flex; align-items: center; gap: 8px; padding-left: 0; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__included .tbt-tick::before { position: static; flex: 0 0 18px; }
+
+/* Shared image carousel crossfade; slides keep their existing stacked geometry. */
+body.tbt-site #main-content [data-carousel-fade] [data-carousel-slide] { opacity: 0; pointer-events: none; transition: opacity .6s ease-in-out; }
+body.tbt-site #main-content [data-carousel-fade] [data-carousel-slide].is-active { opacity: 1; pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) {
+  body.tbt-site #main-content [data-carousel-fade] [data-carousel-slide] { transition: none; }
+}

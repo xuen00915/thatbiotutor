@@ -182,21 +182,19 @@
       let index = 0;
       let touchStart = 0;
       let paused = false;
-      const fade = carousel.hasAttribute('data-carousel-fade');
-      if (fade) {
-        // Crossfade: every slide stays rendered and preloaded, so switching never shows a blank frame.
-        slides.forEach((slide) => {
-          slide.hidden = false;
-          slide.querySelectorAll('img').forEach((image) => { image.loading = 'eager'; });
-        });
-      }
+      // Use the same crossfade for every image carousel, without blank hidden frames.
+      carousel.setAttribute('data-carousel-fade', '');
+      slides.forEach((slide) => {
+        slide.hidden = false;
+        slide.querySelectorAll('img').forEach((image) => { image.loading = 'eager'; });
+      });
       const show = (next) => {
         index = carouselIndex(next, 0, slides.length);
         slides.forEach((slide, slideIndex) => {
           const active = slideIndex === index;
           slide.classList.toggle('is-active', active);
-          if (fade) slide.setAttribute('aria-hidden', active ? 'false' : 'true');
-          else slide.hidden = !active;
+          slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+          slide.inert = !active;
         });
         dots.forEach((dot, dotIndex) => dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false'));
         if (status) status.textContent = `${index + 1}${status.getAttribute('data-carousel-status-separator') || ' of '}${slides.length}`;

@@ -381,7 +381,7 @@ const sizes = [
     if ((await chelseaCertificateStatus.textContent()).trim() !== '1 of 2') throw new Error(`Chelsea certificate status is wrong at ${viewport.width}`);
     await chelseaCertificates.locator('[data-carousel-next]').click();
     if ((await chelseaCertificateStatus.textContent()).trim() !== '2 of 2') throw new Error(`Chelsea certificate controls failed at ${viewport.width}`);
-    const visibleCertificateTrigger = chelseaCertificates.locator('[data-carousel-slide]:not([hidden]) [data-certificate-lightbox-trigger]');
+    const visibleCertificateTrigger = chelseaCertificates.locator('[data-carousel-slide].is-active [data-certificate-lightbox-trigger]');
     await visibleCertificateTrigger.click();
     const certificateLightbox = page.locator('.tbt-certificate-lightbox');
     if (!await certificateLightbox.isVisible()) throw new Error(`Certificate lightbox did not open at ${viewport.width}`);

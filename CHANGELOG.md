@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] All image carousels now share a smooth 600ms crossfade, including Notes, Cell Division and tutor certificates. Inactive slides remain rendered for transitions but are inert and hidden from assistive technology. Reduced-motion users get instant changes and no autoplay. Added intermediate-frame, rapid-control and reduced-motion browser coverage across all carousel pages.
+
 - [main-site] Free Bio Notes: matched all seven bullets in “Your Questions, Answered” to the supplied screenshots, including bold phrases, the “There isn’t one” opening, and download punctuation. Added an exact rendered-copy contract.
 
 - [main-site] Sec 3 and Sec 4 “Both formats include” strips: ticks now sit in the same flex row as their phrases, vertically centred with a consistent 8px gap. All four benefits stay in one desktop row, with responsive tablet/phone rows. Added checks at five viewport sizes.
