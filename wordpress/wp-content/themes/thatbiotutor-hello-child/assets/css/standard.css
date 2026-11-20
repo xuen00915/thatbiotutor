@@ -1369,9 +1369,9 @@ body.tbt-site #main-content .tbt-causes-page .tbt-causes-section[data-section="s
 @media (max-width: 640px) {
   body.tbt-site #main-content .tbt-causes-page .tbt-causes-section[data-section="planting"] .tbt-causes-copy p { text-align: left; }
   body.tbt-site #main-content .tbt-about-page .tbt-about-beliefs__image { width: 100%; height: auto; aspect-ratio: auto; }
-  body.tbt-site #main-content :is(.tbt-practical-grid, .tbt-home-practical__grid, .tbt-home-classroom__grid) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  body.tbt-site #main-content :is(.tbt-practical-grid, .tbt-home-practical__grid, .tbt-home-classroom__grid) > * { grid-column: auto; width: 100%; aspect-ratio: 4 / 3; }
-  body.tbt-site #main-content :is(.tbt-practical-grid, .tbt-home-practical__grid, .tbt-home-classroom__grid) > :last-child { grid-column: 1 / -1; width: 100%; justify-self: center; }
+  body.tbt-site #main-content :is(.tbt-practical-grid, .tbt-home-practical__grid) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  body.tbt-site #main-content :is(.tbt-practical-grid, .tbt-home-practical__grid) > * { grid-column: auto; width: 100%; aspect-ratio: 4 / 3; }
+  body.tbt-site #main-content :is(.tbt-practical-grid, .tbt-home-practical__grid) > :last-child { grid-column: 1 / -1; width: 100%; justify-self: center; }
 }
 
 /* Leave room for rounded screen corners and mobile browser controls. */

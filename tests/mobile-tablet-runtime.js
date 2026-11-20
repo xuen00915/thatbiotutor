@@ -59,7 +59,9 @@ const assert = require('node:assert/strict');
      await page.waitForFunction(()=>document.querySelector('[data-review-track]').scrollLeft<2);
     }
     if(width===412) {
-     const gallery=await page.locator('.tbt-practical-grid,.tbt-home-practical__grid,.tbt-home-classroom__grid').evaluateAll(es=>es.map(e=>[...e.children].map(c=>c.getBoundingClientRect().toJSON())));
+     const gallery=await page.locator('.tbt-practical-grid,.tbt-home-practical__grid').evaluateAll(es=>es.map(e=>[...e.children].map(c=>c.getBoundingClientRect().toJSON())));
+     const classroom=await page.locator('.tbt-home-classroom__grid').evaluateAll(es=>es.map(e=>({width:e.getBoundingClientRect().width,photos:[...e.children].map(c=>c.getBoundingClientRect().toJSON())})));
+     classroom.forEach(({width,photos})=>photos.forEach((p,i)=>{assert.ok(Math.abs(p.width-width)<1,'Classroom photos fill mobile content width');if(i)assert.ok(p.top>=photos[i-1].bottom,'Classroom photos stack vertically');}));
      gallery.forEach(([a,b,c])=>{assert.ok(Math.abs(a.top-b.top)<1&&b.left>=a.right,`${route}: first two practical photos share a row`);assert.ok(c.top>=a.bottom&&Math.abs(c.width-(b.right-a.left))<1,`${route}: third photo spans the full content width below`);});
      if(route==='about') {const widths=await page.locator('.tbt-about-beliefs__image').evaluate(e=>[e.getBoundingClientRect().width,e.parentElement.getBoundingClientRect().width]);assert.ok(Math.abs(widths[0]-widths[1])<1,'About image fills the mobile content width');}
      const practical=await page.locator('main img[src*="35ad6135826a6626379208fe8e6eefe5"]').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return {ratio:r.width/r.height,position:s.objectPosition,fit:s.objectFit};}));

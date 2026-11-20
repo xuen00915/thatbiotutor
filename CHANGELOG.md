@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Restored the homepage classroom gallery to one full-content-width photo per row on mobile, retaining the 4:3 photo crop.
+
 - [main-site] Mobile practical and classroom galleries now use two photos above a full-content-width third photo. The floating WhatsApp control accounts for both visible viewport edges, refreshes after rotation and page restoration, and has extra clearance on touch devices.
 
 - [main-site] Left-aligned Planting Trees descriptions on phones and SG Causes descriptions at every width. About’s values photo fills the mobile content width. Practical photo groups and the homepage classroom gallery now show two compact photos above a centred third photo on phones.
