@@ -35,3 +35,44 @@ If verification fails, stop traffic changes, restore the verified database/uploa
 
 The production hostname, DNS, transactional mail, analytics, cookie consent, and launch approval are pending. No production domain or DNS change is authorized by this repository.
 
+
+## Fast browser verification and Pages deployment
+
+Pages still runs all 29 exported-site browser suites before publishing. The runner
+starts long suites first and runs up to three independent browser processes at once.
+The WordPress admin-editing test runs separately after these read-only suites.
+A failure in any suite blocks deployment. Logs and per-suite durations are uploaded
+as `browser-test-results`; the Actions summary shows the slowest suites first.
+
+Browser downloads are cached by OS, architecture and lockfile. CI installs only the
+Chromium headless shell used by the tests, probes it, and installs system packages
+only when that probe fails. A failed second probe blocks deployment.
+
+For a small local change, run its relevant test before the full deployment suite:
+
+```bash
+TBT_RUNTIME_URL=http://localhost:8890 npm run test:browser -- notes-sections-runtime.js
+```
+
+For links, forms or navigation changes, check the **static export locally** before
+pushing: export rewrites URLs and may behave differently from native WordPress.
+Use a dedicated output directory (the exporter replaces its contents):
+
+```bash
+python3 scripts/export_github_pages.py --output .artifacts/pages-preview --local-origin http://localhost:8890 --public-origin http://localhost:4173
+python3 -m http.server 4173 --directory .artifacts/pages-preview
+# In a second terminal:
+TBT_RUNTIME_URL=http://localhost:4173 npm run test:browser -- notes-sections-runtime.js
+# Full read-only browser suite, identical to CI:
+TBT_RUNTIME_URL=http://localhost:4173 TBT_RUNTIME_WORKERS=3 npm run test:browser
+```
+
+Set `TBT_RUNTIME_WORKERS=1` on a resource-constrained laptop. The runner accepts 1–8
+workers and only registered read-only suites. Do not include mutable admin tests.
+Keep all existing suites in `scripts/run-browser-tests.js` when changing the workflow.
+
+The layout runner serves a minimal fixture for external YouTube embed documents.
+Original iframe URLs, titles and dimensions remain tested; local scripts, images and
+fonts are never intercepted. These suites do not test YouTube playback. Set
+`TBT_LIVE_EMBEDS=1` to include live players when diagnosing an integration issue.
+This isolation is loaded only in runner subprocesses, never in the website.

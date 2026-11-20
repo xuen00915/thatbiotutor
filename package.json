@@ -11,7 +11,8 @@
     "test:local": "scripts/verify-local.sh",
     "test:runtime": "bash tests/runtime-setup-test.sh && bash tests/runtime-pages-test.sh && wp-env run cli wp eval-file tests/runtime-editing-test.php && node tests/runtime-browser-test.js && node tests/content-width-runtime.js && node tests/home-polish-runtime.js",
     "visual:capture": "node scripts/capture-visual-reference.js",
-    "visual:review": "node scripts/build-visual-review.js"
+    "visual:review": "node scripts/build-visual-review.js",
+    "test:browser": "node scripts/run-browser-tests.js"
   },
   "devDependencies": {
     "@wordpress/env": "12.0.0",

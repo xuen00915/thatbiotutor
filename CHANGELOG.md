@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Accelerated Pages verification with a bounded three-worker browser suite, longest tests first, preserving all 29 suites and separate WordPress editing checks. Cached headless Chromium, added a browser probe before OS dependency installation, and published per-suite logs/timings. Isolated third-party YouTube player documents in layout tests while retaining source/geometry checks, with a live-embed opt-in. Documented targeted local and static-export checks.
+
 - [main-site] Renamed both mobile Notes testimonial skip buttons to “Scroll to next section” and removed their arrows.
 
 - [main-site] Added mobile-only “Skip testimonials” links above both Free Bio Notes review groups. They jump past the reviews to the form or final download button, with header clearance and keyboard-accessible anchors. Skip navigation stays in the current document after static export and moves focus to its destination.

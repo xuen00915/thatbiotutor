@@ -20,6 +20,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -72,44 +73,45 @@ jobs:
           --output build
           --public-origin https://xuen00915.github.io/thatbiotutor
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('package-lock.json') }}
+
       - name: Install browser test dependencies
-        run: npx playwright install --with-deps chromium
+        run: |
+          npx playwright install --only-shell chromium
+          # Hosted runners often already have the libraries. Probe the actual browser
+          # first; install OS packages only if that fails, then verify again.
+          probe_browser() {
+            node -e "require('playwright').chromium.launch().then(async b => { const p = await b.newPage(); await p.setContent('<p>Ready</p>'); await b.close(); }).catch(e => { console.error(e.message); process.exit(1); })"
+          }
+          if ! probe_browser; then
+            npx playwright install-deps chromium
+            probe_browser
+          fi
 
       - name: Verify the exported site
         run: |
           python3 -m http.server 4173 --directory build >/tmp/tbt-pages-server.log 2>&1 &
           curl --fail --retry 10 --retry-connrefused --retry-delay 1 http://localhost:4173/ >/dev/null
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/runtime-browser-test.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/content-width-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/home-polish-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/intensivefix-button-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/standard-pages-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/content-length-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/causes-page-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/about-page-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/classes-page-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/screenshot-feedback-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/carousel-motion-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/tick-alignment-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/mobile-tablet-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/sec3-page-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/sec3-refinements-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/sec4-page-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/programme-polish-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/site-polish-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/nav-arrow-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/notes-hero-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/notes-sections-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/notes-form-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/review-panel-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/testimonials-page-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/year-navigation-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/header-definition-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/seo-metadata-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/site-feedback-runtime.js
-          TBT_RUNTIME_URL=http://localhost:4173 node tests/unified-design-runtime.js
+          TBT_RUNTIME_URL=http://localhost:4173 TBT_RUNTIME_WORKERS=3 node scripts/run-browser-tests.js
+
+      - name: Verify WordPress editing
+        run: |
           # A client's workflow in wp-admin (edit, format, save, add a class year) on the live WordPress, which restores what it touches.
           TBT_RUNTIME_URL=http://localhost:8888 node tests/admin-editing-runtime.js
+
+      - name: Upload browser test logs and timings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-results
+          include-hidden-files: true
+          path: .artifacts/browser-tests/
+          if-no-files-found: ignore
+          retention-days: 14
 
       - name: Build WordPress upload package
         run: python3 scripts/build_wordpress_package.py --output "$RUNNER_TEMP/tbt-wordpress-install"

@@ -23,5 +23,7 @@ if find tests -maxdepth 1 -type f -name 'test_*.py' -print -quit | grep -q .; th
     python3 -m unittest discover -s tests -p 'test_*.py'
 fi
 
+node --test tests/runtime-runner-test.js
+
 git diff --check
 printf '%s\n' 'PASS: local verification'
