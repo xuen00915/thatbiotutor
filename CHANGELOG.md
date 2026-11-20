@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Moved Sec 3 and Sec 4 team names below their profile pictures on every device, with consistent spacing and top-aligned labels.
+
 - [main-site] Restored the homepage classroom gallery to one full-content-width photo per row on mobile, retaining the 4:3 photo crop.
 
 - [main-site] Mobile practical and classroom galleries now use two photos above a full-content-width third photo. The floating WhatsApp control accounts for both visible viewport edges, refreshes after rotation and page restoration, and has extra clearance on touch devices.

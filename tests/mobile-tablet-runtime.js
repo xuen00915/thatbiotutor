@@ -51,6 +51,8 @@ const assert = require('node:assert/strict');
      return [e.tagName+' '+e.className];
     }));
     assert.deepEqual(clipped,[],`${route} at ${width}: content and controls fit the viewport`);
+    const teamOrder=await page.locator('.tbt-programme-tutors .tbt-tutor').evaluateAll(es=>es.every(e=>e.querySelector('h3').getBoundingClientRect().top>=e.querySelector('img').getBoundingClientRect().bottom-1));
+    assert.ok(teamOrder,`${route}: team names sit below profile pictures at ${width}`);
     if(width===412 && route==='') {
      const track=page.locator('[data-review-track]');await track.scrollIntoViewIfNeeded();
      await page.locator('[data-review-prev]').click();
