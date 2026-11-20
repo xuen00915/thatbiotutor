@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Free Bio Notes: matched all seven bullets in “Your Questions, Answered” to the supplied screenshots, including bold phrases, the “There isn’t one” opening, and download punctuation. Added an exact rendered-copy contract.
+
 - [main-site] Sec 3 and Sec 4 “Both formats include” strips: ticks now sit in the same flex row as their phrases, vertically centred with a consistent 8px gap. All four benefits stay in one desktop row, with responsive tablet/phone rows. Added checks at five viewport sizes.
 
 - [main-site] Removed decorative quote icons and their extra top padding from the About founder cards; underlined answer phrases now use green semibold text. Sec 4 now shares Sec 3’s responsive 32–60px hero heading and line height. Extended browser checks for these changes.

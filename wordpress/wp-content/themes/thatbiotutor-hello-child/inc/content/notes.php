@@ -62,9 +62,9 @@ HTML),
             tbt_f_inline('notes_why_heading', 'Heading', 'Why are you giving your notes for <mark>FREE</mark>?'),
             tbt_f_rich('notes_why_list', 'Bullet list', <<<'HTML'
 <ul>
-<li>I get tons of messages requesting for notes, so this must be a big need in the community. A lot of you are <strong>needlessly struggling</strong> in this subject, and I don't want you to be one of them.</li>
-<li>If you are, maybe you're not getting the quality of <strong>teaching and materials</strong> you need. It shouldn't be this way, because bio is an easy subject, and you deserve to score well in it.</li>
-<li>I was in your position before, and I wished someone gave me notes like these to make my life <strong>easier</strong>. Now I get to make it a reality for you, and that brings me lots of joy.</li>
+<li>I get tons of messages requesting for notes, so this must be a big need in the community.</li>
+<li>Students deserve quality <strong>teaching and materials.</strong> Bio is an easy subject, and you deserve to score well in it.</li>
+<li>I was in your position before, and I wished someone gave me notes like these to make my life <strong>easier.</strong></li>
 </ul>
 HTML),
         ]),
@@ -73,15 +73,15 @@ HTML),
             tbt_f_inline('notes_catch_heading', 'Heading', 'This sounds <mark>too good to be true</mark>. What\'s the catch?'),
             tbt_f_rich('notes_catch_list', 'Bullet list', <<<'HTML'
 <ul>
-<li>I do this because I'd like to earn your trust, by giving you results in advance.</li>
-<li>I want you to know that this is the <strong>real deal</strong>. It's my hope that those of you who want bio tuition will choose TBT when looking for bio tuition :)</li>
+<li>There isn't one. I do this because I'd like to earn your trust, by giving you results in advance.</li>
+<li>I hope this shows the <strong>real deal,</strong> and that those of you who want bio tuition will choose TBT when looking for bio tuition :)</li>
 </ul>
 HTML),
         ]),
 
         tbt_f_section('download', 'How to download', [
             tbt_f_inline('notes_download_heading', 'Heading', 'How do I <mark>download</mark> it?'),
-            tbt_f_text('notes_download_note', 'Second bullet', "(This is to make sure you're a real person, and if I update the notes in future, I'll send you the updated version automatically!)"),
+            tbt_f_text('notes_download_note', 'Second bullet', "This is to make sure you're a real person, and if I update the notes in future, I'll send you the updated version automatically!"),
         ], 'The first bullet is in the Page content tab.'),
     ],
 ];

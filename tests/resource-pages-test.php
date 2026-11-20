@@ -38,11 +38,22 @@ final class ResourcePagesTest
         $this->assertTrue(!str_contains($notes, '<form'), 'Resource page must not invent a replacement data-collection form.');
         foreach ([
             "IMPORTANT: After submitting the form, you'll be automatically redirected to the homepage.",
-            "I want you to know that this is the real deal. It's my hope that those of you who want bio tuition will choose TBT when looking for bio tuition :)",
+            "I hope this shows the real deal, and that those of you who want bio tuition will choose TBT when looking for bio tuition :)",
             "This is to make sure you're a real person, and if I update the notes in future, I'll send you the updated version automatically!",
         ] as $publicNotesWording) {
             $this->assertTrue(str_contains($notesText, $publicNotesWording), 'Notes must retain the complete public access wording.');
         }
+        preg_match_all('~<section[^>]*data-section="(?:why-free|catch|download)"[^>]*>(.*?)</section>~s', $notes, $detailCards);
+        preg_match_all('~<li>(.*?)</li>~s', implode('', $detailCards[1]), $detailBullets);
+        $this->assertSame([
+            'I get tons of messages requesting for notes, so this must be a big need in the community.',
+            'Students deserve quality <strong>teaching and materials.</strong> Bio is an easy subject, and you deserve to score well in it.',
+            'I was in your position before, and I wished someone gave me notes like these to make my life <strong>easier.</strong>',
+            "There isn't one. I do this because I'd like to earn your trust, by giving you results in advance.",
+            'I hope this shows the <strong>real deal,</strong> and that those of you who want bio tuition will choose TBT when looking for bio tuition :)',
+            'Enter your best email address below and a copy will be sent to you.',
+            "This is to make sure you're a real person, and if I update the notes in future, I'll send you the updated version automatically!",
+        ], $detailBullets[1], 'All seven details bullets must match the supplied screenshots exactly, including emphasis and punctuation.');
         $notesReviews = array_values(array_filter(
             tbt_reference_content()['records']['testimonials'] ?? [],
             static fn(array $record): bool => ($record['fields']['tbt_display_group'] ?? '') === 'notes-reviews'
