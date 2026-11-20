@@ -38,7 +38,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       });
       const at = `at ${width}px: ${JSON.stringify(m)}`;
       assert.ok(m.square.top - m.bar.bottom >= 24, `Title bar must have breathing room above the first picture ${at}`);
-      assert.ok(m.align.every((a) => a === 'center'), `Planting text sits centred in its green panel at every width ${at}`);
+      assert.ok(m.align[0] === 'center' && m.align[1] === (width <= 640 ? 'left' : 'center'), `Planting heading stays centred and mobile description aligns left ${at}`);
       assert.ok(width <= 980 || m.planGap <= 72, `Gap between the Planting text and the next title bar must stay tight ${at}`);
       if (width > 980) assert.ok(m.planPara.width >= 840 && Math.abs(m.planPara.centre - width / 2) <= 2, `Planting paragraphs use the full panel width, centred ${at}`);
       if (width > 980) {
@@ -49,7 +49,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.ok(m.copyX.top >= m.bar.bottom && m.square.top >= m.copyX.bottom && m.record.top >= m.square.bottom - 1, `Narrow screens stack title, text, planet, then donor-search ${at}`);
       }
       assert.deepEqual(m.panels[0], m.panels[1], `Both Causes text panels use the same design at every device width ${at}`);
-      assert.ok(m.sgAlign.every((a) => a === 'center'), `SG causes paragraphs follow the responsive alignment ${at}`);
+      assert.ok(m.sgAlign.every((a) => a === 'left'), `SG causes paragraphs follow the responsive alignment ${at}`);
       if (width > 980) {
         assert.ok(m.givingX.right <= m.sgCopy.left, `Giving.sg picture must sit beside the text on desktop ${at}`);
         assert.ok(Math.abs(m.sgCopy.top-m.givingX.top)<=1 && Math.abs(m.sgCopy.bottom-m.givingX.bottom)<=1 && Math.abs(m.sgCopy.width-(m.givingX.right-m.givingX.left))<=1, `SG panel and image must have matching width and height ${at}`);

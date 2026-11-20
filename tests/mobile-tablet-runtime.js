@@ -59,9 +59,12 @@ const assert = require('node:assert/strict');
      await page.waitForFunction(()=>document.querySelector('[data-review-track]').scrollLeft<2);
     }
     if(width===412) {
+     const gallery=await page.locator('.tbt-practical-grid,.tbt-home-practical__grid,.tbt-home-classroom__grid').evaluateAll(es=>es.map(e=>[...e.children].map(c=>c.getBoundingClientRect().toJSON())));
+     gallery.forEach(([a,b,c])=>{assert.ok(Math.abs(a.top-b.top)<1&&b.left>=a.right,`${route}: first two practical photos share a row`);assert.ok(c.top>=a.bottom&&Math.abs(c.width-a.width)<1,`${route}: third photo sits below at the same compact size`);});
+     if(route==='about') {const widths=await page.locator('.tbt-about-beliefs__image').evaluate(e=>[e.getBoundingClientRect().width,e.parentElement.getBoundingClientRect().width]);assert.ok(Math.abs(widths[0]-widths[1])<1,'About image fills the mobile content width');}
      const practical=await page.locator('main img[src*="35ad6135826a6626379208fe8e6eefe5"]').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return {ratio:r.width/r.height,position:s.objectPosition,fit:s.objectFit};}));
      practical.forEach(s=>{assert.ok(s.ratio<=4/3+.01,`${route}: mobile practical frame crops the baked-in black strip`);assert.equal(s.position,'100% 50%');assert.equal(s.fit,'cover');});
-     const oversized=await page.locator('.tbt-notes-benefit__media img,.tbt-cell-feature img,.tbt-programme-tutors .tbt-tutor img,.tbt-about-page .tbt-tutor__frame,.tbt-home-founder img,.tbt-about-beliefs__image').evaluateAll(es=>es.filter(e=>{const r=e.getBoundingClientRect();return r.height>330||((e.closest('.tbt-notes-benefit__media,.tbt-cell-feature'))&&r.width>100)||((e.matches('.tbt-tutor__frame')||e.closest('.tbt-programme-tutors'))&&r.width>132)}).map(e=>e.className||e.alt));
+     const oversized=await page.locator('.tbt-notes-benefit__media img,.tbt-cell-feature img,.tbt-programme-tutors .tbt-tutor img,.tbt-about-page .tbt-tutor__frame,.tbt-home-founder img').evaluateAll(es=>es.filter(e=>{const r=e.getBoundingClientRect();return r.height>330||((e.closest('.tbt-notes-benefit__media,.tbt-cell-feature'))&&r.width>100)||((e.matches('.tbt-tutor__frame')||e.closest('.tbt-programme-tutors'))&&r.width>132)}).map(e=>e.className||e.alt));
      assert.deepEqual(oversized,[],`${route}: decorative mobile images stay compact`);
      const menu=page.locator('[data-menu-toggle]');await menu.click();assert.equal(await menu.getAttribute('aria-expanded'),'true');
      await page.keyboard.press('Escape');assert.equal(await menu.getAttribute('aria-expanded'),'false');

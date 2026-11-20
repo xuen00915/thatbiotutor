@@ -54,7 +54,7 @@ const {chromium} = require('playwright');
   assert.ok(margins.every(m=>Math.max(m.top,m.bottom,m.left,m.right)<0.03),'FastTrack artwork must not carry empty margin '+JSON.stringify(margins));
   if(width<=520) {
    const gallery=await page.locator('.tbt-home-classroom__grid').evaluate(e=>{const r=e.getBoundingClientRect();return [...e.querySelectorAll('figure')].map(f=>({w:f.getBoundingClientRect().width,full:r.width}));});
-   assert.ok(gallery.every(r=>Math.abs(r.w-r.full)<=1),'Mobile classroom photos fill the grid width');
+   assert.ok(gallery.every(r=>Math.abs(r.w-(r.full-12)/2)<=1),'Mobile classroom photos use compact half-width frames');
   }
   // Google reviews: equal card heights and arrows clear of the cards.
   await page.locator('.tbt-google-reviews').scrollIntoViewIfNeeded();await page.waitForTimeout(400);

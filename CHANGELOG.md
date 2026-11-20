@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Left-aligned Planting Trees descriptions on phones and SG Causes descriptions at every width. About’s values photo fills the mobile content width. Practical photo groups and the homepage classroom gallery now show two compact photos above a centred third photo on phones.
+
 - [main-site] Cropped the source practical photo’s black strip on phones wherever it appears; restored full-width mobile classroom photos. Review arrows now use exact card stops, support rapid taps and wrap at either end. Changing the active testimonial year collapses the previous year. Increased shared tablet gutters to 32px and kept the floating WhatsApp control inside the visible viewport and device safe area.
 
 - [main-site] Matched the SG Environmental Causes image and text panel dimensions on larger screens, with vertically centred text. Reduced Notes benefit icons to 120px on desktop/tablet and 80px on phones.
