@@ -78,7 +78,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.equal(await skips.nth(i).isVisible(),width<=640,'Skip links appear only on phones');
         if(width<=640) {
           await page.emulateMedia({reducedMotion:'reduce'});
-          const href=await skips.nth(i).getAttribute('href');
+          const href=await skips.nth(i).evaluate(link=>link.hash);
           await skips.nth(i).click();
           await page.waitForFunction(hash=>location.hash===hash,href);
           const target=await page.locator(href).boundingBox();
