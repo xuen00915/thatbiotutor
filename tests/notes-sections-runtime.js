@@ -72,29 +72,13 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.ok(c2.top >= c1.bottom - 1 && c3.top >= c2.bottom - 1 && c4.top >= c3.bottom - 1, `Benefit cards stack on small phones ${at}`);
       }
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);
-      const skips=page.locator('.tbt-notes-skip-reviews');
-      assert.equal(await skips.count(),2,'Both testimonial sections provide a skip link');
-      assert.deepEqual(await skips.allTextContents(),['Scroll to next section','Scroll to next section'],'Scroll buttons use the requested wording without arrows');
-      for(let i=0;i<2;i++) {
-        assert.equal(await skips.nth(i).isVisible(),false,'Floating skip is hidden outside its testimonial section');
-        if(width<=640) {
-          await page.emulateMedia({reducedMotion:'reduce'});
-          const href=await skips.nth(i).evaluate(link=>link.hash);
-          await skips.nth(i).evaluate(link=>{const section=link.closest('section');window.scrollTo(0,scrollY+section.getBoundingClientRect().top-120)});
-          await page.waitForFunction(index=>document.querySelectorAll('.tbt-notes-skip-reviews')[index].dataset.floatingActive==='true',i);
-          const position=await skips.nth(i).evaluate(e=>{const b=e.getBoundingClientRect();return {position:getComputedStyle(e).position,x:b.left,bottom:b.bottom,right:b.right}});
-          assert.equal(position.position,'fixed','Skip floats while reading');
-          assert.ok(position.x>=16&&position.x<=32&&position.bottom<=900,'Floating button fits on the left');
-          assert.ok(position.right<width-80,'Floating skip leaves room for WhatsApp');
-          assert.equal(await skips.nth(1-i).isVisible(),false,'Only the current section has a floating skip');
-          await page.evaluate(()=>window.tbtSkipDocument=true);
-          await skips.nth(i).click();
-          assert.equal(await page.evaluate(()=>window.tbtSkipDocument),true,'Skip avoids a document reload on exported pages');
-          await page.waitForFunction(hash=>location.hash===hash,href);
-          const target=await page.locator(href).boundingBox();
-          assert.ok(target.y>=80&&target.y<900,'Skip lands past testimonials with target visible below header');
-          await page.waitForFunction(index=>document.querySelectorAll('.tbt-notes-skip-reviews')[index].dataset.floatingActive==='false',i);
-        }
+      assert.equal(await page.locator('.tbt-notes-skip-reviews').count(),0,'Both skip buttons are removed');
+      if(width<=640) {
+        const end=page.locator('.tbt-notes-end-button');
+        await end.scrollIntoViewIfNeeded();
+        const box=await end.boundingBox();
+        assert.ok(box.height>=44&&box.height<=48&&box.width<=220,'Final Download button stays compact');
+        assert.ok(box.x>=16&&box.x+box.width<=width-16&&box.y>=80&&box.y+box.height<=900,'Entire final button fits the mobile viewport');
       }
       console.log(`PASS notes sections ${width}`);
     }

@@ -1,4 +1,4 @@
-// Test our embed container and direct fallback. Live provider fields are checked separately without submitting.
+// Test our embed container without a separate signup link. Live provider fields are checked separately without submitting.
 const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
 const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\/?$/, '/');
@@ -17,9 +17,7 @@ const provider = 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.
    const box=await frame.boundingBox();
    assert.ok(box.width>=width-32 || box.width>=700);
    assert.ok(box.x>=8&&box.x+box.width<=width-8&&box.height>=540);
-   const link=page.locator('.tbt-notes-form__alternative a');
-   assert.equal(await link.getAttribute('href'),provider);
-   assert.equal(await link.getAttribute('target'),'_blank');
+   assert.equal(await page.locator('.tbt-notes-form__alternative').count(),0);
    assert.equal(await page.locator('.tbt-notes-form form,.tbt-notes-form [data-tbt-redirect]').count(),0);
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
    console.log('PASS GetResponse container',width);

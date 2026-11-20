@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Removed both Notes testimonial skip buttons and their floating behaviour, compacted the mobile closing Download button, and removed the separate GetResponse signup link. Provider-owned Submit colours and footer strip still require GetResponse editor access.
+
 - [main-site] Made the mobile Notes testimonial skip a compact floating button on the left, visible only while reading its testimonial section, with safe-area clearance and the existing next-section destinations.
 
 - [main-site] Removed the Sec 3 FAQ graphic carousel while retaining text FAQs, unified 2021/2022 with the newer title-only year banners, and centred the Notes download button across its full card at every screen size.

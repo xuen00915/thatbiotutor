@@ -508,47 +508,6 @@
     });
   }
 
-  function initNotesReviewSkip(document, windowObject) {
-    const links = [...document.querySelectorAll('.tbt-notes-skip-reviews')];
-    if (!links.length) return;
-    let pending = false;
-    const update = () => {
-      pending = false;
-      const viewport = windowObject.visualViewport;
-      const height = viewport ? viewport.height : windowObject.innerHeight;
-      const top = viewport ? viewport.offsetTop : 0;
-      const bottom = Math.max(0, Math.max(document.documentElement.clientHeight, windowObject.innerHeight) - height - top);
-      links.forEach(link => {
-        const section = link.closest('section').getBoundingClientRect();
-        const target = document.getElementById(link.hash.slice(1));
-        const active = section.top <= top + height * 0.4 && section.bottom > top + height * 0.4 && target && target.getBoundingClientRect().top > top + height * 0.65;
-        link.dataset.floatingActive = active ? 'true' : 'false';
-        link.style.setProperty('--tbt-visible-bottom', `${bottom}px`);
-        link.style.setProperty('--tbt-visible-left', `${viewport ? viewport.offsetLeft : 0}px`);
-      });
-    };
-    const schedule = () => {
-      if (!pending) { pending = true; windowObject.requestAnimationFrame(update); }
-    };
-    ['scroll', 'resize', 'orientationchange', 'pageshow'].forEach(event => windowObject.addEventListener(event, schedule, { passive: true }));
-    if (windowObject.visualViewport) {
-      ['scroll', 'resize'].forEach(event => windowObject.visualViewport.addEventListener(event, schedule, { passive: true }));
-    }
-    update();
-    links.forEach(link => {
-      link.addEventListener('click', event => {
-        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-        const target = document.getElementById(link.hash.slice(1));
-        if (!target) return;
-        event.preventDefault();
-        if (!target.hasAttribute('tabindex') && target.tagName !== 'A') target.setAttribute('tabindex', '-1');
-        target.focus({ preventScroll: true });
-        target.scrollIntoView({ block: 'start' });
-        windowObject.history.replaceState(null, '', link.hash);
-      });
-    });
-  }
-
   function initFloatingContact(document, windowObject) {
     const button = document.querySelector('.whatsapp-float');
     const viewport = windowObject.visualViewport;
@@ -582,7 +541,6 @@
     initReveal(document, windowObject);
     initHomeProof(document, windowObject);
     initFloatingContact(document, windowObject);
-    initNotesReviewSkip(document, windowObject);
   }
 
   return { openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, formatCountUpValue, syncNavigationViewport, initCertificateLightbox, init };

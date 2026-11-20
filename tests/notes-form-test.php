@@ -13,7 +13,7 @@ $checks = [
     str_contains($html, 'data-tbt-form="getresponse"'),
     str_contains($html, 'title="Free Bio Notes signup form"'),
     str_contains($html, '<iframe'),
-    str_contains($html, 'Open signup form in a new tab'),
+    !str_contains($html, 'Open signup form in a new tab'),
     !str_contains($html, '<form'),
     !str_contains($html, 'mailto:'),
     !str_contains($html, 'data-tbt-redirect'),
