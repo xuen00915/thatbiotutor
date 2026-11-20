@@ -644,3 +644,9 @@ body.tbt-site.home .tbt-home-hero__copy { padding-top: 24px; }
 @media (max-width: 520px) {
   body.tbt-site.home .tbt-home-hero__copy { padding-top: 16px; }
 }
+
+/* Keep the two adjacent white section transitions compact on phones. */
+@media (max-width: 640px) {
+  body.tbt-site #main-content :is(.tbt-home-faq, .tbt-home-quality) { padding-bottom: 16px; }
+  body.tbt-site #main-content :is(.tbt-home-classroom, .tbt-home-practical) { padding-top: 24px; }
+}

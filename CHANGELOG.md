@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- [main-site] Restored all shared practical galleries to one full-width photo per row on phones.
+
+- [main-site] Reduced mobile homepage gaps above the classroom and practical-session headings by tightening the adjoining sections’ padding.
+
 - [main-site] Enlarged the Notes “Your Questions, Answered” title to 48px on desktop, 36px on smaller tablets and 32px on phones for stronger visual prominence.
 
 - [main-site] Aligned the About teaching-quality bullet text with its introductory paragraph on phones and removed justified word spacing.
