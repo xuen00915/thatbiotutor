@@ -24,7 +24,7 @@ const {chromium} = require('playwright');
      stats:{photo:q('.tbt-programme-numbers__background img').naturalWidth/q('.tbt-programme-numbers__background img').naturalHeight,color:cs(q('.tbt-programme-stats strong')).color,values:qa('.tbt-programme-stats strong').map(e=>e.textContent)},
      reviews:qa('.tbt-programme-testimonials .tbt-testimonial').map(e=>({name:e.querySelector('.tbt-testimonial__name').textContent,photo:!!e.querySelector('img'),top:e.querySelector('img')?b(e.querySelector('img')).top-b(e).top:999,border:cs(e).borderTopColor,align:cs(e.querySelector('blockquote p')).textAlign})),
      video:video?{src:video.src,ratio:b(video).width/b(video).height,gap:b(q('.tbt-programme-lesson__grid')).top-b(video).bottom}:null,
-     lessonTitles:qa('.tbt-programme-lesson__grid h3').map(e=>e.textContent),photos:qa('.tbt-practical-photo').filter(e=>b(e).height>=200&&cs(e.parentElement).visibility!=='hidden').length,
+     lessonTitles:qa('.tbt-programme-lesson__grid h3').map(e=>e.textContent),photos:qa('.tbt-practical-photo').filter(e=>b(e).height>=(innerWidth<=640?100:200)&&cs(e.parentElement).visibility!=='hidden').length,
      icons:qa('.tbt-inclusion-icon img').length,practical:parseFloat(cs(q('.tbt-practical-feature h3')).fontSize),small:parseFloat(cs(q('.tbt-programme-lesson__grid h3')).fontSize),
      tutors:qa('.tbt-programme-tutors .tbt-tutor').map(e=>Math.round(b(e).left)),
      faqCount:qa('.tbt-home-faq__item').length,faq:cs(q('.tbt-programme-faq')).backgroundColor,

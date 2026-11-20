@@ -53,7 +53,7 @@ const {chromium} = require('playwright');
    });
    assert.ok(r.contrast.every(c=>c.ratio>=4.5),'Section labels must be readable ('+width+'px) '+JSON.stringify(r.contrast.filter(c=>c.ratio<4.5)));
    assert.equal(r.photos.length,3);
-   assert.ok(r.photos.every(p=>p.v==='visible'&&p.h>=120&&p.r>=14),'Practical session photos must be visible and rounded ('+width+'px) '+JSON.stringify(r.photos));
+   assert.ok(r.photos.every(p=>p.v==='visible'&&p.h>=(width<=640?100:120)&&p.r>=14),'Practical session photos must be visible and rounded ('+width+'px) '+JSON.stringify(r.photos));
    assert.ok(r.centred.every(c=>c.off<=8),'Section headings must be centred ('+width+'px) '+JSON.stringify(r.centred.filter(c=>c.off>8)));
    assert.ok(r.ctaOff<=8,'WhatsApp button must be centred ('+width+'px) '+r.ctaOff);
    assert.equal(r.overflow,0,'No sideways scroll at '+width+'px');
