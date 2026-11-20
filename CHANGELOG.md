@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Aligned the About teaching-quality bullet text with its introductory paragraph on phones and removed justified word spacing.
+
 - [main-site] Moved Sec 3 and Sec 4 team names below their profile pictures on every device, with consistent spacing and top-aligned labels.
 
 - [main-site] Restored the homepage classroom gallery to one full-content-width photo per row on mobile, retaining the 4:3 photo crop.

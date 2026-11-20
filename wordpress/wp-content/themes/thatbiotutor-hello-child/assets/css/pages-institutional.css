@@ -1043,3 +1043,10 @@ body.tbt-site #main-content .tbt-causes-section[data-section="planting"] .tbt-ca
   .tbt-contact-content h1 { font-size: 2.55rem; }
   .tbt-contact-content { padding-top: 36px; }
 }
+
+/* Align mobile quality-list copy with its introductory paragraph. */
+@media (max-width: 640px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality ul { padding-left: 0; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality li { text-align: left; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality li::marker { font-size: 0.65em; }
+}

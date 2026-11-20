@@ -13,6 +13,10 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       await page.goto(new URL('./about/', base).href, { waitUntil: 'load' });
       await page.evaluate(() => document.fonts?.ready);
       await page.waitForTimeout(900); // let the image fade-in finish
+      if (width <= 640) {
+        const alignment = await page.locator('.tbt-about-quality .tbt-reading-width').evaluate(e => ({left:e.querySelector('p').getBoundingClientRect().left, items:[...e.querySelectorAll('li')].map(li=>({left:li.getBoundingClientRect().left,align:getComputedStyle(li).textAlign}))}));
+        assert.ok(alignment.items.every(li=>Math.abs(li.left-alignment.left)<1 && li.align==='left'), 'Mobile bullet text aligns with the introductory paragraph');
+      }
       const m = await page.evaluate(() => {
         const cs = (selector) => getComputedStyle(document.querySelector(selector));
         const size = (selector) => parseFloat(cs(selector).fontSize);
