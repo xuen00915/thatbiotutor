@@ -19,7 +19,7 @@ const ctaSizes = {};
       cta:c&&{count:document.querySelectorAll('.site-header .site-header__cta').length,text:cta.textContent.trim(),href:cta.getAttribute('href'),target:cta.getAttribute('target'),left:c.left,right:c.right,width:c.width,height:c.height,midY:(c.top+c.bottom)/2,bg:cs.backgroundColor,radius:cs.borderTopLeftRadius,color:cs.color},
       headerMidY:(header.top+header.bottom)/2,toggle:{left:toggle.left,visible:toggle.width>0}};
     });
-    assert.ok(Math.abs(r.w-Math.min(1120,width-32))<2, 'Header matches shared content width');
+    assert.ok(Math.abs(r.w-Math.min(1120,width-(width>=768&&width<=1180?64:32)))<2, 'Header matches shared content width');
     assert.ok(Math.abs(r.logoLeft-r.left)<2, `Logo aligns left on ${route} at ${width}`);
     // Contact Us is the call to action: the same green pill, top right, on every page.
     assert.ok(r.cta,`Contact Us button exists on ${route} at ${width}`);

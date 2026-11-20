@@ -42,6 +42,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       await page.waitForFunction(() => document.querySelector('[data-year-current]').textContent === '2022');
       assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
       assert.equal(await nav.locator('[aria-current="location"] .tbt-year-nav__title').textContent(), 'Class of 2022');
+      assert.equal(await nav.locator('.tbt-year-nav__group[data-open="true"]').count(),1,'Changing active year collapses the previous year');
+      assert.equal(await nav.locator('[data-open="true"] .tbt-year-nav__title').textContent(),'Class of 2022');
       const top = await page.locator('#class-of-2022').evaluate(e => ({ top: e.getBoundingClientRect().top, header: innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom }));
       assert.ok(top.top >= top.header && top.top <= top.header + 24, 'Selected year clears sticky header');
       // Manual scrolling updates the current year, including while inside a long section.

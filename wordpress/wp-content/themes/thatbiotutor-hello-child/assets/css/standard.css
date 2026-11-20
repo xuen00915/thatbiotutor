@@ -1333,7 +1333,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site #main-content .tbt-about-page .tbt-tutor__frame { width: 132px; height: 132px; margin-inline: auto; }
   body.tbt-site #main-content .tbt-home-founder figure { width: min(100%, 220px); margin-inline: auto; }
   body.tbt-site #main-content .tbt-home-founder img { min-height: 0; height: auto; max-height: 330px; object-fit: contain; }
-  body.tbt-site #main-content .tbt-home-classroom__grid figure { max-height: 300px; }
+  body.tbt-site #main-content .tbt-home-classroom__grid figure { width: 100%; max-height: none; aspect-ratio: 4 / 3; }
   body.tbt-site #main-content .tbt-about-page .tbt-about-beliefs__image { width: auto; max-width: 100%; height: 300px; aspect-ratio: auto; object-fit: contain; margin-inline: auto; }
 }
 @media (min-width: 641px) {
@@ -1350,3 +1350,16 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 @media (max-width: 640px) {
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media img { width: 80px; height: 80px; }
 }
+
+/* The source practical photo has a black left strip: crop it out on phones. */
+@media (max-width: 640px) {
+  body.tbt-site #main-content .tbt-practical-photo { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+  body.tbt-site #main-content img[src*="35ad6135826a6626379208fe8e6eefe5"] { object-fit: cover; object-position: right center; }
+}
+
+/* Give every tablet page more breathing room inside the shared content track. */
+@media (min-width: 768px) and (max-width: 1180px) {
+  body.tbt-site { --tbt-gutter: 32px; }
+}
+/* Keep the full floating contact control clear of browser/device edges. */
+body.tbt-site .whatsapp-float { right: calc(24px + env(safe-area-inset-right, 0px)); bottom: calc(32px + env(safe-area-inset-bottom, 0px) + var(--tbt-visible-bottom, 0px)); }

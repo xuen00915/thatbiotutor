@@ -71,7 +71,7 @@ const sizes = [
     if (footerPresentation.logoWidth !== 36 || footerPresentation.brandFont !== 18 || footerPresentation.headingFont !== 12) throw new Error(`Footer typography is outside the Inquire reference at ${viewport.width}: ${JSON.stringify(footerPresentation)}`);
     if (viewport.width >= 768 && footerPresentation.columns !== 4) throw new Error(`Footer is not four columns at ${viewport.width}: ${footerPresentation.columns}`);
     if (viewport.width < 768 && footerPresentation.columns !== 3) throw new Error(`Footer is not three columns at ${viewport.width}: ${footerPresentation.columns}`);
-    const footerHeightRange = viewport.width >= 1000 ? [165, 205] : viewport.width >= 768 ? [165, 215] : viewport.width >= 360 ? [300, 360] : [330, 440]; // shorter footer (client request)
+    const footerHeightRange = viewport.width >= 1000 ? [165, 205] : viewport.width >= 768 ? [165, 235] : viewport.width >= 360 ? [300, 360] : [330, 440]; // shorter footer (client request)
     if (footerPresentation.height < footerHeightRange[0] || footerPresentation.height > footerHeightRange[1]) throw new Error(`Footer height is outside the Inquire reference at ${viewport.width}: ${footerPresentation.height}`);
     if (viewport.width >= 1200 && Math.abs(footerPresentation.innerWidth - 1120) > 1) throw new Error(`Footer content width is outside the Inquire reference at ${viewport.width}: ${footerPresentation.innerWidth}`);
     if (await siteFooter.locator('img[alt="ThatBioTutor"]').count() !== 1) throw new Error(`Footer logo is missing at ${viewport.width}`);
@@ -241,7 +241,7 @@ const sizes = [
     if (homeScale.buttonFont !== 18 || homeScale.buttonWeight !== '700' || homeScale.buttonHeight !== 60 || homeScale.buttonRadius < 9999 || homeScale.buttonBackground !== 'rgb(67, 180, 58)') throw new Error(`Home CTA differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
     if (homeScale.carouselDotCount !== 5 || homeScale.carouselDots.some((dot) => dot.width !== 6 || dot.height !== 6 || dot.radius !== '50%' || !['rgb(47, 138, 39)', 'rgb(255, 255, 255)'].includes(dot.background))) throw new Error(`Home carousel dots differ from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.carouselDots)}`);
     if (homeScale.carouselControl.width !== 44 || homeScale.carouselControl.height !== 44 || homeScale.carouselControl.background !== 'rgba(0, 0, 0, 0)' || homeScale.carouselControl.borderWidth !== '0px') throw new Error(`Home carousel control differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.carouselControl)}`);
-    const expectedProblemWidth = Math.min(1120, viewport.width - 32);
+    const expectedProblemWidth = Math.min(1120, viewport.width - (viewport.width >= 768 && viewport.width <= 1180 ? 64 : 32));
     const expectedProblemTypography = viewport.width <= 520
       ? { quote: 16, quoteLine: 24, bridge: 20, bridgeLine: 28 }
       : { quote: 18, quoteLine: 28, bridge: 24, bridgeLine: 32 };
@@ -251,7 +251,7 @@ const sizes = [
     if (!homeScale.problem.firstBridge || homeScale.problem.firstBridge.size !== expectedProblemTypography.bridge || homeScale.problem.firstBridge.weight !== '700' || homeScale.problem.firstBridge.lineHeight !== expectedProblemTypography.bridgeLine || homeScale.problem.firstBridge.align !== 'center') throw new Error(`Home first problem transition differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
     if (!homeScale.problem.secondBridge || homeScale.problem.secondBridge.size !== 18 || homeScale.problem.secondBridge.lineHeight !== 28 || homeScale.problem.secondBridge.align !== 'center') throw new Error(`Home second problem transition differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
     if (homeScale.problem.cardPadding !== 24 || homeScale.problem.cardRadius !== 18 || homeScale.problem.cardBorderWidth !== 0 || homeScale.problem.secondCardTransform !== 'none') throw new Error(`Home problem testimonials differ from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.problem)}`);
-    const expectedFeatureContainerWidth = Math.min(1120, viewport.width - 32);
+    const expectedFeatureContainerWidth = Math.min(1120, viewport.width - (viewport.width >= 768 && viewport.width <= 1180 ? 64 : 32));
     const expectedFeatureContentWidth = expectedFeatureContainerWidth;
     const expectedFasttrackCardWidth = expectedFeatureContainerWidth;
     const expectedFasttrackColumns = viewport.width <= 520 ? 1 : 2;
@@ -476,7 +476,7 @@ const sizes = [
       const expectedCausesImages = [
         { y: 135, width: 476, height: 476 },
         { y: 975, width: 620, height: 476 },
-        { y: 1793, width: 550, height: 450.5 },
+        { y: 1793, width: 544, height: 445.6 },
       ];
       for (const [index, expected] of expectedCausesImages.entries()) {
         const actual = causesImages[index];

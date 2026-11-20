@@ -52,6 +52,10 @@ const {chromium} = require('playwright');
   // The artwork itself has no empty margin, so the visible icon starts level with the phrase.
   const margins=await page.locator('.tbt-home-fasttrack__tbt-content img').evaluateAll(es=>Promise.all(es.map(async i=>{i.loading='eager';await i.decode();const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;const x=c.getContext('2d');x.drawImage(i,0,0);const d=x.getImageData(0,0,c.width,c.height).data;let top=c.height,bottom=0,left=c.width,right=0;for(let y=0;y<c.height;y++)for(let xx=0;xx<c.width;xx++){if(d[(y*c.width+xx)*4+3]>10){if(y<top)top=y;if(y>bottom)bottom=y;if(xx<left)left=xx;if(xx>right)right=xx}}return {top:top/c.height,bottom:1-bottom/c.height,left:left/c.width,right:1-right/c.width}})));
   assert.ok(margins.every(m=>Math.max(m.top,m.bottom,m.left,m.right)<0.03),'FastTrack artwork must not carry empty margin '+JSON.stringify(margins));
+  if(width<=520) {
+   const gallery=await page.locator('.tbt-home-classroom__grid').evaluate(e=>{const r=e.getBoundingClientRect();return [...e.querySelectorAll('figure')].map(f=>({w:f.getBoundingClientRect().width,full:r.width}));});
+   assert.ok(gallery.every(r=>Math.abs(r.w-r.full)<=1),'Mobile classroom photos fill the grid width');
+  }
   // Google reviews: equal card heights and arrows clear of the cards.
   await page.locator('.tbt-google-reviews').scrollIntoViewIfNeeded();await page.waitForTimeout(400);
   const reviews=await page.evaluate(()=>{const track=document.querySelector('.tbt-google-reviews__track').getBoundingClientRect();const cards=[...document.querySelectorAll('.tbt-google-review')].map(e=>e.getBoundingClientRect()).filter(r=>r.left>=track.left-2&&r.right<=track.right+2);const arrows=[...document.querySelectorAll('.tbt-google-reviews__controls button')].map(e=>e.getBoundingClientRect()).filter(r=>r.width>0);const hit=(a,b)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;return {heights:[...new Set(cards.map(r=>Math.round(r.height)))],overlap:arrows.some(a=>cards.some(c=>hit(a,c))),n:cards.length}});

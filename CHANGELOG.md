@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Cropped the source practical photo’s black strip on phones wherever it appears; restored full-width mobile classroom photos. Review arrows now use exact card stops, support rapid taps and wrap at either end. Changing the active testimonial year collapses the previous year. Increased shared tablet gutters to 32px and kept the floating WhatsApp control inside the visible viewport and device safe area.
+
 - [main-site] Matched the SG Environmental Causes image and text panel dimensions on larger screens, with vertically centred text. Reduced Notes benefit icons to 120px on desktop/tablet and 80px on phones.
 
 - [main-site] Tightened mobile Notes hero gaps, reduced benefit icons to 100px, aligned download bullets with the other cards, and shortened the larger-screen FAQ bottom padding. Audited all twelve pages for mobile image scale; reduced Cell Division icons, About tutor portraits and tall decorative photos while retaining readable educational artwork.

@@ -36,7 +36,16 @@
     setOpen(group, open);
     group.dataset.userClosed = String(!open);
   }));
+  let activeIndex = null;
   const activate = (index) => {
+    if (activeIndex !== index) {
+      links.forEach((link, i) => {
+        const item = link.closest('.tbt-year-nav__group');
+        setOpen(item, i === index);
+        item.dataset.userClosed = 'false';
+      });
+      activeIndex = index;
+    }
     const group = links[index].closest('.tbt-year-nav__group');
     if (group && group.dataset.userClosed !== 'true' && group.dataset.open !== 'true') setOpen(group, true);
     current.textContent = sections[index].dataset.section;

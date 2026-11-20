@@ -465,11 +465,27 @@
     }
     document.querySelectorAll('[data-google-reviews]').forEach((widget) => {
       const track = widget.querySelector('[data-review-track]');
+      let destination = null;
+      let settleTimer;
+      const resetDestination = () => { destination = null; windowObject.clearTimeout(settleTimer); };
       const move = (direction) => {
         const reduced = prefersReducedMotion(windowObject.matchMedia.bind(windowObject));
-        const distance = track.firstElementChild.getBoundingClientRect().width + 16;
-        track.scrollBy({ left: direction * distance, behavior: reduced ? 'instant' : 'smooth' });
+        const max = Math.max(0, track.scrollWidth - track.clientWidth);
+        if (!max || !track.firstElementChild) return;
+        const firstLeft = track.firstElementChild.getBoundingClientRect().left;
+        const stops = [...new Set(Array.from(track.children, card => Math.min(max, Math.max(0, Math.round(card.getBoundingClientRect().left - firstLeft)))))];
+        const from = destination === null ? track.scrollLeft : destination;
+        // Use the intended stop during animation so rapid taps don't lose steps.
+        destination = direction > 0
+          ? (stops.find(stop => stop > from + 2) ?? 0)
+          : (stops.slice().reverse().find(stop => stop < from - 2) ?? max);
+        track.scrollTo({ left: destination, behavior: reduced ? 'instant' : 'smooth' });
+        windowObject.clearTimeout(settleTimer);
+        settleTimer = windowObject.setTimeout(resetDestination, 1000);
       };
+      ['touchstart', 'pointerdown', 'wheel'].forEach(type => track.addEventListener(type, resetDestination, { passive: true }));
+      track.addEventListener('scrollend', () => { if (destination !== null && Math.abs(track.scrollLeft - destination) < 2) resetDestination(); });
+      windowObject.addEventListener('resize', resetDestination);
       widget.querySelector('[data-review-prev]').addEventListener('click', () => move(-1));
       widget.querySelector('[data-review-next]').addEventListener('click', () => move(1));
       widget.querySelectorAll('[data-review-expand]').forEach((button) => {
@@ -492,6 +508,16 @@
     });
   }
 
+  function initFloatingContact(document, windowObject) {
+    const button = document.querySelector('.whatsapp-float');
+    const viewport = windowObject.visualViewport;
+    if (!button || !viewport) return;
+    const update = () => button.style.setProperty('--tbt-visible-bottom', `${Math.max(0, windowObject.innerHeight - viewport.height - viewport.offsetTop)}px`);
+    viewport.addEventListener('resize', update, { passive: true });
+    viewport.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+
   function init(document, windowObject) {
     document.documentElement.classList.remove('no-js');
     document.documentElement.classList.add('js');
@@ -507,6 +533,7 @@
     initReviewDisclosure(document);
     initReveal(document, windowObject);
     initHomeProof(document, windowObject);
+    initFloatingContact(document, windowObject);
   }
 
   return { openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, formatCountUpValue, syncNavigationViewport, initCertificateLightbox, init };

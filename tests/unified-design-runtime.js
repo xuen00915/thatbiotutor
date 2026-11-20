@@ -108,7 +108,7 @@ const INK = 'rgb(25, 34, 26)', GREEN = 'rgb(47, 138, 39)', LIGHT_GREEN = 'rgb(14
           t.ok(b.radius >= 18, `${route} title bar is rounded at ${width}`);
           t.equal(b.color, 'rgb(255, 255, 255)', `${route} title bar text is white at ${width}`);
           t.equal(b.align, 'center', `${route} title bar text is centred at ${width}`);
-          t.ok(Math.abs(b.width - Math.min(1120, width - 32)) <= 2, `${route} title bar uses the shared content width at ${width}: ${b.width}`);
+          t.ok(Math.abs(b.width - Math.min(1120, width - (width >= 768 && width <= 1180 ? 64 : 32))) <= 2, `${route} title bar uses the shared content width at ${width}: ${b.width}`);
         }
       }
     }

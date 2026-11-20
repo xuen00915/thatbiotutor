@@ -35,7 +35,7 @@ const routes = {
           for (const box of boxes) {
           // One shared content width everywhere (header, content and footer).
           const expected = 1120;
-          assert.ok(Math.abs(box.width - Math.min(expected, width - 32)) < 2, `${route} ${target} at ${width}: ${box.width}`);
+          assert.ok(Math.abs(box.width - Math.min(expected, width - (width >= 768 && width <= 1180 ? 64 : 32))) < 2, `${route} ${target} at ${width}: ${box.width}`);
           assert.ok(Math.abs(box.center - width / 2) < 2, `${route} ${target} is not centered`);
           }
         }

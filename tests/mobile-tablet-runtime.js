@@ -1,7 +1,7 @@
 const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
 (async () => {
- const browser=await chromium.launch(); const page=await browser.newPage({reducedMotion:'reduce'});
+ const browser=await chromium.launch(); const page=await browser.newPage({reducedMotion:'reduce',hasTouch:true});
  const base=process.env.TBT_RUNTIME_URL||'http://localhost:8890';
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  try {
@@ -41,6 +41,8 @@ const assert = require('node:assert/strict');
    await page.setViewportSize({width,height:900});
    for(const route of routes) {
     await page.goto(`${base}/${route}/`);await page.evaluate(()=>document.fonts.ready);
+    const floating=await page.locator('.whatsapp-float').boundingBox();
+    assert.ok(floating&&floating.x>=12&&floating.x+floating.width<=width-12&&floating.y>=12&&floating.y+floating.height<=900-24,`${route}: whole contact button is visible on first screen`);
     assert.ok((await page.locator('main').innerText()).trim().length>100, `${route}: page has content`);
     const clipped=await page.evaluate(()=>[...document.querySelectorAll('main img,main button,main h1,main h2,main p,main table')].flatMap(e=>{
      const r=e.getBoundingClientRect();if(!r.width||!r.height||e.closest('[inert],[hidden],.screen-reader-text,.tbt-inclusion-icon,.tbt-home-proof__crests'))return[];
@@ -49,7 +51,16 @@ const assert = require('node:assert/strict');
      return [e.tagName+' '+e.className];
     }));
     assert.deepEqual(clipped,[],`${route} at ${width}: content and controls fit the viewport`);
+    if(width===412 && route==='') {
+     const track=page.locator('[data-review-track]');await track.scrollIntoViewIfNeeded();
+     await page.locator('[data-review-prev]').click();
+     await page.waitForFunction(()=>{const e=document.querySelector('[data-review-track]');return Math.abs(e.scrollLeft-(e.scrollWidth-e.clientWidth))<2;});
+     await page.locator('[data-review-next]').click();
+     await page.waitForFunction(()=>document.querySelector('[data-review-track]').scrollLeft<2);
+    }
     if(width===412) {
+     const practical=await page.locator('main img[src*="35ad6135826a6626379208fe8e6eefe5"]').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return {ratio:r.width/r.height,position:s.objectPosition,fit:s.objectFit};}));
+     practical.forEach(s=>{assert.ok(s.ratio<=4/3+.01,`${route}: mobile practical frame crops the baked-in black strip`);assert.equal(s.position,'100% 50%');assert.equal(s.fit,'cover');});
      const oversized=await page.locator('.tbt-notes-benefit__media img,.tbt-cell-feature img,.tbt-programme-tutors .tbt-tutor img,.tbt-about-page .tbt-tutor__frame,.tbt-home-founder img,.tbt-about-beliefs__image').evaluateAll(es=>es.filter(e=>{const r=e.getBoundingClientRect();return r.height>330||((e.closest('.tbt-notes-benefit__media,.tbt-cell-feature'))&&r.width>100)||((e.matches('.tbt-tutor__frame')||e.closest('.tbt-programme-tutors'))&&r.width>132)}).map(e=>e.className||e.alt));
      assert.deepEqual(oversized,[],`${route}: decorative mobile images stay compact`);
      const menu=page.locator('[data-menu-toggle]');await menu.click();assert.equal(await menu.getAttribute('aria-expanded'),'true');
@@ -58,6 +69,16 @@ const assert = require('node:assert/strict');
    }
    console.log(`PASS all 12 pages fit ${width}px`);
   }
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.setViewportSize({width:412,height:844});await page.goto(`${base}/`);
+  const next=page.locator('[data-review-next]'), prev=page.locator('[data-review-prev]');
+  await next.scrollIntoViewIfNeeded();
+  await next.tap();await next.tap();await next.tap();
+  await page.waitForFunction(()=>{const t=document.querySelector('[data-review-track]'),a=t.children;return Math.abs(t.scrollLeft-(a[3].getBoundingClientRect().left-a[0].getBoundingClientRect().left))<2;});
+  await prev.tap();await prev.tap();
+  await page.waitForFunction(()=>{const t=document.querySelector('[data-review-track]'),a=t.children;return Math.abs(t.scrollLeft-(a[1].getBoundingClientRect().left-a[0].getBoundingClientRect().left))<2;});
+  await page.evaluate(()=>{Object.defineProperty(visualViewport,'height',{configurable:true,value:innerHeight-120});visualViewport.dispatchEvent(new Event('resize'));});
+  const floatBox=await page.locator('.whatsapp-float').boundingBox();assert.ok(floatBox.y+floatBox.height<=844-120-32,'Contact control clears reduced visible viewport');
   assert.deepEqual(errors,[]);
  } finally {await browser.close()}
 })().catch(e=>{console.error(e);process.exit(1)});

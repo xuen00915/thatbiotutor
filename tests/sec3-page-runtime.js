@@ -59,7 +59,7 @@ const {chromium} = require('playwright');
    assert.equal(r.both,'rgb(14, 55, 29)','Both-formats block uses the shared dark green');
    assert.equal(r.hall.length,2);
    assert.ok(r.hall.every(h=>h.nat>=1.5&&Math.abs(h.box-h.nat)<0.08&&h.fit==='contain'),'Hall of Fame must show the two result tables uncropped '+JSON.stringify(r.hall));
-   assert.ok(r.video&&/youtube(-nocookie)?\.com\/embed\/e55iPGQL6ng/.test(r.video.src)&&Math.abs(r.video.w/r.video.h-16/9)<0.05&&r.video.w>=Math.min(width-32,700)&&r.video.gap<=80,'Lesson video must be the original YouTube video, 16:9, with no big gap '+JSON.stringify(r.video));
+   assert.ok(r.video&&/youtube(-nocookie)?\.com\/embed\/e55iPGQL6ng/.test(r.video.src)&&Math.abs(r.video.w/r.video.h-16/9)<0.05&&r.video.w>=Math.min(width-(width>=768&&width<=1180?64:32),700)&&r.video.gap<=80,'Lesson video must be the original YouTube video, 16:9, with no big gap '+JSON.stringify(r.video));
    assert.equal(r.cover,'rgb(14, 55, 29)','What-we-cover section uses the shared dark green');
    if(width>=768){const left=r.topics.filter(t=>t.x===Math.min(...r.topics.map(x=>x.x))).map(t=>t.t);assert.deepEqual(left,['Cells','Movement of','Biomolecules','Enzymes','Nutrition in'],'Topics 1-5 must run down the left column '+JSON.stringify(r.topics));}
    assert.ok(r.heads.every(h=>h.k<=24&&h.h<=8),'Eyebrow and title must be centred in Class Options, What We Cover and FAQ at '+width+'px '+JSON.stringify(r.heads));

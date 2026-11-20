@@ -222,7 +222,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       assert.ok(got.every((v, k) => Math.abs(v - want[k]) <= 8), `WhatsApp button ${state} colour is ${want} (got ${got})`);
     }
     // 13. The footer is shorter (was 268px on desktop, 414px on phones) with nothing clipped.
-    for (const [vw, max] of [[1440, 190], [1024, 190], [768, 215], [390, 345]]) {
+    for (const [vw, max] of [[1440, 190], [1024, 190], [768, 235], [390, 345]]) {
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('contact/', base).href, { waitUntil: 'load' });
       const f = await page.locator('.site-footer').evaluate((e) => { const r = e.getBoundingClientRect(); const kids = [...e.querySelectorAll('.site-footer__brand, .site-footer__column, .site-footer__copyright')].map((k) => k.getBoundingClientRect()); return { h: r.height, inside: kids.every((k) => k.top >= r.top && k.bottom <= r.bottom + 0.5), overflow: document.documentElement.scrollWidth - innerWidth }; });
@@ -283,7 +283,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
         assert.equal(r.text, `Class of ${year}`, `${year} has a visible green panel title at ${vw}`);
         assert.ok(r.hv && r.colour === 'rgb(255, 255, 255)', `${year} panel title is visible white text at ${vw}`);
         assert.equal(r.bg, 'rgb(14, 55, 29)', `${year} panel is the dark green at ${vw}`);
-        assert.ok(Math.abs(r.w - Math.min(1120, vw - 32)) <= 2 && Math.abs(r.centre - vw / 2) <= 2, `${year} panel uses the content width at ${vw}: ${r.w}px`);
+        assert.ok(Math.abs(r.w - Math.min(1120, vw - (vw >= 768 && vw <= 1180 ? 64 : 32))) <= 2 && Math.abs(r.centre - vw / 2) <= 2, `${year} panel uses the content width at ${vw}: ${r.w}px`);
         assert.ok(r.radius >= 18, `${year} panel is rounded at ${vw}`);
         assert.ok(r.above, `${year} panel sits above its result pictures at ${vw}`);
       }
