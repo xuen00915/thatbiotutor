@@ -1249,8 +1249,8 @@ body.tbt-site #main-content .tbt-home-quality li { column-gap: 8px; }
 body.tbt-site #main-content .tbt-home-quality li p { margin-top: 0; }
 body.tbt-site #main-content .tbt-home-quality li > span { margin-top: calc((1.65em - 24px) / 2); }
 
-/* Tablet and phone layouts: readable stacked Notes hero with contained controls. */
-@media (max-width: 1180px) {
+/* Phone Notes hero stacks with contained controls. */
+@media (max-width: 767px) {
   body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero__inner { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero :is(h1, .tbt-notes-hero__audience, .tbt-notes-hero__lead, .tbt-resource-proof) { text-align: center; margin-inline: auto; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-proof { justify-content: center; font-size: 16px; font-weight: 400; }
@@ -1279,4 +1279,28 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 /* Touch layouts expose Notes controls without requiring hover. */
 @media (max-width: 1180px), (hover: none) {
   body.tbt-site #main-content .tbt-notes-hero .tbt-resource-carousel--notes :is(.tbt-resource-carousel__control, .tbt-resource-carousel__dots) { opacity: 1; }
+}
+
+/* Small-screen Causes sections share title, green text panel, then pictures. */
+@media (max-width: 980px) {
+  body.tbt-site #main-content .tbt-causes-page .tbt-causes-feature { display: flex; flex-direction: column; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-page .tbt-causes-section[data-section] .tbt-causes-copy { order: -1; margin: 32px 0 0; padding: 28px 20px 30px; border-radius: 22px; background: linear-gradient(180deg, #eef7ea 0%, #e6f3e1 100%); text-align: center; }
+  body.tbt-site #main-content .tbt-causes-page .tbt-causes-section .tbt-causes-copy p { text-align: center; }
+  body.tbt-site #main-content .tbt-causes-page .tbt-causes-section .tbt-causes-copy p:last-child { margin-bottom: 0; }
+}
+@media (max-width: 860px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero :is(.tbt-testimonials-hero__content, h1, .tbt-testimonials-hero__lead) { text-align: center; }
+  body.tbt-site #main-content .tbt-testimonials-page .tbt-testimonials-hero__lead { margin-inline: auto; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__rating { justify-content: center; }
+}
+
+/* Tablet Notes hero keeps the desktop split with sizes suited to its columns. */
+@media (min-width: 768px) and (max-width: 1180px) {
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero__inner { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 28px; align-items: center; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero { padding-block: 32px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero h1 { font-size: clamp(32px, 4.3vw, 48px) !important; text-align: left; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero :is(.tbt-notes-hero__copy, .tbt-notes-hero__audience, .tbt-notes-hero__lead) { text-align: left; }
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero__lead { font-size: 17px; line-height: 1.6; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-proof { font-size: 15px; font-weight: 400; justify-content: flex-start; text-align: left; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(280px, calc(100svh - 240px), 540px); width: min(100%, calc(var(--notes-slider-height) * 500 / 640)); justify-self: center; }
 }

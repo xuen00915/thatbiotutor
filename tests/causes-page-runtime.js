@@ -15,6 +15,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         const box = (selector) => { const r = document.querySelector(selector).getBoundingClientRect(); return { top: r.top + scrollY, bottom: r.bottom + scrollY, height: r.height }; };
         const fontSize = (selector) => parseFloat(getComputedStyle(document.querySelector(selector)).fontSize);
         return {
+          panels: [...document.querySelectorAll('.tbt-causes-copy')].map(e => { const s=getComputedStyle(e); return { background:s.backgroundImage, radius:s.borderRadius }; }),
           h1: fontSize('[data-section="planting"] .tbt-institutional-title-bar h1'),
           h2: fontSize('[data-section="sg-causes"] .tbt-institutional-title-bar h2'),
           bar: box('[data-section="planting"] .tbt-institutional-title-bar'),
@@ -37,17 +38,18 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       });
       const at = `at ${width}px: ${JSON.stringify(m)}`;
       assert.ok(m.square.top - m.bar.bottom >= 24, `Title bar must have breathing room above the first picture ${at}`);
-      assert.ok(m.align.every((a) => a === 'center'), `Planting text sits centred in its green panel under the two pictures at every width ${at}`);
-      assert.ok(m.planGap <= 72, `Gap between the Planting text and the next title bar must stay tight ${at}`);
+      assert.ok(m.align.every((a) => a === 'center'), `Planting text sits centred in its green panel at every width ${at}`);
+      assert.ok(width <= 980 || m.planGap <= 72, `Gap between the Planting text and the next title bar must stay tight ${at}`);
       if (width > 980) assert.ok(m.planPara.width >= 840 && Math.abs(m.planPara.centre - width / 2) <= 2, `Planting paragraphs use the full panel width, centred ${at}`);
       if (width > 980) {
         assert.ok(m.squareX.right <= m.recordX.left, `Planet picture and donor-search picture must share one row on desktop ${at}`);
         assert.ok(Math.abs(m.square.top - m.record.top) <= 2 && Math.abs(m.square.bottom - m.record.bottom) <= 2, `The two pictures must have the same top and height ${at}`);
         assert.ok(m.copyX.top >= Math.max(m.square.bottom, m.record.bottom) - 1, `Planting text must sit under both pictures ${at}`);
       } else {
-        assert.ok(m.record.top >= m.square.bottom - 1 && m.copyX.top >= m.record.bottom - 1, `Narrow screens stack planet, donor-search, then text ${at}`);
+        assert.deepEqual(m.panels[0], m.panels[1], `Both Causes text panels use the same design ${at}`);
+        assert.ok(m.copyX.top >= m.bar.bottom && m.square.top >= m.copyX.bottom && m.record.top >= m.square.bottom - 1, `Narrow screens stack title, text, planet, then donor-search ${at}`);
       }
-      assert.ok(m.sgAlign.every((a) => a === 'left' || a === 'start'), `SG causes paragraphs stay left-aligned ${at}`);
+      assert.ok(m.sgAlign.every((a) => width <= 980 ? a === 'center' : a === 'left' || a === 'start'), `SG causes paragraphs follow the responsive alignment ${at}`);
       if (width > 980) {
         assert.ok(m.givingX.right <= m.sgCopy.left, `Giving.sg picture must sit beside the text on desktop ${at}`);
         assert.ok(m.sgCopy.top >= m.givingX.top - 1 && m.sgCopy.bottom <= m.givingX.bottom + 1, `SG text must sit within the picture's height ${at}`);

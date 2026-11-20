@@ -11,7 +11,8 @@ const assert = require('node:assert/strict');
    const hero=await page.locator('.tbt-notes-hero').evaluate(e=>{const box=s=>e.querySelector(s).getBoundingClientRect();return{heading:box('h1').toJSON(),proof:box('.tbt-resource-proof').toJSON(),slider:box('[data-carousel]').toJSON(),controls:[...e.querySelectorAll('[data-carousel-prev],[data-carousel-next]')].map(a=>a.getBoundingClientRect().toJSON())}});
    assert.ok(hero.controls.every(r=>r.left>=8&&r.right<=width-8),`Notes arrows fit at ${width}`);
    if(width<=1180) {
-    assert.ok(hero.slider.top>=hero.proof.bottom,`Tablet hero stacks cleanly at ${width}`);
+    if(width<768) assert.ok(hero.slider.top>=hero.proof.bottom,`Phone hero stacks cleanly at ${width}`);
+    else assert.ok(hero.slider.left>=hero.heading.right-1,`Tablet hero stays side by side at ${width}`);
     assert.ok(await page.locator('.tbt-notes-hero [data-carousel-next]').evaluate(e=>+getComputedStyle(e).opacity===1), `Touch controls are visible without hover at ${width}`);
    }
    await page.locator('.tbt-notes-hero [data-carousel-next]').click();
@@ -20,6 +21,10 @@ const assert = require('node:assert/strict');
    const image=await page.locator('.tbt-causes-section__media--square img').boundingBox();
    assert.ok(image.x>=16&&image.x+image.width<=width-16+1,`Entire Causes image fits at ${width}`);
    await page.goto(`${base}/testimonials/`);
+   if(width<=860) {
+    const aligned=await page.locator('.tbt-testimonials-hero').evaluate(e=>['h1','.tbt-testimonials-hero__lead'].every(s=>getComputedStyle(e.querySelector(s)).textAlign==='center')&&getComputedStyle(e.querySelector('.tbt-testimonials-hero__rating')).justifyContent==='center');
+    assert.ok(aligned,`Mobile testimonial heading, copy and rating are centered at ${width}`);
+   }
    const toggle=page.locator('.tbt-year-nav__toggle');
    await toggle.click();
    const geo=await page.locator('[data-year-nav]').evaluate(e=>{const b=e.getBoundingClientRect(),p=e.querySelector('nav').getBoundingClientRect(),h=document.querySelector('.site-header').getBoundingClientRect();return{top:b.top,bottom:b.bottom,panelTop:p.top,panelBottom:p.bottom,header:h.bottom}});

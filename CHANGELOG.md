@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] On small screens, both Causes sections show their title, matching green text panel, then images. Centred the mobile Results & Testimonials heading, introduction and review rating. Restored a side-by-side Notes hero on tablets with scaled type and preview sizing. Added responsive order and alignment checks.
+
 - [main-site] Tablet/mobile audit: Notes hero now stacks through 1180px, with contained arrows/dots beneath the preview that stay visible on tablet and touch layouts; the full Causes graphic fits wider phones as well as small phones; the testimonial year selector sits below the header and opens down on tablets/phones, with matching anchor offsets. Long recommendation headings fit small tablets. Added nine-size interaction checks and expanded Causes width coverage.
 
 - [main-site] Audited all pages for ticked phrases. Class options, programme phases, exam and tutor-quality points, Home fit/quality lists and the Notes checklist now keep a consistent 8px icon gap and align the tick with the first text line, including wrapped mobile copy. Added a twelve-page, four-width alignment check.
