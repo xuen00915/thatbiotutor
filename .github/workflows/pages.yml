@@ -91,6 +91,7 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:4173 node tests/screenshot-feedback-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/carousel-motion-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/tick-alignment-runtime.js
+          TBT_RUNTIME_URL=http://localhost:4173 node tests/mobile-tablet-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/sec3-page-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/sec3-refinements-runtime.js
           TBT_RUNTIME_URL=http://localhost:4173 node tests/sec4-page-runtime.js

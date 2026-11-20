@@ -17,7 +17,8 @@
   const partLinks = Array.from(panel.querySelectorAll('a.tbt-year-nav__section'));
   partLinks.forEach(link => { if (!document.getElementById(link.hash.slice(1))) link.closest('li').hidden = true; });
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const headerHeight = () => header ? header.getBoundingClientRect().height : 0;
+  const headerHeight = () => (header ? header.getBoundingClientRect().height : 0)
+    + (window.matchMedia('(max-width: 1180px)').matches ? root.getBoundingClientRect().height + 8 : 0);
   const close = (restoreFocus = false) => {
     toggle.setAttribute('aria-expanded', 'false');
     panel.hidden = true;

@@ -1248,3 +1248,30 @@ body.tbt-site #main-content :is(.tbt-tick:not(.tbt-programme-options__included .
 body.tbt-site #main-content .tbt-home-quality li { column-gap: 8px; }
 body.tbt-site #main-content .tbt-home-quality li p { margin-top: 0; }
 body.tbt-site #main-content .tbt-home-quality li > span { margin-top: calc((1.65em - 24px) / 2); }
+
+/* Tablet and phone layouts: readable stacked Notes hero with contained controls. */
+@media (max-width: 1180px) {
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero__inner { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero :is(h1, .tbt-notes-hero__audience, .tbt-notes-hero__lead, .tbt-resource-proof) { text-align: center; margin-inline: auto; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-proof { justify-content: center; font-size: 16px; font-weight: 400; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-carousel--notes { width: min(100%, 440px); justify-self: center; margin-inline: auto; }
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero__copy { text-align: center; }
+}
+/* Keep arrows and dots below the preview, away from the notes and adjacent copy. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes { padding-bottom: 52px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control { top: auto; bottom: 0; transform: none; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control--previous { left: calc(50% - 114px); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__control--next { right: calc(50% - 114px); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__dots { bottom: 6px; }
+/* Fit the whole Causes graphic on every phone width, not only <=390px. */
+body.tbt-site #main-content .tbt-causes-section__media--square { max-width: 100%; height: auto; aspect-ratio: 1; }
+body.tbt-site #main-content .tbt-causes-section__media--square img { object-fit: contain; }
+/* Long headings may wrap inside narrow tablets without clipping. */
+body.tbt-site #main-content .tbt-recommendations-page h1 { overflow-wrap: anywhere; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-hero .tbt-resource-carousel--notes .tbt-resource-carousel__dots { left: 50%; right: auto; width: max-content; transform: translateX(-50%); }
+@media (min-width: 1181px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(300px, calc(100svh - 240px), 640px); }
+}
+@media (min-width: 521px) and (max-width: 700px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-recommendations-page h1 { font-size: clamp(36px, 6vw, 42px) !important; }
+}

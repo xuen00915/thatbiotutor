@@ -480,7 +480,7 @@ const sizes = [
       ];
       for (const [index, expected] of expectedCausesImages.entries()) {
         const actual = causesImages[index];
-        if (!actual || actual.y < 100 || Math.abs(actual.width - expected.width) > 1 || Math.abs(actual.height - expected.height) > 1 || actual.fit !== 'cover') {
+        if (!actual || actual.y < 100 || Math.abs(actual.width - expected.width) > 1 || Math.abs(actual.height - expected.height) > 1 || actual.fit !== (index === 0 ? 'contain' : 'cover')) {
           throw new Error(`Causes image ${index + 1} geometry is wrong: ${JSON.stringify(actual)}`);
         }
       }

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Tablet/mobile audit: Notes hero now stacks through 1180px, with contained arrows/dots beneath the preview; the full Causes graphic fits wider phones as well as small phones; the testimonial year selector sits below the header and opens down on tablets/phones, with matching anchor offsets. Long recommendation headings fit small tablets. Added nine-size interaction checks and expanded Causes width coverage.
+
 - [main-site] Audited all pages for ticked phrases. Class options, programme phases, exam and tutor-quality points, Home fit/quality lists and the Notes checklist now keep a consistent 8px icon gap and align the tick with the first text line, including wrapped mobile copy. Added a twelve-page, four-width alignment check.
 
 - [main-site] All image carousels now share a smooth 600ms crossfade, including Notes, Cell Division and tutor certificates. Inactive slides remain rendered for transitions but are inert and hidden from assistive technology. Reduced-motion users get instant changes and no autoplay. Added intermediate-frame, rapid-control and reduced-motion browser coverage across all carousel pages.

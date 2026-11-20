@@ -24,13 +24,14 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
         const panel = e.querySelector('nav').getBoundingClientRect();
         const button = e.querySelector('button').getBoundingClientRect();
         const wa = document.querySelector('.whatsapp-float').getBoundingClientRect();
-        return { left: panel.left, right: panel.right, top: panel.top, bottom: panel.bottom, buttonTop: button.top, width: panel.width, waLeft: wa.left, z: +getComputedStyle(e).zIndex, headerZ: +getComputedStyle(document.querySelector('.site-header')).zIndex, overflow: document.documentElement.scrollWidth - innerWidth };
+        return { left: panel.left, right: panel.right, top: panel.top, bottom: panel.bottom, buttonTop: button.top, buttonBottom: button.bottom, headerBottom: document.querySelector('.site-header').getBoundingClientRect().bottom, width: panel.width, waLeft: wa.left, z: +getComputedStyle(e).zIndex, headerZ: +getComputedStyle(document.querySelector('.site-header')).zIndex, overflow: document.documentElement.scrollWidth - innerWidth };
       });
       assert.ok(geometry.width >= 232 && geometry.width <= 272, `Year panel is wide enough for the detail lines: ${geometry.width}`);
       assert.ok(geometry.left >= 0 && geometry.right <= width && geometry.top >= 0 && geometry.bottom <= 900);
       assert.equal(geometry.overflow, 0);
       assert.ok(geometry.z < geometry.headerZ, 'Keep primary navigation above year panel');
-      if (width < 1440) assert.ok(geometry.bottom <= geometry.buttonTop && geometry.right < geometry.waLeft, 'Menu opens upwards and stays separate from WhatsApp');
+      if (width <= 1180) assert.ok(geometry.buttonTop >= geometry.headerBottom && geometry.top >= geometry.buttonBottom, 'Mobile year panel opens below the header');
+      if (width > 1180 && width < 1440) assert.ok(geometry.bottom <= geometry.buttonTop && geometry.right < geometry.waLeft, 'Menu opens upwards and stays separate from WhatsApp');
       await page.keyboard.press('Escape');
       assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
       assert.equal(await toggle.evaluate(e => e === document.activeElement), true);
@@ -41,7 +42,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       await page.waitForFunction(() => document.querySelector('[data-year-current]').textContent === '2022');
       assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
       assert.equal(await nav.locator('[aria-current="location"] .tbt-year-nav__title').textContent(), 'Class of 2022');
-      const top = await page.locator('#class-of-2022').evaluate(e => ({ top: e.getBoundingClientRect().top, header: document.querySelector('.site-header').getBoundingClientRect().bottom }));
+      const top = await page.locator('#class-of-2022').evaluate(e => ({ top: e.getBoundingClientRect().top, header: innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom }));
       assert.ok(top.top >= top.header && top.top <= top.header + 24, 'Selected year clears sticky header');
       // Manual scrolling updates the current year, including while inside a long section.
       const manualDelta = await page.locator('#class-of-2024').evaluate(e => e.getBoundingClientRect().top + 200);
@@ -54,7 +55,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       assert.equal(await page.locator('[data-year-nav]').count(), 0, 'Navigator exists only on Testimonials');
       await page.goto(new URL('testimonials/', base).href);
       await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
-      await page.locator('.tbt-testimonials-hero h1').click();
+      await page.mouse.click(4, 180); // outside the downward panel, without clicking covered content
       assert.equal(await page.locator('[data-year-nav] button.tbt-year-nav__toggle').getAttribute('aria-expanded'), 'false', 'Outside click closes panel');
       console.log(`PASS year navigation ${width}`);
     }

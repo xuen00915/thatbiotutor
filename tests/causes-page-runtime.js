@@ -7,7 +7,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
   try {
     const page = await browser.newPage();
     page.setDefaultTimeout(10000);
-    for (const width of [1440, 1024, 768, 390, 320]) {
+    for (const width of [1440, 1024, 820, 768, 600, 430, 412, 390, 320]) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(new URL('./trees/', base).href, { waitUntil: 'load' });
       await page.evaluate(() => document.fonts?.ready);

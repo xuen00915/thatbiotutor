@@ -375,3 +375,11 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero h1 { font-size: 36px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__stars svg:not([width="0"]) { width: 20px; height: 20px; }
 }
+
+/* Keep the year picker directly below the primary header on phones and tablets. */
+@media (max-width: 1180px) {
+  body.tbt-site #main-content .tbt-testimonials-page { padding-top: 52px; }
+  body.tbt-site #main-content .tbt-year-nav { top: calc(var(--tbt-header-height) + 8px); bottom: auto; left: 16px; width: calc(100% - 32px); transform: none; }
+  body.tbt-site #main-content .tbt-year-nav__toggle { width: 100%; justify-content: center; }
+  body.tbt-site #main-content .tbt-year-nav__panel { top: calc(100% + 8px); bottom: auto; max-width: 100%; max-height: calc(100dvh - var(--tbt-header-height) - 150px); }
+}
