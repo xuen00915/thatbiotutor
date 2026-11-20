@@ -46,10 +46,10 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.ok(Math.abs(m.square.top - m.record.top) <= 2 && Math.abs(m.square.bottom - m.record.bottom) <= 2, `The two pictures must have the same top and height ${at}`);
         assert.ok(m.copyX.top >= Math.max(m.square.bottom, m.record.bottom) - 1, `Planting text must sit under both pictures ${at}`);
       } else {
-        assert.deepEqual(m.panels[0], m.panels[1], `Both Causes text panels use the same design ${at}`);
         assert.ok(m.copyX.top >= m.bar.bottom && m.square.top >= m.copyX.bottom && m.record.top >= m.square.bottom - 1, `Narrow screens stack title, text, planet, then donor-search ${at}`);
       }
-      assert.ok(m.sgAlign.every((a) => width <= 980 ? a === 'center' : a === 'left' || a === 'start'), `SG causes paragraphs follow the responsive alignment ${at}`);
+      assert.deepEqual(m.panels[0], m.panels[1], `Both Causes text panels use the same design at every device width ${at}`);
+      assert.ok(m.sgAlign.every((a) => a === 'center'), `SG causes paragraphs follow the responsive alignment ${at}`);
       if (width > 980) {
         assert.ok(m.givingX.right <= m.sgCopy.left, `Giving.sg picture must sit beside the text on desktop ${at}`);
         assert.ok(m.sgCopy.top >= m.givingX.top - 1 && m.sgCopy.bottom <= m.givingX.bottom + 1, `SG text must sit within the picture's height ${at}`);
@@ -57,6 +57,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.ok(m.givingX.top >= m.sgCopy.bottom - 1, `Giving.sg picture stacks below the text on narrower screens ${at}`);
       }
       assert.ok(m.footer.top - m.giving.bottom <= 180, `Dead space between the last picture and the footer ${at}`);
+      if (width <= 640) assert.equal(m.h1, 26, `Mobile Causes title bars use smaller 26px type ${at}`);
       assert.equal(m.h1, m.h2, `Both title bars (1. Planting Trees! and 2. SG Environmental Causes) use the same text size ${at}`);
       assert.ok(m.barH1 <= m.bar.height + 1, `Title text must fit its bar ${at}`);
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);

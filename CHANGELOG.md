@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Extended the centred soft-green SG Environmental Causes text panel to desktop and tablet. Reduced both Causes title bars to 26px on phones; verified matching panels and title sizes across nine widths.
+
 - [main-site] On small screens, both Causes sections show their title, matching green text panel, then images. Centred the mobile Results & Testimonials heading, introduction and review rating. Restored a side-by-side Notes hero on tablets with scaled type and preview sizing. Added responsive order and alignment checks.
 
 - [main-site] Tablet/mobile audit: Notes hero now stacks through 1180px, with contained arrows/dots beneath the preview that stay visible on tablet and touch layouts; the full Causes graphic fits wider phones as well as small phones; the testimonial year selector sits below the header and opens down on tablets/phones, with matching anchor offsets. Long recommendation headings fit small tablets. Added nine-size interaction checks and expanded Causes width coverage.

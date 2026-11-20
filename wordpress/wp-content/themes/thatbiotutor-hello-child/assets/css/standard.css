@@ -1304,3 +1304,13 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-proof { font-size: 15px; font-weight: 400; justify-content: flex-start; text-align: left; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-carousel--notes { --notes-slider-height: clamp(280px, calc(100svh - 240px), 540px); width: min(100%, calc(var(--notes-slider-height) * 500 / 640)); justify-self: center; }
 }
+
+/* Match the SG giving panel to the soft green Causes cards on larger devices. */
+@media (min-width: 981px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-page .tbt-causes-section[data-section="sg-causes"] .tbt-causes-copy { padding: 28px 24px; border-radius: 28px; background: linear-gradient(180deg, #eef7ea 0%, #e6f3e1 100%); text-align: center; }
+  body.tbt-site #main-content .tbt-causes-page .tbt-causes-section[data-section="sg-causes"] .tbt-causes-copy p { text-align: center; }
+  body.tbt-site #main-content .tbt-causes-page .tbt-causes-section[data-section="sg-causes"] .tbt-causes-copy p:last-child { margin-bottom: 0; }
+}
+@media (max-width: 640px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-page .tbt-causes-section .tbt-institutional-title-bar :is(h1, h2) { font-size: 26px !important; line-height: 1.25; }
+}
