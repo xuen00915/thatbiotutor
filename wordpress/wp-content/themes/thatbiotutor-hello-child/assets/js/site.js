@@ -508,6 +508,21 @@
     });
   }
 
+  function initNotesReviewSkip(document, windowObject) {
+    document.querySelectorAll('.tbt-notes-skip-reviews').forEach(link => {
+      link.addEventListener('click', event => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        const target = document.getElementById(link.hash.slice(1));
+        if (!target) return;
+        event.preventDefault();
+        if (!target.hasAttribute('tabindex') && target.tagName !== 'A') target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
+        target.scrollIntoView({ block: 'start' });
+        windowObject.history.replaceState(null, '', link.hash);
+      });
+    });
+  }
+
   function initFloatingContact(document, windowObject) {
     const button = document.querySelector('.whatsapp-float');
     const viewport = windowObject.visualViewport;
@@ -541,6 +556,7 @@
     initReveal(document, windowObject);
     initHomeProof(document, windowObject);
     initFloatingContact(document, windowObject);
+    initNotesReviewSkip(document, windowObject);
   }
 
   return { openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, formatCountUpValue, syncNavigationViewport, initCertificateLightbox, init };

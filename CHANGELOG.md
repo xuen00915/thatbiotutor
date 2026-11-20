@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- [main-site] Added mobile-only “Skip testimonials” links above both Free Bio Notes review groups. They jump past the reviews to the form or final download button, with header clearance and native keyboard-accessible anchors.
+- [main-site] Added mobile-only “Skip testimonials” links above both Free Bio Notes review groups. They jump past the reviews to the form or final download button, with header clearance and keyboard-accessible anchors. Skip navigation stays in the current document after static export and moves focus to its destination.
 
 - [main-site] Restored all shared practical galleries to one full-width photo per row on phones.
 

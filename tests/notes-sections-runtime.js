@@ -79,7 +79,9 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         if(width<=640) {
           await page.emulateMedia({reducedMotion:'reduce'});
           const href=await skips.nth(i).evaluate(link=>link.hash);
+          await page.evaluate(()=>window.tbtSkipDocument=true);
           await skips.nth(i).click();
+          assert.equal(await page.evaluate(()=>window.tbtSkipDocument),true,'Skip avoids a document reload on exported pages');
           await page.waitForFunction(hash=>location.hash===hash,href);
           const target=await page.locator(href).boundingBox();
           assert.ok(target.y>=80&&target.y<900,'Skip lands past testimonials with target visible below header');
