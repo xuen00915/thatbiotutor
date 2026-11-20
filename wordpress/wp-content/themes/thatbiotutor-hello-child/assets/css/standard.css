@@ -1236,3 +1236,15 @@ body.tbt-site #main-content [data-carousel-fade] [data-carousel-slide].is-active
 @media (prefers-reduced-motion: reduce) {
   body.tbt-site #main-content [data-carousel-fade] [data-carousel-slide] { transition: none; }
 }
+
+/* Ticked phrases: align the icon with the first line, keeping wrapped text together. */
+body.tbt-site #main-content :is(.tbt-tick:not(.tbt-programme-options__included .tbt-tick), .tbt-programme-options__grid li, .tbt-programme-exam li, .tbt-home-fit li, .tbt-notes-pain-list li) { position: relative; padding-left: 26px; }
+body.tbt-site #main-content :is(.tbt-tick:not(.tbt-programme-options__included .tbt-tick), .tbt-programme-options__grid li, .tbt-programme-exam li, .tbt-home-fit li, .tbt-notes-pain-list li)::before {
+  position: absolute; left: 0; top: calc(.5lh - 9px); width: 18px; height: 18px; font-size: inherit; line-height: inherit;
+  content: "";
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232f8a27' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+/* The home quality cards use a separate circular tick next to a paragraph. */
+body.tbt-site #main-content .tbt-home-quality li { column-gap: 8px; }
+body.tbt-site #main-content .tbt-home-quality li p { margin-top: 0; }
+body.tbt-site #main-content .tbt-home-quality li > span { margin-top: calc((1.65em - 24px) / 2); }
