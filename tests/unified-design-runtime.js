@@ -58,7 +58,7 @@ const INK = 'rgb(25, 34, 26)', GREEN = 'rgb(47, 138, 39)', LIGHT_GREEN = 'rgb(14
         // 2. headings: one style
         const h1s = r.h.filter((h) => h.tag === 'H1');
         t.ok(h1s.length >= 1, `Page title on ${at}`);
-        for (const h of h1s) { if (/^sec-[34]-pure/.test(route)) { t.ok(Math.abs(h.size - Math.max(32, Math.min(60, width * .042))) < .1, `Programme titles use the approved responsive size on ${at}: ${h.size}px`); t.equal(h.weight, '800', `H1 weight on ${at} (${h.text})`); continue; } t.equal(h.size, route === 'trees/' ? stdH2 : homeH1, `H1 matches the homepage size (Our Causes: the section-title size) on ${at}: ${h.size}px (${h.text})`); t.equal(h.weight, '800', `H1 weight on ${at} (${h.text})`); }
+        for (const h of h1s) { if (/^sec-[34]-pure/.test(route)) { t.ok(Math.abs(h.size - Math.max(32, Math.min(60, width * .042))) < .1, `Programme titles use the approved responsive size on ${at}: ${h.size}px`); t.equal(h.weight, '800', `H1 weight on ${at} (${h.text})`); continue; } t.equal(h.size, route === 'trees/' ? (width <= 640 ? 26 : stdH2) : homeH1, `H1 matches the homepage size (Our Causes: 26px mobile, section-title size on larger screens) on ${at}: ${h.size}px (${h.text})`); t.equal(h.weight, '800', `H1 weight on ${at} (${h.text})`); }
         for (const h of r.h.filter((x) => x.tag === 'H2')) {
           t.equal(h.weight, '800', `H2 weight on ${at}: ${h.weight} (${h.text})`);
           t.ok(Math.abs(h.size - stdH2) < 0.6 || h.size <= 26, `H2 size on ${at}: ${h.size}px (${h.text})`);
