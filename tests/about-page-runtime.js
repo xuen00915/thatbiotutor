@@ -17,6 +17,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         const cs = (selector) => getComputedStyle(document.querySelector(selector));
         const size = (selector) => parseFloat(cs(selector).fontSize);
         return {
+          beliefsType: [...document.querySelectorAll('.tbt-beliefs-grid p')].map(e => { const s=getComputedStyle(e); return {size:parseFloat(s.fontSize),line:parseFloat(s.lineHeight),weight:s.fontWeight,font:s.fontFamily}; }),
           heroHeight: document.querySelector('.tbt-about-hero').getBoundingClientRect().height,
           imageOpacity: parseFloat(cs('.tbt-about-hero__image').opacity),
           heroFont: cs('.tbt-about-hero h1').fontFamily,
@@ -28,6 +29,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         };
       });
       const at = `at ${width}px: ${JSON.stringify(m)}`;
+      for (const t of m.beliefsType) { assert.equal(t.size,18, `Beliefs copy uses standard body sizing ${at}`); assert.ok(Math.abs(t.line-28.8)<.1); assert.equal(t.weight,'400'); assert.match(t.font,/Poppins/); }
       assert.ok(Math.abs(m.imageOpacity - 0.78) < 0.02, `Hero photo must stay at 78% opacity ${at}`);
       assert.match(m.heroFont, /^"?Poppins/, `Hero heading must use Poppins ${at}`);
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);

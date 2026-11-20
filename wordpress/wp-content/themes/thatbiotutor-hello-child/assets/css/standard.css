@@ -1314,3 +1314,6 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 @media (max-width: 640px) {
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-causes-page .tbt-causes-section .tbt-institutional-title-bar :is(h1, h2) { font-size: 26px !important; line-height: 1.25; }
 }
+
+/* Vision, Mission and Values use the standard body-copy scale. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-beliefs .tbt-beliefs-grid p { font-size: 18px; line-height: 1.6; font-weight: 400; }

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Standardised Vision, Mission and Values paragraphs to 18px regular Poppins with 1.6 line spacing on all devices, retaining bold green labels.
+
 - [main-site] Extended the centred soft-green SG Environmental Causes text panel to desktop and tablet. Reduced both Causes title bars to 26px on phones; verified matching panels and title sizes across nine widths.
 
 - [main-site] On small screens, both Causes sections show their title, matching green text panel, then images. Centred the mobile Results & Testimonials heading, introduction and review rating. Restored a side-by-side Notes hero on tablets with scaled type and preview sizing. Added responsive order and alignment checks.
