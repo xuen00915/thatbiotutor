@@ -512,7 +512,14 @@
     const button = document.querySelector('.whatsapp-float');
     const viewport = windowObject.visualViewport;
     if (!button || !viewport) return;
-    const update = () => button.style.setProperty('--tbt-visible-bottom', `${Math.max(0, windowObject.innerHeight - viewport.height - viewport.offsetTop)}px`);
+    const update = () => {
+      const layout = document.documentElement;
+      const bottom = Math.max(0, Math.max(layout.clientHeight, windowObject.innerHeight) - viewport.height - viewport.offsetTop);
+      const right = Math.max(0, Math.max(layout.clientWidth, windowObject.innerWidth) - viewport.width - viewport.offsetLeft);
+      button.style.setProperty('--tbt-visible-bottom', `${bottom}px`);
+      button.style.setProperty('--tbt-visible-right', `${right}px`);
+    };
+    ['resize', 'orientationchange', 'pageshow'].forEach(event => windowObject.addEventListener(event, update, { passive: true }));
     viewport.addEventListener('resize', update, { passive: true });
     viewport.addEventListener('scroll', update, { passive: true });
     update();

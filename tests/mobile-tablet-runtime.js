@@ -1,7 +1,7 @@
-const { chromium } = require('playwright');
+const { chromium, webkit } = require('playwright');
 const assert = require('node:assert/strict');
 (async () => {
- const browser=await chromium.launch(); const page=await browser.newPage({reducedMotion:'reduce',hasTouch:true});
+ const browser=await (process.env.TBT_BROWSER === 'webkit' ? webkit : chromium).launch(); const page=await browser.newPage({reducedMotion:'reduce',hasTouch:true});
  const base=process.env.TBT_RUNTIME_URL||'http://localhost:8890';
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  try {
@@ -60,7 +60,7 @@ const assert = require('node:assert/strict');
     }
     if(width===412) {
      const gallery=await page.locator('.tbt-practical-grid,.tbt-home-practical__grid,.tbt-home-classroom__grid').evaluateAll(es=>es.map(e=>[...e.children].map(c=>c.getBoundingClientRect().toJSON())));
-     gallery.forEach(([a,b,c])=>{assert.ok(Math.abs(a.top-b.top)<1&&b.left>=a.right,`${route}: first two practical photos share a row`);assert.ok(c.top>=a.bottom&&Math.abs(c.width-a.width)<1,`${route}: third photo sits below at the same compact size`);});
+     gallery.forEach(([a,b,c])=>{assert.ok(Math.abs(a.top-b.top)<1&&b.left>=a.right,`${route}: first two practical photos share a row`);assert.ok(c.top>=a.bottom&&Math.abs(c.width-(b.right-a.left))<1,`${route}: third photo spans the full content width below`);});
      if(route==='about') {const widths=await page.locator('.tbt-about-beliefs__image').evaluate(e=>[e.getBoundingClientRect().width,e.parentElement.getBoundingClientRect().width]);assert.ok(Math.abs(widths[0]-widths[1])<1,'About image fills the mobile content width');}
      const practical=await page.locator('main img[src*="35ad6135826a6626379208fe8e6eefe5"]').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return {ratio:r.width/r.height,position:s.objectPosition,fit:s.objectFit};}));
      practical.forEach(s=>{assert.ok(s.ratio<=4/3+.01,`${route}: mobile practical frame crops the baked-in black strip`);assert.equal(s.position,'100% 50%');assert.equal(s.fit,'cover');});
@@ -82,6 +82,8 @@ const assert = require('node:assert/strict');
   await page.waitForFunction(()=>{const t=document.querySelector('[data-review-track]'),a=t.children;return Math.abs(t.scrollLeft-(a[1].getBoundingClientRect().left-a[0].getBoundingClientRect().left))<2;});
   await page.evaluate(()=>{Object.defineProperty(visualViewport,'height',{configurable:true,value:innerHeight-120});visualViewport.dispatchEvent(new Event('resize'));});
   const floatBox=await page.locator('.whatsapp-float').boundingBox();assert.ok(floatBox.y+floatBox.height<=844-120-32,'Contact control clears reduced visible viewport');
+  await page.evaluate(()=>{Object.defineProperty(visualViewport,'width',{configurable:true,value:innerWidth-100});visualViewport.dispatchEvent(new Event('resize'));});
+  const zoomBox=await page.locator('.whatsapp-float').boundingBox();assert.ok(zoomBox.x+zoomBox.width<=412-100-24,'Contact control clears the right edge of a narrowed visual viewport');
   assert.deepEqual(errors,[]);
  } finally {await browser.close()}
 })().catch(e=>{console.error(e);process.exit(1)});
