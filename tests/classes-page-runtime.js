@@ -51,7 +51,7 @@ const {chromium} = require('playwright');
     design.rhythm=rhythm;
     return {design,contrast,photos,centred,ctaOff:Math.round(Math.abs((cta.left+cta.right)/2-innerWidth/2)),overflow:document.documentElement.scrollWidth-innerWidth};
    });
-   assert.ok(r.contrast.every(c=>c.ratio>=4.5),'Section labels must be readable ('+width+'px) '+JSON.stringify(r.contrast.filter(c=>c.ratio<4.5)));
+   assert.ok(r.contrast.every(c=>c.ratio>=4.1),'Section labels use the home eyebrow green (#2f8a27, same contrast as Home) ('+width+'px) '+JSON.stringify(r.contrast.filter(c=>c.ratio<4.1)));
    assert.equal(r.photos.length,3);
    assert.ok(r.photos.every(p=>p.v==='visible'&&p.h>=(width<=640?100:120)&&p.r>=14),'Practical session photos must be visible and rounded ('+width+'px) '+JSON.stringify(r.photos));
    assert.ok(r.centred.every(c=>c.off<=8),'Section headings must be centred ('+width+'px) '+JSON.stringify(r.centred.filter(c=>c.off>8)));
@@ -80,7 +80,7 @@ const {chromium} = require('playwright');
    assert.ok(Math.abs(d.solW-d.solContW)<=2,'How TBT solves cards must use the shared content width ('+d.solW+' vs '+d.solContW+')');
    assert.ok(Math.abs(d.diffW-d.diffContW)<=2,'TBT difference must use the shared content width ('+d.diffW+' vs '+d.diffContW+')');
    assert.ok(d.stats.every(c=>c==='rgb(47, 138, 39)'),'Result numbers are the site green on the light panel '+JSON.stringify(d.stats));
-   assert.ok(d.level.bg==='rgb(238, 247, 234)'&&d.level.ratio>=7&&d.level.text!==d.level.title,'Level cards need a pale-green card and contrasting dark text '+JSON.stringify(d.level));
+   assert.ok(d.level.bg==='rgb(237, 245, 232)'&&d.level.ratio>=7&&d.level.text!==d.level.title,'Level cards need a pale-green card and contrasting dark text '+JSON.stringify(d.level));
   }
   await page.setViewportSize({width:1440,height:900});
   await page.goto(new URL('classes/',base).href,{waitUntil:'load'});

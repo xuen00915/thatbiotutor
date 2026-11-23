@@ -318,7 +318,7 @@ function tbt_editor_settings(array $settings, string $editorId = ''): array
         return $settings;
     }
     $settings['extended_valid_elements'] = 'mark,u';
-    $settings['content_style'] = ($settings['content_style'] ?? '') . ' mark{background:#bff0b0;color:inherit;padding:0 2px} mark[data-tone=red]{background:#ffc9c9}';
+    $settings['content_style'] = ($settings['content_style'] ?? '') . ' mark{background:#d9f2d2;color:inherit;padding:0 2px} mark[data-tone=red]{background:#ffc9c9}';
     return $settings;
 }
 

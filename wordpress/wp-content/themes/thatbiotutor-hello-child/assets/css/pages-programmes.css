@@ -27,7 +27,7 @@
 .tbt-programme-section { position: relative; padding: 72px 0; text-align: center; scroll-margin-top: calc(var(--tbt-header-height) + 8px); }
 .tbt-programme-section h2 { margin: 0 auto 34px; font-size: 43px; font-weight: 700; line-height: 1.3; }
 .tbt-programme-section h2 span { color: #2f8a27; }
-.tbt-programme-kicker { display: inline-flex; align-items: center; gap: 12px; margin: 0 0 20px; color: #00644d; font-size: 16px; font-style: italic; font-weight: 700; }
+.tbt-programme-kicker { display: inline-flex; align-items: center; gap: 12px; margin: 0 0 20px; color: #0e371d; font-size: 16px; font-style: italic; font-weight: 700; }
 .tbt-programme-kicker::before { width: 22px; height: 3px; background: currentColor; content: ""; }
 .tbt-programme-button { display: inline-flex; min-width: 335px; min-height: 68px; align-items: center; justify-content: center; padding: 15px 34px; border-radius: 12px; background: #43b43a; color: #fff; font-size: 24px; font-weight: 700; line-height: 1.2; text-decoration: none; box-shadow: none; }
 .tbt-programme-button:hover, .tbt-programme-button:focus-visible { background: #43b43a; color: #fff; }
@@ -98,7 +98,7 @@
 .tbt-programme-stats > div { display: grid; min-width: 0; justify-items: center; gap: 10px; }
 .tbt-programme-stats strong { color: #43b43a; font-size: 58px; line-height: 1; }
 .tbt-programme-stats span { font-size: 15px; font-weight: 700; }
-.tbt-programme-stats--three { padding: 58px 40px; border: 1px solid rgba(255, 255, 255, .14); border-radius: 16px; background: #098366; }
+.tbt-programme-stats--three { padding: 58px 40px; border: 1px solid rgba(255, 255, 255, .14); border-radius: 16px; background: #0e371d; }
 
 .tbt-programme-levels { background: #f0f8ee; text-align: left; }
 .tbt-programme-levels h2, .tbt-programme-levels > .tbt-programme-container > p { margin-left: 0; text-align: left; }

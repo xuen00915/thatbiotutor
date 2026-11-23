@@ -45,7 +45,7 @@ final class FeedbackNov19Test
         $this->assertTrue(str_contains($css, '.tbt-testimonial__after { color: #2f8a27; }'), 'Testimonial card final grades are green.');
         $this->assertTrue(str_contains((string) file_get_contents(TBT_THEME_DIR . '/inc/content/testimonials.php'), 'curated_testimonials_hero_selfie') && str_contains((string) file_get_contents(TBT_THEME_DIR . '/page-notes.php'), 'curated_notes_icon_handshake'), 'The Testimonials hero uses the supplied selfie and the notes card uses the supplied handshake icon.');
         $this->assertTrue(str_contains($css, '.tbt-faq-slider__image { width: 100%; height: 100%; border-radius: 24px; object-fit: cover; }'), 'The FAQ graphics are cropped into rounded corners.');
-        $this->assertTrue(str_contains($css, '.tbt-classes-page .tbt-programme-stats { border: 0; border-radius: 24px; background: #eef7ea;'), 'The Classes numbers panel is a light card, not teal.');
+        $this->assertTrue(str_contains($css, '.tbt-classes-page .tbt-programme-stats { border: 0; border-radius: 24px; background: #edf5e8;'), 'The Classes numbers panel is a light card, not teal.');
 
         // Footer hours on every page.
         $this->assertTrue(str_contains((string) (tbt_reference_content()['shared']['opening_hours'] ?? ''), '(open for online enquiries all 7 days)'), 'The opening hours must say the centre answers online enquiries.');
@@ -79,7 +79,7 @@ final class FeedbackNov19Test
         $this->assertTrue(str_contains($css, '.tbt-founder-question { margin-bottom: 20px; color: #2f8a27; font-size: 28px;'), 'Founder questions are green and bigger.');
 
         // Our Causes.
-        $this->assertTrue(str_contains($css, '.tbt-causes-section[data-section="planting"] .tbt-causes-copy {') && str_contains($css, 'linear-gradient(180deg, #eef7ea 0%, #e6f3e1 100%)'), 'The planting text sits in a soft green panel.');
+        $this->assertTrue(str_contains($css, '.tbt-causes-section[data-section="planting"] .tbt-causes-copy {') && str_contains($css, 'linear-gradient(180deg, #edf5e8 0%, #edf5e8 100%)'), 'The planting text sits in a soft green panel.');
 
         // Favicon on every page.
         require_once TBT_THEME_DIR . '/inc/site-meta.php';

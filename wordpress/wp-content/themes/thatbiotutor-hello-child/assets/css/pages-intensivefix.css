@@ -28,7 +28,7 @@
 .tbt-intensivefix-carousel .tbt-home-carousel__control:focus,
 .tbt-intensivefix-carousel .tbt-home-carousel__control:active { top: calc(50% - 20px); background: transparent; color: var(--tbt-home-forest); }
 .tbt-intensivefix-carousel .tbt-home-carousel__dots { position: static; display: flex; justify-content: center; gap: 8px; margin-top: 16px; transform: none; }
-.tbt-intensivefix-carousel .tbt-home-carousel__dots button { width: 8px; height: 8px; min-width: 8px; min-height: 8px; background: #c6d6c1; }
+.tbt-intensivefix-carousel .tbt-home-carousel__dots button { width: 8px; height: 8px; min-width: 8px; min-height: 8px; background: #dbe6d6; }
 .tbt-intensivefix-carousel .tbt-home-carousel__dots button[aria-current="true"] { width: 24px; border-radius: 8px; background: var(--tbt-home-green); }
 
 /* Student feedback graphic that replaces the old video. */

@@ -172,7 +172,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   max-height: 640px; /* fallback until the script measures four reviews */
   padding: 4px 24px;
   overflow-y: auto;
-  border: 1px solid #d8e4cb;
+  border: 1px solid #dbe6d6;
   border-radius: 18px;
   /* edge shadows appear only while there is more to scroll in that direction */
   background:
@@ -181,7 +181,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
     radial-gradient(farthest-side at 50% 0, rgba(14, 55, 29, .28), rgba(14, 55, 29, 0)) center top / 100% 14px no-repeat scroll,
     radial-gradient(farthest-side at 50% 100%, rgba(14, 55, 29, .28), rgba(14, 55, 29, 0)) center bottom / 100% 14px no-repeat scroll,
     #fff;
-  box-shadow: 0 14px 34px rgba(45, 58, 32, 0.08);
+  box-shadow: 0 14px 34px rgba(14, 55, 29, 0.08);
   scrollbar-color: #43b43a #eef5ea;
   scrollbar-width: thin;
 }
@@ -206,10 +206,10 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   min-height: 0;
   justify-content: flex-start;
   padding: 24px 24px 28px;
-  border: 1px solid #d8e4cb;
+  border: 1px solid #dbe6d6;
   border-radius: 18px;
   background: #fff;
-  box-shadow: 0 14px 34px rgba(45, 58, 32, 0.08);
+  box-shadow: 0 14px 34px rgba(14, 55, 29, 0.08);
 }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media { display: grid; height: auto; margin-bottom: 14px; place-items: center; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefit__media img { width: 200px; height: 200px; }
@@ -386,11 +386,11 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   box-shadow: 0 8px 20px rgba(67, 180, 58, .28);
   transition: background-color 160ms ease, transform 160ms ease;
 }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:is(:hover, :focus-visible) { background: #3a9f32; transform: translateY(-1px); }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:is(:hover, :focus-visible) { background: #2f8a27; transform: translateY(-1px); }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:focus-visible { outline: 3px solid #0e371d; outline-offset: 3px; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-spinner { margin: 8px auto 0; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-response-output { margin: 14px 0 0; padding: 12px 16px; border: 2px solid #c9d8c4; border-radius: 12px; font-size: 15px; line-height: 1.4; text-align: center; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-response-output { margin: 14px 0 0; padding: 12px 16px; border: 2px solid #dbe6d6; border-radius: 12px; font-size: 15px; line-height: 1.4; text-align: center; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form.sent .wpcf7-response-output { border-color: #43b43a; background: #f0f8ee; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-form:is(.failed, .invalid, .unaccepted, .spam, .aborted) .wpcf7-response-output { border-color: #d64037; background: #fdf1f0; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-form .wpcf7-response-output:empty { display: none; }

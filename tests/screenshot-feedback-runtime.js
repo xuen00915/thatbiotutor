@@ -9,7 +9,7 @@ const assert = require('node:assert/strict');
       await page.setViewportSize({ width, height: 1000 });
       await page.goto(`${base}/classes/`);
       assert.equal(await page.locator('.tbt-programme-levels').evaluate(e => getComputedStyle(e).backgroundColor), 'rgb(255, 255, 255)');
-      assert.equal(await page.locator('.tbt-programme-levels__grid a').first().evaluate(e => getComputedStyle(e).backgroundColor), 'rgb(238, 247, 234)');
+      assert.equal(await page.locator('.tbt-programme-levels__grid a').first().evaluate(e => getComputedStyle(e).backgroundColor), 'rgb(237, 245, 232)');
       await page.goto(`${base}/sec-3-pure-g3-biology-tuition/`);
       const size = await page.locator('.tbt-programme-hero h1').evaluate(e => parseFloat(getComputedStyle(e).fontSize));
       assert.ok(size >= (width === 1440 ? 58 : 32), `Hero title too small: ${size}`);

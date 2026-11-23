@@ -41,7 +41,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
     await page.waitForTimeout(250);
     const hov = await page.locator('.site-nav__submenu-link').first().evaluate((e) => ({ color: getComputedStyle(e).color, bg: getComputedStyle(e).backgroundColor }));
     assert.equal(hov.color, MENU_GREEN, 'Hovered dropdown item turns site green');
-    assert.equal(hov.bg, 'rgb(238, 246, 234)', 'Hovered dropdown item gets a light green tint');
+    assert.equal(hov.bg, 'rgb(237, 245, 232)', 'Hovered dropdown item gets a light green tint');
 
     // 2b. The dropdown highlights the page you are on.
     for (const [route, current, other] of [['sec-3-pure-g3-biology-tuition/', 'Sec 3', 'Sec 4'], ['sec-4-pure-g3-biology-tuition/', 'Sec 4', 'Sec 3']]) {
@@ -53,9 +53,9 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       const cur = st.find((x) => x.text === current); const oth = st.find((x) => x.text === other);
       assert.equal(cur.aria, 'page', `${current} is marked as the current page in the dropdown`);
       assert.equal(cur.color, MENU_GREEN, `${current} shows in site green when current`);
-      assert.equal(cur.bg, 'rgb(238, 246, 234)', `${current} keeps the light green tint when current`);
+      assert.equal(cur.bg, 'rgb(237, 245, 232)', `${current} keeps the light green tint when current`);
       assert.equal(oth.aria, null, `${other} is not marked current`);
-      assert.notEqual(oth.bg, 'rgb(238, 246, 234)', `${other} is not highlighted`);
+      assert.notEqual(oth.bg, 'rgb(237, 245, 232)', `${other} is not highlighted`);
     }
     await page.goto(new URL('classes/', base).href);
     assert.equal(await page.locator('.site-nav__submenu-link[aria-current]').count(), 0, 'No dropdown item is current on the Classes overview');
@@ -194,7 +194,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
     await page.setViewportSize({ width: 1440, height: 900 });
     // 12. One green for every green button: same colour at rest and the same darker green on hover; the floating WhatsApp button too.
     await page.setViewportSize({ width: 1440, height: 900 });
-    const BRAND = 'rgb(67, 180, 58)', HOVER = 'rgb(58, 159, 50)';
+    const BRAND = 'rgb(67, 180, 58)', HOVER = 'rgb(47, 138, 39)';
     const buttonSets = [['', ['.site-header__cta', '.tbt-home-button']], ['intensivefix/', ['.tbt-home-button']], ['classes/', ['.tbt-programme-button']], ['sec-3-pure-g3-biology-tuition/', ['.tbt-programme-hall__action', '.tbt-programme-text-link']], ['testimonials/', ['.tbt-testimonials-button']], ['notes/', ['.tbt-resource-button']], ['contact/', ['.tbt-institutional-button']]];
     for (const [route, sels] of buttonSets) {
       await page.goto(new URL(route, base).href, { waitUntil: 'load' });
@@ -366,7 +366,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       await page.waitForTimeout(500);
       assert.equal(await first.getAttribute('aria-expanded'), 'true', `${route} FAQ opens`);
       const open = await page.locator('.tbt-programme-faq .tbt-home-faq__item').first().evaluate((e) => getComputedStyle(e).backgroundColor);
-      assert.equal(open, 'rgb(238, 246, 234)', `${route} the open FAQ row is light green like Home: ${open}`);
+      assert.equal(open, 'rgb(237, 245, 232)', `${route} the open FAQ row is light green like Home: ${open}`);
       const list = await page.locator('.tbt-programme-faq .tbt-home-faq__list').evaluate((e) => { const c = getComputedStyle(e); return { radius: c.borderTopLeftRadius, border: c.borderTopWidth }; });
       assert.deepEqual(list, { radius: '18px', border: '1px' }, `${route} FAQ list is the framed rounded list`);
     }

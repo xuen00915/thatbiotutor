@@ -11,7 +11,7 @@ const {chromium}=require('playwright');
     await page.goto(`${base}/${route}${route?'/':''}`);
     const link=page.locator('.site-footer a').first(); await link.focus();
     assert.equal(await link.evaluate(e=>getComputedStyle(e).outlineOffset),'5px',`${route}: consistent keyboard focus`);
-    assert.equal(await page.locator('body').evaluate(e=>getComputedStyle(e,'::selection').backgroundColor),'rgb(200, 233, 182)',`${route}: branded selection`);
+    assert.equal(await page.locator('body').evaluate(e=>getComputedStyle(e,'::selection').backgroundColor),'rgb(217, 242, 210)',`${route}: branded selection`);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`${route}: no overflow`);
     const field=page.locator('input[type="email"]').first();
     if(await field.count()) {await field.focus();assert.equal(await field.evaluate(e=>getComputedStyle(e).caretColor),'rgb(47, 138, 39)');}
