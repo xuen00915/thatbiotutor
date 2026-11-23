@@ -571,7 +571,7 @@ body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels__grid a span
 
 /* ---------- Classes page: tighter rhythm, white FAQ, difference section in normal flow ---------- */
 body.tbt-site:not(.home) #main-content .tbt-classes-page .tbt-programme-section { min-height: 0; padding-block: 52px; }
-body.tbt-site:not(.home) #main-content .tbt-classes-page .tbt-programme-faq { background: #fff; }
+body.tbt-site:not(.home) #main-content .tbt-classes-page .tbt-programme-faq { background: #faf9f5; } /* same cream as Sec 3 / Sec 4 (feedback 23 Nov) */
 
 body.tbt-site .tbt-classes-page .tbt-programme-copy > p { margin-bottom: 36px; }
 body.tbt-site .tbt-classes-page .tbt-programme-definition__grid { gap: 24px; }

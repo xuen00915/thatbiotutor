@@ -53,11 +53,14 @@ const programmes = ['classes/', 'sec-3-pure-g3-biology-tuition/', 'sec-4-pure-g3
       // The signup iframe stops before the provider's dark footer strip (measured heights per form width).
       const form = await page.locator('.tbt-notes-form__embed').evaluate(e => { const r = e.getBoundingClientRect(); return { w: r.width, h: r.height }; });
       const expected = form.w > 610 ? 429 : form.w > 426 ? 449 : form.w > 362 ? 468 : form.w > 360 ? 488 : form.w > 340 ? 508 : 528;
+      assert.equal(await page.locator('.tbt-notes-form__embed').getAttribute('scrolling'), 'no', 'The signup iframe does not scroll internally');
       assert.equal(Math.round(form.h), expected, `Signup iframe height at form width ${form.w}`);
 
       // Classes: dark green heading accent and four numbers.
       await page.goto(new URL('classes/', base).href);
       assert.equal(await page.locator('.tbt-programme-difference h2 span').evaluate(e => getComputedStyle(e).color), 'rgb(47, 138, 39)');
+      await page.locator('.tbt-programme-results').scrollIntoViewIfNeeded();
+      await page.waitForFunction(() => [...document.querySelectorAll('.tbt-programme-results [data-count-up]')].every(e => e.dataset.countComplete === 'true'), null, { timeout: 8000 });
       assert.deepEqual(await page.locator('.tbt-programme-results .tbt-programme-stats strong').allTextContents(), ['2.3', '912+', '91%', '1 in 2']);
 
       // Testimonials year selector: "Class of <year>", single spaces.

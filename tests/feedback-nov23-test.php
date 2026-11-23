@@ -35,8 +35,9 @@ final class FeedbackNov23Test
 
         // Classes: dark green accent on white, and the fourth "1 in 2" number.
         $classes = tbt_test_render_template('page-classes.php');
-        $this->assertTrue(str_contains($classes, '<strong>1 in 2</strong><span>Score A (Distinction)</span>'), 'Classes shows the "1 in 2 score A" number.');
-        $this->assertSame(4, preg_match_all('~<div><strong>[^<]+</strong><span>~', (string) (preg_match('~tbt-programme-stats[^"]*">(.*?)</div></div></section>~s', $classes, $m) ? $m[1] : '')), 'Classes shows four numbers.');
+        $this->assertTrue(str_contains($classes, 'data-count-display="1 in 2">1 in 2</strong><span>Score A (Distinction)</span>'), 'Classes shows the "1 in 2 score A" number.');
+        $this->assertSame(4, preg_match_all('~<div><strong data-count-up data-count-target="[\d.]+" data-count-display="[^"]+">[^<]+</strong><span>~', (string) (preg_match('~tbt-programme-stats[^"]*">(.*?)</div></div></section>~s', $classes, $m) ? $m[1] : '')), 'Classes shows four numbers.');
+        $this->assertSame(1, preg_match('~data-count-target="2\.3" data-count-display="2\.3"~', $classes), 'Classes numbers count up like the home page.');
         $this->assertTrue(str_contains($css, '.tbt-classes-page .tbt-programme-difference > .tbt-programme-container > h2 span { color: var(--tbt-green-text, #2f8a27); }'), 'The Classes "unlike any other" accent uses the same dark green as the other headings.');
 
         // Programme heroes: crop towards the teacher and students on phones and tablets.
@@ -46,6 +47,8 @@ final class FeedbackNov23Test
         $notes = tbt_test_render_template('page-notes.php');
         $this->assertSame(1, preg_match('~<p class="tbt-resource-proof">Join over~', $notes), 'The "Join over…" line has no icon in front of it.');
         $this->assertTrue(str_contains($css, 'container-type: inline-size') && str_contains($css, '@container tbt-notes-form'), 'The signup iframe is sized to its own width so the provider footer strip is cut off.');
+
+        $this->assertTrue(str_contains((string) file_get_contents(TBT_THEME_DIR . '/inc/forms.php'), 'scrolling="no"'), 'Scrolling over the signup form cannot reveal the provider footer strip.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} 23 November feedback assertions\n");
     }

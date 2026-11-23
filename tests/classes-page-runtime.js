@@ -66,7 +66,7 @@ const {chromium} = require('playwright');
    assert.equal(d.diff.text,'What makes our classes unlike any other','The difference heading must keep its spaces');
    assert.equal(d.diff.inline,'block');
    assert.ok(d.diff.practical>=(width>=1024?32:24),'Real Practical Sessions heading must be big ('+d.diff.practical+'px)');
-   assert.equal(d.faqBg,'rgb(255, 255, 255)','Common questions must have a white background');
+   assert.equal(d.faqBg,'rgb(250, 249, 245)','Common questions use the same cream background as Sec 3 / Sec 4');
    const maxPad=width>768?56:44;
    assert.ok(d.rhythm.every(x=>x.padT<=maxPad&&x.padB<=maxPad),'Section padding too large at '+width+'px '+JSON.stringify(d.rhythm.filter(x=>x.padT>maxPad||x.padB>maxPad)));
    assert.ok(d.rhythm.every(x=>x.gap<=72),'No section may leave a big empty gap at '+width+'px '+JSON.stringify(d.rhythm.filter(x=>x.gap>72)));
