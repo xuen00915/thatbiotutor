@@ -48,7 +48,7 @@
     }
     const group = links[index].closest('.tbt-year-nav__group');
     if (group && group.dataset.userClosed !== 'true' && group.dataset.open !== 'true') setOpen(group, true);
-    current.textContent = sections[index].dataset.section;
+    current.textContent = 'Class of ' + sections[index].dataset.section;
     links.forEach((link, i) => {
       if (i === index) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');

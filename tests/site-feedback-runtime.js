@@ -244,7 +244,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
         for (let i = 0; i < 60 && still < 8; i++) { await page.waitForTimeout(100); const y = await page.evaluate(() => Math.round(scrollY)); still = y === last ? still + 1 : 0; last = y; }
         await page.waitForTimeout(300);
         const r = await page.evaluate((y) => { document.querySelectorAll('.tbt-test-shift').forEach((e) => e.remove()); return ({ label: document.querySelector('[data-year-current]').textContent, current: document.querySelector('[data-year-nav] [aria-current="location"] .tbt-year-nav__title')?.textContent, top: document.querySelector('#class-of-' + y).getBoundingClientRect().top, header: innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom }); }, year);
-        assert.equal(r.label, year, `Year menu label shows ${year} after choosing it at ${vw} (shows ${r.label})`);
+        assert.equal(r.label, `Class of ${year}`, `Year menu label shows Class of ${year} after choosing it at ${vw} (shows ${r.label})`);
         assert.equal(r.current, `Class of ${year}`, `Year menu highlights ${year} at ${vw}`);
         assert.ok(r.top >= r.header - 2 && r.top <= r.header + 40, `The ${year} section sits just under the header at ${vw}: ${r.top} vs header ${r.header}`);
       }
@@ -255,10 +255,10 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
     await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
     await page.locator('[data-year-nav] a[href$="#class-of-2023"]').click();
     await page.waitForTimeout(2500);
-    assert.equal(await page.locator('[data-year-current]').textContent(), '2023');
+    assert.equal(await page.locator('[data-year-current]').textContent(), 'Class of 2023');
     const toNext = await page.locator('#class-of-2022').evaluate((e) => e.getBoundingClientRect().top + 200);
     await page.mouse.move(700, 450); await page.mouse.wheel(0, toNext); await page.waitForTimeout(1200);
-    assert.equal(await page.locator('[data-year-current]').textContent(), '2022', 'Scrolling on with the wheel updates the year label');
+    assert.equal(await page.locator('[data-year-current]').textContent(), 'Class of 2022', 'Scrolling on with the wheel updates the year label');
     await page.setViewportSize({ width: 1440, height: 900 });
     // 16. Results & Testimonials: no dark-green block behind the result pictures; instead every year starts with a green "Class of YYYY" panel
     //     (content width, rounded, centred) above its pictures. All years use the same title-only banner.
@@ -343,7 +343,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
         for (let i = 0; i < 60 && still < 8; i++) { await page.waitForTimeout(100); const y = await page.evaluate(() => Math.round(scrollY)); still = y === last ? still + 1 : 0; last = y; }
         await page.waitForTimeout(300);
         const r = await page.evaluate(([y, id]) => { const t = document.getElementById(`class-of-${y}-${id}`); const b = t.getBoundingClientRect(); return { label: document.querySelector('[data-year-current]').textContent, top: b.top, header: innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom, open: document.querySelector('[data-year-nav] button.tbt-year-nav__toggle').getAttribute('aria-expanded') }; }, [year, idFor[label]]);
-        assert.equal(r.label, year, `Jumping to ${year} ${label} keeps the ${year} label at ${vw}`);
+        assert.equal(r.label, `Class of ${year}`, `Jumping to ${year} ${label} keeps the ${year} label at ${vw}`);
         assert.ok(r.top >= r.header - 2 && r.top <= r.header + 60, `${year} ${label} lands below the header at ${vw}: ${r.top} vs ${r.header}`);
         assert.equal(r.open, 'false', 'The menu closes after jumping');
       }

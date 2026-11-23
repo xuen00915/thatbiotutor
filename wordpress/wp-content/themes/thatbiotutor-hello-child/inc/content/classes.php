@@ -59,7 +59,7 @@ return [
         tbt_f_section('results', 'By the numbers', array_merge([
             tbt_f_text('classes_results_kicker', 'Small line above the heading', 'By the numbers'),
             tbt_f_text('classes_results_heading', 'Heading', 'Results that speak for themselves'),
-        ], tbt_f_stats('classes_stat', 'Number', [['2.3', 'Average grade jump per student'], ['912+', 'Students taught across 98 schools'], ['91%', 'Score A1, A2 or B3']]))),
+        ], tbt_f_stats('classes_stat', 'Number', [['2.3', 'Average grade jump per student'], ['912+', 'Students taught across 98 schools'], ['91%', 'Score A1, A2 or B3'], ['1 in 2', 'Score A (Distinction)']]))),
 
         tbt_f_section('levels', 'Choose your level', [
             tbt_f_text('classes_levels_kicker', 'Small line above the heading', 'Choose your level'),

@@ -16,7 +16,7 @@ const provider = 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.
    assert.equal(await frame.getAttribute('title'),'Free Bio Notes signup form');
    const box=await frame.boundingBox();
    assert.ok(box.width>=width-32 || box.width>=700);
-   assert.ok(box.x>=8&&box.x+box.width<=width-8&&box.height>=540);
+   assert.ok(box.x>=8&&box.x+box.width<=width-8&&box.height>=420);
    assert.equal(await page.locator('.tbt-notes-form__alternative').count(),0);
    assert.equal(await page.locator('.tbt-notes-form form,.tbt-notes-form [data-tbt-redirect]').count(),0);
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Client feedback of 23 November. Sec 3 and Sec 4 Hall of Fame keep only the WhatsApp button (Book a Trial and its editable field removed). Each programme page now uses one button size: 335 × 56 on tablets/desktops and the full content width on phones up to 480px (Classes hero pair and closing button, Sec 3/4 hall and "More Testimonials"; Sec 3 hero uses the Sec 4 phone gutter). The testimonial year selector reads "Class of 2025" with single spacing. Classes, Sec 3 and Sec 4 hero photos crop towards the teacher and students up to 1024px instead of the whiteboard. Classes "unlike any other" uses the dark heading green, and the numbers panel adds "1 in 2 — Score A (Distinction)" (4 across on desktop, 2 × 2 below). Notes: removed the icon before "Join over…"; all four DOWNLOAD buttons are 272 × 56 (244 at ≤360px) with more space around the in-page and closing buttons (the hero keeps its earlier compact phone gap); more space above "ThatBioTutor's Notes" and less below it. The GetResponse iframe is now sized per form width with container queries so it ends just below Submit, hiding the provider's dark footer strip and the empty space after it. Heights were measured on the live form on 23 Nov 2026, so re-measure if the form is edited in GetResponse.
+
 - [main-site] Removed sticky positioning from all class-year titles while preserving compact spacing. Subsection jumps again clear only the header and year selector.
 
 - [main-site] Capped both mobile Notes testimonial panels at 60% of the small viewport height (maximum 480px), so long reviews cannot expand the section beyond a compact reading area. Full text remains available by scrolling inside.

@@ -31,7 +31,7 @@ const assert = require('node:assert/strict');
    if(width<=1180)assert.ok(geo.top>=geo.header&&geo.top<=geo.header+12&&geo.panelTop>=geo.bottom,`Year menu sits below header and opens down at ${width}`);
    assert.ok(geo.panelBottom<=height,`Year menu fits height at ${width}`);
    await page.locator('.tbt-year-nav__year[href$="#class-of-2022"]').click();
-   await page.waitForFunction(()=>document.querySelector('[data-year-current]').textContent==='2022');
+   await page.waitForFunction(()=>document.querySelector('[data-year-current]').textContent==='Class of 2022');
    const target=await page.locator('#class-of-2022').boundingBox();
    if(width<=1180)assert.ok(target.y>=geo.bottom,`Selected heading clears year selector at ${width}`);
    console.log(`PASS mobile/tablet fixes ${width}x${height}`);

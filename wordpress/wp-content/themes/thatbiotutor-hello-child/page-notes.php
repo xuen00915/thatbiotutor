@@ -18,7 +18,7 @@ $tbt_heading = str_replace('Biology Notes', '<span>Biology Notes</span>', $tbt_h
                 <p class="tbt-notes-hero__audience"><?php echo esc_html($tbt_field('notes_audience')); ?></p>
                 <?php if ($tbt_field('notes_hero_lead') !== '') : ?><p class="tbt-notes-hero__lead"><?php echo tbt_rich_inline($tbt_field('notes_hero_lead')); ?></p><?php endif; ?>
                 <a class="tbt-resource-button tbt-notes-hero__download" href="#notes-form"><?php echo $tbt_button; // escaped label plus static icon ?></a>
-                <?php if ($tbt_field('notes_proof_line') !== '') : ?><p class="tbt-resource-proof"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M12 4v9m0 0 3.5-3.5M12 13 8.5 9.5M5 16v2.5h14V16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><?php echo esc_html($tbt_field('notes_proof_line')); ?></p><?php endif; ?>
+                <?php if ($tbt_field('notes_proof_line') !== '') : ?><p class="tbt-resource-proof"><?php echo esc_html($tbt_field('notes_proof_line')); ?></p><?php endif; ?>
             </div>
             <div class="tbt-resource-carousel tbt-resource-carousel--notes" data-carousel data-carousel-autoplay="7000">
                 <div class="tbt-resource-carousel__viewport">

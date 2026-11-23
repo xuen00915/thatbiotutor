@@ -59,7 +59,6 @@ function tbt_programme_level(string $level): array
             'topics_start' => 0,
             'hall_title' => 'Real Student Results',
             'hall_images' => ['original_106', 'original_076'],
-            'hall_button' => 'Book a Trial',
             'stats' => [['98', 'Different Schools'], ['912+', 'Happy Parents & Students'], ['69.21%', 'Started at B4 or Lower'], ['2.3', 'Ave. Grade Improvement'], ['91%', 'Score A1, A2 or B3'], ['1 in 2', 'Score Distinction']],
             'testimonials_line1' => 'What Sec 3',
             'testimonials_line2' => 'TBT students are saying',
@@ -94,7 +93,6 @@ function tbt_programme_level(string $level): array
             'topics_start' => 11,
             'hall_title' => 'Real Sec 4 results',
             'hall_images' => ['original_121', 'original_028'],
-            'hall_button' => 'Book A Trial',
             'stats' => [['98', 'Different Schools'], ['912+', 'Happy Parents & Students'], ['69.21%', 'Started at B4 or Lower'], ['2.3', 'Avg. Grade Improvement'], ['91%', 'Score A1, A2 or B3'], ['1 in 2', 'Score Distinction']],
             'testimonials_line1' => 'What Sec 4',
             'testimonials_line2' => 'TBT students are saying',
@@ -171,8 +169,7 @@ function tbt_programme_sections(string $level): array
             tbt_f_image("{$p}_hall_image_1", 'Result picture 1', $d['hall_images'][0]),
             tbt_f_image("{$p}_hall_image_2", 'Result picture 2', $d['hall_images'][1]),
         ], tbt_f_stats("{$p}_proof", 'Highlight', $d['proofs']), [
-            tbt_f_text("{$p}_hall_button_1", 'First button text', 'WhatsApp Us'),
-            tbt_f_text("{$p}_hall_button_2", 'Second button text', $d['hall_button']),
+            tbt_f_text("{$p}_hall_button_1", 'Button text', 'WhatsApp Us'),
         ])),
 
         tbt_f_section('numbers', 'By the numbers', array_merge([
@@ -320,7 +317,7 @@ function tbt_render_programme_page(string $level): void
         <?php foreach ([1, 2, 3] as $i) : $title = $f("phase_{$i}_title"); $ticks = $f("phase_{$i}_ticks"); if ($title === '' && trim($ticks) === '') { continue; } ?><article class="tbt-programme-phase"><h3><?php echo tbt_heading_html($title); ?></h3><?php echo tbt_rich_attrs(tbt_rich($ticks), 'p', 'class="tbt-tick"'); ?><?php if (trim($f("phase_{$i}_note")) !== '') : ?><p class="tbt-programme-join-note"><?php echo tbt_rich_inline($f("phase_{$i}_note")); ?></p><?php endif; ?></article><?php endforeach; ?>
     </div><div class="tbt-programme-topics-card"><h2><?php echo esc_html($f('topics_heading')); ?></h2><?php echo tbt_rich_attrs(tbt_rich($f('topics_list')), 'ol', 'class="tbt-programme-topics"' . ($d['topics_start'] > 0 ? ' start="' . (int) $d['topics_start'] . '"' : '')); ?></div><div class="tbt-programme-exam"><h2><?php echo esc_html($f('exam_heading')); ?></h2><?php echo tbt_rich($f('exam_list')); ?><p><?php echo tbt_rich_inline($f('exam_note')); ?></p></div></div></section>
 
-    <section class="tbt-programme-section tbt-programme-hall" data-section="hall"><div class="tbt-programme-container"><h2><small><?php echo esc_html($f('hall_small')); ?></small><span><?php echo esc_html($f('hall_title')); ?></span></h2><p><?php echo tbt_rich_inline($f('hall_text')); ?></p><div class="tbt-programme-hall__grid"><?php foreach ([1, 2] as $i) { tbt_render_content_image("{$p}_hall_image_{$i}", 'tbt-programme-track', ['loading' => 'lazy', 'data-track-record' => (string) $i]); } ?></div><div class="tbt-programme-proofs"><?php foreach ([1, 2, 3] as $i) : ?><div class="tbt-programme-proof"><strong><?php echo tbt_programme_grade_html($f("proof_{$i}_value")); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped inside. ?></strong><span><?php echo esc_html($f("proof_{$i}_label")); ?></span></div><?php endforeach; ?></div><?php if ($tbt_whatsapp !== '') : ?><div class="tbt-programme-hall__actions"><?php $tbt_button($f('hall_button_1'), 'tbt-programme-hall__action'); $tbt_button($f('hall_button_2'), 'tbt-programme-hall__action'); ?></div><?php endif; ?></div></section>
+    <section class="tbt-programme-section tbt-programme-hall" data-section="hall"><div class="tbt-programme-container"><h2><small><?php echo esc_html($f('hall_small')); ?></small><span><?php echo esc_html($f('hall_title')); ?></span></h2><p><?php echo tbt_rich_inline($f('hall_text')); ?></p><div class="tbt-programme-hall__grid"><?php foreach ([1, 2] as $i) { tbt_render_content_image("{$p}_hall_image_{$i}", 'tbt-programme-track', ['loading' => 'lazy', 'data-track-record' => (string) $i]); } ?></div><div class="tbt-programme-proofs"><?php foreach ([1, 2, 3] as $i) : ?><div class="tbt-programme-proof"><strong><?php echo tbt_programme_grade_html($f("proof_{$i}_value")); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped inside. ?></strong><span><?php echo esc_html($f("proof_{$i}_label")); ?></span></div><?php endforeach; ?></div><?php if ($tbt_whatsapp !== '') : ?><div class="tbt-programme-hall__actions"><?php $tbt_button($f('hall_button_1'), 'tbt-programme-hall__action'); ?></div><?php endif; ?></div></section>
 
     <section class="tbt-programme-section tbt-programme-numbers" data-section="stats"><div class="tbt-programme-numbers__background"><?php tbt_render_content_image("{$p}_numbers_image", '', ['loading' => 'lazy']); ?></div><div class="tbt-programme-numbers__shade" aria-hidden="true"></div><div class="tbt-programme-container"><h2><?php echo esc_html($f('numbers_heading')); ?></h2><div class="tbt-programme-stats"><?php foreach ([1, 2, 3, 4, 5, 6] as $i) : if ($f("number_{$i}_value") === '' && $f("number_{$i}_label") === '') { continue; } ?><div><strong><?php echo esc_html($f("number_{$i}_value")); ?></strong><span><?php echo esc_html($f("number_{$i}_label")); ?></span></div><?php endforeach; ?></div></div></section>
 

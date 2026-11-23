@@ -30,7 +30,7 @@ const { chromium } = require('playwright');
      overflow:document.documentElement.scrollWidth-innerWidth
     };
    });
-   assert.equal(r.faqBackground,'rgb(250, 249, 245)','FAQ background matches supplied screenshot'); assert.equal(r.trialText,'Book a Trial');
+   assert.equal(r.faqBackground,'rgb(250, 249, 245)','FAQ background matches supplied screenshot'); assert.equal(r.trialText,'WhatsApp Us');
    assert.equal(r.button.text,'More Testimonials'); assert.ok(r.button.radius>=999,'More Testimonials uses shared pill style'); assert.ok(r.practicalGap>=48,'Practical heading has breathing room above it');
    assert.equal(r.headers.length,2,'Both option headers need a content-sized header');
    assert.ok(r.headers.every(n=>n>=20),'Space below option subtitle');

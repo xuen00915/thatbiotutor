@@ -32,7 +32,8 @@ const suites = [
   "testimonials-page-runtime.js",
   "header-definition-runtime.js",
   "seo-metadata-runtime.js",
-  "unified-design-runtime.js"
+  "unified-design-runtime.js",
+  "feedback-nov23-runtime.js"
 ];
 
 async function runTests(names, workers, execute) {

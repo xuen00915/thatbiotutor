@@ -29,7 +29,7 @@ $tbt_years = tbt_get_class_years();
 <article class="tbt-testimonials-page">
     <div class="tbt-year-nav" data-year-nav hidden>
         <button class="tbt-year-nav__toggle" type="button" aria-expanded="false" aria-controls="tbt-year-links">
-            <span aria-hidden="true">☰</span> Years <span data-year-current><?php echo esc_html($tbt_years[0]['year'] ?? ''); ?></span><span class="tbt-year-nav__chevron" aria-hidden="true">⌄</span>
+            <span aria-hidden="true">☰</span><span data-year-current><?php echo esc_html(isset($tbt_years[0]) ? 'Class of ' . $tbt_years[0]['year'] : ''); ?></span><span class="tbt-year-nav__chevron" aria-hidden="true">⌄</span>
         </button>
         <nav class="tbt-year-nav__panel" id="tbt-year-links" aria-label="Testimonial years" hidden>
             <p class="tbt-year-nav__label">Jump to year</p>

@@ -109,7 +109,7 @@ final class ClassesPagesTest
             $this->assertSame(2, substr_count($programme, 'data-track-record'), 'Programme hall of fame must render the two public portrait result panels.');
             $this->assertSame(3, substr_count($programme, 'class="tbt-programme-proof"'), 'Programme hall of fame must render the three public grade-jump proof blocks.');
             preg_match_all('/<a class="tbt-programme-hall__action\s/', $programme, $hallActions);
-            $this->assertSame(2, count($hallActions[0]), 'Programme hall of fame must retain both public conversion actions.');
+            $this->assertSame(1, count($hallActions[0]), 'Programme hall of fame keeps only its WhatsApp action (Book a Trial removed 23 Nov 2026).');
             $this->assertTrue(str_contains($programme, 'tbt-programme-numbers__background') && (str_contains($programme, 'curated_heroes_classes_original') || str_contains($programme, 'original_009')), 'Programme numbers must retain the public classroom-photo treatment.');
             $this->assertTrue(substr_count($programme, 'class="tbt-inclusion-card') === 8, 'Programme inclusions must render all eight public benefits.');
         }

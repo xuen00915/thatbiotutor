@@ -60,7 +60,7 @@ const {chromium} = require('playwright');
    const d=r.design;
    assert.ok(d.faq.length===5&&d.faq.every(f=>f.fits&&f.ws==='normal'),'FAQ questions (the same accordion as the other pages) must wrap and fit at '+width+'px '+JSON.stringify(d.faq));
    const minH=width<=520?30:36; /* the shared section-heading size */
-   assert.ok(d.diff.size>=minH&&d.diff.span==='rgb(143, 225, 126)','TBT difference heading must be large with green keywords at '+width+'px '+JSON.stringify(d.diff));
+   assert.ok(d.diff.size>=minH&&d.diff.span==='rgb(47, 138, 39)','TBT difference heading must be large with green keywords at '+width+'px '+JSON.stringify(d.diff));
    assert.ok(d.diff.gap<=36,'Less space between the difference heading and its picture ('+d.diff.gap+'px)');
    assert.equal(d.diff.kickerItalic,'italic');
    assert.equal(d.diff.text,'What makes our classes unlike any other','The difference heading must keep its spaces');

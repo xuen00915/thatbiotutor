@@ -47,7 +47,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.ok(m.barWidth <= m.shellWidth + 1 && Math.abs(m.barLeft + m.barWidth / 2 - m.viewport / 2) <= 2, `Title panel is centred and no wider than the page content ${at}`);
       assert.ok(m.radius >= 16, `Title panel must have rounded corners like the other title bars ${at}`);
       assert.equal(m.textAlign, 'center', `Title must be centred in its panel ${at}`);
-      assert.ok(m.fitToBenefits <= (width >= 769 ? 90 : 56), `Space between "is this you?" and "ThatBioTutor's Notes" is too long ${at}`);
+      assert.ok(m.fitToBenefits <= (width >= 769 ? 100 : 72), `Space between "is this you?" and "ThatBioTutor's Notes" is too long ${at}`);
       const [why, catchCard, dl] = m.cardRects;
       if (width >= 861) assert.ok(Math.abs(why.top - catchCard.top) <= 2 && catchCard.left >= why.right && dl.top - Math.max(why.bottom, catchCard.bottom) <= 40, `Why-free and catch cards sit side by side with the download card below ${at}`);
       else assert.ok(catchCard.top >= why.bottom && dl.top >= catchCard.bottom && catchCard.top - why.bottom <= 40 && dl.top - catchCard.bottom <= 40, `Cards stack with a tight gap on narrow screens ${at}`);
@@ -77,7 +77,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         const end=page.locator('.tbt-notes-end-button');
         await end.scrollIntoViewIfNeeded();
         const box=await end.boundingBox();
-        assert.ok(box.height>=44&&box.height<=48&&box.width<=220,'Final Download button stays compact');
+        const first=await page.locator('.tbt-notes-hero__download').boundingBox(); assert.ok(Math.abs(box.height-first.height)<1&&Math.abs(box.width-first.width)<1,'Final Download button matches the other DOWNLOAD buttons (client feedback 23 Nov)');
         assert.ok(box.x>=16&&box.x+box.width<=width-16&&box.y>=80&&box.y+box.height<=900,'Entire final button fits the mobile viewport');
       }
       console.log(`PASS notes sections ${width}`);

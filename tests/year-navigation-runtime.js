@@ -39,7 +39,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       await page.keyboard.press('Tab');
       assert.equal(await nav.locator('a').first().evaluate(e => e === document.activeElement), true, 'Year links are keyboard reachable');
       await nav.locator('a.tbt-year-nav__year[href$="#class-of-2022"]').click();
-      await page.waitForFunction(() => document.querySelector('[data-year-current]').textContent === '2022');
+      await page.waitForFunction(() => document.querySelector('[data-year-current]').textContent === 'Class of 2022');
       assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
       assert.equal(await nav.locator('[aria-current="location"] .tbt-year-nav__title').textContent(), 'Class of 2022');
       assert.equal(await nav.locator('.tbt-year-nav__group[data-open="true"]').count(),1,'Changing active year collapses the previous year');
@@ -56,7 +56,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       const manualDelta = await page.locator('#class-of-2024').evaluate(e => e.getBoundingClientRect().top + 200);
       await page.mouse.move(width / 2, 450);
       await page.mouse.wheel(0, manualDelta); // a reader scrolling with the wheel
-      await page.waitForFunction(() => document.querySelector('[data-year-current]').textContent === '2024');
+      await page.waitForFunction(() => document.querySelector('[data-year-current]').textContent === 'Class of 2024');
       await toggle.click();
       await page.locator('.site-brand').click();
       await page.waitForURL(url => !url.pathname.includes('testimonials'));
