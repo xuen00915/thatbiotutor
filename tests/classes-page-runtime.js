@@ -62,12 +62,12 @@ const {chromium} = require('playwright');
    const minH=width<=520?30:36; /* the shared section-heading size */
    assert.ok(d.diff.size>=minH&&d.diff.span==='rgb(47, 138, 39)','TBT difference heading must be large with green keywords at '+width+'px '+JSON.stringify(d.diff));
    assert.ok(d.diff.gap<=36,'Less space between the difference heading and its picture ('+d.diff.gap+'px)');
-   assert.equal(d.diff.kickerItalic,'italic');
+   assert.equal(d.diff.kickerItalic,'normal'); // eyebrows follow the home style (upright)
    assert.equal(d.diff.text,'What makes our classes unlike any other','The difference heading must keep its spaces');
    assert.equal(d.diff.inline,'block');
    assert.ok(d.diff.practical>=(width>=1024?32:24),'Real Practical Sessions heading must be big ('+d.diff.practical+'px)');
    assert.equal(d.faqBg,'rgb(250, 249, 245)','Common questions use the same cream background as Sec 3 / Sec 4');
-   const maxPad=width>768?56:44;
+   const maxPad=width>768?82:(width>390?65:57); // home section rhythm 80 / 64 / 56
    assert.ok(d.rhythm.every(x=>x.padT<=maxPad&&x.padB<=maxPad),'Section padding too large at '+width+'px '+JSON.stringify(d.rhythm.filter(x=>x.padT>maxPad||x.padB>maxPad)));
    assert.ok(d.rhythm.every(x=>x.gap<=72),'No section may leave a big empty gap at '+width+'px '+JSON.stringify(d.rhythm.filter(x=>x.gap>72)));
    assert.ok(d.shadeAlpha<=0.35,'Hero overlay must be light ('+d.shadeAlpha+')');

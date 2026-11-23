@@ -42,12 +42,12 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       const at = `at ${width}px: ${JSON.stringify(m)}`;
       if(width<=640){assert.ok(m.mobile.leadGap<=24,`Compact hero CTA gap ${at}`);assert.ok(m.mobile.previewGap<=28,`Compact hero preview gap ${at}`);assert.ok(m.mobile.icons.every(w=>w<=80),`Compact feature icons ${at}`);assert.ok(Math.abs(m.mobile.listLeft-m.mobile.otherListLeft)<=1,`Download bullets align with other cards ${at}`);}
       assert.ok(m.mobile.icons.every(w=>w<=(width<=640?80:120)), `Smaller Notes icons on every device ${at}`);
-      if(width>=768)assert.ok(m.bottomGap<=40,`Compact bottom section spacing ${at}`);
+      if(width>=768)assert.ok(m.bottomGap<=88,`Bottom section spacing follows the site rhythm ${at}`);
       assert.ok(m.barLeft >= 8 && m.barWidth <= m.viewport - 16, `Title panel must not run edge to edge ${at}`);
       assert.ok(m.barWidth <= m.shellWidth + 1 && Math.abs(m.barLeft + m.barWidth / 2 - m.viewport / 2) <= 2, `Title panel is centred and no wider than the page content ${at}`);
       assert.ok(m.radius >= 16, `Title panel must have rounded corners like the other title bars ${at}`);
       assert.equal(m.textAlign, 'center', `Title must be centred in its panel ${at}`);
-      assert.ok(m.fitToBenefits <= (width >= 769 ? 100 : 72), `Space between "is this you?" and "ThatBioTutor's Notes" is too long ${at}`);
+      assert.ok(m.fitToBenefits <= (width >= 769 ? 176 : 128), `Space between "is this you?" and "ThatBioTutor's Notes" follows the site section rhythm ${at}`);
       const [why, catchCard, dl] = m.cardRects;
       if (width >= 861) assert.ok(Math.abs(why.top - catchCard.top) <= 2 && catchCard.left >= why.right && dl.top - Math.max(why.bottom, catchCard.bottom) <= 40, `Why-free and catch cards sit side by side with the download card below ${at}`);
       else assert.ok(catchCard.top >= why.bottom && dl.top >= catchCard.bottom && catchCard.top - why.bottom <= 40 && dl.top - catchCard.bottom <= 40, `Cards stack with a tight gap on narrow screens ${at}`);

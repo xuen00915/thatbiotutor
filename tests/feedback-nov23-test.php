@@ -50,6 +50,8 @@ final class FeedbackNov23Test
 
         $this->assertTrue(str_contains((string) file_get_contents(TBT_THEME_DIR . '/inc/forms.php'), 'scrolling="no"'), 'Scrolling over the signup form cannot reveal the provider footer strip.');
 
+        $this->assertTrue(str_contains($css, '/* ---------- Site standard (23 Nov): every page follows the Home / IntensiveFix template'), 'Every page shares the home section rhythm, eyebrow and button styles.');
+
         fwrite(STDOUT, "PASS: {$this->assertions} 23 November feedback assertions\n");
     }
 

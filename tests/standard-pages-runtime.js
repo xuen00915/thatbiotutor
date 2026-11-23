@@ -82,7 +82,7 @@ const darkInk = 'rgb(25, 34, 26)';
         }
         if (route === '/about/' || route === '/notes/' || route === '/classes/' || route === '/testimonials/') { /* About, Free Bio Notes, Classes and Testimonials use a compact rhythm, guarded by about-page-runtime.js, notes-sections-runtime.js, classes-page-runtime.js and testimonials-page-runtime.js */ }
         else if (width >= 769) for (const pad of m.sections) assert.ok(pad === 64 || pad === 80, `${tag}: section padding ${pad}px must be 64 or 80`);
-        else for (const pad of m.sections) assert.ok(pad === 48 || pad === 56, `${tag}: mobile section padding ${pad}px must be 48 or 56`);
+        else for (const pad of m.sections) assert.ok(pad === 56 || pad === 64, `${tag}: mobile section padding ${pad}px must be 56 or 64 (home template)`);
         assert.deepEqual(m.small, [], `${tag}: no text below 11.5px`);
         assert.deepEqual(m.taps, [], `${tag}: all buttons must be at least 40px in both directions`);
       }

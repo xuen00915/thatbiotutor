@@ -1440,3 +1440,39 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 @media (max-width: 360px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page a.tbt-resource-button { width: 244px; } }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page [data-section="reviews-bottom"] { padding-bottom: 64px; }
 @media (max-width: 640px) { body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page [data-section="reviews-bottom"] { padding-bottom: 56px; } }
+
+/* ---------- Site standard (23 Nov): every page follows the Home / IntensiveFix template ----------
+   Section rhythm 80px desktop, 64px up to 768px, 56px up to 390px (as .tbt-home-section).
+   Eyebrows, buttons and section titles copy the home styles. Heroes keep their own layout. */
+body.tbt-site:not(.home) #main-content > :is(.tbt-programme-page, .tbt-resource-page, .tbt-institutional-page, .tbt-testimonials-page) > section:not(.tbt-testimonials-year) { padding-block: 80px !important; }
+@media (max-width: 768px) {
+  body.tbt-site:not(.home) #main-content > :is(.tbt-programme-page, .tbt-resource-page, .tbt-institutional-page, .tbt-testimonials-page) > section:not(.tbt-testimonials-year) { padding-block: 64px !important; }
+}
+@media (max-width: 390px) {
+  body.tbt-site:not(.home) #main-content > :is(.tbt-programme-page, .tbt-resource-page, .tbt-institutional-page, .tbt-testimonials-page) > section:not(.tbt-testimonials-year) { padding-block: 56px !important; }
+}
+
+/* Eyebrow: home style — upright, semibold, uppercase, brand green (light green on dark), no dash. */
+body.tbt-site #main-content .tbt-programme-kicker { gap: 0 !important; margin-bottom: 16px !important; color: #2b7e23; /* home green, deepened just enough for AA on cream */ font-size: 16px !important; font-style: normal !important; font-weight: 600 !important; letter-spacing: .025em !important; line-height: 24px !important; text-transform: uppercase; }
+body.tbt-site #main-content .tbt-programme-kicker::before { content: none; display: none; }
+body.tbt-site #main-content :is(.tbt-programme-struggles, .tbt-programme-results, .tbt-programme-cover, .tbt-programme-solutions, .tbt-programme-lesson, .tbt-programme-inclusions) .tbt-programme-kicker { color: var(--tbt-green-on-dark, #8fe17e) !important; }
+
+/* Buttons: the home pill — 60px tall, 18/28 type, soft shadow. */
+body.tbt-site #main-content a:is(.tbt-programme-button, .tbt-programme-text-link, .tbt-programme-hall__action, .tbt-resource-button, .tbt-testimonials-button, .tbt-institutional-button) { min-height: 60px !important; line-height: 28px !important; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, .1), 0 8px 10px -6px rgba(0, 0, 0, .1); }
+
+/* Section titles: home line height (36/40 desktop, 30/36 phone). */
+body.tbt-site:not(.home) #main-content > :is(.tbt-programme-page, .tbt-resource-page, .tbt-institutional-page, .tbt-testimonials-page) > section h2 { line-height: 1.12; }
+@media (max-width: 768px) {
+  body.tbt-site:not(.home) #main-content > :is(.tbt-programme-page, .tbt-resource-page, .tbt-institutional-page, .tbt-testimonials-page) > section h2 { line-height: 1.2; }
+}
+/* Sections that already space their own blocks: keep the section flush and give the inner blocks the standard rhythm. */
+body.tbt-site:not(.home) #main-content > .tbt-resource-page > section.tbt-cell-access,
+body.tbt-site:not(.home) #main-content > .tbt-institutional-page > section[data-section="recommendations"] { padding-block: 0 !important; }
+body.tbt-site #main-content .tbt-cell-access > .tbt-resource-section { padding-block: 80px !important; }
+@media (max-width: 768px) { body.tbt-site #main-content .tbt-cell-access > .tbt-resource-section { padding-block: 64px !important; } }
+@media (max-width: 390px) { body.tbt-site #main-content .tbt-cell-access > .tbt-resource-section { padding-block: 56px !important; } }
+body.tbt-site:not(.home) #main-content > .tbt-notes-page > .tbt-notes-details { padding-block: 80px !important; }
+@media (max-width: 768px) { body.tbt-site:not(.home) #main-content > .tbt-notes-page > .tbt-notes-details { padding-block: 64px !important; } }
+@media (max-width: 390px) { body.tbt-site:not(.home) #main-content > .tbt-notes-page > .tbt-notes-details { padding-block: 56px !important; } }
+/* Testimonials: the featured block flows straight into the compact year list (earlier client request), so only its top follows the rhythm. */
+body.tbt-site:not(.home) #main-content > .tbt-testimonials-page > section[data-section="featured"] { padding-bottom: 12px !important; }

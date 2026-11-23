@@ -461,9 +461,9 @@ const sizes = [
         return { family: style.fontFamily.toLowerCase(), size: style.fontSize, weight: style.fontWeight };
       });
       const contactButton = await page.locator('.tbt-contact-content .tbt-institutional-button').boundingBox();
-      if (!contactHeading || (contactHeading.y - (contactHeader.y + contactHeader.height) < 40 || contactHeading.y - (contactHeader.y + contactHeader.height) > 70) || Math.abs(contactHeading.height - 73) > 2) throw new Error(`Contact heading geometry is wrong: ${JSON.stringify(contactHeading)}`);
+      if (!contactHeading || (contactHeading.y - (contactHeader.y + contactHeader.height) < 40 || contactHeading.y - (contactHeader.y + contactHeader.height) > 96) || Math.abs(contactHeading.height - 73) > 2) throw new Error(`Contact heading geometry is wrong: ${JSON.stringify(contactHeading)}`);
       if (!contactHeadingStyle.family.includes('poppins') || contactHeadingStyle.size !== '60px' || contactHeadingStyle.weight !== '800') throw new Error(`Contact heading typography is wrong: ${JSON.stringify(contactHeadingStyle)}`);
-      if (!contactButton || contactButton.y <= contactHeading.y + contactHeading.height || Math.abs(contactButton.width - 328) > 1 || Math.abs(contactButton.height - 56) > 1) throw new Error(`Contact button geometry is wrong: ${JSON.stringify(contactButton)}`);
+      if (!contactButton || contactButton.y <= contactHeading.y + contactHeading.height || Math.abs(contactButton.width - 328) > 1 || Math.abs(contactButton.height - 60) > 1) throw new Error(`Contact button geometry is wrong: ${JSON.stringify(contactButton)}`);
 
       await page.goto(`${base}/trees/`, { waitUntil: 'load' });
       await page.evaluate(() => document.fonts?.ready);

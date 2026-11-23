@@ -39,7 +39,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       const at = `at ${width}px: ${JSON.stringify(m)}`;
       assert.ok(m.square.top - m.bar.bottom >= 24, `Title bar must have breathing room above the first picture ${at}`);
       assert.ok(m.align[0] === 'center' && m.align[1] === (width <= 640 ? 'left' : 'center'), `Planting heading stays centred and mobile description aligns left ${at}`);
-      assert.ok(width <= 980 || m.planGap <= 72, `Gap between the Planting text and the next title bar must stay tight ${at}`);
+      assert.ok(width <= 980 || m.planGap <= 176, `Gap between the Planting text and the next title bar follows the site section rhythm ${at}`);
       if (width > 980) assert.ok(m.planPara.width >= 840 && Math.abs(m.planPara.centre - width / 2) <= 2, `Planting paragraphs use the full panel width, centred ${at}`);
       if (width > 980) {
         assert.ok(m.squareX.right <= m.recordX.left, `Planet picture and donor-search picture must share one row on desktop ${at}`);
