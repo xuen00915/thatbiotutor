@@ -70,7 +70,7 @@ if (!resizeSubmenu.hidden || resizeSubmenuToggle.getAttribute('aria-expanded') !
 api.syncNavigationViewport(resizeMenu, resizeToggle, [{ menu: resizeSubmenu, toggle: resizeSubmenuToggle }], false);
 if (resizeMenu.hidden || resizeToggle.getAttribute('aria-expanded') !== 'false') throw new Error('desktop resize must show the main menu without reporting it expanded');
 
-// Ratios use the shared numeric count-up, lasting four seconds and replaying.
+// Ratios use the shared numeric count-up, matching the other counters and replaying.
 for (const reduced of [false, true]) {
  const ratio = new MockElement();
  ratio.setAttribute('data-count-display', '1 in 2');
@@ -86,10 +86,10 @@ for (const reduced of [false, true]) {
   frames.shift()(0);
   const rolling = [];
   for (const time of [400, 800, 1200, 1600]) { frames.shift()(time); rolling.push(ratio.textContent); }
-  if(new Set(rolling).size < 3 || !rolling.some(text => /^[2-9] in 2$/.test(text))) throw new Error('Ratio should cycle through numbers before settling');
-  frames.shift()(3000);
-  if(ratio.getAttribute('data-count-complete') === 'true') throw new Error('Ratio should run for four seconds');
-  frames.shift()(4000);
+  if(new Set(rolling).size < 3 || new Set(rolling.map(text => text.split(' in ')[0])).size < 3 || new Set(rolling.map(text => text.split(' in ')[1])).size < 3) throw new Error('Ratio should cycle through numbers before settling');
+  frames.shift()(2000);
+  if(ratio.getAttribute('data-count-complete') === 'true') throw new Error('Ratio should still run before 2.2 seconds');
+  frames.shift()(2200);
   callback([{target:ratio,isIntersecting:false}]);
   callback([{target:ratio,isIntersecting:true}]);
   if(!frames.length) throw new Error('Ratio count-up replays');

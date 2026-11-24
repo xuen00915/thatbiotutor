@@ -79,7 +79,7 @@
       if (counter.getAttribute('data-count-complete') === 'true') return;
       const target = Number(counter.getAttribute('data-count-target') || 0);
       const display = counter.getAttribute('data-count-display') || String(target);
-      const duration = animate ? (display.includes(' in ') ? 4000 : 2200) : 0;
+      const duration = animate ? 2200 : 0;
       const run = {};
       countRuns.set(counter, run);
       let start = null;
@@ -90,11 +90,13 @@
         const progress = duration === 0 ? 1 : Math.min(1, Math.max(0, (time - start) / duration));
         // Gentle ease-in-out: no abrupt burst at the start or a long stall at the end.
         const eased = progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-        // Ratios roll through digits, slowing down before landing on the actual value.
-        const value = display.includes(' in ') && progress < 1
-          ? Math.floor(42 * (1 - Math.pow(1 - progress, 2))) % 10
-          : target * eased;
-        counter.textContent = formatCountUpValue(value, display);
+        // Roll both ratio digits together, then settle on the original statistic.
+        if (display.includes(' in ') && progress < 1) {
+          const digit = Math.floor(22 * (1 - Math.pow(1 - progress, 2))) % 10;
+          counter.textContent = `${digit} in ${(digit + 1) % 10}`;
+        } else {
+          counter.textContent = formatCountUpValue(target * eased, display);
+        }
         if (progress < 1 && typeof windowObject.requestAnimationFrame === 'function') windowObject.requestAnimationFrame(step);
         else {
           counter.textContent = display;
