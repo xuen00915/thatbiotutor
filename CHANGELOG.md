@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Changed “1 in 2” from a rise/pulse to the shared numeric count-up: the numerator counts from 0 to 1 while “in 2” stays fixed, with a four-second duration and scroll replay.
+
 - [main-site] Slowed the “1 in 2” reveal to four seconds with gradual ease-in-out motion, retaining scroll replays and reduced-motion support.
 
 - [main-site] Replay Classes result statistics on scroll entry: 2.3, 912+ and 91% count up, while “1 in 2” rises and pulses; interrupted counts restart cleanly and reduced motion remains supported.

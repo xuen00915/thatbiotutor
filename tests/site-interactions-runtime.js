@@ -52,7 +52,7 @@ if (api.prefersReducedMotion(() => ({ matches: false }))) throw new Error('Norma
 if (api.formatCountUpValue(912, '912+') !== '912+') throw new Error('Integer count-up formatting failed');
 if (api.formatCountUpValue(2.3, '2.3') !== '2.3') throw new Error('Decimal count-up formatting failed');
 for (const value of [0, 0.25, 0.75, 1]) {
-  if (api.formatCountUpValue(value, '1 in 2') !== '1 in 2') throw new Error('Ratio statistics must keep their full wording throughout the reveal');
+  if (api.formatCountUpValue(value, '1 in 2') !== `${Math.round(value)} in 2`) throw new Error('Ratio numerator counts up while its denominator stays fixed');
 }
 
 if (typeof api.syncNavigationViewport !== 'function') throw new Error('syncNavigationViewport must be exported');
@@ -70,29 +70,29 @@ if (!resizeSubmenu.hidden || resizeSubmenuToggle.getAttribute('aria-expanded') !
 api.syncNavigationViewport(resizeMenu, resizeToggle, [{ menu: resizeSubmenu, toggle: resizeSubmenuToggle }], false);
 if (resizeMenu.hidden || resizeToggle.getAttribute('aria-expanded') !== 'false') throw new Error('desktop resize must show the main menu without reporting it expanded');
 
-// Ratios reveal once on entry, retain their wording, and respect reduced motion.
+// Ratios use the shared numeric count-up, lasting four seconds and replaying.
 for (const reduced of [false, true]) {
  const ratio = new MockElement();
  ratio.setAttribute('data-count-display', '1 in 2');
  ratio.setAttribute('data-count-target', '1');
- let callback, observed = false, animations = 0;
- ratio.animate = (frames, timing) => { animations++; if (timing.duration !== 4000) throw new Error('Ratio animation should last four seconds'); };
+ let callback, frames = [];
+ ratio.animate = () => { throw new Error('Ratio must count instead of pulsing'); };
  api.initCountUps({querySelectorAll: () => [ratio]}, {
-  matchMedia: () => ({matches: reduced}),
-  IntersectionObserver: class {
-   constructor(fn) { callback = fn; }
-   observe() { observed = true; }
-   unobserve() {}
-  }
+  matchMedia: () => ({matches: reduced}), requestAnimationFrame: fn => frames.push(fn),
+  IntersectionObserver: class { constructor(fn) {callback=fn;} observe() {} unobserve() {} }
  });
  if (!reduced) {
-  if (!observed || animations) throw new Error('Ratio must wait until it enters the viewport');
   callback([{target:ratio,isIntersecting:true}]);
-  callback([{target:ratio,isIntersecting:true}]);
+  frames.shift()(0); frames.shift()(1000);
+  if(ratio.textContent !== '0 in 2') throw new Error('Ratio starts from zero');
+  frames.shift()(3000);
+  if(ratio.getAttribute('data-count-complete') === 'true') throw new Error('Ratio should run for four seconds');
+  frames.shift()(4000);
   callback([{target:ratio,isIntersecting:false}]);
   callback([{target:ratio,isIntersecting:true}]);
+  if(!frames.length) throw new Error('Ratio count-up replays');
  }
- if (animations !== (reduced ? 0 : 2) || ratio.textContent !== '1 in 2') throw new Error('Ratio reveal replays on re-entry with stable text, except for reduced motion');
+ if(ratio.textContent !== '1 in 2') throw new Error('Ratio finishes with its original value');
 }
 
 // Classes numbers count up again when their results section re-enters view.

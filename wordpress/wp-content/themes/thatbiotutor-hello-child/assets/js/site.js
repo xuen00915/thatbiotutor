@@ -61,8 +61,8 @@
 
   function formatCountUpValue(value, display) {
     const finalDisplay = String(display || '');
-    // A ratio is a complete statement, not a number to count from zero.
-    if (finalDisplay.includes(' in ')) return finalDisplay;
+    // Count the numerator using the same integer animation, retaining the denominator.
+    if (finalDisplay.includes(' in ')) return `${Math.round(Number(value))} in ${finalDisplay.split(' in ')[1]}`;
     if (finalDisplay.includes('.')) {
       const decimals = (finalDisplay.split('.')[1] || '').replace(/\D/g, '').length;
       return Number(value).toFixed(decimals);
@@ -79,19 +79,7 @@
       if (counter.getAttribute('data-count-complete') === 'true') return;
       const target = Number(counter.getAttribute('data-count-target') || 0);
       const display = counter.getAttribute('data-count-display') || String(target);
-      if (display.includes(' in ')) {
-        counter.textContent = display;
-        counter.setAttribute('data-count-complete', 'true');
-        if (animate && typeof counter.animate === 'function') {
-          counter.animate([
-            { opacity: 0.2, transform: 'translateY(18px) scale(0.82)', offset: 0 },
-            { opacity: 1, transform: 'translateY(0) scale(1.04)', offset: 0.55 },
-            { opacity: 1, transform: 'translateY(0) scale(1)', offset: 1 }
-          ], { duration: 4000, easing: 'ease-in-out' });
-        }
-        return;
-      }
-      const duration = animate ? 2200 : 0;
+      const duration = animate ? (display.includes(' in ') ? 4000 : 2200) : 0;
       const run = {};
       countRuns.set(counter, run);
       let start = null;
