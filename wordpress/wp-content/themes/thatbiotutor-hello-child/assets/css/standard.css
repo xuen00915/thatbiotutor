@@ -1485,3 +1485,10 @@ body.tbt-site.home #main-content .tbt-home-section { padding-block: 56px; }
 @media (max-width: 390px) {
   body.tbt-site.home #main-content .tbt-home-section { padding-block: 32px; }
 }
+
+/* Preserve transitions that were already tighter than the shared section rhythm. */
+body.tbt-site.home #main-content .tbt-home-stats { padding-top: 16px; }
+@media (max-width: 640px) {
+  body.tbt-site.home #main-content :is(.tbt-home-faq, .tbt-home-quality) { padding-bottom: 16px; }
+  body.tbt-site.home #main-content :is(.tbt-home-classroom, .tbt-home-practical) { padding-top: 24px; }
+}
