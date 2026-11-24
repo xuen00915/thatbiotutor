@@ -1830,3 +1830,8 @@ body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-e
 @media (max-width: 1180px) {
   body.tbt-site #main-content .tbt-testimonials-button { padding-inline: 12px !important; white-space: nowrap; }
 }
+
+/* Home closing: on phones (single column) the "Book My Trial Lesson" button is centred. */
+@media (max-width: 767px) {
+  body.tbt-site.home #main-content .tbt-home-closing__cta-wrap { display: flex; justify-content: center; }
+}
