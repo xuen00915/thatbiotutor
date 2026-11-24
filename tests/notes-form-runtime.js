@@ -18,9 +18,13 @@ const provider = 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.
    if (width >= 768) assert.ok(box.height === 440, 'Wide signup frame contains Submit without exposing the provider footer');
    assert.ok(box.width>=width-32 || box.width>=700);
    assert.ok(box.x>=0&&box.x+box.width<=width&&box.height>=420);
+   if(width<=640) {
+    assert.equal(box.height,680,'Mobile form leaves room for all fields and Submit');
+    assert.equal(await frame.getAttribute('scrolling'),'auto','Mobile iframe allows scrolling if provider content grows');
+   }
    if (width === 320) {
     assert.equal(box.width, 320, 'Small-phone provider viewport keeps Submit on one line');
-    assert.equal(box.height, 528, 'Small-phone crop fits the complete form');
+    assert.equal(box.height, 680, 'Small-phone frame fits the complete form');
    }
    assert.equal(await page.locator('.tbt-notes-form__alternative').count(),0);
    assert.equal(await page.locator('.tbt-notes-form form,.tbt-notes-form [data-tbt-redirect]').count(),0);

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- [main-site] Increased the mobile Notes signup frame to 680px and enabled mobile iframe scrolling so taller provider content cannot trap Submit below the crop.
+
+- [main-site] Matched the widths and centered edges of both Planting Trees images in the stacked tablet layout.
+
+- [main-site] Reduced spacing above Student Stories across all five years: 32px after results artwork on desktop, 24px on tablet/mobile, and half that after the 2021 year heading.
+
 - [main-site] Made Sec 3/Sec 4 topic lists single-column on phones, with whole-word wrapping and more usable content width.
 
 - [main-site] Unified public content buttons at 272×60px on desktop/laptop and 240×60px on tablet/mobile, including Home, programmes, resources, testimonials, Contact and IntensiveFix. Added cross-page sizing and text-fit checks.

@@ -523,6 +523,15 @@
     });
   }
 
+  function initNotesFormViewport(document, windowObject) {
+    const frames = document.querySelectorAll('.tbt-notes-form__embed');
+    if (!frames.length) return;
+    const mobile = windowObject.matchMedia('(max-width: 640px)');
+    const update = () => frames.forEach(frame => frame.setAttribute('scrolling', mobile.matches ? 'auto' : 'no'));
+    mobile.addEventListener('change', update);
+    update();
+  }
+
   function initFloatingContact(document, windowObject) {
     const button = document.querySelector('.whatsapp-float');
     const viewport = windowObject.visualViewport;
@@ -556,6 +565,7 @@
     initReveal(document, windowObject);
     initHomeProof(document, windowObject);
     initFloatingContact(document, windowObject);
+    initNotesFormViewport(document, windowObject);
   }
 
   return { initCountUps, openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, formatCountUpValue, syncNavigationViewport, initCertificateLightbox, init };

@@ -1760,3 +1760,22 @@ body.tbt-site #main-content .tbt-classes-page .tbt-programme-hero__actions {
   body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-topics li { overflow-wrap: normal; word-break: normal; hyphens: none; }
   body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-topics-card { padding-inline: 24px; }
 }
+
+/* One compact transition into Student Stories for every cohort. */
+body.tbt-site #main-content .tbt-testimonials-page { --tbt-story-gap-half: 16px; }
+body.tbt-site #main-content .tbt-testimonials-page .tbt-story-heading { padding-top: var(--tbt-story-gap-half) !important; }
+body.tbt-site #main-content .tbt-testimonials-page .tbt-testimonials-artwork-band { padding-bottom: 0 !important; margin-bottom: var(--tbt-story-gap-half) !important; }
+body.tbt-site #main-content .tbt-testimonials-page .tbt-testimonials-artwork--portrait:has(+ .tbt-story-heading) { margin-bottom: var(--tbt-story-gap-half) !important; }
+@media (max-width: 768px) {
+  body.tbt-site #main-content .tbt-testimonials-page { --tbt-story-gap-half: 12px; }
+}
+
+/* Stacked tablet planting images share one width and centered edges. */
+@media (min-width: 641px) and (max-width: 980px) {
+  body.tbt-site #main-content .tbt-causes-feature > :is(.tbt-causes-section__media--square, .tbt-causes-section__media--record) { width: min(654px, 100%); margin-inline: auto; }
+}
+
+/* Mobile signup must show Submit even when provider fonts make fields taller. */
+@media (max-width: 640px) {
+  body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 680px; }
+}

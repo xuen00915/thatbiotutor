@@ -36,6 +36,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         };
       });
+      if(width>640&&width<=980) assert.ok(Math.abs(m.squareX.left-m.recordX.left)<=1&&Math.abs(m.squareX.right-m.recordX.right)<=1,'Tablet planting images share their left and right edges: '+JSON.stringify({square:m.squareX,record:m.recordX}));
       const at = `at ${width}px: ${JSON.stringify(m)}`;
       assert.ok(m.square.top - m.bar.bottom >= 24, `Title bar must have breathing room above the first picture ${at}`);
       assert.ok(m.align[0] === 'center' && m.align[1] === (width <= 640 ? 'left' : 'center'), `Planting heading stays centred and mobile description aligns left ${at}`);
