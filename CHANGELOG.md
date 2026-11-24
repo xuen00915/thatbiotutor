@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Widened the Home closing copy column and removed balanced heading wraps; reduced the tablet hero trial-button-to-photo gap to 28px.
+
 - [main-site] Centered the About mission statement “SUCCESS TO US = TRULY HELPING STUDENTS.” on desktop and mobile.
 
 - [main-site] Reduced the Home quality-card-to-practical-heading gap from 112px to 40px on desktop and to 32px on mobile.

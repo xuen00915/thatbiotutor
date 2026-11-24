@@ -10,6 +10,13 @@ const {chromium} = require('playwright');
   await page.addStyleTag({content:'.tbt-reveal{transform:none!important;transition:none!important}'}); /* measure the settled layout, not the 24px reveal slide that is still running on a slow machine */
   const practicalGap=await page.evaluate(()=>document.querySelector('.tbt-home-practical h2').getBoundingClientRect().top-document.querySelector('.tbt-home-quality li:last-child').getBoundingClientRect().bottom);
   assert.ok(Math.abs(practicalGap-(width<=640?32:40))<=1,`Homepage practical heading gap is compact at ${width}: ${practicalGap}px`);
+  const closingWrap=await page.locator('.tbt-home-closing h2').evaluate(e=>({wrap:getComputedStyle(e).textWrap,width:e.getBoundingClientRect().width}));
+  assert.equal(closingWrap.wrap,'wrap','Closing heading fills each line naturally');
+  if(width===1440) assert.ok(closingWrap.width>=720,'Closing text has a wider desktop column');
+  if(width===768) {
+   const carouselGap=await page.evaluate(()=>document.querySelector('.tbt-home-hero__carousel').getBoundingClientRect().top-document.querySelector('.tbt-home-hero .tbt-home-button').getBoundingClientRect().bottom);
+   assert.ok(Math.abs(carouselGap-28)<=1,'Tablet trial button/photo gap is 28px: '+carouselGap);
+  }
   const heroGap=await page.evaluate(()=>document.querySelector('.tbt-home-hero .tbt-home-kicker').getBoundingClientRect().top-document.querySelector('.site-header').getBoundingClientRect().bottom);
   assert.ok(heroGap>=12&&heroGap<=(width>520?32:24),`Homepage hero title sits close to the header (${heroGap}px) at ${width}`);
   const reviewGap = await page.locator('.tbt-google-reviews').evaluate(e => ({ above: parseFloat(getComputedStyle(e).marginTop), below: document.querySelector('.tbt-home-tutors h2').getBoundingClientRect().top - e.getBoundingClientRect().bottom }));
