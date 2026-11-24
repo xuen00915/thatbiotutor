@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Enlarged homepage tutor portraits further to 220px desktop / up to 160px mobile and reduced heading-to-grid and bottom spacing for a fuller team section.
+
 - [main-site] Reduced homepage Google review margins, card height and internal spacing; tightened the transition to Meet Your Tutors to 56px desktop / 40px mobile while retaining clear carousel controls.
 
 - [main-site] Standardised Home, Sec 3 and Sec 4 tutor portraits at 180px desktop / up to 144px mobile, with shared 18px Poppins names. This enlarges Home and reduces the class-page desktop portraits and names.

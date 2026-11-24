@@ -1550,3 +1550,10 @@ body.tbt-site.home #main-content .tbt-home-tutors { padding-top: 32px; }
   body.tbt-site.home #main-content .tbt-home-proof { padding-bottom: 16px; }
   body.tbt-site.home #main-content .tbt-home-tutors { padding-top: 24px; }
 }
+
+/* Give the homepage team more visual presence within its four-column row. */
+body.tbt-site.home #main-content .tbt-home-tutors { --tbt-team-portrait-size: 220px; padding-bottom: 32px; }
+body.tbt-site.home #main-content .tbt-home-tutors__grid { margin-top: 24px; }
+@media (max-width: 640px) {
+  body.tbt-site.home #main-content .tbt-home-tutors { --tbt-team-portrait-size: 160px; padding-bottom: 24px; }
+}

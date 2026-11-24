@@ -18,7 +18,8 @@ const {chromium} = require('playwright');
    for(let i=0;i<boxes.length;i+=columns) assert.ok(boxes.slice(i,i+columns).every(b=>Math.abs(b.y-boxes[i].y)<1),`${selector}: staggered at ${width}`);
   }
   const portraits=await page.locator('.tbt-home-tutors__grid img').evaluateAll(es=>es.map(e=>({w:e.getBoundingClientRect().width,h:e.getBoundingClientRect().height,r:getComputedStyle(e).borderRadius})));
-  assert.ok(portraits.every(p=>Math.abs(p.w-p.h)<1 && p.w <= (width <= 640 ? 144 : 180) && p.r==='50%'),'Tutors must have consistently sized circular portraits');
+  assert.ok(portraits.every(p=>Math.abs(p.w-p.h)<1 && p.w <= (width <= 640 ? 160 : 220) && p.r==='50%'),'Tutors must have consistently sized circular portraits');
+  if (width === 1440) assert.ok(portraits.every(p=>p.w === 220), 'Homepage tutors have prominent 220px portraits');
   assert.equal(await page.locator('.tbt-home-tutors__grid h3').first().evaluate(e=>getComputedStyle(e).fontSize), '18px', 'Tutor names use the shared size');
   assert.equal(await page.locator('.tbt-home-fit__yes').evaluate(e=>getComputedStyle(e).borderTopWidth),'2px');
   assert.equal(await page.locator('.tbt-home-fit__yes h2').evaluate(e=>getComputedStyle(e).color),'rgb(47, 138, 39)');
