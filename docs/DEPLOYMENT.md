@@ -79,18 +79,21 @@ This isolation is loaded only in runner subprocesses, never in the website.
 
 The GetResponse signup document is also isolated in layout-runner subprocesses. The form-container test verifies its exact provider URL and fallback link. Verify the live provider form separately without creating a test subscriber; `TBT_LIVE_EMBEDS=1` enables both real provider and video frames.
 
-## Faster CSS deployments
+## Static previews by default; WordPress only on request
 
-The Pages workflow caches a successfully verified static export using a fingerprint of
-tracked non-CSS inputs. Edits to existing files under the child theme's `assets/css/`
-can reuse that export; current CSS and public theme assets are copied into it before
-all browser checks run. Documentation changes do not invalidate the export. Adding or
-removing a stylesheet, changing PHP/JS/media, or changing tests/build configuration
-requires the full WordPress build and editing checks. Only successful verification
-can populate the cache. No partial cache-key matching is used.
+Every push deploys the existing exported HTML with current public theme assets
+(CSS, JavaScript, images and fonts). It never starts WordPress, seeds its database,
+regenerates HTML, runs admin-editing checks, or builds a WordPress upload package.
+Source checks and all public browser checks still run before publishing.
 
-Use **Run workflow** (`workflow_dispatch`) to force a fresh WordPress export. On a cache
-hit, WordPress startup, seeding, export and admin-editing checks are skipped because
-those inputs already passed together. Source tests and every public browser assertion
-still run. The feedback suite is split into four isolated groups under the existing
-three-worker limit; logs and timings are uploaded for each group.
+Only when the user explicitly requests a WordPress rebuild, use **Run workflow**
+with **rebuild_wordpress** checked. The input defaults to false, including manual
+runs. That explicit path rebuilds and verifies WordPress, exports fresh HTML and
+saves a new preview snapshot. Changes to PHP/templates/seed content do not update
+the preview HTML until that rebuild; report pending changes clearly.
+
+Preview runs restore the latest snapshot, including the previously validated
+export cache during migration. A missing snapshot stops the preview with a clear
+error; it never triggers an automatic WordPress rebuild. Preview runs do not replace
+the baseline snapshot. All browser assertions remain, with the feedback suite split
+into four groups under the three-worker limit.

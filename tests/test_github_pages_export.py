@@ -52,6 +52,15 @@ class GithubPagesExportTest(unittest.TestCase):
                 page.read_text(encoding="utf-8"),
             )
 
+    def test_wordpress_operations_require_explicit_manual_request(self):
+        workflow = Path('.github/workflows/pages.yml').read_text()
+        self.assertIn('rebuild_wordpress:', workflow)
+        self.assertIn('default: false', workflow)
+        for name in ['Start native WordPress', 'Seed the reference site', 'Export the static Pages artifact', 'Verify WordPress editing', 'Build WordPress upload package', 'Upload WordPress installation package']:
+            step = workflow.split(f'- name: {name}\n', 1)[1].split('- name:', 1)[0]
+            self.assertIn("if: github.event_name == 'workflow_dispatch' && inputs.rebuild_wordpress == true", step, name)
+        self.assertIn('Require an existing preview snapshot', workflow)
+
     def test_pages_workflow_builds_and_deploys_the_native_wordpress_export(self):
         workflow = Path(".github/workflows/pages.yml").read_text(encoding="utf-8")
         self.assertIn("scripts/export_github_pages.py", workflow)

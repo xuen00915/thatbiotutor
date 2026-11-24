@@ -7,12 +7,18 @@ on:
       - fix/intensivefix
       - site/main-website
   workflow_dispatch:
+    inputs:
+      rebuild_wordpress:
+        description: Rebuild WordPress and regenerate page HTML (only when explicitly requested)
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
 
-# Every run builds the combined latest of main and both work branches, so a newer push
-# simply replaces an older run: the public link always shows everyone's latest work.
+# Pushes deploy static previews using existing HTML plus current public assets.
+# Only an explicit manual request may start WordPress or regenerate HTML.
 concurrency:
   group: pages-latest
   cancel-in-progress: true
@@ -61,35 +67,43 @@ jobs:
       - name: Run source tests
         run: scripts/verify-local.sh
 
-      - name: Compute export cache key
-        id: export-key
-        run: echo "key=pages-export-v1-$(python3 scripts/pages_cache.py key)" >> "$GITHUB_OUTPUT"
-
-      - name: Restore validated export
-        if: github.event_name != 'workflow_dispatch'
+      - name: Restore existing preview snapshot
+        if: github.event_name != 'workflow_dispatch' || inputs.rebuild_wordpress != true
         id: export-cache
         uses: actions/cache/restore@v4
         with:
           path: build
-          key: ${{ steps.export-key.outputs.key }}
+          key: pages-preview-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            pages-preview-v1-
+            pages-export-v1-
+
+      - name: Require an existing preview snapshot
+        if: github.event_name != 'workflow_dispatch' || inputs.rebuild_wordpress != true
+        run: |
+          if [ ! -f build/index.html ]; then
+            echo "::error::No existing preview snapshot is available. WordPress will not rebuild automatically. Request an explicit WordPress rebuild to create a new snapshot."
+            exit 1
+          fi
+          echo "Static preview: existing HTML plus current assets. PHP/template/content changes require an explicitly requested WordPress rebuild." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Start native WordPress
-        if: steps.export-cache.outputs.cache-hit != 'true'
+        if: github.event_name == 'workflow_dispatch' && inputs.rebuild_wordpress == true
         run: npm run wp-env:start
 
       - name: Seed the reference site
-        if: steps.export-cache.outputs.cache-hit != 'true'
+        if: github.event_name == 'workflow_dispatch' && inputs.rebuild_wordpress == true
         run: npm run wp-env:setup
 
       - name: Export the static Pages artifact
-        if: steps.export-cache.outputs.cache-hit != 'true'
+        if: github.event_name == 'workflow_dispatch' && inputs.rebuild_wordpress == true
         run: >-
           python3 scripts/export_github_pages.py
           --output build
           --public-origin https://xuen00915.github.io/thatbiotutor
 
-      - name: Refresh CSS and static assets in cached export
-        if: steps.export-cache.outputs.cache-hit == 'true'
+      - name: Refresh CSS and static assets for preview
+        if: github.event_name != 'workflow_dispatch' || inputs.rebuild_wordpress != true
         run: python3 scripts/pages_cache.py refresh
 
       - name: Cache Playwright browsers
@@ -118,7 +132,7 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:4173 TBT_RUNTIME_WORKERS=3 node scripts/run-browser-tests.js
 
       - name: Verify WordPress editing
-        if: steps.export-cache.outputs.cache-hit != 'true'
+        if: github.event_name == 'workflow_dispatch' && inputs.rebuild_wordpress == true
         run: |
           # A client's workflow in wp-admin (edit, format, save, add a class year) on the live WordPress, which restores what it touches.
           TBT_RUNTIME_URL=http://localhost:8888 node tests/admin-editing-runtime.js
@@ -133,17 +147,19 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
-      - name: Cache validated export
-        if: steps.export-cache.outputs.cache-hit != 'true'
+      - name: Save explicitly rebuilt preview snapshot
+        if: github.event_name == 'workflow_dispatch' && inputs.rebuild_wordpress == true
         uses: actions/cache/save@v4
         with:
           path: build
-          key: ${{ steps.export-key.outputs.key }}
+          key: pages-preview-v1-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Build WordPress upload package
+        if: github.event_name == 'workflow_dispatch' && inputs.rebuild_wordpress == true
         run: python3 scripts/build_wordpress_package.py --output "$RUNNER_TEMP/tbt-wordpress-install"
 
       - name: Upload WordPress installation package
+        if: github.event_name == 'workflow_dispatch' && inputs.rebuild_wordpress == true
         uses: actions/upload-artifact@v4
         with:
           name: thatbiotutor-wordpress-install

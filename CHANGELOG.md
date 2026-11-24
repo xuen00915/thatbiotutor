@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] GitHub Pages now deploys static previews by default: reuse existing HTML and refresh current public assets. WordPress startup, HTML export, admin checks and installation packaging require the explicit `rebuild_wordpress` manual input, defaulting to false. Missing snapshots fail without rebuilding.
+
 - [main-site] Faster deployments: reuse a validated static export for CSS-only edits, refresh all public theme assets, and retain every browser check. Changes to non-CSS source, assets, test code or workflow invalidate the cache; manual runs force a full WordPress rebuild. Split the long feedback browser suite into four parallel groups without removing assertions.
 
 - [main-site] Reduced main-site section padding to 56px on desktop, 40px up to 768px, and 32px up to 390px, including Home and nested resource sections. Preserved hero spacing, compact testimonial year sections, and the independently managed IntensiveFix page.
