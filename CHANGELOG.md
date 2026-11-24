@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- [main-site] Cropped the practical photo’s baked-in black strip in tablet layouts on Sec 3/Sec 4, preserving the frame dimensions; adjusted the WhatsApp-to-FAQ gap to 64px desktop/tablet and 48px mobile.
+
+- [main-site] Centered the Hall of Fame WhatsApp button on Sec 3/Sec 4 mobile layouts while retaining the shared 240px button width.
+
 - [main-site] Tightened What We Cover on Sec 3/Sec 4: 24px card gaps, smaller card padding, closer phase headings/notes, and reduced section padding.
 
 - [main-site] Tightened Sec 3/Sec 4 class-option gaps and bottom padding to 24px; reduced the gap above FAQ to 40px on desktop/tablet and 32px on mobile.

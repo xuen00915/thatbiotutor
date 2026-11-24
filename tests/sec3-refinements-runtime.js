@@ -5,7 +5,7 @@ const { chromium } = require('playwright');
  try {
   const page = await browser.newPage({ reducedMotion: 'reduce' });
   const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8892').replace(/\/?$/, '/');
-  for (const width of [1440, 1024, 768, 390, 320]) {
+  for (const width of [1440, 1024, 768, 427, 390, 320]) {
    await page.setViewportSize({width, height:900});
    await page.goto(new URL('about/', base).href);
    const aboutWidth = await page.locator('.tbt-reading-width').first().evaluate(e=>e.getBoundingClientRect().width);
@@ -17,13 +17,21 @@ const { chromium } = require('playwright');
     const included=q('.tbt-programme-options__included');
     return {cards:b(cards[1]).top-b(cards[0]).bottom,included:b(included).top-b(q('.tbt-programme-options__grid')).bottom,optionsBottom:b(q('.tbt-programme-options')).bottom-b(included).bottom,faq:b(q('.tbt-programme-faq .tbt-programme-kicker')).top-b(q('.tbt-programme-tutors .tbt-programme-button')).bottom};
    });
-   assert.ok(Math.abs(spacing.cards-24)<=1&&Math.abs(spacing.included-24)<=1&&Math.abs(spacing.optionsBottom-24)<=1&&Math.abs(spacing.faq-(width<=640?32:40))<=1,'Compact option cards and FAQ transition at '+width+': '+JSON.stringify(spacing));
+   assert.ok(Math.abs(spacing.cards-24)<=1&&Math.abs(spacing.included-24)<=1&&Math.abs(spacing.optionsBottom-24)<=1&&Math.abs(spacing.faq-(width<=640?48:64))<=1,'Compact option cards and FAQ transition at '+width+': '+JSON.stringify(spacing));
+   if(width>=641&&width<=1180) {
+    const crop=await page.locator('img.tbt-practical-photo[src*="35ad6135826a6626379208fe8e6eefe5"]').evaluate(e=>{const frame=e.parentElement,b=frame.getBoundingClientRect(),i=e.getBoundingClientRect();return {wrapped:frame.classList.contains('tbt-practical-crop'),overflow:getComputedStyle(frame).overflow,coverage:i.left<=b.left&&i.right>=b.right&&i.top<=b.top&&i.bottom>=b.bottom};});
+    assert.ok(crop.wrapped&&crop.overflow==='hidden'&&crop.coverage,'Tablet practical photo fills a cropped frame: '+JSON.stringify(crop));
+   }
    const coverSpacing=await page.evaluate(()=>{
     const root=document.querySelector('.tbt-programme-cover'),cs=e=>getComputedStyle(e),box=e=>e.getBoundingClientRect();
     const cards=[...root.querySelectorAll('.tbt-programme-phase,.tbt-programme-topics-card,.tbt-programme-exam')];
     return {gaps:cards.slice(1).map((e,i)=>box(e).top-box(cards[i]).bottom),pads:cards.map(e=>[parseFloat(cs(e).paddingTop),parseFloat(cs(e).paddingBottom)]),section:parseFloat(cs(root).paddingTop)};
    });
    assert.ok(coverSpacing.gaps.every(g=>Math.abs(g-24)<=1)&&coverSpacing.pads.flat().every(p=>p===(width<=640?20:24))&&coverSpacing.section===(width<=640?24:32),'Compact What We Cover layout at '+width+': '+JSON.stringify(coverSpacing));
+   if(width<=640) {
+    const hallButton=await page.locator('.tbt-programme-hall__actions .tbt-programme-button').evaluate(e=>{const b=e.getBoundingClientRect();return {center:(b.left+b.right)/2,width:b.width};});
+    assert.ok(Math.abs(hallButton.center-width/2)<=1&&hallButton.width===240,'Mobile hall WhatsApp button keeps shared size and is centered: '+JSON.stringify(hallButton));
+   }
    const r = await page.evaluate(()=>{
     const q=s=>document.querySelector('.tbt-sec3-page '+s), qa=s=>[...document.querySelectorAll('.tbt-sec3-page '+s)];
     const box=e=>e.getBoundingClientRect(), cs=e=>getComputedStyle(e);

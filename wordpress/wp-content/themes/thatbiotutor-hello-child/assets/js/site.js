@@ -523,6 +523,25 @@
     });
   }
 
+  function initPracticalPhotoCrop(document, windowObject) {
+    const photos = document.querySelectorAll(':is(.tbt-sec3-page, .tbt-sec4-page) img.tbt-practical-photo[src*="35ad6135826a6626379208fe8e6eefe5"]');
+    if (!photos.length) return;
+    const tablet = windowObject.matchMedia('(min-width: 641px) and (max-width: 1180px)');
+    const update = () => photos.forEach(photo => {
+      const frame = photo.parentElement;
+      if (tablet.matches && !frame.classList.contains('tbt-practical-crop')) {
+        const crop = document.createElement('div');
+        crop.className = 'tbt-practical-crop';
+        frame.insertBefore(crop, photo);
+        crop.appendChild(photo);
+      } else if (!tablet.matches && frame.classList.contains('tbt-practical-crop')) {
+        frame.replaceWith(photo);
+      }
+    });
+    tablet.addEventListener('change', update);
+    update();
+  }
+
   function initNotesFormViewport(document, windowObject) {
     const frames = document.querySelectorAll('.tbt-notes-form__embed');
     if (!frames.length) return;
@@ -566,6 +585,7 @@
     initHomeProof(document, windowObject);
     initFloatingContact(document, windowObject);
     initNotesFormViewport(document, windowObject);
+    initPracticalPhotoCrop(document, windowObject);
   }
 
   return { initCountUps, openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, formatCountUpValue, syncNavigationViewport, initCertificateLightbox, init };

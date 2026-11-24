@@ -1792,11 +1792,11 @@ body.tbt-site.home #main-content .tbt-home-closing__inner > div > p:last-of-type
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__grid { row-gap: 24px; }
 body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__included { margin-top: 24px; }
 body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-options { padding-bottom: 24px !important; }
-body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-tutors { padding-bottom: 20px !important; }
-body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-faq { padding-top: 20px !important; }
+body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-tutors { padding-bottom: 32px !important; }
+body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-faq { padding-top: 32px !important; }
 @media (max-width: 640px) {
-  body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-tutors { padding-bottom: 16px !important; }
-  body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-faq { padding-top: 16px !important; }
+  body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-tutors { padding-bottom: 24px !important; }
+  body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-faq { padding-top: 24px !important; }
 }
 
 /* Compact the complete What We Cover section on Sec 3 and Sec 4. */
@@ -1812,4 +1812,18 @@ body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-e
 @media (max-width: 640px) {
   body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-cover { padding-block: 24px !important; }
   body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) :is(.tbt-programme-phase, .tbt-programme-topics-card, .tbt-programme-exam) { padding-block: 20px; }
+}
+
+/* Fixed-width programme CTAs remain centered in the mobile hall layout. */
+@media (max-width: 640px) {
+  body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hall__actions { align-items: center; }
+}
+
+/* Crop the black strip baked into the practical photo while retaining its tablet frame. */
+@media (min-width: 641px) and (max-width: 1180px) {
+  body.tbt-site #main-content .tbt-practical-crop { width: 100%; height: 280px; overflow: hidden; border-radius: 18px; }
+  body.tbt-site #main-content .tbt-practical-crop > img.tbt-practical-photo { position: relative; left: -13.5%; width: 113.5% !important; max-width: none !important; height: 100% !important; object-fit: cover; object-position: right center; border-radius: 0 !important; }
+}
+@media (min-width: 641px) and (max-width: 768px) {
+  body.tbt-site #main-content .tbt-practical-crop { height: 220px; }
 }
