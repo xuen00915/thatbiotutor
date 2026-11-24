@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- [main-site] Expanded both Planting Trees images to the full shared content width on tablets, removing the 654px cap.
+
+- [main-site] Removed the mobile signup provider’s dark footer using measured responsive crop heights, retaining Submit visibility and the mobile scrolling fallback.
+
+- [main-site] Kept “Transform My Grade Now” on one line on tablet/mobile by adjusting inner padding while preserving the shared 240×60px size and 16px type.
+
 - [main-site] Cropped the practical photo’s baked-in black strip in tablet layouts on Sec 3/Sec 4, preserving the frame dimensions; adjusted the WhatsApp-to-FAQ gap to 64px desktop/tablet and 48px mobile.
 
 - [main-site] Centered the Hall of Fame WhatsApp button on Sec 3/Sec 4 mobile layouts while retaining the shared 240px button width.

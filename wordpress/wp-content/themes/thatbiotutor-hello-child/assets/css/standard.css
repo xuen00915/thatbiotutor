@@ -1772,13 +1772,11 @@ body.tbt-site #main-content .tbt-testimonials-page .tbt-testimonials-artwork--po
 
 /* Stacked tablet planting images share one width and centered edges. */
 @media (min-width: 641px) and (max-width: 980px) {
-  body.tbt-site #main-content .tbt-causes-feature > :is(.tbt-causes-section__media--square, .tbt-causes-section__media--record) { width: min(654px, 100%); margin-inline: auto; }
+  body.tbt-site #main-content .tbt-causes-feature > :is(.tbt-causes-section__media--square, .tbt-causes-section__media--record) { width: 100%; margin-inline: auto; }
 }
 
-/* Mobile signup must show Submit even when provider fonts make fields taller. */
-@media (max-width: 640px) {
-  body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 680px; }
-}
+/* Mobile signup uses the measured container-width crops above; site.js keeps
+   scrolling available when provider text grows beyond those bounds. */
 
 /* Emphasize the closing invitation and keep tablet photo/copy side by side. */
 body.tbt-site.home #main-content .tbt-home-closing__inner > div > p:last-of-type { font-weight: 700; }
@@ -1826,4 +1824,9 @@ body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-e
 }
 @media (min-width: 641px) and (max-width: 768px) {
   body.tbt-site #main-content .tbt-practical-crop { height: 220px; }
+}
+
+/* Keep the longer testimonial CTA on one line at the shared tablet/phone size. */
+@media (max-width: 1180px) {
+  body.tbt-site #main-content .tbt-testimonials-button { padding-inline: 12px !important; white-space: nowrap; }
 }

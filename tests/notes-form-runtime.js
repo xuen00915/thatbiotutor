@@ -8,7 +8,7 @@ const provider = 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.
  try {
   const page = await browser.newPage();
   await page.route(provider, route=>route.fulfill({contentType:'text/html',body:'<!doctype html><title>Signup provider fixture</title>'}));
-  for(const width of [1440,1024,768,390,320]) {
+  for(const width of [1440,1024,768,427,390,375,320]) {
    await page.setViewportSize({width,height:900});
    await page.goto(new URL('notes/',base).href);
    const frame=page.locator('.tbt-notes-form__embed');
@@ -19,12 +19,13 @@ const provider = 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.
    assert.ok(box.width>=width-32 || box.width>=700);
    assert.ok(box.x>=0&&box.x+box.width<=width&&box.height>=420);
    if(width<=640) {
-    assert.equal(box.height,680,'Mobile form leaves room for all fields and Submit');
+    const crop=width<=351?528:width<=392?508:468;
+    assert.equal(box.height,crop,'Mobile crop shows Submit and stops before the provider footer');
     assert.equal(await frame.getAttribute('scrolling'),'auto','Mobile iframe allows scrolling if provider content grows');
    }
    if (width === 320) {
     assert.equal(box.width, 320, 'Small-phone provider viewport keeps Submit on one line');
-    assert.equal(box.height, 680, 'Small-phone frame fits the complete form');
+    assert.equal(box.height, 528, 'Small-phone crop contains Submit without the dark footer');
    }
    assert.equal(await page.locator('.tbt-notes-form__alternative').count(),0);
    assert.equal(await page.locator('.tbt-notes-form form,.tbt-notes-form [data-tbt-redirect]').count(),0);
