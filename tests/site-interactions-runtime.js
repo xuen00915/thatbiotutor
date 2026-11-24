@@ -70,5 +70,28 @@ if (!resizeSubmenu.hidden || resizeSubmenuToggle.getAttribute('aria-expanded') !
 api.syncNavigationViewport(resizeMenu, resizeToggle, [{ menu: resizeSubmenu, toggle: resizeSubmenuToggle }], false);
 if (resizeMenu.hidden || resizeToggle.getAttribute('aria-expanded') !== 'false') throw new Error('desktop resize must show the main menu without reporting it expanded');
 
+// Ratios reveal once on entry, retain their wording, and respect reduced motion.
+for (const reduced of [false, true]) {
+ const ratio = new MockElement();
+ ratio.setAttribute('data-count-display', '1 in 2');
+ ratio.setAttribute('data-count-target', '1');
+ let callback, observed = false, animations = 0;
+ ratio.animate = () => { animations++; };
+ api.initCountUps({querySelectorAll: () => [ratio]}, {
+  matchMedia: () => ({matches: reduced}),
+  IntersectionObserver: class {
+   constructor(fn) { callback = fn; }
+   observe() { observed = true; }
+   unobserve() {}
+  }
+ });
+ if (!reduced) {
+  if (!observed || animations) throw new Error('Ratio must wait until it enters the viewport');
+  callback([{target:ratio,isIntersecting:true}]);
+  callback([{target:ratio,isIntersecting:true}]);
+ }
+ if (animations !== (reduced ? 0 : 1) || ratio.textContent !== '1 in 2') throw new Error('Ratio reveal must animate once with stable text, except for reduced motion');
+}
+
 process.stdout.write('PASS: interaction runtime\n');
 

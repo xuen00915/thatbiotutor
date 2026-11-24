@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Added a one-time fade/scale reveal to the homepage “1 in 2” statistic when it enters view; wording stays intact and reduced-motion preferences are respected.
+
 - [main-site] Updated tablet heroes (768–1180px): Testimonials copy/photo and Classes buttons sit side by side; Sec 3 and Sec 4 use matching compact 480px heroes.
 
 - [main-site] Compacted Class of 2021: reduced its top break to 32px desktop / 24px mobile and the gap between its year bar and Student Stories from 52px to 24px.

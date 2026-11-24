@@ -78,6 +78,17 @@
       if (counter.getAttribute('data-count-complete') === 'true') return;
       const target = Number(counter.getAttribute('data-count-target') || 0);
       const display = counter.getAttribute('data-count-display') || String(target);
+      if (display.includes(' in ')) {
+        counter.textContent = display;
+        counter.setAttribute('data-count-complete', 'true');
+        if (animate && typeof counter.animate === 'function') {
+          counter.animate([
+            { opacity: 0.25, transform: 'translateY(12px) scale(0.9)' },
+            { opacity: 1, transform: 'translateY(0) scale(1)' }
+          ], { duration: 900, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+        }
+        return;
+      }
       const duration = animate ? 2200 : 0;
       let start = null;
       const step = (time) => {
@@ -109,10 +120,6 @@
       });
     }, { threshold: 0.4 });
     counters.forEach((counter) => {
-      if ((counter.getAttribute('data-count-display') || '').includes(' in ')) {
-        reveal(counter, false);
-        return;
-      }
       counter.textContent = formatCountUpValue(0, counter.getAttribute('data-count-display') || '0');
       observer.observe(counter);
     });
@@ -550,6 +557,6 @@
     initFloatingContact(document, windowObject);
   }
 
-  return { openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, formatCountUpValue, syncNavigationViewport, initCertificateLightbox, init };
+  return { initCountUps, openMenu, closeMenu, toggleSubmenu, handleMenuKeydown, carouselIndex, swipeDirection, toggleFaq, prefersReducedMotion, formatCountUpValue, syncNavigationViewport, initCertificateLightbox, init };
 });
 
