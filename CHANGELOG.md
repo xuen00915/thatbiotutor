@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Slowed the “1 in 2” reveal to four seconds with gradual ease-in-out motion, retaining scroll replays and reduced-motion support.
+
 - [main-site] Replay Classes result statistics on scroll entry: 2.3, 912+ and 91% count up, while “1 in 2” rises and pulses; interrupted counts restart cleanly and reduced motion remains supported.
 
 - [main-site] Made the “1 in 2” reveal more visible with a 2.2-second rise and gentle scale pulse; it replays when scrolled back into view and respects reduced motion.

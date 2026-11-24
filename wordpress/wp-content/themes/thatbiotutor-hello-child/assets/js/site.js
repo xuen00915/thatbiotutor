@@ -87,7 +87,7 @@
             { opacity: 0.2, transform: 'translateY(18px) scale(0.82)', offset: 0 },
             { opacity: 1, transform: 'translateY(0) scale(1.04)', offset: 0.55 },
             { opacity: 1, transform: 'translateY(0) scale(1)', offset: 1 }
-          ], { duration: 2200, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+          ], { duration: 4000, easing: 'ease-in-out' });
         }
         return;
       }

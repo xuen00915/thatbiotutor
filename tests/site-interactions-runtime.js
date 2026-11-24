@@ -76,7 +76,7 @@ for (const reduced of [false, true]) {
  ratio.setAttribute('data-count-display', '1 in 2');
  ratio.setAttribute('data-count-target', '1');
  let callback, observed = false, animations = 0;
- ratio.animate = () => { animations++; };
+ ratio.animate = (frames, timing) => { animations++; if (timing.duration !== 4000) throw new Error('Ratio animation should last four seconds'); };
  api.initCountUps({querySelectorAll: () => [ratio]}, {
   matchMedia: () => ({matches: reduced}),
   IntersectionObserver: class {
