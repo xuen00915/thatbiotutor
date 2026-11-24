@@ -61,17 +61,36 @@ jobs:
       - name: Run source tests
         run: scripts/verify-local.sh
 
+      - name: Compute export cache key
+        id: export-key
+        run: echo "key=pages-export-v1-$(python3 scripts/pages_cache.py key)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore validated export
+        if: github.event_name != 'workflow_dispatch'
+        id: export-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: build
+          key: ${{ steps.export-key.outputs.key }}
+
       - name: Start native WordPress
+        if: steps.export-cache.outputs.cache-hit != 'true'
         run: npm run wp-env:start
 
       - name: Seed the reference site
+        if: steps.export-cache.outputs.cache-hit != 'true'
         run: npm run wp-env:setup
 
       - name: Export the static Pages artifact
+        if: steps.export-cache.outputs.cache-hit != 'true'
         run: >-
           python3 scripts/export_github_pages.py
           --output build
           --public-origin https://xuen00915.github.io/thatbiotutor
+
+      - name: Refresh CSS and static assets in cached export
+        if: steps.export-cache.outputs.cache-hit == 'true'
+        run: python3 scripts/pages_cache.py refresh
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
@@ -99,6 +118,7 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:4173 TBT_RUNTIME_WORKERS=3 node scripts/run-browser-tests.js
 
       - name: Verify WordPress editing
+        if: steps.export-cache.outputs.cache-hit != 'true'
         run: |
           # A client's workflow in wp-admin (edit, format, save, add a class year) on the live WordPress, which restores what it touches.
           TBT_RUNTIME_URL=http://localhost:8888 node tests/admin-editing-runtime.js
@@ -112,6 +132,13 @@ jobs:
           path: .artifacts/browser-tests/
           if-no-files-found: ignore
           retention-days: 14
+
+      - name: Cache validated export
+        if: steps.export-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: build
+          key: ${{ steps.export-key.outputs.key }}
 
       - name: Build WordPress upload package
         run: python3 scripts/build_wordpress_package.py --output "$RUNNER_TEMP/tbt-wordpress-install"

@@ -78,3 +78,19 @@ fonts are never intercepted. These suites do not test YouTube playback. Set
 This isolation is loaded only in runner subprocesses, never in the website.
 
 The GetResponse signup document is also isolated in layout-runner subprocesses. The form-container test verifies its exact provider URL and fallback link. Verify the live provider form separately without creating a test subscriber; `TBT_LIVE_EMBEDS=1` enables both real provider and video frames.
+
+## Faster CSS deployments
+
+The Pages workflow caches a successfully verified static export using a fingerprint of
+tracked non-CSS inputs. Edits to existing files under the child theme's `assets/css/`
+can reuse that export; current CSS and public theme assets are copied into it before
+all browser checks run. Documentation changes do not invalidate the export. Adding or
+removing a stylesheet, changing PHP/JS/media, or changing tests/build configuration
+requires the full WordPress build and editing checks. Only successful verification
+can populate the cache. No partial cache-key matching is used.
+
+Use **Run workflow** (`workflow_dispatch`) to force a fresh WordPress export. On a cache
+hit, WordPress startup, seeding, export and admin-editing checks are skipped because
+those inputs already passed together. Source tests and every public browser assertion
+still run. The feedback suite is split into four isolated groups under the existing
+three-worker limit; logs and timings are uploaded for each group.

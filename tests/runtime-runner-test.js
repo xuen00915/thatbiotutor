@@ -1,6 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { runTests, suites } = require('../scripts/run-browser-tests');
+const { runTests, suites, expandSuites } = require('../scripts/run-browser-tests');
 
 test('keeps every existing exported-site suite and excludes mutable admin tests', () => {
   assert.equal(suites.length, 30);
@@ -36,4 +36,13 @@ test('third-party isolation only matches YouTube embed URLs', () => {
   assert.equal(isYouTubeEmbed('https://www.youtube-nocookie.com/embed/video'), true);
   assert.equal(isYouTubeEmbed('https://www.youtube.com/embed/video'), true);
   for(const url of ['http://localhost:4173/embed/video', 'https://www.youtube.com/watch?v=video', 'https://www.youtube.com.evil.example/embed/video']) assert.equal(isYouTubeEmbed(url), false);
+});
+
+
+test('splits the long feedback suite into four exhaustive groups without dropping other suites', () => {
+  const expanded = expandSuites(suites);
+  assert.equal(expanded.length, suites.length + 3);
+  assert.deepEqual(expanded.filter(name => name.startsWith('site-feedback-runtime.js#')).sort(),
+    ['content', 'layout', 'sections', 'years'].map(group => `site-feedback-runtime.js#${group}`).sort());
+  assert.deepEqual(expanded.filter(name => !name.includes('#')), suites.filter(name => name !== 'site-feedback-runtime.js'));
 });

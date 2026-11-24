@@ -53,6 +53,12 @@ async function runTests(names, workers, execute) {
   return results;
 }
 
+function expandSuites(names) {
+  return names.flatMap(name => name === 'site-feedback-runtime.js'
+    ? ['sections', 'layout', 'years', 'content'].map(group => `${name}#${group}`)
+    : [name]);
+}
+
 async function main() {
   const requested = process.argv.slice(2);
   const names = requested.length ? requested : suites;
@@ -61,10 +67,11 @@ async function main() {
   const logDir = path.resolve('.artifacts/browser-tests');
   fs.mkdirSync(logDir, { recursive: true });
   const started = Date.now();
-  const results = await runTests(names, workers, name => new Promise(resolve => {
+  const results = await runTests(expandSuites(names), workers, name => new Promise(resolve => {
     console.log(`START ${name}`);
     const log = fs.createWriteStream(path.join(logDir, `${name}.log`));
-    const child = spawn(process.execPath, ['--require', './scripts/browser-test-setup.js', path.join('tests', name)], { stdio: ['ignore', 'pipe', 'pipe'], env: process.env });
+    const [file, group] = name.split('#');
+    const child = spawn(process.execPath, ['--require', './scripts/browser-test-setup.js', path.join('tests', file), ...(group ? [group] : [])], { stdio: ['ignore', 'pipe', 'pipe'], env: process.env });
     child.stdout.pipe(log, { end: false });
     child.stderr.pipe(log, { end: false });
     let spawnError;
@@ -84,5 +91,5 @@ async function main() {
   if (results.some(r => r.code !== 0)) process.exitCode = 1;
 }
 
-module.exports = { runTests, suites };
+module.exports = { runTests, suites, expandSuites };
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });

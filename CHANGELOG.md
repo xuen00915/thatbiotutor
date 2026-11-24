@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Faster deployments: reuse a validated static export for CSS-only edits, refresh all public theme assets, and retain every browser check. Changes to non-CSS source, assets, test code or workflow invalidate the cache; manual runs force a full WordPress rebuild. Split the long feedback browser suite into four parallel groups without removing assertions.
+
 - [main-site] Reduced main-site section padding to 56px on desktop, 40px up to 768px, and 32px up to 390px, including Home and nested resource sections. Preserved hero spacing, compact testimonial year sections, and the independently managed IntensiveFix page.
 
 - [main-site] One green palette across the site: #2f8a27 (text/links/eyebrows, also hover for buttons), #43b43a (buttons), #8fe17e (green on dark, incl. the Notes hero "Biology Notes"), #0e371d (dark sections), #062612 (footer), #edf5e8 (pale background tint), #dbe6d6 (borders/soft lines), plus #d9f2d2 for text highlights and selection. 29 solid greens reduced to these; kept the Google logo green and the two hero gradient shades. Eyebrows now use the exact Home green (contrast equal to Home). Tests that pinned the old shades were updated.

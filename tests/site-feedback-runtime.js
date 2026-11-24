@@ -4,12 +4,15 @@ const { chromium } = require('playwright');
 const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\/?$/, '/');
 const LIGHT_GREEN = 'rgb(143, 225, 126)';
 const MENU_GREEN = 'rgb(47, 138, 39)';
+const group = process.argv[2];
+if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw new Error('Unknown feedback group');
 (async () => {
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage();
     page.setDefaultTimeout(10000);
 
+    if (!group || group === 'layout') {
     // 1. Selected menu item uses the same green as the page's green text, not the old lime.
     await page.setViewportSize({ width: 1440, height: 900 });
     for (const [route, label] of [['', 'Home'], ['classes/', 'Classes'], ['testimonials/', 'Results & Testimonials'], ['notes/', 'Free Bio Notes'], ['about/', 'About Us'], ['trees/', 'Our Causes']]) {
@@ -136,6 +139,8 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
         for (const sl of sliders) assert.ok(sl.radius >= 18, `Slider ${sl.name} on /${route} at ${width} needs 18px rounded corners, has ${sl.radius}px`);
       }
     }
+    }
+    if (!group || group === 'content') {
     // 7. Home "Don't just take our word for it": the second video (was Alicia's Story) is Gwen's Story; first video unchanged.
     await page.goto(new URL('', base).href, { waitUntil: 'load' });
     const vids = await page.locator('[data-section="proof"] .tbt-home-video iframe').evaluateAll((els) => els.map((e) => ({ src: e.getAttribute('src'), title: e.getAttribute('title') })));
@@ -202,7 +207,13 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
         const el = page.locator(sel).first();
         await el.scrollIntoViewIfNeeded();
         assert.equal(await el.evaluate((e) => getComputedStyle(e).backgroundColor), BRAND, `${sel} on /${route} is the brand green at rest`);
-        await el.hover(); await page.waitForTimeout(550);
+        // Lazy images can move a distant button after scrolling. Reacquire the
+        // target until the actual hover colour settles, instead of a fixed sleep.
+        for (let attempt = 0; attempt < 10; attempt++) {
+          await el.hover();
+          await page.waitForTimeout(100);
+          if (await el.evaluate((e) => e.matches(':hover') && getComputedStyle(e).backgroundColor === 'rgb(47, 138, 39)')) break;
+        }
         assert.equal(await el.evaluate((e) => getComputedStyle(e).backgroundColor), HOVER, `${sel} on /${route} uses the shared hover green`);
         await page.mouse.move(0, 0);
       }
@@ -230,6 +241,8 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       assert.ok(f.inside && f.overflow === 0, `Footer content fits inside the footer at ${vw}`);
     }
     await page.setViewportSize({ width: 1440, height: 900 });
+    }
+    if (!group || group === 'years') {
     // 15. Results & Testimonials year menu: choosing a year scrolls to it AND the menu label shows that year once the smooth scroll ends.
     for (const vw of [1440, 390]) {
       await page.setViewportSize({ width: vw, height: 900 });
@@ -299,6 +312,8 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       assert.equal(g.overflow, 0, `No sideways scroll at ${vw}`);
     }
     await page.setViewportSize({ width: 1440, height: 900 });
+    }
+    if (!group || group === 'sections') {
     // 18. Year menu sections: under the current year the menu lists what that class has on the page - result poster, results table,
     //     student stories, Google reviews - and each link scrolls to that part (the year label stays the year).
     const expectSections = { '2025': ['Result poster', 'Student stories', 'Google reviews'], '2024': ['Result poster', 'Results table', 'Student stories', 'Google reviews'], '2023': ['Result poster', 'Results table', 'Student stories', 'Google reviews'], '2022': ['Results table', 'Student stories', 'Google reviews'], '2021': ['Student stories', 'Google reviews'] };
@@ -371,6 +386,7 @@ const MENU_GREEN = 'rgb(47, 138, 39)';
       assert.deepEqual(list, { radius: '18px', border: '1px' }, `${route} FAQ list is the framed rounded list`);
     }
     await page.setViewportSize({ width: 1440, height: 900 });
-    console.log('PASS site feedback contract');
+    }
+    console.log(`PASS site feedback contract${group ? ' (' + group + ')' : ''}`);
   } finally { await browser.close(); }
 })().catch((e) => { console.error(process.env.TBT_STACK ? e.stack : e.message); process.exit(1); });
