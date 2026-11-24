@@ -238,7 +238,7 @@ const sizes = [
     if (homeScale.kickerFont !== expectedHeroTypography.kicker || homeScale.kickerWeight !== '600') throw new Error(`Home kicker typography differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
     if (homeScale.resultFont !== expectedHeroTypography.result || homeScale.resultLineHeight !== expectedHeroTypography.resultLine) throw new Error(`Home result typography differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
     if (homeScale.refundFont !== expectedHeroTypography.refund || homeScale.refundLineHeight !== expectedHeroTypography.refundLine) throw new Error(`Home refund typography differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
-    if (homeScale.buttonFont !== 18 || homeScale.buttonWeight !== '700' || homeScale.buttonHeight !== 60 || homeScale.buttonRadius < 9999 || homeScale.buttonBackground !== 'rgb(67, 180, 58)') throw new Error(`Home CTA differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
+    if (homeScale.buttonFont !== (viewport.width<=1180?16:18) || homeScale.buttonWeight !== '700' || homeScale.buttonHeight !== 60 || homeScale.buttonRadius < 9999 || homeScale.buttonBackground !== 'rgb(67, 180, 58)') throw new Error(`Home CTA differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale)}`);
     if (homeScale.carouselDotCount !== 5 || homeScale.carouselDots.some((dot) => dot.width !== 6 || dot.height !== 6 || dot.radius !== '50%' || !['rgb(47, 138, 39)', 'rgb(255, 255, 255)'].includes(dot.background))) throw new Error(`Home carousel dots differ from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.carouselDots)}`);
     if (homeScale.carouselControl.width !== 44 || homeScale.carouselControl.height !== 44 || homeScale.carouselControl.background !== 'rgba(0, 0, 0, 0)' || homeScale.carouselControl.borderWidth !== '0px') throw new Error(`Home carousel control differs from Inquire at ${viewport.width}: ${JSON.stringify(homeScale.carouselControl)}`);
     const expectedProblemWidth = Math.min(1120, viewport.width - (viewport.width >= 768 && viewport.width <= 1180 ? 64 : 32));
@@ -463,7 +463,7 @@ const sizes = [
       const contactButton = await page.locator('.tbt-contact-content .tbt-institutional-button').boundingBox();
       if (!contactHeading || (contactHeading.y - (contactHeader.y + contactHeader.height) < 40 || contactHeading.y - (contactHeader.y + contactHeader.height) > 96) || Math.abs(contactHeading.height - 73) > 2) throw new Error(`Contact heading geometry is wrong: ${JSON.stringify(contactHeading)}`);
       if (!contactHeadingStyle.family.includes('poppins') || contactHeadingStyle.size !== '60px' || contactHeadingStyle.weight !== '800') throw new Error(`Contact heading typography is wrong: ${JSON.stringify(contactHeadingStyle)}`);
-      if (!contactButton || contactButton.y <= contactHeading.y + contactHeading.height || Math.abs(contactButton.width - 328) > 1 || Math.abs(contactButton.height - 60) > 1) throw new Error(`Contact button geometry is wrong: ${JSON.stringify(contactButton)}`);
+      if (!contactButton || contactButton.y <= contactHeading.y + contactHeading.height || Math.abs(contactButton.width - (viewport.width <= 1180 ? 240 : 272)) > 1 || Math.abs(contactButton.height - 60) > 1) throw new Error(`Contact button geometry is wrong: ${JSON.stringify(contactButton)}`);
 
       await page.goto(`${base}/trees/`, { waitUntil: 'load' });
       await page.evaluate(() => document.fonts?.ready);

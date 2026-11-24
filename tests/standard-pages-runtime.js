@@ -32,7 +32,7 @@ const darkInk = 'rgb(25, 34, 26)';
           const h2 = [...main.querySelectorAll('section > h2, section > div > h2, section .tbt-programme-container > h2')].find(visible);
           const content = [...main.querySelectorAll(contentSelector)].filter(visible).map((e) => { const s = cs(e); return Math.round(e.getBoundingClientRect().width - parseFloat(s.paddingLeft) - parseFloat(s.paddingRight)); });
           const buttons = [...main.querySelectorAll(buttonSelector)].filter(visible).map((e) => { const s = cs(e); return { bg: s.backgroundColor, radius: s.borderTopLeftRadius, family: s.fontFamily, weight: s.fontWeight, h: Math.round(e.getBoundingClientRect().height) }; });
-          const sections = [...main.querySelectorAll(sectionSelector)].filter(visible).map((e) => parseFloat(cs(e).paddingTop));
+          const sections = [...main.querySelectorAll(sectionSelector)].filter(visible).map((e) => ({pad:parseFloat(cs(e).paddingTop),compact:!!e.closest('.tbt-sec3-page,.tbt-sec4-page')&&e.matches('.tbt-programme-cover,.tbt-programme-faq')}));
           const small = [...main.querySelectorAll('p, li, blockquote, span, a, button, summary')].filter((e) => visible(e) && e.children.length === 0 && e.textContent.trim().length > 3 && parseFloat(cs(e).fontSize) < 11.5).map((e) => e.textContent.trim().slice(0, 20) + ':' + cs(e).fontSize);
           const taps = [...main.querySelectorAll('button, [role=button]')].filter(visible).filter((e) => { const r = e.getBoundingClientRect(); return Math.min(r.width, r.height) < 40 && !e.closest('[hidden]') && !e.matches('[data-carousel-dot]'); }).map((e) => `${e.tagName}.${String(e.className).split(' ')[0]}:${Math.round(e.getBoundingClientRect().width)}x${Math.round(e.getBoundingClientRect().height)}`);
           return {
@@ -89,7 +89,7 @@ const darkInk = 'rgb(25, 34, 26)';
           assert.ok(b.h >= 44, `${tag}: button height ${b.h}px must be a comfortable touch target`);
         }
         if (route === '/about/' || route === '/notes/' || route === '/classes/' || route === '/testimonials/') { /* About, Free Bio Notes, Classes and Testimonials use a compact rhythm, guarded by about-page-runtime.js, notes-sections-runtime.js, classes-page-runtime.js and testimonials-page-runtime.js */ }
-        else for (const pad of m.sections) assert.equal(pad, width > 768 ? 56 : width > 390 ? 40 : 32, `${tag}: section padding follows the compact responsive rhythm`);
+        else for (const {pad,compact} of m.sections) assert.equal(pad, compact ? (width<=640?24:32) : width > 768 ? 56 : width > 390 ? 40 : 32, `${tag}: section padding follows the compact responsive rhythm`);
         assert.deepEqual(m.small, [], `${tag}: no text below 11.5px`);
         assert.deepEqual(m.taps, [], `${tag}: all buttons must be at least 40px in both directions`);
       }

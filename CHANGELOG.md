@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Updated older regression expectations for the approved uniform Contact button, compact programme sections, and mobile signup scrolling fallback.
+
 - [main-site] Expanded both Planting Trees images to the full shared content width on tablets, removing the 654px cap.
 
 - [main-site] Removed the mobile signup provider’s dark footer using measured responsive crop heights, retaining Submit visibility and the mobile scrolling fallback.
