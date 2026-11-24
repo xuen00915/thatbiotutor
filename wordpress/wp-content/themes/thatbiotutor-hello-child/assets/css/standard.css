@@ -1611,7 +1611,7 @@ body.tbt-site #main-content .tbt-about-page .tbt-about-mission .tbt-reading-widt
 }
 body.tbt-site #main-content .tbt-about-page .tbt-beliefs-grid { text-align: left; }
 @media (max-width: 980px) {
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality ul { padding-left: 0; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality ul { padding-left: 24px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-quality li { text-align: left; }
   body.tbt-site #main-content .tbt-about-page :is(.tbt-about-quality__image, .tbt-about-beliefs__image) {
     width: 100%;

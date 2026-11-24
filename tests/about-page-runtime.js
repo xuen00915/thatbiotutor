@@ -13,9 +13,9 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       await page.goto(new URL('./about/', base).href, { waitUntil: 'load' });
       await page.evaluate(() => document.fonts?.ready);
       await page.waitForTimeout(900); // let the image fade-in finish
-      if (width <= 640) {
+      if (width <= 980) {
         const alignment = await page.locator('.tbt-about-quality .tbt-reading-width').evaluate(e => ({left:e.querySelector('p').getBoundingClientRect().left, items:[...e.querySelectorAll('li')].map(li=>({left:li.getBoundingClientRect().left,align:getComputedStyle(li).textAlign}))}));
-        assert.ok(alignment.items.every(li=>Math.abs(li.left-alignment.left)<1 && li.align==='left'), 'Mobile bullet text aligns with the introductory paragraph');
+        assert.ok(alignment.items.every(li=>Math.abs(li.left-alignment.left-24)<1 && li.align==='left'), 'Quality bullets have a 24px inset inside the content edge');
       }
       const m = await page.evaluate(() => {
         const cs = (selector) => getComputedStyle(document.querySelector(selector));
@@ -35,7 +35,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       const edges = await page.evaluate(() => {
         const bar = document.querySelector('.tbt-about-mission .tbt-institutional-title-bar').getBoundingClientRect();
         const selectors = ['.tbt-about-mission .tbt-reading-width > p', '.tbt-about-mission h3', '.tbt-about-quality .tbt-reading-width > p', '.tbt-beliefs-grid'];
-        if (innerWidth <= 980) selectors.push('.tbt-about-quality li', '.tbt-about-quality__image', '.tbt-about-beliefs__image');
+        if (innerWidth <= 980) selectors.push('.tbt-about-quality__image', '.tbt-about-beliefs__image');
         return selectors.flatMap(selector => [...document.querySelectorAll(selector)].map(e => ({selector, offset:e.getBoundingClientRect().left-bar.left})));
       });
       assert.ok(edges.every(e => Math.abs(e.offset) <= 1), `About content shares a consistent left edge at ${width}px: ${JSON.stringify(edges)}`);

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Inset About Quality bullet lists by 24px on mobile/tablet so markers sit comfortably inside the content edge.
+
 - [main-site] Aligned About body content with the section bars: removed Mission offsets, left-aligned body subheadings and beliefs, and aligned stacked Quality lists and images across mobile/tablet layouts.
 
 - [main-site] Fixed tablet heroes: center the About title inside its photo banner and scale About/Classes titles responsively to prevent clipping and excessive wrapping. Body text sizes remain unchanged.
