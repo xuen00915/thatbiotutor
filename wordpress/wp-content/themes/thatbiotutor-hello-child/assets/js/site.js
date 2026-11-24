@@ -61,7 +61,8 @@
 
   function formatCountUpValue(value, display) {
     const finalDisplay = String(display || '');
-    if (finalDisplay.includes(' in ')) return value >= 1 ? finalDisplay : '0';
+    // A ratio is a complete statement, not a number to count from zero.
+    if (finalDisplay.includes(' in ')) return finalDisplay;
     if (finalDisplay.includes('.')) {
       const decimals = (finalDisplay.split('.')[1] || '').replace(/\D/g, '').length;
       return Number(value).toFixed(decimals);
@@ -108,6 +109,10 @@
       });
     }, { threshold: 0.4 });
     counters.forEach((counter) => {
+      if ((counter.getAttribute('data-count-display') || '').includes(' in ')) {
+        reveal(counter, false);
+        return;
+      }
       counter.textContent = formatCountUpValue(0, counter.getAttribute('data-count-display') || '0');
       observer.observe(counter);
     });

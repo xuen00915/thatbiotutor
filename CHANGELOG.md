@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- [main-site] Standardised Home, Sec 3 and Sec 4 tutor portraits at 180px desktop / up to 144px mobile, with shared 18px Poppins names. This enlarges Home and reduces the class-page desktop portraits and names.
+
+- [main-site] Keep ratio statistics such as “1 in 2” intact during their section reveal instead of showing zero and abruptly switching wording. Other statistics retain their count-up animation.
+
 - [main-site] Tightened Notes and Testimonials split-hero gaps to 24px, moved the Notes preview toward its copy, removed doubled space before the signup portrait, and compacted the Notes download instruction card.
 
 - [main-site] Removed doubled padding between About and Our Causes sections. Green heading bars now follow a single 56px desktop / 40px tablet / 32px phone gap; Testimonials class-year separation remains as requested.

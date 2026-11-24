@@ -51,7 +51,9 @@ if (api.prefersReducedMotion(() => ({ matches: false }))) throw new Error('Norma
 
 if (api.formatCountUpValue(912, '912+') !== '912+') throw new Error('Integer count-up formatting failed');
 if (api.formatCountUpValue(2.3, '2.3') !== '2.3') throw new Error('Decimal count-up formatting failed');
-if (api.formatCountUpValue(1, '1 in 2') !== '1 in 2') throw new Error('Ratio count-up formatting failed');
+for (const value of [0, 0.25, 0.75, 1]) {
+  if (api.formatCountUpValue(value, '1 in 2') !== '1 in 2') throw new Error('Ratio statistics must keep their full wording throughout the reveal');
+}
 
 if (typeof api.syncNavigationViewport !== 'function') throw new Error('syncNavigationViewport must be exported');
 const resizeMenu = new MockElement();

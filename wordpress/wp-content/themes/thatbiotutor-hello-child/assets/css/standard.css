@@ -1514,3 +1514,25 @@ body.tbt-site:not(.home) #main-content > .tbt-notes-page > section.tbt-resource-
 body.tbt-site #main-content .tbt-notes-page .tbt-notes-card--wide { padding-block: 24px; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-download > a.tbt-resource-button { margin-top: 16px; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-download li:last-child { margin-bottom: 0; }
+
+/* One tutor scale across Home and the Sec 3 / Sec 4 team sections. */
+body.tbt-site #main-content :is(.tbt-home-tutors, .tbt-sec3-page .tbt-programme-tutors, .tbt-sec4-page .tbt-programme-tutors) {
+  --tbt-team-portrait-size: 180px;
+}
+body.tbt-site #main-content :is(.tbt-home-tutors .tbt-home-tutors__grid, .tbt-sec3-page .tbt-programme-tutors .tbt-tutors, .tbt-sec4-page .tbt-programme-tutors .tbt-tutors) :is(article, .tbt-tutor) img {
+  width: min(100%, var(--tbt-team-portrait-size));
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+}
+body.tbt-site #main-content :is(.tbt-home-tutors .tbt-home-tutors__grid, .tbt-sec3-page .tbt-programme-tutors .tbt-tutors, .tbt-sec4-page .tbt-programme-tutors .tbt-tutors) :is(article, .tbt-tutor) h3 {
+  margin-top: 16px;
+  font-family: Poppins, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 800;
+}
+@media (max-width: 640px) {
+  body.tbt-site #main-content :is(.tbt-home-tutors, .tbt-sec3-page .tbt-programme-tutors, .tbt-sec4-page .tbt-programme-tutors) { --tbt-team-portrait-size: 144px; }
+}
