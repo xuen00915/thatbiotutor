@@ -1720,3 +1720,43 @@ body.tbt-site #main-content .tbt-classes-page .tbt-programme-stats--four > div {
 @media (max-width: 480px) {
   body.tbt-site #main-content .tbt-classes-page .tbt-programme-stats--four strong { font-size: clamp(24px, 8vw, 36px); }
 }
+
+/* Shared content CTA dimensions across all public page families. */
+body.tbt-site { --tbt-cta-width: 272px; --tbt-cta-font-size: 18px; }
+@media (max-width: 1180px) {
+  body.tbt-site { --tbt-cta-width: 240px; --tbt-cta-font-size: 16px; }
+}
+body.tbt-site #main-content :is(.tbt-home-button, .tbt-button, .tbt-programme-button, .tbt-programme-text-link, .tbt-programme-hall__action, .tbt-testimonials-button, .tbt-resource-button, .tbt-institutional-button, .tbt-reviews-controls__more) {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--tbt-cta-width) !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 60px !important;
+  min-height: 60px !important;
+  padding: 8px 16px !important;
+  border-radius: 9999px !important;
+  font-size: var(--tbt-cta-font-size) !important;
+  line-height: 22px !important;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: normal;
+}
+body.tbt-site #main-content .tbt-classes-page .tbt-programme-hero__actions {
+  width: auto;
+  grid-template-columns: repeat(2, var(--tbt-cta-width));
+  justify-content: center;
+}
+@media (max-width: 767px) {
+  body.tbt-site #main-content .tbt-classes-page .tbt-programme-hero__actions { grid-template-columns: minmax(0, var(--tbt-cta-width)); }
+}
+
+/* Phone topic lists need one readable column, with breaks between words. */
+@media (max-width: 640px) {
+  body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-topics { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; grid-auto-flow: row; column-gap: 0; row-gap: 12px; }
+  body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-topics li { overflow-wrap: normal; word-break: normal; hyphens: none; }
+  body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-topics-card { padding-inline: 24px; }
+}

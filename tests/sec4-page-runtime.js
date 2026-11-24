@@ -5,11 +5,15 @@ const {chromium} = require('playwright');
  try {
   const page=await browser.newPage({reducedMotion:'reduce'});
   const base=(process.env.TBT_RUNTIME_URL||'http://localhost:8892').replace(/\/?$/,'/');
-  for(const width of [1440,1024,768,390,320]){
+  for(const width of [1440,1024,768,600,390,320]){
    await page.setViewportSize({width,height:900});
    await page.goto(new URL('sec-4-pure-g3-biology-tuition/',base).href);
    await page.evaluate(async()=>{await document.fonts.ready;for(let y=0;y<document.body.scrollHeight;y+=600){scrollTo(0,y);await new Promise(r=>setTimeout(r,35));}});
    await page.waitForFunction(()=>[...document.querySelectorAll('.tbt-sec4-page img')].every(i=>i.complete&&i.naturalWidth>0));
+   if(width<=640) {
+    const topics=await page.locator('.tbt-programme-topics').evaluate(e=>({columns:getComputedStyle(e).gridTemplateColumns.split(' ').length,wrap:getComputedStyle(e.querySelector('li')).overflowWrap}));
+    assert.ok(topics.columns===1&&topics.wrap==='normal','Mobile topics use one column and whole-word wrapping: '+JSON.stringify(topics));
+   }
    const r=await page.evaluate(()=>{
     const q=s=>document.querySelector('.tbt-sec4-page '+s),qa=s=>[...document.querySelectorAll('.tbt-sec4-page '+s)],cs=e=>getComputedStyle(e),b=e=>e.getBoundingClientRect();
     const phases=qa('.tbt-programme-phase'),note=q('.tbt-programme-join-note');

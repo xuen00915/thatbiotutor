@@ -19,11 +19,11 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       assert.equal((await button.textContent()).trim(), 'Fix My Sec 3 Foundation Now');
       assert.match(await button.getAttribute('href'), /^https:\/\/(wa\.me|api\.whatsapp\.com)\//);
       assert.ok(r.inside && r.textInside && r.overflow === 0, `Button fits at ${width}: ${JSON.stringify(r)}`);
-      if (width <= 1024) {
-        assert.equal(r.height, 52, `Compact touch target at ${width}`);
+      if (width <= 1180) {
+        assert.equal(r.height, 60, `Compact touch target at ${width}`);
         assert.equal(r.align, 'center');
         assert.equal(r.font, '16px');
-        assert.ok(r.width <= 420);
+        assert.equal(r.width, 240);
       } else { assert.equal(r.font, '18px'); assert.equal(r.height, 60); }
       console.log(`PASS IntensiveFix closing button ${width}`);
     }

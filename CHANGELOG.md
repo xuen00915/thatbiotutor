@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- [main-site] Made Sec 3/Sec 4 topic lists single-column on phones, with whole-word wrapping and more usable content width.
+
+- [main-site] Unified public content buttons at 272×60px on desktop/laptop and 240×60px on tablet/mobile, including Home, programmes, resources, testimonials, Contact and IntensiveFix. Added cross-page sizing and text-fit checks.
+
 - [main-site] Aligned Classes statistic numbers and label starts across each row, with matching number sizes on mobile.
 
 - [main-site] Widened Classes mobile hero title with natural wrapping, shortened tablet hero buttons to 240px, and kept animated “1 in 2” counters on one line on phones.

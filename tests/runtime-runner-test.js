@@ -3,8 +3,8 @@ const assert = require('node:assert/strict');
 const { runTests, suites, expandSuites } = require('../scripts/run-browser-tests');
 
 test('keeps every existing exported-site suite and excludes mutable admin tests', () => {
-  assert.equal(suites.length, 31);
-  assert.equal(new Set(suites).size, 31);
+  assert.equal(suites.length, 32);
+  assert.equal(new Set(suites).size, 32);
   assert.ok(suites.includes('runtime-browser-test.js'));
   assert.ok(suites.includes('site-feedback-runtime.js'));
   assert.ok(!suites.includes('admin-editing-runtime.js'));
