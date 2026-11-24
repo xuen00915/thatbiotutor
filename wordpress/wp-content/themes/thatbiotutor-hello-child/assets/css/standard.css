@@ -1798,3 +1798,18 @@ body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > s
   body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-tutors { padding-bottom: 16px !important; }
   body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-faq { padding-top: 16px !important; }
 }
+
+/* Compact the complete What We Cover section on Sec 3 and Sec 4. */
+body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-cover { padding-block: 32px !important; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-cover > .tbt-programme-container > h2 { margin-bottom: 24px; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-phases { gap: 24px; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) :is(.tbt-programme-phase, .tbt-programme-topics-card, .tbt-programme-exam) { padding-block: 24px; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-topics-card { margin-block: 24px; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-phase h3 { margin-bottom: 16px; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-phase p { margin-block: 8px; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) :is(.tbt-programme-phase .tbt-programme-join-note, .tbt-programme-exam > p) { margin-top: 16px; margin-bottom: 0; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-exam ul { margin-bottom: 0; }
+@media (max-width: 640px) {
+  body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-cover { padding-block: 24px !important; }
+  body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) :is(.tbt-programme-phase, .tbt-programme-topics-card, .tbt-programme-exam) { padding-block: 20px; }
+}

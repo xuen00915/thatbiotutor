@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Tightened What We Cover on Sec 3/Sec 4: 24px card gaps, smaller card padding, closer phase headings/notes, and reduced section padding.
+
 - [main-site] Tightened Sec 3/Sec 4 class-option gaps and bottom padding to 24px; reduced the gap above FAQ to 40px on desktop/tablet and 32px on mobile.
 
 - [main-site] Bolded the Home closing invitation and placed its photo and text side by side on tablets, including iPad Mini.

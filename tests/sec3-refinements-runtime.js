@@ -18,6 +18,12 @@ const { chromium } = require('playwright');
     return {cards:b(cards[1]).top-b(cards[0]).bottom,included:b(included).top-b(q('.tbt-programme-options__grid')).bottom,optionsBottom:b(q('.tbt-programme-options')).bottom-b(included).bottom,faq:b(q('.tbt-programme-faq .tbt-programme-kicker')).top-b(q('.tbt-programme-tutors .tbt-programme-button')).bottom};
    });
    assert.ok(Math.abs(spacing.cards-24)<=1&&Math.abs(spacing.included-24)<=1&&Math.abs(spacing.optionsBottom-24)<=1&&Math.abs(spacing.faq-(width<=640?32:40))<=1,'Compact option cards and FAQ transition at '+width+': '+JSON.stringify(spacing));
+   const coverSpacing=await page.evaluate(()=>{
+    const root=document.querySelector('.tbt-programme-cover'),cs=e=>getComputedStyle(e),box=e=>e.getBoundingClientRect();
+    const cards=[...root.querySelectorAll('.tbt-programme-phase,.tbt-programme-topics-card,.tbt-programme-exam')];
+    return {gaps:cards.slice(1).map((e,i)=>box(e).top-box(cards[i]).bottom),pads:cards.map(e=>[parseFloat(cs(e).paddingTop),parseFloat(cs(e).paddingBottom)]),section:parseFloat(cs(root).paddingTop)};
+   });
+   assert.ok(coverSpacing.gaps.every(g=>Math.abs(g-24)<=1)&&coverSpacing.pads.flat().every(p=>p===(width<=640?20:24))&&coverSpacing.section===(width<=640?24:32),'Compact What We Cover layout at '+width+': '+JSON.stringify(coverSpacing));
    const r = await page.evaluate(()=>{
     const q=s=>document.querySelector('.tbt-sec3-page '+s), qa=s=>[...document.querySelectorAll('.tbt-sec3-page '+s)];
     const box=e=>e.getBoundingClientRect(), cs=e=>getComputedStyle(e);
