@@ -54,6 +54,7 @@ const {chromium} = require('playwright');
     const art=document.querySelector('.tbt-classes-page [data-section=difference] .tbt-programme-artwork').getBoundingClientRect();
     design.diff={size:parseFloat(getComputedStyle(dh).fontSize),span:dspan?getComputedStyle(dspan).color:null,gap:Math.round(art.top-dh.getBoundingClientRect().bottom),kickerItalic:getComputedStyle(document.querySelector('.tbt-classes-page [data-section=difference] .tbt-programme-kicker')).fontStyle,practical:parseFloat(getComputedStyle(document.querySelector('.tbt-classes-page .tbt-practical-feature > h3')).fontSize)};
     design.diff.text=dh.textContent;design.diff.inline=getComputedStyle(dh).display;
+    design.solutionGap=sec('solutions').querySelector('h2').getBoundingClientRect().top-sec('struggles').querySelector('.tbt-struggle-list').getBoundingClientRect().bottom;
     design.faqBg=getComputedStyle(document.querySelector('.tbt-classes-page [data-section=faq]')).backgroundColor;
     design.rhythm=rhythm;
     return {design,contrast,photos,centred,ctaOff:Math.round(Math.abs((cta.left+cta.right)/2-innerWidth/2)),overflow:document.documentElement.scrollWidth-innerWidth};
@@ -73,7 +74,8 @@ const {chromium} = require('playwright');
    assert.equal(d.diff.text,'What makes our classes unlike any other','The difference heading must keep its spaces');
    assert.equal(d.diff.inline,'block');
    assert.ok(d.diff.practical>=(width>=1024?32:24),'Real Practical Sessions heading must be big ('+d.diff.practical+'px)');
-   assert.equal(d.faqBg,'rgb(250, 249, 245)','Common questions use the same cream background as Sec 3 / Sec 4');
+   assert.ok(Math.abs(d.solutionGap-(width<=768?48:56))<=1,'Compact gap above solutions: '+d.solutionGap);
+   assert.equal(d.faqBg,'rgb(255, 255, 255)','Common questions use the same white background as Sec 3 / Sec 4');
    const maxPad=width>768?82:(width>390?65:57); // home section rhythm 80 / 64 / 56
    assert.ok(d.rhythm.every(x=>x.padT<=maxPad&&x.padB<=maxPad),'Section padding too large at '+width+'px '+JSON.stringify(d.rhythm.filter(x=>x.padT>maxPad||x.padB>maxPad)));
    assert.ok(d.rhythm.every(x=>x.gap<=72),'No section may leave a big empty gap at '+width+'px '+JSON.stringify(d.rhythm.filter(x=>x.gap>72)));

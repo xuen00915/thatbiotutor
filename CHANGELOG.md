@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- [main-site] Reduced the gap above Classes “How TBT solves each one” to 56px on desktop/tablet and 48px on mobile.
+
+- [main-site] Set FAQ section backgrounds to white on Classes, Sec 3 and Sec 4.
+
 - [main-site] Reduced the gap above Real Practical Sessions to 40px on desktop/tablet and 32px on mobile across Classes, Sec 3 and Sec 4.
 
 - [main-site] Play all statistics animations once per page load on first view; scrolling away and back keeps their final values.
