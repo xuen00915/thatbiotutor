@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- [main-site] Centred the Home closing "Book My Trial Lesson" button on phones (below 768px).
+
+
 - [main-site] Updated older regression expectations for the approved uniform Contact button, compact programme sections, and mobile signup scrolling fallback.
 
 - [main-site] Expanded both Planting Trees images to the full shared content width on tablets, removing the 654px cap.
