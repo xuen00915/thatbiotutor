@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Bolded the Home closing invitation and placed its photo and text side by side on tablets, including iPad Mini.
+
 - [main-site] Increased the mobile Notes signup frame to 680px and enabled mobile iframe scrolling so taller provider content cannot trap Submit below the crop.
 
 - [main-site] Matched the widths and centered edges of both Planting Trees images in the stacked tablet layout.

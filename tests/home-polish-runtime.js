@@ -10,6 +10,11 @@ const {chromium} = require('playwright');
   await page.addStyleTag({content:'.tbt-reveal{transform:none!important;transition:none!important}'}); /* measure the settled layout, not the 24px reveal slide that is still running on a slow machine */
   const classroomGap=await page.evaluate(()=>document.querySelector('.tbt-home-classroom h2').getBoundingClientRect().top-document.querySelector('.tbt-home-faq__list').getBoundingClientRect().bottom);
   assert.ok(Math.abs(classroomGap-(width<=640?32:40))<=1,`Homepage classroom heading gap is compact at ${width}: ${classroomGap}px`);
+  assert.ok(Number(await page.locator('.tbt-home-closing__inner > div > p:last-of-type').evaluate(e=>getComputedStyle(e).fontWeight))>=700,'Closing invitation is bold');
+  if(width===768) {
+   const closing=await page.locator('.tbt-home-closing__inner').evaluate(e=>{const a=e.querySelector('figure').getBoundingClientRect(),b=e.querySelector(':scope > div').getBoundingClientRect();return {sameTop:Math.abs(a.top-b.top)<=1,beside:a.right<=b.left,gap:b.left-a.right};});
+   assert.ok(closing.sameTop&&closing.beside&&Math.abs(closing.gap-24)<=1,'iPad Mini closing photo and text sit side by side: '+JSON.stringify(closing));
+  }
   const practicalGap=await page.evaluate(()=>document.querySelector('.tbt-home-practical h2').getBoundingClientRect().top-document.querySelector('.tbt-home-quality li:last-child').getBoundingClientRect().bottom);
   assert.ok(Math.abs(practicalGap-(width<=640?32:40))<=1,`Homepage practical heading gap is compact at ${width}: ${practicalGap}px`);
   const closingWrap=await page.locator('.tbt-home-closing h2').evaluate(e=>({wrap:getComputedStyle(e).textWrap,width:e.getBoundingClientRect().width}));
@@ -52,7 +57,7 @@ const {chromium} = require('playwright');
   const faqFit=await page.locator('.tbt-home-faq__item button').evaluateAll(bs=>bs.map(b=>{const r=b.getBoundingClientRect();const t=b.querySelector('span').getBoundingClientRect();const i=b.querySelector('.tbt-home-faq__icon').getBoundingClientRect();return {text:t.right<=r.right+1,icon:i.right<=r.right+1&&i.right<=innerWidth}}));
   assert.ok(faqFit.every(f=>f.text&&f.icon),'FAQ questions must wrap and keep their icon visible at '+width+'px '+JSON.stringify(faqFit.filter(f=>!f.text||!f.icon)));
   // Phones and tablets: the closing photo has clear space above the heading, and footer columns are not cramped.
-  if (width<=768) {
+  if (width<768) {
    const gap=await page.evaluate(()=>{const f=document.querySelector('.tbt-home-closing figure').getBoundingClientRect();const h=document.querySelector('.tbt-home-closing h2').getBoundingClientRect();return Math.round(h.top-f.bottom)});
    assert.ok(gap>=20,'Closing photo must have space above its heading at '+width+'px ('+gap+'px)');
   }
@@ -85,7 +90,7 @@ const {chromium} = require('playwright');
   assert.equal(reviews.overlap,false,'Review arrows must not overlap the cards');
   // Closing photo is as tall as the text beside it.
   const homeClosing=await page.evaluate(()=>{const f=document.querySelector('.tbt-home-closing figure').getBoundingClientRect();const d=document.querySelector('.tbt-home-closing__inner > div').getBoundingClientRect();return {f:f.height,d:d.height}});
-  if(width>768) assert.ok(Math.abs(homeClosing.f-homeClosing.d)<3,'Homepage closing photo must match its text height ('+JSON.stringify(homeClosing)+')');
+  if(width>=768) assert.ok(Math.abs(homeClosing.f-homeClosing.d)<3,'Homepage closing photo must match its text height ('+JSON.stringify(homeClosing)+')');
   const faq=page.locator('.tbt-home-faq__item button').first();
   await faq.hover();
   await page.waitForFunction(()=>getComputedStyle(document.querySelector('.tbt-home-faq__item button')).backgroundColor==='rgb(237, 245, 232)');
