@@ -10,6 +10,10 @@ const {chromium} = require('playwright');
    await page.goto(new URL('sec-3-pure-g3-biology-tuition/',base).href,{waitUntil:'load'});
    await page.evaluate(async()=>{for(let y=0;y<document.body.scrollHeight;y+=500){scrollTo(0,y);await new Promise(r=>setTimeout(r,50))}});
    await page.waitForTimeout(600);
+   await page.waitForFunction(() => {
+    const image = document.querySelector('.tbt-programme-numbers__background img');
+    return image.complete && image.naturalWidth > 0;
+   });
    const r=await page.evaluate(()=>{
     const q=s=>document.querySelector('.tbt-sec3-page '+s);
     const cs=(e,p)=>getComputedStyle(e)[p];

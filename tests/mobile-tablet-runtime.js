@@ -2,7 +2,7 @@ const { chromium, webkit } = require('playwright');
 const assert = require('node:assert/strict');
 (async () => {
  const browser=await (process.env.TBT_BROWSER === 'webkit' ? webkit : chromium).launch(); const page=await browser.newPage({reducedMotion:'reduce',hasTouch:true});
- const base=process.env.TBT_RUNTIME_URL||'http://localhost:8890';
+ const base=(process.env.TBT_RUNTIME_URL||'http://localhost:8890').replace(/\/+$/, '');
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  try {
   for(const [width,height] of [[1440,900],[1180,820],[1024,768],[820,1180],[600,900],[430,932],[412,915],[390,844],[320,740]]) {
@@ -40,7 +40,7 @@ const assert = require('node:assert/strict');
   for(const width of [412,600,820,1024]) {
    await page.setViewportSize({width,height:900});
    for(const route of routes) {
-    await page.goto(`${base}/${route}/`);await page.evaluate(()=>document.fonts.ready);
+    await page.goto(`${base}/${route ? route+'/' : ''}`);await page.evaluate(()=>document.fonts.ready);
     const floating=await page.locator('.whatsapp-float').boundingBox();
     assert.ok(floating&&floating.x>=12&&floating.x+floating.width<=width-12&&floating.y>=12&&floating.y+floating.height<=900-24,`${route}: whole contact button is visible on first screen`);
     assert.ok((await page.locator('main').innerText()).trim().length>100, `${route}: page has content`);

@@ -209,7 +209,7 @@ body.tbt-site #main-content .tbt-year-nav__panel a { display: flex; align-items:
 body.tbt-site #main-content .tbt-year-nav__panel a:hover, body.tbt-site #main-content .tbt-year-nav__panel a[aria-current] { background: #f0f8ee; color: #0e371d; }
 body.tbt-site #main-content .tbt-year-nav :is(button,a):focus-visible { outline: 2px solid #2f8a27; outline-offset: 2px; }
 @keyframes tbt-year-open { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-@media (min-width: 1440px) and (min-height: 600px) {
+@media (min-width: 1536px) and (min-height: 600px) {
   body.tbt-site #main-content .tbt-year-nav { top: 50%; bottom: auto; transform: translateY(-50%); }
   body.tbt-site #main-content .tbt-year-nav__panel { top: calc(100% + 8px); bottom: auto; max-height: calc(50dvh - 56px); }
 }

@@ -1648,3 +1648,14 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero { min-height: 480px !important; }
   body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero__content { padding-block: 32px; gap: 24px; }
 }
+
+/* Give the provider enough internal width for a single-line Submit label on small phones.
+   Only its empty side gutters are clipped; the page keeps its normal content margins. */
+@media (max-width: 351px) {
+  body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed {
+    width: 320px;
+    max-width: none;
+    margin-left: calc((100% - 320px) / 2);
+    height: 528px;
+  }
+}

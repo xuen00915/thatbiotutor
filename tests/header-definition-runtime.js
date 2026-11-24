@@ -43,6 +43,11 @@ const ctaSizes = {};
     assert.equal(await page.locator('.site-header').evaluate(e=>e.getBoundingClientRect().height),80,`Scrolled header stays 80px on ${route} at ${width}`);
    }
    await page.goto(new URL('classes/',base).href);
+   await page.locator('[data-section="definition"] .tbt-programme-artwork').scrollIntoViewIfNeeded();
+   await page.waitForFunction(() => {
+    const image = document.querySelector('[data-section="definition"] .tbt-programme-artwork');
+    return image.complete && image.naturalWidth > 0;
+   });
    const r=await page.locator('[data-section="definition"]').evaluate(e=>{
     const b=e=>e.getBoundingClientRect(),image=e.querySelector('.tbt-programme-artwork'),copy=e.querySelector('.tbt-programme-copy'),topics=e.querySelector('.tbt-topic-columns');
     const rect=e=>({x:b(e).left,y:b(e).top,right:b(e).right,bottom:b(e).bottom,w:b(e).width});
