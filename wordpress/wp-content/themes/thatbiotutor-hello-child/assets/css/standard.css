@@ -1667,3 +1667,11 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-classes-page .tbt-programme-struggles { padding-bottom: 24px !important; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-classes-page .tbt-programme-solutions { padding-top: 24px !important; }
 }
+
+/* Bring Home practical sessions closer to the preceding quality cards. */
+body.tbt-site.home #main-content .tbt-home-quality { padding-bottom: 20px; }
+body.tbt-site.home #main-content .tbt-home-practical { padding-top: 20px; }
+@media (max-width: 640px) {
+  body.tbt-site.home #main-content .tbt-home-quality { padding-bottom: 16px; }
+  body.tbt-site.home #main-content .tbt-home-practical { padding-top: 16px; }
+}

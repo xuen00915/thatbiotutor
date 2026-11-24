@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Reduced the Home quality-card-to-practical-heading gap from 112px to 40px on desktop and to 32px on mobile.
+
 - [main-site] Updated the Sec 3 refinement regression check to enforce the approved 40px desktop/tablet and 32px mobile practical-section gap.
 
 - [main-site] Reduced the gap above Classes “How TBT solves each one” to 56px on desktop/tablet and 48px on mobile.
