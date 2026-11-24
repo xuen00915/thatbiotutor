@@ -14,6 +14,13 @@ const {chromium} = require('playwright');
     const topics=await page.locator('.tbt-programme-topics').evaluate(e=>({columns:getComputedStyle(e).gridTemplateColumns.split(' ').length,wrap:getComputedStyle(e.querySelector('li')).overflowWrap}));
     assert.ok(topics.columns===1&&topics.wrap==='normal','Mobile topics use one column and whole-word wrapping: '+JSON.stringify(topics));
    }
+   const spacing=await page.evaluate(()=>{
+    const q=s=>document.querySelector(s),b=e=>e.getBoundingClientRect();
+    const cards=[...document.querySelectorAll('.tbt-programme-options__grid article')];
+    const included=q('.tbt-programme-options__included');
+    return {cards:b(cards[1]).top-b(cards[0]).bottom,included:b(included).top-b(q('.tbt-programme-options__grid')).bottom,optionsBottom:b(q('.tbt-programme-options')).bottom-b(included).bottom,faq:b(q('.tbt-programme-faq .tbt-programme-kicker')).top-b(q('.tbt-programme-tutors .tbt-programme-button')).bottom};
+   });
+   assert.ok(Math.abs(spacing.cards-24)<=1&&Math.abs(spacing.included-24)<=1&&Math.abs(spacing.optionsBottom-24)<=1&&Math.abs(spacing.faq-(width<=640?32:40))<=1,'Compact option cards and FAQ transition at '+width+': '+JSON.stringify(spacing));
    const r=await page.evaluate(()=>{
     const q=s=>document.querySelector('.tbt-sec4-page '+s),qa=s=>[...document.querySelectorAll('.tbt-sec4-page '+s)],cs=e=>getComputedStyle(e),b=e=>e.getBoundingClientRect();
     const phases=qa('.tbt-programme-phase'),note=q('.tbt-programme-join-note');

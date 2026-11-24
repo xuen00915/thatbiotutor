@@ -1787,3 +1787,14 @@ body.tbt-site.home #main-content .tbt-home-closing__inner > div > p:last-of-type
   body.tbt-site.home #main-content .tbt-home-closing figure { width: 100%; height: 100%; min-height: 0; aspect-ratio: auto; margin: 0; }
   body.tbt-site.home #main-content .tbt-home-closing img { width: 100%; height: 100%; object-fit: cover; }
 }
+
+/* Compact class options and the tutor-to-FAQ transition on both programmes. */
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__grid { row-gap: 24px; }
+body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-options__included { margin-top: 24px; }
+body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-options { padding-bottom: 24px !important; }
+body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-tutors { padding-bottom: 20px !important; }
+body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-faq { padding-top: 20px !important; }
+@media (max-width: 640px) {
+  body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-tutors { padding-bottom: 16px !important; }
+  body.tbt-site:not(.home) #main-content > :is(.tbt-sec3-page, .tbt-sec4-page) > section.tbt-programme-faq { padding-top: 16px !important; }
+}

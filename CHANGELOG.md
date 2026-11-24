@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Tightened Sec 3/Sec 4 class-option gaps and bottom padding to 24px; reduced the gap above FAQ to 40px on desktop/tablet and 32px on mobile.
+
 - [main-site] Bolded the Home closing invitation and placed its photo and text side by side on tablets, including iPad Mini.
 
 - [main-site] Increased the mobile Notes signup frame to 680px and enabled mobile iframe scrolling so taller provider content cannot trap Submit below the crop.

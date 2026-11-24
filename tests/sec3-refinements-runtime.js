@@ -11,6 +11,13 @@ const { chromium } = require('playwright');
    const aboutWidth = await page.locator('.tbt-reading-width').first().evaluate(e=>e.getBoundingClientRect().width);
    await page.goto(new URL('sec-3-pure-g3-biology-tuition/', base).href);
    await page.evaluate(()=>document.fonts.ready);
+   const spacing=await page.evaluate(()=>{
+    const q=s=>document.querySelector(s),b=e=>e.getBoundingClientRect();
+    const cards=[...document.querySelectorAll('.tbt-programme-options__grid article')];
+    const included=q('.tbt-programme-options__included');
+    return {cards:b(cards[1]).top-b(cards[0]).bottom,included:b(included).top-b(q('.tbt-programme-options__grid')).bottom,optionsBottom:b(q('.tbt-programme-options')).bottom-b(included).bottom,faq:b(q('.tbt-programme-faq .tbt-programme-kicker')).top-b(q('.tbt-programme-tutors .tbt-programme-button')).bottom};
+   });
+   assert.ok(Math.abs(spacing.cards-24)<=1&&Math.abs(spacing.included-24)<=1&&Math.abs(spacing.optionsBottom-24)<=1&&Math.abs(spacing.faq-(width<=640?32:40))<=1,'Compact option cards and FAQ transition at '+width+': '+JSON.stringify(spacing));
    const r = await page.evaluate(()=>{
     const q=s=>document.querySelector('.tbt-sec3-page '+s), qa=s=>[...document.querySelectorAll('.tbt-sec3-page '+s)];
     const box=e=>e.getBoundingClientRect(), cs=e=>getComputedStyle(e);
