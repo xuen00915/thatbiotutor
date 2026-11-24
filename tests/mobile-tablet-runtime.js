@@ -21,7 +21,7 @@ const assert = require('node:assert/strict');
    const image=await page.locator('.tbt-causes-section__media--square img').boundingBox();
    assert.ok(image.x>=16&&image.x+image.width<=width-16+1,`Entire Causes image fits at ${width}`);
    await page.goto(`${base}/testimonials/`);
-   if(width<=860) {
+   if(width<768) {
     const aligned=await page.locator('.tbt-testimonials-hero').evaluate(e=>['h1','.tbt-testimonials-hero__lead'].every(s=>getComputedStyle(e.querySelector(s)).textAlign==='center')&&getComputedStyle(e.querySelector('.tbt-testimonials-hero__rating')).justifyContent==='center');
     assert.ok(aligned,`Mobile testimonial heading, copy and rating are centered at ${width}`);
    }

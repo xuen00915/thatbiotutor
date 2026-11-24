@@ -1628,3 +1628,23 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page #class-of-2021 { padding-top: 24px; }
 }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page #class-of-2022 .tbt-testimonials-button--archive { margin-bottom: 0; }
+
+/* Tablet heroes keep compact, balanced desktop arrangements. */
+@media (min-width: 768px) and (max-width: 1180px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__content {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+    text-align: left !important;
+  }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero h1 {
+    font-size: clamp(32px, 4.2vw, 48px) !important;
+    text-align: left !important;
+  }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__lead { margin: 24px 0 0; text-align: left !important; font-size: 20px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__rating { margin-top: 24px; justify-content: flex-start; font-size: 16px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__photo { width: 100%; justify-self: start; }
+  body.tbt-site #main-content .tbt-classes-page .tbt-programme-hero__actions { width: min(100%, 694px); grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  body.tbt-site #main-content .tbt-classes-page .tbt-programme-hero__actions a { width: 100%; }
+  body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero { min-height: 480px !important; }
+  body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero__content { padding-block: 32px; gap: 24px; }
+}

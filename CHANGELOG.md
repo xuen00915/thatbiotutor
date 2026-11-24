@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Updated tablet heroes (768–1180px): Testimonials copy/photo and Classes buttons sit side by side; Sec 3 and Sec 4 use matching compact 480px heroes.
+
 - [main-site] Compacted Class of 2021: reduced its top break to 32px desktop / 24px mobile and the gap between its year bar and Student Stories from 52px to 24px.
 
 - [main-site] Inset About Quality bullet lists by 24px on mobile/tablet so markers sit comfortably inside the content edge.

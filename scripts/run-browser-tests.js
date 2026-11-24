@@ -4,6 +4,7 @@ const path = require('node:path');
 
 // Static-export tests are isolated browser processes; mutable wp-admin checks run separately.
 const suites = [
+  "tablet-heroes-runtime.js",
   "site-feedback-runtime.js",
   "year-navigation-runtime.js",
   "mobile-tablet-runtime.js",
