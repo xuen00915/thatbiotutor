@@ -48,6 +48,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);
       if (width >= 768) {
         assert.equal(m.h1Align, 'left', `Title is left-aligned beside the slider ${at}`);
+        assert.ok(Math.abs(m.slider.left - m.h1.right - 24) <= 1, `Compact 24px text-to-preview gap ${at}`);
         assert.ok(m.slider.left >= m.h1.right - 4 && m.slider.left > m.viewportWidth / 2 - 40, `The slider sits on the right of the text ${at}`);
         assert.ok(m.h1.bottom <= height && m.slider.top < height - 100, `Title and the top of the tablet picture share the first screen ${at}`);
         if (height >= 700) assert.ok(m.slider.bottom <= height + 2 && m.proof.bottom <= height + 2, `Text, button and tablet picture share the first screen ${at}`);

@@ -152,7 +152,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         return { gaps, barToContent };
       });
       const rw = `${at} rhythm=${JSON.stringify(rhythm)}`;
-      const maxGap = width >= 769 ? 176 : 144; // site standard: 80px sections (64/56 on smaller screens), like the home page
+      const maxGap = width > 768 ? 56 : width > 390 ? 40 : 32; // One shared gap, without stacked section padding.
       const maxBar = width >= 769 ? 40 : 28;
       rhythm.gaps.forEach((g) => assert.ok(g <= maxGap, `Space between About sections must be at most ${maxGap}px ${rw}`));
       rhythm.barToContent.forEach((g) => assert.ok(g <= maxBar, `Space under each title bar must be at most ${maxBar}px ${rw}`));

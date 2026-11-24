@@ -78,9 +78,10 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       assert.match(m.h1Font, /^"?Poppins/, `Hero title must use Poppins ${at}: ${m.h1Font}`);
       assert.ok(m.starCount === 5 && /five/i.test(m.starLabel || ''), `Hero needs five gold stars ${at}`);
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);
+      if (width > 860) assert.ok(Math.abs(m.photoLeft - m.h1Right - 24) <= 1, `Hero copy and photo keep a compact 24px gap ${at}`);
       if (width >= 769) {
         assert.equal(m.h1Align, 'left', `Hero title is left-aligned beside the photo ${at}`);
-        assert.ok(m.h1Left < m.viewport / 2 && m.photoLeft > m.viewport / 2 - 40 && m.photoLeft >= m.h1Right - 4, `Title and stars sit on the left, the rounded photo on the right ${detail({ h1Left: m.h1Left, h1Right: m.h1Right, photoLeft: m.photoLeft })}`);
+        assert.ok(m.h1Left < m.viewport / 2 && m.photoLeft > m.viewport * .45 && m.photoLeft >= m.h1Right - 4, `Title and stars sit on the left, the rounded photo on the right ${detail({ h1Left: m.h1Left, h1Right: m.h1Right, photoLeft: m.photoLeft })}`);
         assert.ok(m.heroHeight <= 600 && m.heroHeight >= 380, `Hero banner height is moderate ${detail({ h: m.heroHeight })}`);
         assert.ok(m.featuredToArtwork >= 48 && m.featuredToArtwork <= 300 /* includes the green Class of 2025 panel */ && m.artworkToStories <= 64, `Spacing around the 2025 result cards must clearly separate the year ${detail({ a: m.featuredToArtwork, b: m.artworkToStories })}`);
         assert.ok(m.band2022Pad[0] <= 56 && m.band2022Pad[1] <= 56, `Class of 2022 band padding must be compact ${detail(m.band2022Pad)}`);

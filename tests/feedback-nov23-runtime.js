@@ -47,7 +47,8 @@ const programmes = ['classes/', 'sec-3-pure-g3-biology-tuition/', 'sec-4-pure-g3
         };
       });
       assert.ok(room.heroAbove >= 20, `Notes hero button keeps its compact 20px+ gap at ${width}: ${room.heroAbove}px`);
-      for (const key of ['cardAbove', 'cardBelow', 'endAbove', 'endBelow']) assert.ok(room[key] >= 28, `Notes ${key} at ${width}: ${room[key]}px`);
+      assert.ok(room.cardAbove >= 16 && room.cardAbove <= 24 && room.cardBelow === 24, `Compact download card at ${width}: ${JSON.stringify(room)}`);
+      for (const key of ['endAbove', 'endBelow']) assert.ok(room[key] >= 28, `Notes ${key} at ${width}: ${room[key]}px`);
       assert.ok(room.headingAbove >= (width <= 390 ? 32 : 40) && room.headingBelow <= 32 && room.headingAbove > room.headingBelow, `"ThatBioTutor's Notes" belongs to its cards at ${width}: ${JSON.stringify(room)}`);
 
       // The signup iframe stops before the provider's dark footer strip (measured heights per form width).

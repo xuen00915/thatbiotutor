@@ -1492,3 +1492,25 @@ body.tbt-site.home #main-content .tbt-home-stats { padding-top: 16px; }
   body.tbt-site.home #main-content :is(.tbt-home-faq, .tbt-home-quality) { padding-bottom: 16px; }
   body.tbt-site.home #main-content :is(.tbt-home-classroom, .tbt-home-practical) { padding-top: 24px; }
 }
+
+/* About and Our Causes: let the following section provide the gap above its
+   title bar, instead of adding both neighbouring sections' padding together. */
+body.tbt-site:not(.home) #main-content > .tbt-institutional-page:is(.tbt-about-page, .tbt-causes-page) > section:has(+ section) {
+  padding-bottom: 0 !important;
+}
+
+/* Keep the split hero images close to their copy rather than at the far edge. */
+@media (min-width: 768px) {
+  body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero__inner { column-gap: 24px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-carousel--notes { justify-self: start; }
+}
+@media (min-width: 861px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__photo { justify-self: start; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-hero__content { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); column-gap: 24px; }
+}
+/* Use one section gap before the Notes signup portrait, not two stacked gaps. */
+body.tbt-site:not(.home) #main-content > .tbt-notes-page > section.tbt-resource-reviews--lead { padding-bottom: 0 !important; }
+/* Compact the download instructions while preserving the shared button size. */
+body.tbt-site #main-content .tbt-notes-page .tbt-notes-card--wide { padding-block: 24px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-download > a.tbt-resource-button { margin-top: 16px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-download li:last-child { margin-bottom: 0; }

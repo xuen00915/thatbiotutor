@@ -50,7 +50,7 @@ const {chromium} = require('playwright');
    });
    assert.ok(r.eyebrow.show&&r.eyebrow.font==='Poppins'&&r.eyebrow.style==='italic','Hero label must show in italic Poppins '+JSON.stringify(r.eyebrow));
    assert.equal(r.eyebrowTransform,'none','Hero label is sentence case like the original');
-   if(width===1440) assert.ok(r.lines.length >= 3 && r.lines.length <= 5 && r.lines.includes('Start of Sec 3.'), 'Larger hero title wraps with Start of Sec 3. kept together '+JSON.stringify(r.lines));
+   if(width===1440) assert.ok(r.lines.length >= 3 && r.lines.length <= 5 && r.lines.some(line => line.includes('Start of Sec 3.')), 'Larger hero title wraps with Start of Sec 3. kept together '+JSON.stringify(r.lines));
    assert.ok(r.h1.font==='Poppins'&&r.h1.w==='800'&&r.h1.accent==='rgb(143, 225, 126)','Hero heading must be Poppins bold with the original light green '+JSON.stringify(r.h1));
    assert.ok(r.lead.font==='Poppins'&&r.lead.spans.length>=2&&r.lead.spans.every(c=>c==='rgb(143, 225, 126)'),'Hero lead must be Poppins with two light-green phrases '+JSON.stringify(r.lead));
    assert.ok(r.shade<=0.4,'Hero overlay must be light ('+r.shade+')');

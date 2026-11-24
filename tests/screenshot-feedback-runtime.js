@@ -12,7 +12,7 @@ const assert = require('node:assert/strict');
       assert.equal(await page.locator('.tbt-programme-levels__grid a').first().evaluate(e => getComputedStyle(e).backgroundColor), 'rgb(237, 245, 232)');
       await page.goto(`${base}/sec-3-pure-g3-biology-tuition/`);
       const size = await page.locator('.tbt-programme-hero h1').evaluate(e => parseFloat(getComputedStyle(e).fontSize));
-      assert.ok(size >= (width === 1440 ? 58 : 32), `Hero title too small: ${size}`);
+      assert.ok(size >= (width === 1440 ? 55 : 32), `Hero title too small: ${size}`);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Hero must fit viewport');
       await page.goto(`${base}/sec-4-pure-g3-biology-tuition/`);
       assert.equal(await page.locator('.tbt-programme-hero h1').evaluate(e => parseFloat(getComputedStyle(e).fontSize)), size, 'Sec 4 hero matches Sec 3');

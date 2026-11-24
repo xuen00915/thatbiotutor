@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- [main-site] Tightened Notes and Testimonials split-hero gaps to 24px, moved the Notes preview toward its copy, removed doubled space before the signup portrait, and compacted the Notes download instruction card.
+
+- [main-site] Removed doubled padding between About and Our Causes sections. Green heading bars now follow a single 56px desktop / 40px tablet / 32px phone gap; Testimonials class-year separation remains as requested.
+
 - [main-site] Added clearer separation above all five Testimonials class-year titles: 56px section-top spacing on desktop and 40px on tablet/mobile, up from 24px/20px.
 
 - [main-site] Reduced the Sec 3 and Sec 4 hero title maximum from 60px to 55px, retaining their existing tablet scaling and 32px mobile size.
