@@ -17,8 +17,12 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       await page.goto(new URL('./testimonials/', base).href, { waitUntil: 'load' });
       await page.evaluate(() => document.fonts?.ready);
       await page.waitForTimeout(600);
-      const spacing = await page.locator('.tbt-testimonials-year').evaluateAll(sections => sections.map(e => ({top:parseFloat(getComputedStyle(e).paddingTop), artwork:[...e.querySelectorAll('.tbt-testimonials-artwork--portrait')].map(a=>parseFloat(getComputedStyle(a).marginBottom))})));
-      assert.ok(spacing.every(s=>s.top === (width>768?56:40) && s.artwork.every(gap=>gap >=24)), 'Each year has a clear section break while keeping artwork separation');
+      const yearGap = await page.locator('#class-of-2021 .tbt-testimonials-year-panel').evaluate(e => e.getBoundingClientRect().top - document.querySelector('#class-of-2022 .tbt-testimonials-button--archive').getBoundingClientRect().bottom);
+      assert.ok(yearGap <= 32, `Class of 2021 has one compact section break: ${yearGap}px`);
+      const storiesGap = await page.locator('#class-of-2021').evaluate(e => e.querySelector('.tbt-story-heading h3').getBoundingClientRect().top - e.querySelector('.tbt-testimonials-year-panel').getBoundingClientRect().bottom);
+      assert.ok(storiesGap <= 24, `Class of 2021 title stays close to its stories: ${storiesGap}px`);
+      const spacing = await page.locator('.tbt-testimonials-year').evaluateAll(sections => sections.map(e => ({id:e.id,top:parseFloat(getComputedStyle(e).paddingTop), artwork:[...e.querySelectorAll('.tbt-testimonials-artwork--portrait')].map(a=>parseFloat(getComputedStyle(a).marginBottom))})));
+      assert.ok(spacing.every(s=>s.top === (s.id==='class-of-2021'?(width>768?32:24):(width>768?56:40)) && s.artwork.every(gap=>gap >=24)), 'Each year has a clear section break while keeping artwork separation');
       const m = await page.evaluate(() => {
         const q = (s, r = document) => r.querySelector(s);
         const box = (e) => e.getBoundingClientRect();

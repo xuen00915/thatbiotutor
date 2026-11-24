@@ -1619,3 +1619,12 @@ body.tbt-site #main-content .tbt-about-page .tbt-beliefs-grid { text-align: left
     margin-inline: 0;
   }
 }
+
+/* The 2021 cohort leads straight into stories, without a results poster. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page #class-of-2021 { padding-top: 32px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page #class-of-2021 .tbt-testimonials-year-panel { margin-bottom: 0; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page #class-of-2021 .tbt-story-heading { padding-top: 24px; }
+@media (max-width: 768px) {
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page #class-of-2021 { padding-top: 24px; }
+}
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page #class-of-2022 .tbt-testimonials-button--archive { margin-bottom: 0; }

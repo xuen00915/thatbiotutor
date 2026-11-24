@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Compacted Class of 2021: reduced its top break to 32px desktop / 24px mobile and the gap between its year bar and Student Stories from 52px to 24px.
+
 - [main-site] Inset About Quality bullet lists by 24px on mobile/tablet so markers sit comfortably inside the content edge.
 
 - [main-site] Aligned About body content with the section bars: removed Mission offsets, left-aligned body subheadings and beliefs, and aligned stacked Quality lists and images across mobile/tablet layouts.
