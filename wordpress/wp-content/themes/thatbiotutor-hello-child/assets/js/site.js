@@ -83,9 +83,10 @@
         counter.setAttribute('data-count-complete', 'true');
         if (animate && typeof counter.animate === 'function') {
           counter.animate([
-            { opacity: 0.25, transform: 'translateY(12px) scale(0.9)' },
-            { opacity: 1, transform: 'translateY(0) scale(1)' }
-          ], { duration: 900, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+            { opacity: 0.2, transform: 'translateY(18px) scale(0.82)', offset: 0 },
+            { opacity: 1, transform: 'translateY(0) scale(1.04)', offset: 0.55 },
+            { opacity: 1, transform: 'translateY(0) scale(1)', offset: 1 }
+          ], { duration: 2200, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
         }
         return;
       }
@@ -114,9 +115,13 @@
     }
     const observer = new windowObject.IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
+        const ratio = (entry.target.getAttribute('data-count-display') || '').includes(' in ');
+        if (!entry.isIntersecting) {
+          if (ratio) entry.target.setAttribute('data-count-complete', 'false');
+          return;
+        }
         reveal(entry.target, true);
-        observer.unobserve(entry.target);
+        if (!ratio) observer.unobserve(entry.target);
       });
     }, { threshold: 0.4 });
     counters.forEach((counter) => {

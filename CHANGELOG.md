@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Made the “1 in 2” reveal more visible with a 2.2-second rise and gentle scale pulse; it replays when scrolled back into view and respects reduced motion.
+
 - [main-site] Responsive audit: keep the Testimonials year menu out of the hero at 1440px, prevent the Notes Submit label wrapping on small phones, and update regression expectations for approved tablet titles, year spacing and signup sizing.
 
 - [main-site] Keep the wide Notes form crop above the provider footer while retaining Submit clearance; version preview CSS/JS URLs by content so returning browsers receive updated assets.

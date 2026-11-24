@@ -89,8 +89,10 @@ for (const reduced of [false, true]) {
   if (!observed || animations) throw new Error('Ratio must wait until it enters the viewport');
   callback([{target:ratio,isIntersecting:true}]);
   callback([{target:ratio,isIntersecting:true}]);
+  callback([{target:ratio,isIntersecting:false}]);
+  callback([{target:ratio,isIntersecting:true}]);
  }
- if (animations !== (reduced ? 0 : 1) || ratio.textContent !== '1 in 2') throw new Error('Ratio reveal must animate once with stable text, except for reduced motion');
+ if (animations !== (reduced ? 0 : 2) || ratio.textContent !== '1 in 2') throw new Error('Ratio reveal replays on re-entry with stable text, except for reduced motion');
 }
 
 process.stdout.write('PASS: interaction runtime\n');
