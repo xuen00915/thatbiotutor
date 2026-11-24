@@ -16,6 +16,8 @@ from typing import Iterable, List, Sequence, Tuple
 from PIL import Image, ImageOps
 
 
+MAX_EDGE = 1920  # longest side served; sharp on full-width desktop, far lighter than camera originals
+
 RASTER_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".tif", ".tiff"}
 
 
@@ -173,7 +175,7 @@ def collect_sources(crawl: Path, modified_source: Path, intensivefix_source: Pat
 
 
 def convert_media(source: MediaSource, output_root: Path) -> MediaRecord:
-    """Convert one source to WebP without resizing; identical bytes share a file."""
+    """Convert one source to WebP, capped at MAX_EDGE on the longest side; identical bytes share a file."""
     if not source.alt.strip():
         raise ValueError("alt text is required for %s" % source.key)
     if not source.source.is_file():
@@ -190,6 +192,8 @@ def convert_media(source: MediaSource, output_root: Path) -> MediaRecord:
             raise ValueError("animated input is not permitted: %s" % source.source)
         opened.seek(0)
         image = ImageOps.exif_transpose(opened).copy()
+    if max(image.size) > MAX_EDGE:
+        image.thumbnail((MAX_EDGE, MAX_EDGE), Image.LANCZOS)
 
     has_alpha = image.mode in {"RGBA", "LA"} or (image.mode == "P" and "transparency" in image.info)
     if has_alpha:

@@ -98,6 +98,11 @@ class PrepareMediaTest(unittest.TestCase):
         self.assertEqual(20, record.width)
         self.assertEqual(20, record.height)
 
+    def test_large_photo_is_capped_to_web_size(self) -> None:
+        source = self.make_image(self.root / "camera.jpg", (10, 120, 40), size=(3024, 4032))
+        record = convert_media(self.source(source), self.output)
+        self.assertEqual((1440, 1920), (record.width, record.height))
+
     def test_alt_text_is_required(self) -> None:
         source = self.make_image(self.root / "photo.jpg", (1, 2, 3))
         with self.assertRaisesRegex(ValueError, "alt"):

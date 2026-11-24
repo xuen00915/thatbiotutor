@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Site-wide image weight: 49 camera-size photos (up to 4032px, 1.7 MB) capped at 1920px on the longest side (21 MB to 7 MB); `prepare-media.py` now applies the same cap.
+
 - [main-site] Centred the Home closing "Book My Trial Lesson" button on phones (below 768px).
 
 
