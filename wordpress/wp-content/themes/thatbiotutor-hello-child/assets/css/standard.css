@@ -1221,7 +1221,7 @@ body.tbt-site #main-content .tbt-causes-page .tbt-causes-section[data-section="p
 
 /* Screenshot feedback: white level-selection section and matching Sec 3 and Sec 4 heroes. */
 body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels { background: #fff; }
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero h1 { font-size: clamp(32px, 4.2vw, 60px) !important; line-height: 1.15; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero h1 { font-size: clamp(32px, 4.2vw, 55px) !important; line-height: 1.15; }
 
 /* Founder answers: coloured emphasis replaces underlining. */
 body.tbt-site #main-content .tbt-about-page .tbt-founder-card u { color: #2f8a27; text-decoration: none; font-weight: 600; }

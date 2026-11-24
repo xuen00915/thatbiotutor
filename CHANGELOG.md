@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Reduced the Sec 3 and Sec 4 hero title maximum from 60px to 55px, retaining their existing tablet scaling and 32px mobile size.
+
 - [main-site] Publish static previews after a fast desktop/mobile smoke gate across all 12 pages. Run full source and browser regressions in a separate non-blocking job against the exact preview artifact and source revisions, with visible failure reporting. Explicit WordPress rebuilds still require full pre-publication verification.
 
 - [main-site] GitHub Pages now deploys static previews by default: reuse existing HTML and refresh current public assets. WordPress startup, HTML export, admin checks and installation packaging require the explicit `rebuild_wordpress` manual input, defaulting to false. Missing snapshots fail without rebuilding.
