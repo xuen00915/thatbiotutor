@@ -1675,3 +1675,6 @@ body.tbt-site.home #main-content .tbt-home-practical { padding-top: 20px; }
   body.tbt-site.home #main-content .tbt-home-quality { padding-bottom: 16px; }
   body.tbt-site.home #main-content .tbt-home-practical { padding-top: 16px; }
 }
+
+/* Center the About mission statement within the shared reading width. */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-about-page .tbt-about-mission h3 { width: 100%; margin-inline: 0; text-align: center; }

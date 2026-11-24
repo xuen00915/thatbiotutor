@@ -13,6 +13,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       await page.goto(new URL('./about/', base).href, { waitUntil: 'load' });
       await page.evaluate(() => document.fonts?.ready);
       await page.waitForTimeout(900); // let the image fade-in finish
+      assert.equal(await page.locator('.tbt-about-mission h3').evaluate(e=>getComputedStyle(e).textAlign),'center','Mission statement is centered at '+width);
       if (width <= 980) {
         const alignment = await page.locator('.tbt-about-quality .tbt-reading-width').evaluate(e => ({left:e.querySelector('p').getBoundingClientRect().left, items:[...e.querySelectorAll('li')].map(li=>({left:li.getBoundingClientRect().left,align:getComputedStyle(li).textAlign}))}));
         assert.ok(alignment.items.every(li=>Math.abs(li.left-alignment.left-24)<1 && li.align==='left'), 'Quality bullets have a 24px inset inside the content edge');
