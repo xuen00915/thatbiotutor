@@ -8,6 +8,8 @@ const {chromium} = require('playwright');
   for(const width of [1440,1024,768,390,320]) {
    await page.setViewportSize({width,height:900});
    await page.goto(new URL('classes/',base).href,{waitUntil:'load'});
+   const helpSpacing = await page.locator('.tbt-programme-levels__button').evaluate(e=>({margin:parseFloat(getComputedStyle(e).marginTop),bottom:parseFloat(getComputedStyle(e.closest('section')).paddingBottom)}));
+   assert.ok(helpSpacing.margin <= 16 && helpSpacing.bottom <= 32, 'Compact class-selection CTA '+JSON.stringify(helpSpacing));
    await page.evaluate(async()=>{for(let y=0;y<document.body.scrollHeight;y+=500){scrollTo(0,y);await new Promise(r=>setTimeout(r,50))}});
    await page.waitForTimeout(600);
    const r=await page.evaluate(()=>{

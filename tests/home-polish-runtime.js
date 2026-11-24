@@ -26,6 +26,8 @@ const {chromium} = require('playwright');
   const results=await page.locator('.tbt-home-proof__results').boundingBox();
   assert.ok(Math.abs(results.x+results.width/2-width/2)<1,'Results must be centered');
   assert.equal(await page.locator('.tbt-home-practical .tbt-home-eyebrow,.tbt-home-classroom .tbt-home-eyebrow,.tbt-home-tutors .tbt-home-eyebrow').count(),0);
+  const qualityTick = await page.locator('.tbt-home-quality li > span').first().evaluate(e=>({radius:getComputedStyle(e).borderRadius,bg:getComputedStyle(e).backgroundColor,image:getComputedStyle(e).backgroundImage}));
+  assert.ok(qualityTick.radius === '0px' && qualityTick.bg === 'rgba(0, 0, 0, 0)' && qualityTick.image.includes('svg'), 'Quality section uses plain green ticks');
   const rows=await page.locator('.tbt-home-quality li').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().y));
   assert.ok(rows[0]<rows[1]&&rows[1]<rows[2],'Quality checks must stack');
   if (width===1440) {

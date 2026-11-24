@@ -1557,3 +1557,19 @@ body.tbt-site.home #main-content .tbt-home-tutors__grid { margin-top: 24px; }
 @media (max-width: 640px) {
   body.tbt-site.home #main-content .tbt-home-tutors { --tbt-team-portrait-size: 160px; padding-bottom: 24px; }
 }
+
+/* Keep the class-selection help and its WhatsApp action together. */
+body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels__grid { margin-bottom: 16px; }
+body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels__help a { padding-block: 2px; }
+body.tbt-site #main-content .tbt-classes-page .tbt-programme-levels__button { margin-top: 16px; }
+body.tbt-site:not(.home) #main-content > .tbt-classes-page > section.tbt-programme-levels { padding-bottom: 32px !important; }
+@media (max-width: 768px) {
+  body.tbt-site:not(.home) #main-content > .tbt-classes-page > section.tbt-programme-levels { padding-bottom: 24px !important; }
+}
+
+/* Match the plain green check marks used in the programme lists. */
+body.tbt-site.home #main-content .tbt-home-quality li > span {
+  border-radius: 0;
+  color: transparent;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232f8a27' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center / 20px 20px no-repeat;
+}

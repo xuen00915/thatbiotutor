@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Compacted the Classes level-selection helper and WhatsApp CTA; replaced homepage Quality Control circle badges with plain green ticks matching programme lists.
+
 - [main-site] Enlarged homepage tutor portraits further to 220px desktop / up to 160px mobile and reduced heading-to-grid and bottom spacing for a fuller team section.
 
 - [main-site] Reduced homepage Google review margins, card height and internal spacing; tightened the transition to Meet Your Tutors to 56px desktop / 40px mobile while retaining clear carousel controls.
