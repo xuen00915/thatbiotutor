@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Publish static previews after a fast desktop/mobile smoke gate across all 12 pages. Run full source and browser regressions in a separate non-blocking job against the exact preview artifact and source revisions, with visible failure reporting. Explicit WordPress rebuilds still require full pre-publication verification.
+
 - [main-site] GitHub Pages now deploys static previews by default: reuse existing HTML and refresh current public assets. WordPress startup, HTML export, admin checks and installation packaging require the explicit `rebuild_wordpress` manual input, defaulting to false. Missing snapshots fail without rebuilding.
 
 - [main-site] Faster deployments: reuse a validated static export for CSS-only edits, refresh all public theme assets, and retain every browser check. Changes to non-CSS source, assets, test code or workflow invalidate the cache; manual runs force a full WordPress rebuild. Split the long feedback browser suite into four parallel groups without removing assertions.

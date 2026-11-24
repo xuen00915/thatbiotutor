@@ -52,6 +52,16 @@ class GithubPagesExportTest(unittest.TestCase):
                 page.read_text(encoding="utf-8"),
             )
 
+    def test_preview_deployment_does_not_wait_for_regressions(self):
+        workflow = Path('.github/workflows/pages.yml').read_text()
+        deploy = workflow.split('  deploy:\n', 1)[1].split('  regression:', 1)[0]
+        self.assertIn('needs: build', deploy)
+        self.assertNotIn('regression', deploy)
+        self.assertIn('Smoke-check the preview', workflow)
+        self.assertIn('name: Background regression checks', workflow)
+        self.assertIn('name: Download the exact published preview', workflow)
+        self.assertIn('needs.build.outputs.site_ref', workflow)
+
     def test_wordpress_operations_require_explicit_manual_request(self):
         workflow = Path('.github/workflows/pages.yml').read_text()
         self.assertIn('rebuild_wordpress:', workflow)

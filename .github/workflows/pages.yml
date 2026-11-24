@@ -27,6 +27,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    outputs:
+      main_ref: ${{ steps.sources.outputs.main_ref }}
+      fix_ref: ${{ steps.sources.outputs.fix_ref }}
+      site_ref: ${{ steps.sources.outputs.site_ref }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -34,7 +38,11 @@ jobs:
           fetch-depth: 0
 
       - name: Combine main with both work branches
+        id: sources
         run: |
+          echo "main_ref=$(git rev-parse origin/main)" >> "$GITHUB_OUTPUT"
+          echo "fix_ref=$(git rev-parse origin/fix/intensivefix)" >> "$GITHUB_OUTPUT"
+          echo "site_ref=$(git rev-parse origin/site/main-website)" >> "$GITHUB_OUTPUT"
           git config user.name "tbt-ci"
           git config user.email "tbt-ci@users.noreply.github.com"
           git checkout --detach origin/main
@@ -60,11 +68,14 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: |
-          npm ci
-          python -m pip install --disable-pip-version-check Pillow==11.3.0
+        run: npm ci
+
+      - name: Install WordPress verification dependencies
+        if: github.event_name == 'workflow_dispatch' && inputs.rebuild_wordpress == true
+        run: python -m pip install --disable-pip-version-check Pillow==11.3.0
 
       - name: Run source tests
+        if: github.event_name == 'workflow_dispatch' && inputs.rebuild_wordpress == true
         run: scripts/verify-local.sh
 
       - name: Restore existing preview snapshot
@@ -125,7 +136,16 @@ jobs:
             probe_browser
           fi
 
+      - name: Smoke-check the preview
+        if: github.event_name != 'workflow_dispatch' || inputs.rebuild_wordpress != true
+        run: |
+          node --test tests/preview-smoke-test.js
+          python3 -m http.server 4173 --directory build >/tmp/tbt-pages-server.log 2>&1 &
+          curl --fail --retry 10 --retry-connrefused --retry-delay 1 http://localhost:4173/ >/dev/null
+          TBT_RUNTIME_URL=http://localhost:4173 node --require ./scripts/browser-test-setup.js scripts/preview-smoke.js
+
       - name: Verify the exported site
+        if: github.event_name == 'workflow_dispatch' && inputs.rebuild_wordpress == true
         run: |
           python3 -m http.server 4173 --directory build >/tmp/tbt-pages-server.log 2>&1 &
           curl --fail --retry 10 --retry-connrefused --retry-delay 1 http://localhost:4173/ >/dev/null
@@ -138,7 +158,7 @@ jobs:
           TBT_RUNTIME_URL=http://localhost:8888 node tests/admin-editing-runtime.js
 
       - name: Upload browser test logs and timings
-        if: always()
+        if: always() && github.event_name == 'workflow_dispatch' && inputs.rebuild_wordpress == true
         uses: actions/upload-artifact@v4
         with:
           name: browser-test-results
@@ -189,3 +209,98 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  regression:
+    name: Background regression checks
+    needs: build
+    if: github.event_name != 'workflow_dispatch' || inputs.rebuild_wordpress != true
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Recreate the exact source used for the preview
+        env:
+          MAIN_REF: ${{ needs.build.outputs.main_ref }}
+          FIX_REF: ${{ needs.build.outputs.fix_ref }}
+          SITE_REF: ${{ needs.build.outputs.site_ref }}
+        run: |
+          git config user.name "tbt-ci"
+          git config user.email "tbt-ci@users.noreply.github.com"
+          git checkout --detach "$MAIN_REF"
+          git merge --no-edit "$FIX_REF"
+          git merge --no-edit "$SITE_REF"
+
+      - name: Download the exact published preview
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: .artifacts/pages
+
+      - name: Extract preview
+        run: |
+          mkdir -p build
+          tar -xf .artifacts/pages/artifact.tar -C build
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install verification dependencies
+        run: |
+          npm ci
+          python -m pip install --disable-pip-version-check Pillow==11.3.0
+
+      - name: Run source tests
+        run: scripts/verify-local.sh
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install browser test dependencies
+        run: |
+          npx playwright install --only-shell chromium
+          # Hosted runners often already have the libraries. Probe the actual browser
+          # first; install OS packages only if that fails, then verify again.
+          probe_browser() {
+            node -e "require('playwright').chromium.launch().then(async b => { const p = await b.newPage(); await p.setContent('<p>Ready</p>'); await b.close(); }).catch(e => { console.error(e.message); process.exit(1); })"
+          }
+          if ! probe_browser; then
+            npx playwright install-deps chromium
+            probe_browser
+          fi
+
+      - name: Run all public browser checks
+        run: |
+          python3 -m http.server 4173 --directory build >/tmp/tbt-pages-server.log 2>&1 &
+          curl --fail --retry 10 --retry-connrefused --retry-delay 1 http://localhost:4173/ >/dev/null
+          TBT_RUNTIME_URL=http://localhost:4173 TBT_RUNTIME_WORKERS=3 node scripts/run-browser-tests.js
+
+      - name: Upload browser test logs and timings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-results
+          include-hidden-files: true
+          path: .artifacts/browser-tests/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Report background failure
+        if: failure()
+        run: |
+          echo "::error::Background regression checks failed. The smoke-checked preview may already be live; inspect this job before further changes."
+          echo "Background regression checks failed after the preview publication gate. See this job's logs; no automatic WordPress rebuild or rollback was performed." >> "$GITHUB_STEP_SUMMARY"

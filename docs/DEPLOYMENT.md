@@ -84,7 +84,7 @@ The GetResponse signup document is also isolated in layout-runner subprocesses. 
 Every push deploys the existing exported HTML with current public theme assets
 (CSS, JavaScript, images and fonts). It never starts WordPress, seeds its database,
 regenerates HTML, runs admin-editing checks, or builds a WordPress upload package.
-Source checks and all public browser checks still run before publishing.
+A quick smoke gate checks all 12 routes at 1440px and 390px for blank pages, missing local assets, script errors and horizontal overflow before publishing. Full source and browser checks run in a separate background job using the exact artifact and branch revisions from the preview build; deployment does not depend on that job. Background failures are reported in Actions and may be discovered after the preview is live. Explicit WordPress rebuilds retain full checks before publication.
 
 Only when the user explicitly requests a WordPress rebuild, use **Run workflow**
 with **rebuild_wordpress** checked. The input defaults to false, including manual
@@ -95,5 +95,5 @@ the preview HTML until that rebuild; report pending changes clearly.
 Preview runs restore the latest snapshot, including the previously validated
 export cache during migration. A missing snapshot stops the preview with a clear
 error; it never triggers an automatic WordPress rebuild. Preview runs do not replace
-the baseline snapshot. All browser assertions remain, with the feedback suite split
+the baseline snapshot. All browser assertions remain in the background job, with the feedback suite split
 into four groups under the three-worker limit.
