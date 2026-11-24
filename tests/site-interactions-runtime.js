@@ -92,12 +92,12 @@ for (const reduced of [false, true]) {
   frames.shift()(2200);
   callback([{target:ratio,isIntersecting:false}]);
   callback([{target:ratio,isIntersecting:true}]);
-  if(!frames.length) throw new Error('Ratio count-up replays');
+  if(frames.length) throw new Error('Ratio must not replay on re-entry');
  }
  if(ratio.textContent !== '1 in 2') throw new Error('Ratio finishes with its original value');
 }
 
-// Classes numbers count up again when their results section re-enters view.
+// Classes numbers animate once per page load.
 {
  const counter = new MockElement();
  counter.setAttribute('data-count-target', '912');
@@ -112,12 +112,10 @@ for (const reduced of [false, true]) {
  frames.shift()(0); frames.shift()(1100);
  if (counter.textContent === '912+') throw new Error('Classes number should visibly count up');
  frames.shift()(2200);
- if(counter.textContent !== '912+' || unobserved) throw new Error('Classes counters remain observed for replay');
+ if(counter.textContent !== '912+' || !unobserved) throw new Error('Classes counters stop observing after their first entry');
  callback([{target:counter,isIntersecting:false}]);
  callback([{target:counter,isIntersecting:true}]);
- if(!frames.length) throw new Error('Classes counters replay on re-entry');
- frames.shift()(3000);
- if(counter.textContent !== '0+') throw new Error('Classes replay restarts the count');
+ if(frames.length || counter.textContent !== '912+') throw new Error('Classes counters stay settled on re-entry');
 }
 
 process.stdout.write('PASS: interaction runtime\n');

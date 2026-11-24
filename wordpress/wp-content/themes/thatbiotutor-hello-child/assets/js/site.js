@@ -111,20 +111,13 @@
       counters.forEach((counter) => reveal(counter, false));
       return;
     }
+    const started = new WeakSet();
     const observer = new windowObject.IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        const ratio = (entry.target.getAttribute('data-count-display') || '').includes(' in ');
-        const replay = ratio || Boolean(entry.target.closest && entry.target.closest('.tbt-classes-page .tbt-programme-results'));
-        if (!entry.isIntersecting) {
-          if (replay) {
-            countRuns.delete(entry.target);
-            entry.target.textContent = entry.target.getAttribute('data-count-display');
-            entry.target.setAttribute('data-count-complete', 'false');
-          }
-          return;
-        }
+        if (!entry.isIntersecting || started.has(entry.target)) return;
+        started.add(entry.target);
         reveal(entry.target, true);
-        if (!replay) observer.unobserve(entry.target);
+        observer.unobserve(entry.target);
       });
     }, { threshold: 0.4 });
     counters.forEach((counter) => {

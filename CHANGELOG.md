@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Play all statistics animations once per page load on first view; scrolling away and back keeps their final values.
+
 - [main-site] Matched the ratio animation to the other counters at 2.2 seconds and made both digits roll before settling on “1 in 2”.
 
 - [main-site] Changed the “1 in 2” animation to cycle through digits, slow down, and settle on the correct ratio after four seconds; replay and reduced-motion behavior are retained.
