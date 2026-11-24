@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Aligned Classes statistic numbers and label starts across each row, with matching number sizes on mobile.
+
 - [main-site] Widened Classes mobile hero title with natural wrapping, shortened tablet hero buttons to 240px, and kept animated “1 in 2” counters on one line on phones.
 
 - [main-site] Equalized tablet hero trial-button spacing to 28px above and below.

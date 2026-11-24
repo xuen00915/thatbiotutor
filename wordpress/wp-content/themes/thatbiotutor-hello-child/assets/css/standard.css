@@ -1714,3 +1714,9 @@ body.tbt-site #main-content [data-count-display="1 in 2"] { white-space: nowrap;
 @media (max-width: 480px) {
   body.tbt-site #main-content [data-count-display="1 in 2"] { font-size: clamp(24px, 8vw, 36px); }
 }
+
+/* Keep every result label directly below the same-height number row. */
+body.tbt-site #main-content .tbt-classes-page .tbt-programme-stats--four > div { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 10px; }
+@media (max-width: 480px) {
+  body.tbt-site #main-content .tbt-classes-page .tbt-programme-stats--four strong { font-size: clamp(24px, 8vw, 36px); }
+}

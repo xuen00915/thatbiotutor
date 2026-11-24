@@ -25,6 +25,11 @@ const {chromium} = require('playwright');
     const ratio=await page.locator('[data-count-display="1 in 2"]').evaluate(e=>({wrap:getComputedStyle(e).whiteSpace,width:e.getBoundingClientRect().width,parent:e.parentElement.getBoundingClientRect().width}));
     assert.ok(ratio.wrap==='nowrap'&&ratio.width<=ratio.parent+1,'Ratio stays on one row inside its card: '+JSON.stringify(ratio));
    }
+   const statPositions=await page.locator('.tbt-programme-stats--four > div').evaluateAll(es=>es.map(e=>({row:Math.round(e.getBoundingClientRect().top),number:e.querySelector('strong').getBoundingClientRect().top,label:e.querySelector('span').getBoundingClientRect().top})));
+   for(const row of new Set(statPositions.map(s=>s.row))) {
+    const cells=statPositions.filter(s=>s.row===row);
+    assert.ok(Math.max(...cells.map(s=>s.number))-Math.min(...cells.map(s=>s.number))<=1&&Math.max(...cells.map(s=>s.label))-Math.min(...cells.map(s=>s.label))<=1,'Statistic numbers and labels align within each row: '+JSON.stringify(cells));
+   }
    const helpSpacing = await page.locator('.tbt-programme-levels__button').evaluate(e=>({margin:parseFloat(getComputedStyle(e).marginTop),bottom:parseFloat(getComputedStyle(e.closest('section')).paddingBottom)}));
    assert.ok(helpSpacing.margin <= 16 && helpSpacing.bottom <= 32, 'Compact class-selection CTA '+JSON.stringify(helpSpacing));
    await page.evaluate(async()=>{for(let y=0;y<document.body.scrollHeight;y+=500){scrollTo(0,y);await new Promise(r=>setTimeout(r,50))}});
