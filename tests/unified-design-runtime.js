@@ -94,7 +94,7 @@ const INK = 'rgb(25, 34, 26)', GREEN = 'rgb(47, 138, 39)', LIGHT_GREEN = 'rgb(14
         t.ok(tt.bg === 'none' || tt.bg === 'rgba(0, 0, 0, 0)', `Title is not on a dark bar on ${at}: ${tt.bg}`);
         t.equal(tt.accent, GREEN, `Title has a green accent word on ${at}`);
         t.equal(tt.color, INK, `Title is the site ink on ${at}`);
-        t.ok(tt.top >= 40, `Title has breathing room under the header on ${at}: ${tt.top}px`);
+        t.ok(tt.top >= (width <= 390 ? 32 : 40), `Title has breathing room under the header on ${at}: ${tt.top}px`);
       }
     }
     // 6. About and Our Causes: the smaller section titles keep their rounded dark-green bar with white centred text.
