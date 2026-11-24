@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- [main-site] Equalized tablet hero trial-button spacing to 28px above and below.
+
+- [main-site] Reduced the Home FAQ-to-classroom-heading gap to 40px on desktop/tablet and 32px on mobile.
+
 - [main-site] Widened the Home closing copy column and removed balanced heading wraps; reduced the tablet hero trial-button-to-photo gap to 28px.
 
 - [main-site] Centered the About mission statement “SUCCESS TO US = TRULY HELPING STUDENTS.” on desktop and mobile.

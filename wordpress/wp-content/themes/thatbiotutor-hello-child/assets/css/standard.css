@@ -1687,4 +1687,13 @@ body.tbt-site.home #main-content .tbt-home-closing h2 { width: 100%; max-width: 
 /* Keep the tablet hero photo closer to its trial button. */
 @media (min-width: 641px) and (max-width: 1024px) {
   body.tbt-site.home #main-content .tbt-home-hero__copy { padding-bottom: 28px; }
+  body.tbt-site.home #main-content .tbt-home-hero .tbt-home-button { margin-top: 28px; }
+}
+
+/* Keep the classroom heading close to the preceding FAQ accordion. */
+body.tbt-site.home #main-content .tbt-home-faq { padding-bottom: 20px; }
+body.tbt-site.home #main-content .tbt-home-classroom { padding-top: 20px; }
+@media (max-width: 640px) {
+  body.tbt-site.home #main-content .tbt-home-faq { padding-bottom: 16px; }
+  body.tbt-site.home #main-content .tbt-home-classroom { padding-top: 16px; }
 }
