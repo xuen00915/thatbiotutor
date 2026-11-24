@@ -32,11 +32,18 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         };
       });
+      const edges = await page.evaluate(() => {
+        const bar = document.querySelector('.tbt-about-mission .tbt-institutional-title-bar').getBoundingClientRect();
+        const selectors = ['.tbt-about-mission .tbt-reading-width > p', '.tbt-about-mission h3', '.tbt-about-quality .tbt-reading-width > p', '.tbt-beliefs-grid'];
+        if (innerWidth <= 980) selectors.push('.tbt-about-quality li', '.tbt-about-quality__image', '.tbt-about-beliefs__image');
+        return selectors.flatMap(selector => [...document.querySelectorAll(selector)].map(e => ({selector, offset:e.getBoundingClientRect().left-bar.left})));
+      });
+      assert.ok(edges.every(e => Math.abs(e.offset) <= 1), `About content shares a consistent left edge at ${width}px: ${JSON.stringify(edges)}`);
       const titleBounds = await page.locator('.tbt-about-hero h1').evaluate(e => {
         const title = e.getBoundingClientRect(), hero = e.closest('header, section, .tbt-about-hero').getBoundingClientRect();
-        return { top: title.top - hero.top, bottom: hero.bottom - title.bottom };
+        return { top: title.top - hero.top, bottom: hero.bottom - title.bottom, left: title.left - hero.left, right: hero.right - title.right };
       });
-      assert.ok(titleBounds.top >= 16 && titleBounds.bottom >= 16, `About hero title must fit with breathing room at ${width}px: ${JSON.stringify(titleBounds)}`);
+      assert.ok(titleBounds.top >= 16 && titleBounds.bottom >= 16 && titleBounds.left >= 16 && titleBounds.right >= 16, `About hero title must fit with breathing room at ${width}px: ${JSON.stringify(titleBounds)}`);
       const at = `at ${width}px: ${JSON.stringify(m)}`;
       for (const t of m.beliefsType) { assert.equal(t.size,18, `Beliefs copy uses standard body sizing ${at}`); assert.ok(Math.abs(t.line-28.8)<.1); assert.equal(t.weight,'400'); assert.match(t.font,/Poppins/); }
       assert.ok(Math.abs(m.imageOpacity - 0.78) < 0.02, `Hero photo must stay at 78% opacity ${at}`);

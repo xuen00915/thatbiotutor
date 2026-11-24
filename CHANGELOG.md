@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Aligned About body content with the section bars: removed Mission offsets, left-aligned body subheadings and beliefs, and aligned stacked Quality lists and images across mobile/tablet layouts.
+
 - [main-site] Fixed tablet heroes: center the About title inside its photo banner and scale About/Classes titles responsively to prevent clipping and excessive wrapping. Body text sizes remain unchanged.
 
 - [main-site] Matched About typography to the shared Poppins scale: 18px body copy with 1.6 line-height and 24px subheadings, replacing the oversized mission text and inconsistent founder/body styles.
