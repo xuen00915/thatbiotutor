@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Updated the Sec 3 refinement regression check to enforce the approved 40px desktop/tablet and 32px mobile practical-section gap.
+
 - [main-site] Reduced the gap above Classes “How TBT solves each one” to 56px on desktop/tablet and 48px on mobile.
 
 - [main-site] Set FAQ section backgrounds to white on Classes, Sec 3 and Sec 4.

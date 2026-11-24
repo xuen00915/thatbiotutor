@@ -31,7 +31,7 @@ const { chromium } = require('playwright');
     };
    });
    assert.equal(r.faqBackground,'rgb(255, 255, 255)','FAQ section background is white'); assert.equal(r.trialText,'WhatsApp Us');
-   assert.equal(r.button.text,'More Testimonials'); assert.ok(r.button.radius>=999,'More Testimonials uses shared pill style'); assert.ok(r.practicalGap>=48,'Practical heading has breathing room above it');
+   assert.equal(r.button.text,'More Testimonials'); assert.ok(r.button.radius>=999,'More Testimonials uses shared pill style'); assert.ok(Math.abs(r.practicalGap-(width<=520?32:40))<=1,'Practical heading uses the approved compact spacing at '+width+'px: '+r.practicalGap);
    assert.equal(r.headers.length,2,'Both option headers need a content-sized header');
    assert.ok(r.headers.every(n=>n>=20),'Space below option subtitle');
    assert.ok(r.included.every(e=>e.height<=e.line+1),'Each benefit stays on one line');
