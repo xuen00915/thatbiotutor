@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Replay Classes result statistics on scroll entry: 2.3, 912+ and 91% count up, while “1 in 2” rises and pulses; interrupted counts restart cleanly and reduced motion remains supported.
+
 - [main-site] Made the “1 in 2” reveal more visible with a 2.2-second rise and gentle scale pulse; it replays when scrolled back into view and respects reduced motion.
 
 - [main-site] Responsive audit: keep the Testimonials year menu out of the hero at 1440px, prevent the Notes Submit label wrapping on small phones, and update regression expectations for approved tablet titles, year spacing and signup sizing.

@@ -95,5 +95,28 @@ for (const reduced of [false, true]) {
  if (animations !== (reduced ? 0 : 2) || ratio.textContent !== '1 in 2') throw new Error('Ratio reveal replays on re-entry with stable text, except for reduced motion');
 }
 
+// Classes numbers count up again when their results section re-enters view.
+{
+ const counter = new MockElement();
+ counter.setAttribute('data-count-target', '912');
+ counter.setAttribute('data-count-display', '912+');
+ counter.closest = () => ({});
+ let callback, frames = [], unobserved = false;
+ api.initCountUps({querySelectorAll: () => [counter]}, {
+  matchMedia: () => ({matches:false}), requestAnimationFrame: fn => frames.push(fn),
+  IntersectionObserver: class { constructor(fn) {callback=fn;} observe() {} unobserve() {unobserved=true;} }
+ });
+ callback([{target:counter,isIntersecting:true}]);
+ frames.shift()(0); frames.shift()(1100);
+ if (counter.textContent === '912+') throw new Error('Classes number should visibly count up');
+ frames.shift()(2200);
+ if(counter.textContent !== '912+' || unobserved) throw new Error('Classes counters remain observed for replay');
+ callback([{target:counter,isIntersecting:false}]);
+ callback([{target:counter,isIntersecting:true}]);
+ if(!frames.length) throw new Error('Classes counters replay on re-entry');
+ frames.shift()(3000);
+ if(counter.textContent !== '0+') throw new Error('Classes replay restarts the count');
+}
+
 process.stdout.write('PASS: interaction runtime\n');
 

@@ -74,6 +74,7 @@
   function initCountUps(document, windowObject) {
     const counters = Array.from(document.querySelectorAll('[data-count-up]'));
     if (!counters.length) return;
+    const countRuns = new WeakMap();
     const reveal = (counter, animate) => {
       if (counter.getAttribute('data-count-complete') === 'true') return;
       const target = Number(counter.getAttribute('data-count-target') || 0);
@@ -91,8 +92,11 @@
         return;
       }
       const duration = animate ? 2200 : 0;
+      const run = {};
+      countRuns.set(counter, run);
       let start = null;
       const step = (time) => {
+        if (countRuns.get(counter) !== run) return;
         // Start the clock on the first painted frame so the count never jumps ahead.
         if (start === null) start = time;
         const progress = duration === 0 ? 1 : Math.min(1, Math.max(0, (time - start) / duration));
@@ -116,12 +120,17 @@
     const observer = new windowObject.IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const ratio = (entry.target.getAttribute('data-count-display') || '').includes(' in ');
+        const replay = ratio || Boolean(entry.target.closest && entry.target.closest('.tbt-classes-page .tbt-programme-results'));
         if (!entry.isIntersecting) {
-          if (ratio) entry.target.setAttribute('data-count-complete', 'false');
+          if (replay) {
+            countRuns.delete(entry.target);
+            entry.target.textContent = entry.target.getAttribute('data-count-display');
+            entry.target.setAttribute('data-count-complete', 'false');
+          }
           return;
         }
         reveal(entry.target, true);
-        if (!ratio) observer.unobserve(entry.target);
+        if (!replay) observer.unobserve(entry.target);
       });
     }, { threshold: 0.4 });
     counters.forEach((counter) => {
