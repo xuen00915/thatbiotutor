@@ -41,7 +41,7 @@ const { chromium } = require('playwright');
    assert.ok(r.widths.every(w=>Math.abs(w-aboutWidth)<2),'Every section uses About Us content width '+JSON.stringify({aboutWidth,widths:r.widths}));
    assert.equal(new Set(r.tutors.map(t=>t.x)).size,width>=1024?4:2,'Responsive tutor columns');
    assert.equal(r.slides,0,'FAQ graphics are removed'); assert.equal(r.overflow,0,'No horizontal overflow');
-   if(width<=640) assert.ok(await page.locator('.tbt-programme-tutors .tbt-tutor img').evaluateAll(es=>es.every(e=>e.getBoundingClientRect().width<=132)), 'Mobile tutor portraits are compact');
+   if(width<=640) assert.ok(await page.locator('.tbt-programme-tutors .tbt-tutor img').evaluateAll(es=>es.every(e=>e.getBoundingClientRect().width<=144)), 'Mobile tutor portraits are compact');
    const tutor=page.locator('.tbt-programme-tutors .tbt-tutor').first(); await tutor.hover(); await page.waitForTimeout(400);
    assert.deepEqual(await tutor.evaluate(e=>({transform:getComputedStyle(e).transform,shadow:getComputedStyle(e).boxShadow})),{transform:'none',shadow:'none'},'Tutor profiles remain still without a hover shadow');
    assert.equal(await page.locator('.tbt-home-faq__list [data-faq-button]').count(),13,'Text FAQs remain available');

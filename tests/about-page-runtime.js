@@ -40,8 +40,8 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       if (width >= 1024) {
         assert.ok(Math.abs(m.heroHeight - 321) <= 1, `Hero must be 321px tall ${at}`);
         assert.equal(m.heroSize, 60, `Hero heading must be the shared 60px page-title size ${at}`);
-        assert.equal(m.h3Size, 40, `Mission headline must be 40px ${at}`);
-        assert.equal(m.pSize, 22, `Reading text must be 22px ${at}`);
+        assert.equal(m.h3Size, 24, `Mission headline uses the shared 24px subheading size ${at}`);
+        assert.equal(m.pSize, 18, `Reading text uses the shared 18px body size ${at}`);
         assert.match(m.pFont, /^"?Poppins/, `Reading text must use Poppins ${at}`);
       } else {
         assert.ok(m.pSize >= 16, `Reading text must stay comfortable on small screens ${at}`);
