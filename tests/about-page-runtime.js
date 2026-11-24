@@ -32,12 +32,17 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
           overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         };
       });
+      const titleBounds = await page.locator('.tbt-about-hero h1').evaluate(e => {
+        const title = e.getBoundingClientRect(), hero = e.closest('header, section, .tbt-about-hero').getBoundingClientRect();
+        return { top: title.top - hero.top, bottom: hero.bottom - title.bottom };
+      });
+      assert.ok(titleBounds.top >= 16 && titleBounds.bottom >= 16, `About hero title must fit with breathing room at ${width}px: ${JSON.stringify(titleBounds)}`);
       const at = `at ${width}px: ${JSON.stringify(m)}`;
       for (const t of m.beliefsType) { assert.equal(t.size,18, `Beliefs copy uses standard body sizing ${at}`); assert.ok(Math.abs(t.line-28.8)<.1); assert.equal(t.weight,'400'); assert.match(t.font,/Poppins/); }
       assert.ok(Math.abs(m.imageOpacity - 0.78) < 0.02, `Hero photo must stay at 78% opacity ${at}`);
       assert.match(m.heroFont, /^"?Poppins/, `Hero heading must use Poppins ${at}`);
       assert.ok(m.overflow <= 0, `Horizontal overflow ${at}`);
-      if (width >= 1024) {
+      if (width > 1024) {
         assert.ok(Math.abs(m.heroHeight - 321) <= 1, `Hero must be 321px tall ${at}`);
         assert.equal(m.heroSize, 60, `Hero heading must be the shared 60px page-title size ${at}`);
         assert.equal(m.h3Size, 24, `Mission headline uses the shared 24px subheading size ${at}`);

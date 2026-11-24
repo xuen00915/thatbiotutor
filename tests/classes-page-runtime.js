@@ -8,6 +8,11 @@ const {chromium} = require('playwright');
   for(const width of [1440,1024,768,390,320]) {
    await page.setViewportSize({width,height:900});
    await page.goto(new URL('classes/',base).href,{waitUntil:'load'});
+   await page.evaluate(() => document.fonts.ready);
+   if (width >= 768 && width <= 1024) {
+    const lines = await page.locator('h1 .tbt-programme-hero__line').evaluateAll(els => els.map(e => ({height:e.getBoundingClientRect().height,line:parseFloat(getComputedStyle(e).lineHeight)})));
+    assert.ok(lines.length === 3 && lines.every(e => e.height <= e.line + 1), 'Tablet hero keeps each intended title line intact: '+JSON.stringify(lines));
+   }
    const helpSpacing = await page.locator('.tbt-programme-levels__button').evaluate(e=>({margin:parseFloat(getComputedStyle(e).marginTop),bottom:parseFloat(getComputedStyle(e.closest('section')).paddingBottom)}));
    assert.ok(helpSpacing.margin <= 16 && helpSpacing.bottom <= 32, 'Compact class-selection CTA '+JSON.stringify(helpSpacing));
    await page.evaluate(async()=>{for(let y=0;y<document.body.scrollHeight;y+=500){scrollTo(0,y);await new Promise(r=>setTimeout(r,50))}});

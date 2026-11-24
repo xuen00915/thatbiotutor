@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Fixed tablet heroes: center the About title inside its photo banner and scale About/Classes titles responsively to prevent clipping and excessive wrapping. Body text sizes remain unchanged.
+
 - [main-site] Matched About typography to the shared Poppins scale: 18px body copy with 1.6 line-height and 24px subheadings, replacing the oversized mission text and inconsistent founder/body styles.
 
 - [main-site] Compacted the Classes level-selection helper and WhatsApp CTA; replaced homepage Quality Control circle badges with plain green ticks matching programme lists.
