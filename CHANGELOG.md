@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Reduced main-site section padding to 56px on desktop, 40px up to 768px, and 32px up to 390px, including Home and nested resource sections. Preserved hero spacing, compact testimonial year sections, and the independently managed IntensiveFix page.
+
 - [main-site] One green palette across the site: #2f8a27 (text/links/eyebrows, also hover for buttons), #43b43a (buttons), #8fe17e (green on dark, incl. the Notes hero "Biology Notes"), #0e371d (dark sections), #062612 (footer), #edf5e8 (pale background tint), #dbe6d6 (borders/soft lines), plus #d9f2d2 for text highlights and selection. 29 solid greens reduced to these; kept the Google logo green and the two hero gradient shades. Eyebrows now use the exact Home green (contrast equal to Home). Tests that pinned the old shades were updated.
 - [main-site] Site-wide standard from the Home / IntensiveFix template: every other page uses the home section rhythm (80px desktop, 64px up to 768px, 56px up to 390px, including Classes, Sec 3/4, Notes, About, Contact, Cell Division and Our Causes); section eyebrows use the home style (16px semibold uppercase, upright, no dash; light green on dark, #2b7e23 on light for AA contrast); every green pill button is 60px tall with 18/28 type and the home shadow; section titles use the home line height. Sections that already space their own blocks (Cell Division sign-up, Tuition Recommendations) and the compact testimonial year list keep their inner spacing. Older tests that encoded the compact spacing were moved to the new standard.
 - [main-site] Classes "Common questions" section uses the same cream background (#faf9f5) as Sec 3 and Sec 4.
