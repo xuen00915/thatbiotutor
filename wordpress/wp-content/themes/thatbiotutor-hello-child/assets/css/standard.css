@@ -1536,3 +1536,17 @@ body.tbt-site #main-content :is(.tbt-home-tutors .tbt-home-tutors__grid, .tbt-se
 @media (max-width: 640px) {
   body.tbt-site #main-content :is(.tbt-home-tutors, .tbt-sec3-page .tbt-programme-tutors, .tbt-sec4-page .tbt-programme-tutors) { --tbt-team-portrait-size: 144px; }
 }
+
+/* Homepage Google reviews: compact the card and its transition into tutors. */
+body.tbt-site.home #main-content .tbt-google-reviews { margin-top: 28px; padding-top: 24px; padding-bottom: 20px; }
+body.tbt-site.home #main-content .tbt-google-reviews__track { padding-top: 44px; }
+body.tbt-site.home #main-content .tbt-google-review { min-height: 300px; }
+body.tbt-site.home #main-content .tbt-google-reviews__source { margin-top: 16px; padding-block: 8px; }
+body.tbt-site.home #main-content .tbt-home-proof { padding-bottom: 24px; }
+body.tbt-site.home #main-content .tbt-home-tutors { padding-top: 32px; }
+@media (max-width: 768px) {
+  body.tbt-site.home #main-content .tbt-google-reviews { margin-top: 24px; padding-bottom: 72px; }
+  body.tbt-site.home #main-content .tbt-google-reviews__controls button { bottom: 20px; }
+  body.tbt-site.home #main-content .tbt-home-proof { padding-bottom: 16px; }
+  body.tbt-site.home #main-content .tbt-home-tutors { padding-top: 24px; }
+}

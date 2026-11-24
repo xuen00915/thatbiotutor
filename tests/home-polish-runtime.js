@@ -10,6 +10,8 @@ const {chromium} = require('playwright');
   await page.addStyleTag({content:'.tbt-reveal{transform:none!important;transition:none!important}'}); /* measure the settled layout, not the 24px reveal slide that is still running on a slow machine */
   const heroGap=await page.evaluate(()=>document.querySelector('.tbt-home-hero .tbt-home-kicker').getBoundingClientRect().top-document.querySelector('.site-header').getBoundingClientRect().bottom);
   assert.ok(heroGap>=12&&heroGap<=(width>520?32:24),`Homepage hero title sits close to the header (${heroGap}px) at ${width}`);
+  const reviewGap = await page.locator('.tbt-google-reviews').evaluate(e => ({ above: parseFloat(getComputedStyle(e).marginTop), below: document.querySelector('.tbt-home-tutors h2').getBoundingClientRect().top - e.getBoundingClientRect().bottom }));
+  assert.ok(reviewGap.above <= 28 && reviewGap.below <= 56, `Compact Google review section spacing at ${width}: ${JSON.stringify(reviewGap)}`);
   for(const selector of ['.tbt-home-stats__photos figure','.tbt-home-tutors__grid article']) {
    const boxes=await page.locator(selector).evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect();return {y:r.y,h:r.height}}));
    const columns=width>980?4:2;
