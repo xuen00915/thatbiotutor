@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Added 19px of room to wide Notes signup frames so tablet Submit buttons are not cropped by the embed boundary.
+
 - [main-site] Added a one-time fade/scale reveal to the homepage “1 in 2” statistic when it enters view; wording stays intact and reduced-motion preferences are respected.
 
 - [main-site] Updated tablet heroes (768–1180px): Testimonials copy/photo and Classes buttons sit side by side; Sec 3 and Sec 4 use matching compact 480px heroes.

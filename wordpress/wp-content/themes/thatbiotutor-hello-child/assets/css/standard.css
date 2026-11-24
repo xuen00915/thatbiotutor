@@ -1421,10 +1421,10 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 }
 
 /* Notes signup: GetResponse draws a dark footer strip under its Submit button that we cannot restyle (cross-origin).
-   The iframe is sized to the form's own width so it ends ~27px below Submit, cutting the strip off and the empty space with it.
+   The iframe is sized to the form's own width with room below Submit, cutting the strip off and the empty space with it.
    Heights measured on the live provider form, 23 Nov 2026; re-measure if the form is edited in GetResponse. */
 body.tbt-site #main-content .tbt-notes-form--getresponse { container-type: inline-size; container-name: tbt-notes-form; margin-bottom: 0; overflow: hidden; }
-body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 429px; }
+body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 448px; }
 @container tbt-notes-form (max-width: 610px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 449px; } }
 @container tbt-notes-form (max-width: 426px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 468px; } }
 @container tbt-notes-form (max-width: 362px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 488px; } }

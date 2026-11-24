@@ -15,6 +15,7 @@ const provider = 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.
    assert.equal(await frame.getAttribute('src'),provider);
    assert.equal(await frame.getAttribute('title'),'Free Bio Notes signup form');
    const box=await frame.boundingBox();
+   if (width >= 768) assert.ok(box.height >= 448, 'Wide signup frame reserves room below Submit');
    assert.ok(box.width>=width-32 || box.width>=700);
    assert.ok(box.x>=8&&box.x+box.width<=width-8&&box.height>=420);
    assert.equal(await page.locator('.tbt-notes-form__alternative').count(),0);
