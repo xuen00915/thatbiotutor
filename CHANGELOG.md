@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Keep the wide Notes form crop above the provider footer while retaining Submit clearance; version preview CSS/JS URLs by content so returning browsers receive updated assets.
+
 - [main-site] Added 19px of room to wide Notes signup frames so tablet Submit buttons are not cropped by the embed boundary.
 
 - [main-site] Added a one-time fade/scale reveal to the homepage “1 in 2” statistic when it enters view; wording stays intact and reduced-motion preferences are respected.

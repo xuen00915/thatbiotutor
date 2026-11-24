@@ -26,3 +26,26 @@ class PagesCacheTests(unittest.TestCase):
             self.assertTrue((target / 'photo.png').is_file())
             self.assertFalse((target / 'private.php').exists())
             self.assertEqual((output / 'index.html').read_text(), 'cached HTML')
+
+    def test_css_and_js_urls_change_with_content_and_preserve_relative_paths(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            source = root / cache.THEME / 'assets'
+            source.mkdir(parents=True)
+            css = source / 'main.css'
+            css.write_text('body {color: green}')
+            output = root / 'build'
+            output.mkdir()
+            page = output / 'index.html'
+            asset = 'wp-content/themes/thatbiotutor-hello-child/assets/main.css'
+            page.write_text(f'<link href="../{asset}?ver=old"><p>Unchanged content</p>')
+            cache.refresh_assets(root, output)
+            first = page.read_text()
+            self.assertIn(f'../{asset}?v=', first)
+            self.assertNotIn('ver=old', first)
+            cache.refresh_assets(root, output)
+            self.assertEqual(page.read_text(), first)
+            css.write_text('body {color: blue}')
+            cache.refresh_assets(root, output)
+            self.assertNotEqual(page.read_text(), first)
+            self.assertIn('<p>Unchanged content</p>', page.read_text())
