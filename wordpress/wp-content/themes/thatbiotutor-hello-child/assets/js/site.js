@@ -90,7 +90,11 @@
         const progress = duration === 0 ? 1 : Math.min(1, Math.max(0, (time - start) / duration));
         // Gentle ease-in-out: no abrupt burst at the start or a long stall at the end.
         const eased = progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-        counter.textContent = formatCountUpValue(target * eased, display);
+        // Ratios roll through digits, slowing down before landing on the actual value.
+        const value = display.includes(' in ') && progress < 1
+          ? Math.floor(42 * (1 - Math.pow(1 - progress, 2))) % 10
+          : target * eased;
+        counter.textContent = formatCountUpValue(value, display);
         if (progress < 1 && typeof windowObject.requestAnimationFrame === 'function') windowObject.requestAnimationFrame(step);
         else {
           counter.textContent = display;

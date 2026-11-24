@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Changed the “1 in 2” animation to cycle through digits, slow down, and settle on the correct ratio after four seconds; replay and reduced-motion behavior are retained.
+
 - [main-site] Changed “1 in 2” from a rise/pulse to the shared numeric count-up: the numerator counts from 0 to 1 while “in 2” stays fixed, with a four-second duration and scroll replay.
 
 - [main-site] Slowed the “1 in 2” reveal to four seconds with gradual ease-in-out motion, retaining scroll replays and reduced-motion support.

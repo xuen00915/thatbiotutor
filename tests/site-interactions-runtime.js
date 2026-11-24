@@ -83,8 +83,10 @@ for (const reduced of [false, true]) {
  });
  if (!reduced) {
   callback([{target:ratio,isIntersecting:true}]);
-  frames.shift()(0); frames.shift()(1000);
-  if(ratio.textContent !== '0 in 2') throw new Error('Ratio starts from zero');
+  frames.shift()(0);
+  const rolling = [];
+  for (const time of [400, 800, 1200, 1600]) { frames.shift()(time); rolling.push(ratio.textContent); }
+  if(new Set(rolling).size < 3 || !rolling.some(text => /^[2-9] in 2$/.test(text))) throw new Error('Ratio should cycle through numbers before settling');
   frames.shift()(3000);
   if(ratio.getAttribute('data-count-complete') === 'true') throw new Error('Ratio should run for four seconds');
   frames.shift()(4000);
