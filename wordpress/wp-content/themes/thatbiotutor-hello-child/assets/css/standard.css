@@ -1697,3 +1697,20 @@ body.tbt-site.home #main-content .tbt-home-classroom { padding-top: 20px; }
   body.tbt-site.home #main-content .tbt-home-faq { padding-bottom: 16px; }
   body.tbt-site.home #main-content .tbt-home-classroom { padding-top: 16px; }
 }
+
+/* Phone Classes title uses the available width instead of desktop line breaks. */
+@media (max-width: 480px) {
+  body.tbt-site #main-content .tbt-classes-page .tbt-programme-hero__content { width: calc(100% - 24px); }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-classes-page .tbt-programme-hero h1 { width: 100%; max-width: none; text-wrap: wrap; overflow-wrap: normal; }
+  body.tbt-site #main-content .tbt-classes-page .tbt-programme-hero__line:not(.tbt-programme-hero__line--green) { display: inline; }
+  body.tbt-site #main-content .tbt-classes-page .tbt-programme-hero__line:not(.tbt-programme-hero__line--green)::after { content: " "; }
+}
+/* Tablet hero choices retain the shared pill style without stretching. */
+@media (min-width: 768px) and (max-width: 1180px) {
+  body.tbt-site #main-content .tbt-classes-page .tbt-programme-hero__actions { width: auto; grid-template-columns: repeat(2, 240px); }
+}
+/* Ratio counters stay together, including while their digits animate. */
+body.tbt-site #main-content [data-count-display="1 in 2"] { white-space: nowrap; }
+@media (max-width: 480px) {
+  body.tbt-site #main-content [data-count-display="1 in 2"] { font-size: clamp(24px, 8vw, 36px); }
+}

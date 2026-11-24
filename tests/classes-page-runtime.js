@@ -13,6 +13,18 @@ const {chromium} = require('playwright');
     const lines = await page.locator('h1 .tbt-programme-hero__line').evaluateAll(els => els.map(e => ({height:e.getBoundingClientRect().height,line:parseFloat(getComputedStyle(e).lineHeight)})));
     assert.ok(lines.length === 3 && lines.every(e => e.height <= e.line + 1), 'Tablet hero keeps each intended title line intact: '+JSON.stringify(lines));
    }
+   if(width<=480) {
+    const title=await page.locator('.tbt-programme-hero h1').evaluate(e=>({width:e.getBoundingClientRect().width,wrap:getComputedStyle(e).textWrap,line:getComputedStyle(e.querySelector('.tbt-programme-hero__line')).display}));
+    assert.ok(Math.abs(title.width-(width-24))<=1 && title.wrap==='wrap' && title.line==='inline','Mobile title uses wide natural wrapping: '+JSON.stringify(title));
+   }
+   if(width>=768&&width<=1180) {
+    const buttons=await page.locator('.tbt-programme-hero__actions a').evaluateAll(es=>es.map(e=>({width:e.getBoundingClientRect().width,height:e.getBoundingClientRect().height})));
+    assert.ok(buttons.every(b=>Math.abs(b.width-240)<=1&&b.height>=56),'Tablet hero buttons use compact 240px width and shared height: '+JSON.stringify(buttons));
+   }
+   if(width<=480) {
+    const ratio=await page.locator('[data-count-display="1 in 2"]').evaluate(e=>({wrap:getComputedStyle(e).whiteSpace,width:e.getBoundingClientRect().width,parent:e.parentElement.getBoundingClientRect().width}));
+    assert.ok(ratio.wrap==='nowrap'&&ratio.width<=ratio.parent+1,'Ratio stays on one row inside its card: '+JSON.stringify(ratio));
+   }
    const helpSpacing = await page.locator('.tbt-programme-levels__button').evaluate(e=>({margin:parseFloat(getComputedStyle(e).marginTop),bottom:parseFloat(getComputedStyle(e.closest('section')).paddingBottom)}));
    assert.ok(helpSpacing.margin <= 16 && helpSpacing.bottom <= 32, 'Compact class-selection CTA '+JSON.stringify(helpSpacing));
    await page.evaluate(async()=>{for(let y=0;y<document.body.scrollHeight;y+=500){scrollTo(0,y);await new Promise(r=>setTimeout(r,50))}});

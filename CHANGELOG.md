@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Widened Classes mobile hero title with natural wrapping, shortened tablet hero buttons to 240px, and kept animated “1 in 2” counters on one line on phones.
+
 - [main-site] Equalized tablet hero trial-button spacing to 28px above and below.
 
 - [main-site] Reduced the Home FAQ-to-classroom-heading gap to 40px on desktop/tablet and 32px on mobile.
