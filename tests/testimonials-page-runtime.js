@@ -18,7 +18,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
       await page.evaluate(() => document.fonts?.ready);
       await page.waitForTimeout(600);
       const spacing = await page.locator('.tbt-testimonials-year').evaluateAll(sections => sections.map(e => ({top:parseFloat(getComputedStyle(e).paddingTop), artwork:[...e.querySelectorAll('.tbt-testimonials-artwork--portrait')].map(a=>parseFloat(getComputedStyle(a).marginBottom))})));
-      assert.ok(spacing.every(s=>s.top === (width>768?24:20) && s.artwork.every(gap=>gap >=24)), 'Each year uses compact top spacing while keeping artwork separation');
+      assert.ok(spacing.every(s=>s.top === (width>768?56:40) && s.artwork.every(gap=>gap >=24)), 'Each year has a clear section break while keeping artwork separation');
       const m = await page.evaluate(() => {
         const q = (s, r = document) => r.querySelector(s);
         const box = (e) => e.getBoundingClientRect();

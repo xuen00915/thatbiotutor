@@ -47,7 +47,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       const top = await page.locator('#class-of-2022').evaluate(e => ({ top: e.getBoundingClientRect().top, header: innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom }));
       assert.ok(top.top >= top.header && top.top <= top.header + 24, 'Selected year clears sticky header');
       const spacing = await page.locator('.tbt-testimonials-year').evaluateAll(es=>es.map(e=>parseFloat(getComputedStyle(e).paddingTop)+parseFloat(getComputedStyle(e.querySelector('.tbt-testimonials-year-panel')).marginTop)));
-      assert.ok(spacing.every(gap=>gap<=32),'All year titles use compact top spacing');
+      assert.ok(spacing.every(gap=>gap === (width > 768 ? 56 : 40)),'All year titles have consistent separation from the preceding section');
       await page.evaluate(()=>window.scrollBy(0,400));
       const sticky = await page.locator('#class-of-2022 .tbt-testimonials-year-panel').evaluate(e=>({top:e.getBoundingClientRect().top,position:getComputedStyle(e).position,clearance:(innerWidth<=1180?document.querySelector('[data-year-nav]'):document.querySelector('.site-header')).getBoundingClientRect().bottom}));
       assert.equal(sticky.position,'static','Year titles scroll naturally with their content');

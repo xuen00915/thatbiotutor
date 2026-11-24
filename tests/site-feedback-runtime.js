@@ -363,12 +363,12 @@ if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw 
         assert.equal(r.open, 'false', 'The menu closes after jumping');
       }
     }
-    // 19. The WhatsApp button and the first year's green panel are close together (client: too much empty space above Class of 2025).
-    for (const [vw, max] of [[1440, 64], [390, 56]]) {
+    // 19. The first class-year title has the same added separation as the later years.
+    for (const [vw, max] of [[1440, 72], [390, 56]]) {
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
       const gap = await page.evaluate(() => Math.round(document.querySelector('.tbt-testimonials-year-panel').getBoundingClientRect().top - document.querySelector('.tbt-testimonials-featured .tbt-testimonials-button').getBoundingClientRect().bottom));
-      assert.ok(gap >= 32 && gap <= max, `Space between the WhatsApp button and the first year panel at ${vw}: ${gap}px (wanted 32-${max})`);
+      assert.ok(gap >= (vw > 768 ? 64 : 48) && gap <= max, `Space between the WhatsApp button and the first year panel at ${vw}: ${gap}px (wanted ${vw > 768 ? 64 : 48}-${max})`);
     }
     // 20. Sec 3 and Sec 4 FAQs use the Home-page accordion: numbered rows, plus/minus icon, green open row.
     for (const route of ['sec-3-pure-g3-biology-tuition/', 'sec-4-pure-g3-biology-tuition/']) {

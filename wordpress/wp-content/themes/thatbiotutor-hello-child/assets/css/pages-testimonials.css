@@ -228,10 +228,10 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
 }
 
 /* Give every new cohort's results a distinct section break. */
-body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year { padding-top: 24px; }
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year { padding-top: 56px; }
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-artwork--portrait, #class-of-2023 .tbt-testimonials-artwork--portrait) { margin-bottom: 32px; }
 @media (max-width: 768px) {
-  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year { padding-top: 20px; }
+  body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page .tbt-testimonials-year { padding-top: 40px; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-testimonials-page :is(.tbt-testimonials-artwork--portrait, #class-of-2023 .tbt-testimonials-artwork--portrait) { margin-bottom: 24px; }
 }
 

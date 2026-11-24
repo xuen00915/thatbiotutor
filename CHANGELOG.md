@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Added clearer separation above all five Testimonials class-year titles: 56px section-top spacing on desktop and 40px on tablet/mobile, up from 24px/20px.
+
 - [main-site] Reduced the Sec 3 and Sec 4 hero title maximum from 60px to 55px, retaining their existing tablet scaling and 32px mobile size.
 
 - [main-site] Publish static previews after a fast desktop/mobile smoke gate across all 12 pages. Run full source and browser regressions in a separate non-blocking job against the exact preview artifact and source revisions, with visible failure reporting. Explicit WordPress rebuilds still require full pre-publication verification.
