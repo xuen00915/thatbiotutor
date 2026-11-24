@@ -186,14 +186,14 @@ if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw 
       assert.ok(box && box.y >= 0 && box.y < 900, `Clicking DOWNLOAD #${i} brings the form into view (form top ${box && box.y})`);
       assert.ok(/#notes-form$/.test(page.url()) && !/contact/.test(page.url()), `Stays on the notes page: ${page.url()}`);
     }
-    // 11. "Real Practical Sessions. Real Practice." uses the full content width and has room above it (Classes, Sec 3, Sec 4).
+    // 11. "Real Practical Sessions. Real Practice." uses the full content width and has compact spacing above it (Classes, Sec 3, Sec 4).
     for (const vw of [1440, 390]) {
       await page.setViewportSize({ width: vw, height: 900 });
       for (const route of ['classes/', 'sec-3-pure-g3-biology-tuition/', 'sec-4-pure-g3-biology-tuition/']) {
         await page.goto(new URL(route, base).href, { waitUntil: 'load' });
         const f = await page.locator('.tbt-practical-feature').evaluate((e) => { const r = e.getBoundingClientRect(), p = e.querySelector('p').getBoundingClientRect(), prev = e.previousElementSibling.getBoundingClientRect(); return { fw: r.width, pw: p.width, gap: r.top - prev.bottom }; });
         assert.ok(Math.abs(f.pw - f.fw) <= 1, `Practical-sessions text uses the full content width on ${route} at ${vw}: ${f.pw} of ${f.fw}`);
-        assert.ok(f.gap >= (vw > 520 ? 72 : 56) - 1, `Practical-sessions block has padding above it on ${route} at ${vw}: ${f.gap}px`);
+        assert.ok(Math.abs(f.gap - (vw > 520 ? 40 : 32)) <= 1, `Practical-sessions block has compact spacing above it on ${route} at ${vw}: ${f.gap}px`);
       }
     }
     await page.setViewportSize({ width: 1440, height: 900 });

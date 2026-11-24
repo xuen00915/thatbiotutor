@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Reduced the gap above Real Practical Sessions to 40px on desktop/tablet and 32px on mobile across Classes, Sec 3 and Sec 4.
+
 - [main-site] Play all statistics animations once per page load on first view; scrolling away and back keeps their final values.
 
 - [main-site] Matched the ratio animation to the other counters at 2.2 seconds and made both digits roll before settling on “1 in 2”.
