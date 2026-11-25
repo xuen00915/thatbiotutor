@@ -1910,3 +1910,6 @@ body.tbt-site:not(.home) #main-content > .tbt-resource-page.tbt-notes-page > sec
 
 /* Notes hero slider: the arrows and dots sit closer to the tablet picture (they rise 20px into the empty space under it). */
 body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-carousel--notes { padding-bottom: 32px; }
+
+/* Results & Testimonials: "Transform My Grade Now" fills its pill almost exactly; keep it on one line on every system font renderer. */
+body.tbt-site #main-content .tbt-testimonials-page a.tbt-testimonials-button { white-space: nowrap; }
