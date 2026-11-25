@@ -11,6 +11,9 @@ for(const [key,[title,description]] of Object.entries(copy)){
   assert.equal(await page.locator(selector).count(),1,`${key}: one ${selector}`);
   assert.equal(await page.locator(selector).getAttribute('content'),expected,key);
  }
+ assert.equal(await page.locator('meta[name="keywords"]').count(),1,`${key}: one keywords tag`);
+ assert.match(await page.locator('meta[property="og:image"]').getAttribute('content'),/\/assets\/images\/og\/thatbiotutor-share\.jpg$/,`${key}: share image`);
+ assert.equal(await page.locator('meta[name="twitter:card"]').getAttribute('content'),'summary_large_image',`${key}: large Twitter/X card`);
  assert.equal(await page.locator('link[rel="canonical"]').count(),1,`${key}: exactly one canonical`);
  const canonical=await page.locator('link[rel="canonical"]').getAttribute('href');
  assert.equal(new URL(canonical,page.url()).pathname.replace(/index\.html$/, ''),new URL(key==='home'?'':key+'/',base).pathname,key);

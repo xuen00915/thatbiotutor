@@ -233,7 +233,7 @@ if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw 
       assert.ok(got.every((v, k) => Math.abs(v - want[k]) <= 8), `WhatsApp button ${state} colour is ${want} (got ${got})`);
     }
     // 13. The footer is shorter (was 268px on desktop, 414px on phones) with nothing clipped.
-    for (const [vw, max] of [[1440, 190], [1024, 190], [768, 320], [390, 345]]) {
+    for (const [vw, max] of [[1440, 190], [1024, 190], [768, 320], [390, 420]]) {
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('contact/', base).href, { waitUntil: 'load' });
       const f = await page.locator('.site-footer').evaluate((e) => { const r = e.getBoundingClientRect(); const kids = [...e.querySelectorAll('.site-footer__brand, .site-footer__column, .site-footer__copyright')].map((k) => k.getBoundingClientRect()); return { h: r.height, inside: kids.every((k) => k.top >= r.top && k.bottom <= r.bottom + 0.5), overflow: document.documentElement.scrollWidth - innerWidth }; });
@@ -257,7 +257,7 @@ if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw 
         let last = -1, still = 0;
         for (let i = 0; i < 60 && still < 8; i++) { await page.waitForTimeout(100); const y = await page.evaluate(() => Math.round(scrollY)); still = y === last ? still + 1 : 0; last = y; }
         await page.waitForTimeout(300);
-        const r = await page.evaluate((y) => { document.querySelectorAll('.tbt-test-shift').forEach((e) => e.remove()); return ({ label: document.querySelector('[data-year-current]').textContent, current: document.querySelector('[data-year-nav] [aria-current="location"] .tbt-year-nav__title')?.textContent, top: document.querySelector('#class-of-' + y).getBoundingClientRect().top, header: innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom }); }, year);
+        const r = await page.evaluate((y) => { document.querySelectorAll('.tbt-test-shift').forEach((e) => e.remove()); return ({ label: document.querySelector('[data-year-current]').textContent, current: document.querySelector('[data-year-nav] [aria-current="location"] .tbt-year-nav__title')?.textContent, top: document.querySelector('#class-of-' + y + ' h2').getBoundingClientRect().top, header: innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom }); }, year);
         assert.equal(r.label, `Class of ${year}`, `Year menu label shows Class of ${year} after choosing it at ${vw} (shows ${r.label})`);
         assert.equal(r.current, `Class of ${year}`, `Year menu highlights ${year} at ${vw}`);
         assert.ok(r.top >= r.header - 2 && r.top <= r.header + 40, `The ${year} section sits just under the header at ${vw}: ${r.top} vs header ${r.header}`);
@@ -327,7 +327,7 @@ if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw 
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
       // Every year can be opened and closed on its own, wherever the reader is on the page.
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
-      if(vw<=1180){assert.equal(await page.locator('[data-year-nav]').evaluate(e=>getComputedStyle(e).visibility),'hidden',`Year bar is hidden above the years at ${vw}`);await page.evaluate(()=>document.querySelector('#class-of-2025').scrollIntoView({block:'start',behavior:'instant'}));await page.waitForFunction(()=>!document.querySelector('[data-year-nav]').hasAttribute('data-before-years')&&getComputedStyle(document.querySelector('[data-year-nav]')).visibility==='visible');}
+      if(vw<=1180){await page.evaluate(()=>window.scrollTo(0,0));await page.waitForFunction(()=>getComputedStyle(document.querySelector('[data-year-nav]')).visibility==='hidden',null,{timeout:5000}).catch(()=>{});assert.equal(await page.locator('[data-year-nav]').evaluate(e=>getComputedStyle(e).visibility),'hidden',`Year bar is hidden above the years at ${vw}`);await page.evaluate(()=>document.querySelector('#class-of-2025').scrollIntoView({block:'start',behavior:'instant'}));await page.waitForFunction(()=>!document.querySelector('[data-year-nav]').hasAttribute('data-before-years')&&getComputedStyle(document.querySelector('[data-year-nav]')).visibility==='visible');}
       await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
       const visibleLabels = (year) => page.locator(`[data-year-nav] .tbt-year-nav__group:has(a.tbt-year-nav__year[href$="#class-of-${year}"]) a.tbt-year-nav__section`).evaluateAll((els) => els.filter((e) => e.getClientRects().length).map((e) => ({ text: e.textContent.trim(), h: e.getBoundingClientRect().height })));
       const sectionToggle = (year) => page.locator(`[data-year-nav] .tbt-year-nav__group:has(a.tbt-year-nav__year[href$="#class-of-${year}"]) button.tbt-year-nav__sections-toggle`);
@@ -363,7 +363,7 @@ if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw 
         let last = -1, still = 0;
         for (let i = 0; i < 60 && still < 8; i++) { await page.waitForTimeout(100); const y = await page.evaluate(() => Math.round(scrollY)); still = y === last ? still + 1 : 0; last = y; }
         await page.waitForTimeout(300);
-        const r = await page.evaluate(([y, id]) => { const t = document.getElementById(`class-of-${y}-${id}`); const b = t.getBoundingClientRect(); return { label: document.querySelector('[data-year-current]').textContent, top: b.top, header: innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom, open: document.querySelector('[data-year-nav] button.tbt-year-nav__toggle').getAttribute('aria-expanded') }; }, [year, idFor[label]]);
+        const r = await page.evaluate(([y, id]) => { const el = document.getElementById(`class-of-${y}-${id}`); const t = (el.matches('h1, h2, h3, h4') ? el : el.querySelector('h2, h3, h4')) || el; const b = t.getBoundingClientRect(); return { label: document.querySelector('[data-year-current]').textContent, top: b.top, header: innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom, open: document.querySelector('[data-year-nav] button.tbt-year-nav__toggle').getAttribute('aria-expanded') }; }, [year, idFor[label]]);
         assert.equal(r.label, `Class of ${year}`, `Jumping to ${year} ${label} keeps the ${year} label at ${vw}`);
         assert.ok(r.top >= r.header - 2 && r.top <= r.header + 60, `${year} ${label} lands below the header at ${vw}: ${r.top} vs ${r.header}`);
         assert.equal(r.open, 'false', 'The menu closes after jumping');

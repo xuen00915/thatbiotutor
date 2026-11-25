@@ -139,7 +139,6 @@ function tbt_render_class_year_admin_column(string $column, int $postId): void
     }
     $count = count(tbt_get_structured_posts('tbt_testimonial', [
         'post_status' => 'publish',
-        'fields' => 'ids',
         'meta_query' => [['key' => 'tbt_display_group', 'value' => $year, 'compare' => '=']],
     ]));
     $list = add_query_arg(['post_type' => 'tbt_testimonial', 'tbt_placement' => $year], admin_url('edit.php'));

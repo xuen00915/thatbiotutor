@@ -153,7 +153,22 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     }
     assert.ok(protectedPages >= 12, `All twelve protected pages must be covered, covered ${protectedPages}.`);
 
+    // 6. Testimonials: the Class Years list counts each year's reviews with an add link that preselects the year,
+    // and the Testimonials list shows where each one appears and filters to one place.
+    await page.goto(`${base}/wp-admin/edit.php?post_type=tbt_class_year`);
+    assert.ok(!(await page.content()).includes('critical error'), 'Class Years list loads');
+    const addLink = page.locator('td.column-tbt_year_testimonials a', { hasText: 'Add testimonial' }).first();
+    assert.match(await page.locator('td.column-tbt_year_testimonials').first().innerText(), /\d+ testimonials? · Add testimonial/);
+    await page.goto(new URL(await addLink.getAttribute('href'), base).href);
+    const placement = page.locator('[data-name="tbt_display_group"] select');
+    assert.match(await placement.inputValue(), /^\d{4}$/, 'Add testimonial from a year preselects that year');
+    assert.ok(await page.locator('.tbt-page-guide', { hasText: 'How to add or edit a testimonial' }).count() === 1, 'Testimonial guide is shown');
+    await page.goto(`${base}/wp-admin/edit.php?post_type=tbt_testimonial&tbt_placement=notes-reviews`);
+    const places = await page.locator('td.column-tbt_placement').allInnerTexts();
+    assert.ok(places.length > 0 && places.every((t) => t.includes('Free Bio Notes page')), 'The place filter narrows the Testimonials list');
+    assert.ok((await page.locator('td.column-tbt_kind').allInnerTexts()).every((t) => ['Video', 'Written'].includes(t.trim())), 'Type column shows Video or Written');
+
     assert.deepEqual(errors, [], 'No script errors in the editor: ' + errors.join('; '));
-    console.log('PASS admin editing: edit screen, formatting buttons, save, new class year, Home text, saving every page changes nothing');
+    console.log('PASS admin editing: edit screen, formatting buttons, save, new class year, Home text, saving every page changes nothing, testimonial lists and add links');
   } finally { await browser.close(); }
 })().catch((e) => { console.error(process.env.TBT_STACK ? e.stack : e.message); process.exit(1); });
