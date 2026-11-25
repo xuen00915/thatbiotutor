@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- [main-site] Testimonials are easier to edit in WordPress. Each testimonial now has a "Where it appears" dropdown (class years first, then the Sec 3, Sec 4, Notes and Cell Division spots, or "Not shown"), so a typo can no longer hide a review. Plain hints sit under every field, and a short guide sits at the top of the screen. The title fills in from the student name when left empty. The Testimonials list shows "Where it appears" and Video/Written columns and has an "All places" filter. The Class Years list shows each year's testimonial count with an "Add testimonial" link that preselects the year.
 - [main-site] SEO: sharper search titles (max 60 chars) and descriptions (110-155) on every page, new meta keywords per page, and an editable "SEO keywords" field beside SEO title/description in each page's SEO tab. Appears on the static preview after a WordPress rebuild.
 - [main-site] Link previews: every page adds og:site_name, og:locale, a 1200x630 share image (og:image with type, size and alt) and Twitter/X summary_large_image tags. The image is served from the theme (`assets/images/og/thatbiotutor-share.jpg`); the tags appear on the static preview after a WordPress rebuild.
 - [main-site] Notes hero slider: arrows and dots sit 20px closer to the tablet picture on every device.

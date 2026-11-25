@@ -25,6 +25,7 @@ function tbt_theme_includes(): array
         'inc/content-types.php',
         'inc/testimonials.php',
         'inc/class-years.php',
+        'inc/testimonial-admin.php',
         'inc/tutors.php',
         'inc/faqs.php',
         'inc/results.php',

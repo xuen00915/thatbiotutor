@@ -28,6 +28,6 @@ return [
             tbt_f_text('testimonials_archive_button_label', 'End-of-year button text', 'Transform My Grade Now'),
         ]),
 
-        tbt_f_section('years', 'Years and testimonials', [], '<p><strong>Add a new class year:</strong> Class Years in the left-hand menu → Add Class Year. Enter the year, the green panel heading and the result pictures. The year menu and the page update automatically; the newest year is shown first.</p><p><strong>Add student testimonials:</strong> Testimonials in the left-hand menu → Add Testimonial. Set "Display group / year" to the class year (for example 2026).</p>'),
+        tbt_f_section('years', 'Years and testimonials', [], '<p><strong>Add a new class year:</strong> Class Years in the left-hand menu → Add Class Year. Enter the year, the green panel heading and the result pictures. The year menu and the page update automatically; the newest year is shown first.</p><p><strong>Add or edit student testimonials:</strong> Class Years in the left-hand menu → click <em>Add testimonial</em> next to the year (the year is picked for you), or Testimonials → Add Testimonial and choose the year under "Where it appears". Videos show first, then the Google reviews.</p><p><strong>Find a testimonial:</strong> Testimonials → use the "All places" dropdown above the list to see one year only. Change the Order number to move a review up or down.</p>'),
     ],
 ];

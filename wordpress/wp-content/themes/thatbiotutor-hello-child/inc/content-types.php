@@ -160,6 +160,19 @@ function tbt_get_structured_posts(string $postType, array $args = []): array
     return $posts;
 }
 
+/** Fixed places a testimonial can appear (class years are added when the edit screen loads). */
+function tbt_testimonial_fixed_placements(): array
+{
+    return [
+        'sec3-featured' => 'Sec 3 page · student reviews',
+        'sec4-featured' => 'Sec 4 page · student reviews',
+        'notes-reviews' => 'Free Bio Notes page · reviews near the top',
+        'notes-reviews-bottom' => 'Free Bio Notes page · reviews at the bottom',
+        'celldivision-reviews' => 'Cell Division page · reviews',
+        'hidden' => 'Not shown on the site',
+    ];
+}
+
 /** Return the ACF Free groups for repeated content. */
 function tbt_acf_content_groups(): array
 {
@@ -168,15 +181,21 @@ function tbt_acf_content_groups(): array
             'key' => 'group_tbt_testimonial_fields',
             'title' => 'Testimonial details',
             'fields' => [
-                tbt_acf_field('field_tbt_student_name', 'Student name', 'tbt_student_name'),
-                tbt_acf_textarea('field_tbt_quote', 'Quote', 'tbt_quote'),
-                tbt_acf_field('field_tbt_class_year', 'Class / year', 'tbt_class_year'),
-                tbt_acf_field('field_tbt_before_result', 'Before result', 'tbt_before_result'),
-                tbt_acf_field('field_tbt_after_result', 'After result', 'tbt_after_result'),
-                tbt_acf_field('field_tbt_rating', 'Star rating', 'tbt_rating', 'number', ['min' => 1, 'max' => 5, 'step' => 1]),
-                tbt_acf_url('field_tbt_video_url', 'YouTube video URL', 'tbt_video_url'),
-                tbt_acf_image('field_tbt_testimonial_portrait', 'Portrait / thumbnail', 'tbt_testimonial_portrait'),
-                tbt_acf_field('field_tbt_display_group', 'Display group / year', 'tbt_display_group'),
+                tbt_acf_field('field_tbt_display_group', 'Where it appears', 'tbt_display_group', 'select', [
+                    'required' => 1,
+                    'choices' => tbt_testimonial_fixed_placements(),
+                    'allow_null' => 0,
+                    'ui' => 0,
+                    'instructions' => 'Pick the page and section. To add a new class year to this list, first add it under Class Years.',
+                ]),
+                tbt_acf_field('field_tbt_student_name', 'Student name', 'tbt_student_name', 'text', ['instructions' => 'Shown in bold under the quote. You can add the result in brackets, for example "Gwen [F9 to A1]".']),
+                tbt_acf_textarea('field_tbt_quote', 'Quote', 'tbt_quote', ['rows' => 6, 'instructions' => 'What the student said. Press Enter twice to start a new paragraph.']),
+                tbt_acf_url('field_tbt_video_url', 'YouTube video link (video testimonials only)', 'tbt_video_url', ['instructions' => 'Paste any YouTube link. Leave empty for a written review. Videos are shown before the written reviews of the same year.']),
+                tbt_acf_image('field_tbt_testimonial_portrait', 'Photo (optional)', 'tbt_testimonial_portrait', ['instructions' => 'A small round photo next to the review. Leave empty to show the student\'s initials.']),
+                tbt_acf_field('field_tbt_rating', 'Star rating', 'tbt_rating', 'number', ['min' => 1, 'max' => 5, 'step' => 1, 'default_value' => 5]),
+                tbt_acf_field('field_tbt_before_result', 'Grade before (optional)', 'tbt_before_result', 'text', ['instructions' => 'For example D7. Fill both grades to show "D7 → A2" above the quote.', 'wrapper' => ['width' => '50', 'class' => '', 'id' => '']]),
+                tbt_acf_field('field_tbt_after_result', 'Grade after (optional)', 'tbt_after_result', 'text', ['instructions' => 'For example A2.', 'wrapper' => ['width' => '50', 'class' => '', 'id' => '']]),
+                tbt_acf_field('field_tbt_class_year', 'Private note (not shown on the site)', 'tbt_class_year', 'text', ['instructions' => 'Optional, for your own records.']),
             ],
             'location' => [[[ 'param' => 'post_type', 'operator' => '==', 'value' => 'tbt_testimonial' ]]],
         ],
@@ -184,7 +203,7 @@ function tbt_acf_content_groups(): array
             'key' => 'group_tbt_class_year_fields',
             'title' => 'Class year details',
             'fields' => [
-                tbt_acf_field('field_tbt_year_value', 'Year', 'tbt_year_value', 'text', ['instructions' => 'The class year, for example 2026. Student testimonials with the same "Display group / year" appear in this year. Newest years are shown first automatically.']),
+                tbt_acf_field('field_tbt_year_value', 'Year', 'tbt_year_value', 'text', ['instructions' => 'The class year, for example 2026. Testimonials whose "Where it appears" is this year show under it (use the "Add testimonial" link in the Class Years list). Newest years are shown first automatically.']),
                 tbt_acf_field('field_tbt_year_heading', 'Green panel heading', 'tbt_year_heading', 'text', ['instructions' => 'For example "Class of 2026".']),
                 tbt_acf_field('field_tbt_year_summary', 'One-line result headline (optional)', 'tbt_year_summary', 'text', ['instructions' => 'For example "100% of our Class of 2021 improved their grade in 6 months or less". When filled, the year opens with a wide green banner instead of the small panel.']),
                 tbt_acf_field('field_tbt_year_growth_icon', 'Show the growth-chart icon', 'tbt_year_growth_icon', 'true_false', ['ui' => 1, 'default_value' => 0]),
