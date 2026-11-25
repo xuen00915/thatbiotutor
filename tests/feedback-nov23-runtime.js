@@ -53,7 +53,8 @@ const programmes = ['classes/', 'sec-3-pure-g3-biology-tuition/', 'sec-4-pure-g3
 
       // The signup iframe stops before the provider's dark footer strip (measured heights per form width).
       const form = await page.locator('.tbt-notes-form__embed').evaluate(e => { const r = e.getBoundingClientRect(); return { w: r.width, h: r.height }; });
-      const expected = form.w > 610 ? 440 : form.w > 426 ? 449 : form.w > 362 ? 468 : form.w > 360 ? 488 : form.w > 340 ? 508 : 528;
+      const clip = await page.locator('.tbt-notes-form--getresponse').evaluate(e => e.getBoundingClientRect().width);
+      const expected = width <= 351 ? 517 : clip <= 228 ? 597 : clip <= 251 ? 577 : clip <= 263 ? 557 : clip <= 311 ? 537 : clip <= 323 ? 517 : clip <= 389 ? 478 : clip <= 575 ? 458 : 441; // same table as notes-form-runtime.js
       assert.equal(await page.locator('.tbt-notes-form__embed').getAttribute('scrolling'), 'no', 'Signup frame never scrolls (Submit is fully shown); forms remain cropped');
       assert.equal(Math.round(form.h), expected, `Signup iframe height at form width ${form.w}`);
 

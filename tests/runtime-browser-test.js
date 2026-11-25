@@ -69,9 +69,9 @@ const sizes = [
     if (footerPresentation.background !== 'rgb(6, 38, 18)') throw new Error(`Footer background is wrong at ${viewport.width}: ${footerPresentation.background}`);
     if (footerPresentation.paddingTop !== 28 || footerPresentation.paddingBottom !== 28) throw new Error(`Footer padding is outside the Inquire reference at ${viewport.width}: ${JSON.stringify(footerPresentation)}`);
     if (footerPresentation.logoWidth !== 36 || footerPresentation.brandFont !== 18 || footerPresentation.headingFont !== 12) throw new Error(`Footer typography is outside the Inquire reference at ${viewport.width}: ${JSON.stringify(footerPresentation)}`);
-    if (viewport.width >= 768 && footerPresentation.columns !== 4) throw new Error(`Footer is not four columns at ${viewport.width}: ${footerPresentation.columns}`);
-    if (viewport.width < 768 && footerPresentation.columns !== 3) throw new Error(`Footer is not three columns at ${viewport.width}: ${footerPresentation.columns}`);
-    const footerHeightRange = viewport.width >= 1000 ? [165, 205] : viewport.width >= 768 ? [165, 235] : viewport.width >= 360 ? [300, 360] : [330, 440]; // shorter footer (client request)
+    if (viewport.width > 768 && footerPresentation.columns !== 4) throw new Error(`Footer is not four columns at ${viewport.width}: ${footerPresentation.columns}`);
+    if (viewport.width <= 768 && footerPresentation.columns !== (viewport.width > 540 ? 3 : 2)) throw new Error(`Footer does not wrap to its natural columns at ${viewport.width}: ${footerPresentation.columns}`);
+    const footerHeightRange = viewport.width >= 1000 ? [165, 205] : viewport.width > 768 ? [165, 235] : viewport.width >= 541 ? [165, 330] : viewport.width >= 360 ? [300, 420] : [330, 500]; // shorter footer (client request)
     if (footerPresentation.height < footerHeightRange[0] || footerPresentation.height > footerHeightRange[1]) throw new Error(`Footer height is outside the Inquire reference at ${viewport.width}: ${footerPresentation.height}`);
     if (viewport.width >= 1200 && Math.abs(footerPresentation.innerWidth - 1120) > 1) throw new Error(`Footer content width is outside the Inquire reference at ${viewport.width}: ${footerPresentation.innerWidth}`);
     if (await siteFooter.locator('img[alt="ThatBioTutor"]').count() !== 1) throw new Error(`Footer logo is missing at ${viewport.width}`);

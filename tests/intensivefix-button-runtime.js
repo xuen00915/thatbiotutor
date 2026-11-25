@@ -23,7 +23,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
         assert.equal(r.height, 60, `Compact touch target at ${width}`);
         assert.equal(r.align, 'center');
         assert.equal(r.font, '16px');
-        assert.equal(r.width, 240);
+        assert.equal(r.width, Math.min(300, width - 32)); // IntensiveFix uses a wider one-line button (never wider than the content column)
       } else { assert.equal(r.font, '18px'); assert.equal(r.height, 60); }
       console.log(`PASS IntensiveFix closing button ${width}`);
     }

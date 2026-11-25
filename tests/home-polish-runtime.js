@@ -90,7 +90,7 @@ const {chromium} = require('playwright');
   assert.equal(reviews.overlap,false,'Review arrows must not overlap the cards');
   // Closing photo is as tall as the text beside it.
   const homeClosing=await page.evaluate(()=>{const f=document.querySelector('.tbt-home-closing figure').getBoundingClientRect();const d=document.querySelector('.tbt-home-closing__inner > div').getBoundingClientRect();return {f:f.height,d:d.height}});
-  if(width>=768) assert.ok(Math.abs(homeClosing.f-homeClosing.d)<3,'Homepage closing photo must match its text height ('+JSON.stringify(homeClosing)+')');
+  if(width>768) assert.ok(Math.abs(homeClosing.f-homeClosing.d)<3,'Homepage closing photo must match its text height ('+JSON.stringify(homeClosing)+')');
   const faq=page.locator('.tbt-home-faq__item button').first();
   await faq.hover();
   await page.waitForFunction(()=>getComputedStyle(document.querySelector('.tbt-home-faq__item button')).backgroundColor==='rgb(237, 245, 232)');

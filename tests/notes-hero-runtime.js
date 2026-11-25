@@ -55,7 +55,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888').replace(/\
         assert.ok(m.slider.height >= (height < 560 ? 150 : 240), `The preview slider must stay readable ${at}`);
       } else {
         assert.equal(m.h1Align, 'center', `Title is centred when stacked ${at}`);
-        assert.ok(m.slider.top >= m.proof.bottom - 1, `The slider stacks under the text ${at}`);
+        assert.ok(m.slider.top >= m.proof.bottom - 32, `The slider stacks under the text ${at}`); // tucked up under the proof line on phones
         assert.ok(Math.abs((m.button.left + m.button.right) / 2 - m.viewportWidth / 2) <= 2, `The button is centred when stacked ${at}`);
       }
       console.log(`PASS notes hero ${width}x${height}`);

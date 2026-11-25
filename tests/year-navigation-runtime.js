@@ -71,7 +71,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       assert.ok(sticky.top<sticky.clearance-200,'Year title leaves the upper screen when scrolling down');
       // Manual scrolling updates the current year, including while inside a long section.
       const manualDelta = await page.locator('#class-of-2024').evaluate(e => e.getBoundingClientRect().top + 200);
-      await page.mouse.move(width / 2, 450);
+      await page.mouse.move(4, 450); // the page edge, not over a scrolling review list
       await page.mouse.wheel(0, manualDelta); // a reader scrolling with the wheel
       await page.waitForFunction(() => document.querySelector('[data-year-current]').textContent === 'Class of 2024');
       await toggle.click();

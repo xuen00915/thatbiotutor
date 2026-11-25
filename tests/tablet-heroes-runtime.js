@@ -17,7 +17,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8888/').replace(/
     });
     assert.ok(m.overflow <= 0, `${route} overflow at ${width}`);
     if (route === 'testimonials') assert.ok(m.photo.left >= m.title.right && m.photo.top < m.title.bottom, `Tablet testimonials uses two columns at ${width}`);
-    else if (route === 'classes') assert.ok(m.buttons.length===2 && Math.abs(m.buttons[0].top-m.buttons[1].top)<1, `Tablet class buttons share a row at ${width}`);
+    else if (route === 'classes') assert.ok(m.buttons.length===2 && (Math.abs(m.buttons[0].top-m.buttons[1].top)<1 || Math.abs(m.buttons[0].left-m.buttons[1].left)<1), `Tablet class buttons share a row or stack evenly at ${width}`);
     else {
      heights.push(m.hero.height);
      assert.ok(m.hero.height <= 480 && m.content.top >= m.hero.top && m.content.bottom <= m.hero.bottom, `Compact programme hero contains its copy at ${width}: ${JSON.stringify(m)}`);

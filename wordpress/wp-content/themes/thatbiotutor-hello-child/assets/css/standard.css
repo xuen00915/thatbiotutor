@@ -1895,7 +1895,7 @@ body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-pa
 
 /* Notes: the closing DOWNLOAD button has the same 40px above (to the reviews panel) and below (to the footer) on every
    device. The footer already starts 24px below the page content, so the last section adds only 16px. */
-body.tbt-site:not(.home) #main-content > .tbt-resource-page.tbt-notes-page > section[data-section="reviews-bottom"] { padding-bottom: 16px !important; }
+body.tbt-site:not(.home) #main-content > .tbt-resource-page.tbt-notes-page > section[data-section="reviews-bottom"] { padding-bottom: 40px !important; }
 
 /* Notes hero on stacked phones/small tablets: tighter. The tablet picture has ~7% empty space at its top, so the slider
    moves up into the grid gap (visible gap to "Join over 10,000+..." becomes ~20-30px), and the hero ends 24px under
