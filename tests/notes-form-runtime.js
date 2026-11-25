@@ -21,7 +21,7 @@ const provider = 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.
    if(width<=640) {
     const crop=width<=351?528:width<=392?508:468;
     assert.equal(box.height,crop,'Mobile crop shows Submit and stops before the provider footer');
-    assert.equal(await frame.getAttribute('scrolling'),'auto','Mobile iframe allows scrolling if provider content grows');
+    assert.equal(await frame.getAttribute('scrolling'),'no','Mobile iframe never shows a scrollbar; its height fits the whole form');
    }
    if (width === 320) {
     assert.equal(box.width, 320, 'Small-phone provider viewport keeps Submit on one line');

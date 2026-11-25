@@ -130,8 +130,19 @@
     lock = null;
     window.requestAnimationFrame(sync);
   }, { passive: true }));
+  // Phones and tablets show the year bar only once the reader reaches the first year (CSS hides it before that).
+  const updateReveal = () => {
+    const barBottom = (header ? header.getBoundingClientRect().bottom : 0) + root.getBoundingClientRect().height + 8;
+    const before = sections[0].getBoundingClientRect().top > barBottom;
+    if (before) {
+      if (!root.hasAttribute('data-before-years')) { root.setAttribute('data-before-years', ''); if (!panel.hidden) close(); }
+    } else if (root.hasAttribute('data-before-years')) {
+      root.removeAttribute('data-before-years');
+    }
+  };
   let ticking = false;
   window.addEventListener('scroll', () => {
+    updateReveal();
     if (lock !== null) {
       window.clearTimeout(settleTimer);
       const distance = Math.abs(window.scrollY - targetTop(lockEl));
@@ -172,6 +183,8 @@
   document.addEventListener('load', event => { if (event.target && event.target.tagName === 'IMG') resettle(); }, true);
   if ('ResizeObserver' in window) new ResizeObserver(resettle).observe(document.body);
   window.addEventListener('hashchange', () => { lock = null; sync(); });
+  window.addEventListener('resize', updateReveal);
   root.hidden = false;
+  updateReveal();
   observe();
 })();

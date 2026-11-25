@@ -542,13 +542,9 @@
     update();
   }
 
-  function initNotesFormViewport(document, windowObject) {
-    const frames = document.querySelectorAll('.tbt-notes-form__embed');
-    if (!frames.length) return;
-    const mobile = windowObject.matchMedia('(max-width: 640px)');
-    const update = () => frames.forEach(frame => frame.setAttribute('scrolling', mobile.matches ? 'auto' : 'no'));
-    mobile.addEventListener('change', update);
-    update();
+  // The signup frame never scrolls (a scrollbar steals width, wraps the options and hides Submit); its CSS height fits the whole form.
+  function initNotesFormViewport(document) {
+    document.querySelectorAll('.tbt-notes-form__embed').forEach(frame => frame.setAttribute('scrolling', 'no'));
   }
 
   function initFloatingContact(document, windowObject) {
@@ -584,7 +580,7 @@
     initReveal(document, windowObject);
     initHomeProof(document, windowObject);
     initFloatingContact(document, windowObject);
-    initNotesFormViewport(document, windowObject);
+    initNotesFormViewport(document);
     initPracticalPhotoCrop(document, windowObject);
   }
 

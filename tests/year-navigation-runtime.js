@@ -19,6 +19,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       assert.equal(await nav.locator('a.tbt-year-nav__year').count(), 5);
       assert.ok(await nav.locator('a.tbt-year-nav__section').count() >= 14, 'Each year lists the parts of its section');
       const obscuresHero = await toggle.evaluate(button => {
+        if (getComputedStyle(button).visibility === 'hidden') return false; // phones/tablets: hidden until the years
         const a = button.getBoundingClientRect();
         return [...document.querySelectorAll('.tbt-testimonials-hero h1, .tbt-testimonials-hero p')].some(e => {
           const b = e.getBoundingClientRect();
@@ -26,6 +27,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
         });
       });
       assert.equal(obscuresHero, false, `Year menu must not cover hero copy at ${width}px`);
+      if(width<=1180){assert.equal(await page.locator('[data-year-nav]').evaluate(e=>getComputedStyle(e).visibility),'hidden',`Year bar is hidden above the years at ${width}`);await page.evaluate(()=>document.querySelector('#class-of-2025').scrollIntoView({block:'start',behavior:'instant'}));await page.waitForFunction(()=>!document.querySelector('[data-year-nav]').hasAttribute('data-before-years')&&getComputedStyle(document.querySelector('[data-year-nav]')).visibility==='visible');}
       await toggle.click();
       assert.equal(await panel.isVisible(), true);
       const geometry = await nav.evaluate(e => {
@@ -77,6 +79,7 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       await page.waitForURL(url => !url.pathname.includes('testimonials'));
       assert.equal(await page.locator('[data-year-nav]').count(), 0, 'Navigator exists only on Testimonials');
       await page.goto(new URL('testimonials/', base).href);
+      {const _w=(page.viewportSize()||{}).width;if(_w<=1180){await page.evaluate(()=>document.querySelector('#class-of-2025').scrollIntoView({block:'start',behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('[data-year-nav]')).visibility==='visible');}}
       await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
       await page.mouse.click(4, 180); // outside the downward panel, without clicking covered content
       assert.equal(await page.locator('[data-year-nav] button.tbt-year-nav__toggle').getAttribute('aria-expanded'), 'false', 'Outside click closes panel');

@@ -35,6 +35,7 @@ const assert = require('node:assert/strict');
     assert.ok(aligned,`Mobile testimonial heading, copy and rating are centered at ${width}`);
    }
    const toggle=page.locator('.tbt-year-nav__toggle');
+   if(width<=1180){assert.equal(await page.locator('[data-year-nav]').evaluate(e=>getComputedStyle(e).visibility),'hidden',`Year bar is hidden above the years at ${width}`);await page.evaluate(()=>document.querySelector('#class-of-2025').scrollIntoView({block:'start',behavior:'instant'}));await page.waitForFunction(()=>!document.querySelector('[data-year-nav]').hasAttribute('data-before-years')&&getComputedStyle(document.querySelector('[data-year-nav]')).visibility==='visible');}
    await toggle.click();
    const geo=await page.locator('[data-year-nav]').evaluate(e=>{const b=e.getBoundingClientRect(),p=e.querySelector('nav').getBoundingClientRect(),h=document.querySelector('.site-header').getBoundingClientRect();return{top:b.top,bottom:b.bottom,panelTop:p.top,panelBottom:p.bottom,header:h.bottom}});
    if(width<=1180)assert.ok(geo.top>=geo.header&&geo.top<=geo.header+12&&geo.panelTop>=geo.bottom,`Year menu sits below header and opens down at ${width}`);

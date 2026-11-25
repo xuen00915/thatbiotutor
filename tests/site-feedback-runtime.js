@@ -247,6 +247,7 @@ if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw 
     for (const vw of [1440, 390]) {
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+      {const _w=(page.viewportSize()||{}).width;if(_w<=1180){await page.evaluate(()=>document.querySelector('#class-of-2025').scrollIntoView({block:'start',behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('[data-year-nav]')).visibility==='visible');}}
       for (const year of ['2023', '2021', '2022', '2024', '2023']) {
         await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
         await page.locator(`[data-year-nav] a[href$="#class-of-${year}"]`).click();
@@ -265,6 +266,7 @@ if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw 
     // ...and once the reader scrolls on with the wheel, the label follows the page again.
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+    {const _w=(page.viewportSize()||{}).width;if(_w<=1180){await page.evaluate(()=>document.querySelector('#class-of-2025').scrollIntoView({block:'start',behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('[data-year-nav]')).visibility==='visible');}}
     await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
     await page.locator('[data-year-nav] a[href$="#class-of-2023"]').click();
     await page.waitForTimeout(2500);
@@ -278,6 +280,7 @@ if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw 
     for (const vw of [1440, 1024, 768, 390, 320]) {
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+      {const _w=(page.viewportSize()||{}).width;if(_w<=1180){await page.evaluate(()=>document.querySelector('#class-of-2025').scrollIntoView({block:'start',behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('[data-year-nav]')).visibility==='visible');}}
       for (const year of ['2025', '2024', '2023', '2022', '2021']) {
         const sel = `#class-of-${year} .tbt-testimonials-year-panel`;
         assert.equal(await page.locator(sel + ' svg, ' + sel + ' p').count(),0,'Banners contain only the year title');
@@ -298,6 +301,7 @@ if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw 
     for (const vw of [1440, 768, 390, 320]) {
       await page.setViewportSize({ width: vw, height: 900 });
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+      {const _w=(page.viewportSize()||{}).width;if(_w<=1180){await page.evaluate(()=>document.querySelector('#class-of-2025').scrollIntoView({block:'start',behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('[data-year-nav]')).visibility==='visible');}}
       await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
       const rows = await page.locator('[data-year-nav] nav a.tbt-year-nav__year').evaluateAll((els) => els.map((e) => ({ year: e.hash.replace('#class-of-', ''), text: e.textContent.replace(/\s+/g, ' ').trim(), h: e.getBoundingClientRect().height, summaries: e.querySelectorAll('.tbt-year-nav__summary').length })));
       assert.equal(rows.length, 5, 'Five years in the menu');
@@ -323,6 +327,7 @@ if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw 
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
       // Every year can be opened and closed on its own, wherever the reader is on the page.
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+      if(vw<=1180){assert.equal(await page.locator('[data-year-nav]').evaluate(e=>getComputedStyle(e).visibility),'hidden',`Year bar is hidden above the years at ${vw}`);await page.evaluate(()=>document.querySelector('#class-of-2025').scrollIntoView({block:'start',behavior:'instant'}));await page.waitForFunction(()=>!document.querySelector('[data-year-nav]').hasAttribute('data-before-years')&&getComputedStyle(document.querySelector('[data-year-nav]')).visibility==='visible');}
       await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
       const visibleLabels = (year) => page.locator(`[data-year-nav] .tbt-year-nav__group:has(a.tbt-year-nav__year[href$="#class-of-${year}"]) a.tbt-year-nav__section`).evaluateAll((els) => els.filter((e) => e.getClientRects().length).map((e) => ({ text: e.textContent.trim(), h: e.getBoundingClientRect().height })));
       const sectionToggle = (year) => page.locator(`[data-year-nav] .tbt-year-nav__group:has(a.tbt-year-nav__year[href$="#class-of-${year}"]) button.tbt-year-nav__sections-toggle`);
@@ -348,6 +353,7 @@ if (group && !['layout', 'content', 'years', 'sections'].includes(group)) throw 
       assert.ok((await visibleLabels('2022')).length > 0 && (await visibleLabels('2025')).length > 0);
       await page.keyboard.press('Escape');
       await page.goto(new URL('testimonials/', base).href, { waitUntil: 'load' });
+      {const _w=(page.viewportSize()||{}).width;if(_w<=1180){await page.evaluate(()=>document.querySelector('#class-of-2025').scrollIntoView({block:'start',behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('[data-year-nav]')).visibility==='visible');}}
       for (const [year, label] of [['2024', 'Results table'], ['2023', 'Google reviews'], ['2025', 'Student stories'], ['2022', 'Results table'], ['2021', 'Student stories']]) {
         await page.locator('[data-year-nav] button.tbt-year-nav__toggle').click();
         await page.locator(`[data-year-nav] a.tbt-year-nav__year[href$="#class-of-${year}"]`).click();

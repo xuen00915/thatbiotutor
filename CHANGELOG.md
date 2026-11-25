@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Notes signup frame never scrolls on any device: removed the phone `scrolling="auto"` switch, whose unusable scrollbar narrowed the form and hid Submit.
+- [main-site] Testimonials (phones/tablets): the "Class of ..." bar appears only after scrolling down to the first year; the hero no longer reserves 52px for it. Jumps stay aligned while images above finish loading.
 - [main-site] IntensiveFix: tighter section spacing (white 40/32/24px, dark green 56/40/32px desktop/tablet/phone; 16px under the hero carousel and video); closing button keeps the site-standard pill size and is centred on tablets and phones.
 - [main-site] Testimonials year menu: every link (year, poster, results table, student stories, Google reviews) now scrolls its section title to the top, 12px under the sticky header/year bar.
 - [main-site] Notes signup frame re-measured at every width (250-634px): heights now leave 50px below Submit, fixing the hidden Submit button on iPhone SE and other phones/tablets.

@@ -1874,3 +1874,14 @@ body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-pa
 @media (max-width: 1180px) {
   body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page .tbt-home-closing__cta-wrap { display: flex; justify-content: center; }
 }
+
+/* Testimonials (phones/tablets): the "Class of ..." bar appears only once the reader scrolls down to the first year,
+   so the hero starts right under the header with no reserved gap. Desktop keeps its floating button. */
+@media (max-width: 1180px) {
+  body.tbt-site #main-content .tbt-testimonials-page { padding-top: 0; }
+  body.tbt-site #main-content .tbt-year-nav { transition: opacity 180ms ease-out, visibility 180ms; }
+  body.tbt-site #main-content .tbt-year-nav[data-before-years] { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+@media (max-width: 1180px) and (prefers-reduced-motion: reduce) {
+  body.tbt-site #main-content .tbt-year-nav { transition: none; }
+}
