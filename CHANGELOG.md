@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- [main-site] IntensiveFix: tighter section spacing (white 40/32/24px, dark green 56/40/32px desktop/tablet/phone; 16px under the hero carousel and video); closing button keeps the site-standard pill size and is centred on tablets and phones.
 - [main-site] Testimonials year menu: every link (year, poster, results table, student stories, Google reviews) now scrolls its section title to the top, 12px under the sticky header/year bar.
 - [main-site] Notes signup frame re-measured at every width (250-634px): heights now leave 50px below Submit, fixing the hidden Submit button on iPhone SE and other phones/tablets.
 - [main-site] Footer wraps naturally on all phones/tablets: titles never split mid-word (no more "WHATSAP / P"); phones show VISIT + WHATSAPP side by side with HOURS full width below.

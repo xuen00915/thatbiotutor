@@ -1849,3 +1849,28 @@ body.tbt-site .site-footer__column :is(p, address, a) { overflow-wrap: normal; w
   body.tbt-site .site-footer__inner { grid-template-columns: max-content minmax(0, 1fr); gap: 24px 32px; }
   body.tbt-site .site-footer__hours { grid-column: 1 / -1; }
 }
+
+/* IntensiveFix: tighter section rhythm. White sections 40px desktop / 32px tablet / 24px phone; the dark green
+   bands (FastTrack, closing) keep a little more room inside: 56 / 40 / 32. The quotes sit 16px under the hero carousel
+   and the track record 16px under the video (two white sections back to back never stack two full paddings). */
+body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > .tbt-home-section { padding-block: 40px; }
+body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > :is(.tbt-home-fasttrack, .tbt-home-closing) { padding-block: 56px; }
+body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > .tbt-home-problem { padding-top: 16px; }
+body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > .tbt-home-stats { padding-top: 16px; }
+@media (max-width: 768px) {
+  body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > .tbt-home-section { padding-block: 32px; }
+  body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > :is(.tbt-home-fasttrack, .tbt-home-closing) { padding-block: 40px; }
+}
+@media (max-width: 390px) {
+  body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > .tbt-home-section { padding-block: 24px; }
+  body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > :is(.tbt-home-fasttrack, .tbt-home-closing) { padding-block: 32px; }
+}
+@media (max-width: 768px) {
+  body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > :is(.tbt-home-problem, .tbt-home-stats) { padding-top: 16px; }
+}
+
+/* IntensiveFix closing button: the site-standard pill (272x60 desktop, 240x60 tablet/phone, see --tbt-cta-width),
+   centred under its text on tablets and phones. */
+@media (max-width: 1180px) {
+  body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page .tbt-home-closing__cta-wrap { display: flex; justify-content: center; }
+}
