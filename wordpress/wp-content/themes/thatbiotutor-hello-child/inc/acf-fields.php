@@ -209,6 +209,10 @@ function tbt_acf_page_groups(): array
             'placeholder' => $seoDefaults[$pageKey]['description'] ?? '',
             'instructions' => 'Optional page-specific search description. Leave blank to use the prepared default. This also updates the social-share description.',
         ]);
+        $fields[] = tbt_acf_field('field_tbt_' . $prefix . '_seo_keywords', 'SEO keywords', 'tbt_' . $prefix . '_seo_keywords', 'text', [
+            'placeholder' => $seoDefaults[$pageKey]['keywords'] ?? '',
+            'instructions' => 'Optional comma-separated search phrases for this page, e.g. "Sec 3 Biology tuition, Pure Biology notes". Leave blank to use the prepared default.',
+        ]);
 
         $groups[] = [
             'key' => 'group_tbt_page_' . $prefix,

@@ -5,25 +5,26 @@ if (!defined('ABSPATH')) { exit; }
 /** Return portable, unique metadata for every protected page. */
 function tbt_page_metadata(): array
 {
+    // [SEO title (max 60), description (110-155), keywords]. Editors can override each per page in the SEO tab.
     $copy = [
-        'home' => ['Pure & G3 Biology Tuition Singapore | ThatBioTutor', 'Specialist O-Level Pure and G3 Biology tuition in Singapore. Explore Sec 3 and Sec 4 classes, visual notes, practical sessions and student results.'],
-        'classes' => ['O-Level Biology Classes in Singapore | ThatBioTutor', 'Explore Pure and G3 Biology classes for Sec 3 and Sec 4. See how ThatBioTutor teaches concepts, memory skills, exam answering and practical techniques.'],
-        'sec-3-pure-g3-biology-tuition' => ['Sec 3 Pure & G3 Biology Tuition | ThatBioTutor', 'Build your Sec 3 Biology foundation with ThatBioTutor in Singapore. Explore concept lessons, visual notes, guided practice and practical sessions.'],
-        'sec-4-pure-g3-biology-tuition' => ['Sec 4 O-Level Biology Tuition Singapore | ThatBioTutor', 'Prepare for O-Level Pure and G3 Biology with ThatBioTutor\'s Sec 4 programme. Explore syllabus revision, exam answering skills and practical training.'],
-        'testimonials' => ['Biology Tuition Results & Reviews | ThatBioTutor', 'Read ThatBioTutor student reviews and watch their Biology learning stories. Browse O-Level results and testimonials from the Classes of 2021 to 2025.'],
-        'notes' => ['Free O-Level Pure & G3 Biology Notes | ThatBioTutor', 'Request free O-Level Pure and G3 Biology notes from ThatBioTutor. Explore concise topic summaries and visual explanations to support your revision.'],
-        'celldivision' => ['Cell Division Crash Course Archive | ThatBioTutor', 'Explore ThatBioTutor\'s archived 2023 Cell Division crash course, covering mitosis and meiosis. View course resources, lesson details and student feedback.'],
-        'about' => ['Meet Our Specialist Biology Tutors | ThatBioTutor', 'Meet ThatBioTutor\'s specialist Biology tutors and founder. Learn about our teaching standards, mission and approach to supporting students in Singapore.'],
-        'contact' => ['Contact & Biology Tuition Enquiries | ThatBioTutor', 'Contact ThatBioTutor about Pure and G3 Biology tuition in Singapore. Find our Bencoolen address, opening hours and WhatsApp details to enquire about classes.'],
-        'trees' => ['Tree Planting & Environmental Causes | ThatBioTutor', 'Explore ThatBioTutor\'s tree-planting efforts and support for Singapore environmental causes. See how our community contributes beyond the Biology classroom.'],
-        'tuitionrecs' => ['Secondary & JC Tuition Recommendations | ThatBioTutor', 'Browse ThatBioTutor\'s tuition recommendations for secondary school and JC subjects. Explore the recommended centres and guidance on arranging trial lessons.'],
-        'intensivefix' => ['IntensiveFix: Sec 3 Biology Revision | ThatBioTutor', 'Explore ThatBioTutor\'s four-day IntensiveFix programme for Sec 3 Biology. Revisit key concepts and build a stronger foundation before starting Sec 4.'],
+        'home' => ['O-Level Pure & G3 Biology Tuition Singapore | ThatBioTutor', 'Singapore\'s only O-Level Pure and G3 Biology specialist. Sec 3 and Sec 4 Biology tuition with visual notes, exam answering skills and proven results.', 'O Level Biology tuition Singapore, Pure Biology tuition, G3 Biology tuition, Sec 3 Biology tuition, Sec 4 Biology tuition, Biology tutor Singapore, ThatBioTutor'],
+        'classes' => ['Sec 3 & Sec 4 Pure and G3 Biology Classes | ThatBioTutor', 'Compare ThatBioTutor\'s Sec 3 and Sec 4 Pure and G3 Biology classes in Singapore: concept lessons, memory techniques, exam answering and practicals.', 'Biology classes Singapore, O Level Biology classes, Pure Biology classes, G3 Biology classes, Sec 3 Biology class, Sec 4 Biology class, Biology tuition centre'],
+        'sec-3-pure-g3-biology-tuition' => ['Sec 3 Pure & G3 Biology Tuition Singapore | ThatBioTutor', 'Build a strong Sec 3 Pure or G3 Biology foundation in Singapore with ThatBioTutor: clear concept lessons, visual notes, guided practice and practicals.', 'Sec 3 Biology tuition, Sec 3 Pure Biology, Sec 3 G3 Biology, Secondary 3 Biology tutor, Biology tuition Singapore, Sec 3 Biology notes'],
+        'sec-4-pure-g3-biology-tuition' => ['Sec 4 O-Level Pure & G3 Biology Tuition | ThatBioTutor', 'Prepare for the O-Level Pure or G3 Biology exam with ThatBioTutor\'s Sec 4 programme: full syllabus revision, exam answering techniques and practicals.', 'Sec 4 Biology tuition, O Level Biology tuition, O Level Pure Biology, G3 Biology exam, Biology exam preparation, Sec 4 Biology tutor Singapore'],
+        'testimonials' => ['O-Level Biology Results & Student Reviews | ThatBioTutor', 'See ThatBioTutor\'s O-Level Pure and G3 Biology results and read student reviews, stories and advice from the Classes of 2021 to 2025 in Singapore.', 'O Level Biology results, Biology tuition reviews, ThatBioTutor reviews, Biology tutor testimonials, A1 Biology Singapore'],
+        'notes' => ['Free O-Level Pure & G3 Biology Notes | ThatBioTutor', 'Get free O-Level Pure and G3 Biology notes from ThatBioTutor: visual, concise notes accurate to the 2027 syllabus, with 60+ memory shortcuts.', 'free O Level Biology notes, Pure Biology notes, G3 Biology notes, Biology notes Singapore, O Level Biology revision notes, Biology memory shortcuts'],
+        'celldivision' => ['Cell Division Crash Course Archive | ThatBioTutor', 'Explore ThatBioTutor\'s archived 2023 Cell Division crash course on mitosis and meiosis, with course resources, lesson details and student feedback.', 'cell division, mitosis and meiosis, O Level Biology cell division, Biology crash course, ThatBioTutor crash course'],
+        'about' => ['Meet Our O-Level Biology Tutors & Founder | ThatBioTutor', 'Meet ThatBioTutor\'s specialist O-Level Biology tutors and founder. Learn about our teaching standards, mission and how we support students in Singapore.', 'Biology tutors Singapore, O Level Biology tutor, specialist Biology tutor, ThatBioTutor founder, about ThatBioTutor'],
+        'contact' => ['Contact & Biology Tuition Enquiries | ThatBioTutor', 'Contact ThatBioTutor about O-Level Pure and G3 Biology tuition. Find our Bencoolen address, opening hours and WhatsApp to enquire about classes.', 'contact ThatBioTutor, Biology tuition enquiry, Bencoolen tuition centre, Biology tuition WhatsApp, Biology tuition Singapore'],
+        'trees' => ['Tree Planting & Environmental Causes | ThatBioTutor', 'See ThatBioTutor\'s tree-planting efforts and support for Singapore environmental causes, and how our community gives back beyond the classroom.', 'ThatBioTutor tree planting, environmental causes Singapore, tree planting Singapore, community giving, ThatBioTutor causes'],
+        'tuitionrecs' => ['Secondary & JC Tuition Recommendations | ThatBioTutor', 'Browse ThatBioTutor\'s tuition recommendations for secondary school and JC subjects in Singapore, with guidance on arranging trial lessons.', 'tuition recommendations Singapore, secondary school tuition, JC tuition, tuition centre recommendations, trial lessons'],
+        'intensivefix' => ['IntensiveFix: Sec 3 Biology Holiday Revision | ThatBioTutor', 'Fix your Sec 3 Biology foundation in ThatBioTutor\'s four-day IntensiveFix holiday programme, taught by our founder, before you start Sec 4.', 'Sec 3 Biology revision, Biology holiday programme, IntensiveFix, Sec 3 Biology crash course, Sec 3 Biology foundation, Biology tuition Singapore'],
     ];
     $metadata = [];
     foreach (tbt_page_registry() as $key => $page) {
-        [$title, $description] = $copy[$key] ?? [$page['title'] . ' | ThatBioTutor', 'ThatBioTutor O-Level Pure and G3 Biology learning resource.'];
+        [$title, $description, $keywords] = $copy[$key] ?? [$page['title'] . ' | ThatBioTutor', 'ThatBioTutor O-Level Pure and G3 Biology learning resource.', 'O Level Biology, Pure Biology, G3 Biology, Biology tuition Singapore, ThatBioTutor'];
         $canonical = home_url((string) $page['canonical']);
-        $metadata[$key] = ['title' => $title, 'description' => $description, 'canonical' => $canonical, 'og_title' => $title, 'og_description' => $description, 'og_url' => $canonical];
+        $metadata[$key] = ['title' => $title, 'description' => $description, 'keywords' => $keywords, 'canonical' => $canonical, 'og_title' => $title, 'og_description' => $description, 'og_url' => $canonical];
     }
     return $metadata;
 }
@@ -45,10 +46,16 @@ function tbt_current_metadata(): ?array
     if (!is_array($meta)) { return null; }
     if (function_exists('get_queried_object_id') && function_exists('get_post_meta')) {
         $prefix = 'tbt_' . str_replace('-', '_', $key) . '_seo_';
-        foreach (['title', 'description'] as $field) {
+        foreach (['title', 'description', 'keywords'] as $field) {
             $value = get_post_meta(get_queried_object_id(), $prefix . $field, true);
             if (!is_string($value)) { continue; }
             $value = trim(preg_replace('/\s+/u', ' ', wp_strip_all_tags($value)) ?? '');
+            if ($field === 'keywords') {
+                // Tidy "a ,  b,,c" into "a, b, c".
+                $value = implode(', ', array_filter(array_map('trim', explode(',', $value)), static fn (string $k): bool => $k !== ''));
+                if ($value !== '') { $meta['keywords'] = $value; }
+                continue;
+            }
             if ($value !== '') { $meta[$field] = $value; $meta['og_' . $field] = $value; }
         }
     }
@@ -62,6 +69,7 @@ function tbt_render_meta_tags(): void
     // Core otherwise adds a second canonical for singular pages at priority 10.
     if (function_exists('remove_action')) { remove_action('wp_head', 'rel_canonical'); }
     echo '<meta name="description" content="' . esc_attr((string) $meta['description']) . '">' . "\n";
+    echo '<meta name="keywords" content="' . esc_attr((string) $meta['keywords']) . '">' . "\n";
     echo '<link rel="canonical" href="' . esc_url((string) $meta['canonical']) . '">' . "\n";
     echo '<meta property="og:type" content="website">' . "\n";
     echo '<meta property="og:title" content="' . esc_attr((string) $meta['og_title']) . '">' . "\n";
