@@ -15,18 +15,19 @@ const provider = 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.
    assert.equal(await frame.getAttribute('src'),provider);
    assert.equal(await frame.getAttribute('title'),'Free Bio Notes signup form');
    const box=await frame.boundingBox();
-   if (width >= 768) assert.ok(box.height === 440, 'Wide signup frame contains Submit without exposing the provider footer');
-   assert.ok(box.width>=width-32 || box.width>=700);
-   assert.ok(box.x>=0&&box.x+box.width<=width&&box.height>=420);
-   if(width<=640) {
-    const crop=width<=351?528:width<=392?508:468;
-    assert.equal(box.height,crop,'Mobile crop shows Submit and stops before the provider footer');
-    assert.equal(await frame.getAttribute('scrolling'),'no','Mobile iframe never shows a scrollbar; its height fits the whole form');
+   const clip=await page.locator('.tbt-notes-form--getresponse').boundingBox();
+   // Height table (standard.css): Submit bottom at that form width + 36px, before the provider's dark footer strip.
+   const cw=clip.width, want=width<=351?517:cw<=228?597:cw<=251?577:cw<=263?557:cw<=311?537:cw<=323?517:cw<=389?478:cw<=575?458:441;
+   assert.equal(Math.round(box.height),want,`Signup frame height leaves room below Submit at ${width}`);
+   assert.ok(clip.x>=0&&clip.x+clip.width<=width,'Visible signup box stays inside the page');
+   if(width<=1180) {
+    assert.equal(await frame.getAttribute('scrolling'),'auto','Tablet/phone signup frame can scroll as a fallback');
+    assert.ok(box.x<clip.x&&box.x+box.width>=clip.x+clip.width+15,'The frame overhangs its clipping box so the scrollbar is never visible');
+    assert.ok(Math.abs((box.x+box.width/2)-(clip.x+clip.width/2))<=1,'Form stays centred in its box');
+   } else {
+    assert.equal(await frame.getAttribute('scrolling'),'no','Desktop signup frame never scrolls');
    }
-   if (width === 320) {
-    assert.equal(box.width, 320, 'Small-phone provider viewport keeps Submit on one line');
-    assert.equal(box.height, 528, 'Small-phone crop contains Submit without the dark footer');
-   }
+   if (width === 320) assert.equal(Math.round(box.width), 360, 'Small-phone provider viewport keeps Submit on one line');
    assert.equal(await page.locator('.tbt-notes-form__alternative').count(),0);
    assert.equal(await page.locator('.tbt-notes-form form,.tbt-notes-form [data-tbt-redirect]').count(),0);
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));

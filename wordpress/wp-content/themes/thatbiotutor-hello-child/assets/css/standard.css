@@ -1420,21 +1420,21 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits h2 { margin-bottom: 24px; }
 }
 
-/* Notes signup: GetResponse draws a dark footer strip under its Submit button that we cannot restyle (cross-origin),
-   and the frame cannot scroll on touch devices. So each height = the Submit button's bottom edge at that form width
-   + 50px safety, which still stops before the strip (it starts ~75px below Submit).
-   Measured on the live provider form at every 6px from 250 to 634px wide, 25 Nov 2026: Submit bottom is
-   403px (616px+), 422 (430-615), 442 (364-429), 481 (352-363), 501 (304-351), 521 (292-303), 541 (269-291), 561 (256-268).
-   Re-measure if the form is edited in GetResponse. */
+/* Notes signup: GetResponse draws a dark footer strip under its Submit button that we cannot restyle (cross-origin).
+   Each height = the Submit button's bottom edge at that form width + 36px of white space; the dark strip starts 42-46px below Submit (measured 25 Nov 2026), so it never shows.
+   Measured on the live provider form every 6px from 250 to 634px wide, 25 Nov 2026: Submit bottom is
+   403px (form 616px+), 422 (430-615), 442 (364-429), 481 (352-363), 501 (304-351), 521 (292-303), 541 (269-291), 561 (256-268).
+   The breakpoints below are box widths: on tablets/phones the frame is 40px wider than its box (hidden scrollbar, see below),
+   and on desktop the box is always 720px. Re-measure if the form is edited in GetResponse. */
 body.tbt-site #main-content .tbt-notes-form--getresponse { container-type: inline-size; container-name: tbt-notes-form; margin-bottom: 0; overflow: hidden; }
-body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 453px; }
-@container tbt-notes-form (max-width: 615px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 472px; } }
-@container tbt-notes-form (max-width: 429px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 492px; } }
-@container tbt-notes-form (max-width: 363px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 531px; } }
-@container tbt-notes-form (max-width: 351px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 551px; } }
-@container tbt-notes-form (max-width: 303px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 571px; } }
-@container tbt-notes-form (max-width: 291px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 591px; } }
-@container tbt-notes-form (max-width: 268px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 611px; } }
+body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 441px; }
+@container tbt-notes-form (max-width: 575px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 458px; } }
+@container tbt-notes-form (max-width: 389px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 478px; } }
+@container tbt-notes-form (max-width: 323px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 517px; } }
+@container tbt-notes-form (max-width: 311px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 537px; } }
+@container tbt-notes-form (max-width: 263px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 557px; } }
+@container tbt-notes-form (max-width: 251px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 577px; } }
+@container tbt-notes-form (max-width: 228px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 597px; } }
 body.tbt-site #main-content .tbt-notes-page .tbt-notes-form--getresponse + .tbt-resource-access-instructions { margin-top: 24px; }
 /* Sec 3 hero uses the same phone gutter as Sec 4, so its button matches the page's other buttons. */
 @media (max-width: 768px) { body.tbt-site #main-content .tbt-sec3-page .tbt-programme-hero__content { width: min(var(--tbt-page), calc(100% - 2 * var(--tbt-gutter))); } }
@@ -1651,14 +1651,18 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero__content { padding-block: 32px; gap: 24px; }
 }
 
-/* Give the provider enough internal width for a single-line Submit label on small phones.
-   Only its empty side gutters are clipped; the page keeps its normal content margins. */
+/* Signup frame on tablets and phones: it may scroll (fallback), but its scrollbar stays hidden. The frame is 20px wider
+   than the clipping box on each side, so the scrollbar falls outside the visible area while the form stays centred.
+   Narrow phones (<=351px) also get at least 360px of internal width so the Submit label stays on one line. */
+@media (max-width: 1180px) {
+  body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { width: calc(100% + 40px); max-width: none; margin-left: -20px; }
+}
 @media (max-width: 351px) {
   body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed {
-    width: 320px;
+    width: 360px;
     max-width: none;
-    margin-left: calc((100% - 320px) / 2);
-    height: 551px; /* 320px-wide form: Submit bottom 501px + 50px safety */
+    margin-left: calc((100% - 360px) / 2);
+    height: 517px; /* 360px-wide form: Submit bottom 481px + 36px */
   }
 }
 
@@ -1850,22 +1854,16 @@ body.tbt-site .site-footer__column :is(p, address, a) { overflow-wrap: normal; w
   body.tbt-site .site-footer__hours { grid-column: 1 / -1; }
 }
 
-/* IntensiveFix: tighter section rhythm. White sections 40px desktop / 32px tablet / 24px phone; the dark green
-   bands (FastTrack, closing) keep a little more room inside: 56 / 40 / 32. The quotes sit 16px under the hero carousel
-   and the track record 16px under the video (two white sections back to back never stack two full paddings). */
+/* IntensiveFix: one section rhythm for white and dark green sections alike: 40px desktop / 32px tablet / 24px phone.
+   The quotes sit 16px under the hero carousel and the track record 16px under the video. */
 body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > .tbt-home-section { padding-block: 40px; }
-body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > :is(.tbt-home-fasttrack, .tbt-home-closing) { padding-block: 56px; }
-body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > .tbt-home-problem { padding-top: 16px; }
-body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > .tbt-home-stats { padding-top: 16px; }
+body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > :is(.tbt-home-problem, .tbt-home-stats) { padding-top: 16px; }
 @media (max-width: 768px) {
   body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > .tbt-home-section { padding-block: 32px; }
-  body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > :is(.tbt-home-fasttrack, .tbt-home-closing) { padding-block: 40px; }
+  body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > :is(.tbt-home-problem, .tbt-home-stats) { padding-top: 16px; }
 }
 @media (max-width: 390px) {
   body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > .tbt-home-section { padding-block: 24px; }
-  body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > :is(.tbt-home-fasttrack, .tbt-home-closing) { padding-block: 32px; }
-}
-@media (max-width: 768px) {
   body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page > :is(.tbt-home-problem, .tbt-home-stats) { padding-top: 16px; }
 }
 

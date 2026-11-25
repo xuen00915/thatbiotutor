@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Notes signup frame: scrollable on tablets/phones as a fallback with its scrollbar clipped out of view (frame 40px wider than its box); heights now Submit + 36px, since GetResponse's dark strip starts 42-46px below Submit.
+- [main-site] IntensiveFix: white and dark green sections share one rhythm (40px desktop / 32px tablet / 24px phone).
 - [main-site] Notes: the closing DOWNLOAD button has equal 40px space above (reviews panel) and below (footer) on every device.
 - [main-site] IntensiveFix buttons widened (340px desktop, 300px tablet/phone) so "Fix My Sec 3 Foundation Now" stays on one line; hero button has equal 32px above and below.
 - [main-site] Notes signup frame never scrolls on any device: removed the phone `scrolling="auto"` switch, whose unusable scrollbar narrowed the form and hid Submit.
