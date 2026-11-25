@@ -49,6 +49,10 @@ final class MediaContractTest
             if (!$file->isFile() || $file->getFilename() === 'media-manifest.json') {
                 continue;
             }
+            // The link-preview share image is the one exception: WhatsApp, Facebook, LinkedIn and X all read JPEG reliably.
+            if (str_replace('\\', '/', $file->getPathname()) === str_replace('\\', '/', $assetRoot) . '/og/thatbiotutor-share.jpg') {
+                continue;
+            }
             $this->assertSame('webp', strtolower($file->getExtension()), 'Every theme-owned raster must be WebP.');
         }
 
