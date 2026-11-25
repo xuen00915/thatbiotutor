@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.export_github_pages import normalize_query_assets, rewrite_origin
+from scripts.export_github_pages import copy_meta_assets, normalize_query_assets, rewrite_origin
 
 
 class GithubPagesExportTest(unittest.TestCase):
@@ -51,6 +51,29 @@ class GithubPagesExportTest(unittest.TestCase):
                 ),
                 page.read_text(encoding="utf-8"),
             )
+
+    def test_theme_files_named_only_in_meta_tags_are_exported(self):
+        # wget's page requisites skip <meta content> URLs, so the link-preview image must be copied explicitly.
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "wordpress"
+            image = source / "wp-content/themes/thatbiotutor-hello-child/assets/images/og/share.jpg"
+            image.parent.mkdir(parents=True)
+            image.write_bytes(b"jpeg")
+            (source / "wp-content/themes/thatbiotutor-hello-child/functions.php").write_text("<?php", encoding="utf-8")
+            output = root / "build"
+            output.mkdir()
+            (output / "index.html").write_text(
+                '<meta property="og:image" content="https://xuen00915.github.io/thatbiotutor/wp-content/themes/thatbiotutor-hello-child/assets/images/og/share.jpg">'
+                '<meta name="twitter:image" content="https://xuen00915.github.io/thatbiotutor/wp-content/themes/thatbiotutor-hello-child/functions.php">'
+                '<meta property="og:url" content="https://xuen00915.github.io/thatbiotutor/">',
+                encoding="utf-8",
+            )
+
+            copy_meta_assets(output, source, "https://xuen00915.github.io/thatbiotutor")
+
+            self.assertEqual(b"jpeg", (output / "wp-content/themes/thatbiotutor-hello-child/assets/images/og/share.jpg").read_bytes())
+            self.assertFalse((output / "wp-content/themes/thatbiotutor-hello-child/functions.php").exists(), "Never publish PHP")
 
     def test_preview_deployment_does_not_wait_for_regressions(self):
         workflow = Path('.github/workflows/pages.yml').read_text()

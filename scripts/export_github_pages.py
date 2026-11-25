@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -88,6 +89,25 @@ def rewrite_origin(root: Path, local_origin: str, public_origin: str) -> None:
             path.write_text(updated, encoding="utf-8")
 
 
+PUBLIC_FILE_TYPES = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg", ".ico"}
+
+
+def copy_meta_assets(output: Path, wordpress_root: Path, public_origin: str) -> None:
+    """Copy theme images named only in <meta content> (link-preview images): wget does not fetch those."""
+    prefix = public_origin.rstrip("/") + "/"
+    pattern = re.compile(r'<meta\b[^>]*\bcontent="(' + re.escape(prefix) + r'wp-content/themes/[^"?#]+)"')
+    for page in output.rglob("*.html"):
+        for url in pattern.findall(page.read_text(encoding="utf-8", errors="ignore")):
+            relative = url[len(prefix):]
+            source = (wordpress_root / relative).resolve()
+            if source.suffix.lower() not in PUBLIC_FILE_TYPES or not source.is_file() or wordpress_root.resolve() not in source.parents:
+                continue
+            target = output / relative
+            if not target.exists():
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, target)
+
+
 def export_site(output: Path, local_origin: str, public_origin: str) -> None:
     output = output.resolve()
     cwd = Path.cwd().resolve()
@@ -118,6 +138,7 @@ def export_site(output: Path, local_origin: str, public_origin: str) -> None:
 
     normalize_query_assets(output)
     rewrite_origin(output, local_origin, public_origin)
+    copy_meta_assets(output, Path(__file__).resolve().parents[1] / "wordpress", public_origin)
     (output / ".nojekyll").write_text("", encoding="utf-8")
 
     missing = [route for route in ROUTES if not (output / route.lstrip("/") / "index.html").is_file()]

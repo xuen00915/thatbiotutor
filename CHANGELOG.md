@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- [main-site] WordPress export copies theme images named only in meta tags (the link-preview share image), because wget skips them. After the first rebuild the share image returned 404.
 - [main-site] Results & Testimonials: "Transform My Grade Now" buttons never wrap. The label fills the pill almost exactly and wrapped on Linux font rendering.
 - [main-site] Class Years admin list no longer crashes when counting testimonials. The admin editing check now walks through the testimonial lists, the place filter and the per-year "Add testimonial" link. The SEO browser check uses the new titles and descriptions and checks the share image, keywords and large X card. The year-jump checks measure the year and part titles, which is where the menu aligns them.
 - [main-site] Notes closing DOWNLOAD button: 40px below it as well as above on every width (was 16px below from 390px up). Browser checks now match the approved layouts: natural-wrap footer, stacked tablet Classes buttons, iPad mini Home closing stacked, wider IntensiveFix buttons, current signup-frame heights. The year-menu wheel test scrolls at the page edge.
