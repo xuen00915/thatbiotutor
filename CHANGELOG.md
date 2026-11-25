@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- [main-site] Link previews: every page adds og:site_name, og:locale, a 1200x630 share image (og:image with type, size and alt) and Twitter/X summary_large_image tags. The image is served from the theme (`assets/images/og/thatbiotutor-share.jpg`); the tags appear on the static preview after a WordPress rebuild.
 - [main-site] Notes hero slider: arrows and dots sit 20px closer to the tablet picture on every device.
 - [main-site] Notes hero on phones/small tablets: tighter spacing; the slider sits ~25px under "Join over 10,000+..." (was ~57px) and the hero ends 24px under the arrows (arrows to next heading 56px, was 76px).
 - [main-site] Notes signup frame no longer scrolls on any device; Submit is fully shown by its height alone.

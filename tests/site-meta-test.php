@@ -3,6 +3,7 @@ declare(strict_types=1);
 define('ABSPATH', __DIR__ . '/.wp/');
 define('TBT_THEME_DIR', dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child');
 function home_url(string $path = '/'): string { return 'https://portable.test/' . ltrim($path, '/'); }
+define('TBT_THEME_URI', 'https://portable.test/wp-content/themes/thatbiotutor-hello-child');
 function esc_url(string $value): string { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
 function esc_attr(string $value): string { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
 function get_queried_object_id(): int { return 123; }
@@ -20,7 +21,12 @@ foreach(tbt_page_registry() as $key=>$page){$item=$meta[$key]??[];foreach(['titl
 if(count($titles)!==count(array_unique($titles))||count($descriptions)!==count(array_unique($descriptions)))throw new RuntimeException('Titles and descriptions must be unique.');
 $serialized=json_encode($meta);foreach(['thatbiotutor.com','localhost:8888','staging.'] as $host)if(str_contains((string)$serialized,$host))throw new RuntimeException('Metadata must not hard-code a host.');
 $GLOBALS['meta_page']='notes';ob_start();tbt_render_meta_tags();$html=(string)ob_get_clean();
-if(substr_count($html,'name="description"')!==1||substr_count($html,'rel="canonical"')!==1||substr_count($html,'property="og:')!==4)throw new RuntimeException('Meta output must render one complete set.');
+if(substr_count($html,'name="description"')!==1||substr_count($html,'rel="canonical"')!==1||substr_count($html,'property="og:')!==11||substr_count($html,'name="twitter:')!==5)throw new RuntimeException('Meta output must render one complete set (11 Open Graph, 5 Twitter tags).');
+// Link previews (WhatsApp, Facebook, LinkedIn, X) need a large share image, the site name and locale.
+$shareImage='https://portable.test/wp-content/themes/thatbiotutor-hello-child/assets/images/og/thatbiotutor-share.jpg';
+foreach(['<meta property="og:site_name" content="ThatBioTutor">','<meta property="og:locale" content="en_SG">','<meta property="og:image" content="'.$shareImage.'">','<meta property="og:image:type" content="image/jpeg">','<meta property="og:image:width" content="1200">','<meta property="og:image:height" content="630">','<meta name="twitter:card" content="summary_large_image">','<meta name="twitter:image" content="'.$shareImage.'">','<meta name="twitter:title" content="Free O-Level Pure &amp; G3 Biology Notes | ThatBioTutor">'] as $tag)if(!str_contains($html,$tag))throw new RuntimeException("Missing share tag: {$tag}");
+if(!preg_match('/<meta property="og:image:alt" content="[^"]{20,}">/',$html)||!preg_match('/<meta name="twitter:image:alt" content="[^"]{20,}">/',$html))throw new RuntimeException('The share image needs alt text.');
+$size=getimagesize(TBT_THEME_DIR.'/assets/images/og/thatbiotutor-share.jpg');if(!$size||$size[0]!==1200||$size[1]!==630||filesize(TBT_THEME_DIR.'/assets/images/og/thatbiotutor-share.jpg')>300000)throw new RuntimeException('Share image must be a 1200x630 JPEG under 300 KB.');
 fwrite(STDOUT,'PASS: '.(count($meta)*6+5)." site-meta assertions\n");
 
 $parts=tbt_filter_document_title_parts(['title'=>'Notes','site'=>'ThatBioTutor','tagline'=>'Biology tuition']);

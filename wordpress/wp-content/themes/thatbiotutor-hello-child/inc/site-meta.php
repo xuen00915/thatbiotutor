@@ -67,6 +67,22 @@ function tbt_render_meta_tags(): void
     echo '<meta property="og:title" content="' . esc_attr((string) $meta['og_title']) . '">' . "\n";
     echo '<meta property="og:description" content="' . esc_attr((string) $meta['og_description']) . '">' . "\n";
     echo '<meta property="og:url" content="' . esc_url((string) $meta['og_url']) . '">' . "\n";
+    // Link previews (WhatsApp, Facebook, LinkedIn, X): one 1200x630 brand share image, served from the theme so it follows the host.
+    $themeUri = defined('TBT_THEME_URI') ? (string) TBT_THEME_URI : (function_exists('get_stylesheet_directory_uri') ? (string) get_stylesheet_directory_uri() : '');
+    $image = rtrim($themeUri, '/') . '/assets/images/og/thatbiotutor-share.jpg';
+    $imageAlt = 'ThatBioTutor: O Level Pure & G3 Biology tuition in Singapore, a class in session';
+    echo '<meta property="og:site_name" content="ThatBioTutor">' . "\n";
+    echo '<meta property="og:locale" content="en_SG">' . "\n";
+    echo '<meta property="og:image" content="' . esc_url($image) . '">' . "\n";
+    echo '<meta property="og:image:type" content="image/jpeg">' . "\n";
+    echo '<meta property="og:image:width" content="1200">' . "\n";
+    echo '<meta property="og:image:height" content="630">' . "\n";
+    echo '<meta property="og:image:alt" content="' . esc_attr($imageAlt) . '">' . "\n";
+    echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+    echo '<meta name="twitter:title" content="' . esc_attr((string) $meta['og_title']) . '">' . "\n";
+    echo '<meta name="twitter:description" content="' . esc_attr((string) $meta['og_description']) . '">' . "\n";
+    echo '<meta name="twitter:image" content="' . esc_url($image) . '">' . "\n";
+    echo '<meta name="twitter:image:alt" content="' . esc_attr($imageAlt) . '">' . "\n";
 }
 
 /** Apply the same portable SEO title to WordPress's document title. */
