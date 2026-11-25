@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- [main-site] Notes signup frame no longer scrolls on any device; Submit is fully shown by its height alone.
 - [main-site] Notes signup frame: scrollable on tablets/phones as a fallback with its scrollbar clipped out of view (frame 40px wider than its box); heights now Submit + 36px, since GetResponse's dark strip starts 42-46px below Submit.
 - [main-site] IntensiveFix: white and dark green sections share one rhythm (40px desktop / 32px tablet / 24px phone).
 - [main-site] Notes: the closing DOWNLOAD button has equal 40px space above (reviews panel) and below (footer) on every device.

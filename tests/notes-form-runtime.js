@@ -20,13 +20,8 @@ const provider = 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.
    const cw=clip.width, want=width<=351?517:cw<=228?597:cw<=251?577:cw<=263?557:cw<=311?537:cw<=323?517:cw<=389?478:cw<=575?458:441;
    assert.equal(Math.round(box.height),want,`Signup frame height leaves room below Submit at ${width}`);
    assert.ok(clip.x>=0&&clip.x+clip.width<=width,'Visible signup box stays inside the page');
-   if(width<=1180) {
-    assert.equal(await frame.getAttribute('scrolling'),'auto','Tablet/phone signup frame can scroll as a fallback');
-    assert.ok(box.x<clip.x&&box.x+box.width>=clip.x+clip.width+15,'The frame overhangs its clipping box so the scrollbar is never visible');
-    assert.ok(Math.abs((box.x+box.width/2)-(clip.x+clip.width/2))<=1,'Form stays centred in its box');
-   } else {
-    assert.equal(await frame.getAttribute('scrolling'),'no','Desktop signup frame never scrolls');
-   }
+   assert.equal(await frame.getAttribute('scrolling'),'no','Signup frame never scrolls; Submit is fully shown');
+   if(width<=1180) assert.ok(Math.abs((box.x+box.width/2)-(clip.x+clip.width/2))<=1,'Form stays centred in its box');
    if (width === 320) assert.equal(Math.round(box.width), 360, 'Small-phone provider viewport keeps Submit on one line');
    assert.equal(await page.locator('.tbt-notes-form__alternative').count(),0);
    assert.equal(await page.locator('.tbt-notes-form form,.tbt-notes-form [data-tbt-redirect]').count(),0);

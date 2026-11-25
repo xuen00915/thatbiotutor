@@ -1424,7 +1424,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
    Each height = the Submit button's bottom edge at that form width + 36px of white space; the dark strip starts 42-46px below Submit (measured 25 Nov 2026), so it never shows.
    Measured on the live provider form every 6px from 250 to 634px wide, 25 Nov 2026: Submit bottom is
    403px (form 616px+), 422 (430-615), 442 (364-429), 481 (352-363), 501 (304-351), 521 (292-303), 541 (269-291), 561 (256-268).
-   The breakpoints below are box widths: on tablets/phones the frame is 40px wider than its box (hidden scrollbar, see below),
+   The breakpoints below are box widths: on tablets/phones the frame is 40px wider than its box (see below),
    and on desktop the box is always 720px. Re-measure if the form is edited in GetResponse. */
 body.tbt-site #main-content .tbt-notes-form--getresponse { container-type: inline-size; container-name: tbt-notes-form; margin-bottom: 0; overflow: hidden; }
 body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 441px; }
@@ -1651,9 +1651,9 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-hero__content { padding-block: 32px; gap: 24px; }
 }
 
-/* Signup frame on tablets and phones: it may scroll (fallback), but its scrollbar stays hidden. The frame is 20px wider
-   than the clipping box on each side, so the scrollbar falls outside the visible area while the form stays centred.
-   Narrow phones (<=351px) also get at least 360px of internal width so the Submit label stays on one line. */
+/* Signup frame on tablets and phones: 20px wider than its clipping box on each side (the form stays centred and gets a
+   little more room), never scrolls; the height table above is measured for this width so Submit always shows in full.
+   Narrow phones (<=351px) get 360px of internal width so the Submit label stays on one line. */
 @media (max-width: 1180px) {
   body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { width: calc(100% + 40px); max-width: none; margin-left: -20px; }
 }
