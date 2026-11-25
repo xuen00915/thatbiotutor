@@ -12,8 +12,8 @@ const {chromium} = require('playwright');
   assert.ok(Math.abs(classroomGap-(width<=640?32:40))<=1,`Homepage classroom heading gap is compact at ${width}: ${classroomGap}px`);
   assert.ok(Number(await page.locator('.tbt-home-closing__inner > div > p:last-of-type').evaluate(e=>getComputedStyle(e).fontWeight))>=700,'Closing invitation is bold');
   if(width===768) {
-   const closing=await page.locator('.tbt-home-closing__inner').evaluate(e=>{const a=e.querySelector('figure').getBoundingClientRect(),b=e.querySelector(':scope > div').getBoundingClientRect();return {sameTop:Math.abs(a.top-b.top)<=1,beside:a.right<=b.left,gap:b.left-a.right};});
-   assert.ok(closing.sameTop&&closing.beside&&Math.abs(closing.gap-24)<=1,'iPad Mini closing photo and text sit side by side: '+JSON.stringify(closing));
+   const closing=await page.locator('.tbt-home-closing__inner').evaluate(e=>{const a=e.querySelector('figure').getBoundingClientRect(),b=e.querySelector(':scope > div').getBoundingClientRect(),w=e.querySelector('.tbt-home-closing__cta-wrap').getBoundingClientRect(),c=e.querySelector('.tbt-home-closing__cta-wrap a').getBoundingClientRect();return {above:a.bottom<=b.top,centred:Math.abs((c.left-w.left)-(w.right-c.right))<=1};});
+   assert.ok(closing.above&&closing.centred,'iPad Mini closing photo sits above the text with the button centred: '+JSON.stringify(closing));
   }
   const practicalGap=await page.evaluate(()=>document.querySelector('.tbt-home-practical h2').getBoundingClientRect().top-document.querySelector('.tbt-home-quality li:last-child').getBoundingClientRect().bottom);
   assert.ok(Math.abs(practicalGap-(width<=640?32:40))<=1,`Homepage practical heading gap is compact at ${width}: ${practicalGap}px`);

@@ -1165,7 +1165,7 @@ body.tbt-site #main-content .tbt-notes-page .tbt-notes-fit__answer { max-width: 
 @media (min-width: 1000px) {
   body.tbt-site .site-footer__inner { grid-template-columns: minmax(180px, 1.2fr) minmax(0, 1fr) minmax(0, .7fr) minmax(0, 1.6fr); }
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   /* Phones: the three columns share the width by need, so the longer HOURS line wraps once instead of five times. */
   body.tbt-site .site-footer__inner { grid-template-columns: minmax(0, 1.15fr) minmax(0, .75fr) minmax(0, 1.5fr); column-gap: 14px; }
 }
@@ -1250,7 +1250,7 @@ body.tbt-site #main-content .tbt-home-quality li p { margin-top: 0; }
 body.tbt-site #main-content .tbt-home-quality li > span { margin-top: calc((1.65em - 24px) / 2); }
 
 /* Phone Notes hero stacks with contained controls. */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero__inner { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   body.tbt-site #main-content .tbt-notes-page .tbt-notes-hero :is(h1, .tbt-notes-hero__audience, .tbt-notes-hero__lead, .tbt-resource-proof) { text-align: center; margin-inline: auto; }
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-proof { justify-content: center; font-size: 16px; font-weight: 400; }
@@ -1750,7 +1750,7 @@ body.tbt-site #main-content .tbt-classes-page .tbt-programme-hero__actions {
   grid-template-columns: repeat(2, var(--tbt-cta-width));
   justify-content: center;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   body.tbt-site #main-content .tbt-classes-page .tbt-programme-hero__actions { grid-template-columns: minmax(0, var(--tbt-cta-width)); }
 }
 
@@ -1780,7 +1780,7 @@ body.tbt-site #main-content .tbt-testimonials-page .tbt-testimonials-artwork--po
 
 /* Emphasize the closing invitation and keep tablet photo/copy side by side. */
 body.tbt-site.home #main-content .tbt-home-closing__inner > div > p:last-of-type { font-weight: 700; }
-@media (min-width: 768px) and (max-width: 1180px) {
+@media (min-width: 769px) and (max-width: 1180px) {
   body.tbt-site.home #main-content .tbt-home-closing__inner { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); column-gap: 24px; align-items: stretch; }
   body.tbt-site.home #main-content .tbt-home-closing figure { width: 100%; height: 100%; min-height: 0; aspect-ratio: auto; margin: 0; }
   body.tbt-site.home #main-content .tbt-home-closing img { width: 100%; height: 100%; object-fit: cover; }
@@ -1831,7 +1831,7 @@ body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-e
   body.tbt-site #main-content .tbt-testimonials-button { padding-inline: 12px !important; white-space: nowrap; }
 }
 
-/* Home closing: on phones (single column) the "Book My Trial Lesson" button is centred. */
-@media (max-width: 767px) {
+/* Home closing: on phones and iPad mini (single column, photo above text) the "Book My Trial Lesson" button is centred. */
+@media (max-width: 768px) {
   body.tbt-site.home #main-content .tbt-home-closing__cta-wrap { display: flex; justify-content: center; }
 }
