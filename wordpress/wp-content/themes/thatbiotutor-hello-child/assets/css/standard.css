@@ -1420,19 +1420,21 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits h2 { margin-bottom: 24px; }
 }
 
-/* Notes signup: GetResponse draws a dark footer strip under its Submit button that we cannot restyle (cross-origin).
-   The iframe is sized to the form's own width with room below Submit, cutting the strip off and the empty space with it.
-   Heights measured on the live provider form, 23 Nov 2026; re-measure if the form is edited in GetResponse. */
+/* Notes signup: GetResponse draws a dark footer strip under its Submit button that we cannot restyle (cross-origin),
+   and the frame cannot scroll on touch devices. So each height = the Submit button's bottom edge at that form width
+   + 50px safety, which still stops before the strip (it starts ~75px below Submit).
+   Measured on the live provider form at every 6px from 250 to 634px wide, 25 Nov 2026: Submit bottom is
+   403px (616px+), 422 (430-615), 442 (364-429), 481 (352-363), 501 (304-351), 521 (292-303), 541 (269-291), 561 (256-268).
+   Re-measure if the form is edited in GetResponse. */
 body.tbt-site #main-content .tbt-notes-form--getresponse { container-type: inline-size; container-name: tbt-notes-form; margin-bottom: 0; overflow: hidden; }
-body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 440px; }
-@container tbt-notes-form (max-width: 610px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 449px; } }
-@container tbt-notes-form (max-width: 426px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 468px; } }
-@container tbt-notes-form (max-width: 362px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 488px; } }
-@container tbt-notes-form (max-width: 360px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 508px; } }
-@container tbt-notes-form (max-width: 340px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 528px; } }
-@container tbt-notes-form (max-width: 302px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 548px; } }
-@container tbt-notes-form (max-width: 286px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 568px; } }
-@container tbt-notes-form (max-width: 268px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 587px; } }
+body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 453px; }
+@container tbt-notes-form (max-width: 615px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 472px; } }
+@container tbt-notes-form (max-width: 429px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 492px; } }
+@container tbt-notes-form (max-width: 363px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 531px; } }
+@container tbt-notes-form (max-width: 351px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 551px; } }
+@container tbt-notes-form (max-width: 303px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 571px; } }
+@container tbt-notes-form (max-width: 291px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 591px; } }
+@container tbt-notes-form (max-width: 268px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 611px; } }
 body.tbt-site #main-content .tbt-notes-page .tbt-notes-form--getresponse + .tbt-resource-access-instructions { margin-top: 24px; }
 /* Sec 3 hero uses the same phone gutter as Sec 4, so its button matches the page's other buttons. */
 @media (max-width: 768px) { body.tbt-site #main-content .tbt-sec3-page .tbt-programme-hero__content { width: min(var(--tbt-page), calc(100% - 2 * var(--tbt-gutter))); } }
@@ -1656,7 +1658,7 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
     width: 320px;
     max-width: none;
     margin-left: calc((100% - 320px) / 2);
-    height: 528px;
+    height: 551px; /* 320px-wide form: Submit bottom 501px + 50px safety */
   }
 }
 
@@ -1834,4 +1836,16 @@ body.tbt-site #main-content :is(.tbt-sec3-page, .tbt-sec4-page) .tbt-programme-e
 /* Home closing: on phones and iPad mini (single column, photo above text) the "Book My Trial Lesson" button is centred. */
 @media (max-width: 768px) {
   body.tbt-site.home #main-content .tbt-home-closing__cta-wrap { display: flex; justify-content: center; }
+}
+
+/* Footer wraps naturally on every phone/tablet: titles never split mid-word, address lines break only between words.
+   Phones: VISIT + WHATSAPP side by side, HOURS on its own full-width row. 541-768px: three columns sized to their content. */
+body.tbt-site .site-footer__column h2 { white-space: nowrap; overflow-wrap: normal; word-break: normal; hyphens: none; }
+body.tbt-site .site-footer__column :is(p, address, a) { overflow-wrap: normal; word-break: normal; hyphens: none; }
+@media (min-width: 541px) and (max-width: 768px) {
+  body.tbt-site .site-footer__inner { grid-template-columns: max-content max-content minmax(0, 1fr); column-gap: 32px; }
+}
+@media (max-width: 540px) {
+  body.tbt-site .site-footer__inner { grid-template-columns: max-content minmax(0, 1fr); gap: 24px 32px; }
+  body.tbt-site .site-footer__hours { grid-column: 1 / -1; }
 }

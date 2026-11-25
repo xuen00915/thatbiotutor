@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- [main-site] Testimonials year menu: every link (year, poster, results table, student stories, Google reviews) now scrolls its section title to the top, 12px under the sticky header/year bar.
+- [main-site] Notes signup frame re-measured at every width (250-634px): heights now leave 50px below Submit, fixing the hidden Submit button on iPhone SE and other phones/tablets.
+- [main-site] Footer wraps naturally on all phones/tablets: titles never split mid-word (no more "WHATSAP / P"); phones show VISIT + WHATSAPP side by side with HOURS full width below.
 - [main-site] Home closing on iPad mini (768px) now stacks like phones: photo first, then text, with the trial button centred.
 
 - [main-site] Site-wide image weight: 49 camera-size photos (up to 4032px, 1.7 MB) capped at 1920px on the longest side (21 MB to 7 MB); `prepare-media.py` now applies the same cap.

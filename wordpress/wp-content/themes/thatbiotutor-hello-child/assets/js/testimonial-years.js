@@ -81,7 +81,10 @@
     const drift = lockEl.getBoundingClientRect().top - targetClearance(lockEl);
     if (Math.abs(drift) > 6) window.scrollTo({ top: targetTop(lockEl), behavior: 'instant' });
   };
-  const jump = (link, index, element) => {
+  // Align the section's own title (not its padded box) just under the sticky header and year bar.
+  const titleOf = (el) => (el.matches('h1, h2, h3, h4') ? el : el.querySelector('h2, h3, h4')) || el;
+  const jump = (link, index, target) => {
+    const element = titleOf(target);
     lock = index;
     lockEl = element;
     minDistance = Infinity;
@@ -105,7 +108,7 @@
     const scroller = element.closest('[data-testimonial-list]');
     if (scroller && scroller.scrollHeight > scroller.clientHeight) {
       scroller.scrollTop += element.getBoundingClientRect().top - scroller.getBoundingClientRect().top - 8;
-      jump(link, index, scroller);
+      jump(link, index, element);
     } else {
       jump(link, index, element);
     }

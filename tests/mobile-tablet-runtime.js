@@ -17,6 +17,10 @@ const assert = require('node:assert/strict');
    }
    await page.locator('.tbt-notes-hero [data-carousel-next]').click();
    assert.match(await page.locator('.tbt-notes-hero [data-carousel-status]').textContent(),/2 of 3/);
+   const footer=await page.locator('.site-footer').evaluate(f=>({titles:[...f.querySelectorAll('.site-footer__column h2')].map(h=>({t:h.textContent.trim(),lines:Math.round(h.getBoundingClientRect().height/parseFloat(getComputedStyle(h).lineHeight))})),split:[...f.querySelectorAll('.site-footer__column :is(address,p)')].some(e=>e.scrollWidth>e.clientWidth+1)}));
+   assert.ok(footer.titles.every(h=>h.lines===1)&&!footer.split,`Footer titles stay on one line and nothing overflows at ${width}: ${JSON.stringify(footer)}`);
+   const form=await page.locator('.tbt-notes-form__embed').boundingBox();
+   assert.ok(form&&form.height>=(form.width<=351?550:form.width<=363?530:form.width<=429?490:form.width<=615?470:450),`Signup frame leaves room below Submit at ${width}: ${JSON.stringify(form)}`);
    await page.goto(`${base}/trees/`);
    const image=await page.locator('.tbt-causes-section__media--square img').boundingBox();
    assert.ok(image.x>=16&&image.x+image.width<=width-16+1,`Entire Causes image fits at ${width}`);

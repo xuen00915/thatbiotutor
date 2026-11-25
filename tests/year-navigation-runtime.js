@@ -52,8 +52,15 @@ const base = (process.env.TBT_RUNTIME_URL || 'http://localhost:8890').replace(/\
       assert.equal(await nav.locator('[aria-current="location"] .tbt-year-nav__title').textContent(), 'Class of 2022');
       assert.equal(await nav.locator('.tbt-year-nav__group[data-open="true"]').count(),1,'Changing active year collapses the previous year');
       assert.equal(await nav.locator('[data-open="true"] .tbt-year-nav__title').textContent(),'Class of 2022');
-      const top = await page.locator('#class-of-2022').evaluate(e => ({ top: e.getBoundingClientRect().top, header: innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom }));
-      assert.ok(top.top >= top.header && top.top <= top.header + 24, 'Selected year clears sticky header');
+      const bar = () => innerWidth <= 1180 ? document.querySelector('[data-year-nav]').getBoundingClientRect().bottom : document.querySelector('.site-header').getBoundingClientRect().bottom;
+      const top = await page.locator('#class-of-2022 h2').evaluate((e, b) => ({ top: e.getBoundingClientRect().top, header: new Function('return (' + b + ')()')() }), bar.toString());
+      assert.ok(Math.abs(top.top - (top.header + 12)) <= 2, `Selected year's title sits at the top, 12px under the sticky bars at ${width}: ${JSON.stringify(top)}`);
+      await toggle.click();
+      const reviewsGroup = nav.locator('.tbt-year-nav__group[data-open="true"]');
+      await reviewsGroup.locator('a.tbt-year-nav__section[href$="#class-of-2022-google-reviews"]').click();
+      await page.waitForTimeout(1200);
+      const part = await page.locator('#class-of-2022-google-reviews').evaluate((e, b) => ({ top: e.getBoundingClientRect().top, header: new Function('return (' + b + ')()')() }), bar.toString());
+      assert.ok(Math.abs(part.top - (part.header + 12)) <= 2, `Google reviews heading sits at the top, 12px under the sticky bars at ${width}: ${JSON.stringify(part)}`);
       const spacing = await page.locator('.tbt-testimonials-year').evaluateAll(es=>es.map(e=>({id:e.id,gap:parseFloat(getComputedStyle(e).paddingTop)+parseFloat(getComputedStyle(e.querySelector('.tbt-testimonials-year-panel')).marginTop)})));
       assert.ok(spacing.every(s=>s.gap === (s.id==='class-of-2021'?(width>768?32:24):(width>768?56:40))),'All year titles have consistent separation from the preceding section');
       await page.evaluate(()=>window.scrollBy(0,400));
