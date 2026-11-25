@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- [main-site] Client-editable: IntensiveFix copy is now edited in WordPress like the other pages. New tabs: Top of the page (kicker, title with red and green words, dates line, button, WhatsApp messages, top-bar button), Student worries, Track record (4th number, video), FastTrack heading and Closing message. The Google reviews strip (Home and IntensiveFix) has a Google reviews tab on Home: heading, link, 12 review slots (name, text, date, stars, optional photo, initials when there is no photo). The Free Bio Notes signup-form link is a field in the Email form tab. The defaults render the same page as before.
 - [main-site] WordPress export copies theme images named only in meta tags (the link-preview share image), because wget skips them. After the first rebuild the share image returned 404.
 - [main-site] Results & Testimonials: "Transform My Grade Now" buttons never wrap. The label fills the pill almost exactly and wrapped on Linux font rendering.
 - [main-site] Class Years admin list no longer crashes when counting testimonials. The admin editing check now walks through the testimonial lists, the place filter and the per-year "Add testimonial" link. The SEO browser check uses the new titles and descriptions and checks the share image, keywords and large X card. The year-jump checks measure the year and part titles, which is where the menu aligns them.

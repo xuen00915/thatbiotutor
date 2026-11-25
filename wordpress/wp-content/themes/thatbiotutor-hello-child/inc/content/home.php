@@ -21,6 +21,23 @@ $tbt_slots = static function (string $prefix, string $label, string $fallbackPre
     return $fields;
 };
 
+/** Google reviews: twelve slots, the first ten seeded from the public-review snapshot. */
+$tbt_google_snapshot = json_decode((string) file_get_contents(dirname(__DIR__, 2) . '/assets/content/google-reviews.json'), true) ?: [];
+$tbt_google_fields = [
+    tbt_f_text('home_google_heading', 'Heading', 'Google Reviews'),
+    tbt_f_url('home_google_url', 'Link to your Google reviews', (string) ($tbt_google_snapshot['googleUrl'] ?? ''), 'Paste the link to your Google Business reviews. Leave empty to hide the link.'),
+    tbt_f_text('home_google_link_label', 'Link text', 'Read our reviews on Google'),
+];
+for ($tbt_i = 1; $tbt_i <= 12; $tbt_i++) {
+    $tbt_review = $tbt_google_snapshot['reviews'][$tbt_i - 1] ?? [];
+    $tbt_google_fields[] = tbt_f_text("home_google_review_{$tbt_i}_name", "Review {$tbt_i} — name", (string) ($tbt_review['name'] ?? ''), $tbt_i === 1 ? 'Leave a review\'s name and text empty to hide it. Reviews 11 and 12 are spare slots for new reviews.' : '');
+    $tbt_google_fields[] = tbt_f_area("home_google_review_{$tbt_i}_text", "Review {$tbt_i} — review text", (string) ($tbt_review['text'] ?? ''));
+    $tbt_google_fields[] = tbt_f_text("home_google_review_{$tbt_i}_date", "Review {$tbt_i} — date (YYYY-MM-DD)", (string) ($tbt_review['date'] ?? ''), $tbt_i === 1 ? 'For example 2026-09-10. Shown as Sep 10, 2026.' : '');
+    $tbt_google_fields[] = tbt_f_text("home_google_review_{$tbt_i}_stars", "Review {$tbt_i} — stars (1 to 5)", $tbt_review === [] ? '' : (string) ($tbt_review['rating'] ?? 5));
+    $tbt_google_fields[] = tbt_f_image("home_google_review_{$tbt_i}_photo", "Review {$tbt_i} — photo (optional)", '', $tbt_i === 1 ? 'A small round photo. Leave empty to keep the current photo, or to show initials for a new reviewer.' : '');
+}
+unset($tbt_i, $tbt_review);
+
 return [
     'page' => 'home',
     'sections' => [
@@ -84,7 +101,9 @@ return [
         ], $tbt_slots('home_crest', 'School crest', 'curated_shared_school_crest', 12), [
             tbt_f_text('home_results_copy', 'Line above the results picture', 'Some of our biggest grade jumps. There are many more.'),
             tbt_f_image('home_hall_image', 'Results picture', 'curated_shared_hall_of_fame'),
-        ]), 'The Google reviews strip under this section is a snapshot of the public Google reviews and is not edited here. Shared with the IntensiveFix page.'),
+        ]), 'Shared with the IntensiveFix page. The Google reviews under this section are in the Google reviews tab.'),
+
+        tbt_f_section('google-reviews', 'Google reviews', $tbt_google_fields, 'The review cards under Student proof, shared with the IntensiveFix page. Copy new reviews from your Google Business page.'),
 
         tbt_f_section('tutors', 'Meet your tutors', array_merge([
             tbt_f_text('home_tutors_heading', 'Heading', 'Meet Your Tutors'),

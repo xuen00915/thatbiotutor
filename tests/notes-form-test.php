@@ -5,7 +5,8 @@ function esc_url(string $value): string { return htmlspecialchars($value, ENT_QU
 function esc_attr(string $value): string { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
 function esc_html(string $value): string { return htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); }
 function home_url(string $path): string { return 'https://local.test/'; }
-function tbt_page_field(string $name, mixed $fallback = ''): mixed { return $fallback; }
+// The signup link is the client-editable notes_form_url field (its default is checked in client-editable-sections-test.php).
+function tbt_page_field(string $name, mixed $fallback = ''): mixed { return $name === 'notes_form_url' ? 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.com/' : $fallback; }
 require __DIR__ . '/../wordpress/wp-content/themes/thatbiotutor-hello-child/inc/forms.php';
 ob_start(); tbt_render_notes_form(); $html = (string) ob_get_clean();
 $checks = [

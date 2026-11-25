@@ -9,8 +9,9 @@ if (!defined('ABSPATH')) {
 $tbt_logo_fallback = tbt_media('curated_shared_tbt_logo');
 $tbt_logo = tbt_page_image('home_shared_logo', (string) ($tbt_logo_fallback['url'] ?? ''), (int) get_option('page_on_front', 0));
 $tbt_is_intensivefix = function_exists('is_page') && is_page('intensivefix');
-$tbt_landing_cta_href = tbt_whatsapp_url('Hi ThatBioTutor, I would like to find out more about IntensiveFix.');
-$tbt_landing_cta_label = 'Contact Us';
+$tbt_ifx_defaults = function_exists('tbt_page_content_defaults') ? tbt_page_content_defaults('intensivefix') : [];
+$tbt_landing_cta_href = tbt_whatsapp_url((string) tbt_page_field('intensivefix_header_message', $tbt_ifx_defaults['intensivefix_header_message'] ?? ''));
+$tbt_landing_cta_label = $tbt_is_intensivefix ? (string) tbt_page_field('intensivefix_header_label', $tbt_ifx_defaults['intensivefix_header_label'] ?? '') : 'Contact Us';
 // Every page shows the same menu; IntensiveFix only pre-fills its own WhatsApp message.
 $tbt_header_cta_href = $tbt_is_intensivefix ? $tbt_landing_cta_href : tbt_whatsapp_url();
 ?>

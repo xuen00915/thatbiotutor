@@ -19,6 +19,9 @@ final class HomeContentTest
         $raw = (string) preg_replace('/\s+/u', '', html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8')); // keeps attributes such as a video's title
         $checked = 0;
         foreach (tbt_page_content_fields('home') as $name => $field) {
+            if ($field['type'] === 'image' && preg_match('/^home_google_review_\d+_photo$/', $name) === 1) {
+                continue; // optional reviewer photo, proven in client-editable-sections-test.php
+            }
             if ($field['type'] === 'image') {
                 $this->assertTrue(str_contains($html, 'data-media-key="' . $field['fallback'] . '"'), "{$name}: the bundled picture {$field['fallback']} must render.");
                 $this->assertSame($name, tbt_home_image_field((string) $field['fallback']), "{$name} must be the field that replaces {$field['fallback']}.");
@@ -31,6 +34,11 @@ final class HomeContentTest
             }
             if ($name === 'home_whatsapp_message') {
                 $this->assertTrue(str_contains($html, rawurlencode($default)), 'The WhatsApp message must pre-fill the trial buttons.');
+                $checked++;
+                continue;
+            }
+            if ($name === 'home_google_url') {
+                $this->assertTrue(str_contains($html, htmlspecialchars($default, ENT_QUOTES, 'UTF-8')), 'The Google reviews link must be used.');
                 $checked++;
                 continue;
             }

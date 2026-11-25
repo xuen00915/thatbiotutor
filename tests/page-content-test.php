@@ -79,7 +79,8 @@ final class PageContentTest
                         "{$pageKey}: field {$name} is declared but its template never reads it."
                     );
 
-                    if ($field['type'] === 'image') {
+                    // Google reviewer photos are optional: the shipped reviewers keep their snapshot photo, new ones show initials.
+                    if ($field['type'] === 'image' && preg_match('/^home_google_review_\d+_photo$/', $name) !== 1) {
                         $this->assertTrue(in_array($field['fallback'], $mediaKeys, true), "{$name}: fallback picture {$field['fallback']} must exist in the media manifest.");
                     } else {
                         $this->assertTrue(is_string($field['default']), "{$name} must carry an approved default.");
@@ -121,7 +122,7 @@ final class PageContentTest
     private function readByModule(string $name): bool
     {
         static $source = null;
-        $source ??= (string) file_get_contents(TBT_THEME_DIR . '/inc/class-years.php') . (string) file_get_contents(TBT_THEME_DIR . '/inc/tutors.php')
+        $source ??= (string) file_get_contents(TBT_THEME_DIR . '/inc/class-years.php') . (string) file_get_contents(TBT_THEME_DIR . '/inc/tutors.php') . (string) file_get_contents(TBT_THEME_DIR . '/header.php') . (string) file_get_contents(TBT_THEME_DIR . '/inc/forms.php')
             . implode('', array_map(static fn (string $f): string => (string) file_get_contents($f), glob(TBT_THEME_DIR . '/template-parts/*.php') ?: [])); // Home's shared sections
         return str_contains($source, "'{$name}'");
     }

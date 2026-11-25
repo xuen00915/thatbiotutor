@@ -20,6 +20,7 @@ return [
         ], 'The reviews themselves are edited under Testimonials in the left-hand menu (Display group "notes-reviews" for the top list and "notes-reviews-bottom" for the bottom list).'),
 
         tbt_f_section('form', 'Email form', [
+            tbt_f_url('notes_form_url', 'Signup form link (GetResponse)', 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.com/', 'Paste the link of the published GetResponse signup page. If the new form is longer or shorter than the current one, ask your developer to re-check its height so the Submit button stays fully visible.'),
             tbt_f_image('notes_portrait_image', 'Photo above the form', 'original_003', '', 'Mr Keefe from ThatBioTutor'),
             tbt_f_rich('notes_access_note', 'Text under the form', <<<'HTML'
 <p>You'll then receive an email with our notes (on gmail, it might be found in your 'promotions' folder).</p>

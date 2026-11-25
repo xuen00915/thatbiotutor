@@ -12,27 +12,30 @@ require TBT_THEME_DIR . '/template-parts/inquire-data.php';
 
 $tbt_defaults = tbt_reference_content()['pages']['intensivefix']['fields'];
 $tbt_field = static fn (string $name): string => (string) tbt_page_field($name, $tbt_defaults[$name] ?? '');
-$tbt_enrol_whatsapp = tbt_whatsapp_url('Hi ThatBioTutor, I would like to enquire about IntensiveFix. Please share the schedule and next steps.');
+$tbt_enrol_whatsapp = tbt_whatsapp_url($tbt_field('intensivefix_whatsapp_message'));
 
 // The fourth statistic follows the IntensiveFix programme and still runs the count-up animation.
-$tbt_stats[3] = ['display' => '8', 'target' => '8', 'label' => 'Lessons over 4 days to rebuild your entire Sec 3 foundation'];
+$tbt_stat_4 = $tbt_field('intensivefix_stat_4_value');
+$tbt_stats[3] = ['display' => $tbt_stat_4, 'target' => preg_match('/\d+(?:\.\d+)?/', $tbt_stat_4, $tbt_number) === 1 ? $tbt_number[0] : $tbt_stat_4, 'label' => $tbt_field('intensivefix_stat_4_label')];
 
-// The headline keeps its red and green emphasis while staying a single editable field.
-$tbt_heading = esc_html($tbt_field('intensivefix_heading'));
+// The headline: Highlight words are green, Red words are red. A title saved before the buttons existed keeps its accents.
+$tbt_heading_source = $tbt_field('intensivefix_heading');
+if (!str_contains($tbt_heading_source, '<mark')) {
+    $tbt_heading_source = (string) preg_replace(['/(Chaotic Sec 4 Year)/', '/(4 DAYS)/'], ['<mark data-tone="red">$1</mark>', '<mark>$1</mark>'], esc_html($tbt_heading_source), 1);
+}
 // Keep the dash with the words after it, as on the original headline.
-$tbt_heading = str_replace('— ', '—&nbsp;', $tbt_heading);
-$tbt_heading = preg_replace('/(Chaotic Sec 4 Year)/', '<span class="tbt-home-accent tbt-home-accent--red">$1</span>', $tbt_heading, 1) ?? $tbt_heading;
-$tbt_heading = preg_replace('/(4 DAYS)/', '<span class="tbt-home-accent">$1</span>', $tbt_heading, 1) ?? $tbt_heading;
+$tbt_heading = str_replace('— ', '—&nbsp;', tbt_accent_marks($tbt_heading_source, 'tbt-home-accent', 'tbt-home-accent tbt-home-accent--red'));
 
 // FastTrack title carries the IntensiveFix promise.
-$tbt_fasttrack_heading = '<strong>All IntensiveFix students will receive</strong> ThatBioTutor\'s FastTrack System, which Helps Students Score <span>A1/A2</span> Without the Endless Revision Grind';
+$tbt_fasttrack_heading = tbt_heading_html($tbt_field('intensivefix_fasttrack_heading'));
+$tbt_video = tbt_testimonial_embed_url($tbt_field('intensivefix_video_url'));
 ?>
 <div class="tbt-home tbt-home-inquire tbt-intensivefix-page">
     <section class="tbt-home-hero" data-section="hero">
         <div class="tbt-home-container tbt-home-hero__copy">
-            <p class="tbt-home-kicker">Singapore's ONLY 'O' Level Pure/G3 Bio Specialist</p>
-            <h1><?php echo $tbt_heading; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above, only accent spans are added. ?></h1>
-            <p class="tbt-home-hero__result tbt-intensivefix-hero__limited"><strong>Limited time:</strong> Only during <strong>last two weeks of Nov/first two weeks of Dec.</strong></p>
+            <?php if ($tbt_field('intensivefix_kicker') !== '') : ?><p class="tbt-home-kicker"><?php echo esc_html($tbt_field('intensivefix_kicker')); ?></p><?php endif; ?>
+            <h1><?php echo $tbt_heading; // phpcs:ignore WordPress.Security.EscapeOutput -- sanitised by tbt_accent_marks(). ?></h1>
+            <?php if ($tbt_field('intensivefix_limited') !== '') : ?><p class="tbt-home-hero__result tbt-intensivefix-hero__limited"><?php echo tbt_rich_inline($tbt_field('intensivefix_limited')); // phpcs:ignore WordPress.Security.EscapeOutput ?></p><?php endif; ?>
             <?php if ($tbt_enrol_whatsapp !== '') : ?><a class="tbt-home-button tbt-intensivefix-hero__cta" href="<?php echo esc_url($tbt_enrol_whatsapp); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($tbt_field('intensivefix_cta_label')); ?></a><?php endif; ?>
         </div>
         <div class="tbt-home-container tbt-intensivefix-hero__graphics">
@@ -51,18 +54,17 @@ $tbt_fasttrack_heading = '<strong>All IntensiveFix students will receive</strong
     <section class="tbt-home-section tbt-home-problem" data-section="problem">
         <div class="tbt-home-container">
             <div class="tbt-home-problem__quotes">
-                <blockquote>“There's WAY too much to memorise... so many confusing terms”</blockquote>
-                <blockquote>“I already wrote down a very detailed answer... how come I didn't get the points?”</blockquote>
-                <blockquote>“School bio skim through the content too fast! I don't understand concepts deeply enough...”</blockquote>
+                <?php foreach ([1, 2, 3] as $tbt_n) : if ($tbt_field('intensivefix_quote_' . $tbt_n) === '') { continue; } ?><blockquote><?php echo esc_html($tbt_field('intensivefix_quote_' . $tbt_n)); ?></blockquote>
+                <?php endforeach; ?>
             </div>
-            <p class="tbt-home-problem__bridge tbt-home-problem__bridge--strong">Sound familiar? After The IntensiveFix Program, They’re Telling Us:</p>
+            <?php if ($tbt_field('intensivefix_reviews_bridge') !== '') : ?><p class="tbt-home-problem__bridge tbt-home-problem__bridge--strong"><?php echo esc_html($tbt_field('intensivefix_reviews_bridge')); ?></p><?php endif; ?>
             <div class="tbt-intensivefix-feedback"><?php tbt_render_page_image('intensivefix_student_reviews_image', 'intensivefix_student_reviews', 'tbt-intensivefix__reviews', ['loading' => 'lazy']); ?></div>
         </div>
     </section>
 
     <section class="tbt-home-section tbt-home-stats" data-section="track-record">
         <div class="tbt-home-container">
-            <h2>Here's the track record:</h2>
+            <h2><?php echo esc_html($tbt_field('intensivefix_track_heading')); ?></h2>
             <div class="tbt-home-stats__grid">
                 <?php foreach ($tbt_stats as $tbt_stat) : ?>
                     <article class="tbt-home-stat">
@@ -75,8 +77,8 @@ $tbt_fasttrack_heading = '<strong>All IntensiveFix students will receive</strong
             <div class="tbt-home-stats__photos">
                 <?php foreach (range(1, 4) as $tbt_index) : ?><figure><?php $tbt_media_image(sprintf('home_number_%02d', $tbt_index), '', 'loading="lazy"'); ?></figure><?php endforeach; ?>
             </div>
-            <p class="tbt-home-stats__bridge">Here's how we make that happen.</p>
-            <div class="tbt-home-video"><iframe src="https://www.youtube-nocookie.com/embed/bwMcGJcP0ts" title="ThatBioTutor IntensiveFix video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+            <?php if ($tbt_field('intensivefix_track_bridge') !== '') : ?><p class="tbt-home-stats__bridge"><?php echo esc_html($tbt_field('intensivefix_track_bridge')); ?></p><?php endif; ?>
+            <?php if ($tbt_video !== '') : ?><div class="tbt-home-video"><iframe src="<?php echo esc_url($tbt_video); ?>" title="ThatBioTutor IntensiveFix video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><?php endif; ?>
         </div>
     </section>
 
@@ -88,12 +90,10 @@ $tbt_fasttrack_heading = '<strong>All IntensiveFix students will receive</strong
         <div class="tbt-home-container tbt-home-closing__inner">
             <figure><?php $tbt_media_image('curated_home_founder_about', '', 'loading="lazy"'); ?></figure>
             <div>
-                <h2>Your EOY Bio Grade doesn’t have to define your O Levels.</h2>
-                <p>It can be demoralising to have scored poorer than expected for the Sec 3 end of year bio exam. But there is still time to turn things around.</p>
-                <p>We’ve had students come in during this period at F9, going all the way to an A1 in O levels.</p>
-                <p>What you need is a thorough content overhaul, fixing that weak sec 3 foundation, to supercharge and give you confidence heading into sec 4, to score the O level grade you’re truly capable of.</p>
-                <p class="tbt-intensivefix-closing__ready"><strong>Ready to see what that feels like?</strong></p>
-                <?php if ($tbt_enrol_whatsapp !== '') : ?><div class="tbt-home-closing__cta-wrap tbt-intensivefix-closing__cta"><a class="tbt-home-button" href="<?php echo esc_url($tbt_enrol_whatsapp); ?>" target="_blank" rel="noopener noreferrer">Fix My Sec 3 Foundation Now</a></div><?php endif; ?>
+                <h2><?php echo esc_html($tbt_field('intensivefix_closing_heading')); ?></h2>
+                <?php echo tbt_rich($tbt_field('intensivefix_closing_text')); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+                <?php if ($tbt_field('intensivefix_closing_ready') !== '') : ?><p class="tbt-intensivefix-closing__ready"><strong><?php echo esc_html($tbt_field('intensivefix_closing_ready')); ?></strong></p><?php endif; ?>
+                <?php if ($tbt_enrol_whatsapp !== '') : ?><div class="tbt-home-closing__cta-wrap tbt-intensivefix-closing__cta"><a class="tbt-home-button" href="<?php echo esc_url($tbt_enrol_whatsapp); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($tbt_field('intensivefix_closing_button')); ?></a></div><?php endif; ?>
             </div>
         </div>
     </section>

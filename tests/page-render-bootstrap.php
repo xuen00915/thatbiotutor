@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) { define('ABSPATH', dirname(__DIR__) . '/.wordpress-tes
 if (!defined('TBT_THEME_DIR')) { define('TBT_THEME_DIR', dirname(__DIR__) . '/wordpress/wp-content/themes/thatbiotutor-hello-child'); }
 if (!defined('TBT_THEME_URI')) { define('TBT_THEME_URI', 'https://preview.local/wp-content/themes/thatbiotutor-hello-child'); }
 
-function get_field(string $name, int $postId = 0): mixed { return null; }
+function get_field(string $name, int $postId = 0): mixed { return $GLOBALS['tbt_test_fields'][$name] ?? null; }
 function get_the_ID(): int { return 99; }
 function get_option(string $key, mixed $default = false): mixed { return $key === 'page_on_front' ? 99 : $default; }
 function home_url(string $path = '/'): string { return 'https://preview.local/' . ltrim($path, '/'); }

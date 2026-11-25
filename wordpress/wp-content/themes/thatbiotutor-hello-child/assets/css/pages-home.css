@@ -650,3 +650,4 @@ body.tbt-site.home .tbt-home-hero__copy { padding-top: 24px; }
   body.tbt-site #main-content :is(.tbt-home-faq, .tbt-home-quality) { padding-bottom: 16px; }
   body.tbt-site #main-content :is(.tbt-home-classroom, .tbt-home-practical) { padding-top: 24px; }
 }
+.tbt-google-review__initials { display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: #2F8A27; color: #fff; font-weight: 700; font-size: 22px; line-height: 1; }

@@ -47,7 +47,7 @@ final class IntensiveFixPageTest
         $this->assertTrue($last < $heroEnd, 'The swipeable graphics must sit in the hero under the main title.');
         // Problem section.
         foreach (['“There\'s WAY too much to memorise... so many confusing terms”', '“I already wrote down a very detailed answer... how come I didn\'t get the points?”', '“School bio skim through the content too fast! I don\'t understand concepts deeply enough...”'] as $quote) {
-            $this->assertTrue(str_contains($html, $quote), 'The three phrases under the slider must be the supplied ones.');
+            $this->assertTrue(str_contains(html_entity_decode($html, ENT_QUOTES), $quote), 'The three phrases under the slider must be the supplied ones.');
         }
         $this->assertTrue(preg_match('~tbt-home-problem__bridge--strong[^>]*>Sound familiar\? After The IntensiveFix Program, They(?:’|&#039;|\')re Telling Us:</p>~', $html) === 1, 'Bridge must read "Sound familiar? After The IntensiveFix Program, They’re Telling Us:" with the old second line deleted.');
         $this->assertTrue(!str_contains($html, 'Many TBT students started exactly here') && !str_contains($html, 'But after our 8-week IntensiveFix'), 'The red-marked bridge wording must be gone.');
