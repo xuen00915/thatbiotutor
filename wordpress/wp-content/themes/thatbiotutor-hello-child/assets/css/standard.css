@@ -1885,3 +1885,12 @@ body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-pa
 @media (max-width: 1180px) and (prefers-reduced-motion: reduce) {
   body.tbt-site #main-content .tbt-year-nav { transition: none; }
 }
+
+/* IntensiveFix: both buttons are the standard 60px pill, wide enough that "Fix My Sec 3 Foundation Now" stays on one line
+   (340px desktop, 300px tablet/phone, never wider than the screen). */
+body.tbt-site.page-template-page-intensivefix { --tbt-cta-width: 340px; }
+@media (max-width: 1180px) { body.tbt-site.page-template-page-intensivefix { --tbt-cta-width: 300px; } }
+body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page a.tbt-home-button { white-space: nowrap; }
+
+/* IntensiveFix hero: the button has the same 32px above (to "Limited time") and below (to the programme carousel). */
+body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page .tbt-home-hero__copy { padding-bottom: 32px; }

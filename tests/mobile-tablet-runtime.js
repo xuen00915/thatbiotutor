@@ -26,6 +26,8 @@ const assert = require('node:assert/strict');
    const want=width>768?[40,56]:width>390?[32,40]:[24,32];
    assert.ok(ifx.white===want[0]&&ifx.dark===want[1],`IntensiveFix section spacing at ${width}: ${JSON.stringify(ifx)}`);
    if(width<=1180) assert.ok(ifx.centred,`IntensiveFix closing button is centred at ${width}`);
+   const ifxBtn=await page.evaluate(()=>{const h=document.querySelector('.tbt-intensivefix-hero__cta').getBoundingClientRect();return{above:Math.round(h.top-document.querySelector('.tbt-intensivefix-hero__limited').getBoundingClientRect().bottom),below:Math.round(document.querySelector('.tbt-intensivefix-hero__graphics').getBoundingClientRect().top-h.bottom),oneLine:[...document.querySelectorAll('.tbt-intensivefix-page a.tbt-home-button')].every(b=>b.getBoundingClientRect().height<=60&&b.scrollWidth<=b.clientWidth+1&&getComputedStyle(b).whiteSpace==='nowrap')}});
+   assert.ok(ifxBtn.oneLine&&ifxBtn.above===ifxBtn.below,`IntensiveFix buttons fit one line and the hero button has equal space above/below at ${width}: ${JSON.stringify(ifxBtn)}`);
    await page.goto(`${base}/trees/`);
    const image=await page.locator('.tbt-causes-section__media--square img').boundingBox();
    assert.ok(image.x>=16&&image.x+image.width<=width-16+1,`Entire Causes image fits at ${width}`);

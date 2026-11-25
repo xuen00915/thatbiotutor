@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- [main-site] IntensiveFix buttons widened (340px desktop, 300px tablet/phone) so "Fix My Sec 3 Foundation Now" stays on one line; hero button has equal 32px above and below.
 - [main-site] Notes signup frame never scrolls on any device: removed the phone `scrolling="auto"` switch, whose unusable scrollbar narrowed the form and hid Submit.
 - [main-site] Testimonials (phones/tablets): the "Class of ..." bar appears only after scrolling down to the first year; the hero no longer reserves 52px for it. Jumps stay aligned while images above finish loading.
 - [main-site] IntensiveFix: tighter section spacing (white 40/32/24px, dark green 56/40/32px desktop/tablet/phone; 16px under the hero carousel and video); closing button keeps the site-standard pill size and is centred on tablets and phones.
