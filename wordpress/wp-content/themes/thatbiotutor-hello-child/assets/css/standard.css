@@ -1894,3 +1894,7 @@ body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-pa
 
 /* IntensiveFix hero: the button has the same 32px above (to "Limited time") and below (to the programme carousel). */
 body.tbt-site.page-template-page-intensivefix #main-content .tbt-intensivefix-page .tbt-home-hero__copy { padding-bottom: 32px; }
+
+/* Notes: the closing DOWNLOAD button has the same 40px above (to the reviews panel) and below (to the footer) on every
+   device. The footer already starts 24px below the page content, so the last section adds only 16px. */
+body.tbt-site:not(.home) #main-content > .tbt-resource-page.tbt-notes-page > section[data-section="reviews-bottom"] { padding-bottom: 16px !important; }
