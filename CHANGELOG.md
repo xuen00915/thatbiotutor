@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- [main-site] Notes hero slider: arrows and dots sit 20px closer to the tablet picture on every device.
 - [main-site] Notes hero on phones/small tablets: tighter spacing; the slider sits ~25px under "Join over 10,000+..." (was ~57px) and the hero ends 24px under the arrows (arrows to next heading 56px, was 76px).
 - [main-site] Notes signup frame no longer scrolls on any device; Submit is fully shown by its height alone.
 - [main-site] Notes signup frame: scrollable on tablets/phones as a fallback with its scrollbar clipped out of view (frame 40px wider than its box); heights now Submit + 36px, since GetResponse's dark strip starts 42-46px below Submit.

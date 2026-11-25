@@ -1907,3 +1907,6 @@ body.tbt-site:not(.home) #main-content > .tbt-resource-page.tbt-notes-page > sec
 @media (max-width: 480px) {
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-carousel--notes { margin-top: -32px; }
 }
+
+/* Notes hero slider: the arrows and dots sit closer to the tablet picture (they rise 20px into the empty space under it). */
+body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-hero .tbt-resource-carousel--notes { padding-bottom: 32px; }
