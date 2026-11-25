@@ -162,6 +162,15 @@
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(observe, 120);
   });
+  // Images above the chosen part can finish loading after the scroll has stopped and push the title down:
+  // while a jump is held, re-align whenever an image loads or the page height changes.
+  const resettle = () => {
+    if (lock === null) return;
+    window.clearTimeout(settleTimer);
+    settleTimer = window.setTimeout(settle, 60);
+  };
+  document.addEventListener('load', event => { if (event.target && event.target.tagName === 'IMG') resettle(); }, true);
+  if ('ResizeObserver' in window) new ResizeObserver(resettle).observe(document.body);
   window.addEventListener('hashchange', () => { lock = null; sync(); });
   root.hidden = false;
   observe();
