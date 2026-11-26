@@ -15,7 +15,8 @@ if (!defined('ABSPATH')) {
  * ThatBioTutor page is removed from the Pages list and cannot be opened for editing, and the Tutors, FAQs and
  * Results lists are hidden. Switch with `wp option update tbt_editing_scope testimonials` or `... all`.
  *
- * The limit applies to the dashboard only: the public site always registers every field, so values keep their
+ * Users with the "ThatBioTutor Manager" role (tbt_manager) always get the limited scope, whatever the option says;
+ * administrators follow the option. The limit applies to the dashboard only: the public site always registers every field, so values keep their
  * ACF formatting.
  */
 
@@ -26,10 +27,110 @@ function tbt_editing_scope(): string
     return $scope === 'testimonials' ? 'testimonials' : 'all';
 }
 
-/** Whether editing is limited to the Results & Testimonials page. */
+/** Role slug of the ThatBioTutor Manager: a dashboard user who only sees the limited editing scope. */
+const TBT_MANAGER_ROLE = 'tbt_manager';
+
+/** Whether the current user is a ThatBioTutor Manager. */
+function tbt_current_user_is_manager(): bool
+{
+    if (!function_exists('wp_get_current_user')) {
+        return false;
+    }
+    $user = wp_get_current_user();
+    return in_array(TBT_MANAGER_ROLE, (array) ($user->roles ?? []), true);
+}
+
+/** Whether editing is limited: for a Manager always, for everyone when the option says so. */
 function tbt_editing_is_limited(): bool
 {
-    return tbt_editing_scope() === 'testimonials';
+    return tbt_current_user_is_manager() || tbt_editing_scope() === 'testimonials';
+}
+
+/**
+ * Capabilities of the Manager role: edit pages (only the allowed ones, see map_meta_cap), Testimonials and
+ * Class Years (capability type "post"), and upload pictures for their fields. No settings, plugins, themes or users.
+ *
+ * @return array<string, bool>
+ */
+function tbt_manager_capabilities(): array
+{
+    $caps = [];
+    foreach ([
+        'read', 'upload_files',
+        'edit_posts', 'edit_others_posts', 'edit_published_posts', 'publish_posts',
+        'delete_posts', 'delete_others_posts', 'delete_published_posts',
+        'edit_pages', 'edit_others_pages', 'edit_published_pages', 'publish_pages',
+    ] as $cap) {
+        $caps[$cap] = true;
+    }
+    return $caps;
+}
+
+/** Create the Manager role, or bring its capabilities up to date. */
+function tbt_register_manager_role(): void
+{
+    if (!function_exists('get_role') || !function_exists('add_role')) {
+        return;
+    }
+    $role = get_role(TBT_MANAGER_ROLE);
+    if ($role === null) {
+        add_role(TBT_MANAGER_ROLE, 'ThatBioTutor Manager', tbt_manager_capabilities());
+        return;
+    }
+    foreach (tbt_manager_capabilities() as $cap => $grant) {
+        if (empty($role->capabilities[$cap])) {
+            $role->add_cap($cap, $grant);
+        }
+    }
+}
+
+/** Dashboard menus a Manager never needs. */
+function tbt_manager_admin_menu(): void
+{
+    if (!tbt_current_user_is_manager()) {
+        return;
+    }
+    foreach (['index.php', 'edit.php', 'upload.php', 'edit-comments.php', 'tools.php'] as $menu) {
+        remove_menu_page($menu);
+    }
+    remove_submenu_page('edit.php?post_type=page', 'post-new.php?post_type=page');
+}
+
+/** Managers land on the Pages list and cannot open the dashboard home, Posts, new pages, Media or Tools. */
+function tbt_manager_admin_redirect(): void
+{
+    if (!tbt_current_user_is_manager() || (function_exists('wp_doing_ajax') && wp_doing_ajax())) {
+        return;
+    }
+    $screen = (string) ($GLOBALS['pagenow'] ?? '');
+    $type = isset($_GET['post_type']) ? (string) $_GET['post_type'] : 'post';
+    $blocked = in_array($screen, ['index.php', 'upload.php', 'tools.php', 'edit-comments.php'], true)
+        || ($screen === 'edit.php' && $type === 'post')
+        || ($screen === 'post-new.php' && in_array($type, ['post', 'page'], true));
+    if ($blocked) {
+        wp_safe_redirect(admin_url('edit.php?post_type=page'));
+        exit;
+    }
+}
+
+/** Remove the admin-bar shortcuts a Manager cannot use. */
+function tbt_manager_admin_bar(mixed $bar): void
+{
+    if (!tbt_current_user_is_manager()) {
+        return;
+    }
+    foreach (['new-post', 'new-page', 'new-media', 'comments', 'dashboard', 'appearance'] as $node) {
+        $bar->remove_node($node);
+    }
+}
+
+/** After login a Manager goes straight to the Pages list. */
+function tbt_manager_login_redirect(string $redirect, string $requested, mixed $user): string
+{
+    if (is_object($user) && in_array(TBT_MANAGER_ROLE, (array) ($user->roles ?? []), true)) {
+        return admin_url('edit.php?post_type=page');
+    }
+    return $redirect;
 }
 
 /** Whether the limit applies to this request (dashboard only). */
@@ -167,8 +268,12 @@ function tbt_editing_scope_post_type_args(array $args, string $postType): array
 /** Whether a page is a protected ThatBioTutor page outside the editable scope. */
 function tbt_page_is_locked(int $postId): bool
 {
-    if (!tbt_editing_is_limited() || !function_exists('tbt_is_protected_page') || !tbt_is_protected_page($postId)) {
+    if (!tbt_editing_is_limited() || !function_exists('tbt_is_protected_page')) {
         return false;
+    }
+    if (!tbt_is_protected_page($postId)) {
+        // A Manager edits only the allowed ThatBioTutor pages; other pages (e.g. Privacy Policy) are locked too.
+        return tbt_current_user_is_manager() && function_exists('get_post_type') && get_post_type($postId) === 'page';
     }
     $template = (string) get_post_meta($postId, '_wp_page_template', true);
     $registry = tbt_page_registry();
@@ -234,6 +339,11 @@ function tbt_editing_scope_page_counts(object $counts, string $type): object
 }
 
 if (function_exists('add_filter')) {
+    add_action('init', 'tbt_register_manager_role');
+    add_action('admin_menu', 'tbt_manager_admin_menu', 999);
+    add_action('admin_init', 'tbt_manager_admin_redirect');
+    add_action('admin_bar_menu', 'tbt_manager_admin_bar', 999);
+    add_filter('login_redirect', 'tbt_manager_login_redirect', 10, 3);
     add_action('pre_get_posts', 'tbt_editing_scope_hide_locked_pages');
     add_filter('wp_count_posts', 'tbt_editing_scope_page_counts', 10, 2);
     add_filter('register_post_type_args', 'tbt_editing_scope_post_type_args', 10, 2);

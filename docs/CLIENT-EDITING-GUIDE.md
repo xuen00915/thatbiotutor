@@ -61,6 +61,8 @@ wp option update tbt_editing_scope testimonials   # limited editing
 wp option update tbt_editing_scope all            # everything editable again (default)
 ```
 
+Users with the **ThatBioTutor Manager** role always get this limited view, whatever the option says, while administrators keep full access. Create one under **Users → Add New** and choose the role, or `wp user create <login> <email> --role=tbt_manager`. A Manager logs in straight to the Pages list and cannot change settings, plugins, themes or users.
+
 ## Protected visual structure
 
 The original-site layouts are separated into focused stylesheets: `pages-home.css`, `pages-programmes.css`, `pages-testimonials.css`, `pages-resources.css`, `pages-institutional.css`, and `pages-intensivefix.css`. The small `pages.css` file contains shared primitives only. Content editors should not paste CSS or Code Snippets into WordPress; ask a developer to change protected presentation.

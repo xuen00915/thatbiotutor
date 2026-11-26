@@ -36,6 +36,15 @@ function get_post_status(int $id): string
 {
     return 'publish';
 }
+$GLOBALS['tbt_scope_roles'] = [];
+function wp_get_current_user(): object
+{
+    return (object) ['roles' => $GLOBALS['tbt_scope_roles']];
+}
+function admin_url(string $path = ''): string
+{
+    return 'https://example.test/wp-admin/' . $path;
+}
 $GLOBALS['tbt_scope_admin'] = true;
 function is_admin(): bool
 {
@@ -119,5 +128,27 @@ tbt_scope_assert($counts->publish === 12 && $counts->draft === 1, 'Page counts d
 
 $GLOBALS['tbt_scope_option'] = 'all';
 tbt_scope_assert(tbt_locked_page_ids() === [], 'Scope "all" hides no pages.');
+
+// Manager role: limited whatever the option says; administrators follow the option.
+$GLOBALS['tbt_scope_option'] = 'all';
+$GLOBALS['tbt_scope_roles'] = ['administrator'];
+tbt_scope_assert(!tbt_editing_is_limited(), 'An administrator gets full editing when the option is "all".');
+$GLOBALS['tbt_scope_roles'] = [TBT_MANAGER_ROLE];
+tbt_scope_assert(tbt_editing_is_limited(), 'A Manager always gets limited editing.');
+tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [2]) === ['do_not_allow'], 'A Manager cannot edit About.');
+tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [1]) === ['edit_pages'], 'A Manager can edit Results & Testimonials.');
+tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [3]) === ['edit_pages'], 'A Manager can edit Free Bio Notes.');
+tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [4]) === ['do_not_allow'], 'A Manager cannot edit other pages such as Privacy Policy.');
+tbt_scope_assert(count(tbt_scope_registered()) === 4, 'A Manager sees only the limited panels.');
+$caps = tbt_manager_capabilities();
+foreach (['manage_options', 'edit_theme_options', 'activate_plugins', 'install_plugins', 'list_users', 'edit_users', 'delete_pages'] as $cap) {
+    tbt_scope_assert(empty($caps[$cap]), "A Manager must not have {$cap}.");
+}
+foreach (['read', 'upload_files', 'edit_pages', 'edit_published_pages', 'publish_pages', 'edit_posts', 'edit_others_posts'] as $cap) {
+    tbt_scope_assert(!empty($caps[$cap]), "A Manager needs {$cap}.");
+}
+tbt_scope_assert(str_ends_with(tbt_manager_login_redirect('x', '', (object) ['roles' => [TBT_MANAGER_ROLE]]), 'edit.php?post_type=page'), 'A Manager lands on the Pages list.');
+tbt_scope_assert(tbt_manager_login_redirect('x', '', (object) ['roles' => ['administrator']]) === 'x', 'Administrators keep their login destination.');
+$GLOBALS['tbt_scope_roles'] = [];
 
 fwrite(STDOUT, "PASS: editing scope assertions\n");
