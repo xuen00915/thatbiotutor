@@ -9,10 +9,14 @@ if (!defined('ABSPATH')) {
 /**
  * Editing scope: which ThatBioTutor content the WordPress dashboard lets anyone edit.
  *
- * The `tbt_editing_scope` option is "all" (default: every page panel and every content list) or "testimonials"
- * (only the Results & Testimonials page, its Testimonials and its Class Years; every other ThatBioTutor page is
- * removed from the Pages list and cannot be opened for editing and the Tutors, FAQs and Results lists are hidden).
- * Switch with `wp option update tbt_editing_scope testimonials` or `... all`. The public site is unaffected.
+ * The `tbt_editing_scope` option is "all" (default: every page panel and every content list) or "testimonials":
+ * only the sections in tbt_editing_scope_sections() stay editable (Results & Testimonials: featured YouTube video
+ * and Student Stories; Free Bio Notes: Email form), plus the Testimonials and Class Years lists. Every other
+ * ThatBioTutor page is removed from the Pages list and cannot be opened for editing, and the Tutors, FAQs and
+ * Results lists are hidden. Switch with `wp option update tbt_editing_scope testimonials` or `... all`.
+ *
+ * The limit applies to the dashboard only: the public site always registers every field, so values keep their
+ * ACF formatting.
  */
 
 /** The active editing scope. */
@@ -28,11 +32,89 @@ function tbt_editing_is_limited(): bool
     return tbt_editing_scope() === 'testimonials';
 }
 
+/** Whether the limit applies to this request (dashboard only). */
+function tbt_editing_limit_applies(): bool
+{
+    return tbt_editing_is_limited() && function_exists('is_admin') && is_admin();
+}
+
+/**
+ * Editable sections per page when editing is limited: tab field key => null (whole tab) or the field names kept.
+ *
+ * @return array<string, array<string, list<string>|null>>
+ */
+function tbt_editing_scope_sections(): array
+{
+    return [
+        'testimonials' => [
+            'field_tbt_testimonials_tab_featured' => ['testimonials_video_url', 'testimonials_video_title'],
+            'field_tbt_testimonials_tab_stories' => null,
+            'field_tbt_testimonials_tab_years' => null,
+        ],
+        'notes' => [
+            'field_tbt_notes_tab_form' => null,
+        ],
+    ];
+}
+
 /** @return list<string> Page-registry keys whose field panel stays editable. */
 function tbt_editable_page_keys(): array
 {
     $all = array_keys(tbt_page_registry());
-    return tbt_editing_is_limited() ? ['testimonials'] : $all;
+    return tbt_editing_is_limited() ? array_keys(tbt_editing_scope_sections()) : $all;
+}
+
+/** Trim a page group to its editable sections; fields before the first tab (the editing guide) stay. */
+function tbt_acf_group_trim_to_scope(array $group, string $pageKey): array
+{
+    $sections = tbt_editing_scope_sections()[$pageKey] ?? null;
+    if ($sections === null) {
+        return $group;
+    }
+    $kept = [];
+    $tab = null;
+    foreach ($group['fields'] as $field) {
+        if (($field['type'] ?? '') === 'tab') {
+            $tab = (string) $field['key'];
+            if (array_key_exists($tab, $sections)) {
+                $kept[] = $field;
+            }
+            continue;
+        }
+        if ($tab === null) {
+            $kept[] = $field;
+            continue;
+        }
+        if (!array_key_exists($tab, $sections)) {
+            continue;
+        }
+        $names = $sections[$tab];
+        if ($names === null || in_array((string) ($field['name'] ?? ''), $names, true)) {
+            $kept[] = $field;
+        }
+    }
+    $group['fields'] = $kept;
+    return $group;
+}
+
+/** The group as the current request should register it, or null to leave it out. */
+function tbt_acf_group_for_scope(array $group): ?array
+{
+    if (!tbt_editing_limit_applies()) {
+        return $group;
+    }
+    if (!tbt_acf_group_is_editable($group)) {
+        return null;
+    }
+    $rule = $group['location'][0][0] ?? [];
+    if (($rule['param'] ?? '') === 'page_template') {
+        foreach (tbt_page_registry() as $key => $page) {
+            if ($page['template'] === ($rule['value'] ?? null)) {
+                return tbt_acf_group_trim_to_scope($group, (string) $key);
+            }
+        }
+    }
+    return $group;
 }
 
 /** @return list<string> Structured content types that stay editable. */

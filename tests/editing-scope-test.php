@@ -19,6 +19,10 @@ function add_filter(string $hook, mixed $callback, int $priority = 10, int $args
 function acf_add_local_field_group(array $group): void
 {
     $GLOBALS['tbt_scope_groups'][] = $group['key'];
+    $GLOBALS['tbt_scope_fields'][$group['key']] = array_values(array_filter(array_map(
+        static fn(array $field): string => (string) ($field['name'] ?: $field['key']),
+        $group['fields']
+    )));
 }
 function get_post_type(int $id): string
 {
@@ -32,9 +36,10 @@ function get_post_status(int $id): string
 {
     return 'publish';
 }
+$GLOBALS['tbt_scope_admin'] = true;
 function is_admin(): bool
 {
-    return true;
+    return $GLOBALS['tbt_scope_admin'];
 }
 function get_post_meta(int $id, string $key, bool $single = false): string
 {
@@ -64,6 +69,7 @@ function tbt_scope_registered(): array
 $GLOBALS['tbt_scope_meta'] = [
     1 => ['_wp_page_template' => 'page-testimonials.php'],
     2 => ['_wp_page_template' => 'page-about.php'],
+    3 => ['_wp_page_template' => 'page-notes.php'],
 ];
 
 // Default: everything editable.
@@ -76,7 +82,27 @@ tbt_scope_assert(tbt_editing_scope_post_type_args(['show_ui' => true], 'tbt_faq'
 $GLOBALS['tbt_scope_option'] = 'testimonials';
 $limited = tbt_scope_registered();
 sort($limited);
-tbt_scope_assert($limited === ['group_tbt_class_year_fields', 'group_tbt_page_testimonials', 'group_tbt_testimonial_fields'], 'Scope "testimonials" registers only the testimonials page, testimonials and class years: ' . implode(',', $limited));
+tbt_scope_assert($limited === ['group_tbt_class_year_fields', 'group_tbt_page_notes', 'group_tbt_page_testimonials', 'group_tbt_testimonial_fields'], 'Limited scope registers only the testimonials and notes pages, testimonials and class years: ' . implode(',', $limited));
+$testimonialFields = $GLOBALS['tbt_scope_fields']['group_tbt_page_testimonials'];
+foreach (['testimonials_video_url', 'testimonials_video_title', 'testimonials_stories_heading', 'testimonials_stories_advice', 'testimonials_archive_button_label'] as $name) {
+    tbt_scope_assert(in_array($name, $testimonialFields, true), "Testimonials keeps {$name}.");
+}
+foreach (['testimonials_heading', 'testimonials_hero_lead', 'testimonials_button_label', 'testimonials_whatsapp_message', 'tbt_testimonials_seo_title'] as $name) {
+    tbt_scope_assert(!in_array($name, $testimonialFields, true), "Testimonials drops {$name}.");
+}
+$notesFields = $GLOBALS['tbt_scope_fields']['group_tbt_page_notes'];
+foreach (['notes_form_url', 'notes_portrait_image', 'notes_access_note'] as $name) {
+    tbt_scope_assert(in_array($name, $notesFields, true), "Notes keeps {$name}.");
+}
+foreach (['notes_heading', 'notes_hero_lead', 'notes_fit_list', 'notes_slider_image_01', 'tbt_notes_seo_title'] as $name) {
+    tbt_scope_assert(!in_array($name, $notesFields, true), "Notes drops {$name}.");
+}
+tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [3]) === ['edit_pages'], 'The notes page stays editable.');
+
+// The public site always registers every field so values keep their formatting.
+$GLOBALS['tbt_scope_admin'] = false;
+tbt_scope_assert(count(tbt_scope_registered()) === count($all), 'The limit never applies outside the dashboard.');
+$GLOBALS['tbt_scope_admin'] = true;
 tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [1]) === ['edit_pages'], 'The testimonials page stays editable.');
 tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [2]) === ['do_not_allow'], 'Other protected pages are locked.');
 tbt_scope_assert(tbt_editing_scope_map_meta_cap(['read'], 'read_post', 1, [2]) === ['read'], 'Reading is never blocked.');

@@ -52,12 +52,12 @@ Published items render by menu order and then title/date where applicable. Chang
 
 IntensiveFix is separate from regular Sec 3 tuition. Do not replace the Sec 3 page or navigation destination with IntensiveFix.
 
-## Limiting editing to the testimonials page
+## Limiting editing
 
-The site owner can restrict the dashboard so only the Results & Testimonials page, its Testimonials and its Class Years can be edited. Every other ThatBioTutor page disappears from the Pages list and cannot be opened for editing, and the Tutors, FAQs and Results lists are hidden. The public pages do not change.
+The site owner can restrict the dashboard to: the Results & Testimonials page's featured YouTube video (link and title) and Student Stories wording, the Free Bio Notes page's Email form section, and the Testimonials and Class Years lists. Every other ThatBioTutor page disappears from the Pages list and cannot be opened for editing, and the Tutors, FAQs and Results lists are hidden. The public pages do not change.
 
 ```sh
-wp option update tbt_editing_scope testimonials   # testimonials only
+wp option update tbt_editing_scope testimonials   # limited editing
 wp option update tbt_editing_scope all            # everything editable again (default)
 ```
 

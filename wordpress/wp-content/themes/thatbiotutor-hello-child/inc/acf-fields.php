@@ -251,17 +251,17 @@ function tbt_register_acf_fields(): void
         return;
     }
 
-    $editable = static fn(array $group): bool => !function_exists('tbt_acf_group_is_editable') || tbt_acf_group_is_editable($group);
+    $scoped = static fn(array $group): ?array => function_exists('tbt_acf_group_for_scope') ? tbt_acf_group_for_scope($group) : $group;
 
     foreach (tbt_acf_page_groups() as $group) {
-        if ($editable($group)) {
+        if (($group = $scoped($group)) !== null) {
             acf_add_local_field_group($group);
         }
     }
 
     if (function_exists('tbt_acf_content_groups')) {
         foreach (tbt_acf_content_groups() as $group) {
-            if ($editable($group)) {
+            if (($group = $scoped($group)) !== null) {
                 acf_add_local_field_group($group);
             }
         }
