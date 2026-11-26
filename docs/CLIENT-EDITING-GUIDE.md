@@ -54,7 +54,7 @@ IntensiveFix is separate from regular Sec 3 tuition. Do not replace the Sec 3 pa
 
 ## Limiting editing to the testimonials page
 
-The site owner can restrict the dashboard so only the Results & Testimonials page, its Testimonials and its Class Years can be edited. Every other ThatBioTutor page loses its field panel and cannot be opened for editing, and the Tutors, FAQs and Results lists are hidden. The public pages do not change.
+The site owner can restrict the dashboard so only the Results & Testimonials page, its Testimonials and its Class Years can be edited. Every other ThatBioTutor page disappears from the Pages list and cannot be opened for editing, and the Tutors, FAQs and Results lists are hidden. The public pages do not change.
 
 ```sh
 wp option update tbt_editing_scope testimonials   # testimonials only

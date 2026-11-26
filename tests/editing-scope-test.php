@@ -24,6 +24,18 @@ function get_post_type(int $id): string
 {
     return 'page';
 }
+function get_posts(array $args): array
+{
+    return array_keys($GLOBALS['tbt_scope_meta']);
+}
+function get_post_status(int $id): string
+{
+    return 'publish';
+}
+function is_admin(): bool
+{
+    return true;
+}
 function get_post_meta(int $id, string $key, bool $single = false): string
 {
     return $GLOBALS['tbt_scope_meta'][$id][$key] ?? '';
@@ -74,5 +86,12 @@ foreach (['tbt_tutor', 'tbt_faq', 'tbt_result'] as $type) {
 foreach (['tbt_testimonial', 'tbt_class_year'] as $type) {
     tbt_scope_assert(tbt_editing_scope_post_type_args(['show_ui' => true], $type)['show_ui'] === true, "{$type} stays visible.");
 }
+
+tbt_scope_assert(tbt_locked_page_ids() === [2], 'Only locked pages are hidden from the Pages list.');
+$counts = tbt_editing_scope_page_counts((object) ['publish' => 13, 'draft' => 1], 'page');
+tbt_scope_assert($counts->publish === 12 && $counts->draft === 1, 'Page counts drop by the hidden pages.');
+
+$GLOBALS['tbt_scope_option'] = 'all';
+tbt_scope_assert(tbt_locked_page_ids() === [], 'Scope "all" hides no pages.');
 
 fwrite(STDOUT, "PASS: editing scope assertions\n");
