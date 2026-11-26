@@ -52,6 +52,15 @@ Published items render by menu order and then title/date where applicable. Chang
 
 IntensiveFix is separate from regular Sec 3 tuition. Do not replace the Sec 3 page or navigation destination with IntensiveFix.
 
+## Limiting editing to the testimonials page
+
+The site owner can restrict the dashboard so only the Results & Testimonials page, its Testimonials and its Class Years can be edited. Every other ThatBioTutor page loses its field panel and cannot be opened for editing, and the Tutors, FAQs and Results lists are hidden. The public pages do not change.
+
+```sh
+wp option update tbt_editing_scope testimonials   # testimonials only
+wp option update tbt_editing_scope all            # everything editable again (default)
+```
+
 ## Protected visual structure
 
 The original-site layouts are separated into focused stylesheets: `pages-home.css`, `pages-programmes.css`, `pages-testimonials.css`, `pages-resources.css`, `pages-institutional.css`, and `pages-intensivefix.css`. The small `pages.css` file contains shared primitives only. Content editors should not paste CSS or Code Snippets into WordPress; ask a developer to change protected presentation.

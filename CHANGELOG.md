@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- [main-site] Editing scope switch: the `tbt_editing_scope` option limits the dashboard to the Results & Testimonials page, its Testimonials and its Class Years (`testimonials`), or leaves everything editable (`all`, default). Locked pages cannot be opened for editing; the Tutors, FAQs and Results lists are hidden. The public site is unchanged.
 - [main-site] Client-editable: IntensiveFix copy is now edited in WordPress like the other pages. New tabs: Top of the page (kicker, title with red and green words, dates line, button, WhatsApp messages, top-bar button), Student worries, Track record (4th number, video), FastTrack heading and Closing message. The Google reviews strip (Home and IntensiveFix) has a Google reviews tab on Home: heading, link, 12 review slots (name, text, date, stars, optional photo, initials when there is no photo). The Free Bio Notes signup-form link is a field in the Email form tab. The defaults render the same page as before.
 - [main-site] WordPress export copies theme images named only in meta tags (the link-preview share image), because wget skips them. After the first rebuild the share image returned 404.
 - [main-site] Results & Testimonials: "Transform My Grade Now" buttons never wrap. The label fills the pill almost exactly and wrapped on Linux font rendering.
