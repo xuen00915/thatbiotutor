@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Removed the unused individual result from the reference data so site setup no longer creates it.
+
 - [main-site] Page image fields show the theme’s current default picture until it is replaced. Paragraph fields wrap and grow to show their text.
 
 - [main-site] Added an Administrator-only visual editor with the rendered page beside its WordPress fields. Edit buttons select sections, and saving refreshes the preview and keeps the selected section open.

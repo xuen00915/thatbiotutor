@@ -192,7 +192,7 @@ final class SiteSetupTest
         $this->assertSame(4, count($first['records']['tutors'] ?? []), 'Setup must seed the four original tutors.');
         $this->assertTrue(count($first['records']['testimonials'] ?? []) >= 50, 'Setup must seed the video and preserved text-review archives.');
         $this->assertTrue(count($first['records']['faqs'] ?? []) >= 30, 'Setup must seed the original FAQ collections.');
-        $this->assertTrue(count($first['records']['results'] ?? []) >= 1, 'Setup must seed editable structured results.');
+        $this->assertSame([], $first['records']['results'] ?? [], 'Setup must not recreate the unused result record.');
         $this->assertSame('page', $GLOBALS['tbt_db']['options']['show_on_front'] ?? null, 'Setup must select a static front page.');
         $homeId = $first['pages']['home'];
         $this->assertSame($homeId, $GLOBALS['tbt_db']['options']['page_on_front'] ?? null, 'Home must be assigned as the static front page.');

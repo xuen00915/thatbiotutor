@@ -397,11 +397,6 @@ function tbt_reference_content(): array
         }
     }
 
-    $resultRecords = [[
-        'seed_key' => 'result-cayden-zhu-2025', 'title' => 'Cayden Zhu', 'menu_order' => 10, 'source' => $crawlSource('/testimonials'),
-        'fields' => ['tbt_result_student' => 'Cayden Zhu', 'tbt_result_before' => '65%', 'tbt_result_after' => '85%', 'tbt_result_year' => '2025'],
-    ]];
-
     $classYearRecords = [
             ['seed_key' => 'class-year-2025', 'title' => 'Class of 2025', 'menu_order' => 10, 'source' => $crawlSource('/testimonials'), 'fields' => ['tbt_year_value' => '2025', 'tbt_year_heading' => 'Class of 2025', 'tbt_year_summary' => '', 'tbt_year_growth_icon' => '0', 'tbt_year_show_advice' => '1', 'tbt_year_whatsapp_button' => '0', 'tbt_year_advice' => '(Watch to the End for Their Advice to Future O Level Batches!)']],
             ['seed_key' => 'class-year-2024', 'title' => 'Class of 2024', 'menu_order' => 20, 'source' => $crawlSource('/testimonials'), 'fields' => ['tbt_year_value' => '2024', 'tbt_year_heading' => 'Class of 2024', 'tbt_year_summary' => '', 'tbt_year_growth_icon' => '0', 'tbt_year_show_advice' => '1', 'tbt_year_whatsapp_button' => '0', 'tbt_year_advice' => '(Watch to the End for Their Advice to Future O Level Batches!)']],
@@ -570,7 +565,6 @@ function tbt_reference_content(): array
             'testimonials' => $testimonialRecords,
             'class_years' => $classYearRecords,
             'faqs' => $faqRecords,
-            'results' => $resultRecords,
             'tutors' => [
                 [
                     'seed_key' => 'tutor-ms-chelsea',
