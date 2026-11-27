@@ -148,7 +148,27 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     assert.ok(await page.locator('.acf-field[data-name="home_track_video_url"]').isVisible());
     const [previewBox, panelBox] = await Promise.all([page.locator('iframe[title="Page preview"]').boundingBox(), section.boundingBox()]);
     assert.ok(previewBox.x + previewBox.width < panelBox.x, 'The visual layout and fields sit side by side.');
+    await preview.getByRole('button', { name: 'Edit FastTrack system', exact: true }).click();
+    const paragraph = page.locator('.acf-field[data-name="home_fasttrack_lead"] textarea');
+    assert.match(await paragraph.inputValue({ timeout: 5000 }), /Why should students write their own notes/);
+    assert.ok(await paragraph.evaluate(el => el.scrollHeight <= el.clientHeight + 1), 'The full FastTrack paragraph is visible in the side panel.');
     await preview.getByRole('button', { name: 'Edit Top of the page', exact: true }).click();
+    for (const name of ['home_hero_refund', 'home_whatsapp_message']) {
+      const wrapping = page.locator(`.acf-field[data-name="${name}"] textarea`);
+      assert.ok(await wrapping.evaluate(el => el.scrollHeight <= el.clientHeight + 1), `The full ${name} is visible.`);
+    }
+    for (let n = 1; n <= 5; n++) {
+      const name = 'home_hero_image_' + String(n).padStart(2, '0');
+      const field = page.locator(`.acf-field[data-name="${name}"]`);
+      if (!(await field.locator('.acf-image-uploader.has-value').count())) {
+        const thumbnail = field.locator('.tbt-bundled-image img');
+        await thumbnail.waitFor({ timeout: 5000 });
+        const displayedImage = preview.locator('img[data-media-key="home_hero_' + String(n).padStart(2, '0') + '"]');
+        assert.equal(await thumbnail.getAttribute('src'), await displayedImage.getAttribute('src'), 'The thumbnail matches the picture on the page.');
+        assert.equal(await field.locator('.acf-image-uploader input[type="hidden"]').inputValue(), '', 'Showing the default does not set an attachment.');
+        assert.ok(await field.getByRole('link', { name: 'Replace image', exact: true }).isVisible());
+      }
+    }
     const kicker = page.locator('.acf-field[data-name="home_specialist_line"] input');
     const kickerOriginal = await kicker.inputValue();
     const kickerStamp = 'Client kicker ' + Date.now();

@@ -92,11 +92,14 @@ function tbt_acf_section_fields(string $prefix, array $section): array
                 $fields[] = tbt_acf_url($key, $label, $name, $settings);
                 break;
             case 'image':
-                $settings['instructions'] = trim(($settings['instructions'] !== '' ? $settings['instructions'] . ' ' : '') . 'Leave empty to keep the current picture. Upload a new image to replace it.');
+                $settings['tbt_builtin_media'] = (string) ($declared['fallback'] ?? '');
                 $fields[] = tbt_acf_image($key, $label, $name, $settings);
                 break;
             default:
-                $fields[] = tbt_acf_field($key, $label, $name, 'text', $settings);
+                $longCopy = mb_strlen($settings['default_value']) > 60 || stripos($label, 'paragraph') !== false;
+                $fields[] = $longCopy
+                    ? tbt_acf_textarea($key, $label, $name, $settings)
+                    : tbt_acf_field($key, $label, $name, 'text', $settings);
         }
     }
     return $fields;
@@ -110,6 +113,26 @@ function tbt_acf_image(string $key, string $label, string $name, array $settings
         'preview_size' => 'medium',
         'library' => 'all',
     ], $settings));
+}
+
+/** Render the theme fallback beside the ACF uploader without creating an attachment. */
+function tbt_render_bundled_image_in_editor(array $field): void
+{
+    $key = (string) ($field['tbt_builtin_media'] ?? '');
+    if ($key === '' || !is_admin()) {
+        return;
+    }
+
+    $media = tbt_media($key);
+    if ($media['url'] === '') {
+        return;
+    }
+    ?>
+    <figure class="tbt-bundled-image">
+        <img src="<?php echo esc_url((string) $media['url']); ?>" alt="<?php echo esc_attr((string) ($media['alt'] ?? '')); ?>" loading="lazy">
+        <figcaption>Using the site’s default image</figcaption>
+    </figure>
+    <?php
 }
 
 /** Return the protected ACF page groups before registering them. */
@@ -129,7 +152,7 @@ function tbt_acf_page_groups(): array
                 continue;
             }
             $label = ucwords(str_replace('_', ' ', (string) preg_replace('/^' . preg_quote($prefix, '/') . '_?/', '', (string) $name)));
-            $constructor = is_string($value) && (str_contains($value, "\n") || strlen($value) > 110)
+            $constructor = is_string($value) && (str_contains($value, "\n") || mb_strlen($value) > 60)
                 ? 'tbt_acf_textarea'
                 : null;
             $key = tbt_reference_field_key($pageKey, (string) $name);
@@ -152,7 +175,9 @@ function tbt_acf_page_groups(): array
 
         if ($pageKey === 'home') {
             $fields[] = tbt_acf_tab('field_tbt_home_tab_shared', 'Shared site details');
-            $fields[] = tbt_acf_image('field_tbt_home_shared_logo', 'Site logo', 'home_shared_logo');
+            $fields[] = tbt_acf_image('field_tbt_home_shared_logo', 'Site logo', 'home_shared_logo', [
+                'tbt_builtin_media' => 'curated_shared_tbt_logo',
+            ]);
             $sharedFields = [
                 'whatsapp_number' => ['WhatsApp number', 'text'],
                 'whatsapp_message' => ['Default WhatsApp message', 'textarea'],
@@ -179,7 +204,9 @@ function tbt_acf_page_groups(): array
             $fields[] = tbt_acf_tab('field_tbt_notes_tab_slider', 'Notes slider');
             foreach (range(1, 3) as $index) {
                 $name = sprintf('notes_slider_image_%02d', $index);
-                $fields[] = tbt_acf_image('field_tbt_' . $name, 'Notes slide ' . $index, $name);
+                $fields[] = tbt_acf_image('field_tbt_' . $name, 'Notes slide ' . $index, $name, [
+                    'tbt_builtin_media' => sprintf('curated_notes_notes_slide_%02d', $index),
+                ]);
             }
         }
 
@@ -187,7 +214,9 @@ function tbt_acf_page_groups(): array
             $fields[] = tbt_acf_tab('field_tbt_celldivision_tab_slider', 'Crash-course slider');
             foreach (range(1, 5) as $index) {
                 $name = sprintf('celldivision_slider_image_%02d', $index);
-                $fields[] = tbt_acf_image('field_tbt_' . $name, 'Crash-course slide ' . $index, $name);
+                $fields[] = tbt_acf_image('field_tbt_' . $name, 'Crash-course slide ' . $index, $name, [
+                    'tbt_builtin_media' => sprintf('curated_celldivision_slide_%02d', $index),
+                ]);
             }
         }
 
@@ -197,12 +226,14 @@ function tbt_acf_page_groups(): array
                 $name = sprintf('intensivefix_program_image_%02d', $index);
                 $fields[] = tbt_acf_image('field_tbt_' . $name, 'Programme graphic ' . $index, $name, [
                     'instructions' => 'Keep supplied artwork in its approved numeric order. Use contain fit in the protected template.',
+                    'tbt_builtin_media' => sprintf('intensivefix_program_%02d', $index),
                 ]);
             }
             $fields[] = tbt_acf_image(
                 'field_tbt_intensivefix_student_reviews_image',
                 'Student reviews artwork',
-                'intensivefix_student_reviews_image'
+                'intensivefix_student_reviews_image',
+                ['tbt_builtin_media' => 'intensivefix_student_reviews']
             );
         }
 
@@ -276,4 +307,5 @@ function tbt_register_acf_fields(): void
 }
 
 add_action('acf/init', 'tbt_register_acf_fields');
+add_action('acf/render_field/type=image', 'tbt_render_bundled_image_in_editor', 20);
 

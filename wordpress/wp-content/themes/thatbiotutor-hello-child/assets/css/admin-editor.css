@@ -30,3 +30,33 @@
   width: min(100%, 22rem);
   min-height: 36px;
 }
+
+.acf-image-uploader.has-value + .tbt-bundled-image {
+  display: none;
+}
+
+.tbt-bundled-image {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 8px;
+}
+
+.tbt-bundled-image img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(100%, 200px);
+  max-height: 132px;
+  border-radius: 4px;
+}
+
+.tbt-bundled-image figcaption {
+  margin-top: 4px;
+  color: #50575e;
+  font-size: 12px;
+}
+
+[id^="acf-group_tbt_page_"] .acf-field-textarea textarea {
+  field-sizing: content;
+  min-height: 4lh;
+}

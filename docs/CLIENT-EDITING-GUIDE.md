@@ -33,8 +33,8 @@ Open **Pages**, then the page you want. The page opens on a clear screen with a 
 
 - **Formatted text boxes** have a short toolbar: **Bold**, *Italic*, <u>Underline</u>, **Highlight** (the green marker used on the About page), link and bullet list. Press Enter for a new paragraph. Anything that could break the layout (headings, colours, scripts, embedded frames) is removed automatically.
 - **Links**: select the words, click the link button and type the address. For a page on this site just type its path, for example `/classes/` or `/#faq`. Links to other sites should be set to open in a new tab; they are always opened safely.
-- **Pictures** that you leave empty keep their current image; upload a new one to replace it. Use WebP or JPG.
-- **Plain text boxes** keep their line breaks; leave a question or card empty to hide it.
+- **Pictures** show the current image, including a theme default when one is available. Choose **Replace image** to select a different one. Removing a replacement restores the default. Use WebP or JPG.
+- **Plain text boxes** keep their line breaks, and paragraphs wrap across lines. Leave a question or card empty to hide it.
 - The page layout, colours, menu and footer are managed by the theme, so they cannot be broken from the edit screen.
 
 ### Adding a new class year (Results & Testimonials)
