@@ -310,10 +310,17 @@ function tbt_acf_group_is_editable(array $group): bool
     return true;
 }
 
-/** Hide the dashboard screens of locked content types. */
+/** @return list<string> Content types whose dashboard screens are hidden for every user (content still renders). */
+function tbt_hidden_content_types(): array
+{
+    return ['tbt_result', 'tbt_faq'];
+}
+
+/** Hide the dashboard screens of locked content types, and of Results and FAQs for everyone. */
 function tbt_editing_scope_post_type_args(array $args, string $postType): array
 {
-    if (in_array($postType, tbt_structured_post_types(), true) && !in_array($postType, tbt_editable_content_types(), true)) {
+    if (in_array($postType, tbt_hidden_content_types(), true)
+        || (in_array($postType, tbt_structured_post_types(), true) && !in_array($postType, tbt_editable_content_types(), true))) {
         $args['show_ui'] = false;
         $args['show_in_menu'] = false;
         $args['show_in_admin_bar'] = false;

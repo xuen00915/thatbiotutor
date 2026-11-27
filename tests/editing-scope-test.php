@@ -92,7 +92,10 @@ $GLOBALS['tbt_scope_meta'] = [
 $all = tbt_scope_registered();
 tbt_scope_assert(count($all) === count(tbt_page_registry()) + 5, 'Scope "all" registers every page and content group.');
 tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [2]) === ['edit_pages'], 'Scope "all" keeps every page editable.');
-tbt_scope_assert(tbt_editing_scope_post_type_args(['show_ui' => true], 'tbt_faq')['show_ui'] === true, 'Scope "all" keeps FAQs visible.');
+tbt_scope_assert(tbt_editing_scope_post_type_args(['show_ui' => true], 'tbt_tutor')['show_ui'] === true, 'Scope "all" keeps Tutors visible.');
+foreach (['tbt_faq', 'tbt_result'] as $type) {
+    tbt_scope_assert(tbt_editing_scope_post_type_args(['show_ui' => true], $type)['show_ui'] === false, "{$type} is hidden for everyone.");
+}
 
 // Testimonials only.
 $GLOBALS['tbt_scope_option'] = 'testimonials';

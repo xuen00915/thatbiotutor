@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- [main-site] Results and FAQs menus are hidden in the dashboard for every user, administrators included. Their records still render on the site unchanged.
 - [main-site] Managers can manage user accounts: the Users menu lets them add, edit and remove Manager accounts (Users list shows Managers only). They can only give the Manager role and cannot edit, delete or change the role of administrators or other roles, or delete themselves.
 - [main-site] New "ThatBioTutor Manager" role (`tbt_manager`): always gets the limited editing scope (Results & Testimonials video and Student Stories, Free Bio Notes Email form, Testimonials, Class Years), whatever `tbt_editing_scope` says. Managers have no settings, plugin, theme or user access, cannot create pages or posts, and land on the Pages list; Dashboard, Posts, Media, Comments and Tools are hidden. Administrators follow the option as before.
 - [main-site] Editing scope switch: the `tbt_editing_scope` option `testimonials` limits the dashboard to the Results & Testimonials featured YouTube video and Student Stories, the Free Bio Notes Email form, and the Testimonials and Class Years lists; `all` (default) leaves everything editable. Other pages are left out of the Pages list (and its counts) and cannot be opened for editing; the Tutors, FAQs and Results lists are hidden. The limit applies to the dashboard only, so the public site renders every field as before.
