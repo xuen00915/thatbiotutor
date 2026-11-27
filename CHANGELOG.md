@@ -4,7 +4,7 @@
 
 - [main-site] Reduced the gap before the Free Bio Notes signup fields and resized the GetResponse embed to keep the full Submit button visible.
 
-- [main-site] Added the Administrator-only Website Content screen with eight main pages, the Privacy Policy draft, an expandable Additional Pages list, and shortcuts to each content collection.
+- [main-site] The Administrator’s WordPress Pages list opens to eight main site pages using their navigation labels, plus the Privacy Policy draft. Additional Pages and All Pages are available as list filters.
 - [main-site] WordPress Administrators can edit every page and content collection, including FAQs and Results, regardless of legacy editing-scope options. The limited dashboard still offers the Free Bio Notes Email form and Tutors. Managers can assign the Manager role and manage other Manager accounts.
 
 - [main-site] Page editors prefill approved defaults for fields missing from older installs, so saving a page keeps the visible content.

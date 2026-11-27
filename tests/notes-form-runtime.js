@@ -15,10 +15,11 @@ const provider = 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.
    const frame=page.locator('.tbt-notes-form__embed');
    assert.equal(await frame.getAttribute('src'),provider);
    assert.equal(await frame.getAttribute('title'),'Free Bio Notes signup form');
-   const box=await frame.boundingBox();
-   const wrapper = page.locator('.tbt-notes-form--getresponse');
-   const clip = await wrapper.boundingBox();
-   const heading = await page.locator('#notes-form h2').boundingBox();
+   const { box, clip, heading } = await frame.evaluate((embed) => ({
+    box: embed.getBoundingClientRect().toJSON(),
+    clip: embed.parentElement.getBoundingClientRect().toJSON(),
+    heading: embed.closest('#notes-form').querySelector('h2').getBoundingClientRect().toJSON(),
+   }));
    assert.equal(Math.round(clip.y - heading.y - heading.height), 12, 'The embed sits closer to its heading');
    assert.equal(Math.round(clip.y - box.y), 28, 'Only the provider’s top whitespace is cropped');
    const frameWidth = box.width;

@@ -6,122 +6,133 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-function tbt_register_website_content_screen(): void
+/** The main Pages view follows the site's navigation labels. */
+function tbt_admin_main_page_labels(): array
 {
-    if (tbt_current_user_is_site_administrator()) {
-        add_menu_page('Website Content', 'Website Content', 'edit_pages', 'tbt-website-content', 'tbt_render_website_content_screen', 'dashicons-edit-page', 4);
+    static $labels;
+    if (isset($labels)) {
+        return $labels;
     }
-}
-add_action('admin_menu', 'tbt_register_website_content_screen');
-
-/** Render links to WordPress editors using the same page registry as site setup. */
-function tbt_render_website_content_screen(): void
-{
-    if (!tbt_current_user_is_site_administrator() || !current_user_can('edit_pages')) {
-        wp_die('Only administrators can open Website Content.');
-    }
-
-    $mainPages = [
-        'home' => 'Homepage, logo, contact details, and footer',
-        'classes' => 'Class overview and tuition options',
-        'sec-3-pure-g3-biology-tuition' => 'Sec 3 programme, schedule, and enrolment',
-        'sec-4-pure-g3-biology-tuition' => 'Sec 4 programme, schedule, and enrolment',
-        'testimonials' => 'Results page headings and featured video',
-        'notes' => 'Free notes, signup form, and download links',
-        'about' => 'Mission, teaching approach, and founder message',
-        'contact' => 'Contact page copy and location details',
-    ];
-    $collections = [
-        'tbt_testimonial' => 'Student quotes, videos, and where they appear',
-        'tbt_class_year' => 'Results posters, tables, and student stories by year',
-        'tbt_tutor' => 'Profiles, qualifications, portraits, and display order',
-        'tbt_faq' => 'Questions, answers, and their page assignments',
-        'tbt_result' => 'Structured result records',
-    ];
 
     $pages = tbt_page_registry();
-    $privacyId = (int) get_option('wp_page_for_privacy_policy');
-    $privacyPage = $privacyId > 0 ? get_post($privacyId) : null;
-    if (!$privacyPage || $privacyPage->post_type !== 'page' || $privacyPage->post_status === 'trash') {
-        $privacyPage = get_page_by_path('privacy-policy', OBJECT, 'page');
+    $navigation = [];
+    foreach (tbt_navigation_items() as $item) {
+        $navigation[$item['path']] = $item['label'];
+        foreach ($item['children'] ?? [] as $child) {
+            $navigation[$child['path']] = $child['label'];
+        }
     }
-    ?>
-    <div class="wrap tbt-content-hub">
-        <h1>Website Content</h1>
-        <p>Choose a page or content list, make your changes, then use <strong>Preview Changes</strong> or <strong>Update</strong> in its editor.</p>
-        <?php if (!function_exists('acf_add_local_field_group')) : ?>
-            <div class="notice notice-warning inline"><p>Activate Advanced Custom Fields to show the ThatBioTutor editing panels.</p></div>
-        <?php endif; ?>
 
-        <section aria-labelledby="tbt-main-pages">
-            <h2 id="tbt-main-pages">Pages</h2>
-            <table class="widefat striped" aria-label="Main pages">
-                <thead><tr><th scope="col">Page</th><th scope="col">What you can edit</th></tr></thead>
-                <tbody>
-                    <?php foreach ($mainPages as $key => $description) :
-                        $page = $pages[$key];
-                        tbt_render_website_content_page_row(get_page_by_path($page['slug'], OBJECT, 'page'), $page['title'], $description);
-                    endforeach;
-                    tbt_render_website_content_page_row($privacyPage, 'Privacy Policy', 'Website privacy information');
-                    ?>
-                </tbody>
-            </table>
-            <details class="tbt-content-hub__additional">
-                <summary>Additional Pages</summary>
-                <table class="widefat striped" aria-label="Additional pages">
-                    <thead><tr><th scope="col">Page</th><th scope="col">What you can edit</th></tr></thead>
-                    <tbody>
-                        <?php foreach (array_diff_key($pages, $mainPages) as $page) :
-                            tbt_render_website_content_page_row(get_page_by_path($page['slug'], OBJECT, 'page'), $page['title'], 'Page content and SEO');
-                        endforeach; ?>
-                    </tbody>
-                </table>
-            </details>
-        </section>
+    $labels = [];
+    foreach (['home', 'classes', 'sec-3-pure-g3-biology-tuition', 'sec-4-pure-g3-biology-tuition',
+        'testimonials', 'notes', 'about', 'contact'] as $key) {
+        $definition = $pages[$key];
+        $page = get_page_by_path($definition['slug'], OBJECT, 'page');
+        if ($page && $page->post_status !== 'trash') {
+            $labels[$page->ID] = $navigation[$definition['canonical']] ?? $definition['title'];
+        }
+    }
 
-        <section aria-labelledby="tbt-content-lists">
-            <h2 id="tbt-content-lists">Content lists</h2>
-            <table class="widefat striped" aria-labelledby="tbt-content-lists">
-                <thead><tr><th scope="col">List</th><th scope="col">What you can edit</th></tr></thead>
-                <tbody>
-                    <?php foreach ($collections as $type => $description) :
-                        $postType = get_post_type_object($type);
-                        if (!$postType || !current_user_can($postType->cap->edit_posts)) {
-                            continue;
-                        }
-                        ?>
-                        <tr>
-                            <th scope="row"><a href="<?php echo esc_url(admin_url('edit.php?post_type=' . $type)); ?>"><?php echo esc_html($postType->labels->name); ?></a></th>
-                            <td><?php echo esc_html($description); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </section>
-    </div>
-    <?php
+    $privacyId = (int) get_option('wp_page_for_privacy_policy');
+    $privacy = $privacyId > 0 ? get_post($privacyId) : null;
+    if (!$privacy || $privacy->post_type !== 'page' || $privacy->post_status === 'trash') {
+        $privacy = get_page_by_path('privacy-policy', OBJECT, 'page');
+    }
+    if ($privacy && $privacy->post_status !== 'trash') {
+        $labels[$privacy->ID] = 'Privacy Policy';
+    }
+    return $labels;
 }
 
-/** Show the page's actual state, including an unpublished privacy policy. */
-function tbt_render_website_content_page_row(?WP_Post $post, string $title, string $description): void
+/** Search and the core status filters can find pages across the site. */
+function tbt_admin_page_list_view(): string
 {
-    $editUrl = $post ? get_edit_post_link($post, 'raw') : null;
-    $status = $post && $post->post_status !== 'publish' ? get_post_status_object($post->post_status) : null;
-    ?>
-    <tr>
-        <th scope="row">
-            <?php if ($editUrl) : ?>
-                <a href="<?php echo esc_url($editUrl); ?>"><?php echo esc_html($title); ?></a>
-            <?php else : ?>
-                <?php echo esc_html($title); ?>
-            <?php endif; ?>
-            <?php if ($status) : ?>
-                <span class="tbt-content-hub__status"><?php echo esc_html($status->label); ?></span>
-            <?php elseif (!$post) : ?>
-                <span class="tbt-content-hub__status">Missing</span>
-            <?php endif; ?>
-        </th>
-        <td><?php echo esc_html($description); ?></td>
-    </tr>
-    <?php
+    $view = $_GET['tbt_page_list'] ?? '';
+    if (in_array($view, ['additional', 'all'], true)) {
+        return $view;
+    }
+    return empty($_GET['s']) && empty($_GET['post_status']) && empty($_GET['author']) ? 'main' : 'all';
+}
+
+function tbt_filter_admin_pages_list(WP_Query $query): void
+{
+    if (!is_admin() || ($GLOBALS['pagenow'] ?? '') !== 'edit.php' || !$query->is_main_query()
+        || $query->get('post_type') !== 'page' || !tbt_current_user_is_site_administrator()) {
+        return;
+    }
+
+    $view = tbt_admin_page_list_view();
+    if ($view === 'all') {
+        return;
+    }
+
+    $mainIds = array_keys(tbt_admin_main_page_labels());
+    if ($view === 'additional') {
+        $query->set('post__not_in', array_merge((array) $query->get('post__not_in'), $mainIds));
+        return;
+    }
+
+    $included = (array) $query->get('post__in');
+    if ($included !== []) {
+        $mainIds = array_intersect($mainIds, array_map('intval', $included));
+    }
+    $mainIds = array_diff($mainIds, (array) $query->get('post__not_in'));
+    $query->set('post__in', array_values($mainIds) ?: [0]);
+    if (!isset($_GET['orderby'])) {
+        $query->set('orderby', 'post__in');
+    }
+}
+
+/** Match the sidebar label to the view that opens by default. */
+function tbt_admin_main_pages_menu_label(): void
+{
+    if (!tbt_current_user_is_site_administrator()) {
+        return;
+    }
+
+    global $submenu;
+    $list = 'edit.php?post_type=page';
+    foreach ($submenu[$list] ?? [] as $index => $item) {
+        if (($item[2] ?? '') === $list) {
+            $submenu[$list][$index][0] = 'Main Pages';
+            return;
+        }
+    }
+}
+
+function tbt_admin_page_list_views(array $views): array
+{
+    if (!tbt_current_user_is_site_administrator()) {
+        return $views;
+    }
+
+    $active = tbt_admin_page_list_view();
+    if ($active === 'all' && ($_GET['tbt_page_list'] ?? '') !== 'all') {
+        $active = '';
+    }
+    $tabs = [];
+    foreach (['main' => 'Main Pages', 'additional' => 'Additional Pages', 'all' => 'All Pages'] as $view => $label) {
+        $url = admin_url('edit.php?post_type=page' . ($view === 'main' ? '' : '&tbt_page_list=' . $view));
+        $current = $active === $view ? ' class="current" aria-current="page"' : '';
+        $tabs['tbt_' . $view] = '<a href="' . esc_url($url) . '"' . $current . '>' . esc_html($label) . '</a>';
+    }
+    unset($views['all']);
+    return $tabs + $views;
+}
+
+/** Use short navigation names on this list without changing stored page titles. */
+function tbt_admin_page_list_title(string $title, int $postId): string
+{
+    if (!is_admin() || !function_exists('get_current_screen') || (get_current_screen()->id ?? '') !== 'edit-page'
+        || !tbt_current_user_is_site_administrator()) {
+        return $title;
+    }
+    return tbt_admin_main_page_labels()[$postId] ?? $title;
+}
+
+if (function_exists('add_filter')) {
+    add_action('admin_menu', 'tbt_admin_main_pages_menu_label');
+    add_action('pre_get_posts', 'tbt_filter_admin_pages_list');
+    add_filter('views_edit-page', 'tbt_admin_page_list_views');
+    add_filter('the_title', 'tbt_admin_page_list_title', 10, 2);
 }

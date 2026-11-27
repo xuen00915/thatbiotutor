@@ -4,10 +4,10 @@ The public layout is protected by the ThatBioTutor child theme. Client-safe word
 
 ## Administrators
 
-In WordPress, open **Website Content**. The Pages table contains Home, Classes, Sec 3, Sec 4, Results & Testimonials, Free Bio Notes, About Us, Contact, and the Privacy Policy. Its status appears beside the title, so you can identify the draft before opening it.
+In WordPress, open **Pages**. The default list shows Home, Classes, Sec 3, Sec 4, Results & Testimonials, Free Bio Notes, About Us, Contact, and the Privacy Policy draft.
 
-- Expand **Additional Pages** to edit Cell Division Crash Course, Our Causes, Tuition Recommendations, or IntensiveFix.
-- Use **Content lists** to edit Testimonials, Class Years, Tutors, FAQs, and Results.
+- Select **Additional Pages** above the list to edit pages such as Cell Division Crash Course, Our Causes, Tuition Recommendations, and IntensiveFix. Select **All Pages** to see the complete list.
+- Use the WordPress sidebar to edit Testimonials, Class Years, Tutors, FAQs, and Results.
 - Open **Home** for the shared logo, contact information, and footer.
 - In each page editor, select the tab for your section. Use **Preview Changes** to review it and **Update** to save. For Privacy Policy, use **Save Draft** to keep it unpublished.
 

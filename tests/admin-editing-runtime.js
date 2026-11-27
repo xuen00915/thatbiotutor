@@ -21,25 +21,38 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     await page.click('#wp-submit');
     await page.waitForLoadState('load');
 
-    // The editing hub brings the eight everyday pages and the privacy draft together.
-    await page.getByRole('link', { name: 'Website Content', exact: true }).click();
-    await page.getByRole('heading', { name: 'Website Content', exact: true }).waitFor();
-    const mainPages = page.getByRole('table', { name: 'Main pages' });
-    const mainPageNames = await mainPages.getByRole('link').allTextContents();
-    assert.deepEqual(mainPageNames, [
-      'Home', 'Classes', 'Sec 3 Pure / G3 Biology Tuition', 'Sec 4 Pure / G3 Biology Tuition',
-      'Results & Testimonials', 'Free Bio Notes', 'About Us', 'Contact', 'Privacy Policy',
+    // The regular Pages screen is the starting point for editing site pages.
+    const sidebar = page.locator('#adminmenu');
+    assert.equal(await sidebar.getByRole('link', { name: 'Website Content', exact: true }).count(), 0);
+    await sidebar.getByRole('link', { name: 'Pages', exact: true }).click();
+    const pageNames = async () => {
+      const rows = page.locator('#the-list a.row-title');
+      await rows.first().waitFor();
+      return rows.allTextContents();
+    };
+    assert.deepEqual(await pageNames(), [
+      'Home', 'Classes', 'Sec 3', 'Sec 4', 'Results & Testimonials', 'Free Bio Notes', 'About Us', 'Contact', 'Privacy Policy',
     ]);
-    assert.match(await mainPages.getByRole('row', { name: /Privacy Policy/ }).innerText(), /Draft/);
-    await page.getByText('Additional Pages', { exact: true }).click();
-    const additionalPages = page.getByRole('table', { name: 'Additional pages' });
-    assert.deepEqual(await additionalPages.getByRole('link').allTextContents(), [
-      'Cell Division Crash Course', 'Our Causes', 'Tuition Recommendations', 'IntensiveFix',
-    ]);
-    for (const collection of ['Testimonials', 'Class Years', 'Tutors', 'FAQs', 'Results']) {
-      assert.ok(await page.getByRole('region', { name: 'Content lists' }).getByRole('link', { name: collection, exact: true }).isVisible());
+    assert.match(await page.locator('#the-list tr', { hasText: 'Privacy Policy' }).innerText(), /Draft/);
+    assert.ok(await sidebar.getByRole('link', { name: 'Main Pages', exact: true }).isVisible());
+    const aboutFromPages = await page.locator('#the-list a.row-title', { hasText: 'About Us' }).getAttribute('href');
+    const views = page.locator('.subsubsub');
+    await views.getByRole('link', { name: 'Additional Pages', exact: true }).click();
+    await page.waitForURL('**/edit.php?post_type=page&tbt_page_list=additional');
+    const additionalNames = await pageNames();
+    for (const title of ['Cell Division Crash Course', 'Our Causes', 'Tuition Recommendations', 'IntensiveFix']) {
+      assert.ok(additionalNames.includes(title), `Additional Pages includes ${title}`);
     }
-    const aboutFromHub = await mainPages.getByRole('link', { name: 'About Us' }).getAttribute('href');
+    assert.ok(!additionalNames.includes('Home'));
+    await views.getByRole('link', { name: 'All Pages', exact: true }).click();
+    await page.waitForURL('**/edit.php?post_type=page&tbt_page_list=all');
+    assert.ok((await pageNames()).includes('Home') && (await pageNames()).includes('IntensiveFix'));
+    for (const collection of ['Testimonials', 'Class Years', 'Tutors', 'FAQs', 'Results']) {
+      assert.ok(await sidebar.locator('a.menu-top').getByText(collection, { exact: true }).isVisible());
+    }
+
+    await page.goto(new URL('sec-3-pure-g3-biology-tuition/', base + '/').href);
+    assert.ok(await page.locator('main h1').isVisible(), 'A signed-in administrator can still view the public page.');
 
     // Click Update/Publish and wait for WordPress to finish saving and reload the screen.
     const save = async () => { await Promise.all([page.waitForNavigation({ waitUntil: 'load' }), page.locator('#publish').click()]); };
@@ -51,7 +64,7 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
 
     // 1. A protected page opens on a clear edit screen: field tabs first, no empty block canvas.
     const aboutEdit = await editLink('About Us');
-    assert.equal(new URL(aboutFromHub, base).href, aboutEdit, 'The dashboard opens the real page editor.');
+    assert.equal(new URL(aboutFromPages, base).href, aboutEdit, 'The Pages list opens the real page editor.');
     await page.goto(aboutEdit);
     await page.waitForSelector('.acf-tab-button:visible');
     assert.equal(await page.locator('#editor .edit-post-layout, .block-editor-writing-flow').count(), 0, 'Protected pages must not open the empty block editor.');
