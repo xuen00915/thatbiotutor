@@ -206,13 +206,13 @@ function tbt_rich_inline(string $html): string
     return trim((string) preg_replace('~</?p>~i', '', tbt_rich($html)));
 }
 
-/** A heading with green accent words: the Highlight in the editor becomes the accent span the design styles. */
+/** Render saved emphasis as green text in headings. */
 function tbt_heading_html(string $html): string
 {
     return str_replace('</mark>', '</span>', (string) preg_replace('~<mark[^>]*>~i', '<span>', tbt_rich_inline($html)));
 }
 
-/** A heading whose Highlight words get one class and whose red words ("Red" button) get another (the Home title). */
+/** Render green and red accents in hero titles. */
 function tbt_accent_marks(string $html, string $greenClass, string $redClass): string
 {
     $html = tbt_rich_inline($html);
@@ -300,14 +300,20 @@ function tbt_content_url(string $name, string $default = ''): string
 /** Give the formatted-text editor a clean, client-safe toolbar and keep underline/highlight as plain tags. */
 function tbt_editor_toolbars(array $toolbars): array
 {
-    $toolbars['ThatBioTutor'] = [1 => ['bold', 'italic', 'underline', 'tbt_highlight', 'tbt_red', 'link', 'unlink', 'bullist', 'numlist', 'removeformat', 'undo', 'redo']];
+    $formatting = ['bold', 'italic', 'underline'];
+    $links = ['link', 'unlink'];
+    $history = ['removeformat', 'undo', 'redo'];
+    $toolbars['ThatBioTutor'] = [1 => array_merge($formatting, ['tbt_highlight'], $links, ['bullist', 'numlist'], $history)];
+    $toolbars['ThatBioTutor Green'] = [1 => array_merge($formatting, ['tbt_green_text'], $links, $history)];
+    $toolbars['ThatBioTutor Green and Red'] = [1 => array_merge($formatting, ['tbt_green_text', 'tbt_red'], $links, $history)];
     return $toolbars;
 }
 
 /** Load the Highlight button / <u> underline plugin and let the editor keep <mark> and <u>. */
 function tbt_editor_plugins(array $plugins): array
 {
-    $plugins['tbt_highlight'] = TBT_THEME_URI . '/assets/js/admin-editor.js';
+    $script = '/assets/js/admin-editor.js';
+    $plugins['tbt_highlight'] = TBT_THEME_URI . $script . '?ver=' . (string) filemtime(TBT_THEME_DIR . $script);
     return $plugins;
 }
 

@@ -114,6 +114,23 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     await pub.reload();
     assert.ok(!(await pub.locator('.tbt-about-mission').innerText()).includes(stamp), 'The restored text must replace the test edit.');
 
+    // The inclusions heading uses the same green text in TinyMCE as in the page preview.
+    const sec4Edit = await editLink('Sec 4');
+    await page.goto(sec4Edit + '&tbt_visual=1');
+    const sec4Preview = page.frameLocator('iframe[title="Page preview"]');
+    await sec4Preview.getByRole('button', { name: 'Edit What students get', exact: true }).click();
+    const inclusions = page.locator('.acf-field[data-name="sec4_inclusions_line2"]');
+    await inclusions.locator('.mce-btn[aria-label="Green text"]').waitFor({ timeout: 5000 });
+    assert.equal(await inclusions.locator('.mce-btn[aria-label="Highlight in green"]').count(), 0);
+    const accent = inclusions.frameLocator('.mce-edit-area iframe').locator('mark');
+    const editorAccent = await accent.evaluate(el => ({
+      color: getComputedStyle(el).color,
+      background: getComputedStyle(el).backgroundColor,
+    }));
+    const pageAccent = await sec4Preview.locator('[data-section="inclusions"] h2 span').evaluate(el => getComputedStyle(el).color);
+    assert.equal(editorAccent.color, pageAccent, 'Green text matches the site’s heading colour.');
+    assert.equal(editorAccent.background, 'rgba(0, 0, 0, 0)', 'Green text has no highlight background.');
+
     // 5. A new class year appears on the page and in the year menu, newest first, then is removed.
     await page.goto(`${base}/wp-admin/post-new.php?post_type=tbt_class_year`);
     await page.fill('#title', 'Class of 2099');

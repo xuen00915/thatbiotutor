@@ -11,7 +11,7 @@ return [
     'sections' => [
         tbt_f_section('hero', 'Top of the page', [
             tbt_f_text('intensivefix_kicker', 'Small line above the title', "Singapore's ONLY 'O' Level Pure/G3 Bio Specialist"),
-            tbt_f_inline('intensivefix_heading', 'Main title', 'Fix Your Entire Sec 3 Bio Foundation Before the <mark data-tone="red">Chaotic Sec 4 Year</mark> Begins — In Just <mark>4 DAYS</mark>', 'Use Highlight for green words and Red for red words.'),
+            tbt_f_inline('intensivefix_heading', 'Main title', 'Fix Your Entire Sec 3 Bio Foundation Before the <mark data-tone="red">Chaotic Sec 4 Year</mark> Begins — In Just <mark>4 DAYS</mark>'),
             tbt_f_inline('intensivefix_limited', 'Dates line under the title', '<strong>Limited time:</strong> Only during <strong>last two weeks of Nov/first two weeks of Dec.</strong>', 'Change the dates here for each run. Use Bold for the parts in bold. Leave empty to hide.'),
             tbt_f_text('intensivefix_cta_label', 'Button text', 'Fix My Sec 3 Foundation'),
             tbt_f_text('intensivefix_whatsapp_message', 'Message the page buttons pre-fill in WhatsApp', 'Hi ThatBioTutor, I would like to enquire about IntensiveFix. Please share the schedule and next steps.'),
@@ -35,7 +35,7 @@ return [
         ], 'The four classroom photos are shared with the Home page (Home → Track record).'),
 
         tbt_f_section('fasttrack', 'FastTrack heading', [
-            tbt_f_inline('intensivefix_fasttrack_heading', 'Heading', '<strong>All IntensiveFix students will receive</strong> ThatBioTutor\'s FastTrack System, which Helps Students Score <mark>A1/A2</mark> Without the Endless Revision Grind', 'Use Highlight for the green words.'),
+            tbt_f_inline('intensivefix_fasttrack_heading', 'Heading', '<strong>All IntensiveFix students will receive</strong> ThatBioTutor\'s FastTrack System, which Helps Students Score <mark>A1/A2</mark> Without the Endless Revision Grind'),
         ], 'The five FastTrack steps below the heading are shared with the Home page (Home → FastTrack system).'),
 
         tbt_f_section('closing', 'Closing message', [

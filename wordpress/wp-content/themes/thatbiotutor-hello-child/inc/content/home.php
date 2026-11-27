@@ -43,7 +43,7 @@ return [
     'sections' => [
         tbt_f_section('hero', 'Top of the page', array_merge([
             tbt_f_text('home_specialist_line', 'Small line above the title', "Singapore's ONLY 'O' Level Pure/G3 Bio Specialist"),
-            tbt_f_inline('home_heading', 'Main title', 'The One Missing Key to go from <mark data-tone="red">Fail</mark> to <mark>A1</mark> while cutting study time by <mark>90%</mark>', 'Use Highlight for green words and Red for the red word.'),
+            tbt_f_inline('home_heading', 'Main title', 'The One Missing Key to go from <mark data-tone="red">Fail</mark> to <mark>A1</mark> while cutting study time by <mark>90%</mark>'),
             tbt_f_inline('home_hero_result', 'Result line', 'The Average TBT Student Makes a <strong>2.3 Grade Jump</strong> (~C5 to A2)'),
             tbt_f_text('home_hero_refund', 'Refund line', "If a student doesn't absolutely love the $95 trial lesson, they get a full refund."),
             tbt_f_text('home_primary_cta_label', 'Button text (used on every trial button)', 'Book My Trial Lesson'),

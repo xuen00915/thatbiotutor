@@ -31,7 +31,7 @@ return [
             ['2. Open-ended questions are <mark>unpredictable</mark>', 'Students who understand the content still drop marks on Paper 2 because they do not know how to structure answers. OEQ marking is strict — and school rarely teaches answering technique.'],
             ['3. Topics feel <mark>disconnected</mark>', 'Biology topics link to each other — but most students and even some tutors teach them in isolation. Without the bigger picture, students cannot answer application questions.'],
             ['4. Hands-on practice is <mark>limited</mark>', 'Many students get little hands-on practice in school, making Paper 3 feel like a gamble. Our optional practical sessions cover commonly tested experiments, building the coordination and confidence to protect the full 20%.'],
-        ], 'inline', 'inline')), 'The heading is in the Page content tab. Select words in a title and press Highlight to show them in green.'),
+        ], 'inline', 'inline')), 'The heading is in the Page content tab. Select words in a title and choose Green text.'),
 
         tbt_f_section('solutions', 'How TBT solves them', tbt_f_cards('classes_solution', 'Solution', [
             ['Problem 1 — Too much content', '<strong>TBT FastTrack System</strong> — memory shortcuts and mnemonics built into every lesson. Students learn how to remember, not just what to remember.'],

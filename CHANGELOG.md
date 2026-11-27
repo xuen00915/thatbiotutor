@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] The page editor shows green and red text on accented headings, with separate highlighting for body copy.
+
 - [main-site] Removed SEO controls from the classic and visual page editors. The theme continues to use saved SEO metadata.
 
 - [main-site] Removed the retired FAQ graphic fields from the Sec 3 page editor.

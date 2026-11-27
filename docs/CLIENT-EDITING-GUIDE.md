@@ -31,7 +31,7 @@ Upload raster images as WebP. Preserve the indicated landscape/portrait fit and 
 
 Open **Pages**, then the page you want. The page opens on a clear screen with a short guide and a **ThatBioTutor** panel with a **Section** dropdown (for example *Our Mission*, *Message From The Founder*). Change the words, pictures and links, then press **Update**.
 
-- **Formatted text boxes** have a short toolbar: **Bold**, *Italic*, <u>Underline</u>, **Highlight** (the green marker used on the About page), link and bullet list. Press Enter for a new paragraph. Anything that could break the layout (headings, colours, scripts, embedded frames) is removed automatically.
+- **Formatted text boxes** have a short toolbar: **Bold**, *Italic*, <u>Underline</u>, **Highlight** (green background on body copy), **Green text** on accented headings, link and bullet list. Press Enter for a new paragraph. Anything that could break the layout (headings, colours, scripts, embedded frames) is removed automatically.
 - **Links**: select the words, click the link button and type the address. For a page on this site just type its path, for example `/classes/` or `/#faq`. Links to other sites should be set to open in a new tab; they are always opened safely.
 - **Pictures** show the current image, including a theme default when one is available. Choose **Replace image** to select a different one. Removing a replacement restores the default. Use WebP or JPG.
 - **Plain text boxes** keep their line breaks, and paragraphs wrap across lines. Leave a question or card empty to hide it.
@@ -46,7 +46,7 @@ Open **Pages**, then the page you want. The page opens on a clear screen with a 
 
 ### Home page and shared sections
 
-The Home page sections follow the page from top to bottom (*Top of the page*, *Student worries and stories*, *Track record*, *FastTrack system* and so on). The title uses two marker buttons: **Highlight** for green words and **Red** for the red word. Sections that also appear on the IntensiveFix page (FastTrack, proof, tutors, quality control, practical sessions, who it is for, founder, FAQ, classroom photos) are edited here once and update both pages. The FAQ is edited under **FAQs** (collection `home`).
+The Home page sections follow the page from top to bottom (*Top of the page*, *Student worries and stories*, *Track record*, *FastTrack system* and so on). The title uses two text colours: **Green text** and **Red text**. Sections that also appear on the IntensiveFix page (FastTrack, proof, tutors, quality control, practical sessions, who it is for, founder, FAQ, classroom photos) are edited here once and update both pages. The FAQ is edited under **FAQs** (collection `home`).
 
 ### Classes, Sec 3 and Sec 4
 
