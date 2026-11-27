@@ -120,7 +120,8 @@ foreach ([[null, 'all'], ['testimonials', 'all'], ['all', 'limited'], ['limited'
     tbt_register_content_types();
     foreach ($records as $id => $type) {
         $args = $GLOBALS['tbt_scope_post_type_args'][$type];
-        tbt_scope_assert($args['show_ui'] && $args['show_in_menu'], "Administrators see the {$type} menu.");
+        $visible = $type !== 'tbt_result';
+        tbt_scope_assert($args['show_ui'] === $visible && $args['show_in_menu'] === $visible, "Administrator menu visibility is correct for {$type}.");
         tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_posts'], 'edit_post', 1, [$id]) === ['edit_posts'], "Administrators can edit {$type} records.");
         $createCap = $args['capabilities']['create_posts'] ?? 'edit_posts';
         tbt_scope_assert(tbt_editing_scope_map_meta_cap([$createCap], $createCap, 1, []) === ['edit_posts'], "Administrators can create {$type} records.");

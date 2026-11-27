@@ -47,9 +47,11 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     await views.getByRole('link', { name: 'All Pages', exact: true }).click();
     await page.waitForURL('**/edit.php?post_type=page&tbt_page_list=all');
     assert.ok((await pageNames()).includes('Home') && (await pageNames()).includes('IntensiveFix'));
-    for (const collection of ['Testimonials', 'Class Years', 'Tutors', 'FAQs', 'Results']) {
+    for (const collection of ['Testimonials', 'Class Years', 'Tutors', 'FAQs']) {
       assert.ok(await sidebar.locator('a.menu-top').getByText(collection, { exact: true }).isVisible());
     }
+
+    assert.equal(await sidebar.locator('a[href="edit.php?post_type=tbt_result"]').count(), 0, 'The unused Results menu is hidden.');
 
     await page.goto(new URL('sec-3-pure-g3-biology-tuition/', base + '/').href);
     assert.ok(await page.locator('main h1').isVisible(), 'A signed-in administrator can still view the public page.');

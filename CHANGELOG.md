@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Removed the unused Results menu and Add Result shortcut from WordPress.
+
 - [main-site] Removed the unused individual result from the reference data so site setup no longer creates it.
 
 - [main-site] Page image fields show the theme’s current default picture until it is replaced. Paragraph fields wrap and grow to show their text.

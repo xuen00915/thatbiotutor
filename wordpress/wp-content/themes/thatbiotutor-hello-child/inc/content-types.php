@@ -12,7 +12,7 @@ function tbt_structured_post_types(): array
     return ['tbt_testimonial', 'tbt_class_year', 'tbt_tutor', 'tbt_faq', 'tbt_result'];
 }
 
-/** Register the private, admin-editable repeated-content types. */
+/** Register the private repeated-content types. */
 function tbt_register_content_types(): void
 {
     $definitions = [
@@ -24,6 +24,7 @@ function tbt_register_content_types(): void
     ];
 
     foreach ($definitions as $postType => [$plural, $singular, $icon]) {
+        $showEditor = $postType !== 'tbt_result';
         register_post_type($postType, [
             'labels' => [
                 'name' => $plural,
@@ -34,8 +35,8 @@ function tbt_register_content_types(): void
             'public' => false,
             'publicly_queryable' => false,
             'exclude_from_search' => true,
-            'show_ui' => true,
-            'show_in_menu' => true,
+            'show_ui' => $showEditor,
+            'show_in_menu' => $showEditor,
             'show_in_rest' => false,
             'menu_icon' => $icon,
             'supports' => $postType === 'tbt_faq'

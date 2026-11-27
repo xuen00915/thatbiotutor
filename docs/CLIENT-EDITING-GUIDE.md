@@ -7,7 +7,7 @@ The public layout is protected by the ThatBioTutor child theme. Client-safe word
 In WordPress, open **Pages**. The default list shows Home, Classes, Sec 3, Sec 4, Results & Testimonials, Free Bio Notes, About Us, Contact, and the Privacy Policy draft.
 
 - Select **Additional Pages** above the list to edit pages such as Cell Division Crash Course, Our Causes, Tuition Recommendations, and IntensiveFix. Select **All Pages** to see the complete list.
-- Use the WordPress sidebar to edit Testimonials, Class Years, Tutors, FAQs, and Results.
+- Use the WordPress sidebar to edit Testimonials, Class Years, Tutors, and FAQs.
 - Open **Home** for the shared logo, contact information, and footer.
 - For a visual preview, choose **Visual editor** from the page’s row actions or the toolbar on the live page. Select **Edit** on a section in the preview to open its fields. The **Section** dropdown also includes settings such as SEO. Press **Update** to save and refresh the preview. Use the WordPress sidebar for repeated records such as Tutors and FAQs.
 - In each page editor, use the **Section** dropdown. Use **Preview Changes** to review it and **Update** to save. For Privacy Policy, use **Save Draft** to keep it unpublished.
@@ -61,7 +61,7 @@ Under **Tutors**: display name, qualifications (one per line), LinkedIn link, po
 - **Testimonials**: edit student name, quote, rating, optional local portrait, optional YouTube URL, and display group. Use Draft to hide an unfinished item.
 - **Tutors**: edit role, biography, portrait, and sections. Long biographies wrap safely on mobile.
 - **FAQs**: edit the question, answer, and collection key used by the page.
-- **Results**: maintain individual result records. Edit the public class-year posters and results tables under **Class Years**.
+- **Class Years**: edit the public class-year posters and results tables.
 
 Published items render by menu order and then title/date where applicable. Change the WordPress order value deliberately; do not duplicate a record simply to move it. Draft records are never public.
 

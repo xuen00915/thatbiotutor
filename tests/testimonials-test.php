@@ -19,7 +19,7 @@ final class TestimonialsTest extends TbtContentTestCase
             $config = $GLOBALS['tbt_registered_post_types'][$type] ?? null;
             $this->assertTrue(is_array($config), "{$type} must be registered.");
             $this->assertSame(false, $config['public'] ?? null, "{$type} must not expose public single routes.");
-            $this->assertSame(true, $config['show_ui'] ?? null, "{$type} must remain editable in admin.");
+            $this->assertSame($type !== 'tbt_result', $config['show_ui'] ?? null, "{$type} must have the expected admin UI visibility.");
             $this->assertTrue(in_array('title', $config['supports'] ?? [], true), "{$type} must support titles.");
             $this->assertTrue(in_array('page-attributes', $config['supports'] ?? [], true), "{$type} must support native ordering.");
         }
