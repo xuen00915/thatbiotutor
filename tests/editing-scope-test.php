@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
     define('ABSPATH', dirname(__DIR__) . '/.wordpress-test/');
 }
 
-$GLOBALS['tbt_scope_option'] = 'all';
+$GLOBALS['tbt_scope_option'] = null;
 $GLOBALS['tbt_scope_meta'] = [];
 $GLOBALS['tbt_scope_groups'] = [];
 
@@ -16,13 +16,19 @@ $GLOBALS['tbt_page_scope_option'] = 'all';
 function get_option(string $name, mixed $default = false): mixed
 {
     return match ($name) {
-        'tbt_editing_scope' => $GLOBALS['tbt_scope_option'],
+        'tbt_editing_scope' => $GLOBALS['tbt_scope_option'] ?? $default,
         'tbt_page_scope' => $GLOBALS['tbt_page_scope_option'],
         default => $default,
     };
 }
-function add_action(string $hook, mixed $callback, int $priority = 10, int $args = 1): void {}
-function add_filter(string $hook, mixed $callback, int $priority = 10, int $args = 1): void {}
+function add_action(string $hook, mixed $callback, int $priority = 10, int $args = 1): void
+{
+    $GLOBALS['tbt_scope_hooks'][$hook][] = $callback;
+}
+function add_filter(string $hook, mixed $callback, int $priority = 10, int $args = 1): void
+{
+    $GLOBALS['tbt_scope_hooks'][$hook][] = $callback;
+}
 function acf_add_local_field_group(array $group): void
 {
     $GLOBALS['tbt_scope_groups'][] = $group['key'];
@@ -31,9 +37,16 @@ function acf_add_local_field_group(array $group): void
         $group['fields']
     )));
 }
+function register_post_type(string $type, array $args): void
+{
+    foreach ($GLOBALS['tbt_scope_hooks']['register_post_type_args'] ?? [] as $filter) {
+        $args = $filter($args, $type);
+    }
+    $GLOBALS['tbt_scope_post_type_args'][$type] = $args;
+}
 function get_post_type(int $id): string
 {
-    return 'page';
+    return $GLOBALS['tbt_scope_post_types'][$id] ?? 'page';
 }
 function get_posts(array $args): array
 {
@@ -43,19 +56,19 @@ function get_post_status(int $id): string
 {
     return 'publish';
 }
-$GLOBALS['tbt_scope_roles'] = [];
+$GLOBALS['tbt_scope_user_id'] = 1;
+function get_userdata(int $id): object|false
+{
+    $roles = [1 => ['administrator'], 2 => [TBT_MANAGER_ROLE_FOR_TEST], 3 => ['editor'], 4 => [TBT_MANAGER_ROLE_FOR_TEST]];
+    return isset($roles[$id]) ? (object) ['roles' => $roles[$id]] : false;
+}
 function wp_get_current_user(): object
 {
-    return (object) ['roles' => $GLOBALS['tbt_scope_roles']];
+    return get_userdata($GLOBALS['tbt_scope_user_id']) ?: (object) ['roles' => []];
 }
 function admin_url(string $path = ''): string
 {
     return 'https://example.test/wp-admin/' . $path;
-}
-$GLOBALS['tbt_scope_user_roles'] = [1 => ['administrator'], 5 => [TBT_MANAGER_ROLE_FOR_TEST], 6 => [TBT_MANAGER_ROLE_FOR_TEST], 7 => ['editor']];
-function get_userdata(int $id): object|false
-{
-    return isset($GLOBALS['tbt_scope_user_roles'][$id]) ? (object) ['roles' => $GLOBALS['tbt_scope_user_roles'][$id]] : false;
 }
 $GLOBALS['tbt_scope_admin'] = true;
 function is_admin(): bool
@@ -93,68 +106,72 @@ $GLOBALS['tbt_scope_meta'] = [
     3 => ['_wp_page_template' => 'page-notes.php'],
 ];
 
-// Default: everything editable.
-$all = tbt_scope_registered();
-tbt_scope_assert(count($all) === count(tbt_page_registry()) + 5, 'Scope "all" registers every page and content group.');
-tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [2]) === ['edit_pages'], 'Scope "all" keeps every page editable.');
-tbt_scope_assert(tbt_editing_scope_post_type_args(['show_ui' => true], 'tbt_tutor')['show_ui'] === true, 'Scope "all" keeps Tutors visible.');
-foreach (['tbt_faq', 'tbt_result'] as $type) {
-    tbt_scope_assert(tbt_editing_scope_post_type_args(['show_ui' => true], $type)['show_ui'] === false, "{$type} is hidden for everyone.");
-}
+$records = [5 => 'tbt_testimonial', 6 => 'tbt_class_year', 7 => 'tbt_tutor', 8 => 'tbt_faq', 9 => 'tbt_result'];
+$GLOBALS['tbt_scope_post_types'] = $records;
+$allGroups = count(tbt_page_registry()) + count($records);
 
-// Testimonials only.
-$GLOBALS['tbt_scope_option'] = 'testimonials';
-$limited = tbt_scope_registered();
-sort($limited);
-tbt_scope_assert($limited === ['group_tbt_class_year_fields', 'group_tbt_page_notes', 'group_tbt_page_testimonials', 'group_tbt_testimonial_fields'], 'Limited scope registers only the testimonials and notes pages, testimonials and class years: ' . implode(',', $limited));
-$testimonialFields = $GLOBALS['tbt_scope_fields']['group_tbt_page_testimonials'];
-foreach (['testimonials_video_url', 'testimonials_video_title', 'testimonials_stories_heading', 'testimonials_archive_button_label'] as $name) {
-    tbt_scope_assert(in_array($name, $testimonialFields, true), "Testimonials keeps {$name}.");
+foreach ([[null, 'all'], ['testimonials', 'all'], ['all', 'limited'], ['limited', 'limited']] as [$editingOption, $pageOption]) {
+    $GLOBALS['tbt_scope_option'] = $editingOption;
+    $GLOBALS['tbt_page_scope_option'] = $pageOption;
+    tbt_scope_assert(count(tbt_scope_registered()) === $allGroups, 'Administrators see every page and structured field group regardless of legacy options.');
+    tbt_scope_assert(in_array('notes_heading', $GLOBALS['tbt_scope_fields']['group_tbt_page_notes'], true), 'Administrators see the full Notes panel.');
+    tbt_scope_assert(tbt_locked_page_ids() === [], 'Administrators see the complete Pages list.');
+    tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [2]) === ['edit_pages'], 'Administrators can open About directly.');
+    tbt_register_content_types();
+    foreach ($records as $id => $type) {
+        $args = $GLOBALS['tbt_scope_post_type_args'][$type];
+        tbt_scope_assert($args['show_ui'] && $args['show_in_menu'], "Administrators see the {$type} menu.");
+        tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_posts'], 'edit_post', 1, [$id]) === ['edit_posts'], "Administrators can edit {$type} records.");
+        $createCap = $args['capabilities']['create_posts'] ?? 'edit_posts';
+        tbt_scope_assert(tbt_editing_scope_map_meta_cap([$createCap], $createCap, 1, []) === ['edit_posts'], "Administrators can create {$type} records.");
+    }
 }
-foreach (['testimonials_heading', 'testimonials_stories_advice', 'testimonials_hero_lead', 'testimonials_button_label', 'testimonials_whatsapp_message', 'tbt_testimonials_seo_title'] as $name) {
-    tbt_scope_assert(!in_array($name, $testimonialFields, true), "Testimonials drops {$name}.");
-}
-$notesFields = $GLOBALS['tbt_scope_fields']['group_tbt_page_notes'];
-foreach (['notes_form_url', 'notes_portrait_image', 'notes_access_note'] as $name) {
-    tbt_scope_assert(in_array($name, $notesFields, true), "Notes keeps {$name}.");
-}
-foreach (['notes_heading', 'notes_hero_lead', 'notes_fit_list', 'notes_slider_image_01', 'tbt_notes_seo_title'] as $name) {
-    tbt_scope_assert(!in_array($name, $notesFields, true), "Notes drops {$name}.");
-}
-tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [3]) === ['edit_pages'], 'The notes page stays editable.');
-
-// The public site always registers every field so values keep their formatting.
-$GLOBALS['tbt_scope_admin'] = false;
-tbt_scope_assert(count(tbt_scope_registered()) === count($all), 'The limit never applies outside the dashboard.');
-$GLOBALS['tbt_scope_admin'] = true;
-tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [1]) === ['edit_pages'], 'The testimonials page stays editable.');
-tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [2]) === ['do_not_allow'], 'Other protected pages are locked.');
-tbt_scope_assert(tbt_editing_scope_map_meta_cap(['read'], 'read_post', 1, [2]) === ['read'], 'Reading is never blocked.');
-foreach (['tbt_tutor', 'tbt_faq', 'tbt_result'] as $type) {
-    tbt_scope_assert(tbt_editing_scope_post_type_args(['show_ui' => true], $type)['show_ui'] === false, "{$type} is hidden.");
-}
-foreach (['tbt_testimonial', 'tbt_class_year'] as $type) {
-    tbt_scope_assert(tbt_editing_scope_post_type_args(['show_ui' => true], $type)['show_ui'] === true, "{$type} stays visible.");
-}
-
-tbt_scope_assert(tbt_locked_page_ids() === [2], 'Only locked pages are hidden from the Pages list.');
-$counts = tbt_editing_scope_page_counts((object) ['publish' => 13, 'draft' => 1], 'page');
-tbt_scope_assert($counts->publish === 12 && $counts->draft === 1, 'Page counts drop by the hidden pages.');
 
 $GLOBALS['tbt_scope_option'] = 'all';
-tbt_scope_assert(tbt_locked_page_ids() === [], 'Scope "all" hides no pages.');
+$GLOBALS['tbt_page_scope_option'] = 'all';
+foreach ([2, 3] as $userId) {
+    $GLOBALS['tbt_scope_user_id'] = $userId;
+    $limited = tbt_scope_registered();
+    sort($limited);
+    tbt_scope_assert($limited === ['group_tbt_page_notes', 'group_tbt_tutor_fields'], 'Managers and Editors see only Notes and Tutors.');
+    $notesFields = $GLOBALS['tbt_scope_fields']['group_tbt_page_notes'];
+    foreach (['notes_form_url', 'notes_portrait_image', 'notes_access_note'] as $name) {
+        tbt_scope_assert(in_array($name, $notesFields, true), "Limited access keeps {$name}.");
+    }
+    foreach (['notes_heading', 'notes_hero_lead', 'notes_fit_list', 'notes_slider_image_01', 'tbt_notes_seo_title'] as $name) {
+        tbt_scope_assert(!in_array($name, $notesFields, true), "Limited access hides {$name}.");
+    }
+    foreach ([1, 2, 4] as $postId) {
+        tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', $userId, [$postId]) === ['do_not_allow'], 'Restricted pages cannot be opened directly.');
+    }
+    tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', $userId, [3]) === ['edit_pages'], 'The Notes page stays editable.');
+    tbt_scope_assert(tbt_editing_scope_map_meta_cap(['delete_pages'], 'delete_post', $userId, [3]) === ['do_not_allow'], 'The Notes page cannot be trashed.');
+    tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_page', $userId, [2]) === ['do_not_allow'], 'WordPress edit_page also blocks restricted pages.');
+    tbt_scope_assert(tbt_editing_scope_map_meta_cap(['delete_pages'], 'delete_page', $userId, [3]) === ['do_not_allow'], 'WordPress delete_page also protects Notes.');
+    tbt_scope_assert(tbt_editing_scope_map_meta_cap(['read'], 'read_post', $userId, [2]) === ['read'], 'Reading is unaffected.');
+    tbt_register_content_types();
+    foreach ($records as $id => $type) {
+        $allowed = $type === 'tbt_tutor';
+        $args = $GLOBALS['tbt_scope_post_type_args'][$type];
+        tbt_scope_assert($args['show_ui'] === $allowed && $args['show_in_menu'] === $allowed, "Limited access sets {$type} menu visibility.");
+        tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_posts'], 'edit_post', $userId, [$id]) === ($allowed ? ['edit_posts'] : ['do_not_allow']), "Limited access controls {$type} editing.");
+        $createCap = $args['capabilities']['create_posts'] ?? 'edit_posts';
+        tbt_scope_assert(tbt_editing_scope_map_meta_cap([$createCap], $createCap, $userId, []) === ($allowed ? ['edit_posts'] : ['do_not_allow']), "Limited access controls {$type} creation.");
+    }
 
-// Manager role: limited whatever the option says; administrators follow the option.
-$GLOBALS['tbt_scope_option'] = 'all';
-$GLOBALS['tbt_scope_roles'] = ['administrator'];
-tbt_scope_assert(!tbt_editing_is_limited(), 'An administrator gets full editing when the option is "all".');
-$GLOBALS['tbt_scope_roles'] = [TBT_MANAGER_ROLE];
-tbt_scope_assert(tbt_editing_is_limited(), 'A Manager always gets limited editing.');
-tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [2]) === ['do_not_allow'], 'A Manager cannot edit About.');
-tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [1]) === ['edit_pages'], 'A Manager can edit Results & Testimonials.');
-tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [3]) === ['edit_pages'], 'A Manager can edit Free Bio Notes.');
-tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [4]) === ['do_not_allow'], 'A Manager cannot edit other pages such as Privacy Policy.');
-tbt_scope_assert(count(tbt_scope_registered()) === 4, 'A Manager sees only the limited panels.');
+    tbt_scope_assert(tbt_locked_page_ids() === [1, 2], 'Only Notes appears in the restricted Pages list.');
+    $counts = tbt_editing_scope_page_counts((object) ['publish' => 13, 'draft' => 1], 'page');
+    tbt_scope_assert($counts->publish === 11 && $counts->draft === 1, 'Page counts exclude hidden pages.');
+
+    $GLOBALS['tbt_scope_admin'] = false;
+    tbt_scope_assert(count(tbt_scope_registered()) === $allGroups, 'Public requests register every field for rendering.');
+    $GLOBALS['tbt_scope_admin'] = true;
+}
+
+tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [2]) === ['edit_pages'], 'Capability checks use the administrator being checked.');
+$GLOBALS['tbt_scope_user_id'] = 1;
+tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 2, [2]) === ['do_not_allow'], 'Checking a Manager as an administrator still denies access to locked pages.');
+
 $caps = tbt_manager_capabilities();
 foreach (['manage_options', 'edit_theme_options', 'activate_plugins', 'install_plugins', 'delete_pages'] as $cap) {
     tbt_scope_assert(empty($caps[$cap]), "A Manager must not have {$cap}.");
@@ -162,34 +179,24 @@ foreach (['manage_options', 'edit_theme_options', 'activate_plugins', 'install_p
 foreach (['read', 'upload_files', 'edit_pages', 'edit_published_pages', 'publish_pages', 'edit_posts', 'edit_others_posts', 'list_users', 'create_users', 'edit_users', 'delete_users', 'promote_users'] as $cap) {
     tbt_scope_assert(!empty($caps[$cap]), "A Manager needs {$cap}.");
 }
-tbt_scope_assert(str_ends_with(tbt_manager_login_redirect('x', '', (object) ['roles' => [TBT_MANAGER_ROLE]]), 'edit.php?post_type=page'), 'A Manager lands on the Pages list.');
-tbt_scope_assert(tbt_manager_login_redirect('x', '', (object) ['roles' => ['administrator']]) === 'x', 'Administrators keep their login destination.');
-// Manager user management: other Managers only, never administrators, only the Manager role can be given.
-tbt_scope_assert(TBT_MANAGER_ROLE === TBT_MANAGER_ROLE_FOR_TEST, 'Role slug is tbt_manager.');
-foreach (['edit_user', 'delete_user', 'remove_user', 'promote_user'] as $cap) {
-    tbt_scope_assert(tbt_manager_user_meta_cap(['edit_users'], $cap, 5, [1]) === ['do_not_allow'], "A Manager cannot {$cap} an administrator.");
-    tbt_scope_assert(tbt_manager_user_meta_cap(['edit_users'], $cap, 5, [7]) === ['do_not_allow'], "A Manager cannot {$cap} an editor.");
-    tbt_scope_assert(tbt_manager_user_meta_cap(['edit_users'], $cap, 5, [6]) === ['edit_users'], "A Manager can {$cap} another Manager.");
-}
-tbt_scope_assert(tbt_manager_user_meta_cap(['edit_users'], 'edit_user', 5, [5]) === ['edit_users'], 'A Manager can edit their own profile.');
-tbt_scope_assert(tbt_manager_user_meta_cap(['delete_users'], 'delete_user', 5, [5]) === ['do_not_allow'], 'A Manager cannot delete themselves.');
-tbt_scope_assert(array_keys(tbt_manager_editable_roles(['administrator' => [], 'editor' => [], TBT_MANAGER_ROLE => []])) === [TBT_MANAGER_ROLE], 'A Manager can only give the Manager role.');
-$GLOBALS['tbt_scope_roles'] = ['administrator'];
-tbt_scope_assert(tbt_manager_user_meta_cap(['edit_users'], 'edit_user', 1, [5]) === ['edit_users'], 'Administrators are unaffected.');
-tbt_scope_assert(count(tbt_manager_editable_roles(['administrator' => [], TBT_MANAGER_ROLE => []])) === 2, 'Administrators can give any role.');
-$GLOBALS['tbt_scope_roles'] = [];
 
-// Page scope: administrators keep full panels and menus, but only the editable pages are listed and editable.
-$GLOBALS['tbt_scope_option'] = 'all';
-$GLOBALS['tbt_page_scope_option'] = 'limited';
-$GLOBALS['tbt_scope_roles'] = ['administrator'];
-tbt_scope_assert(!tbt_editing_is_limited(), 'Page scope does not limit panels or menus.');
-tbt_scope_assert(tbt_editing_scope_post_type_args(['show_ui' => true], 'tbt_tutor')['show_ui'] === true, 'Page scope keeps Tutors.');
-tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [2]) === ['do_not_allow'], 'Page scope locks About for administrators.');
-tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [4]) === ['do_not_allow'], 'Page scope locks other pages such as Privacy Policy.');
-tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [1]) === ['edit_pages'] && tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [3]) === ['edit_pages'], 'Page scope keeps Results & Testimonials and Free Bio Notes.');
-tbt_scope_assert(tbt_locked_page_ids() === [2], 'Page scope hides the locked pages from the list.');
-$GLOBALS['tbt_page_scope_option'] = 'all';
-$GLOBALS['tbt_scope_roles'] = [];
+$roles = ['administrator' => [], TBT_MANAGER_ROLE => []];
+$GLOBALS['tbt_scope_user_id'] = 2;
+foreach ($GLOBALS['tbt_scope_hooks']['editable_roles'] ?? [] as $filter) {
+    $roles = $filter($roles);
+}
+tbt_scope_assert(array_keys($roles) === [TBT_MANAGER_ROLE], 'Managers can only assign the Manager role.');
+foreach (['edit_user', 'delete_user', 'remove_user', 'promote_user'] as $cap) {
+    $administrator = ['core_cap'];
+    $manager = ['core_cap'];
+    foreach ($GLOBALS['tbt_scope_hooks']['map_meta_cap'] ?? [] as $filter) {
+        $administrator = $filter($administrator, $cap, 2, [1]);
+        $manager = $filter($manager, $cap, 2, [4]);
+    }
+    tbt_scope_assert($administrator === ['do_not_allow'], "Managers cannot use {$cap} on an administrator.");
+    tbt_scope_assert($manager === ['core_cap'], "Managers can use {$cap} on another Manager when core permits it.");
+}
+tbt_scope_assert(str_ends_with(tbt_manager_login_redirect('x', '', get_userdata(2)), 'edit.php?post_type=page'), 'A Manager lands on the Pages list.');
+tbt_scope_assert(tbt_manager_login_redirect('x', '', get_userdata(1)) === 'x', 'Administrators keep their login destination.');
 
 fwrite(STDOUT, "PASS: editing scope assertions\n");

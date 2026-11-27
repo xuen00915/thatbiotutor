@@ -34,6 +34,7 @@ function tbt_theme_includes(): array
         'inc/admin-setup.php',
         'inc/admin-editing.php',
         'inc/editing-scope.php',
+        'inc/admin-content.php',
         'inc/site-meta.php',
         'inc/security.php',
     ];

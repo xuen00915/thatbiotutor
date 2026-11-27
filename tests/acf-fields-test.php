@@ -81,6 +81,10 @@ final class AcfFieldsTest
         $expectedTemplates = array_column($registry, 'template');
         $this->assertSame($expectedTemplates, $templates, 'ACF groups must follow the protected registry order.');
 
+        $classes = $fieldsByTemplate['page-classes.php'];
+        $this->assertSame('1 in 2', $classes['classes_stat_4_value']['default_value'] ?? null, 'An unseeded Classes stat must open with its visible value.');
+        $this->assertSame('Score A (Distinction)', $classes['classes_stat_4_label']['default_value'] ?? null, 'An unseeded Classes stat must open with its visible label.');
+
         $home = $fieldsByTemplate['front-page.php'] ?? [];
         foreach (['home_shared_whatsapp_number', 'home_shared_whatsapp_message', 'home_shared_address', 'home_shared_map_url', 'home_shared_opening_hours', 'home_shared_footer_description', 'home_shared_copyright', 'home_shared_logo'] as $name) {
             $this->assertTrue(isset($home[$name]), "Home must own shared field {$name}.");

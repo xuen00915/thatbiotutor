@@ -51,12 +51,8 @@ const programmes = ['classes/', 'sec-3-pure-g3-biology-tuition/', 'sec-4-pure-g3
       for (const key of ['endAbove', 'endBelow']) assert.ok(room[key] >= 28, `Notes ${key} at ${width}: ${room[key]}px`);
       assert.ok(room.headingAbove >= (width <= 390 ? 32 : 40) && room.headingBelow <= 32 && room.headingAbove > room.headingBelow, `"ThatBioTutor's Notes" belongs to its cards at ${width}: ${JSON.stringify(room)}`);
 
-      // The signup iframe stops before the provider's dark footer strip (measured heights per form width).
-      const form = await page.locator('.tbt-notes-form__embed').evaluate(e => { const r = e.getBoundingClientRect(); return { w: r.width, h: r.height }; });
-      const clip = await page.locator('.tbt-notes-form--getresponse').evaluate(e => e.getBoundingClientRect().width);
-      const expected = width <= 351 ? 517 : clip <= 228 ? 597 : clip <= 251 ? 577 : clip <= 263 ? 557 : clip <= 311 ? 537 : clip <= 323 ? 517 : clip <= 389 ? 478 : clip <= 575 ? 458 : 441; // same table as notes-form-runtime.js
-      assert.equal(await page.locator('.tbt-notes-form__embed').getAttribute('scrolling'), 'no', 'Signup frame never scrolls (Submit is fully shown); forms remain cropped');
-      assert.equal(Math.round(form.h), expected, `Signup iframe height at form width ${form.w}`);
+      // The detailed signup geometry is covered in notes-form-runtime.js.
+      assert.equal(await page.locator('.tbt-notes-form__embed').getAttribute('scrolling'), 'no', 'Signup frame remains cropped.');
 
       // Classes: dark green heading accent and four numbers.
       await page.goto(new URL('classes/', base).href);

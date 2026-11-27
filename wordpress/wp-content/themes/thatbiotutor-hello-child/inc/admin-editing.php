@@ -49,6 +49,10 @@ function tbt_protected_page_screen(): void
         return;
     }
     remove_post_type_support('page', 'editor');
+    if (function_exists('tbt_editing_is_limited') && tbt_editing_is_limited()) {
+        remove_post_type_support('page', 'title');
+        add_filter('admin_body_class', static fn(string $classes): string => $classes . ' tbt-notes-form-editor');
+    }
     add_action('edit_form_after_title', 'tbt_protected_page_guide');
     add_action('add_meta_boxes', 'tbt_remove_protected_page_boxes', 99);
 }
@@ -67,7 +71,11 @@ function tbt_protected_page_guide(): void
     ?>
     <div class="notice notice-info inline tbt-page-guide" style="margin:12px 0;padding:12px 16px;">
         <p style="margin:0 0 6px;"><strong>How to edit this page</strong></p>
-        <p style="margin:0;">Use the tabs in the <em>ThatBioTutor</em> panel below: each tab is one section of the page. Change the words, pictures and links, then press <strong>Update</strong>. Pictures you leave empty keep their current image. The page layout, colours and menu are managed by the theme and cannot be broken from here.</p>
+        <?php if (function_exists('tbt_editing_is_limited') && tbt_editing_is_limited()) : ?>
+            <p style="margin:0;">Edit the signup form link, photo and text in the <em>Email form</em> section below, then press <strong>Update</strong>.</p>
+        <?php else : ?>
+            <p style="margin:0;">Use the tabs in the <em>ThatBioTutor</em> panel below: each tab is one section of the page. Change the words, pictures and links, then press <strong>Update</strong>. Pictures you leave empty keep their current image. The page layout, colours and menu are managed by the theme and cannot be broken from here.</p>
+        <?php endif; ?>
     </div>
     <?php
 }
@@ -92,7 +100,9 @@ function tbt_keep_protected_page_template(int $postId): void
 /** Styles for the ThatBioTutor edit screens. */
 function tbt_admin_editor_styles(): void
 {
-    wp_enqueue_style('tbt-admin-editor', TBT_THEME_URI . '/assets/css/admin-editor.css', [], TBT_THEME_VERSION);
+    $stylesheet = '/assets/css/admin-editor.css';
+    $path = TBT_THEME_DIR . $stylesheet;
+    wp_enqueue_style('tbt-admin-editor', TBT_THEME_URI . $stylesheet, [], is_file($path) ? (string) filemtime($path) : TBT_THEME_VERSION);
 }
 
 /** The Hostinger AI Assistant "External Featured Image" box does nothing on ThatBioTutor pages and records. */

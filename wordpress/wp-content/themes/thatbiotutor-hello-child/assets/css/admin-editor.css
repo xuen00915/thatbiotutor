@@ -2,3 +2,47 @@
 .tbt-inline-rich .wp-editor-container .mce-edit-area iframe { height: 64px !important; min-height: 64px !important; }
 .tbt-inline-rich .wp-editor-container textarea.wp-editor-area { height: 64px !important; min-height: 64px !important; }
 .tbt-inline-rich .mce-statusbar { display: none; }
+
+.tbt-notes-form-editor #minor-publishing { display: none; }
+
+.tbt-content-hub {
+  max-width: 960px;
+}
+
+.tbt-content-hub section {
+  margin-block: 24px;
+}
+
+.tbt-content-hub .widefat tbody th {
+  width: 40%;
+  font-weight: 600;
+}
+
+.tbt-content-hub .widefat tr > * {
+  padding: 10px 12px;
+}
+
+.tbt-content-hub__additional {
+  margin-top: 16px;
+}
+
+.tbt-content-hub__additional summary {
+  width: fit-content;
+  padding: 6px 1px;
+  color: #2271b1;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.tbt-content-hub__additional table {
+  margin-top: 8px;
+}
+
+.tbt-content-hub__status {
+  display: inline-block;
+  margin-inline-start: 4px;
+  padding-inline: 6px;
+  border-radius: 4px;
+  background: #f0f0f1;
+  font-size: 12px;
+}

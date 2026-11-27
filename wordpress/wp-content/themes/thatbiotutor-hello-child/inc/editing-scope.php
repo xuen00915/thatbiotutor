@@ -6,50 +6,38 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/**
- * Editing scope: which ThatBioTutor content the WordPress dashboard lets anyone edit.
- *
- * The `tbt_editing_scope` option is "all" (default: every page panel and every content list) or "testimonials":
- * only the sections in tbt_editing_scope_sections() stay editable (Results & Testimonials: featured YouTube video
- * and Student Stories; Free Bio Notes: Email form), plus the Testimonials and Class Years lists. Every other
- * ThatBioTutor page is removed from the Pages list and cannot be opened for editing, and the Tutors, FAQs and
- * Results lists are hidden. Switch with `wp option update tbt_editing_scope testimonials` or `... all`.
- *
- * Users with the "ThatBioTutor Manager" role (tbt_manager) always get the limited scope, whatever the option says;
- * administrators follow the option. The limit applies to the dashboard only: the public site always registers every field, so values keep their
- * ACF formatting.
- */
+const TBT_MANAGER_ROLE = 'tbt_manager';
+const TBT_CREATE_SITE_RECORD_CAP = 'tbt_create_site_record';
 
-/** The active editing scope. */
-function tbt_editing_scope(): string
+/** Full website editing is reserved for WordPress Administrators. */
+function tbt_user_is_site_administrator(mixed $user): bool
 {
-    $scope = function_exists('get_option') ? (string) get_option('tbt_editing_scope', 'all') : 'all';
-    return $scope === 'testimonials' ? 'testimonials' : 'all';
+    return is_object($user) && in_array('administrator', (array) ($user->roles ?? []), true);
 }
 
-/** Role slug of the ThatBioTutor Manager: a dashboard user who only sees the limited editing scope. */
-const TBT_MANAGER_ROLE = 'tbt_manager';
+function tbt_current_user_is_site_administrator(): bool
+{
+    return function_exists('wp_get_current_user') && tbt_user_is_site_administrator(wp_get_current_user());
+}
 
-/** Whether the current user is a ThatBioTutor Manager. */
+function tbt_user_has_manager_role(mixed $user): bool
+{
+    return is_object($user) && !tbt_user_is_site_administrator($user)
+        && in_array(TBT_MANAGER_ROLE, (array) ($user->roles ?? []), true);
+}
+
 function tbt_current_user_is_manager(): bool
 {
-    if (!function_exists('wp_get_current_user')) {
-        return false;
-    }
-    $user = wp_get_current_user();
-    return in_array(TBT_MANAGER_ROLE, (array) ($user->roles ?? []), true);
+    return function_exists('wp_get_current_user') && tbt_user_has_manager_role(wp_get_current_user());
 }
 
-/** Whether editing is limited: for a Manager always, for everyone when the option says so. */
 function tbt_editing_is_limited(): bool
 {
-    return tbt_current_user_is_manager() || tbt_editing_scope() === 'testimonials';
+    return !tbt_current_user_is_site_administrator();
 }
 
 /**
- * Capabilities of the Manager role: edit pages (only the allowed ones, see map_meta_cap), Testimonials and
- * Class Years (capability type "post"), upload pictures for their fields, and add, edit and remove other Manager
- * accounts. No settings, plugins or themes, and no access to administrator accounts.
+ * Managers can edit the Notes form and Tutors, upload images, and manage other Manager accounts.
  *
  * @return array<string, bool>
  */
@@ -61,8 +49,7 @@ function tbt_manager_capabilities(): array
         'edit_posts', 'edit_others_posts', 'edit_published_posts', 'publish_posts',
         'delete_posts', 'delete_others_posts', 'delete_published_posts',
         'edit_pages', 'edit_others_pages', 'edit_published_pages', 'publish_pages',
-        // Manage other Manager accounts only: see tbt_manager_user_meta_cap() and tbt_manager_editable_roles().
-        'list_users', 'create_users', 'edit_users', 'delete_users', 'promote_users',
+        'list_users', 'create_users', 'edit_users', 'delete_users', 'promote_users', 'remove_users',
     ] as $cap) {
         $caps[$cap] = true;
     }
@@ -133,8 +120,8 @@ function tbt_user_is_manager(int $userId): bool
     if ($userId <= 0 || !function_exists('get_userdata')) {
         return false;
     }
-    $user = get_userdata($userId);
-    return $user !== false && in_array(TBT_MANAGER_ROLE, (array) ($user->roles ?? []), true);
+    return tbt_user_has_manager_role(get_userdata($userId))
+        && (!function_exists('is_multisite') || !is_multisite() || !is_super_admin($userId));
 }
 
 /**
@@ -143,7 +130,7 @@ function tbt_user_is_manager(int $userId): bool
  */
 function tbt_manager_user_meta_cap(array $caps, string $cap, int $userId, array $args): array
 {
-    if (!in_array($cap, ['edit_user', 'delete_user', 'remove_user', 'promote_user'], true) || !tbt_current_user_is_manager()) {
+    if (!in_array($cap, ['edit_user', 'delete_user', 'remove_user', 'promote_user'], true) || !tbt_user_is_manager($userId)) {
         return $caps;
     }
     $target = (int) ($args[0] ?? 0);
@@ -183,25 +170,10 @@ function tbt_manager_user_views(array $views): array
 /** After login a Manager goes straight to the Pages list. */
 function tbt_manager_login_redirect(string $redirect, string $requested, mixed $user): string
 {
-    if (is_object($user) && in_array(TBT_MANAGER_ROLE, (array) ($user->roles ?? []), true)) {
+    if (tbt_user_has_manager_role($user)) {
         return admin_url('edit.php?post_type=page');
     }
     return $redirect;
-}
-
-/**
- * Whether only the editable pages (Results & Testimonials, Free Bio Notes) are listed and editable for every user,
- * administrators included, while other menus and panels stay complete. Option `tbt_page_scope`: "limited" or "all".
- */
-function tbt_page_scope_is_limited(): bool
-{
-    return function_exists('get_option') && (string) get_option('tbt_page_scope', 'all') === 'limited';
-}
-
-/** Whether the Pages list and page editing are limited for the current user. */
-function tbt_pages_are_limited(): bool
-{
-    return tbt_editing_is_limited() || tbt_page_scope_is_limited();
 }
 
 /** Whether the limit applies to this request (dashboard only). */
@@ -218,11 +190,6 @@ function tbt_editing_limit_applies(): bool
 function tbt_editing_scope_sections(): array
 {
     return [
-        'testimonials' => [
-            'field_tbt_testimonials_tab_featured' => ['testimonials_video_url', 'testimonials_video_title'],
-            'field_tbt_testimonials_tab_stories' => ['testimonials_stories_heading', 'testimonials_archive_button_label'],
-            'field_tbt_testimonials_tab_years' => null,
-        ],
         'notes' => [
             'field_tbt_notes_tab_form' => null,
         ],
@@ -266,6 +233,7 @@ function tbt_acf_group_trim_to_scope(array $group, string $pageKey): array
         }
     }
     $group['fields'] = $kept;
+    $group['hide_on_screen'] = ['custom_fields', 'discussion', 'comments', 'revisions', 'slug', 'author'];
     return $group;
 }
 
@@ -293,7 +261,7 @@ function tbt_acf_group_for_scope(array $group): ?array
 function tbt_editable_content_types(): array
 {
     return tbt_editing_is_limited()
-        ? ['tbt_testimonial', 'tbt_class_year']
+        ? ['tbt_tutor']
         : tbt_structured_post_types();
 }
 
@@ -325,17 +293,14 @@ function tbt_acf_group_is_editable(array $group): bool
     return true;
 }
 
-/** @return list<string> Content types whose dashboard screens are hidden for every user (content still renders). */
-function tbt_hidden_content_types(): array
-{
-    return ['tbt_result', 'tbt_faq'];
-}
-
-/** Hide the dashboard screens of locked content types, and of Results and FAQs for everyone. */
+/** Restrict the menus and creation capability of collections beyond the limited scope. */
 function tbt_editing_scope_post_type_args(array $args, string $postType): array
 {
-    if (in_array($postType, tbt_hidden_content_types(), true)
-        || (in_array($postType, tbt_structured_post_types(), true) && !in_array($postType, tbt_editable_content_types(), true))) {
+    if (!in_array($postType, tbt_structured_post_types(), true) || $postType === 'tbt_tutor') {
+        return $args;
+    }
+    $args['capabilities']['create_posts'] = TBT_CREATE_SITE_RECORD_CAP;
+    if (tbt_editing_is_limited()) {
         $args['show_ui'] = false;
         $args['show_in_menu'] = false;
         $args['show_in_admin_bar'] = false;
@@ -343,16 +308,14 @@ function tbt_editing_scope_post_type_args(array $args, string $postType): array
     return $args;
 }
 
-/** Whether a page is a protected ThatBioTutor page outside the editable scope. */
-function tbt_page_is_locked(int $postId): bool
+/** Whether a page is outside the limited editing scope. */
+function tbt_page_is_outside_limited_scope(int $postId): bool
 {
-    if (!tbt_pages_are_limited() || !function_exists('tbt_is_protected_page')) {
+    if (!function_exists('tbt_is_protected_page')) {
         return false;
     }
     if (!tbt_is_protected_page($postId)) {
-        // Other pages (e.g. the Privacy Policy draft) are locked for a Manager, and for everyone under tbt_page_scope.
-        $lockOthers = tbt_current_user_is_manager() || tbt_page_scope_is_limited();
-        return $lockOthers && function_exists('get_post_type') && get_post_type($postId) === 'page';
+        return function_exists('get_post_type') && get_post_type($postId) === 'page';
     }
     $template = (string) get_post_meta($postId, '_wp_page_template', true);
     $registry = tbt_page_registry();
@@ -364,19 +327,44 @@ function tbt_page_is_locked(int $postId): bool
     return true;
 }
 
-/** Refuse editing, deleting and publishing locked pages from the dashboard. */
+/** Protect locked pages and records, and keep the Notes page available for form edits. */
 function tbt_editing_scope_map_meta_cap(array $caps, string $cap, int $userId, array $args): array
 {
-    if (!in_array($cap, ['edit_post', 'delete_post', 'publish_post'], true) || empty($args[0])) {
+    if ($cap !== TBT_CREATE_SITE_RECORD_CAP
+        && (!in_array($cap, ['edit_post', 'edit_page', 'delete_post', 'delete_page', 'publish_post'], true) || empty($args[0]))) {
         return $caps;
     }
-    return tbt_page_is_locked((int) $args[0]) ? ['do_not_allow'] : $caps;
+    $administrator = function_exists('get_userdata') && tbt_user_is_site_administrator(get_userdata($userId));
+    if ($cap === TBT_CREATE_SITE_RECORD_CAP) {
+        return $administrator ? ['edit_posts'] : ['do_not_allow'];
+    }
+    if ($administrator) {
+        return $caps;
+    }
+
+    $postId = (int) $args[0];
+    $postType = function_exists('get_post_type') ? get_post_type($postId) : false;
+    if (tbt_page_is_outside_limited_scope($postId)
+        || (in_array($postType, tbt_structured_post_types(), true) && $postType !== 'tbt_tutor')
+        || ($postType === 'page' && in_array($cap, ['delete_post', 'delete_page'], true))) {
+        return ['do_not_allow'];
+    }
+    return $caps;
 }
 
-/** @return list<int> IDs of protected pages outside the editable scope. */
+/** Remove Quick Edit so the Notes list links directly to the form editor. */
+function tbt_editing_scope_page_row_actions(array $actions): array
+{
+    if (tbt_editing_is_limited()) {
+        unset($actions['inline hide-if-no-js']);
+    }
+    return $actions;
+}
+
+/** @return list<int> IDs of pages outside the editable scope. */
 function tbt_locked_page_ids(): array
 {
-    if (!tbt_pages_are_limited() || !function_exists('get_posts')) {
+    if (!tbt_editing_is_limited() || !function_exists('get_posts')) {
         return [];
     }
     $ids = get_posts([
@@ -386,7 +374,7 @@ function tbt_locked_page_ids(): array
         'fields' => 'ids',
         'suppress_filters' => true,
     ]);
-    return array_values(array_filter(array_map('intval', $ids), 'tbt_page_is_locked'));
+    return array_values(array_filter(array_map('intval', $ids), 'tbt_page_is_outside_limited_scope'));
 }
 
 /** Leave locked pages out of the dashboard Pages list. */
@@ -428,6 +416,7 @@ if (function_exists('add_filter')) {
     add_action('pre_get_users', 'tbt_manager_user_list');
     add_filter('views_users', 'tbt_manager_user_views');
     add_action('pre_get_posts', 'tbt_editing_scope_hide_locked_pages');
+    add_filter('page_row_actions', 'tbt_editing_scope_page_row_actions');
     add_filter('wp_count_posts', 'tbt_editing_scope_page_counts', 10, 2);
     add_filter('register_post_type_args', 'tbt_editing_scope_post_type_args', 10, 2);
     add_filter('map_meta_cap', 'tbt_editing_scope_map_meta_cap', 10, 4);

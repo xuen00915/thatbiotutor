@@ -73,6 +73,9 @@ function tbt_acf_section_fields(string $prefix, array $section): array
         $name = (string) $declared['name'];
         $key = tbt_reference_field_key((string) ($section['page'] ?? ''), $name);
         $settings = ['instructions' => (string) ($declared['help'] ?? '')];
+        if ($declared['type'] !== 'image') {
+            $settings['default_value'] = (string) ($declared['default'] ?? '');
+        }
         $label = (string) $declared['label'];
         switch ($declared['type']) {
             case 'wysiwyg':
@@ -143,9 +146,10 @@ function tbt_acf_page_groups(): array
                 ? 'tbt_acf_textarea'
                 : null;
             $key = tbt_reference_field_key($pageKey, (string) $name);
+            $settings = ['default_value' => $value];
             $fields[] = $constructor !== null
-                ? $constructor($key, $label, (string) $name)
-                : tbt_acf_field($key, $label, (string) $name);
+                ? $constructor($key, $label, (string) $name, $settings)
+                : tbt_acf_field($key, $label, (string) $name, 'text', $settings);
         }
 
         foreach (tbt_page_content_sections($pageKey) as $section) {
@@ -158,14 +162,26 @@ function tbt_acf_page_groups(): array
         if ($pageKey === 'home') {
             $fields[] = tbt_acf_tab('field_tbt_home_tab_shared', 'Shared site details');
             $fields[] = tbt_acf_image('field_tbt_home_shared_logo', 'Site logo', 'home_shared_logo');
-            $fields[] = tbt_acf_field('field_tbt_home_shared_whatsapp_number', 'WhatsApp number', 'home_shared_whatsapp_number');
-            $fields[] = tbt_acf_textarea('field_tbt_home_shared_whatsapp_message', 'Default WhatsApp message', 'home_shared_whatsapp_message');
-            $fields[] = tbt_acf_field('field_tbt_home_shared_phone', 'Phone number', 'home_shared_phone');
-            $fields[] = tbt_acf_textarea('field_tbt_home_shared_address', 'Address', 'home_shared_address');
-            $fields[] = tbt_acf_url('field_tbt_home_shared_map_url', 'Map link', 'home_shared_map_url');
-            $fields[] = tbt_acf_textarea('field_tbt_home_shared_opening_hours', 'Opening hours', 'home_shared_opening_hours');
-            $fields[] = tbt_acf_textarea('field_tbt_home_shared_footer_description', 'Footer description', 'home_shared_footer_description');
-            $fields[] = tbt_acf_field('field_tbt_home_shared_copyright', 'Copyright line', 'home_shared_copyright');
+            $sharedFields = [
+                'whatsapp_number' => ['WhatsApp number', 'text'],
+                'whatsapp_message' => ['Default WhatsApp message', 'textarea'],
+                'phone' => ['Phone number', 'text'],
+                'address' => ['Address', 'textarea'],
+                'map_url' => ['Map link', 'url'],
+                'opening_hours' => ['Opening hours', 'textarea'],
+                'footer_description' => ['Footer description', 'textarea'],
+                'copyright' => ['Copyright line', 'text'],
+            ];
+            foreach ($sharedFields as $name => [$label, $type]) {
+                $nameWithPrefix = 'home_shared_' . $name;
+                $key = 'field_tbt_' . $nameWithPrefix;
+                $settings = ['default_value' => $reference['shared'][$name] ?? ''];
+                $fields[] = match ($type) {
+                    'textarea' => tbt_acf_textarea($key, $label, $nameWithPrefix, $settings),
+                    'url' => tbt_acf_url($key, $label, $nameWithPrefix, $settings),
+                    default => tbt_acf_field($key, $label, $nameWithPrefix, 'text', $settings),
+                };
+            }
         }
 
         if ($pageKey === 'notes') {

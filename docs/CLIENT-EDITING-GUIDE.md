@@ -2,6 +2,20 @@
 
 The public layout is protected by the ThatBioTutor child theme. Client-safe wording and approved images are edited through **ACF Free**; Elementor Pro, ACF Pro, and Code Snippets are not required.
 
+## Administrators
+
+In WordPress, open **Website Content**. The Pages table contains Home, Classes, Sec 3, Sec 4, Results & Testimonials, Free Bio Notes, About Us, Contact, and the Privacy Policy. Its status appears beside the title, so you can identify the draft before opening it.
+
+- Expand **Additional Pages** to edit Cell Division Crash Course, Our Causes, Tuition Recommendations, or IntensiveFix.
+- Use **Content lists** to edit Testimonials, Class Years, Tutors, FAQs, and Results.
+- Open **Home** for the shared logo, contact information, and footer.
+- In each page editor, select the tab for your section. Use **Preview Changes** to review it and **Update** to save. For Privacy Policy, use **Save Draft** to keep it unpublished.
+
+## ThatBioTutor Managers
+
+- **Pages → Free Bio Notes → Email form** opens the GetResponse signup link, the photo above the form, and the text below it. Manage form fields, mailing lists, automation, and the success redirect in GetResponse.
+- **Tutors** opens tutor profiles and their display order.
+
 ## Page fields
 
 Open **Pages**, select a page, and use its labelled “ThatBioTutor” field panel. Page groups cover Home, Classes, Sec 3, Sec 4, Results & Testimonials, Free Bio Notes, Cell Division, About, Contact, Our Causes, Tuition Recommendations, and IntensiveFix. Home also owns the shared logo, WhatsApp number/message, phone, address, hours, footer description, and copyright.
@@ -46,24 +60,15 @@ Under **Tutors**: display name, qualifications (one per line), LinkedIn link, po
 - **Testimonials**: edit student name, quote, rating, optional local portrait, optional YouTube URL, and display group. Use Draft to hide an unfinished item.
 - **Tutors**: edit role, biography, portrait, and sections. Long biographies wrap safely on mobile.
 - **FAQs**: edit the question, answer, and collection key used by the page.
-- **Results**: edit the structured result fields and approved local artwork.
+- **Results**: maintain individual result records. Edit the public class-year posters and results tables under **Class Years**.
 
 Published items render by menu order and then title/date where applicable. Change the WordPress order value deliberately; do not duplicate a record simply to move it. Draft records are never public.
 
 IntensiveFix is separate from regular Sec 3 tuition. Do not replace the Sec 3 page or navigation destination with IntensiveFix.
 
-## Limiting editing
+## Editing access
 
-The site owner can restrict the dashboard to: the Results & Testimonials page's featured YouTube video (link and title) and Student Stories wording, the Free Bio Notes page's Email form section, and the Testimonials and Class Years lists. Every other ThatBioTutor page disappears from the Pages list and cannot be opened for editing, and the Tutors, FAQs and Results lists are hidden. The public pages do not change.
-
-```sh
-wp option update tbt_editing_scope testimonials   # limited editing
-wp option update tbt_editing_scope all            # everything editable again (default)
-```
-
-To hide the other pages from administrators as well (they stay live), use `wp option update tbt_page_scope limited`; `all` brings them back.
-
-Users with the **ThatBioTutor Manager** role always get this limited view, whatever the option says, while administrators keep full access. Create one under **Users → Add New** and choose the role, or `wp user create <login> <email> --role=tbt_manager`. A Manager logs in straight to the Pages list and cannot change settings, plugins or themes. Under **Users** a Manager can add, edit and remove other Manager accounts (only the Manager role can be given); administrator accounts are invisible and untouchable to them.
+WordPress Administrators have the full editing view automatically, including on installs with older editing-scope options. The **ThatBioTutor Manager** role uses the Notes form and Tutors view and lands on **Pages** after signing in. Create a Manager under **Users → Add New** or with `wp user create <login> <email> --role=tbt_manager`. Managers can upload images and manage other Manager accounts.
 
 ## Protected visual structure
 

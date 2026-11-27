@@ -1420,21 +1420,24 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
   body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tbt-notes-page .tbt-notes-benefits h2 { margin-bottom: 24px; }
 }
 
-/* Notes signup: GetResponse draws a dark footer strip under its Submit button that we cannot restyle (cross-origin).
-   Each height = the Submit button's bottom edge at that form width + 36px of white space; the dark strip starts 42-46px below Submit (measured 25 Nov 2026), so it never shows.
-   Measured on the live provider form every 6px from 250 to 634px wide, 25 Nov 2026: Submit bottom is
-   403px (form 616px+), 422 (430-615), 442 (364-429), 481 (352-363), 501 (304-351), 521 (292-303), 541 (269-291), 561 (256-268).
-   The breakpoints below are box widths: on tablets/phones the frame is 40px wider than its box (see below),
-   and on desktop the box is always 720px. Re-measure if the form is edited in GetResponse. */
-body.tbt-site #main-content .tbt-notes-form--getresponse { container-type: inline-size; container-name: tbt-notes-form; margin-bottom: 0; overflow: hidden; }
-body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 441px; }
-@container tbt-notes-form (max-width: 575px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 458px; } }
-@container tbt-notes-form (max-width: 389px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 478px; } }
-@container tbt-notes-form (max-width: 323px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 517px; } }
-@container tbt-notes-form (max-width: 311px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 537px; } }
-@container tbt-notes-form (max-width: 263px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 557px; } }
-@container tbt-notes-form (max-width: 251px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 577px; } }
-@container tbt-notes-form (max-width: 228px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 597px; } }
+/* Crop the empty top of the GetResponse embed to bring the first field closer to the heading.
+   Leave room below Submit at each measured provider width, before the provider's footer.
+   On tablets and phones the iframe is 40px wider than the named container (see below). */
+body.tbt-site #main-content .tbt-notes-form--getresponse {
+  container-type: inline-size;
+  container-name: tbt-notes-form;
+  margin-block: 12px 0;
+  overflow: hidden;
+}
+body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed {
+  display: block;
+  margin-block-start: -28px;
+  height: 461px;
+}
+@container tbt-notes-form (width < 563px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 478px; } }
+@container tbt-notes-form (width < 374px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 497px; } }
+@container tbt-notes-form (width < 322px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 517px; } }
+@container tbt-notes-form (width < 321px) { body.tbt-site #main-content .tbt-notes-form--getresponse .tbt-notes-form__embed { height: 537px; } }
 body.tbt-site #main-content .tbt-notes-page .tbt-notes-form--getresponse + .tbt-resource-access-instructions { margin-top: 24px; }
 /* Sec 3 hero uses the same phone gutter as Sec 4, so its button matches the page's other buttons. */
 @media (max-width: 768px) { body.tbt-site #main-content .tbt-sec3-page .tbt-programme-hero__content { width: min(var(--tbt-page), calc(100% - 2 * var(--tbt-gutter))); } }
@@ -1662,7 +1665,6 @@ body.tbt-site:not(.home):not(.page-template-page-intensivefix) #main-content .tb
     width: 360px;
     max-width: none;
     margin-left: calc((100% - 360px) / 2);
-    height: 517px; /* 360px-wide form: Submit bottom 481px + 36px */
   }
 }
 

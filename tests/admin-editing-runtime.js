@@ -21,6 +21,26 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     await page.click('#wp-submit');
     await page.waitForLoadState('load');
 
+    // The editing hub brings the eight everyday pages and the privacy draft together.
+    await page.getByRole('link', { name: 'Website Content', exact: true }).click();
+    await page.getByRole('heading', { name: 'Website Content', exact: true }).waitFor();
+    const mainPages = page.getByRole('table', { name: 'Main pages' });
+    const mainPageNames = await mainPages.getByRole('link').allTextContents();
+    assert.deepEqual(mainPageNames, [
+      'Home', 'Classes', 'Sec 3 Pure / G3 Biology Tuition', 'Sec 4 Pure / G3 Biology Tuition',
+      'Results & Testimonials', 'Free Bio Notes', 'About Us', 'Contact', 'Privacy Policy',
+    ]);
+    assert.match(await mainPages.getByRole('row', { name: /Privacy Policy/ }).innerText(), /Draft/);
+    await page.getByText('Additional Pages', { exact: true }).click();
+    const additionalPages = page.getByRole('table', { name: 'Additional pages' });
+    assert.deepEqual(await additionalPages.getByRole('link').allTextContents(), [
+      'Cell Division Crash Course', 'Our Causes', 'Tuition Recommendations', 'IntensiveFix',
+    ]);
+    for (const collection of ['Testimonials', 'Class Years', 'Tutors', 'FAQs', 'Results']) {
+      assert.ok(await page.getByRole('region', { name: 'Content lists' }).getByRole('link', { name: collection, exact: true }).isVisible());
+    }
+    const aboutFromHub = await mainPages.getByRole('link', { name: 'About Us' }).getAttribute('href');
+
     // Click Update/Publish and wait for WordPress to finish saving and reload the screen.
     const save = async () => { await Promise.all([page.waitForNavigation({ waitUntil: 'load' }), page.locator('#publish').click()]); };
     const editLink = async (title) => {
@@ -31,6 +51,7 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
 
     // 1. A protected page opens on a clear edit screen: field tabs first, no empty block canvas.
     const aboutEdit = await editLink('About Us');
+    assert.equal(new URL(aboutFromHub, base).href, aboutEdit, 'The dashboard opens the real page editor.');
     await page.goto(aboutEdit);
     await page.waitForSelector('.acf-tab-button:visible');
     assert.equal(await page.locator('#editor .edit-post-layout, .block-editor-writing-flow').count(), 0, 'Protected pages must not open the empty block editor.');
