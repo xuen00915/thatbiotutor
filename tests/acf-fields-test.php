@@ -60,6 +60,10 @@ final class AcfFieldsTest
             $seo = array_values(array_filter($group['fields'], static fn($field) => preg_match('/^tbt_.*_seo_(title|description|keywords)$/', $field['name'] ?? '')));
             $this->assertSame([], $seo, 'SEO metadata must be absent from the editor.');
             $this->assertTrue(!in_array('SEO', array_column($group['fields'], 'label'), true), 'The editor must not offer a SEO section.');
+            foreach ($group['fields'] as $field) {
+                $this->assertTrue(preg_match('/^Heading\s*[—-]\s*(?:first|second|third) line/iu', $field['label']) !== 1,
+                    "Keep each headline in one editor field ({$field['key']}).");
+            }
             $types = array_column($group['fields'], 'type');
             $this->assertSame('tab', $types[0] ?? null, "{$template} must begin with an editing section.");
             $this->assertTrue(in_array('tab', $types, true), "{$template} must expose section tabs.");

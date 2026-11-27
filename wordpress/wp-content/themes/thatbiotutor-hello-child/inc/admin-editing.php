@@ -111,6 +111,32 @@ function tbt_admin_editor_assets(string $screen): void
     }
 }
 
+/**
+ * Use the current site logo on the WordPress toolbar in the dashboard.
+ */
+function tbt_admin_toolbar_logo(WP_Admin_Bar $bar): void
+{
+    if (!is_admin()) {
+        return;
+    }
+
+    $node = $bar->get_node('wp-logo');
+    if (!$node) {
+        return;
+    }
+
+    $homeId = (int) get_option('page_on_front');
+    $saved = $homeId > 0 ? get_post_meta($homeId, 'home_shared_logo', true) : '';
+    $logo = tbt_normalize_image($saved) ?? tbt_media('curated_shared_tbt_logo');
+    if ($logo['url'] === '') {
+        return;
+    }
+
+    $node->title = '<img class="tbt-admin-toolbar-logo" src="' . esc_url($logo['url']) . '" width="21" height="21" alt="">'
+        . '<span class="screen-reader-text">' . esc_html__('About WordPress') . '</span>';
+    $bar->add_node((array) $node);
+}
+
 /** The Hostinger AI Assistant "External Featured Image" box does nothing on ThatBioTutor pages and records. */
 function tbt_remove_foreign_meta_boxes(): void
 {
@@ -123,6 +149,7 @@ function tbt_remove_foreign_meta_boxes(): void
 if (function_exists('add_filter') && function_exists('add_action')) {
     add_action('add_meta_boxes', 'tbt_remove_foreign_meta_boxes', 99);
     add_action('admin_enqueue_scripts', 'tbt_admin_editor_assets');
+    add_action('admin_bar_menu', 'tbt_admin_toolbar_logo', 100);
     add_filter('use_block_editor_for_post', 'tbt_protected_pages_use_classic_editor', 10, 2);
     add_action('load-post.php', 'tbt_protected_page_screen');
     add_action('wp_after_insert_post', 'tbt_keep_protected_page_template', 99);

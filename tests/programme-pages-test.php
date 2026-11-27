@@ -43,6 +43,26 @@ final class ProgrammePagesTest
             $GLOBALS['tbt_test_programme_meta'][$level . '_inclusions_heading'] = '<p>New first line</p><p><mark>New second line</mark></p>';
             $this->assertTrue(str_contains(tbt_test_render_template($template), '<h2>New first line<br><span>New second line</span></h2>'), 'The new heading takes precedence and preserves an editor line break.');
             unset($GLOBALS['tbt_test_programme_meta']);
+            foreach (['testimonials', 'lesson', 'hall'] as $section) {
+                $heading = $level . '_' . $section . '_heading';
+                $first = $level . '_' . $section . ($section === 'hall' ? '_small' : '_line1');
+                $second = $level . '_' . $section . ($section === 'hall' ? '_title' : '_line2');
+                $this->assertTrue(isset($fields[$heading]) && !isset($fields[$first]) && !isset($fields[$second]), "{$level} needs one {$section} heading editor.");
+                $this->assertTrue(!isset(tbt_page_content_defaults($pageKey)[$heading]), "{$heading} must preserve saved legacy copy on setup.");
+                $GLOBALS['tbt_test_programme_meta'] = [$first => 'Original & first', $second => 'Original second'];
+                $old = $section === 'hall'
+                    ? '<h2><small>Original &amp; first</small><span>Original second</span></h2>'
+                    : '<h2>Original &amp; first<br><span>Original second</span></h2>';
+                $this->assertTrue(str_contains(tbt_test_render_template($template), $old), 'Saved headline text, hierarchy and accent must carry forward.');
+                $GLOBALS['tbt_test_programme_meta'][$heading] = '<p>New opening</p><p><mark>New heading</mark></p>';
+                $new = $section === 'hall'
+                    ? '<h2><small>New opening</small><span>New heading</span></h2>'
+                    : '<h2>New opening<br><span>New heading</span></h2>';
+                $this->assertTrue(str_contains(tbt_test_render_template($template), $new), 'One heading must preserve user line breaks and text colour.');
+                $GLOBALS['tbt_test_programme_meta'][$heading] = "New opening\r\n<mark>New heading</mark>";
+                $this->assertTrue(str_contains(tbt_test_render_template($template), $new), 'A headline keeps the layout when WordPress saves its break as a newline.');
+                unset($GLOBALS['tbt_test_programme_meta']);
+            }
             $checked = 0;
             foreach (tbt_page_content_fields($pageKey) as $name => $field) {
                 $this->assertTrue(!str_starts_with($name, $level . '_faq_image_'), "{$level} must not expose unused FAQ image fields.");

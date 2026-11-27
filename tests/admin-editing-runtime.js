@@ -21,6 +21,11 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     await page.click('#wp-submit');
     await page.waitForLoadState('load');
 
+    const toolbarLogo = page.locator('#wp-admin-bar-wp-logo img.tbt-admin-toolbar-logo');
+    await toolbarLogo.waitFor({ timeout: 5000 });
+    assert.match(await toolbarLogo.getAttribute('src'), /\/assets\/images\//);
+    assert.ok(await page.locator('#wp-admin-bar-wp-logo > a').getAttribute('href'), 'The dashboard logo retains its menu link.');
+
     // The regular Pages screen is the starting point for editing site pages.
     const sidebar = page.locator('#adminmenu');
     assert.equal(await sidebar.getByRole('link', { name: 'Website Content', exact: true }).count(), 0);
@@ -114,7 +119,7 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     await pub.reload();
     assert.ok(!(await pub.locator('.tbt-about-mission').innerText()).includes(stamp), 'The restored text must replace the test edit.');
 
-    // The inclusions heading uses the same green text in TinyMCE as in the page preview.
+    // The inclusions heading uses green text on a neutral editor canvas.
     const sec4Edit = await editLink('Sec 4');
     await page.goto(sec4Edit + '&tbt_visual=1');
     const sec4Preview = page.frameLocator('iframe[title="Page preview"]');
@@ -131,8 +136,23 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
       background: getComputedStyle(el).backgroundColor,
     }));
     const pageAccent = await sec4Preview.locator('[data-section="inclusions"] h2 span').evaluate(el => getComputedStyle(el).color);
-    assert.equal(editorAccent.color, pageAccent, 'Green text matches the site’s heading colour.');
+    assert.equal(await headingEditor.locator('body').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(255, 255, 255)', 'The editing background stays white.');
+    assert.equal(editorAccent.color, 'rgb(47, 138, 39)', 'Green text remains readable against the white editor background.');
+    assert.equal(pageAccent, 'rgb(143, 225, 126)', 'The public heading retains its existing colour.');
     assert.equal(editorAccent.background, 'rgba(0, 0, 0, 0)', 'Green text has no highlight background.');
+
+    for (const [sectionLabel, key, expected] of [
+      ['What a lesson looks like', 'lesson', /What a TBT Sec 4\s+lesson actually looks like/],
+      ['Student testimonials', 'testimonials', /What Sec 4\s+TBT students are saying/],
+      ['Hall of Fame', 'hall', /TBT Hall of Fame/],
+    ]) {
+      await sec4Preview.getByRole('button', { name: 'Edit ' + sectionLabel, exact: true }).click();
+      const unified = page.locator(`.acf-field[data-name="sec4_${key}_heading"]`);
+      const editor = unified.frameLocator('.mce-edit-area iframe');
+      assert.match(await editor.locator('body').innerText({ timeout: 5000 }), expected);
+      assert.ok(await unified.locator('.mce-btn[aria-label="Green text"]').isVisible());
+      assert.equal(await editor.locator('body').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(255, 255, 255)');
+    }
 
     // 5. A new class year appears on the page and in the year menu, newest first, then is removed.
     await page.goto(`${base}/wp-admin/post-new.php?post_type=tbt_class_year`);

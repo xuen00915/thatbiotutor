@@ -64,10 +64,10 @@ function tbt_editor_heading_accent(string $name): string
     return match (true) {
         in_array($name, ['home_heading', 'intensivefix_heading'], true) => 'hero',
         in_array($name, ['home_fasttrack_heading', 'home_guarantee_heading', 'intensivefix_fasttrack_heading',
-            'sec3_inclusions_heading', 'sec4_inclusions_heading'], true) => 'dark',
+            'sec3_inclusions_heading', 'sec4_inclusions_heading', 'sec3_lesson_heading', 'sec4_lesson_heading'], true) => 'dark',
         in_array($name, ['notes_details_heading', 'notes_why_heading', 'notes_catch_heading', 'notes_download_heading',
             'celldivision_title', 'celldivision_access_heading'], true),
-        preg_match('/^(?:sec[34]_(?:options_heading|phase_[1-3]_title|tutors_heading|faq_heading)|classes_struggle_[1-4]_title)$/D', $name) === 1 => 'light',
+        preg_match('/^(?:sec[34]_(?:options_heading|phase_[1-3]_title|hall_heading|testimonials_heading|tutors_heading|faq_heading)|classes_struggle_[1-4]_title)$/D', $name) === 1 => 'light',
         default => '',
     };
 }

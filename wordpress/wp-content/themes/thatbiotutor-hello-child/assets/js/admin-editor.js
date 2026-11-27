@@ -9,12 +9,10 @@
 
       var field = editor.getElement().closest('.acf-field');
       if (!field) { return; }
-      if (field.classList.contains('tbt-text-accent-dark')) {
-        editor.dom.addStyle('.mce-content-body{background:#0e371d;color:#fff} .mce-content-body mark,.mce-content-body mark[data-tone=red]{background:transparent;color:#8fe17e;padding:0}');
-      } else if (field.classList.contains('tbt-text-accent-hero')) {
+      if (field.classList.contains('tbt-text-accent-hero')) {
         editor.dom.addStyle('.mce-content-body mark{background:transparent;color:#43b43a;padding:0} .mce-content-body mark[data-tone=red]{background:transparent;color:#e62c2c}');
-      } else if (field.classList.contains('tbt-text-accent-light')) {
-        editor.dom.addStyle('.mce-content-body mark,.mce-content-body mark[data-tone=red]{background:transparent;color:#2f8a27;padding:0}');
+      } else if (field.matches('.tbt-text-accent-dark, .tbt-text-accent-light')) {
+        editor.dom.addStyle('.mce-content-body{background:#fff} .mce-content-body mark,.mce-content-body mark[data-tone=red]{background:transparent;color:#2f8a27;padding:0}');
       }
     });
 

@@ -65,3 +65,12 @@
   field-sizing: content;
   min-height: 4lh;
 }
+
+#wpadminbar .tbt-admin-toolbar-logo {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: #fff;
+  object-fit: contain;
+  vertical-align: middle;
+}

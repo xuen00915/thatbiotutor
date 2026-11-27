@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- [main-site] Used the current ThatBioTutor logo in the WordPress dashboard toolbar.
+
+- [main-site] Combined the remaining split programme headings into single editor fields, including Lesson, Testimonials and Hall of Fame.
+
+- [main-site] Kept a white background behind editable headings that use green text.
+
 - [main-site] Sec 3 and Sec 4 use one editor field for the What students get heading, with existing words and formatting carried forward.
 
 - [main-site] The page editor shows green and red text on accented headings, with separate highlighting for body copy.
