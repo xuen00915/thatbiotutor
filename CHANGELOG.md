@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- [main-site] Tutor editing: removed the unused "Long biography" and "Active pages / sections" fields (never shown on the site). An empty Portrait or Certificate field now shows the built-in picture the site is using, so "No image selected" no longer looks like a missing photo. The Hostinger AI Assistant "External Featured Image" box is hidden on ThatBioTutor pages and records. Public pages unchanged.
 - [main-site] Results and FAQs menus are hidden in the dashboard for every user, administrators included. Their records still render on the site unchanged.
 - [main-site] Managers can manage user accounts: the Users menu lets them add, edit and remove Manager accounts (Users list shows Managers only). They can only give the Manager role and cannot edit, delete or change the role of administrators or other roles, or delete themselves.
 - [main-site] New "ThatBioTutor Manager" role (`tbt_manager`): always gets the limited editing scope (Results & Testimonials video and Student Stories, Free Bio Notes Email form, Testimonials, Class Years), whatever `tbt_editing_scope` says. Managers have no settings, plugin, theme or user access, cannot create pages or posts, and land on the Pages list; Dashboard, Posts, Media, Comments and Tools are hidden. Administrators follow the option as before.

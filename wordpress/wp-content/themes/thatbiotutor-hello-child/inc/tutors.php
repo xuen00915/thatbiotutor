@@ -12,6 +12,61 @@ function tbt_tutor_field(int $postId, string $name): mixed
     return tbt_record_field($postId, 'tutors', $name);
 }
 
+/**
+ * Bundled About-page pictures used while a tutor record has no uploaded portrait or certificates.
+ *
+ * @return array{portraits: array<string, string>, certificates: array<string, list<string>>}
+ */
+function tbt_tutor_builtin_media(): array
+{
+    return [
+        'portraits' => [
+            'Ms Chelsea' => 'curated_about_tutor_chelsea',
+            'Ms Jamie' => 'curated_about_tutor_jamie',
+            'Mr Keefe' => 'curated_about_tutor_keefe',
+            'Ms Ng' => 'curated_about_tutor_ng',
+        ],
+        'certificates' => [
+            'Ms Chelsea' => ['curated_about_chelsea_certificate', 'curated_about_chelsea_credentials'],
+            'Mr Keefe' => ['curated_about_keefe_certificate'],
+        ],
+    ];
+}
+
+/** Admin: show the bundled picture under an empty Portrait or Certificate field, so "No image selected" is not mistaken for a missing photo. */
+function tbt_tutor_field_builtin_preview(mixed $field): mixed
+{
+    if (!is_array($field) || !function_exists('get_the_ID') || !function_exists('tbt_media')) {
+        return $field;
+    }
+    $postId = (int) get_the_ID();
+    if ($postId <= 0 || !empty($field['value'])) {
+        return $field;
+    }
+    $name = (string) get_the_title($postId);
+    $media = tbt_tutor_builtin_media();
+    // ACF swaps "name" for the field key while preparing; the meta name is kept in "_name".
+    $fieldName = (string) ($field['_name'] ?? $field['name'] ?? '');
+    $key = '';
+    if ($fieldName === 'tbt_tutor_portrait') {
+        $key = $media['portraits'][$name] ?? '';
+    } elseif (preg_match('/^tbt_tutor_certificate_([123])$/', $fieldName, $match) === 1) {
+        $key = $media['certificates'][$name][(int) $match[1] - 1] ?? '';
+    }
+    $image = $key !== '' ? tbt_media($key) : ['url' => ''];
+    if (($image['url'] ?? '') === '') {
+        return $field;
+    }
+    $field['instructions'] = 'Currently shown on the site (built in). Add an image here only to replace it.'
+        . '<br><img src="' . esc_url((string) $image['url']) . '" alt="" style="max-width:160px;max-height:160px;margin-top:8px;border-radius:6px;">';
+    return $field;
+}
+if (function_exists('add_filter')) {
+    foreach (['field_tbt_tutor_portrait', 'field_tbt_tutor_certificate_1', 'field_tbt_tutor_certificate_2', 'field_tbt_tutor_certificate_3'] as $tbtTutorField) {
+        add_filter('acf/prepare_field/key=' . $tbtTutorField, 'tbt_tutor_field_builtin_preview');
+    }
+}
+
 /** Return normalized, published tutor records. */
 function tbt_get_tutors(array $args = []): array
 {
@@ -25,8 +80,6 @@ function tbt_get_tutors(array $args = []): array
             'name' => (string) $post->post_title,
             'role' => (string) tbt_structured_meta((int) $post->ID, 'tbt_tutor_role', ''),
             'short_bio' => (string) tbt_structured_meta((int) $post->ID, 'tbt_tutor_short_bio', ''),
-            'long_bio' => (string) tbt_structured_meta((int) $post->ID, 'tbt_tutor_long_bio', ''),
-            'sections' => (string) tbt_structured_meta((int) $post->ID, 'tbt_tutor_sections', ''),
             'portrait' => $portrait ?? ['url' => '', 'alt' => '', 'width' => 0, 'height' => 0],
             'display_name' => trim((string) tbt_tutor_field((int) $post->ID, 'tbt_tutor_display_name')),
             'qualifications' => array_values(array_filter(array_map('trim', preg_split('/\R/', (string) tbt_tutor_field((int) $post->ID, 'tbt_tutor_qualifications')) ?: []), static fn (string $line): bool => $line !== '')),

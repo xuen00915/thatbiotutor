@@ -95,7 +95,17 @@ function tbt_admin_editor_styles(): void
     wp_enqueue_style('tbt-admin-editor', TBT_THEME_URI . '/assets/css/admin-editor.css', [], TBT_THEME_VERSION);
 }
 
+/** The Hostinger AI Assistant "External Featured Image" box does nothing on ThatBioTutor pages and records. */
+function tbt_remove_foreign_meta_boxes(): void
+{
+    $screens = array_merge(['page'], function_exists('tbt_structured_post_types') ? tbt_structured_post_types() : []);
+    foreach ($screens as $screen) {
+        remove_meta_box('external_featured_image', $screen, 'side');
+    }
+}
+
 if (function_exists('add_filter') && function_exists('add_action')) {
+    add_action('add_meta_boxes', 'tbt_remove_foreign_meta_boxes', 99);
     add_action('admin_enqueue_scripts', 'tbt_admin_editor_styles');
     add_filter('use_block_editor_for_post', 'tbt_protected_pages_use_classic_editor', 10, 2);
     add_action('load-post.php', 'tbt_protected_page_screen');

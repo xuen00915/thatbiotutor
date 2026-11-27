@@ -223,10 +223,8 @@ function tbt_acf_content_groups(): array
             'title' => 'Tutor details',
             'fields' => [
                 tbt_acf_field('field_tbt_tutor_role', 'Role', 'tbt_tutor_role'),
-                tbt_acf_image('field_tbt_tutor_portrait', 'Portrait', 'tbt_tutor_portrait'),
+                tbt_acf_image('field_tbt_tutor_portrait', 'Portrait', 'tbt_tutor_portrait', ['instructions' => 'Optional. Leave empty to keep the current photo.']),
                 tbt_acf_textarea('field_tbt_tutor_short_bio', 'Short biography', 'tbt_tutor_short_bio'),
-                tbt_acf_textarea('field_tbt_tutor_long_bio', 'Long biography', 'tbt_tutor_long_bio', ['rows' => 8]),
-                tbt_acf_field('field_tbt_tutor_sections', 'Active pages / sections', 'tbt_tutor_sections'),
                 tbt_acf_field('field_tbt_tutor_display_name', 'Name shown on the About page', 'tbt_tutor_display_name', 'text', ['instructions' => 'For example "Mr Keefe (Founder)". Leave empty to use the title above.']),
                 tbt_acf_textarea('field_tbt_tutor_qualifications', 'Qualifications (About page)', 'tbt_tutor_qualifications', ['rows' => 7, 'instructions' => 'One qualification per line. Each line becomes one bullet.']),
                 tbt_acf_url('field_tbt_tutor_profile_url', 'LinkedIn or profile link (About page)', 'tbt_tutor_profile_url', ['instructions' => 'Optional. A LinkedIn address shows the LinkedIn button.']),
