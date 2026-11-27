@@ -189,6 +189,21 @@ function tbt_manager_login_redirect(string $redirect, string $requested, mixed $
     return $redirect;
 }
 
+/**
+ * Whether only the editable pages (Results & Testimonials, Free Bio Notes) are listed and editable for every user,
+ * administrators included, while other menus and panels stay complete. Option `tbt_page_scope`: "limited" or "all".
+ */
+function tbt_page_scope_is_limited(): bool
+{
+    return function_exists('get_option') && (string) get_option('tbt_page_scope', 'all') === 'limited';
+}
+
+/** Whether the Pages list and page editing are limited for the current user. */
+function tbt_pages_are_limited(): bool
+{
+    return tbt_editing_is_limited() || tbt_page_scope_is_limited();
+}
+
 /** Whether the limit applies to this request (dashboard only). */
 function tbt_editing_limit_applies(): bool
 {
@@ -331,16 +346,17 @@ function tbt_editing_scope_post_type_args(array $args, string $postType): array
 /** Whether a page is a protected ThatBioTutor page outside the editable scope. */
 function tbt_page_is_locked(int $postId): bool
 {
-    if (!tbt_editing_is_limited() || !function_exists('tbt_is_protected_page')) {
+    if (!tbt_pages_are_limited() || !function_exists('tbt_is_protected_page')) {
         return false;
     }
     if (!tbt_is_protected_page($postId)) {
-        // A Manager edits only the allowed ThatBioTutor pages; other pages (e.g. Privacy Policy) are locked too.
-        return tbt_current_user_is_manager() && function_exists('get_post_type') && get_post_type($postId) === 'page';
+        // Other pages (e.g. the Privacy Policy draft) are locked for a Manager, and for everyone under tbt_page_scope.
+        $lockOthers = tbt_current_user_is_manager() || tbt_page_scope_is_limited();
+        return $lockOthers && function_exists('get_post_type') && get_post_type($postId) === 'page';
     }
     $template = (string) get_post_meta($postId, '_wp_page_template', true);
     $registry = tbt_page_registry();
-    foreach (tbt_editable_page_keys() as $key) {
+    foreach (array_keys(tbt_editing_scope_sections()) as $key) {
         if (($registry[$key]['template'] ?? null) === $template) {
             return false;
         }
@@ -360,7 +376,7 @@ function tbt_editing_scope_map_meta_cap(array $caps, string $cap, int $userId, a
 /** @return list<int> IDs of protected pages outside the editable scope. */
 function tbt_locked_page_ids(): array
 {
-    if (!tbt_editing_is_limited() || !function_exists('get_posts')) {
+    if (!tbt_pages_are_limited() || !function_exists('get_posts')) {
         return [];
     }
     $ids = get_posts([

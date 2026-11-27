@@ -12,9 +12,14 @@ $GLOBALS['tbt_scope_option'] = 'all';
 $GLOBALS['tbt_scope_meta'] = [];
 $GLOBALS['tbt_scope_groups'] = [];
 
+$GLOBALS['tbt_page_scope_option'] = 'all';
 function get_option(string $name, mixed $default = false): mixed
 {
-    return $name === 'tbt_editing_scope' ? $GLOBALS['tbt_scope_option'] : $default;
+    return match ($name) {
+        'tbt_editing_scope' => $GLOBALS['tbt_scope_option'],
+        'tbt_page_scope' => $GLOBALS['tbt_page_scope_option'],
+        default => $default,
+    };
 }
 function add_action(string $hook, mixed $callback, int $priority = 10, int $args = 1): void {}
 function add_filter(string $hook, mixed $callback, int $priority = 10, int $args = 1): void {}
@@ -172,6 +177,19 @@ tbt_scope_assert(array_keys(tbt_manager_editable_roles(['administrator' => [], '
 $GLOBALS['tbt_scope_roles'] = ['administrator'];
 tbt_scope_assert(tbt_manager_user_meta_cap(['edit_users'], 'edit_user', 1, [5]) === ['edit_users'], 'Administrators are unaffected.');
 tbt_scope_assert(count(tbt_manager_editable_roles(['administrator' => [], TBT_MANAGER_ROLE => []])) === 2, 'Administrators can give any role.');
+$GLOBALS['tbt_scope_roles'] = [];
+
+// Page scope: administrators keep full panels and menus, but only the editable pages are listed and editable.
+$GLOBALS['tbt_scope_option'] = 'all';
+$GLOBALS['tbt_page_scope_option'] = 'limited';
+$GLOBALS['tbt_scope_roles'] = ['administrator'];
+tbt_scope_assert(!tbt_editing_is_limited(), 'Page scope does not limit panels or menus.');
+tbt_scope_assert(tbt_editing_scope_post_type_args(['show_ui' => true], 'tbt_tutor')['show_ui'] === true, 'Page scope keeps Tutors.');
+tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [2]) === ['do_not_allow'], 'Page scope locks About for administrators.');
+tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [4]) === ['do_not_allow'], 'Page scope locks other pages such as Privacy Policy.');
+tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [1]) === ['edit_pages'] && tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [3]) === ['edit_pages'], 'Page scope keeps Results & Testimonials and Free Bio Notes.');
+tbt_scope_assert(tbt_locked_page_ids() === [2], 'Page scope hides the locked pages from the list.');
+$GLOBALS['tbt_page_scope_option'] = 'all';
 $GLOBALS['tbt_scope_roles'] = [];
 
 fwrite(STDOUT, "PASS: editing scope assertions\n");
