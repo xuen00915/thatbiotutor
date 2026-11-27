@@ -143,7 +143,7 @@ function tbt_page_content_defaults(string $pageKey): array
 {
     $defaults = [];
     foreach (tbt_page_content_fields($pageKey) as $name => $field) {
-        if (($field['type'] ?? '') !== 'image') {
+        if (($field['type'] ?? '') !== 'image' && ($field['seed'] ?? true)) {
             $defaults[$name] = (string) ($field['default'] ?? '');
         }
     }

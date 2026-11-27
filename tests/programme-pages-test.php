@@ -8,6 +8,16 @@ require_once __DIR__ . '/page-render-bootstrap.php';
  * Sec 3 and Sec 4 render from one shared module. Every field declared for them must actually appear on the
  * rendered page (otherwise editing it would silently do nothing), and the two pages must differ only in data.
  */
+function metadata_exists(string $type, int $id, string $key): bool
+{
+    return array_key_exists($key, $GLOBALS['tbt_test_programme_meta'] ?? []);
+}
+
+function get_post_meta(int $id, string $key, bool $single): mixed
+{
+    return $GLOBALS['tbt_test_programme_meta'][$key] ?? '';
+}
+
 final class ProgrammePagesTest
 {
     private int $assertions = 0;
@@ -21,6 +31,18 @@ final class ProgrammePagesTest
             $html = tbt_test_render_template($template);
             $rendered[$level] = $html;
             $text = $this->squash($html);
+            $fields = tbt_page_content_fields($pageKey);
+            $this->assertTrue(isset($fields[$level . '_inclusions_heading']), "{$level} needs one combined inclusions heading.");
+            $this->assertTrue(!isset($fields[$level . '_inclusions_line1']) && !isset($fields[$level . '_inclusions_line2']), "{$level} must not expose separate heading lines.");
+            $this->assertTrue(!isset(tbt_page_content_defaults($pageKey)[$level . '_inclusions_heading']), "{$level} must not seed a value that would shadow saved heading lines.");
+            $GLOBALS['tbt_test_programme_meta'] = [
+                $level . '_inclusions_line1' => 'Saved text & first line',
+                $level . '_inclusions_line2' => '<mark>Saved second line</mark>',
+            ];
+            $this->assertTrue(str_contains(tbt_test_render_template($template), '<h2>Saved text &amp; first line<br><span>Saved second line</span></h2>'), 'Existing heading edits retain their words, break and accent.');
+            $GLOBALS['tbt_test_programme_meta'][$level . '_inclusions_heading'] = '<p>New first line</p><p><mark>New second line</mark></p>';
+            $this->assertTrue(str_contains(tbt_test_render_template($template), '<h2>New first line<br><span>New second line</span></h2>'), 'The new heading takes precedence and preserves an editor line break.');
+            unset($GLOBALS['tbt_test_programme_meta']);
             $checked = 0;
             foreach (tbt_page_content_fields($pageKey) as $name => $field) {
                 $this->assertTrue(!str_starts_with($name, $level . '_faq_image_'), "{$level} must not expose unused FAQ image fields.");

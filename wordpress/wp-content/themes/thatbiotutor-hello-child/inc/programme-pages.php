@@ -131,6 +131,10 @@ function tbt_programme_sections(string $level): array
         $phaseFields[] = tbt_f_inline("{$p}_phase_{$i}_note", "Phase {$i} — note at the bottom (optional)", $note);
     }
 
+    $inclusionsHeading = tbt_f_rich("{$p}_inclusions_heading", 'Heading',
+        'Everything your child gets<br>' . $d['inclusions_line2'], 'Press Enter to start a new line.');
+    $inclusionsHeading['seed'] = false; // Derive the initial value from either saved line when upgrading an existing page.
+
     return [
         tbt_f_section('hero', 'Top banner', [
             tbt_f_image("{$p}_hero_image", 'Banner picture', $d['hero_image']),
@@ -191,8 +195,7 @@ function tbt_programme_sections(string $level): array
         ])),
 
         tbt_f_section('inclusions', 'What students get', array_merge([
-            tbt_f_text("{$p}_inclusions_line1", 'Heading — first line', 'Everything your child gets'),
-            tbt_f_inline("{$p}_inclusions_line2", 'Heading — second line', $d['inclusions_line2']),
+            $inclusionsHeading,
         ], tbt_f_cards("{$p}_inclusion", 'Item', $d['inclusions'], 'text', 'text'))),
 
         tbt_f_section('tutors', 'Meet the team', [
@@ -207,6 +210,46 @@ function tbt_programme_sections(string $level): array
             tbt_f_inline("{$p}_faq_heading", 'Heading', $d['faq_heading']),
         ], 'The questions and answers are edited under FAQs in the left-hand menu (Page / collection "' . $level . '").'),
     ];
+}
+
+/** Read the combined heading, or preserve the two saved lines until the new field is edited. */
+function tbt_programme_inclusions_heading_value(string $level, int $postId): string
+{
+    $read = static function (string $suffix, ?string $fallback) use ($level, $postId): ?string {
+        $key = $level . '_inclusions_' . $suffix;
+        if ($postId > 0 && function_exists('metadata_exists') && metadata_exists('post', $postId, $key)) {
+            $value = get_post_meta($postId, $key, true);
+            return is_string($value) ? $value : $fallback;
+        }
+        return $fallback;
+    };
+
+    return $read('heading', null)
+        ?? esc_html($read('line1', 'Everything your child gets')) . '<br>'
+            . $read('line2', tbt_programme_level($level)['inclusions_line2']);
+}
+
+/** Keep editor paragraph breaks as line breaks within the public heading. */
+function tbt_programme_inclusions_heading_html(string $level): string
+{
+    $postId = function_exists('get_the_ID') ? (int) get_the_ID() : 0;
+    $heading = tbt_programme_inclusions_heading_value($level, $postId);
+    $heading = (string) preg_replace('~</p>\s*<p\b[^>]*>~i', '<br>', $heading);
+    return tbt_heading_html($heading);
+}
+
+function tbt_programme_load_inclusions_heading(mixed $value, mixed $postId, array $field): mixed
+{
+    if (!is_numeric($postId)) {
+        return $value;
+    }
+    $level = str_starts_with($field['name'], 'sec3_') ? 'sec3' : 'sec4';
+    return tbt_programme_inclusions_heading_value($level, (int) $postId);
+}
+
+if (function_exists('add_filter')) {
+    add_filter('acf/load_value/name=sec3_inclusions_heading', 'tbt_programme_load_inclusions_heading', 10, 3);
+    add_filter('acf/load_value/name=sec4_inclusions_heading', 'tbt_programme_load_inclusions_heading', 10, 3);
 }
 
 /** The two class-option boxes: title, subtitle and the bullet list with its note. */
@@ -319,7 +362,7 @@ function tbt_render_programme_page(string $level): void
 
     <section class="tbt-programme-section tbt-programme-lesson" data-section="lesson"><div class="tbt-programme-container"><h2><?php echo esc_html($f('lesson_line1')); ?><br><span><?php echo esc_html($f('lesson_line2')); ?></span></h2><?php $video = tbt_testimonial_embed_url($f('lesson_video_url')); if ($video !== '') : ?><div class="tbt-programme-lesson__video"><iframe width="960" height="540" src="<?php echo esc_url($video); ?>" title="<?php echo esc_attr($f('lesson_video_title')); ?>" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><?php endif; ?><div class="tbt-programme-lesson__grid"><?php foreach ([1, 2, 3, 4] as $i) : [$title, $text] = $card('lesson', $i); if ($title === '' && trim($text) === '') { continue; } ?><article><h3><?php echo esc_html($title); ?></h3><p><?php echo tbt_rich_inline($text); ?></p></article><?php endforeach; ?></div><div class="tbt-practical-feature"><h3><?php echo esc_html($f('practical_title')); ?></h3><p><?php echo tbt_rich_inline($f('practical_text')); ?></p><div class="tbt-practical-grid"><?php foreach ([1, 2, 3] as $i) { tbt_render_content_image("{$p}_practical_image_{$i}", 'tbt-practical-photo', ['loading' => 'lazy']); } ?></div></div></div></section>
 
-    <section class="tbt-programme-section tbt-programme-inclusions-section" data-section="inclusions"><div class="tbt-programme-container"><h2><?php echo esc_html($f('inclusions_line1')); ?><br><?php echo tbt_heading_html($f('inclusions_line2')); ?></h2><div class="tbt-programme-inclusions"><?php foreach ([1, 2, 3, 4, 5, 6, 7, 8] as $i) : [$title, $text] = $card('inclusion', $i); if ($title === '' && $text === '') { continue; } ?><article class="tbt-inclusion-card"><span class="tbt-inclusion-icon" style="<?php echo esc_attr($iconBoxes[$i - 1] ?? ''); ?>" aria-hidden="true"><?php tbt_render_media_image('original_136', '', ['loading' => 'lazy', 'alt' => '']); ?></span><h3><?php echo esc_html($title); ?></h3><p><?php echo esc_html($text); ?></p></article><?php endforeach; ?></div></div></section>
+    <section class="tbt-programme-section tbt-programme-inclusions-section" data-section="inclusions"><div class="tbt-programme-container"><h2><?php echo tbt_programme_inclusions_heading_html($level); // phpcs:ignore WordPress.Security.EscapeOutput -- sanitized by the heading renderer. ?></h2><div class="tbt-programme-inclusions"><?php foreach ([1, 2, 3, 4, 5, 6, 7, 8] as $i) : [$title, $text] = $card('inclusion', $i); if ($title === '' && $text === '') { continue; } ?><article class="tbt-inclusion-card"><span class="tbt-inclusion-icon" style="<?php echo esc_attr($iconBoxes[$i - 1] ?? ''); ?>" aria-hidden="true"><?php tbt_render_media_image('original_136', '', ['loading' => 'lazy', 'alt' => '']); ?></span><h3><?php echo esc_html($title); ?></h3><p><?php echo esc_html($text); ?></p></article><?php endforeach; ?></div></div></section>
 
     <section class="tbt-programme-section tbt-programme-tutors" data-section="tutors"><div class="tbt-programme-container"><h2><?php echo tbt_heading_html($f('tutors_heading')); ?></h2><?php ob_start(); tbt_render_tutors(['fallback_portraits' => ['Ms Jamie' => 'curated_shared_tutor_jamie', 'Ms Chelsea' => 'curated_shared_tutor_chelsea', 'Mr Keefe' => 'curated_shared_tutor_keefe', 'Ms Ng' => 'curated_shared_tutor_ng']]); echo preg_replace(['~<h3>([^<]+)</h3><p class="tbt-tutor__role">(Founder|Ex-MOE Teacher &amp; Syllabus Reviewer)</p>~u', '~<p class="tbt-tutor__role">[^<]*</p>~u'], ['<h3>$1 ($2)</h3>', ''], (string) ob_get_clean()); // phpcs:ignore WordPress.Security.EscapeOutput -- output of the escaped tutor renderer. ?><div class="tbt-programme-quality"><strong><?php echo esc_html($f('quality_title')); ?></strong><?php echo tbt_rich_attrs(tbt_rich($f('quality_ticks')), 'p', 'class="tbt-tick"'); ?></div><?php $tbt_button($f('tutors_button')); ?></div></section>
 

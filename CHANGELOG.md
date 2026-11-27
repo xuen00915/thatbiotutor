@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Sec 3 and Sec 4 use one editor field for the What students get heading, with existing words and formatting carried forward.
+
 - [main-site] The page editor shows green and red text on accented headings, with separate highlighting for body copy.
 
 - [main-site] Removed SEO controls from the classic and visual page editors. The theme continues to use saved SEO metadata.

@@ -64,7 +64,7 @@ function tbt_editor_heading_accent(string $name): string
     return match (true) {
         in_array($name, ['home_heading', 'intensivefix_heading'], true) => 'hero',
         in_array($name, ['home_fasttrack_heading', 'home_guarantee_heading', 'intensivefix_fasttrack_heading',
-            'sec3_inclusions_line2', 'sec4_inclusions_line2'], true) => 'dark',
+            'sec3_inclusions_heading', 'sec4_inclusions_heading'], true) => 'dark',
         in_array($name, ['notes_details_heading', 'notes_why_heading', 'notes_catch_heading', 'notes_download_heading',
             'celldivision_title', 'celldivision_access_heading'], true),
         preg_match('/^(?:sec[34]_(?:options_heading|phase_[1-3]_title|tutors_heading|faq_heading)|classes_struggle_[1-4]_title)$/D', $name) === 1 => 'light',
@@ -93,15 +93,17 @@ function tbt_acf_section_fields(string $prefix, array $section): array
         $label = (string) $declared['label'];
         switch ($declared['type']) {
             case 'wysiwyg':
-                if (!empty($declared['inline'])) {
-                    $accent = tbt_editor_heading_accent($name);
-                    $class = 'tbt-inline-rich' . ($accent === '' ? '' : ' tbt-text-accent-' . $accent);
+                $accent = tbt_editor_heading_accent($name);
+                $inline = !empty($declared['inline']);
+                if ($inline || $accent !== '') {
+                    $class = $inline ? 'tbt-inline-rich' : 'tbt-heading-editor';
+                    $class .= $accent === '' ? '' : ' tbt-text-accent-' . $accent;
                     $settings['wrapper'] = ['width' => '', 'class' => $class, 'id' => ''];
-                    if ($accent !== '') {
-                        $settings['toolbar'] = $accent === 'hero' ? 'thatbiotutor_green_and_red' : 'thatbiotutor_green';
-                        $hint = $accent === 'hero' ? 'Use Green text or Red text on selected words.' : 'Use Green text on selected words.';
-                        $settings['instructions'] = trim($settings['instructions'] . ' ' . $hint);
-                    }
+                }
+                if ($accent !== '') {
+                    $settings['toolbar'] = $accent === 'hero' ? 'thatbiotutor_green_and_red' : 'thatbiotutor_green';
+                    $hint = $accent === 'hero' ? 'Use Green text or Red text on selected words.' : 'Use Green text on selected words.';
+                    $settings['instructions'] = trim($settings['instructions'] . ' ' . $hint);
                 }
                 $fields[] = tbt_acf_wysiwyg($key, $label, $name, $settings);
                 break;
