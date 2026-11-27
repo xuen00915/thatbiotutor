@@ -9,7 +9,7 @@ In WordPress, open **Pages**. The default list shows Home, Classes, Sec 3, Sec 4
 - Select **Additional Pages** above the list to edit pages such as Cell Division Crash Course, Our Causes, Tuition Recommendations, and IntensiveFix. Select **All Pages** to see the complete list.
 - Use the WordPress sidebar to edit Testimonials, Class Years, Tutors, and FAQs.
 - Open **Home** for the shared logo, contact information, and footer.
-- For a visual preview, choose **Visual editor** from the page’s row actions or the toolbar on the live page. Select **Edit** on a section in the preview to open its fields. The **Section** dropdown also includes settings such as SEO. Press **Update** to save and refresh the preview. Use the WordPress sidebar for repeated records such as Tutors and FAQs.
+- For a visual preview, choose **Visual editor** from the page’s row actions or the toolbar on the live page. Select **Edit** on a section in the preview to open its fields. Press **Update** to save and refresh the preview. Use the WordPress sidebar for repeated records such as Tutors and FAQs.
 - In each page editor, use the **Section** dropdown. Use **Preview Changes** to review it and **Update** to save. For Privacy Policy, use **Save Draft** to keep it unpublished.
 
 ## ThatBioTutor Managers
@@ -86,8 +86,3 @@ Developers can capture the reference/local visual matrix with `npm run visual:ca
 3. Confirm WhatsApp opens the intended number and message.
 4. Keep external recommendation and environmental links current.
 5. Ask a developer for layout, navigation, responsive, metadata, redirect, or interaction changes; those are theme-owned.
-
-
-## SEO titles and descriptions
-
-Each protected page has an **SEO** section in its ThatBioTutor fields. The placeholders show the prepared default title and description. Enter an override to change that page’s search and social-share metadata, or leave the fields empty to use the defaults. These fields do not change the visible page heading. See [SEO-METADATA.md](SEO-METADATA.md) for the complete page list.

@@ -139,7 +139,6 @@ function tbt_render_bundled_image_in_editor(array $field): void
 function tbt_acf_page_groups(): array
 {
     $reference = tbt_reference_content();
-    $seoDefaults = function_exists('tbt_page_metadata') ? tbt_page_metadata() : [];
     $groups = [];
 
     foreach (tbt_page_registry() as $pageKey => $page) {
@@ -236,21 +235,6 @@ function tbt_acf_page_groups(): array
                 ['tbt_builtin_media' => 'intensivefix_student_reviews']
             );
         }
-
-        $fields[] = tbt_acf_tab('field_tbt_' . $prefix . '_tab_seo', 'SEO');
-        $fields[] = tbt_acf_field('field_tbt_' . $prefix . '_seo_title', 'SEO title', 'tbt_' . $prefix . '_seo_title', 'text', [
-            'placeholder' => $seoDefaults[$pageKey]['title'] ?? '',
-            'instructions' => 'Optional override of the prepared page title. Leave blank to use the default. Include ThatBioTutor once if you want the brand in the title.',
-        ]);
-        $fields[] = tbt_acf_textarea('field_tbt_' . $prefix . '_seo_description', 'SEO description', 'tbt_' . $prefix . '_seo_description', [
-            'rows' => 3,
-            'placeholder' => $seoDefaults[$pageKey]['description'] ?? '',
-            'instructions' => 'Optional page-specific search description. Leave blank to use the prepared default. This also updates the social-share description.',
-        ]);
-        $fields[] = tbt_acf_field('field_tbt_' . $prefix . '_seo_keywords', 'SEO keywords', 'tbt_' . $prefix . '_seo_keywords', 'text', [
-            'placeholder' => $seoDefaults[$pageKey]['keywords'] ?? '',
-            'instructions' => 'Optional comma-separated search phrases for this page, e.g. "Sec 3 Biology tuition, Pure Biology notes". Leave blank to use the prepared default.',
-        ]);
 
         $groups[] = [
             'key' => 'group_tbt_page_' . $prefix,

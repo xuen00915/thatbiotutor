@@ -1,6 +1,6 @@
 # Page SEO titles and descriptions
 
-The theme supplies these defaults for all 12 public pages. Each page’s **ThatBioTutor → SEO** tab in the WordPress editor offers an optional SEO title and SEO description override. Empty overrides use these defaults; editing SEO does not change visible page headings or content.
+The theme supplies these defaults for all 12 site pages. Previously saved SEO overrides continue to apply to the corresponding page. SEO metadata is maintained through the theme.
 
 Open Graph titles and descriptions follow the same values. Canonical URLs use the installed WordPress site URL. WordPress adds the brand only once. Search engines may choose a different displayed title or snippet; these fields specify the preferred metadata.
 
@@ -21,4 +21,4 @@ Open Graph titles and descriptions follow the same values. Canonical URLs use th
 
 Guidance: [Google title links](https://developers.google.com/search/docs/appearance/title-link) and [Google snippets](https://developers.google.com/search/docs/appearance/snippet). Keep each page accurate and distinct; avoid keyword stuffing.
 
-The child theme owns this metadata. AIOS is a security plugin and does not replace these SEO fields. If a separate SEO plugin is added later, choose a single metadata owner to avoid duplicate output.
+The child theme owns this metadata. AIOS provides site security. If a separate SEO plugin is added later, choose a single metadata owner to avoid duplicate output.

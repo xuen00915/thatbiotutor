@@ -34,9 +34,19 @@ $parts=tbt_filter_document_title_parts(['title'=>'Notes','site'=>'ThatBioTutor',
 if(isset($parts['site'])||isset($parts['tagline']))throw new RuntimeException('Full SEO titles must not repeat the site name or tagline');
 $GLOBALS['seo_overrides']=['tbt_notes_seo_title'=>'Custom Notes Title','tbt_notes_seo_description'=>'A custom description.','tbt_notes_seo_keywords'=>' biology notes ,  free notes '];
 $custom=tbt_current_metadata();
-if($custom['keywords']!=='biology notes, free notes'||$custom['title']!=='Custom Notes Title'||$custom['og_title']!==$custom['title']||$custom['description']!=='A custom description.')throw new RuntimeException('Editor overrides must apply to SEO and Open Graph');
+if($custom['keywords']!=='biology notes, free notes'||$custom['title']!=='Custom Notes Title'||$custom['og_title']!==$custom['title']||$custom['description']!=='A custom description.')throw new RuntimeException('Previously saved overrides must apply to SEO and Open Graph');
 $GLOBALS['seo_overrides']=['tbt_notes_seo_title'=>'  ','tbt_notes_seo_description'=>['invalid']];
 if(tbt_current_metadata()['title']!==$meta['notes']['title']||tbt_current_metadata()['description']!==$meta['notes']['description'])throw new RuntimeException('Empty or invalid overrides must use defaults');
 $GLOBALS['meta_page']='unregistered';
 if(tbt_current_metadata()!==null||tbt_filter_document_title_parts(['title'=>'Unrelated','site'=>'Site'])!==['title'=>'Unrelated','site'=>'Site'])throw new RuntimeException('Unrelated pages retain WordPress metadata');
 echo "PASS: SEO overrides, fallback and title composition\n";
+
+foreach (['title', 'description', 'keywords'] as $field) {
+    if (!tbt_protect_page_seo_metadata(false, 'tbt_notes_seo_' . $field, 'post')
+        || !tbt_protect_page_seo_metadata(false, 'TBT_NOTES_SEO_' . strtoupper($field), 'post')) {
+        throw new RuntimeException('The WordPress custom-fields editor must not expose saved SEO values.');
+    }
+}
+if (tbt_protect_page_seo_metadata(false, 'notes_heading', 'post')) {
+    throw new RuntimeException('Ordinary page copy must remain editable.');
+}

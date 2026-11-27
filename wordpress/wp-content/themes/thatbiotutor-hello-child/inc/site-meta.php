@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) { exit; }
 /** Return portable, unique metadata for every protected page. */
 function tbt_page_metadata(): array
 {
-    // [SEO title (max 60), description (110-155), keywords]. Editors can override each per page in the SEO tab.
+    // [SEO title (max 60), description (110-155), keywords]. Keep these defaults in sync with the site’s search and social metadata.
     $copy = [
         'home' => ['O-Level Pure & G3 Biology Tuition Singapore | ThatBioTutor', 'Singapore\'s only O-Level Pure and G3 Biology specialist. Sec 3 and Sec 4 Biology tuition with visual notes, exam answering skills and proven results.', 'O Level Biology tuition Singapore, Pure Biology tuition, G3 Biology tuition, Sec 3 Biology tuition, Sec 4 Biology tuition, Biology tutor Singapore, ThatBioTutor'],
         'classes' => ['Sec 3 & Sec 4 Pure and G3 Biology Classes | ThatBioTutor', 'Compare ThatBioTutor\'s Sec 3 and Sec 4 Pure and G3 Biology classes in Singapore: concept lessons, memory techniques, exam answering and practicals.', 'Biology classes Singapore, O Level Biology classes, Pure Biology classes, G3 Biology classes, Sec 3 Biology class, Sec 4 Biology class, Biology tuition centre'],
@@ -38,7 +38,7 @@ function tbt_current_metadata_key(): string
     return '';
 }
 
-/** Resolve optional page-editor overrides without changing portable canonical URLs. */
+/** Resolve previously saved overrides without changing portable canonical URLs. */
 function tbt_current_metadata(): ?array
 {
     $key = tbt_current_metadata_key();
@@ -60,6 +60,12 @@ function tbt_current_metadata(): ?array
         }
     }
     return $meta;
+}
+
+/** Keep the legacy SEO values usable by the theme and hidden from WordPress Custom Fields. */
+function tbt_protect_page_seo_metadata(bool $protected, string $key, string $type): bool
+{
+    return $protected || ($type === 'post' && preg_match('/^tbt_[a-z0-9_]+_seo_(title|description|keywords)$/iD', $key) === 1);
 }
 
 function tbt_render_meta_tags(): void
@@ -148,4 +154,7 @@ if (function_exists('add_action')) {
     add_action('wp_head', 'tbt_render_meta_tags', 2);
     add_action('template_redirect', 'tbt_redirect_legacy_routes', 1);
 }
-if (function_exists('add_filter')) { add_filter('document_title_parts', 'tbt_filter_document_title_parts'); }
+if (function_exists('add_filter')) {
+    add_filter('document_title_parts', 'tbt_filter_document_title_parts');
+    add_filter('is_protected_meta', 'tbt_protect_page_seo_metadata', 10, 3);
+}

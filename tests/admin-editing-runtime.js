@@ -79,8 +79,9 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     assert.ok(await page.locator('.tbt-page-guide').isVisible(), 'A short guide must explain how to edit the page.');
     assert.equal(await page.locator('#postdivrich').count(), 0, 'The unused page-body editor must be hidden.');
     const tabs = await section.locator('option').allTextContents();
+    assert.ok(!tabs.includes('SEO'), 'The classic editor has no SEO section.');
     assert.equal(await page.locator('.acf-tab-button:visible').count(), 0, 'The section picker replaces the crowded row of tabs.');
-    for (const tab of ['Page headings and copy', 'Top banner', 'Our Mission', 'Quality Teaching', 'Message From The Founder', 'What We Believe In', 'SEO']) assert.ok(tabs.includes(tab), `About needs the "${tab}" tab: ${tabs.join(', ')}`);
+    for (const tab of ['Page headings and copy', 'Top banner', 'Our Mission', 'Quality Teaching', 'Message From The Founder', 'What We Believe In']) assert.ok(tabs.includes(tab), `About needs the "${tab}" tab: ${tabs.join(', ')}`);
 
     // 2. The formatted-text toolbar is the short, client-safe one, including Highlight.
     await chooseSection('Our Mission');
@@ -144,6 +145,8 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     await page.setViewportSize({ width: 1400, height: 1000 });
     await page.getByRole('link', { name: 'Open visual editor', exact: true }).click();
     await page.waitForURL(/tbt_visual=1/);
+    await section.waitFor();
+    assert.ok(!(await section.locator('option').allTextContents()).includes('SEO'), 'The visual editor has no SEO section.');
     const preview = page.frameLocator('iframe[title="Page preview"]');
     await preview.getByRole('button', { name: 'Edit Track record', exact: true }).click();
     assert.equal(await section.locator('option:checked').textContent(), 'Track record');

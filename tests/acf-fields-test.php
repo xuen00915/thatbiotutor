@@ -58,7 +58,8 @@ final class AcfFieldsTest
             $fieldsByTemplate[$template] = array_column($group['fields'], null, 'name');
 
             $seo = array_values(array_filter($group['fields'], static fn($field) => preg_match('/^tbt_.*_seo_(title|description|keywords)$/', $field['name'] ?? '')));
-            $this->assertSame(3, count($seo), 'Each page needs editable SEO title, description and keywords fields.');
+            $this->assertSame([], $seo, 'SEO metadata must be absent from the editor.');
+            $this->assertTrue(!in_array('SEO', array_column($group['fields'], 'label'), true), 'The editor must not offer a SEO section.');
             $types = array_column($group['fields'], 'type');
             $this->assertSame('tab', $types[0] ?? null, "{$template} must begin with an editing section.");
             $this->assertTrue(in_array('tab', $types, true), "{$template} must expose section tabs.");
