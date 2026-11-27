@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- [main-site] Class Year editing: the growth-chart icon and "WhatsApp Us Now" switches are gone from the editor (each year keeps its current setting). The "Watch to the End…" switch is now a per-year text field "Line under Student Stories" (empty = no line), prefilled with each year's current line; the page-wide line remains only as the fallback for years without one and leaves the Manager's view. Empty poster/table fields preview the built-in picture in use. Public page unchanged.
 - [main-site] Tutor editing: removed the unused "Long biography" and "Active pages / sections" fields (never shown on the site). An empty Portrait or Certificate field now shows the built-in picture the site is using, so "No image selected" no longer looks like a missing photo. The Hostinger AI Assistant "External Featured Image" box is hidden on ThatBioTutor pages and records. Public pages unchanged.
 - [main-site] Results and FAQs menus are hidden in the dashboard for every user, administrators included. Their records still render on the site unchanged.
 - [main-site] Managers can manage user accounts: the Users menu lets them add, edit and remove Manager accounts (Users list shows Managers only). They can only give the Manager role and cannot edit, delete or change the role of administrators or other roles, or delete themselves.

@@ -205,7 +205,7 @@ function tbt_editing_scope_sections(): array
     return [
         'testimonials' => [
             'field_tbt_testimonials_tab_featured' => ['testimonials_video_url', 'testimonials_video_title'],
-            'field_tbt_testimonials_tab_stories' => null,
+            'field_tbt_testimonials_tab_stories' => ['testimonials_stories_heading', 'testimonials_archive_button_label'],
             'field_tbt_testimonials_tab_years' => null,
         ],
         'notes' => [

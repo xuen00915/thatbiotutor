@@ -56,6 +56,70 @@ function tbt_class_year_pictures(int $postId, string $year, string $kind): array
     return $items;
 }
 
+/**
+ * The line under "Student Stories" for one year: the typed text (empty hides it), else the seeded line of a
+ * shipped year, else null so the page falls back to the old on/off switch and the page-wide line.
+ */
+function tbt_class_year_advice(int $postId): ?string
+{
+    $value = tbt_record_field($postId, 'class_years', 'tbt_year_advice');
+    return $value === null ? null : trim((string) $value);
+}
+
+/** Admin: an advice field that was never saved shows the line the page currently displays, so saving keeps it. */
+function tbt_class_year_advice_load_value(mixed $value, mixed $postId, mixed $field): mixed
+{
+    $id = (int) $postId;
+    if ($id <= 0 || (function_exists('metadata_exists') && metadata_exists('post', $id, 'tbt_year_advice'))) {
+        return $value;
+    }
+    // Read the seed directly: tbt_record_field() goes through get_field(), which would call this filter again.
+    $seedKey = function_exists('get_post_meta') ? (string) get_post_meta($id, '_tbt_seed_key', true) : '';
+    foreach ((tbt_reference_content()['records']['class_years'] ?? []) as $record) {
+        if (($record['seed_key'] ?? '') === $seedKey && isset($record['fields']['tbt_year_advice'])) {
+            return (string) $record['fields']['tbt_year_advice'];
+        }
+    }
+    $flag = function_exists('get_post_meta') ? get_post_meta($id, 'tbt_year_show_advice', true) : '';
+    if (!tbt_class_year_flag($flag === '' ? '1' : $flag)) {
+        return '';
+    }
+    $defaults = function_exists('tbt_page_content_defaults') ? tbt_page_content_defaults('testimonials') : [];
+    return (string) ($defaults['testimonials_stories_advice'] ?? '');
+}
+
+/** Admin: show the bundled picture under an empty poster/table field, so "No image selected" is not mistaken for a missing picture. */
+function tbt_class_year_field_builtin_preview(mixed $field): mixed
+{
+    if (!is_array($field) || !empty($field['value']) || !function_exists('get_the_ID') || !function_exists('tbt_media')) {
+        return $field;
+    }
+    // ACF swaps "name" for the field key while preparing; the meta name is kept in "_name".
+    $fieldName = (string) ($field['_name'] ?? $field['name'] ?? '');
+    if (preg_match('/^tbt_year_(poster|table)_([123])$/', $fieldName, $match) !== 1) {
+        return $field;
+    }
+    $postId = (int) get_the_ID();
+    $year = $postId > 0 ? trim((string) tbt_record_field($postId, 'class_years', 'tbt_year_value')) : '';
+    $key = (string) (tbt_class_year_default_media()[$year][$match[1]][(int) $match[2] - 1] ?? '');
+    $image = $key !== '' ? tbt_media($key) : ['url' => ''];
+    if (($image['url'] ?? '') === '') {
+        return $field;
+    }
+    $field['instructions'] = 'Currently shown on the site (built in). Add an image here only to replace it.'
+        . '<br><img src="' . esc_url((string) $image['url']) . '" alt="" style="max-width:220px;max-height:220px;margin-top:8px;border-radius:6px;">';
+    return $field;
+}
+
+if (function_exists('add_filter')) {
+    add_filter('acf/load_value/key=field_tbt_year_advice', 'tbt_class_year_advice_load_value', 10, 3);
+    foreach (['poster', 'table'] as $tbtKind) {
+        foreach ([1, 2, 3] as $tbtSlot) {
+            add_filter('acf/prepare_field/key=field_tbt_year_' . $tbtKind . '_' . $tbtSlot, 'tbt_class_year_field_builtin_preview');
+        }
+    }
+}
+
 /** Return the published class years, newest first. */
 function tbt_get_class_years(): array
 {
@@ -75,6 +139,7 @@ function tbt_get_class_years(): array
             'growth_icon' => tbt_class_year_flag(tbt_record_field($id, 'class_years', 'tbt_year_growth_icon')),
             'show_advice' => tbt_class_year_flag(tbt_record_field($id, 'class_years', 'tbt_year_show_advice')),
             'whatsapp_button' => tbt_class_year_flag(tbt_record_field($id, 'class_years', 'tbt_year_whatsapp_button')),
+            'advice' => tbt_class_year_advice($id),
             'posters' => tbt_class_year_pictures($id, $year, 'poster'),
             'tables' => tbt_class_year_pictures($id, $year, 'table'),
         ];

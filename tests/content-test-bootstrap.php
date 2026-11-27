@@ -64,6 +64,11 @@ function get_post_meta(int $postId, string $key, bool $single = false): mixed
     return $single ? $value : [$value];
 }
 
+function metadata_exists(string $type, int $postId, string $key): bool
+{
+    return array_key_exists($key, $GLOBALS['tbt_content_meta'][$postId] ?? []);
+}
+
 function get_the_title(object|int $post): string
 {
     $id = is_object($post) ? (int) $post->ID : $post;

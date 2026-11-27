@@ -15,11 +15,16 @@ $tbt_group_args = static fn (string $year): array => [
     'meta_query' => [['key' => 'tbt_display_group', 'value' => $year, 'compare' => '=']],
 ];
 $tbt_star = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.8l3.2 6.5 7.2 1-5.2 5.1 1.2 7.1L12 18.1l-6.4 3.4 1.2-7.1L1.6 9.3l7.2-1z" fill="url(#tbt-star-gold)" stroke="#e8a300" stroke-width="1" stroke-linejoin="round"/></svg>';
-$tbt_story_heading = static function (bool $show_advice, string $year) use ($tbt_field): void {
+$tbt_story_heading = static function (array $item, string $year) use ($tbt_field): void {
+    // Per-year line; years without one fall back to the old switch and the page-wide line.
+    $advice = $item['advice'] ?? null;
+    if ($advice === null) {
+        $advice = !empty($item['show_advice']) ? (string) $tbt_field('testimonials_stories_advice') : '';
+    }
     ?>
     <div class="tbt-story-heading" id="class-of-<?php echo esc_attr($year); ?>-stories">
         <h3><?php echo tbt_accent_last_word($tbt_field('testimonials_stories_heading')); ?></h3>
-        <?php if ($show_advice && $tbt_field('testimonials_stories_advice') !== '') : ?><p><?php echo esc_html($tbt_field('testimonials_stories_advice')); ?></p><?php endif; ?>
+        <?php if ($advice !== '') : ?><p><?php echo esc_html($advice); ?></p><?php endif; ?>
     </div>
     <?php
 };
@@ -84,7 +89,7 @@ $tbt_years = tbt_get_class_years();
         <div class="tbt-testimonials-artwork-band tbt-testimonials-artwork-band--<?php echo esc_attr($tbt_year); ?>"><div class="tbt-testimonials-container"><div class="tbt-testimonials-artwork tbt-testimonials-artwork--landscape" id="class-of-<?php echo esc_attr($tbt_year); ?>-table"><?php tbt_render_class_year_pictures($tbt_item['tables']); ?></div></div></div>
         <?php endif; ?>
         <?php if (!$tbt_open) { $tbt_open = true; echo '<div class="tbt-testimonials-container">'; } ?>
-            <?php $tbt_story_heading($tbt_item['show_advice'], $tbt_year); ?>
+            <?php $tbt_story_heading($tbt_item, $tbt_year); ?>
             <div data-review-panel><?php tbt_render_testimonials($tbt_group_args($tbt_year)); ?></div>
             <?php if ($tbt_item['whatsapp_button'] && $tbt_whatsapp !== '' && $tbt_field('testimonials_archive_button_label') !== '') : ?><a class="tbt-testimonials-button tbt-testimonials-button--archive" href="<?php echo esc_url($tbt_whatsapp); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($tbt_field('testimonials_archive_button_label')); ?></a><?php endif; ?>
         </div>

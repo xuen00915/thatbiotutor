@@ -25,7 +25,7 @@ Open **Pages**, then the page you want. The page opens on a clear screen with a 
 ### Adding a new class year (Results & Testimonials)
 
 1. **Class Years → Add Class Year**. Enter the year (for example `2026`) and the green panel heading ("Class of 2026").
-2. Upload the result poster pictures (tall) and results table pictures (wide), if there are any. Optional: a one-line result headline, the growth-chart icon, and a WhatsApp button at the end of the year.
+2. Upload the result poster pictures (tall) and results table pictures (wide), if there are any. Optional: a one-line result headline and the line under "Student Stories" (leave it empty for no line). Empty picture fields show the built-in picture the site is using; add an image only to replace it.
 3. Add the students' stories under **Testimonials → Add Testimonial** and set **Display group / year** to the same year.
 4. **Publish.** The page and the year menu update automatically, newest year first. To retire a year, move its record to Draft.
 

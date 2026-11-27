@@ -103,10 +103,10 @@ $limited = tbt_scope_registered();
 sort($limited);
 tbt_scope_assert($limited === ['group_tbt_class_year_fields', 'group_tbt_page_notes', 'group_tbt_page_testimonials', 'group_tbt_testimonial_fields'], 'Limited scope registers only the testimonials and notes pages, testimonials and class years: ' . implode(',', $limited));
 $testimonialFields = $GLOBALS['tbt_scope_fields']['group_tbt_page_testimonials'];
-foreach (['testimonials_video_url', 'testimonials_video_title', 'testimonials_stories_heading', 'testimonials_stories_advice', 'testimonials_archive_button_label'] as $name) {
+foreach (['testimonials_video_url', 'testimonials_video_title', 'testimonials_stories_heading', 'testimonials_archive_button_label'] as $name) {
     tbt_scope_assert(in_array($name, $testimonialFields, true), "Testimonials keeps {$name}.");
 }
-foreach (['testimonials_heading', 'testimonials_hero_lead', 'testimonials_button_label', 'testimonials_whatsapp_message', 'tbt_testimonials_seo_title'] as $name) {
+foreach (['testimonials_heading', 'testimonials_stories_advice', 'testimonials_hero_lead', 'testimonials_button_label', 'testimonials_whatsapp_message', 'tbt_testimonials_seo_title'] as $name) {
     tbt_scope_assert(!in_array($name, $testimonialFields, true), "Testimonials drops {$name}.");
 }
 $notesFields = $GLOBALS['tbt_scope_fields']['group_tbt_page_notes'];

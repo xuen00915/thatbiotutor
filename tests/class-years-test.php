@@ -34,8 +34,12 @@ final class ClassYearsTest extends TbtContentTestCase
         $this->assertTrue(isset($GLOBALS['tbt_registered_post_types']) && in_array('tbt_class_year', tbt_structured_post_types(), true), 'Class Year must be a managed content type.');
         $groups = array_column(tbt_acf_content_groups(), null, 'key');
         $names = array_column($groups['group_tbt_class_year_fields']['fields'] ?? [], 'name');
-        foreach (['tbt_year_value', 'tbt_year_heading', 'tbt_year_summary', 'tbt_year_growth_icon', 'tbt_year_show_advice', 'tbt_year_whatsapp_button', 'tbt_year_poster_1', 'tbt_year_table_1'] as $name) {
+        foreach (['tbt_year_value', 'tbt_year_heading', 'tbt_year_summary', 'tbt_year_advice', 'tbt_year_poster_1', 'tbt_year_table_1'] as $name) {
             $this->assertTrue(in_array($name, $names, true), "Class Year must expose {$name}.");
+        }
+        // The on/off switches are gone from the editor; the icon and button keep each year's stored setting.
+        foreach (['tbt_year_growth_icon', 'tbt_year_show_advice', 'tbt_year_whatsapp_button'] as $name) {
+            $this->assertTrue(!in_array($name, $names, true), "Class Year must not expose the {$name} switch.");
         }
 
         // The five shipped years are seeded as records.
@@ -52,8 +56,8 @@ final class ClassYearsTest extends TbtContentTestCase
         ];
         $GLOBALS['tbt_content_meta'] = [
             1 => ['tbt_year_value' => '2024', 'tbt_year_heading' => 'Class of 2024', '_tbt_seed_key' => 'class-year-2024'],
-            2 => ['tbt_year_value' => '2026', 'tbt_year_whatsapp_button' => '1', 'tbt_year_poster_1' => ['url' => 'https://example.test/new-poster.webp', 'alt' => 'New poster', 'width' => 900, 'height' => 1600]],
-            3 => ['tbt_year_value' => '2025', 'tbt_year_poster_1' => ['url' => 'https://example.test/replaced.webp', 'alt' => '', 'width' => 900, 'height' => 1600], '_tbt_seed_key' => 'class-year-2025'],
+            2 => ['tbt_year_value' => '2026', 'tbt_year_whatsapp_button' => '1', 'tbt_year_advice' => 'Hear their tips!', 'tbt_year_poster_1' => ['url' => 'https://example.test/new-poster.webp', 'alt' => 'New poster', 'width' => 900, 'height' => 1600]],
+            3 => ['tbt_year_value' => '2025', 'tbt_year_advice' => '', 'tbt_year_poster_1' => ['url' => 'https://example.test/replaced.webp', 'alt' => '', 'width' => 900, 'height' => 1600], '_tbt_seed_key' => 'class-year-2025'],
             4 => ['tbt_year_value' => '2099'],
             5 => ['tbt_year_value' => '<script>'],
             6 => ['_tbt_seed_key' => 'class-year-2021'],
@@ -85,6 +89,13 @@ final class ClassYearsTest extends TbtContentTestCase
         $this->assertSame('100% of our Class of 2021 improved their grade in 6 months or less', $byYear['2021']['summary'], 'The 2021 headline must come from the seeded record.');
         $this->assertTrue($byYear['2021']['growth_icon'] && !$byYear['2021']['show_advice'] && $byYear['2021']['whatsapp_button'], '2021 flags must come from the seeded record.');
         $this->assertTrue($byYear['2024']['show_advice'] === true, 'Student-stories advice defaults on for a shipped year.');
+
+        // The line under "Student Stories" is a per-year text: typed text wins, an emptied field hides it, a never-saved
+        // shipped year uses its seeded line.
+        $this->assertSame('Hear their tips!', $byYear['2026']['advice'], 'Typed advice text must show.');
+        $this->assertSame('', $byYear['2025']['advice'], 'An emptied advice field hides the line.');
+        $this->assertSame('(Watch to the End for Their Advice to Future O Level Batches!)', $byYear['2024']['advice'], 'A shipped year keeps its line.');
+        $this->assertSame('', $byYear['2021']['advice'], '2021 had no line and still has none.');
 
         fwrite(STDOUT, "PASS: {$this->assertions} class-year assertions\n");
     }
