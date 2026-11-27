@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+const TBT_MANAGER_ROLE_FOR_TEST = 'tbt_manager';
+
 if (!defined('ABSPATH')) {
     define('ABSPATH', dirname(__DIR__) . '/.wordpress-test/');
 }
@@ -44,6 +46,11 @@ function wp_get_current_user(): object
 function admin_url(string $path = ''): string
 {
     return 'https://example.test/wp-admin/' . $path;
+}
+$GLOBALS['tbt_scope_user_roles'] = [1 => ['administrator'], 5 => [TBT_MANAGER_ROLE_FOR_TEST], 6 => [TBT_MANAGER_ROLE_FOR_TEST], 7 => ['editor']];
+function get_userdata(int $id): object|false
+{
+    return isset($GLOBALS['tbt_scope_user_roles'][$id]) ? (object) ['roles' => $GLOBALS['tbt_scope_user_roles'][$id]] : false;
 }
 $GLOBALS['tbt_scope_admin'] = true;
 function is_admin(): bool
@@ -141,14 +148,27 @@ tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, 
 tbt_scope_assert(tbt_editing_scope_map_meta_cap(['edit_pages'], 'edit_post', 1, [4]) === ['do_not_allow'], 'A Manager cannot edit other pages such as Privacy Policy.');
 tbt_scope_assert(count(tbt_scope_registered()) === 4, 'A Manager sees only the limited panels.');
 $caps = tbt_manager_capabilities();
-foreach (['manage_options', 'edit_theme_options', 'activate_plugins', 'install_plugins', 'list_users', 'edit_users', 'delete_pages'] as $cap) {
+foreach (['manage_options', 'edit_theme_options', 'activate_plugins', 'install_plugins', 'delete_pages'] as $cap) {
     tbt_scope_assert(empty($caps[$cap]), "A Manager must not have {$cap}.");
 }
-foreach (['read', 'upload_files', 'edit_pages', 'edit_published_pages', 'publish_pages', 'edit_posts', 'edit_others_posts'] as $cap) {
+foreach (['read', 'upload_files', 'edit_pages', 'edit_published_pages', 'publish_pages', 'edit_posts', 'edit_others_posts', 'list_users', 'create_users', 'edit_users', 'delete_users', 'promote_users'] as $cap) {
     tbt_scope_assert(!empty($caps[$cap]), "A Manager needs {$cap}.");
 }
 tbt_scope_assert(str_ends_with(tbt_manager_login_redirect('x', '', (object) ['roles' => [TBT_MANAGER_ROLE]]), 'edit.php?post_type=page'), 'A Manager lands on the Pages list.');
 tbt_scope_assert(tbt_manager_login_redirect('x', '', (object) ['roles' => ['administrator']]) === 'x', 'Administrators keep their login destination.');
+// Manager user management: other Managers only, never administrators, only the Manager role can be given.
+tbt_scope_assert(TBT_MANAGER_ROLE === TBT_MANAGER_ROLE_FOR_TEST, 'Role slug is tbt_manager.');
+foreach (['edit_user', 'delete_user', 'remove_user', 'promote_user'] as $cap) {
+    tbt_scope_assert(tbt_manager_user_meta_cap(['edit_users'], $cap, 5, [1]) === ['do_not_allow'], "A Manager cannot {$cap} an administrator.");
+    tbt_scope_assert(tbt_manager_user_meta_cap(['edit_users'], $cap, 5, [7]) === ['do_not_allow'], "A Manager cannot {$cap} an editor.");
+    tbt_scope_assert(tbt_manager_user_meta_cap(['edit_users'], $cap, 5, [6]) === ['edit_users'], "A Manager can {$cap} another Manager.");
+}
+tbt_scope_assert(tbt_manager_user_meta_cap(['edit_users'], 'edit_user', 5, [5]) === ['edit_users'], 'A Manager can edit their own profile.');
+tbt_scope_assert(tbt_manager_user_meta_cap(['delete_users'], 'delete_user', 5, [5]) === ['do_not_allow'], 'A Manager cannot delete themselves.');
+tbt_scope_assert(array_keys(tbt_manager_editable_roles(['administrator' => [], 'editor' => [], TBT_MANAGER_ROLE => []])) === [TBT_MANAGER_ROLE], 'A Manager can only give the Manager role.');
+$GLOBALS['tbt_scope_roles'] = ['administrator'];
+tbt_scope_assert(tbt_manager_user_meta_cap(['edit_users'], 'edit_user', 1, [5]) === ['edit_users'], 'Administrators are unaffected.');
+tbt_scope_assert(count(tbt_manager_editable_roles(['administrator' => [], TBT_MANAGER_ROLE => []])) === 2, 'Administrators can give any role.');
 $GLOBALS['tbt_scope_roles'] = [];
 
 fwrite(STDOUT, "PASS: editing scope assertions\n");

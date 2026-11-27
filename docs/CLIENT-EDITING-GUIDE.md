@@ -61,7 +61,7 @@ wp option update tbt_editing_scope testimonials   # limited editing
 wp option update tbt_editing_scope all            # everything editable again (default)
 ```
 
-Users with the **ThatBioTutor Manager** role always get this limited view, whatever the option says, while administrators keep full access. Create one under **Users → Add New** and choose the role, or `wp user create <login> <email> --role=tbt_manager`. A Manager logs in straight to the Pages list and cannot change settings, plugins, themes or users.
+Users with the **ThatBioTutor Manager** role always get this limited view, whatever the option says, while administrators keep full access. Create one under **Users → Add New** and choose the role, or `wp user create <login> <email> --role=tbt_manager`. A Manager logs in straight to the Pages list and cannot change settings, plugins or themes. Under **Users** a Manager can add, edit and remove other Manager accounts (only the Manager role can be given); administrator accounts are invisible and untouchable to them.
 
 ## Protected visual structure
 

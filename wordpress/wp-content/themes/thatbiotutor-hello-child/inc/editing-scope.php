@@ -48,7 +48,8 @@ function tbt_editing_is_limited(): bool
 
 /**
  * Capabilities of the Manager role: edit pages (only the allowed ones, see map_meta_cap), Testimonials and
- * Class Years (capability type "post"), and upload pictures for their fields. No settings, plugins, themes or users.
+ * Class Years (capability type "post"), upload pictures for their fields, and add, edit and remove other Manager
+ * accounts. No settings, plugins or themes, and no access to administrator accounts.
  *
  * @return array<string, bool>
  */
@@ -60,6 +61,8 @@ function tbt_manager_capabilities(): array
         'edit_posts', 'edit_others_posts', 'edit_published_posts', 'publish_posts',
         'delete_posts', 'delete_others_posts', 'delete_published_posts',
         'edit_pages', 'edit_others_pages', 'edit_published_pages', 'publish_pages',
+        // Manage other Manager accounts only: see tbt_manager_user_meta_cap() and tbt_manager_editable_roles().
+        'list_users', 'create_users', 'edit_users', 'delete_users', 'promote_users',
     ] as $cap) {
         $caps[$cap] = true;
     }
@@ -122,6 +125,59 @@ function tbt_manager_admin_bar(mixed $bar): void
     foreach (['new-post', 'new-page', 'new-media', 'comments', 'dashboard', 'appearance'] as $node) {
         $bar->remove_node($node);
     }
+}
+
+/** Whether a user ID belongs to a Manager. */
+function tbt_user_is_manager(int $userId): bool
+{
+    if ($userId <= 0 || !function_exists('get_userdata')) {
+        return false;
+    }
+    $user = get_userdata($userId);
+    return $user !== false && in_array(TBT_MANAGER_ROLE, (array) ($user->roles ?? []), true);
+}
+
+/**
+ * A Manager may edit, remove or change the role of Manager accounts only (their own included), never an
+ * administrator or any other role, and never a user with super-admin rights.
+ */
+function tbt_manager_user_meta_cap(array $caps, string $cap, int $userId, array $args): array
+{
+    if (!in_array($cap, ['edit_user', 'delete_user', 'remove_user', 'promote_user'], true) || !tbt_current_user_is_manager()) {
+        return $caps;
+    }
+    $target = (int) ($args[0] ?? 0);
+    if ($target <= 0) {
+        return $caps;
+    }
+    if (($cap === 'delete_user' || $cap === 'remove_user') && $target === $userId) {
+        return ['do_not_allow'];
+    }
+    return tbt_user_is_manager($target) ? $caps : ['do_not_allow'];
+}
+
+/** A Manager can only give the Manager role, so nobody can be made an administrator through their account. */
+function tbt_manager_editable_roles(array $roles): array
+{
+    if (!tbt_current_user_is_manager()) {
+        return $roles;
+    }
+    return array_intersect_key($roles, [TBT_MANAGER_ROLE => true]);
+}
+
+/** The Users list of a Manager shows Manager accounts only. */
+function tbt_manager_user_list(mixed $query): void
+{
+    if (!tbt_current_user_is_manager() || !is_admin() || ($GLOBALS['pagenow'] ?? '') !== 'users.php') {
+        return;
+    }
+    $query->set('role__in', [TBT_MANAGER_ROLE]);
+}
+
+/** Role filter links above the Users list: only Managers. */
+function tbt_manager_user_views(array $views): array
+{
+    return tbt_current_user_is_manager() ? array_intersect_key($views, ['all' => true, TBT_MANAGER_ROLE => true]) : $views;
 }
 
 /** After login a Manager goes straight to the Pages list. */
@@ -344,6 +400,10 @@ if (function_exists('add_filter')) {
     add_action('admin_init', 'tbt_manager_admin_redirect');
     add_action('admin_bar_menu', 'tbt_manager_admin_bar', 999);
     add_filter('login_redirect', 'tbt_manager_login_redirect', 10, 3);
+    add_filter('map_meta_cap', 'tbt_manager_user_meta_cap', 10, 4);
+    add_filter('editable_roles', 'tbt_manager_editable_roles');
+    add_action('pre_get_users', 'tbt_manager_user_list');
+    add_filter('views_users', 'tbt_manager_user_views');
     add_action('pre_get_posts', 'tbt_editing_scope_hide_locked_pages');
     add_filter('wp_count_posts', 'tbt_editing_scope_page_counts', 10, 2);
     add_filter('register_post_type_args', 'tbt_editing_scope_post_type_args', 10, 2);
