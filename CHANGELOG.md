@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Page editors use a single Section picker, with concise instructions and no empty sections. The Notes form remains a single editing section.
+
 - [main-site] Reduced the gap before the Free Bio Notes signup fields and resized the GetResponse embed to keep the full Submit button visible.
 
 - [main-site] The Administrator’s WordPress Pages list opens to eight main site pages using their navigation labels, plus the Privacy Policy draft. Additional Pages and All Pages are available as list filters.

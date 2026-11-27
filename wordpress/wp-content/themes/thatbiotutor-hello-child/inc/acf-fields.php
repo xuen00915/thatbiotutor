@@ -121,20 +121,7 @@ function tbt_acf_page_groups(): array
 
     foreach (tbt_page_registry() as $pageKey => $page) {
         $prefix = str_replace('-', '_', $pageKey);
-        $fields = [
-            tbt_acf_field(
-                'field_tbt_' . $prefix . '_instructions',
-                'Editing instructions',
-                '',
-                'message',
-                [
-                    'message' => 'Edit wording and approved media here. Page layout, section order, navigation, and responsive behavior are protected by the theme.',
-                    'new_lines' => 'wpautop',
-                    'esc_html' => 0,
-                ]
-            ),
-            tbt_acf_tab('field_tbt_' . $prefix . '_tab_content', 'Page content'),
-        ];
+        $pageCopy = [];
 
         $managed = tbt_page_content_fields($pageKey);
         foreach (($reference['pages'][$pageKey]['fields'] ?? []) as $name => $value) {
@@ -147,10 +134,14 @@ function tbt_acf_page_groups(): array
                 : null;
             $key = tbt_reference_field_key($pageKey, (string) $name);
             $settings = ['default_value' => $value];
-            $fields[] = $constructor !== null
+            $pageCopy[] = $constructor !== null
                 ? $constructor($key, $label, (string) $name, $settings)
                 : tbt_acf_field($key, $label, (string) $name, 'text', $settings);
         }
+
+        $fields = $pageCopy === [] ? [] : array_merge([
+            tbt_acf_tab('field_tbt_' . $prefix . '_tab_content', 'Page headings and copy'),
+        ], $pageCopy);
 
         foreach (tbt_page_content_sections($pageKey) as $section) {
             $section['page'] = $pageKey;

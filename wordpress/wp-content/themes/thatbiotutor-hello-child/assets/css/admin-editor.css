@@ -4,3 +4,29 @@
 .tbt-inline-rich .mce-statusbar { display: none; }
 
 .tbt-notes-form-editor #minor-publishing { display: none; }
+
+.acf-tab-wrap.tbt-native-tabs[hidden] {
+  display: none;
+}
+
+.tbt-section-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #dcdcde;
+  background: #f6f7f7;
+}
+
+.tbt-section-picker label,
+.tbt-section-picker h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tbt-section-picker select {
+  width: min(100%, 22rem);
+  min-height: 36px;
+}

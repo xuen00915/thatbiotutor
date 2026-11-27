@@ -63,18 +63,24 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     };
 
     // 1. A protected page opens on a clear edit screen: field tabs first, no empty block canvas.
+    const section = page.getByLabel('Section', { exact: true });
+    const chooseSection = async (label) => {
+      await section.selectOption({ label });
+    };
+
     const aboutEdit = await editLink('About Us');
     assert.equal(new URL(aboutFromPages, base).href, aboutEdit, 'The Pages list opens the real page editor.');
     await page.goto(aboutEdit);
-    await page.waitForSelector('.acf-tab-button:visible');
+    await section.waitFor({ timeout: 5000 });
     assert.equal(await page.locator('#editor .edit-post-layout, .block-editor-writing-flow').count(), 0, 'Protected pages must not open the empty block editor.');
     assert.ok(await page.locator('.tbt-page-guide').isVisible(), 'A short guide must explain how to edit the page.');
     assert.equal(await page.locator('#postdivrich').count(), 0, 'The unused page-body editor must be hidden.');
-    const tabs = (await page.locator('.acf-tab-button:visible').allInnerTexts()).map((t) => t.trim());
-    for (const tab of ['Page content', 'Top banner', 'Our Mission', 'Quality Teaching', 'Message From The Founder', 'What We Believe In', 'SEO']) assert.ok(tabs.includes(tab), `About needs the "${tab}" tab: ${tabs.join(', ')}`);
+    const tabs = await section.locator('option').allTextContents();
+    assert.equal(await page.locator('.acf-tab-button:visible').count(), 0, 'The section picker replaces the crowded row of tabs.');
+    for (const tab of ['Page headings and copy', 'Top banner', 'Our Mission', 'Quality Teaching', 'Message From The Founder', 'What We Believe In', 'SEO']) assert.ok(tabs.includes(tab), `About needs the "${tab}" tab: ${tabs.join(', ')}`);
 
     // 2. The formatted-text toolbar is the short, client-safe one, including Highlight.
-    await page.locator('.acf-tab-button:visible', { hasText: 'Our Mission' }).first().click();
+    await chooseSection('Our Mission');
     const body = page.locator('.acf-field[data-name="about_mission_body"]');
     await body.locator('.mce-toolbar').first().waitFor();
     const buttons = await body.locator('.mce-btn[aria-label]').evaluateAll((els) => els.map((e) => e.getAttribute('aria-label').replace(/\s*\(.*\)$/, '')));
@@ -97,8 +103,8 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
 
     // 4. Restore the approved text.
     await page.goto(aboutEdit);
-    await page.waitForSelector('.acf-tab-button:visible');
-    await page.locator('.acf-tab-button:visible', { hasText: 'Our Mission' }).first().click();
+    await section.waitFor({ timeout: 5000 });
+    await chooseSection('Our Mission');
     await page.evaluate((html) => { const id = document.querySelector('.acf-field[data-name="about_mission_body"] textarea').id; tinymce.get(id).setContent(html); }, original);
     await save();
     await pub.reload();
@@ -126,8 +132,14 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     // 6. Home: a plain text field and the red/green title accents reach the public page, then are restored.
     const homeEdit = await editLink('Home');
     await page.goto(homeEdit);
-    await page.waitForSelector('.acf-tab-button:visible');
-    await page.locator('.acf-tab-button:visible', { hasText: 'Top of the page' }).first().click();
+    await section.waitFor({ timeout: 5000 });
+    await chooseSection('Top of the page');
+    assert.ok(!(await section.locator('option').allTextContents()).includes('Page headings and copy'), 'Home leaves out the empty general section.');
+    await page.setViewportSize({ width: 390, height: 844 });
+    await chooseSection('Track record');
+    assert.ok(await page.locator('.acf-field[data-name="home_track_video_url"]').isVisible(), 'The section selector works on a narrow screen.');
+    await page.setViewportSize({ width: 1400, height: 1000 });
+    await chooseSection('Top of the page');
     const kicker = page.locator('.acf-field[data-name="home_specialist_line"] input');
     const kickerOriginal = await kicker.inputValue();
     const kickerStamp = 'Client kicker ' + Date.now();
@@ -137,8 +149,8 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     assert.ok((await pub.locator('.tbt-home-kicker').textContent()).includes(kickerStamp), 'An edited Home text must reach the public page.');
     assert.equal(await pub.locator('.tbt-home-hero h1 .tbt-home-accent--red').count(), 1, 'The Home title keeps its red accent word.');
     await page.goto(homeEdit);
-    await page.waitForSelector('.acf-tab-button:visible');
-    await page.locator('.acf-tab-button:visible', { hasText: 'Top of the page' }).first().click();
+    await section.waitFor({ timeout: 5000 });
+    await chooseSection('Top of the page');
     await page.locator('.acf-field[data-name="home_specialist_line"] input').fill(kickerOriginal);
     await save();
     await pub.reload();

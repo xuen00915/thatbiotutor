@@ -74,7 +74,7 @@ function tbt_protected_page_guide(): void
         <?php if (function_exists('tbt_editing_is_limited') && tbt_editing_is_limited()) : ?>
             <p style="margin:0;">Edit the signup form link, photo and text in the <em>Email form</em> section below, then press <strong>Update</strong>.</p>
         <?php else : ?>
-            <p style="margin:0;">Use the tabs in the <em>ThatBioTutor</em> panel below: each tab is one section of the page. Change the words, pictures and links, then press <strong>Update</strong>. Pictures you leave empty keep their current image. The page layout, colours and menu are managed by the theme and cannot be broken from here.</p>
+            <p style="margin:0;">Choose a section below. Use <strong>Preview Changes</strong> to review your edits, then press <strong>Update</strong>.</p>
         <?php endif; ?>
     </div>
     <?php
@@ -98,11 +98,17 @@ function tbt_keep_protected_page_template(int $postId): void
 }
 
 /** Styles for the ThatBioTutor edit screens. */
-function tbt_admin_editor_styles(): void
+function tbt_admin_editor_assets(string $screen): void
 {
     $stylesheet = '/assets/css/admin-editor.css';
     $path = TBT_THEME_DIR . $stylesheet;
     wp_enqueue_style('tbt-admin-editor', TBT_THEME_URI . $stylesheet, [], is_file($path) ? (string) filemtime($path) : TBT_THEME_VERSION);
+
+    if ($screen === 'post.php' && tbt_is_protected_page((int) ($_GET['post'] ?? 0))
+        && function_exists('acf_add_local_field_group')) {
+        $script = '/assets/js/admin-section-picker.js';
+        wp_enqueue_script('tbt-admin-section-picker', TBT_THEME_URI . $script, ['acf-input'], (string) filemtime(TBT_THEME_DIR . $script), true);
+    }
 }
 
 /** The Hostinger AI Assistant "External Featured Image" box does nothing on ThatBioTutor pages and records. */
@@ -116,7 +122,7 @@ function tbt_remove_foreign_meta_boxes(): void
 
 if (function_exists('add_filter') && function_exists('add_action')) {
     add_action('add_meta_boxes', 'tbt_remove_foreign_meta_boxes', 99);
-    add_action('admin_enqueue_scripts', 'tbt_admin_editor_styles');
+    add_action('admin_enqueue_scripts', 'tbt_admin_editor_assets');
     add_filter('use_block_editor_for_post', 'tbt_protected_pages_use_classic_editor', 10, 2);
     add_action('load-post.php', 'tbt_protected_page_screen');
     add_action('wp_after_insert_post', 'tbt_keep_protected_page_template', 99);

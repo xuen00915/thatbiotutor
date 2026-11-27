@@ -9,7 +9,7 @@ In WordPress, open **Pages**. The default list shows Home, Classes, Sec 3, Sec 4
 - Select **Additional Pages** above the list to edit pages such as Cell Division Crash Course, Our Causes, Tuition Recommendations, and IntensiveFix. Select **All Pages** to see the complete list.
 - Use the WordPress sidebar to edit Testimonials, Class Years, Tutors, FAQs, and Results.
 - Open **Home** for the shared logo, contact information, and footer.
-- In each page editor, select the tab for your section. Use **Preview Changes** to review it and **Update** to save. For Privacy Policy, use **Save Draft** to keep it unpublished.
+- In each page editor, use the **Section** dropdown. Use **Preview Changes** to review it and **Update** to save. For Privacy Policy, use **Save Draft** to keep it unpublished.
 
 ## ThatBioTutor Managers
 
@@ -28,7 +28,7 @@ Upload raster images as WebP. Preserve the indicated landscape/portrait fit and 
 
 ## How editing works
 
-Open **Pages**, then the page you want. The page opens on a clear screen with a short guide and a **ThatBioTutor** panel made of **tabs**; each tab is one section of the page (for example *Our Mission*, *Message From The Founder*). Change the words, pictures and links, then press **Update**.
+Open **Pages**, then the page you want. The page opens on a clear screen with a short guide and a **ThatBioTutor** panel with a **Section** dropdown (for example *Our Mission*, *Message From The Founder*). Change the words, pictures and links, then press **Update**.
 
 - **Formatted text boxes** have a short toolbar: **Bold**, *Italic*, <u>Underline</u>, **Highlight** (the green marker used on the About page), link and bullet list. Press Enter for a new paragraph. Anything that could break the layout (headings, colours, scripts, embedded frames) is removed automatically.
 - **Links**: select the words, click the link button and type the address. For a page on this site just type its path, for example `/classes/` or `/#faq`. Links to other sites should be set to open in a new tab; they are always opened safely.
@@ -45,11 +45,11 @@ Open **Pages**, then the page you want. The page opens on a clear screen with a 
 
 ### Home page and shared sections
 
-The Home page tabs follow the page from top to bottom (*Top of the page*, *Student worries and stories*, *Track record*, *FastTrack system* and so on). The title uses two marker buttons: **Highlight** for green words and **Red** for the red word. Sections that also appear on the IntensiveFix page (FastTrack, proof, tutors, quality control, practical sessions, who it is for, founder, FAQ, classroom photos) are edited here once and update both pages. The FAQ is edited under **FAQs** (collection `home`).
+The Home page sections follow the page from top to bottom (*Top of the page*, *Student worries and stories*, *Track record*, *FastTrack system* and so on). The title uses two marker buttons: **Highlight** for green words and **Red** for the red word. Sections that also appear on the IntensiveFix page (FastTrack, proof, tutors, quality control, practical sessions, who it is for, founder, FAQ, classroom photos) are edited here once and update both pages. The FAQ is edited under **FAQs** (collection `home`).
 
 ### Classes, Sec 3 and Sec 4
 
-Each section of these pages has its own tab. Cards come in numbered sets (for example *Problem 1 … Problem 4*): leave a card's title and text empty to hide it. Sec 3 and Sec 4 share one layout, so they always look alike; only their words, dates, topics and pictures differ.
+Each section of these pages is listed in the dropdown. Cards come in numbered sets (for example *Problem 1 … Problem 4*): leave a card's title and text empty to hide it. Sec 3 and Sec 4 share one layout, so they always look alike; only their words, dates, topics and pictures differ.
 
 ### Tutors (About Us)
 
@@ -89,4 +89,4 @@ Developers can capture the reference/local visual matrix with `npm run visual:ca
 
 ## SEO titles and descriptions
 
-Each protected page has an **SEO** tab in its ThatBioTutor fields. The placeholders show the prepared default title and description. Enter an override to change that page’s search and social-share metadata, or leave the fields empty to use the defaults. These fields do not change the visible page heading. See [SEO-METADATA.md](SEO-METADATA.md) for the complete page list.
+Each protected page has an **SEO** section in its ThatBioTutor fields. The placeholders show the prepared default title and description. Enter an override to change that page’s search and social-share metadata, or leave the fields empty to use the defaults. These fields do not change the visible page heading. See [SEO-METADATA.md](SEO-METADATA.md) for the complete page list.
