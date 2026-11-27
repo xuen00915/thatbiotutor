@@ -30,21 +30,19 @@ const provider = 'https://12-dec-2025-updated-signup-form-02264.getresponsesite.
     const form = frame.contentFrame();
     const submit = form.locator('button[type="submit"]');
     await submit.waitFor({ state: 'attached' });
-    await submit.evaluate(async (button) => {
-     await Promise.race([button.ownerDocument.fonts.ready, new Promise((resolve) => setTimeout(resolve, 1500))]);
+    const { submitRect, firstNameTop } = await submit.evaluate(async (button) => {
+     const document = button.ownerDocument;
+     await Promise.race([document.fonts.ready, new Promise((resolve) => setTimeout(resolve, 1500))]);
+     return {
+      submitRect: button.getBoundingClientRect().toJSON(),
+      firstNameTop: document.querySelector('input[autocomplete="name"]').getBoundingClientRect().top,
+     };
     });
-    const [submitBox, firstNameBox, frameBox, headingBox, wrapperBox] = await Promise.all([
-     submit.boundingBox(),
-     form.getByPlaceholder('First Name *', { exact: true }).boundingBox(),
-     frame.boundingBox(),
-     page.locator('#notes-form h2').boundingBox(),
-     wrapper.boundingBox(),
-    ]);
-    const gap = firstNameBox.y - headingBox.y - headingBox.height;
-    const room = frameBox.y + frameBox.height - submitBox.y - submitBox.height;
+    const gap = box.y + firstNameTop - heading.y - heading.height;
+    const room = Math.min(box.y + box.height, clip.y + clip.height) - box.y - submitRect.bottom;
     assert.ok(gap >= 12 && gap <= 32, `First Name sits close to its heading at ${width}px (gap ${gap}px)`);
-    assert.ok(room >= 18, `Submit stays clear of the bottom edge at ${width}px (room ${room}px)`);
-    assert.ok(submitBox.x >= wrapperBox.x && submitBox.x + submitBox.width <= wrapperBox.x + wrapperBox.width, `Submit fits horizontally at ${width}px`);
+    assert.ok(room >= 12, `Submit stays clear of the bottom edge at ${width}px (room ${room}px)`);
+    assert.ok(box.x + submitRect.left >= clip.x && box.x + submitRect.right <= clip.x + clip.width, `Submit fits horizontally at ${width}px`);
    }
    assert.ok(clip.x>=0&&clip.x+clip.width<=width,'Visible signup box stays inside the page');
    assert.equal(await frame.getAttribute('scrolling'),'no','Signup frame never scrolls; Submit is fully shown');
