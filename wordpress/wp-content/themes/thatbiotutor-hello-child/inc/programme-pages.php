@@ -77,7 +77,6 @@ function tbt_programme_level(string $level): array
             'inclusions_line2' => 'as a <mark>TBT Sec 3 student</mark>',
             'quality_title' => 'Quality control — how TBT ensures every Sec 3 class is excellent:',
             'faq_heading' => 'Questions <mark>Parents and Sec 3 Students</mark> Always Ask',
-            'faq_slides' => 12,
         ],
         'sec4' => $shared + [
             'page' => 'sec-4-pure-g3-biology-tuition',
@@ -111,7 +110,6 @@ function tbt_programme_level(string $level): array
             'inclusions_line2' => 'as a <mark>TBT Sec 4 student</mark>',
             'quality_title' => 'Quality control — how TBT ensures every Sec 4 class is excellent:',
             'faq_heading' => 'Questions <mark>Parents and Sec 4 Students</mark> Always Ask',
-            'faq_slides' => 0,
         ],
     ];
     return $levels[$level];
@@ -131,10 +129,6 @@ function tbt_programme_sections(string $level): array
         $phaseFields[] = tbt_f_inline("{$p}_phase_{$i}_title", "Phase {$i} — title", $title, trim($hide));
         $phaseFields[] = tbt_f_rich("{$p}_phase_{$i}_ticks", "Phase {$i} — ticked points", $ticks, 'One paragraph per tick.' . $hide);
         $phaseFields[] = tbt_f_inline("{$p}_phase_{$i}_note", "Phase {$i} — note at the bottom (optional)", $note);
-    }
-    $slides = [];
-    for ($i = 1; $i <= (int) $d['faq_slides']; $i++) {
-        $slides[] = tbt_f_image(sprintf('%s_faq_image_%02d', $p, $i), "FAQ graphic {$i}", sprintf('%s_faq_%02d', $level, $i));
     }
 
     return [
@@ -208,10 +202,10 @@ function tbt_programme_sections(string $level): array
             tbt_f_text("{$p}_tutors_button", 'Button text', 'WhatsApp Us!'),
         ], 'The tutors themselves are edited under Tutors in the left-hand menu.'),
 
-        tbt_f_section('faq', 'Questions', array_merge([
+        tbt_f_section('faq', 'Questions', [
             tbt_f_text("{$p}_faq_kicker", 'Small line above the heading', 'FAQ'),
             tbt_f_inline("{$p}_faq_heading", 'Heading', $d['faq_heading']),
-        ], $slides), 'The questions and answers are edited under FAQs in the left-hand menu (Page / collection "' . $level . '").'),
+        ], 'The questions and answers are edited under FAQs in the left-hand menu (Page / collection "' . $level . '").'),
     ];
 }
 

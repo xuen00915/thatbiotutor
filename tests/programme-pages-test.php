@@ -23,9 +23,7 @@ final class ProgrammePagesTest
             $text = $this->squash($html);
             $checked = 0;
             foreach (tbt_page_content_fields($pageKey) as $name => $field) {
-                if (str_starts_with($name, 'sec3_faq_image_')) {
-                    continue; // Retained editor data for the retired graphic carousel.
-                }
+                $this->assertTrue(!str_starts_with($name, $level . '_faq_image_'), "{$level} must not expose unused FAQ image fields.");
                 if ($field['type'] === 'image') {
                     $this->assertTrue(str_contains($html, 'data-media-key="' . $field['fallback'] . '"'), "{$name}: the bundled picture {$field['fallback']} must render.");
                     $checked++;

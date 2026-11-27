@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Removed the retired FAQ graphic fields from the Sec 3 page editor.
+
 - [main-site] Removed the unused Results menu and Add Result shortcut from WordPress.
 
 - [main-site] Removed the unused individual result from the reference data so site setup no longer creates it.
