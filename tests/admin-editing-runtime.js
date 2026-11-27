@@ -53,6 +53,7 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
 
     await page.goto(new URL('sec-3-pure-g3-biology-tuition/', base + '/').href);
     assert.ok(await page.locator('main h1').isVisible(), 'A signed-in administrator can still view the public page.');
+    assert.equal(await page.locator('.tbt-visual-edit-button').count(), 0, 'Edit buttons are only in the visual preview.');
 
     // Click Update/Publish and wait for WordPress to finish saving and reload the screen.
     const save = async () => { await Promise.all([page.waitForNavigation({ waitUntil: 'load' }), page.locator('#publish').click()]); };
@@ -139,12 +140,23 @@ const pass = process.env.TBT_ADMIN_PASS || 'password';
     await chooseSection('Track record');
     assert.ok(await page.locator('.acf-field[data-name="home_track_video_url"]').isVisible(), 'The section selector works on a narrow screen.');
     await page.setViewportSize({ width: 1400, height: 1000 });
-    await chooseSection('Top of the page');
+    await page.getByRole('link', { name: 'Open visual editor', exact: true }).click();
+    await page.waitForURL(/tbt_visual=1/);
+    const preview = page.frameLocator('iframe[title="Page preview"]');
+    await preview.getByRole('button', { name: 'Edit Track record', exact: true }).click();
+    assert.equal(await section.locator('option:checked').textContent(), 'Track record');
+    assert.ok(await page.locator('.acf-field[data-name="home_track_video_url"]').isVisible());
+    const [previewBox, panelBox] = await Promise.all([page.locator('iframe[title="Page preview"]').boundingBox(), section.boundingBox()]);
+    assert.ok(previewBox.x + previewBox.width < panelBox.x, 'The visual layout and fields sit side by side.');
+    await preview.getByRole('button', { name: 'Edit Top of the page', exact: true }).click();
     const kicker = page.locator('.acf-field[data-name="home_specialist_line"] input');
     const kickerOriginal = await kicker.inputValue();
     const kickerStamp = 'Client kicker ' + Date.now();
     await kicker.fill(kickerStamp);
     await save();
+    await page.waitForURL(/tbt_visual=1/);
+    await preview.locator('.tbt-home-kicker').getByText(kickerStamp, { exact: true }).waitFor();
+    assert.equal(await section.locator('option:checked').textContent(), 'Top of the page');
     await pub.goto(base + '/');
     assert.ok((await pub.locator('.tbt-home-kicker').textContent()).includes(kickerStamp), 'An edited Home text must reach the public page.');
     assert.equal(await pub.locator('.tbt-home-hero h1 .tbt-home-accent--red').count(), 1, 'The Home title keeps its red accent word.');

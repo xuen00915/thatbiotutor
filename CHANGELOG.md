@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- [main-site] Added an Administrator-only visual editor with the rendered page beside its WordPress fields. Edit buttons select sections, and saving refreshes the preview and keeps the selected section open.
+
 - [main-site] Page editors use a single Section picker, with concise instructions and no empty sections. The Notes form remains a single editing section.
 
 - [main-site] Reduced the gap before the Free Bio Notes signup fields and resized the GetResponse embed to keep the full Submit button visible.

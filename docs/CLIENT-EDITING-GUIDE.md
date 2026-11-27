@@ -9,6 +9,7 @@ In WordPress, open **Pages**. The default list shows Home, Classes, Sec 3, Sec 4
 - Select **Additional Pages** above the list to edit pages such as Cell Division Crash Course, Our Causes, Tuition Recommendations, and IntensiveFix. Select **All Pages** to see the complete list.
 - Use the WordPress sidebar to edit Testimonials, Class Years, Tutors, FAQs, and Results.
 - Open **Home** for the shared logo, contact information, and footer.
+- For a visual preview, choose **Visual editor** from the page’s row actions or the toolbar on the live page. Select **Edit** on a section in the preview to open its fields. The **Section** dropdown also includes settings such as SEO. Press **Update** to save and refresh the preview. Use the WordPress sidebar for repeated records such as Tutors and FAQs.
 - In each page editor, use the **Section** dropdown. Use **Preview Changes** to review it and **Update** to save. For Privacy Policy, use **Save Draft** to keep it unpublished.
 
 ## ThatBioTutor Managers
